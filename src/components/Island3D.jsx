@@ -9,6 +9,8 @@ import { OutputPass } from 'three/examples/jsm/postprocessing/OutputPass.js'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
 import { buildFlower3D, disposeFlower3D } from '../lib/flower3d.js'
+import { buildTree3D } from '../lib/tree3d.js'
+import { isTree } from '../lib/tree.js'
 import { playbackLevel } from '../lib/audio.js'
 
 // 블렌더 섬 모델: public/models/island.glb 를 올리면 코드로 만든 섬 대신 자동으로 쓴다.
@@ -387,7 +389,7 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
     items.forEach((it, i) => {
       const obj = it.kind === 'pair'
         ? buildFlower3D({ ...it.b, petals: Math.min(8, Math.max(it.a.petals, it.b.petals) + 1) }, [it.a.color, it.b.color], { pair: true })
-        : buildFlower3D(it.data, [it.data.color])
+        : isTree(it.data) ? buildTree3D(it.data) : buildFlower3D(it.data, [it.data.color])
       obj.position.set(pos[i].x, 0, pos[i].z)
       const isNew = !known.has(it.key)
       const halo = new THREE.Sprite(new THREE.SpriteMaterial({ map: st.halo, transparent: true, depthWrite: false, opacity: 0 }))
