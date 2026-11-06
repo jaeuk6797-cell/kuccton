@@ -9,7 +9,7 @@ import Avatar from './Avatar.jsx'
 import PageHeading from './PageHeading.jsx'
 import Tutorial, { HelpPage } from './Tutorial.jsx'
 import { displayName } from '../lib/tree.js'
-import { Bell, ChevronUp, Heart, Help, Menu, Mic, Pencil, Sprout, User, Users, Wave } from './Icons.jsx'
+import { ArrowLeft, Bell, ChevronUp, Heart, Help, Menu, Mic, Pencil, Sprout, User, Users, Wave } from './Icons.jsx'
 import { GARDEN_LIMIT, GARDEN_NEAR_FULL, addFriend, archiveShares, audioUrl, currentUser, deleteFlower, derivePairs, insertFlower, loadGarden, respondShare, shareFlowers, subscribeGarden, today, updateProfile, uploadAudio } from '../lib/db.js'
 import { newestReceivedFirst, receivedSoundCollections } from '../lib/receivedSounds.js'
 
@@ -702,7 +702,7 @@ function Friends({ data, onOpen, onVisit, onGoMe }) {
     return (
       <div className="page friend-page">
         <PageHeading>친구</PageHeading>
-        <button className="back-link" onClick={() => setSelectedId(null)} aria-label="친구 목록으로 돌아가기">←</button>
+        <button className="back-link" onClick={() => setSelectedId(null)} aria-label="친구 목록으로 돌아가기"><ArrowLeft aria-hidden="true" /></button>
         {/* 정원 방문은 프로필 아래 버튼에서만 시작한다. */}
         <div className="friend-hero">
           <Avatar name={selected.nickname} url={selected.avatar_url} className="huge" />
