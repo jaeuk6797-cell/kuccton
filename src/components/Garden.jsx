@@ -720,7 +720,74 @@ function Friends({ data, meId, onOpen, onVisit, onAnswer, onGoMe }) {
   )
 }
 
-// 내 친구 코드 보내기 + 친구 코드로 친구 맺기 (나 탭)
+// 나 탭 프로필: 사진의 ＋를 누르면 바로 고르기(사진이 있으면 바꾸기/지우기), 닉네임은 고치고 나면 바로 반영
+function Profile({ me, email, onSave }) {
+  const [name, setName] = useState(me?.nickname || '')
+  const [photoMenu, setPhotoMenu] = useState(false)
+  const [busy, setBusy] = useState(false)
+  const [error, setError] = useState('')
+  const fileRef = useRef(null)
+  useEffect(() => { setName(me?.nickname || '') }, [me?.nickname])
+  const wrapRef = useRef(null)
+  // 사진 메뉴 밖을 누르면 닫는다
+  useEffect(() => {
+    if (!photoMenu) return
+    const close = (e) => { if (!wrapRef.current?.contains(e.target)) setPhotoMenu(false) }
+    document.addEventListener('pointerdown', close)
+    return () => document.removeEventListener('pointerdown', close)
+  }, [photoMenu])
+
+  async function run(nickname, photo) {
+    setBusy(true); setError('')
+    try { await onSave(nickname, photo) } catch (e) { setError(e.message || String(e)); setName(me?.nickname || '') } finally { setBusy(false) }
+  }
+  const tapPhoto = () => (me?.avatar_url ? setPhotoMenu((o) => !o) : fileRef.current?.click())
+  const pick = (e) => {
+    const file = e.target.files?.[0]
+    e.target.value = ''
+    setPhotoMenu(false)
+    if (!file) return
+    if (!file.type.startsWith('image/')) { setError('사진 파일을 골라 주세요.'); return }
+    run(me?.nickname || '', file)
+  }
+  const commitName = () => {
+    const n = name.trim()
+    if (!n) { setName(me?.nickname || ''); return }
+    if (n !== me?.nickname) run(n, null)
+  }
+
+  return (
+    <section className={`profile${busy ? ' busy' : ''}`}>
+      <div className="avatar-wrap" ref={wrapRef}>
+        <button className="avatar-pick" onClick={tapPhoto} disabled={busy} aria-label="프로필 사진" aria-expanded={me?.avatar_url ? photoMenu : undefined}>
+          <Avatar me url={me?.avatar_url} className="huge" />
+          <span className="avatar-edit" aria-hidden="true">＋</span>
+        </button>
+        {photoMenu && (
+          <div className="photo-menu" role="menu">
+            <button role="menuitem" onClick={() => fileRef.current?.click()}>사진 바꾸기</button>
+            <button role="menuitem" className="danger-text" onClick={() => { setPhotoMenu(false); run(me?.nickname || '', 'remove') }}>사진 지우기</button>
+          </div>
+        )}
+        <input ref={fileRef} type="file" accept="image/*" hidden onChange={pick} />
+      </div>
+      <input
+        className="name-input"
+        value={name}
+        maxLength={12}
+        onChange={(e) => setName(e.target.value)}
+        onBlur={commitName}
+        onKeyDown={(e) => { if (e.key === 'Enter') e.currentTarget.blur(); if (e.key === 'Escape') { setName(me?.nickname || ''); setTimeout(() => e.target.blur()) } }}
+        aria-label="닉네임"
+        enterKeyHint="done"
+      />
+      <small className="muted">{email}</small>
+      {error && <p className="error">{error}</p>}
+    </section>
+  )
+}
+
+// 내 코드(누르면 복사) + 친구 코드로 친구 맺기
 function FriendCode({ code: myCode, onAdded }) {
   const [copied, setCopied] = useState(false)
   const [code, setCode] = useState('')
@@ -728,13 +795,13 @@ function FriendCode({ code: myCode, onAdded }) {
   const [error, setError] = useState('')
   const [notice, setNotice] = useState('')
 
-  const shareCode = async () => {
-    const text = `SUP에서 소리를 주고받아요! 내 친구 코드: ${myCode}
-https://kuccton.vercel.app`
-    try {
-      if (navigator.share) { await navigator.share({ title: 'SUP 친구 코드', text }); return }
-    } catch { return } // 공유 창을 닫은 경우
-    try { await navigator.clipboard.writeText(myCode); setCopied(true); setTimeout(() => setCopied(false), 2000) } catch {}
+  async function copy() {
+    try { await navigator.clipboard.writeText(myCode) } catch {
+      const t = document.createElement('textarea'); t.value = myCode; document.body.appendChild(t); t.select()
+      try { document.execCommand('copy') } catch {}
+      t.remove()
+    }
+    setCopied(true); setTimeout(() => setCopied(false), 1800)
   }
 
   async function add() {
@@ -750,104 +817,39 @@ https://kuccton.vercel.app`
   }
 
   return (
-    <>
-      <div className="card invite">
-        <div>
-          <small className="muted">내 친구 코드</small>
-          <div className="big-code">{myCode}</div>
-        </div>
-        <button className="ghost" onClick={shareCode}>{copied ? '복사했어요' : '코드 보내기'}</button>
-      </div>
-
-      <div className="card join-friend">
-        <b>친구 맺기</b>
+    <div className="card friend-code">
+      <button className="my-code" onClick={copy} aria-label={`내 코드 ${myCode} 복사하기`}>
+        <small className="muted">내 코드</small>
+        <span className="big-code">{myCode}</span>
+        <small className={copied ? 'copied' : 'muted'}>{copied ? '복사했어요' : '눌러서 복사'}</small>
+      </button>
+      <hr />
+      <form className="add-friend" onSubmit={(e) => { e.preventDefault(); if (code.length === 6 && !busy) add() }}>
         <input
           value={code}
           inputMode="numeric"
           maxLength={6}
           onChange={(e) => { setCode(e.target.value.replace(/\D/g, '')); setError(''); setNotice('') }}
-          placeholder="친구에게 받은 코드 6자리"
+          placeholder="친구 코드 6자리"
+          aria-label="친구 코드"
           className="code-input"
         />
-        <button className="primary" disabled={busy || code.length !== 6} onClick={add}>{busy ? '맺는 중…' : '친구 맺기'}</button>
-        {notice && <p className="small notice">{notice}</p>}
-        {error && <p className="error">{error}</p>}
-      </div>
-
-    </>
-  )
-}
-
-// 프로필: 사진을 누르면 사진 고르기, '수정'을 누르면 닉네임 바꾸기
-function Profile({ me, email, onSave }) {
-  const [editing, setEditing] = useState(false)
-  const [name, setName] = useState('')
-  const [photo, setPhoto] = useState(null) // File(새 사진) | 'remove' | null(그대로)
-  const [preview, setPreview] = useState(null)
-  const [busy, setBusy] = useState(false)
-  const [error, setError] = useState('')
-  const fileRef = useRef(null)
-  useEffect(() => () => { if (preview) URL.revokeObjectURL(preview) }, [preview])
-
-  const begin = () => { setName(me?.nickname || ''); setPhoto(null); setPreview(null); setError(''); setEditing(true) }
-  const cancel = () => { setEditing(false); setPhoto(null); setPreview(null); setError('') }
-  const pick = (e) => {
-    const file = e.target.files?.[0]
-    e.target.value = ''
-    if (!file) return
-    if (!file.type.startsWith('image/')) { setError('사진 파일을 골라 주세요.'); return }
-    if (!editing) begin()
-    setPhoto(file); setPreview(URL.createObjectURL(file))
-  }
-  const shown = photo === 'remove' ? null : preview || me?.avatar_url
-  const trimmed = name.trim()
-  const changed = trimmed !== (me?.nickname || '') || photo !== null
-
-  async function save() {
-    setBusy(true); setError('')
-    try { await onSave(trimmed, photo); cancel() } catch (e) { setError(e.message || String(e)) } finally { setBusy(false) }
-  }
-
-  return (
-    <div className={`card person profile${editing ? ' editing' : ''}`}>
-      <button className="avatar-pick" onClick={() => fileRef.current?.click()} aria-label="프로필 사진 바꾸기">
-        <Avatar me url={shown} className="big" />
-        <span className="avatar-edit" aria-hidden="true">＋</span>
-      </button>
-      <input ref={fileRef} type="file" accept="image/*" hidden onChange={pick} />
-      {editing ? (
-        <div className="profile-form">
-          <input value={name} maxLength={12} onChange={(e) => setName(e.target.value)} placeholder="닉네임" aria-label="닉네임" autoFocus />
-          <div className="profile-links">
-            <button className="link" onClick={() => fileRef.current?.click()}>사진 고르기</button>
-            {(me?.avatar_url || preview) && photo !== 'remove' && (
-              <button className="link" onClick={() => { setPhoto('remove'); setPreview(null) }}>사진 지우기</button>
-            )}
-          </div>
-          {error && <p className="error">{error}</p>}
-          <div className="profile-actions">
-            <button className="ghost" onClick={cancel} disabled={busy}>취소</button>
-            <button className="primary" onClick={save} disabled={busy || !trimmed || !changed}>{busy ? '저장 중…' : '저장'}</button>
-          </div>
-        </div>
-      ) : (
-        <>
-          <div><b>{me?.nickname}</b><small className="muted">{email}</small></div>
-          <button className="link profile-edit-btn" onClick={begin}>수정</button>
-        </>
-      )}
+        <button className="primary" type="submit" disabled={busy || code.length !== 6}>{busy ? '맺는 중…' : '친구 맺기'}</button>
+      </form>
+      {notice && <p className="small notice">{notice}</p>}
+      {error && <p className="error">{error}</p>}
     </div>
   )
 }
 
 function Me({ me, email, onSignOut, code, onAdded, onSaveProfile }) {
   return (
-    <div className="page">
+    <div className="page me-page">
       <h1 className="page-title">나</h1>
-      {/* 프로필(사진·닉네임), 친구 코드 주고받기, 로그아웃. 설명은 도움말에 있다 */}
+      {/* 프로필(사진·닉네임), 내 코드·친구 맺기, 로그아웃. 설명은 도움말에 있다 */}
       <Profile me={me} email={email} onSave={onSaveProfile} />
       <FriendCode code={code} onAdded={onAdded} />
-      <button className="ghost wide" onClick={onSignOut}>로그아웃</button>
+      <button className="link logout" onClick={onSignOut}>로그아웃</button>
     </div>
   )
 }
@@ -861,10 +863,10 @@ const HELP = [
   ['받은 소리함', '친구가 보낸 소리는 먼저 받은 소리함(메뉴)에 도착해요. 들어 보고 ‘심기’를 누르면 내 정원에 자라고, ‘괜찮아요’를 누르면 받지 않아요.'],
   ['내 정원 보기', '꽃이나 나무를 누르면 그날의 소리가 들려요. 손가락으로 끌면 섬을 둘러볼 수 있어요. 위쪽 친구 이름을 누르면 그 친구가 보낸 꽃만 보여요. 아래 ^ 표시로 도구를 접고 펼 수 있어요.'],
   ['우리의 꽃', '같은 날 나와 친구가 서로 소리를 보내고 둘 다 심으면, 두 소리가 만나 정원 가운데에 우리의 꽃이 피어요. 누르면 친구 소리는 왼쪽 귀, 내 소리는 오른쪽 귀로 함께 들려요. 이어폰으로 들어 보세요.'],
-  ['친구', '메뉴 → 나에서 내 친구 코드를 보내거나 친구 코드를 넣으면 친구가 돼요. 메뉴 → 친구에는 친구 목록이 있고, 친구를 누르면 주고받은 소리 기록을 보고 소리를 공유할 수 있어요. 친구 프로필을 누르면 정원에 놀러 가요. 친구 정원에는 놀러 가서 구경할 수 있어요(소리는 그 친구만 들을 수 있어요).'],
+  ['친구', '메뉴 → 나에서 내 코드를 눌러 복사해 친구에게 보내고, 친구 코드를 넣으면 친구가 돼요. 메뉴 → 친구에는 친구 목록이 있고, 친구를 누르면 주고받은 소리 기록을 보고 소리를 공유할 수 있어요. 친구 프로필을 누르면 정원에 놀러 가요. 친구 정원에는 놀러 가서 구경할 수 있어요(소리는 그 친구만 들을 수 있어요).'],
   ['오늘의 위로', '받은 소리 중 하나를 골라 다시 들려줘요. 힘든 날 눌러 보세요.'],
   ['내 소리는', '보낸 사람과 받은 사람만 들을 수 있어요. 점수나 연속 기록, 시드는 꽃은 없어요.'],
-  ['계정', '다른 기기에서도 같은 이메일로 로그인하면 내 정원이 그대로 열려요. 메뉴 → 나에서 프로필 사진과 닉네임을 바꾸거나 로그아웃할 수 있어요.'],
+  ['계정', '다른 기기에서도 같은 이메일로 로그인하면 내 정원이 그대로 열려요. 메뉴 → 나에서 사진의 ＋를 눌러 프로필 사진을, 이름을 눌러 닉네임을 바꿀 수 있어요. 로그아웃도 여기서 해요.'],
 ]
 
 function HelpPage() {
