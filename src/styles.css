@@ -405,9 +405,7 @@ h1, h2 { margin: 0; }
 
 /* 하단에는 안내와 두 개의 이름 있는 버튼을 항상 표시한다. */
 .garden-guidance { display: flex; align-items: center; justify-content: center; min-height: 20px; }
-.empty-garden-hint { width: 100%; text-align: center; pointer-events: none; }
-.empty-garden-hint b { font-size: .72rem; line-height: 1.5; font-weight: 600; }
-.garden-listen-hint { color: #716c79; font-size: .68rem; line-height: 1.5; text-align: center; }
+.garden-listen-hint { color: #716c79; font-size: .68rem; font-weight: 400; line-height: 1.5; text-align: center; }
 .garden-actions { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); align-items: stretch; gap: 10px; }
 .garden-actions > button { min-width: 0; }
 .comfort-btn { flex: 1; display: flex; align-items: center; justify-content: center; gap: 6px; min-height: 48px; padding: 0 12px; border: 1px solid rgba(255,255,255,.65); border-radius: 18px; font-size: 0.9rem; background: rgba(255,252,248,.78); backdrop-filter: blur(10px); white-space: nowrap; }

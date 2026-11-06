@@ -338,11 +338,11 @@ export default function Garden({ session, onSignOut, email, demo }) {
           </div>
           <section ref={sheetRef} className="home-sheet" aria-label="정원 도구">
             <div className="garden-guidance">
-            {gardenFlowers.length === 0 && data.pairs.length === 0 ? (
-              <div className="empty-garden-hint">
-                <b>아직 핀 꽃이 없어요</b>
-              </div>
-            ) : <small className="garden-listen-hint">꽃·나무를 눌러 소리를 들어 보세요</small>}
+              <small className="garden-listen-hint">
+                {gardenFlowers.length === 0 && data.pairs.length === 0
+                  ? '아직 핀 꽃이 없어요'
+                  : '꽃·나무를 눌러 소리를 들어 보세요'}
+              </small>
             </div>
             <div className="garden-actions">
               <button className="comfort-btn" onClick={comfort}><Heart /> 오늘의 위로</button>
