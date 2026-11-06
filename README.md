@@ -44,6 +44,11 @@ npm run dev:phone    # 같은 와이파이의 폰에서 https://<PC IP>:5173
 - **iOS** (Mac + Xcode + CocoaPods): `npm run ios` → Signing에서 Team 선택 후 ▶
 - 웹 코드만 바꿨다면 `npm run cap:sync`
 
+### 실시간 수정
+`capacitor.config.json`의 `server.url`이 배포 주소(https://kuccton.vercel.app)를 가리킵니다.
+설치된 앱은 이 주소를 불러오므로, `main`에 푸시하면 Vercel이 다시 배포하고 앱에도 바로 반영됩니다(앱 재빌드 불필요).
+인터넷 연결이 필요하니 시연장에서는 핫스팟을 준비하세요. 오프라인 빌드가 필요하면 `server` 항목을 지우고 `npm run cap:sync` 하면 됩니다.
+
 ## 5. 꽃이 피는 규칙
 
 녹음 전에 **사람 목소리 / 다른 소리**를 고릅니다.

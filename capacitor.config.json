@@ -7,5 +7,9 @@
   },
   "ios": {
     "contentInset": "never"
+  },
+  "server": {
+    "url": "https://kuccton.vercel.app",
+    "cleartext": false
   }
 }
