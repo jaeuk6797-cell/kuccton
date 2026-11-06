@@ -318,7 +318,7 @@ h1, h2 { margin: 0; }
 /* 오른쪽 위 메뉴 (정원·앨범·친구·나·받은 소리) */
 .menu-btn { position: absolute; top: calc(18px + env(safe-area-inset-top)); right: 20px; z-index: 8; }
 .menu-backdrop { position: absolute; inset: 0; z-index: 7; }
-.menu { position: absolute; top: calc(70px + env(safe-area-inset-top)); right: 20px; z-index: 8; width: min(188px, calc(100% - 40px)); height: 286px; max-height: calc(100dvh - 90px - env(safe-area-inset-top) - env(safe-area-inset-bottom)); background: rgba(255,252,248,.97); border-radius: 18px; padding: 6px; box-shadow: 0 12px 34px rgba(46,47,58,.18); display: flex; flex-direction: column; animation: fade .15s; backdrop-filter: blur(10px); overflow: hidden; transform-origin: top right; transition: width .24s ease, height .24s ease; }
+.menu { position: absolute; top: calc(70px + env(safe-area-inset-top)); right: 20px; z-index: 8; width: min(188px, calc(100% - 40px)); height: 273px; /* 메뉴 항목 높이에 맞춤: 위아래 여백이 같게(6px). 항목을 더하면 같이 늘린다 */ max-height: calc(100dvh - 90px - env(safe-area-inset-top) - env(safe-area-inset-bottom)); background: rgba(255,252,248,.97); border-radius: 18px; padding: 6px; box-shadow: 0 12px 34px rgba(46,47,58,.18); display: flex; flex-direction: column; animation: fade .15s; backdrop-filter: blur(10px); overflow: hidden; transform-origin: top right; transition: width .24s ease, height .24s ease; }
 .menu-nav { display: flex; flex-direction: column; overflow-y: auto; }
 .menu-nav > button { display: flex; align-items: center; gap: 12px; padding: 11px 12px; border-radius: 12px; font-size: 0.95rem; text-align: left; position: relative; flex-shrink: 0; }
 .menu-nav > button svg { width: 20px; height: 20px; color: var(--muted); }
