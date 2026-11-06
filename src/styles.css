@@ -371,8 +371,9 @@ h1, h2 { margin: 0; }
 /* 받은 소리함 */
 .inbox-list li { display: flex; align-items: center; gap: 6px; }
 .inbox-list .inbox-item { flex: 1; min-width: 0; }
-.inbox-actions { display: flex; flex-direction: column; gap: 4px; }
-.inbox-actions .small-btn { align-self: stretch; }
+.inbox-actions { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
+/* 심기·괜찮아요: 나란히, 같은 너비, 글자 가운데 */
+.inbox-actions .small-btn { align-self: center; display: inline-flex; align-items: center; justify-content: center; min-width: 56px; height: 36px; padding: 0 12px; white-space: nowrap; font-size: 0.85rem; }
 
 /* 친구 카드 버튼 줄 */
 .friend-actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
@@ -422,3 +423,10 @@ h1, h2 { margin: 0; }
 .view-pills button b { font-weight: 500; color: inherit; margin-left: 2px; }
 .view-pills button.on { background: none; color: var(--ink); font-weight: 700; border-bottom-color: var(--ink); }
 .view-pills button.on b { color: inherit; font-weight: 700; }
+
+/* 소리 앨범: 배경 상자 없이 날짜 + 얇은 선으로만 나누고, 받은 소리를 모두 아래로 스크롤해서 본다 */
+.album-day { background: none; border-radius: 0; padding: 4px 0 14px; border-bottom: 1px solid rgba(46,47,58,.1); }
+.album-date { font-weight: 700; color: var(--ink); font-size: 0.9rem; margin-bottom: 8px; }
+.album-flowers { display: grid; grid-template-columns: repeat(auto-fill, minmax(76px, 1fr)); gap: 10px 4px; overflow: visible; }
+.album-item, .album-item.pair { background: none; min-width: 0; }
+.album-item b { white-space: normal; text-align: center; word-break: keep-all; line-height: 1.3; }

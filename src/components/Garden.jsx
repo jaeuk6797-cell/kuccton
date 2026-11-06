@@ -221,7 +221,6 @@ export default function Garden({ session, onSignOut, email, demo }) {
   const shownFlowers = viewing === 'all' ? gardenFlowers : gardenFlowers.filter((f) => f.sender_id === viewing)
   const shownPairs = viewing === 'all' ? data.pairs : data.pairs.filter((p) =>
     flowerById[p.flower_a_id]?.sender_id === viewing || flowerById[p.flower_b_id]?.sender_id === viewing)
-  const showFriend = (id) => { setViewFriend(id); setTab('garden') }
   const received = data.flowers.filter((f) => f.sender_id !== meId).slice(-8).reverse()
 
   // 손잡이를 끌면 카드·섬·안내 문구가 함께 손가락을 따라오고(--sheet-p: 0 열림 ~ 1 접힘),
@@ -346,7 +345,7 @@ export default function Garden({ session, onSignOut, email, demo }) {
       )}
 
       {tab === 'album' && <Album data={data} meId={meId} onOpen={setOpenFlower} onOpenPair={setOpenPair} flowerById={flowerById} />}
-      {tab === 'friends' && <Friends data={data} meId={meId} onAdded={refresh} onOpen={setOpenFlower} onShowInGarden={showFriend} onShareTo={(friend) => setSharePick({ friend })} onVisit={setVisiting} />}
+      {tab === 'friends' && <Friends data={data} meId={meId} onAdded={refresh} onOpen={setOpenFlower} onShareTo={(friend) => setSharePick({ friend })} onVisit={setVisiting} />}
       {tab === 'me' && <Me me={me} data={data} email={email} onSignOut={onSignOut} onTogglePublic={togglePublic} />}
 
       {/* 오른쪽 위 메뉴 (아래 탭바 대신). 어느 화면에서나 같은 자리에 있다 */}
@@ -470,9 +469,6 @@ function Album({ data, meId, onOpen, onOpenPair, flowerById }) {
     for (const p of data.pairs) (byDate[p.sent_date] ||= { date: p.sent_date, list: [], pairs: [] }).pairs.push(p)
     return Object.values(byDate).sort((a, b) => b.date.localeCompare(a.date))
   }, [data, meId])
-  const weekAgo = new Date(Date.now() - 6 * 86400000).toISOString().slice(0, 10)
-  const week = rows.filter((r) => r.date >= weekAgo)
-  const older = rows.filter((r) => r.date < weekAgo)
 
   const Day = ({ r }) => (
     <div className="album-day">
@@ -488,7 +484,7 @@ function Album({ data, meId, onOpen, onOpenPair, flowerById }) {
           <button key={f.id} className="album-item" onClick={() => onOpen(f)}>
             <Flower flower={f} size={46} stem={false} />
             <b>{displayName(f)}</b>
-            <small>{`${data.members.find((m) => m.id === f.sender_id)?.nickname || '친구'}에게 받음`}</small>
+            <small>{data.members.find((m) => m.id === f.sender_id)?.nickname || '친구'}</small>
           </button>
         ))}
       </div>
@@ -497,24 +493,23 @@ function Album({ data, meId, onOpen, onOpenPair, flowerById }) {
 
   return (
     <div className="page">
-      <h1 className="page-title">이번 주 소리 앨범</h1>
-      {week.length === 0 && (
+      {/* 받은 소리를 날짜별로 (오늘 · 어제 · 11월 5일 …). 주 단위로 나누지 않는다 */}
+      <h1 className="page-title">소리 앨범</h1>
+      {rows.length === 0 && (
         <div className="card album-empty">
           <Flower flower={{ color: 'hsl(250 40% 80%)', petals: 5, vowel: 'Y', consonant: '평', rms: 0.04 }} size={64} stem={false} />
-          <b>이번 주에는 아직 핀 꽃이 없어요</b>
+          <b>아직 받은 소리가 없어요</b>
           <small className="muted">친구에게 받은 소리가 날짜별로 여기에 모여요</small>
         </div>
       )}
-      {week.map((r) => <Day key={r.date} r={r} />)}
-      {older.length > 0 && <h2 className="page-sub">지난 소리</h2>}
-      {older.map((r) => <Day key={r.date} r={r} />)}
+      {rows.map((r) => <Day key={r.date} r={r} />)}
     </div>
   )
 }
 
 // 친구: 친구 코드(= 정원 코드)로 친구를 맺고, 친구마다 내 소리를 골라 공유한다.
 // 친구가 공유한 소리는 내 정원 왼쪽에, 내 소리는 오른쪽에 핀다.
-function Friends({ data, meId, onAdded, onOpen, onShowInGarden, onShareTo, onVisit }) {
+function Friends({ data, meId, onAdded, onOpen, onShareTo, onVisit }) {
   const [copied, setCopied] = useState(false)
   const [code, setCode] = useState('')
   const [busy, setBusy] = useState(false)
@@ -612,7 +607,6 @@ https://kuccton.vercel.app`
                       ))}
                     </ul>
                     {theirs.length > 6 && <p className="small muted">외 {theirs.length - 6}개</p>}
-                    <button className="ghost small-btn" onClick={() => onShowInGarden(fr.member_id)}>정원에서 {fr.nickname}의 소리만 보기</button>
                   </>
                 )}
               </li>
@@ -657,6 +651,7 @@ function Me({ me, data, email, onSignOut, onTogglePublic }) {
 
 function formatDate(d) {
   if (d === today()) return '오늘'
+  if (d === new Date(Date.now() - 86400000).toLocaleDateString('sv-SE')) return '어제'
   const [, m, day] = d.split('-')
   return `${Number(m)}월 ${Number(day)}일`
 }
