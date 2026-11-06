@@ -459,10 +459,11 @@ export default function Garden({ session, onSignOut, email, demo }) {
 function Album({ data, meId, onOpen, onOpenPair, flowerById }) {
   const rows = useMemo(() => {
     const byDate = {}
-    for (const f of data.flowers) (byDate[f.sent_date] ||= { date: f.sent_date, list: [], pairs: [] }).list.push(f)
+    // 앨범에는 친구에게 받은 소리만 (내가 보낸 소리는 친구 정원에 있다). 우리의 꽃은 함께 둔다
+    for (const f of data.flowers.filter((x) => x.sender_id !== meId)) (byDate[f.sent_date] ||= { date: f.sent_date, list: [], pairs: [] }).list.push(f)
     for (const p of data.pairs) (byDate[p.sent_date] ||= { date: p.sent_date, list: [], pairs: [] }).pairs.push(p)
     return Object.values(byDate).sort((a, b) => b.date.localeCompare(a.date))
-  }, [data])
+  }, [data, meId])
   const weekAgo = new Date(Date.now() - 6 * 86400000).toISOString().slice(0, 10)
   const week = rows.filter((r) => r.date >= weekAgo)
   const older = rows.filter((r) => r.date < weekAgo)
@@ -481,7 +482,7 @@ function Album({ data, meId, onOpen, onOpenPair, flowerById }) {
           <button key={f.id} className="album-item" onClick={() => onOpen(f)}>
             <Flower flower={f} size={46} stem={false} />
             <b>{displayName(f)}</b>
-            <small>{f.sender_id === meId ? '내 소리' : `${data.members.find((m) => m.id === f.sender_id)?.nickname || '친구'}에게 받음`}</small>
+            <small>{`${data.members.find((m) => m.id === f.sender_id)?.nickname || '친구'}에게 받음`}</small>
           </button>
         ))}
       </div>
@@ -495,7 +496,7 @@ function Album({ data, meId, onOpen, onOpenPair, flowerById }) {
         <div className="card album-empty">
           <Flower flower={{ color: 'hsl(250 40% 80%)', petals: 5, vowel: 'Y', consonant: '평', rms: 0.04 }} size={64} stem={false} />
           <b>이번 주에는 아직 핀 꽃이 없어요</b>
-          <small className="muted">소리를 보내거나 받으면 날짜별로 여기에 모여요</small>
+          <small className="muted">친구에게 받은 소리가 날짜별로 여기에 모여요</small>
         </div>
       )}
       {week.map((r) => <Day key={r.date} r={r} />)}

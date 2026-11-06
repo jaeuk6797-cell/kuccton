@@ -4,7 +4,8 @@ import { FlowerDetail } from './Details.jsx'
 import { loadVisit } from '../lib/db.js'
 import { isTree } from '../lib/tree.js'
 
-// 친구의 공개 정원에 놀러 가기 (보기·듣기만). 친구가 직접 심은 소리만 보인다.
+// 친구의 공개 정원에 놀러 가기 (보기·듣기만). 그 친구가 다른 친구들에게 받아서 심은 소리가 보인다.
+// (규칙: 내 정원 = 친구들이 보내 준 소리. 그러니 친구 정원 = 그 친구가 받은 소리)
 export default function Visit({ friend, onClose }) {
   const [flowers, setFlowers] = useState(null)
   const [error, setError] = useState('')
@@ -26,7 +27,7 @@ export default function Visit({ friend, onClose }) {
       </div>
       {flowers && (
         <div className="island-touch">
-          {/* 친구 입장에서 본 정원: 친구가 심은 소리가 오른쪽 */}
+          {/* 친구가 받은 소리들이 피어 있는 정원 */}
           <Island3D flowers={flowers} pairs={[]} meId={friend.member_id} onPickFlower={setOpen} onPickPair={() => {}} />
         </div>
       )}
@@ -36,11 +37,11 @@ export default function Visit({ friend, onClose }) {
         {flowers && <p className="visit-sub">꽃 {blooms}송이 · 나무 {trees}그루 · 눌러서 들어 보세요</p>}
       </div>
       {!flowers && !error && <div className="empty-garden"><b>정원으로 가는 중…</b></div>}
-      {flowers && flowers.length === 0 && <div className="empty-garden"><b>아직 심은 소리가 없는 정원이에요</b></div>}
+      {flowers && flowers.length === 0 && <div className="empty-garden"><b>아직 받은 소리가 없는 정원이에요</b></div>}
       {error && <div className="empty-garden"><b>정원에 들어가지 못했어요</b><small>{error}</small></div>}
       <button className="ghost visit-back" onClick={onClose}>← 내 정원으로</button>
       {open && (
-        <FlowerDetail flower={open} sender={{ nickname: friend.nickname }} mine={false} onClose={() => setOpen(null)} />
+        <FlowerDetail flower={open} sender={{ nickname: open.sender_name || '친구' }} mine={false} onClose={() => setOpen(null)} />
       )}
     </div>
   )
