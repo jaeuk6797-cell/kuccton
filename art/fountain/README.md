@@ -30,15 +30,15 @@ The before captures are from the unified island on the same source tree as main 
 | Instanced grass | 6,000 | One visible draw |
 | **Total** | **20,025** | |
 
-The standalone and embedded fountain have matching vertex data and faces. The retained island meshes preserve their authored vertex data and oriented faces. Grass retains its 1,000 clumps and clears the basin, pond and stems. The animation gently turns the water streams and scales the ripple mesh using the scene clock. Balanced alone receives `#91BD92` on the exposed planting surface, with lower gloss. Its pond and fountain water use separate materials.
+The standalone and embedded fountain have matching vertex data and faces. The retained island meshes preserve their authored vertex data and oriented faces. Grass retains its 1,000 clumps and clears the basin, pond and stems. The animation gently turns the water streams and scales the ripple mesh using the scene clock. The merge with main `82d1ac6` brings its refined sage treatment to the exposed Balanced planting surface. It shares the grass midtone `#91BD92` and retains subtle variation in the ground shading. Its pond and fountain water use separate materials. The Balanced screenshots show the merged result.
 
 | Full frame | Balanced, Warm, Original | Aurora |
 | --- | ---: | ---: |
 | 12 plants and two pairs | 618 draws / 75,550 triangles | 624 draws / 75,558 triangles |
 | 50 plants and two pairs | 2,128 draws / 168,026 triangles | 2,134 draws / 168,034 triangles |
 
-Each matched view uses six fewer draws and 74 fewer triangles than the crystal version. Counts include shadows and postprocessing. Dense frame intervals averaged 16.67–16.81 ms in Chrome on desktop Intel Arc WebGL. The mobile portrait is a browser viewport check.
+Each matched view uses six fewer draws and 74 fewer triangles than the crystal version. Counts include shadows and postprocessing. Dense frame intervals averaged 16.67–16.76 ms in Chrome on desktop Intel Arc WebGL. The mobile portrait is a browser viewport check.
 
-The production build, 33 Node tests, 13 Garden browser checks, and three retry checks passed. They verified fountain palettes and water animation, terrain and blade clearance, matching geometry, stable resources across 12 theme switches, camera, growth, selection, LOD, and the dense garden. The one network error was deliberately injected to verify the planted fallback and retry. The Garden checks reported no runtime errors.
+After the merge, the production build, 35 Node tests and 13 Garden browser checks passed. They verified fountain palettes and water animation, terrain and blade clearance, matching geometry, stable resources across 12 theme switches, camera, growth, selection, LOD, and the dense garden. The Garden checks reported no runtime errors.
 
-Nine production browser checks passed with local account and audio fixtures. Theme choices persisted through refresh and restart, and an open flower detail kept playing the same audio through a theme change. The production run reported zero console errors, page errors, or unexpected requests.
+The fountain integration also passed three retry checks and nine production browser checks with local account and audio fixtures. The one network error in the retry suite was deliberately injected to verify the planted fallback and retry. In production, theme choices persisted through refresh and restart, and an open flower detail kept playing the same audio through a theme change. The production run reported zero console errors, page errors, or unexpected requests.

@@ -9,7 +9,7 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
 import { buildFlower3D, disposeFlower3D } from '../lib/flower3d.js'
 import { buildBlenderFlower, useBlenderFlowerAssets } from '../lib/blenderFlower.js'
-import { applyWarmIslandMaterial, applyWarmIslandPaint, applyAuroraIslandMaterial, applyAuroraIslandPaint, applyFountainMaterial, applyBalancedGroundMaterial } from '../lib/islandTone.js'
+import { applyWarmIslandMaterial, applyWarmIslandPaint, applyAuroraIslandMaterial, applyAuroraIslandPaint, applyFountainMaterial, applyBalancedGroundMaterial, applyBalancedGroundPaint } from '../lib/islandTone.js'
 import { createAuroraAtmosphere } from '../lib/auroraAtmosphere.js'
 import { createBalancedMotes } from '../lib/balancedMotes.js'
 import { AuroraGlowPass } from '../lib/AuroraGlowPass.js'
@@ -220,11 +220,12 @@ function prepareIslandAppearance(model) {
   const meshes = [], paints = new Map(), variants = new Map()
   model.traverse(mesh => {
     if (!mesh.isMesh) return
-    meshes.push({ mesh, source: mesh.material })
+    const plantingSurface = /^Island_Surface/.test(mesh.name)
+    meshes.push({ mesh, source: mesh.material, plantingSurface })
     const colors = mesh.geometry.attributes.color
     if (!colors || paints.has(colors)) return
     // The canonical GLB uses a single material per primitive and packed colors.
-    paints.set(colors, { original: colors.array.slice(), name: mesh.material.name })
+    paints.set(colors, { original: colors.array.slice(), name: mesh.material.name, plantingSurface })
     colors.setUsage(THREE.DynamicDrawUsage)
   })
   let activePaint
@@ -232,13 +233,13 @@ function prepareIslandAppearance(model) {
     setTone(tone) {
       let materials = variants.get(tone)
       if (!materials) variants.set(tone, materials = new Map())
-      const materialFor = (source, exposedGround) => {
+      const materialFor = (source, plantingSurface) => {
         // The pond's mineral basin shares the authored ground material.
-        const sageGround = tone === 'balanced' && exposedGround
-        const key = sageGround ? 'sage ground' : source
+        const balancedGround = tone === 'balanced' && plantingSurface
+        const key = balancedGround ? `planting-surface:${source.uuid}` : source
         if (!materials.has(key)) {
           const material = source.clone()
-          if (sageGround) applyBalancedGroundMaterial(material)
+          if (balancedGround) applyBalancedGroundMaterial(material)
           else {
             if (tone === 'aurora') applyAuroraIslandMaterial(material)
             else if (tone !== 'default') applyWarmIslandMaterial(material)
@@ -249,20 +250,20 @@ function prepareIslandAppearance(model) {
         }
         return materials.get(key)
       }
-      for (const { mesh, source } of meshes) {
-        const exposedGround = mesh.name.startsWith('Island_Surface')
+      for (const { mesh, source, plantingSurface } of meshes) {
         mesh.material = Array.isArray(source)
-          ? source.map(material => materialFor(material, exposedGround))
-          : materialFor(source, exposedGround)
+          ? source.map(material => materialFor(material, plantingSurface))
+          : materialFor(source, plantingSurface)
       }
 
-      const paint = tone === 'balanced' ? 'warm' : tone
+      const paint = tone
       if (activePaint === paint) return
-      for (const [colors, { original, name }] of paints) {
+      for (const [colors, { original, name, plantingSurface }] of paints) {
         // Restart from the authored RGBA values. Upload into the same GPU attribute.
         colors.array.set(original)
         if (paint === 'aurora') applyAuroraIslandPaint(colors, name)
-        if (paint === 'warm') applyWarmIslandPaint(colors, name)
+        if (paint === 'balanced' && plantingSurface) applyBalancedGroundPaint(colors)
+        else if (paint === 'warm' || paint === 'balanced') applyWarmIslandPaint(colors, name)
         colors.needsUpdate = true
       }
       activePaint = paint

@@ -1,0 +1,514 @@
+{
+  "passed": true,
+  "generated": "2026-11-06T22:24:56.410Z",
+  "baselineCommit": "d5b12a3",
+  "browser": "157.0.8103.38",
+  "webglRenderer": "ANGLE (Intel, Intel(R) Arc(TM) 140V GPU (16GB) (0x000064A0) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+  "fixedDate": "2026-01-15T03:00:00Z",
+  "fixedAnimationSeconds": 6,
+  "sourceHashes": {
+    "src/components/Island3D.jsx": {
+      "baseline": "c97ea237881838740eb566c581055ac892d14d149bd0422cfcabf876d2cf2b83",
+      "final": "6f36b084700108c1762eea1e6f264f66efaf220a3999b240c842cf99cf05e603",
+      "semantics": "LF-normalized raw source"
+    },
+    "src/lib/islandTone.js": {
+      "baseline": "4c8fa2620f2df167461e43e4db2daba57ad135d6e1f4b2e7bdb1a277384fe792",
+      "final": "3d641a1a691eb0fba748344c6608340814a8fe44c6c8aeecf8f792cfe3e994b9",
+      "semantics": "LF-normalized raw source"
+    },
+    "src/lib/islandGrass.js": {
+      "baseline": "a6a1511068b9969152e09fb5d2ea774368fc9a75953ff8cb4d0035229d8d2ed1",
+      "final": "da1e6553efbcd0f97df713dc87df939a24fad74df2cc3433c417ffc54c219aeb",
+      "semantics": "LF-normalized raw source"
+    },
+    "public/models/island-modern.glb": {
+      "baseline": "975283d9d1753e577981a25a53593299ea4d53f9044c872cd4d3297a8a7983a1",
+      "final": "975283d9d1753e577981a25a53593299ea4d53f9044c872cd4d3297a8a7983a1",
+      "semantics": "Exact binary bytes"
+    }
+  },
+  "screenshots": {
+    "balanced": {
+      "beforeImage": "before/balanced.png",
+      "afterImage": "after/balanced.png",
+      "plants": 14,
+      "matchedCamera": true,
+      "viewport": {
+        "width": 520,
+        "height": 900,
+        "pixelRatio": 1
+      },
+      "passExpandedDrawCalls": {
+        "before": 624,
+        "final": 624
+      },
+      "passExpandedTriangles": {
+        "before": 75624,
+        "final": 75624
+      },
+      "protectedIslandMeshesExact": 19,
+      "geometry": {
+        "assetTriangles": 14099,
+        "grassTriangles": 6000,
+        "totalStaticTriangles": 20099,
+        "grassClumps": 1000,
+        "visibleGrassDrawCalls": 1
+      }
+    },
+    "warm": {
+      "beforeImage": "before/warm.png",
+      "afterImage": "after/warm.png",
+      "plants": 14,
+      "matchedCamera": true,
+      "viewport": {
+        "width": 520,
+        "height": 900,
+        "pixelRatio": 1
+      },
+      "passExpandedDrawCalls": {
+        "before": 624,
+        "final": 624
+      },
+      "passExpandedTriangles": {
+        "before": 75624,
+        "final": 75624
+      },
+      "protectedIslandMeshesExact": 19,
+      "geometry": {
+        "assetTriangles": 14099,
+        "grassTriangles": 6000,
+        "totalStaticTriangles": 20099,
+        "grassClumps": 1000,
+        "visibleGrassDrawCalls": 1
+      }
+    },
+    "aurora": {
+      "beforeImage": "before/aurora.png",
+      "afterImage": "after/aurora.png",
+      "plants": 14,
+      "matchedCamera": true,
+      "viewport": {
+        "width": 520,
+        "height": 900,
+        "pixelRatio": 1
+      },
+      "passExpandedDrawCalls": {
+        "before": 630,
+        "final": 630
+      },
+      "passExpandedTriangles": {
+        "before": 75632,
+        "final": 75632
+      },
+      "protectedIslandMeshesExact": 19,
+      "geometry": {
+        "assetTriangles": 14099,
+        "grassTriangles": 6000,
+        "totalStaticTriangles": 20099,
+        "grassClumps": 1000,
+        "visibleGrassDrawCalls": 1
+      }
+    },
+    "default": {
+      "beforeImage": "before/default.png",
+      "afterImage": "after/default.png",
+      "plants": 14,
+      "matchedCamera": true,
+      "viewport": {
+        "width": 520,
+        "height": 900,
+        "pixelRatio": 1
+      },
+      "passExpandedDrawCalls": {
+        "before": 624,
+        "final": 624
+      },
+      "passExpandedTriangles": {
+        "before": 75624,
+        "final": 75624
+      },
+      "protectedIslandMeshesExact": 19,
+      "geometry": {
+        "assetTriangles": 14099,
+        "grassTriangles": 6000,
+        "totalStaticTriangles": 20099,
+        "grassClumps": 1000,
+        "visibleGrassDrawCalls": 1
+      }
+    },
+    "balanced-empty": {
+      "beforeImage": "before/balanced-empty.png",
+      "afterImage": "after/balanced-empty.png",
+      "plants": 0,
+      "matchedCamera": true,
+      "viewport": {
+        "width": 520,
+        "height": 900,
+        "pixelRatio": 1
+      },
+      "passExpandedDrawCalls": {
+        "before": 24,
+        "final": 24
+      },
+      "passExpandedTriangles": {
+        "before": 25032,
+        "final": 25032
+      },
+      "protectedIslandMeshesExact": 19,
+      "geometry": {
+        "assetTriangles": 14099,
+        "grassTriangles": 6000,
+        "totalStaticTriangles": 20099,
+        "grassClumps": 1000,
+        "visibleGrassDrawCalls": 1
+      }
+    },
+    "balanced-closeup": {
+      "beforeImage": "before/balanced-closeup.png",
+      "afterImage": "after/balanced-closeup.png",
+      "plants": 0,
+      "matchedCamera": true,
+      "viewport": {
+        "width": 520,
+        "height": 900,
+        "pixelRatio": 1
+      },
+      "passExpandedDrawCalls": {
+        "before": 23,
+        "final": 23
+      },
+      "passExpandedTriangles": {
+        "before": 24624,
+        "final": 24624
+      },
+      "protectedIslandMeshesExact": 19,
+      "geometry": {
+        "assetTriangles": 14099,
+        "grassTriangles": 6000,
+        "totalStaticTriangles": 20099,
+        "grassClumps": 1000,
+        "visibleGrassDrawCalls": 1
+      }
+    },
+    "balanced-dense50": {
+      "beforeImage": "before/balanced-dense50.png",
+      "afterImage": "after/balanced-dense50.png",
+      "plants": 52,
+      "matchedCamera": true,
+      "viewport": {
+        "width": 520,
+        "height": 900,
+        "pixelRatio": 1
+      },
+      "passExpandedDrawCalls": {
+        "before": 2134,
+        "final": 2134
+      },
+      "passExpandedTriangles": {
+        "before": 168100,
+        "final": 168100
+      },
+      "protectedIslandMeshesExact": 19,
+      "geometry": {
+        "assetTriangles": 14099,
+        "grassTriangles": 6000,
+        "totalStaticTriangles": 20099,
+        "grassClumps": 1000,
+        "visibleGrassDrawCalls": 1
+      }
+    },
+    "balanced-mobile50": {
+      "beforeImage": "before/balanced-mobile50.png",
+      "afterImage": "after/balanced-mobile50.png",
+      "plants": 52,
+      "matchedCamera": true,
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "pixelRatio": 1
+      },
+      "passExpandedDrawCalls": {
+        "before": 2134,
+        "final": 2134
+      },
+      "passExpandedTriangles": {
+        "before": 168100,
+        "final": 168100
+      },
+      "protectedIslandMeshesExact": 19,
+      "geometry": {
+        "assetTriangles": 14099,
+        "grassTriangles": 6000,
+        "totalStaticTriangles": 20099,
+        "grassClumps": 1000,
+        "visibleGrassDrawCalls": 1
+      }
+    }
+  },
+  "otherThemePixelDifferences": {
+    "warm": {
+      "pixels": 0,
+      "maxChannelDelta": 0
+    },
+    "aurora": {
+      "pixels": 0,
+      "maxChannelDelta": 0
+    },
+    "default": {
+      "pixels": 0,
+      "maxChannelDelta": 0
+    }
+  },
+  "groundMaterial": {
+    "baseline": [
+      {
+        "name": "SUP Opalescent ground",
+        "type": "MeshPhysicalMaterial",
+        "color": [
+          1.24,
+          0.98,
+          1
+        ],
+        "emissive": [
+          0,
+          0,
+          0
+        ],
+        "emissiveIntensity": 1,
+        "roughness": 0.18000000715255737,
+        "metalness": 0.019999999552965164,
+        "clearcoat": 0.550000011920929,
+        "clearcoatRoughness": 0.10000000149011612,
+        "iridescence": 0,
+        "transmission": 0,
+        "opacity": 1,
+        "transparent": false,
+        "envMapIntensity": 1,
+        "normalScale": [
+          0.20000000298023224,
+          -0.20000000298023224
+        ],
+        "specularColor": [
+          1,
+          1,
+          1
+        ],
+        "specularIntensity": 1,
+        "alphaTest": 0,
+        "side": 0
+      }
+    ],
+    "final": [
+      {
+        "name": "SUP Opalescent ground",
+        "type": "MeshPhysicalMaterial",
+        "color": [
+          0.28314874041918053,
+          0.508881320845802,
+          0.2874408377161099
+        ],
+        "emissive": [
+          0,
+          0,
+          0
+        ],
+        "emissiveIntensity": 1,
+        "roughness": 0.9,
+        "metalness": 0,
+        "clearcoat": 0,
+        "clearcoatRoughness": 1,
+        "iridescence": 0,
+        "transmission": 0,
+        "opacity": 1,
+        "transparent": false,
+        "envMapIntensity": 0.2,
+        "normalScale": [
+          0.07000000104308128,
+          -0.07000000104308128
+        ],
+        "specularColor": [
+          1,
+          1,
+          1
+        ],
+        "specularIntensity": 1,
+        "alphaTest": 0,
+        "side": 0
+      }
+    ]
+  },
+  "checks": [
+    "Twelve immediate theme switches preserve the same model/grass buffers, camera, positions, growth, LOD and exact theme material values; GPU counts settle",
+    "Desktop real canvas raycast opens and closes the Blender flower detail",
+    "Blender far/near LOD and camera survive theme changes",
+    "Actual inbox planting completes growth across a theme switch without resetting its birth time",
+    "Dense 52-object portrait garden supports real Blender-flower selection and close without horizontal overflow",
+    "All eight matched views preserve geometry/counts/camera/plant state; pond and crystal materials/paint are exact; three other themes are pixel-identical within one-level GPU tolerance"
+  ],
+  "runtimeErrors": [],
+  "resourceCycles": [
+    {
+      "warm": {
+        "geometries": 119,
+        "textures": 7,
+        "programs": 19
+      },
+      "aurora": {
+        "geometries": 120,
+        "textures": 9,
+        "programs": 33
+      },
+      "default": {
+        "geometries": 119,
+        "textures": 7,
+        "programs": 27
+      },
+      "balanced": {
+        "geometries": 119,
+        "textures": 7,
+        "programs": 28
+      }
+    },
+    {
+      "warm": {
+        "geometries": 119,
+        "textures": 7,
+        "programs": 28
+      },
+      "aurora": {
+        "geometries": 120,
+        "textures": 9,
+        "programs": 35
+      },
+      "default": {
+        "geometries": 119,
+        "textures": 7,
+        "programs": 27
+      },
+      "balanced": {
+        "geometries": 119,
+        "textures": 7,
+        "programs": 28
+      }
+    },
+    {
+      "warm": {
+        "geometries": 119,
+        "textures": 7,
+        "programs": 28
+      },
+      "aurora": {
+        "geometries": 120,
+        "textures": 9,
+        "programs": 35
+      },
+      "default": {
+        "geometries": 119,
+        "textures": 7,
+        "programs": 27
+      },
+      "balanced": {
+        "geometries": 119,
+        "textures": 7,
+        "programs": 28
+      }
+    }
+  ],
+  "growth": {
+    "id": "demo-28",
+    "bornAtBefore": 16.67829999995233,
+    "bornAtAfter": 16.67829999995233,
+    "finalOpened": true
+  },
+  "shortDesktopTiming": {
+    "method": "One settled sample of approximately 30 frame intervals per scene, same native desktop GPU/camera/fixtures; shader startup excluded. This is a smoke sample, not a controlled performance benchmark or physical-phone measurement.",
+    "balanced14": {
+      "before": {
+        "frame": {
+          "samples": 30,
+          "meanMs": 16.67,
+          "p95Ms": 16.8
+        },
+        "renderCPU": {
+          "samples": 31,
+          "meanMs": 3.63,
+          "p95Ms": 4.9
+        },
+        "gpu": {
+          "available": true,
+          "samples": 31,
+          "meanMs": 2.89,
+          "p95Ms": 3.47
+        }
+      },
+      "final": {
+        "frame": {
+          "samples": 30,
+          "meanMs": 16.66,
+          "p95Ms": 16.8
+        },
+        "renderCPU": {
+          "samples": 31,
+          "meanMs": 3.67,
+          "p95Ms": 4.7
+        },
+        "gpu": {
+          "available": true,
+          "samples": 31,
+          "meanMs": 2.98,
+          "p95Ms": 3.45
+        }
+      }
+    },
+    "balanced52": {
+      "before": {
+        "frame": {
+          "samples": 31,
+          "meanMs": 16.66,
+          "p95Ms": 16.8
+        },
+        "renderCPU": {
+          "samples": 31,
+          "meanMs": 7.12,
+          "p95Ms": 9.6
+        },
+        "gpu": {
+          "available": true,
+          "samples": 30,
+          "meanMs": 6.45,
+          "p95Ms": 8.55
+        }
+      },
+      "final": {
+        "frame": {
+          "samples": 30,
+          "meanMs": 16.67,
+          "p95Ms": 16.8
+        },
+        "renderCPU": {
+          "samples": 30,
+          "meanMs": 7.29,
+          "p95Ms": 9.7
+        },
+        "gpu": {
+          "available": true,
+          "samples": 30,
+          "meanMs": 6.68,
+          "p95Ms": 8.65
+        }
+      }
+    },
+    "interpretation": "Frame cadence remains approximately 16.67 ms in both views. Small CPU/GPU differences in these short samples do not establish a speedup or regression."
+  },
+  "audioScope": "Audio implementation is unchanged; parent reports existing audio unit tests passed. Actual recording, storage and playback were not exercised by these null-audio HomeDemo fixtures.",
+  "limitations": [
+    "Headless Chrome on this desktop; portrait viewport is not a physical mobile-device measurement.",
+    "Offline font fallback and local HomeDemo fixtures; no live account or audio storage was used."
+  ],
+  "provenance": [
+    "before/results.json",
+    "after/results.json",
+    "../../scripts/balancedGround.browser.mjs"
+  ]
+}

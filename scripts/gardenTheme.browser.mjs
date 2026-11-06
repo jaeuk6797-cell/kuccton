@@ -107,14 +107,14 @@ try {
     report.samples[`${tone}-14`] = await snapshot()
   }
   check('All four themes render trees, procedural flowers, Blender peonies and pairs at identical camera/time; same canvas and plant state')
-  assert.equal(new Set(Object.values(paints).map(value => JSON.stringify(value))).size, 3)
+  assert.equal(new Set(Object.values(paints).map(value => JSON.stringify(value))).size, 4)
   check('All four palettes share one 14,025-triangle island and the same 6,000-triangle grass layout and buffers')
   const fountainIdentity = decor => decor.fountain.map(({ name, geometry }) => [name, geometry])
   for (const decor of Object.values(report.decorations)) assert.deepEqual(fountainIdentity(decor), fountainIdentity(report.decorations.balanced))
   assert.equal(new Set(Object.values(report.decorations).map(d => d.fountain.map(mesh => mesh.color).join(','))).size, 4)
   assert.equal(report.decorations.balanced.pond, 'cadfd8')
   assert.equal(report.decorations.balanced.fountain.find(mesh => mesh.name === 'Fountain_Water_Surface').color, 'a3d8de')
-  assert.equal(report.decorations.balanced.ground.roughness, .91)
+  assert.equal(report.decorations.balanced.ground.roughness, .90)
   const beforeFlow = (await decoration()).flowAngle
   await page.evaluate(() => window.__gardenDiagnostics.current.freeze(7))
   await page.waitForFunction(angle => window.__gardenDiagnostics.current.decoration().flowAngle !== angle, beforeFlow)

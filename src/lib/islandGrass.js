@@ -6,8 +6,9 @@ const MAX_HEIGHT = 0.12
 const EDGE_CLEARANCE = 0.09
 const STEM_CLEARANCE = 0.065
 const UP = new THREE.Vector3(0, 1, 0)
+export const BALANCED_GRASS_MIDTONE = 0x91bd92
 const GRASS_THEMES = {
-  balanced: { colors: [0x67976d, 0x91bd92, 0xb8d9ac], tint: 0xffffff, roughness: 1, environment: 0.12 },
+  balanced: { colors: [0x67976d, BALANCED_GRASS_MIDTONE, 0xb8d9ac], tint: 0xffffff, roughness: 1, environment: 0.12 },
   warm: { colors: [0x758b65, 0xa1b685, 0xc3cf9e], tint: 0xfffaf3, roughness: 0.98, environment: 0.10 },
   aurora: { colors: [0x427e72, 0x72b4a1, 0xaad5c5], tint: 0xeefcff, roughness: 0.96, environment: 0.16 },
   default: { colors: [0x678e7e, 0x91b8a5, 0xb9d2be], tint: 0xf7fcff, roughness: 1, environment: 0.10 },
