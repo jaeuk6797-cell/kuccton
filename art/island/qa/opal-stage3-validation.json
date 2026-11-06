@@ -1,0 +1,222 @@
+{
+  "stage": "3 — warm underside with integrated mineral seams",
+  "baselineCommit": "32cf717",
+  "previousStageAssetSha256": "42d05124fadc1b7371f35fdddece08cabb21f84ea73b33d35c5050431c26be56",
+  "assetSha256": "feebf9fdc629629701493e75790fa63bdcda8fb558025871cdf2f8508ef0e08e",
+  "bytes": 732336,
+  "triangles": 16607,
+  "meshPrimitives": 22,
+  "materialCount": 11,
+  "geometryUnchanged": true,
+  "allPositionAccessorsExact": true,
+  "allNormalAccessorsExact": true,
+  "previousGeometrySHA256": "53dbe6f2864db584a5cb7b830547204e046e59727c1301a20b55f39bd4129487",
+  "geometrySHA256": "53dbe6f2864db584a5cb7b830547204e046e59727c1301a20b55f39bd4129487",
+  "materialParametersUnchanged": true,
+  "onlyChangedColorComponent": "Island_Crystal_Underside | Asymmetric mineral keel",
+  "comparison": [
+    {
+      "name": "Island_Accents | Luminous filament tips",
+      "geometrySame": true,
+      "positionAccessorExact": true,
+      "normalAccessorExact": true,
+      "colorSame": true
+    },
+    {
+      "name": "Island_Accents | Scattered opal gravel",
+      "geometrySame": true,
+      "positionAccessorExact": true,
+      "normalAccessorExact": true,
+      "colorSame": true
+    },
+    {
+      "name": "Island_Crystal_Underside | Asymmetric mineral keel",
+      "geometrySame": true,
+      "positionAccessorExact": true,
+      "normalAccessorExact": true,
+      "colorSame": false
+    },
+    {
+      "name": "Island_Metal_Rim | Champagne upper seam",
+      "geometrySame": true,
+      "positionAccessorExact": true,
+      "normalAccessorExact": true,
+      "colorSame": true
+    },
+    {
+      "name": "Island_Metal_Rim | Contour-following rose-gold seam",
+      "geometrySame": true,
+      "positionAccessorExact": true,
+      "normalAccessorExact": true,
+      "colorSame": true
+    },
+    {
+      "name": "Island_Ornamental_Ring | Fine golden resonator",
+      "geometrySame": true,
+      "positionAccessorExact": true,
+      "normalAccessorExact": true,
+      "colorSame": true
+    },
+    {
+      "name": "Island_Ornamental_Ring | Opal feet",
+      "geometrySame": true,
+      "positionAccessorExact": true,
+      "normalAccessorExact": true,
+      "colorSame": true
+    },
+    {
+      "name": "Island_Peripheral_Crystals | Cluster 1 facet family 1",
+      "geometrySame": true,
+      "positionAccessorExact": true,
+      "normalAccessorExact": true,
+      "colorSame": true
+    },
+    {
+      "name": "Island_Peripheral_Crystals | Cluster 1 facet family 2",
+      "geometrySame": true,
+      "positionAccessorExact": true,
+      "normalAccessorExact": true,
+      "colorSame": true
+    },
+    {
+      "name": "Island_Peripheral_Crystals | Cluster 1 facet family 3",
+      "geometrySame": true,
+      "positionAccessorExact": true,
+      "normalAccessorExact": true,
+      "colorSame": true
+    },
+    {
+      "name": "Island_Peripheral_Crystals | Cluster 2 facet family 1",
+      "geometrySame": true,
+      "positionAccessorExact": true,
+      "normalAccessorExact": true,
+      "colorSame": true
+    },
+    {
+      "name": "Island_Peripheral_Crystals | Cluster 2 facet family 2",
+      "geometrySame": true,
+      "positionAccessorExact": true,
+      "normalAccessorExact": true,
+      "colorSame": true
+    },
+    {
+      "name": "Island_Peripheral_Crystals | Cluster 2 facet family 3",
+      "geometrySame": true,
+      "positionAccessorExact": true,
+      "normalAccessorExact": true,
+      "colorSame": true
+    },
+    {
+      "name": "Island_Peripheral_Crystals | Cluster 3 facet family 1",
+      "geometrySame": true,
+      "positionAccessorExact": true,
+      "normalAccessorExact": true,
+      "colorSame": true
+    },
+    {
+      "name": "Island_Peripheral_Crystals | Cluster 3 facet family 2",
+      "geometrySame": true,
+      "positionAccessorExact": true,
+      "normalAccessorExact": true,
+      "colorSame": true
+    },
+    {
+      "name": "Island_Peripheral_Crystals | Cluster 3 facet family 3",
+      "geometrySame": true,
+      "positionAccessorExact": true,
+      "normalAccessorExact": true,
+      "colorSame": true
+    },
+    {
+      "name": "Island_Peripheral_Crystals | Polished facet edges",
+      "geometrySame": true,
+      "positionAccessorExact": true,
+      "normalAccessorExact": true,
+      "colorSame": true
+    },
+    {
+      "name": "Island_Pond | Quiet silver ripples",
+      "geometrySame": true,
+      "positionAccessorExact": true,
+      "normalAccessorExact": true,
+      "colorSame": true
+    },
+    {
+      "name": "Island_Pond | Recessed mineral basin",
+      "geometrySame": true,
+      "positionAccessorExact": true,
+      "normalAccessorExact": true,
+      "colorSame": true
+    },
+    {
+      "name": "Island_Pond | Single aqua water sheet",
+      "geometrySame": true,
+      "positionAccessorExact": true,
+      "normalAccessorExact": true,
+      "colorSame": true
+    },
+    {
+      "name": "Island_Surface | Opalescent planting clearing",
+      "geometrySame": true,
+      "positionAccessorExact": true,
+      "normalAccessorExact": true,
+      "colorSame": true
+    },
+    {
+      "name": "Island_Vegetation | Ferns and bent grasses",
+      "geometrySame": true,
+      "positionAccessorExact": true,
+      "normalAccessorExact": true,
+      "colorSame": true
+    }
+  ],
+  "undersideColors": {
+    "storage": 5126,
+    "type": "VEC3",
+    "normalized": false,
+    "meanLinear": [
+      0.46280613663384845,
+      0.3639803405361946,
+      0.3722010097227806
+    ],
+    "meanSRGB": [
+      0.71030653475634,
+      0.6374178618249491,
+      0.6438915198019258
+    ],
+    "ranges": [
+      [
+        0.13009847700595856,
+        0.5186898708343506
+      ],
+      [
+        0.260570764541626,
+        0.551498532295227
+      ],
+      [
+        0.27223798632621765,
+        0.6208303570747375
+      ]
+    ],
+    "linearLuminance": {
+      "min": 0.3128277620732784,
+      "max": 0.4841133317321539,
+      "mean": 0.385584237101828
+    },
+    "sha256": "27799f2eb36426c4387d6b55d3f2ecf622c8e296ed4b3eb6ab52279731de6f52"
+  },
+  "inclusionCoverage": {
+    "totalArea": 60.961972571744546,
+    "weightedInclusionFraction": 0.17665756839715224,
+    "weightedInclusionPercent": 17.665756839715225,
+    "areaWithInclusionStrengthAboveHalfFraction": 0.16853675380276198,
+    "method": "Independently recomputed generator seam/fracture weights from exported triangle centroids in Blender coordinates, weighted by triangle area."
+  },
+  "boundaryUnchanged": {
+    "outer": true,
+    "pond": true
+  },
+  "geometryHealth": "Position and normal accessors are bit-exact across all 22 components. All oriented triangles and topology match Stage 2; its zero-error, clearance and opaque-ground validations remain applicable.",
+  "priorFullValidation": "opal-stage2-validation.json",
+  "scope": "Only underside COLOR_0 changes. No additional geometry, materials, transparency layers or mesh draws are introduced."
+}

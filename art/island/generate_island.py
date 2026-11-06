@@ -91,24 +91,39 @@ def iridescence(mat, strength, thickness):
 def mineral_grain(mat):
     import numpy as np
     generator = np.random.default_rng(8157)
-    height = generator.normal(0, 1, (512, 512))
-    height = (height + np.roll(height, 1, 0) + np.roll(height, 1, 1)) / 3
-    dx = (np.roll(height, 1, 1) - np.roll(height, -1, 1)) * .22
-    dy = (np.roll(height, 1, 0) - np.roll(height, -1, 0)) * .22
+    size = 256
+    y, x = np.mgrid[0:size, 0:size] / size
+    nearest = np.full((size, size), np.inf)
+    dx, dy = np.zeros_like(x), np.zeros_like(y)
+    # Bake softly dressed mineral platelets; no procedural fragment noise at runtime.
+    for row in range(21):
+        for column in range(21):
+            px, py = (column + generator.uniform(.15, .85)) / 21, (row + generator.uniform(.15, .85)) / 21
+            distance = (x - px) ** 2 + (y - py) ** 2
+            selected = distance < nearest
+            slope = generator.normal(0, .035, 2).clip(-.075, .075)
+            dx[selected], dy[selected] = slope
+            nearest[selected] = distance[selected]
+    for _ in range(2):
+        dx = (4 * dx + np.roll(dx, 1, 0) + np.roll(dx, -1, 0) + np.roll(dx, 1, 1) + np.roll(dx, -1, 1)) / 8
+        dy = (4 * dy + np.roll(dy, 1, 0) + np.roll(dy, -1, 0) + np.roll(dy, 1, 1) + np.roll(dy, -1, 1)) / 8
+    dx += .015 * np.sin(TAU * (x * 2 + y)) + generator.normal(0, .003, (size, size))
+    dy += .015 * np.cos(TAU * (y * 2 - x)) + generator.normal(0, .003, (size, size))
     vectors = np.stack((dx, dy, np.ones_like(dx)), axis=-1)
     vectors /= np.linalg.norm(vectors, axis=-1)[..., None]
-    pixels = np.concatenate((vectors * .5 + .5, np.ones((512, 512, 1))), axis=-1).astype(np.float32)
-    image = bpy.data.images.new('SUP Mineral micrograin 512', width=512, height=512, alpha=False)
+    pixels = np.concatenate((vectors * .5 + .5, np.ones((size, size, 1))), axis=-1).astype(np.float32)
+    image = bpy.data.images.new('SUP Polished opal platelets 256', width=size, height=size, alpha=False)
     image.colorspace_settings.name = 'Non-Color'
     image.pixels.foreach_set(pixels.ravel())
     image.pack()
     texture = mat.node_tree.nodes.new('ShaderNodeTexImage')
     texture.image = image
     normal = mat.node_tree.nodes.new('ShaderNodeNormalMap')
-    normal.inputs['Strength'].default_value = .16
+    normal.inputs['Strength'].default_value = .20
     mat.node_tree.links.new(texture.outputs['Color'], normal.inputs['Color'])
     shader = next(n for n in mat.node_tree.nodes if n.type == 'BSDF_PRINCIPLED')
     mat.node_tree.links.new(normal.outputs['Normal'], shader.inputs['Normal'])
+    # The outer polish stays smooth above the subtle mineral microfacets.
 
 
 class Geometry:
@@ -226,6 +241,8 @@ def pond_point(a, scale=1):
 
 
 def mineral_color(x, y, z, pale=False):
+    if pale:
+        return mix(rgb('BDDCD9'), rgb('DFD9E7'), .08 + .025 * field(x * .45, y * .45, 4))
     n = smooth(.5 + .72 * field(x * .54, y * .54, z * .65 + 2))
     if not pale:
         n = smooth(.5 + .32 * cos(math.atan2(y, x) - .2) + .30 * field(x * .7, y * .7, z * .5))
@@ -241,25 +258,28 @@ def surface_and_rim():
     outer = [(perimeter(a) * cos(a), perimeter(a) * sin(a)) for a in [TAU * i / count for i in range(count)]]
     shore = [pond_point(TAU * i / 64) for i in range(64)]
     points = outer + shore + [(0, 0)]
-    for ring in range(1, 23):
-        radius = ring * .18
-        samples = max(12, int(TAU * radius / .20))
-        for i in range(samples):
-            a = TAU * (i + .38 * (ring % 3)) / samples
-            r = radius + rng.uniform(-.018, .018)
-            x, y = r * cos(a), r * sin(a)
-            if r < perimeter(a) - .065 and not contains(x, y, shore) and min(math.hypot(x - px, y - py) for px, py in shore) > .065:
-                points.append((x, y))
     edges = [(i, (i + 1) % count) for i in range(count)] + [(count + i, count + (i + 1) % 64) for i in range(64)]
+    # A constrained flat ring isolates the flower bed from the gently raised perimeter.
+    flat_start = len(points)
+    points.extend((2.34 * cos(TAU * i / 64), 2.34 * sin(TAU * i / 64)) for i in range(64))
+    edges.extend((flat_start + i, flat_start + (i + 1) % 64) for i in range(64))
+    for radius, samples in [(1.15, 12), (2.95, 32), (3.50, 40)]:
+        for i in range(samples):
+            a = TAU * (i + .2) / samples
+            x, y = radius * cos(a), radius * sin(a)
+            if radius < perimeter(a) - .09 and not contains(x, y, shore) and min(math.hypot(x - px, y - py) for px, py in shore) > .12:
+                points.append((x, y))
+    # Keep downstream gravel and grass placement identical to the established asset.
+    for ring in range(1, 23):
+        for _ in range(max(12, int(TAU * ring * .18 / .20))):
+            rng.random()
     vertices, _, faces, *_ = delaunay_2d_cdt([Vector(p) for p in points], edges, [], 0, 1e-6)
     geo = Geometry()
     for x, y in vertices:
         geo.vertices.append((x, y, ground(x, y)))
         color = mineral_color(x, y, .3, True)
         grain = field(x * 17, y * 17, 2)
-        edge = smooth((math.hypot(x, y) - 2.35) / 1.3)
-        color = mix(color, mineral_color(x, y, -.7), edge * .30)
-        geo.colors.append(tuple(c * (1 + grain * .12) for c in color))
+        geo.colors.append(tuple(c * (1 + grain * .005) for c in color))
     for face in faces:
         x, y = [sum(vertices[i][j] for i in face) / len(face) for j in (0, 1)]
         if contains(x, y, outer) and not contains(x, y, shore):
@@ -366,13 +386,28 @@ def underside():
     bm.free()
     obj.data.update()
     tint = obj.data.color_attributes.new(name='Tint', type='FLOAT_COLOR', domain='CORNER')
+    inclusion_area, total_area = 0, 0
     for face in obj.data.polygons:
         center = face.center
-        color = mineral_color(*center)
-        band = .5 + .5 * sin(center.z * 3.5 + math.atan2(center.y, center.x) * 1.7)
-        color = mix(color, rgb('B9E4E2'), .11 * band + (.06 if face.use_smooth else 0))
+        x, y, z = center
+        bedding = .5 + .32 * field(x * .65, y * .65, z * .55 + 8)
+        color = mix(rgb('AC8984'), rgb('C1ADA0'), bedding)
+        color = mix(color, rgb('A18A9F'), .16 + .12 * sin(z * 2 + x))
+        # Dipping mineral beds and one oblique fracture expose connected colored facets.
+        seam = abs(z + 1.05 + .18 * x - .12 * y + .09 * sin(x * 1.4))
+        fracture = abs(.64 * x - .38 * y + .28 * z + .36)
+        inclusion = max(smooth((.18 - seam) / .10), .9 * smooth((.14 - fracture) / .08))
+        mineral = mix(rgb('63C3C8'), rgb('A78AD0'), .5 + .5 * sin(z * 2 + x * .8))
+        if y > .3 and z > -1.2:
+            mineral = mix(mineral, rgb('D6A1BB'), .30)
+        color = mix(color, mineral, inclusion)
+        if face.use_smooth:
+            color = mix(color, rgb('E3D4CC'), .14)
+        inclusion_area += face.area * inclusion
+        total_area += face.area
         for index in face.loop_indices:
             tint.data[index].color = (*color, 1)
+    obj['mineral_inclusion_area_fraction'] = inclusion_area / total_area
     obj.data.color_attributes.active_color = tint
     obj.data.color_attributes.render_color_index = 0
 
@@ -602,8 +637,8 @@ def preview_rig():
     scene.camera = camera
     for name, location, power, size, color in [
         ('Warm key', (5, -5, 8), 650, 4, 'FFF1E8'),
-        ('Cyan fill', (-4, -1, 3), 400, 3, 'C4ECF4'),
-        ('Lavender rim', (0, 5, 5.5), 950, 3, 'E7CCFA'),
+        ('Cyan fill', (3.8, 4, 2.5), 400, 3, 'C4ECF4'),
+        ('Lavender rim', (-2.8, 5, 2.5), 950, 3, 'E7CCFA'),
         ('Underside bounce', (-3, -4, -2.0), 120, 3, 'C0E8E9'),
     ]:
         data = bpy.data.lights.new('SUP ' + name, 'AREA')
@@ -655,7 +690,7 @@ def build():
         ('crystals', 'Island_Peripheral_Crystals'), ('ring', 'Island_Ornamental_Ring'),
         ('plants', 'Island_Vegetation'), ('accents', 'Island_Accents'), ('pond', 'Island_Pond')]}
     mats = {
-        'surface': material('SUP Opalescent ground', 'A2C8D8', .39, .035, painted=True),
+        'surface': material('SUP Opalescent ground', 'BDDCD9', .18, .02, painted=True),
         'mineral': material('SUP Layered turquoise mineral', '8CBACD', .32, .12, painted=True),
         'copper': material('SUP Brushed rose gold', 'DFABAA', .26, .60, painted=True),
         'gold': material('SUP Champagne gold', 'E6C299', .24, .55),
@@ -675,7 +710,14 @@ def build():
     mineral_shader = next(n for n in mats['mineral'].node_tree.nodes if n.type == 'BSDF_PRINCIPLED')
     mineral_shader.inputs['Coat Weight'].default_value = .22
     mineral_shader.inputs['Coat Roughness'].default_value = .24
-    # The broad ground uses inexpensive PBR reflections; thin-film coats stay on minerals.
+    iridescence(mats['surface'], .18, 410)
+    opal_shader = next(n for n in mats['surface'].node_tree.nodes if n.type == 'BSDF_PRINCIPLED')
+    # Match glTF's dielectric default and the app's Physical material response.
+    opal_shader.inputs['IOR'].default_value = 1.5
+    opal_shader.inputs['Coat Weight'].default_value = .55
+    opal_shader.inputs['Coat Roughness'].default_value = .10
+    opal_shader.inputs['Alpha'].default_value = 1
+    opal_shader.inputs['Transmission Weight'].default_value = 0
     mineral_grain(mats['surface'])
     surface_and_rim()
     underside()

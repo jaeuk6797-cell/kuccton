@@ -1,0 +1,769 @@
+{
+  "tag": "final",
+  "time": "2026-11-06T16:42:40.119Z",
+  "info": {
+    "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+    "canvas": [
+      780,
+      819
+    ],
+    "dpr": 1.5,
+    "toneMapping": 7,
+    "exposure": 1,
+    "outputColorSpace": "srgb",
+    "environmentIntensity": 0.55,
+    "passes": [
+      {
+        "name": "RenderPass",
+        "enabled": true
+      },
+      {
+        "name": "OutputPass",
+        "enabled": true
+      }
+    ],
+    "objects": [
+      {
+        "name": "타닥콩닥꽃",
+        "kind": "pair",
+        "position": [
+          -0.1207308704033494,
+          0,
+          0.7314516861923039
+        ]
+      },
+      {
+        "name": "살랑웅성꽃",
+        "kind": "pair",
+        "position": [
+          0.46300302911549807,
+          0,
+          1.4312063782475888
+        ]
+      },
+      {
+        "name": "타닥나무",
+        "kind": "flower",
+        "position": [
+          1.590052193030715,
+          0,
+          0.7971922869328409
+        ]
+      },
+      {
+        "name": "콩닥콩닥꽃",
+        "kind": "flower",
+        "position": [
+          -1.2092976868152618,
+          0,
+          1.773951774276793
+        ]
+      },
+      {
+        "name": "킥킥꽃",
+        "kind": "flower",
+        "position": [
+          -1.1430694490671158,
+          0,
+          0.3071280900854617
+        ]
+      },
+      {
+        "name": "살랑나무",
+        "kind": "flower",
+        "position": [
+          0.6343889150768518,
+          0,
+          0.26643168800510464
+        ]
+      },
+      {
+        "name": "웅성웅성꽃",
+        "kind": "flower",
+        "position": [
+          -0.45644662976264955,
+          0,
+          1.6461383739020674
+        ]
+      },
+      {
+        "name": "타닥타닥나무",
+        "kind": "flower",
+        "position": [
+          1.3820205345749856,
+          0,
+          -0.004869504412636161
+        ]
+      },
+      {
+        "name": "뚜벅나무",
+        "kind": "flower",
+        "position": [
+          -1.3477231968194248,
+          0,
+          -0.779242406366393
+        ]
+      }
+    ],
+    "island": [
+      "SOOP_Island"
+    ],
+    "memory": {
+      "geometries": 92,
+      "textures": 7
+    },
+    "programs": 11,
+    "glb": [
+      {
+        "size": 730580,
+        "duration": 42.19999998807907,
+        "response": 200
+      }
+    ],
+    "rayTimer": true
+  },
+  "views": [
+    {
+      "label": "default",
+      "samples": [
+        {
+          "world": [
+            0,
+            0.17,
+            0
+          ],
+          "framebufferPixel": [
+            390,
+            415
+          ],
+          "meanRGBA": [
+            215,
+            237,
+            242,
+            255
+          ]
+        },
+        {
+          "world": [
+            -1.1,
+            0.17,
+            0.1
+          ],
+          "framebufferPixel": [
+            296,
+            412
+          ],
+          "meanRGBA": [
+            226,
+            242,
+            246,
+            255
+          ]
+        },
+        {
+          "world": [
+            0.9,
+            0.17,
+            0.5
+          ],
+          "framebufferPixel": [
+            469,
+            399
+          ],
+          "meanRGBA": [
+            194,
+            222.33,
+            229.89,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            -1
+          ],
+          "framebufferPixel": [
+            390,
+            445
+          ],
+          "meanRGBA": [
+            214.89,
+            236.67,
+            241.78,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            1.25
+          ],
+          "framebufferPixel": [
+            390,
+            372
+          ],
+          "meanRGBA": [
+            208.89,
+            233.89,
+            239,
+            255
+          ]
+        }
+      ]
+    },
+    {
+      "label": "azimuth-left",
+      "samples": [
+        {
+          "world": [
+            0,
+            0.17,
+            0
+          ],
+          "framebufferPixel": [
+            390,
+            415
+          ],
+          "meanRGBA": [
+            189.78,
+            228,
+            241,
+            255
+          ]
+        },
+        {
+          "world": [
+            -1.1,
+            0.17,
+            0.1
+          ],
+          "framebufferPixel": [
+            310,
+            394
+          ],
+          "meanRGBA": [
+            182,
+            221,
+            233.56,
+            255
+          ]
+        },
+        {
+          "world": [
+            0.9,
+            0.17,
+            0.5
+          ],
+          "framebufferPixel": [
+            477,
+            416
+          ],
+          "meanRGBA": [
+            193,
+            228,
+            243,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            -1
+          ],
+          "framebufferPixel": [
+            350,
+            441
+          ],
+          "meanRGBA": [
+            189,
+            229,
+            242,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            1.25
+          ],
+          "framebufferPixel": [
+            447,
+            378
+          ],
+          "meanRGBA": [
+            187,
+            222.89,
+            237,
+            255
+          ]
+        }
+      ]
+    },
+    {
+      "label": "azimuth-right",
+      "samples": [
+        {
+          "world": [
+            0,
+            0.17,
+            0
+          ],
+          "framebufferPixel": [
+            390,
+            415
+          ],
+          "meanRGBA": [
+            199,
+            201,
+            240.33,
+            255
+          ]
+        },
+        {
+          "world": [
+            -1.1,
+            0.17,
+            0.1
+          ],
+          "framebufferPixel": [
+            307,
+            429
+          ],
+          "meanRGBA": [
+            202,
+            200,
+            243,
+            255
+          ]
+        },
+        {
+          "world": [
+            0.9,
+            0.17,
+            0.5
+          ],
+          "framebufferPixel": [
+            438,
+            385
+          ],
+          "meanRGBA": [
+            190.89,
+            200,
+            232.56,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            -1
+          ],
+          "framebufferPixel": [
+            430,
+            441
+          ],
+          "meanRGBA": [
+            200.78,
+            201,
+            242,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            1.25
+          ],
+          "framebufferPixel": [
+            333,
+            378
+          ],
+          "meanRGBA": [
+            196,
+            200,
+            238,
+            255
+          ]
+        }
+      ]
+    },
+    {
+      "label": "ground-close",
+      "samples": [
+        {
+          "world": [
+            0,
+            0.17,
+            0
+          ],
+          "framebufferPixel": [
+            368,
+            444
+          ],
+          "meanRGBA": [
+            161,
+            196,
+            206,
+            255
+          ]
+        },
+        {
+          "world": [
+            -1.1,
+            0.17,
+            0.1
+          ],
+          "framebufferPixel": [
+            191,
+            416
+          ],
+          "meanRGBA": [
+            168.56,
+            202,
+            211,
+            255
+          ]
+        },
+        {
+          "world": [
+            0.9,
+            0.17,
+            0.5
+          ],
+          "framebufferPixel": [
+            535,
+            428
+          ],
+          "meanRGBA": [
+            168,
+            204,
+            215,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            -1
+          ],
+          "framebufferPixel": [
+            330,
+            503
+          ],
+          "meanRGBA": [
+            167.22,
+            199.33,
+            210.33,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            1.25
+          ],
+          "framebufferPixel": [
+            429,
+            349
+          ],
+          "meanRGBA": [
+            159,
+            194,
+            204,
+            255
+          ]
+        }
+      ]
+    },
+    {
+      "label": "ground-low-angle",
+      "samples": [
+        {
+          "world": [
+            0,
+            0.17,
+            0
+          ],
+          "framebufferPixel": [
+            405,
+            415
+          ],
+          "meanRGBA": [
+            189.56,
+            191.67,
+            227.67,
+            255
+          ]
+        },
+        {
+          "world": [
+            -1.1,
+            0.17,
+            0.1
+          ],
+          "framebufferPixel": [
+            276,
+            429
+          ],
+          "meanRGBA": [
+            182.89,
+            186.89,
+            219.33,
+            255
+          ]
+        },
+        {
+          "world": [
+            0.9,
+            0.17,
+            0.5
+          ],
+          "framebufferPixel": [
+            480,
+            384
+          ],
+          "meanRGBA": [
+            194.33,
+            196,
+            233.78,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            -1
+          ],
+          "framebufferPixel": [
+            475,
+            437
+          ],
+          "meanRGBA": [
+            179.67,
+            184.67,
+            215.44,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            1.25
+          ],
+          "framebufferPixel": [
+            298,
+            380
+          ],
+          "meanRGBA": [
+            192.33,
+            194,
+            231.78,
+            255
+          ]
+        }
+      ]
+    },
+    {
+      "label": "ground-side",
+      "samples": [
+        {
+          "world": [
+            0,
+            0.17,
+            0
+          ],
+          "framebufferPixel": [
+            372,
+            415
+          ],
+          "meanRGBA": [
+            194,
+            220,
+            238,
+            255
+          ]
+        },
+        {
+          "world": [
+            -1.1,
+            0.17,
+            0.1
+          ],
+          "framebufferPixel": [
+            252,
+            384
+          ],
+          "meanRGBA": [
+            195.89,
+            228.89,
+            244,
+            255
+          ]
+        },
+        {
+          "world": [
+            0.9,
+            0.17,
+            0.5
+          ],
+          "framebufferPixel": [
+            510,
+            422
+          ],
+          "meanRGBA": [
+            180.11,
+            196.44,
+            214.33,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            -1
+          ],
+          "framebufferPixel": [
+            291,
+            442
+          ],
+          "meanRGBA": [
+            192.67,
+            219.67,
+            236.67,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            1.25
+          ],
+          "framebufferPixel": [
+            494,
+            376
+          ],
+          "meanRGBA": [
+            191,
+            212.33,
+            231,
+            255
+          ]
+        }
+      ]
+    },
+    {
+      "label": "underside-close",
+      "samples": [
+        {
+          "world": [
+            0,
+            0.17,
+            0
+          ],
+          "framebufferPixel": [
+            390,
+            623
+          ],
+          "meanRGBA": [
+            161,
+            176.56,
+            195,
+            255
+          ]
+        },
+        {
+          "world": [
+            -1.1,
+            0.17,
+            0.1
+          ],
+          "framebufferPixel": [
+            219,
+            624
+          ],
+          "meanRGBA": [
+            163,
+            171.67,
+            194,
+            255
+          ]
+        },
+        {
+          "world": [
+            0.9,
+            0.17,
+            0.5
+          ],
+          "framebufferPixel": [
+            523,
+            616
+          ],
+          "meanRGBA": [
+            166,
+            185,
+            201,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            -1
+          ],
+          "framebufferPixel": [
+            422,
+            630
+          ],
+          "meanRGBA": [
+            159.67,
+            176.33,
+            194.33,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            1.25
+          ],
+          "framebufferPixel": [
+            337,
+            610
+          ],
+          "meanRGBA": [
+            162,
+            175.89,
+            196,
+            255
+          ]
+        }
+      ]
+    }
+  ],
+  "sampling": "3x3 average post-OutputPass framebuffer RGBA at fixed world points; idle bob frozen; flowers hidden during samples; byte values in display output",
+  "logs": [
+    "THREE.Clock: This module has been deprecated. Please use THREE.Timer instead."
+  ],
+  "responses": [
+    {
+      "status": 200,
+      "type": "model/gltf-binary",
+      "url": "http://127.0.0.1:5173/models/island.glb"
+    }
+  ],
+  "failures": []
+}

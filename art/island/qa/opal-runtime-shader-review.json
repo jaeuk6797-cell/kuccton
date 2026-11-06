@@ -1,0 +1,46 @@
+{
+  "scope": "Read-only review of applyOpalReflection in src/components/Island3D.jsx against installed Three.js 0.187.0.",
+  "compatibleWithInstalledRenderer": true,
+  "opacityRiskFound": false,
+  "runtimeNativeIridescence": 0,
+  "nativeFallbackIridescenceInGLB": 0.18,
+  "nativeIridescenceDecision": "Disabled only on the shared ground/basin runtime material after alternating same-context feature tests found about 9% lower SwiftShader frame time and effectively equivalent default and +/-30-degree views; see opal-feature-cost.",
+  "mechanism": "The onBeforeCompile hook tints reflectedLight.indirectDiffuse and reflectedLight.indirectSpecular using reflected world direction and a bounded fifth-power grazing term.",
+  "boundaries": {
+    "alphaUnchanged": true,
+    "transmissionUnchanged": true,
+    "directLightingUnchanged": true,
+    "nativeClearcoatUnchanged": true,
+    "contactShadowCodeUnchanged": true,
+    "newTextureLookups": 0,
+    "newRenderPasses": 0,
+    "repeatInstallationGuard": true,
+    "sharedGroundAndPondBasinMaterial": true
+  },
+  "multipliers": {
+    "tintChannelRange": [
+      0.72,
+      1.18
+    ],
+    "indirectDiffuseWeightRange": [
+      0.45,
+      0.9
+    ],
+    "indirectSpecularWeightRange": [
+      0.65,
+      0.9
+    ],
+    "resultingMaximumChannelMultiplier": 1.162,
+    "resultingMinimumChannelMultiplier": 0.748
+  },
+  "compatibilityEvidence": [
+    "Installed meshphysical shader includes aomap_fragment after lighting evaluation and before reflected-light totals.",
+    "geometryNormal and geometryViewDir are defined in lights_fragment_begin.",
+    "transformDirectionByInverseViewMatrix exists in common.glsl.js.",
+    "Canonical material name SUP Opalescent ground matches the material-name guard.",
+    "Custom cache key is distinct and the previous onBeforeCompile callback is preserved."
+  ],
+  "portability": "This shader extension and PMREM lighting setup are application code. They are not exported in island.glb or reproduced by the Blender preview. The standalone asset retains its native opaque metallic-roughness PBR, clearcoat and iridescence.",
+  "maintenance": "Shader-chunk integration should be checked when upgrading Three.js. The present installed shader API matches the hook.",
+  "validationLimit": "Static compatibility/opacity review; browser shader compilation, rendered appearance, interactions and performance are recorded by the browser QA agent."
+}

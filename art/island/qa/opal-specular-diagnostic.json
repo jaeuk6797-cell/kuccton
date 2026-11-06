@@ -1,0 +1,89 @@
+{
+  "purpose": "Read-only diagnostic during reflection tuning; not the final asset validation.",
+  "assetSha256": "60b113aedefd94535a584c8f039403c69e2c1dbc2c3d2993fdebd190047eb70b",
+  "exportedGroundMaterial": {
+    "extensions": {
+      "KHR_materials_clearcoat": {
+        "clearcoatFactor": 0.550000011920929,
+        "clearcoatRoughnessFactor": 0.10000000149011612
+      },
+      "KHR_materials_iridescence": {
+        "iridescenceFactor": 0.18000000715255737,
+        "iridescenceThicknessMaximum": 410
+      }
+    },
+    "name": "SUP Opalescent ground",
+    "normalTexture": {
+      "index": 0,
+      "scale": 0.550000011920929
+    },
+    "pbrMetallicRoughness": {
+      "metallicFactor": 0.019999999552965164,
+      "roughnessFactor": 0.18000000715255737
+    }
+  },
+  "loadedGroundMaterial": {
+    "name": "SUP Opalescent ground",
+    "type": "MeshPhysicalMaterial",
+    "transparent": false,
+    "opacity": 1,
+    "transmission": 0,
+    "clearcoat": 0.550000011920929,
+    "ior": 1.5,
+    "specularIntensity": 1,
+    "specularColor": [
+      1,
+      1,
+      1
+    ],
+    "roughness": 0.18000000715255737,
+    "metalness": 0.019999999552965164,
+    "reflectivity": 0.5,
+    "iridescence": 0.18000000715255737,
+    "color": [
+      1,
+      1,
+      1
+    ],
+    "vertexColors": true
+  },
+  "normalStats": {
+    "minY": 0.7008686661720276,
+    "maxY": 1,
+    "minLength": 0.9999999192505008,
+    "maxLength": 1.0000000869613632,
+    "centralMinimumY": 1
+  },
+  "findings": {
+    "specularEnabled": true,
+    "loadedSpecularIntensity": 1,
+    "loadedSpecularColor": [
+      1,
+      1,
+      1
+    ],
+    "authoredIOR": 1.46,
+    "exportedIORExtension": false,
+    "loadedIOR": 1.5,
+    "normalIncidenceDielectricF0": 0.04,
+    "iorInterpretation": "Ground omits KHR_materials_ior and therefore loads with the Three.js/glTF default 1.5. This gives slightly stronger F0 than authored 1.46, so it does not explain weak reflection.",
+    "roughness": 0.18,
+    "roughnessMap": false,
+    "shaderMinimumRoughness": 0.045,
+    "clearcoat": 0.55,
+    "clearcoatRoughness": 0.1,
+    "clearcoatNormalMap": false,
+    "baseNormalStrength": 0.55,
+    "baseNormalColorSpace": "NoColorSpace",
+    "centralNormalsExactlyUp": true,
+    "unexpectedSpecularSuppression": false
+  },
+  "implementationEvidence": [
+    "node_modules/three/src/materials/MeshPhysicalMaterial.js:163",
+    "node_modules/three/src/materials/MeshPhysicalMaterial.js:344",
+    "node_modules/three/src/materials/MeshPhysicalMaterial.js:364",
+    "node_modules/three/src/renderers/shaders/ShaderChunk/lights_physical_fragment.glsl.js:12",
+    "node_modules/three/src/renderers/shaders/ShaderChunk/lights_physical_fragment.glsl.js:61"
+  ],
+  "scope": "No Blender/source mutations. Geometry and full saved-source verification remain for the final export."
+}

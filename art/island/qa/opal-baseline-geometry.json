@@ -1,0 +1,2817 @@
+{
+  "baselineCommit": "32cf717",
+  "path": "public/models/island.glb",
+  "bytes": 1355428,
+  "sha256": "67276ab06dbe18b066ad75ab24a3c2ce47654c94ad768af7bdbaaeb69fec2ce4",
+  "quantizationUnits": 0.000001,
+  "components": [
+    {
+      "name": "Island_Accents | Luminous filament tips",
+      "primitiveIndex": 0,
+      "triangles": 1260,
+      "vertices": 756,
+      "uniquePositions": 756,
+      "edges": 1890,
+      "boundaryEdges": 0,
+      "nonmanifoldEdges": 0,
+      "positionAccessorSHA256": "d961e9f0fe33b158c13aa42deef0415da3ce2980c0ad1f80125419be3b4068f9",
+      "indexAccessorSHA256": "7ae2902b30b6a4cb55cc7452349c7f92b73d23a88aa2cc5c18001c8fa3207225",
+      "normalAccessorSHA256": "cc2d01769a19a2b6c6b9754f6752ab45dfcfe0818df3b32733da91bbc4bcc7c7",
+      "canonicalPositionsSHA256": "472b9600c4cfbeb308a015c1b553eb7ce54cb3f4bd1620ebde185dc5a8e119a7",
+      "canonicalOrientedTrianglesSHA256": "b10760c4d1bb52a5209671eb3af19d92c45ee108acbbfde7d605a9872ff4d88e",
+      "canonicalTopologySHA256": "b5e8625422ea37fb17a4df35a7613ac7a7d2919705d5ca3a4bfc09e4c97d5fd3",
+      "nodeTransform": {
+        "matrix": null,
+        "translation": [
+          0,
+          0,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "bounds": {
+        "min": [
+          -3.5419750213623047,
+          0.07111593335866928,
+          -3.659031629562378
+        ],
+        "max": [
+          3.607966184616089,
+          0.3112964332103729,
+          3.4923276901245117
+        ]
+      },
+      "material": "SUP Warm luminous filaments"
+    },
+    {
+      "name": "Island_Accents | Scattered opal gravel",
+      "primitiveIndex": 0,
+      "triangles": 1152,
+      "vertices": 3456,
+      "uniquePositions": 768,
+      "edges": 1728,
+      "boundaryEdges": 0,
+      "nonmanifoldEdges": 0,
+      "positionAccessorSHA256": "619c9c7e3ff52b18f46eaee04bcf92379cca715cd1c581baa997c6b9709ad94a",
+      "indexAccessorSHA256": "87cd4cba44e6fa6814d12e8a2a58595a80ee84247b781c64f24aad6a3ba317c3",
+      "normalAccessorSHA256": "6ef5b8984c9936585b3cc359c30160e41c0ec7b20712e00236c5def36f50e24b",
+      "canonicalPositionsSHA256": "980dcb1d98fb62bb0c1f90a3efa1e5f0abb422843a70368df0ff3f9d4ffc731d",
+      "canonicalOrientedTrianglesSHA256": "134bab2bba510f02896f974bfcb386d19f4a62c57cb8b7e3ca0387b44a70ac3d",
+      "canonicalTopologySHA256": "7e53e462279f8873f76124fd4476e4f50f1debe99f238fc018f31467f71f8fae",
+      "nodeTransform": {
+        "matrix": null,
+        "translation": [
+          0,
+          0,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "bounds": {
+        "min": [
+          -3.543649196624756,
+          -0.056071504950523376,
+          -3.6607682704925537
+        ],
+        "max": [
+          3.708854913711548,
+          0.10341421514749527,
+          3.510329484939575
+        ]
+      },
+      "material": "SUP Layered turquoise mineral",
+      "vertexColor": {
+        "storage": 5126,
+        "type": "VEC3",
+        "normalized": false,
+        "meanLinear": [
+          0.45091244737031283,
+          0.44651531372046854,
+          0.6583378859536929
+        ],
+        "meanSRGB": [
+          0.702049400154652,
+          0.698964576956382,
+          0.8313518316865125
+        ],
+        "ranges": [
+          [
+            0.09084171056747437,
+            0.7872841358184814
+          ],
+          [
+            0.14702726900577545,
+            0.7752273082733154
+          ],
+          [
+            0.4564110338687897,
+            0.8225607872009277
+          ]
+        ],
+        "linearLuminance": {
+          "min": 0.15741972710490226,
+          "max": 0.7266286503434181,
+          "mean": 0.4627437340496674
+        },
+        "sha256": "b554a4a3d546529d87f08a5d356a10afa5e5419db428fda60f6248117a1a8548"
+      }
+    },
+    {
+      "name": "Island_Crystal_Underside | Asymmetric mineral keel",
+      "primitiveIndex": 0,
+      "triangles": 1089,
+      "vertices": 3267,
+      "uniquePositions": 585,
+      "edges": 1673,
+      "boundaryEdges": 79,
+      "nonmanifoldEdges": 0,
+      "positionAccessorSHA256": "c5ce7e7dc06651873c398a4f4d4e4d7f9a45f1fa2c7a2c06f1755382147aa946",
+      "indexAccessorSHA256": "cf192b1ac2e9c620836e26fb52567826abd7b2f76a12464aceca26b4aa6ea3a2",
+      "normalAccessorSHA256": "34e406b72b079cbf3023a7f4d571ea12962ecbfdc5baccfdabb5579202268409",
+      "canonicalPositionsSHA256": "e1833cf43d21288b5efd38c25855f7eb7824209ad761e6993a16dd4bf09fec41",
+      "canonicalOrientedTrianglesSHA256": "2b2e0631ff509c2d3f14ef8e80b885504ed70367dfbb7adcad561933e41b3a1e",
+      "canonicalTopologySHA256": "7e7b07f28e0f847142e687efa63b97c073449f898d8f0f65851419d778aa6b63",
+      "nodeTransform": {
+        "matrix": null,
+        "translation": [
+          0,
+          0,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "bounds": {
+        "min": [
+          -3.878024101257324,
+          -2.859999895095825,
+          -3.8321361541748047
+        ],
+        "max": [
+          3.9583873748779297,
+          -0.021210383623838425,
+          3.760780096054077
+        ]
+      },
+      "material": "SUP Layered turquoise mineral",
+      "vertexColor": {
+        "storage": 5126,
+        "type": "VEC3",
+        "normalized": false,
+        "meanLinear": [
+          0.24466684450377446,
+          0.46446930360531347,
+          0.5822926424751597
+        ],
+        "meanSRGB": [
+          0.5318026863173516,
+          0.7114512733914442,
+          0.7871601146811174
+        ],
+        "ranges": [
+          [
+            0.12149368971586227,
+            0.356626033782959
+          ],
+          [
+            0.3284018337726593,
+            0.5518362522125244
+          ],
+          [
+            0.5031817555427551,
+            0.6275263428688049
+          ]
+        ],
+        "linearLuminance": {
+          "min": 0.3492658300042152,
+          "max": 0.48206278872489927,
+          "mean": 0.4262461458667292
+        },
+        "sha256": "f88a20f3308e810da21c7357426466abba0725ee56e721e391732a1a620b9423"
+      }
+    },
+    {
+      "name": "Island_Metal_Rim | Champagne upper seam",
+      "primitiveIndex": 0,
+      "triangles": 1024,
+      "vertices": 512,
+      "uniquePositions": 512,
+      "edges": 1536,
+      "boundaryEdges": 0,
+      "nonmanifoldEdges": 0,
+      "positionAccessorSHA256": "d80adce4928112b08d836267acbc96c4e85763c09f899c293cd8882c34141643",
+      "indexAccessorSHA256": "22e33efbddb752bf6dd3074fbfb68b301b3aa3407c2ca1bb535511e600e8bbc7",
+      "normalAccessorSHA256": "5552cdb839df83b023ec36039babf6a98ab79dc0fcd966f121e7a9b2a789eb49",
+      "canonicalPositionsSHA256": "2e0bed3572fa12123453f8371adc60deecf62d7555595f1200ae88b7a49140d6",
+      "canonicalOrientedTrianglesSHA256": "0e1ce7d3a74dd338f6318009f04f5dfffaf65eb43536a0f600cdc10f992529bd",
+      "canonicalTopologySHA256": "eb138a0b0814ddbde820d05f6ff6a37a1601de6e0e2da98f0db2229544fa8706",
+      "nodeTransform": {
+        "matrix": null,
+        "translation": [
+          0,
+          0,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "bounds": {
+        "min": [
+          -3.904919385910034,
+          0.017249738797545433,
+          -3.858903646469116
+        ],
+        "max": [
+          3.985159397125244,
+          0.06440245360136032,
+          3.7875478267669678
+        ]
+      },
+      "material": "SUP Champagne gold"
+    },
+    {
+      "name": "Island_Metal_Rim | Contour-following rose-gold seam",
+      "primitiveIndex": 0,
+      "triangles": 1536,
+      "vertices": 768,
+      "uniquePositions": 768,
+      "edges": 2304,
+      "boundaryEdges": 0,
+      "nonmanifoldEdges": 0,
+      "positionAccessorSHA256": "e005c012849e58b06ec35ce44610591171e6fe47e78f44945eddf5785e5bedd1",
+      "indexAccessorSHA256": "afea311c7973a2994bdaed5d6cddf2e6cb18d02451c63931afb80bfe48c859d8",
+      "normalAccessorSHA256": "6b6a99d132c11a3a62dcff9323b9fa5574eb5c3290e0a9ca7c3477a58d6e4f99",
+      "canonicalPositionsSHA256": "ceb054e72bbb26ebec9c8475f960dafbd1973540af904828246e79c76c635894",
+      "canonicalOrientedTrianglesSHA256": "2b45c64986a872200f373e76ca6b1edae347be22d6702f7b9877b72a58f21758",
+      "canonicalTopologySHA256": "f15c7f046c02ef251999885d5a92b8f23620f28ce6b8232779e916add6133916",
+      "nodeTransform": {
+        "matrix": null,
+        "translation": [
+          0,
+          0,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "bounds": {
+        "min": [
+          -3.925792932510376,
+          -0.11659105867147446,
+          -3.8796164989471436
+        ],
+        "max": [
+          4.005867958068848,
+          0.0573025681078434,
+          3.808260440826416
+        ]
+      },
+      "material": "SUP Brushed rose gold",
+      "vertexColor": {
+        "storage": 5126,
+        "type": "VEC3",
+        "normalized": false,
+        "meanLinear": [
+          0.704440837725997,
+          0.4155335542745888,
+          0.3678429117426276
+        ],
+        "meanSRGB": [
+          0.8567050176758726,
+          0.676708894257203,
+          0.6404700885499965
+        ],
+        "ranges": [
+          [
+            0.5598949790000916,
+            0.852898895740509
+          ],
+          [
+            0.2796745002269745,
+            0.5550696849822998
+          ],
+          [
+            0.32713407278060913,
+            0.40965354442596436
+          ]
+        ],
+        "linearLuminance": {
+          "min": 0.3426759551525116,
+          "max": 0.6078891298413277,
+          "mean": 0.4735119783455499
+        },
+        "sha256": "e2b22aebbfcdc7d8bd984190af9528d245fc10e235e4ee6ad247584c1c68e15f"
+      }
+    },
+    {
+      "name": "Island_Ornamental_Ring | Fine golden resonator",
+      "primitiveIndex": 0,
+      "triangles": 2348,
+      "vertices": 1186,
+      "uniquePositions": 1186,
+      "edges": 3522,
+      "boundaryEdges": 0,
+      "nonmanifoldEdges": 0,
+      "positionAccessorSHA256": "4af9524b6a1d983c68e634e08b48b501cde55e3c74be06571eb7a58166df1b9f",
+      "indexAccessorSHA256": "7309642d41b150f13d1f9df4fd383cb240504aa583fd0253f02407010f2cf0d5",
+      "normalAccessorSHA256": "80717c7c5a8c6d45c43af9451ec312122e2307aac5699793aa2be642d042732d",
+      "canonicalPositionsSHA256": "9be6a284001c0bc1f6531ecbf6c6520e960b113c4ad941a0590d3dcb57ae9eda",
+      "canonicalOrientedTrianglesSHA256": "9c725946e27e9cc3bca86e898995c3f3ab70462fbc012225767c76d77378f844",
+      "canonicalTopologySHA256": "4bb1c7d6cb55e31af681aa4ac0f3f7ba826b493e41cb26e007bbb072d92e0c80",
+      "nodeTransform": {
+        "matrix": null,
+        "translation": [
+          0,
+          0,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "bounds": {
+        "min": [
+          -1.5890783071517944,
+          -0.009999990463256836,
+          -3.072999954223633
+        ],
+        "max": [
+          0.21948008239269257,
+          1.7728016376495361,
+          -3.006999969482422
+        ]
+      },
+      "material": "SUP Champagne gold"
+    },
+    {
+      "name": "Island_Ornamental_Ring | Opal feet",
+      "primitiveIndex": 0,
+      "triangles": 160,
+      "vertices": 84,
+      "uniquePositions": 84,
+      "edges": 240,
+      "boundaryEdges": 0,
+      "nonmanifoldEdges": 0,
+      "positionAccessorSHA256": "c2fcb31049a4a55c4b6a4916d8e2f8f8fc19ad827c092d94f7359abf8a646169",
+      "indexAccessorSHA256": "7db2d4036152166c52c3e7d268d01474d0a999e9015947dafdc0a127045b18dd",
+      "normalAccessorSHA256": "0e1040394249e85e3bdb25eceddfb05cb08c92de30a9f513831481ec7ae3ad7c",
+      "canonicalPositionsSHA256": "2b806b359a37250003a28e8e2fb6b1a4eaf8ba775b293ac0a4b0b5ba615a5e9e",
+      "canonicalOrientedTrianglesSHA256": "94b6b0f5c283200257a029bb0e2cb57cd09ef416ccce85cd7e5c1d17ae65898b",
+      "canonicalTopologySHA256": "240c1866b7f0be272d402cef080922184733c3129a45e7fd8a3d1993002eb44c",
+      "nodeTransform": {
+        "matrix": null,
+        "translation": [
+          0,
+          0,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "bounds": {
+        "min": [
+          -1.149181604385376,
+          -0.0504516139626503,
+          -3.1796422004699707
+        ],
+        "max": [
+          -0.25807690620422363,
+          0.10045937448740005,
+          -2.896763563156128
+        ]
+      },
+      "material": "SUP Layered turquoise mineral",
+      "vertexColor": {
+        "storage": 5126,
+        "type": "VEC3",
+        "normalized": false,
+        "meanLinear": [
+          0.2356684427885782,
+          0.44800120556638356,
+          0.5826675529990878
+        ],
+        "meanSRGB": [
+          0.5227120014325217,
+          0.7000089834248329,
+          0.7873860001115629
+        ],
+        "ranges": [
+          [
+            0.2191840559244156,
+            0.2525985836982727
+          ],
+          [
+            0.41938289999961853,
+            0.46944713592529297
+          ],
+          [
+            0.5702316761016846,
+            0.5914979577064514
+          ]
+        ],
+        "linearLuminance": {
+          "min": 0.3938231633633375,
+          "max": 0.426921617808938,
+          "mean": 0.4125821704844632
+        },
+        "sha256": "7b63efbfbc4e86cb2647cb162a560abbc0d82188a4bb71b1c4dac9a873ea7968"
+      }
+    },
+    {
+      "name": "Island_Peripheral_Crystals | Cluster 1 facet family 1",
+      "primitiveIndex": 0,
+      "triangles": 68,
+      "vertices": 144,
+      "uniquePositions": 38,
+      "edges": 102,
+      "boundaryEdges": 0,
+      "nonmanifoldEdges": 0,
+      "positionAccessorSHA256": "185063e5f60d0d68d147ffe465a5cc1d1463c4835796c669414f372ec92a9b93",
+      "indexAccessorSHA256": "a4755d32e1109ffe8f60f7c860a50752d0a630a972ac40b32a9de115b6c463ec",
+      "normalAccessorSHA256": "a420d4325fc99775bf76fdfc4f2d5d2807195042b37ad4ef51d34d068ef72aba",
+      "canonicalPositionsSHA256": "cd04f8bbac4e5d6791284b3049996b70495e7cea24ee793f05f61ec14d468758",
+      "canonicalOrientedTrianglesSHA256": "a2f8e2c47d8cbde91fd383676fa764dfa9040bcf5fde7dc0b2ba7a475b2983e9",
+      "canonicalTopologySHA256": "9b50fe29af09ddf7c43ae20adcdf35725e467e5bae63833d74968572a0d23dfe",
+      "nodeTransform": {
+        "matrix": null,
+        "translation": [
+          0,
+          0,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "bounds": {
+        "min": [
+          -3.0023036003112793,
+          -0.04541908577084541,
+          -1.1338518857955933
+        ],
+        "max": [
+          -2.563218832015991,
+          1.3876912593841553,
+          -0.31134989857673645
+        ]
+      },
+      "material": "SUP Lavender quartz",
+      "vertexColor": {
+        "storage": 5123,
+        "type": "VEC4",
+        "normalized": true,
+        "meanLinear": [
+          0.31405175775455024,
+          0.2962865474767511,
+          0.5690097742512479,
+          0.6110541017098576
+        ],
+        "meanSRGB": [
+          0.5961328978097976,
+          0.5805246964181199,
+          0.7791017116211272
+        ],
+        "ranges": [
+          [
+            0.0908369573510338,
+            0.579095140001526
+          ],
+          [
+            0.08720531013962005,
+            0.615533684290837
+          ],
+          [
+            0.39856565194171056,
+            0.7139391165026322
+          ],
+          [
+            0.3940947585259785,
+            0.7699855039291982
+          ]
+        ],
+        "linearLuminance": {
+          "min": 0.12606807049668114,
+          "max": 0.5346367223620966,
+          "mean": 0.3197540481549298
+        },
+        "sha256": "c03ab6fb2a5808f0f7598e7ac618362289e0d2134253410044d0c01005c5855c"
+      }
+    },
+    {
+      "name": "Island_Peripheral_Crystals | Cluster 1 facet family 2",
+      "primitiveIndex": 0,
+      "triangles": 68,
+      "vertices": 144,
+      "uniquePositions": 38,
+      "edges": 102,
+      "boundaryEdges": 0,
+      "nonmanifoldEdges": 0,
+      "positionAccessorSHA256": "7061d20a497152c4cdf47eb4a56713e815a2c56147c44a3034a3d50ea546828a",
+      "indexAccessorSHA256": "a4755d32e1109ffe8f60f7c860a50752d0a630a972ac40b32a9de115b6c463ec",
+      "normalAccessorSHA256": "8dc0c3d284a7e0d89d69a6f5e5b8e134de48f0ac988089c39a01953cf4885cc4",
+      "canonicalPositionsSHA256": "b1a1df4d39bd542891ffd345bbd2b91e30756dfc1415de40d4ce1bd25baf4459",
+      "canonicalOrientedTrianglesSHA256": "4489c0c0e4c8213c340de61d926c983266bd7a9a7c5ad7bf34c8a70844b590e2",
+      "canonicalTopologySHA256": "c44f9bab291a61d53cd761427ed6f68a708bf6d5aaf89ae2235ba54363a93b95",
+      "nodeTransform": {
+        "matrix": null,
+        "translation": [
+          0,
+          0,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "bounds": {
+        "min": [
+          -3.3682315349578857,
+          -0.0670432522892952,
+          -1.115022897720337
+        ],
+        "max": [
+          -2.173940658569336,
+          0.8493976593017578,
+          -0.5798811912536621
+        ]
+      },
+      "material": "SUP Cyan quartz",
+      "vertexColor": {
+        "storage": 5123,
+        "type": "VEC4",
+        "normalized": true,
+        "meanLinear": [
+          0.2865998236735249,
+          0.44984126378610284,
+          0.6339125403728287,
+          0.6221983800005085
+        ],
+        "meanSRGB": [
+          0.5717833132924605,
+          0.7012995303775408,
+          0.8174984939939934
+        ],
+        "ranges": [
+          [
+            0.06004425116350042,
+            0.5515373464560922
+          ],
+          [
+            0.2158541237506676,
+            0.7772182803082323
+          ],
+          [
+            0.4421759365224689,
+            0.8186923018234531
+          ],
+          [
+            0.390249485008011,
+            0.7696192874036775
+          ]
+        ],
+        "linearLuminance": {
+          "min": 0.23321115739681086,
+          "max": 0.7290667277027543,
+          "mean": 0.42842607978772995
+        },
+        "sha256": "6fdeea4b5a2a98627deb6497d69004d934f71106da14652df217b015e5a07246"
+      }
+    },
+    {
+      "name": "Island_Peripheral_Crystals | Cluster 1 facet family 3",
+      "primitiveIndex": 0,
+      "triangles": 34,
+      "vertices": 72,
+      "uniquePositions": 19,
+      "edges": 51,
+      "boundaryEdges": 0,
+      "nonmanifoldEdges": 0,
+      "positionAccessorSHA256": "f87a1ba5b897b0aa3925f410dbec3f4d9d50cce4dc16047d936d9f8e51daa619",
+      "indexAccessorSHA256": "b21d4e05ba0b31d571ac7def1ea720f5af28cd3e4b948915c2b6b83b9df3484f",
+      "normalAccessorSHA256": "48e6b486be4d7a83f5ebf5104515b1b167647bea2d83ce0fea6ca29ea8fafd5c",
+      "canonicalPositionsSHA256": "c4366b29785e02b9e394a338a780ed38d70abcf3a428ce35c23949180aaed021",
+      "canonicalOrientedTrianglesSHA256": "e3412a80202cdbff1abe541d9421c7f1ba9f817efe5d87c0c8d340cd1e776447",
+      "canonicalTopologySHA256": "d6c83755f407dd7ecda770f17c4d6dd4d667a988b0c45dedc319bb966fe5c13e",
+      "nodeTransform": {
+        "matrix": null,
+        "translation": [
+          0,
+          0,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "bounds": {
+        "min": [
+          -3.406660318374634,
+          -0.03028452768921852,
+          -1.1681547164916992
+        ],
+        "max": [
+          -2.9685564041137695,
+          1.0264900922775269,
+          -0.9237017631530762
+        ]
+      },
+      "material": "SUP Pink opal",
+      "vertexColor": {
+        "storage": 5123,
+        "type": "VEC4",
+        "normalized": true,
+        "meanLinear": [
+          0.480406780092063,
+          0.4638028449598602,
+          0.6566845112450513,
+          0.621890338495969
+        ],
+        "meanSRGB": [
+          0.7223016620545262,
+          0.7109928451626828,
+          0.8304236440618348
+        ],
+        "ranges": [
+          [
+            0.18782330052643625,
+            0.7836423285267414
+          ],
+          [
+            0.1748531319142443,
+            0.7459220263981079
+          ],
+          [
+            0.5228656443121996,
+            0.8252994583047226
+          ],
+          [
+            0.40035095750362404,
+            0.7627679865720607
+          ]
+        ],
+        "linearLuminance": {
+          "min": 0.23004890211337453,
+          "max": 0.71465448081178,
+          "mean": 0.4812588978747573
+        },
+        "sha256": "f6f831f187823d4c3a5bb638d65d8e268bb813c40861fa221f2e02f07166fc5a"
+      }
+    },
+    {
+      "name": "Island_Peripheral_Crystals | Cluster 2 facet family 1",
+      "primitiveIndex": 0,
+      "triangles": 68,
+      "vertices": 144,
+      "uniquePositions": 38,
+      "edges": 102,
+      "boundaryEdges": 0,
+      "nonmanifoldEdges": 0,
+      "positionAccessorSHA256": "9417d94ca8a5e126fc38a169231b5cfb411302c40d680bef26ab362f1245f66f",
+      "indexAccessorSHA256": "a4755d32e1109ffe8f60f7c860a50752d0a630a972ac40b32a9de115b6c463ec",
+      "normalAccessorSHA256": "735bc547e88792bba11a9b8f90ba6e770d78af1b9a390a008d0aef0c95ad1a7a",
+      "canonicalPositionsSHA256": "0d1032d9965d2c0a3c3c1494fadb913d20a2507c5d30634ac7acae36e091bea7",
+      "canonicalOrientedTrianglesSHA256": "c2f6821002c6dd59e4c904a7c079db2c16a1e0467fb7d4f38c56744ef9f870a8",
+      "canonicalTopologySHA256": "180d3b00a038a4295fb67db898bd03a22cd8771907328f20438cb26d89c8e352",
+      "nodeTransform": {
+        "matrix": null,
+        "translation": [
+          0,
+          0,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "bounds": {
+        "min": [
+          2.2039706707000732,
+          -0.03636540472507477,
+          -2.6539039611816406
+        ],
+        "max": [
+          2.5500857830047607,
+          1.1301751136779785,
+          -1.958937406539917
+        ]
+      },
+      "material": "SUP Lavender quartz",
+      "vertexColor": {
+        "storage": 5123,
+        "type": "VEC4",
+        "normalized": true,
+        "meanLinear": [
+          0.3068807592211117,
+          0.2915960936903946,
+          0.5673353085289451,
+          0.6198659749243407
+        ],
+        "meanSRGB": [
+          0.5898962000602218,
+          0.5763131496495676,
+          0.7780780946353493
+        ],
+        "ranges": [
+          [
+            0.0908369573510338,
+            0.6025482566567483
+          ],
+          [
+            0.08438239108873122,
+            0.629907682917525
+          ],
+          [
+            0.39674982833600364,
+            0.7242694743266956
+          ],
+          [
+            0.3903105210955978,
+            0.7697261005569543
+          ]
+        ],
+        "linearLuminance": {
+          "min": 0.12344438239108874,
+          "max": 0.5520634042877851,
+          "mean": 0.31475398489356815
+        },
+        "sha256": "669be1ae89f54e98df697f0109591d6f48007d50c752cf6b97aa6c646e8151d8"
+      }
+    },
+    {
+      "name": "Island_Peripheral_Crystals | Cluster 2 facet family 2",
+      "primitiveIndex": 0,
+      "triangles": 34,
+      "vertices": 72,
+      "uniquePositions": 19,
+      "edges": 51,
+      "boundaryEdges": 0,
+      "nonmanifoldEdges": 0,
+      "positionAccessorSHA256": "feef3e5936a883cc42da46b0773d1648eb86df05673915e8af187c10a9256261",
+      "indexAccessorSHA256": "b21d4e05ba0b31d571ac7def1ea720f5af28cd3e4b948915c2b6b83b9df3484f",
+      "normalAccessorSHA256": "5192d0a184c795315fd8e03fb64a2df1c6bd1901b0f7c32ac67d9a1ae0830449",
+      "canonicalPositionsSHA256": "6828139e192d7f56f0086e334901297fdb05ec2f89757bcfe5f507fe4c05eb50",
+      "canonicalOrientedTrianglesSHA256": "873c87ddb57bb0343ab182ea2ec70fccb49981013b223996a44729be44c34938",
+      "canonicalTopologySHA256": "f868cbe14c412691cbbc6bd0c2e702d585b6f304e35a38c8b2669080ea992323",
+      "nodeTransform": {
+        "matrix": null,
+        "translation": [
+          0,
+          0,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "bounds": {
+        "min": [
+          2.539184093475342,
+          -0.0360596626996994,
+          -2.0534799098968506
+        ],
+        "max": [
+          2.903510093688965,
+          0.7212752103805542,
+          -1.7038655281066895
+        ]
+      },
+      "material": "SUP Cyan quartz",
+      "vertexColor": {
+        "storage": 5123,
+        "type": "VEC4",
+        "normalized": true,
+        "meanLinear": [
+          0.30028822596915966,
+          0.4658255130846112,
+          0.6452870815425178,
+          0.6138844383408356
+        ],
+        "meanSRGB": [
+          0.5840871515258911,
+          0.7123829680714703,
+          0.8239878340628541
+        ],
+        "ranges": [
+          [
+            0.05612268253604944,
+            0.5048294804303044
+          ],
+          [
+            0.2158541237506676,
+            0.7539177538719768
+          ],
+          [
+            0.4950942244602121,
+            0.7998931868467232
+          ],
+          [
+            0.39987792782482645,
+            0.7632867933165484
+          ]
+        ],
+        "linearLuminance": {
+          "min": 0.26991460135805295,
+          "max": 0.7005341145952544,
+          "mean": 0.4435894110865273
+        },
+        "sha256": "856045fe687b83ab865780ae12a2dfb7688149005d4f1cac96c694aca302fd0d"
+      }
+    },
+    {
+      "name": "Island_Peripheral_Crystals | Cluster 2 facet family 3",
+      "primitiveIndex": 0,
+      "triangles": 34,
+      "vertices": 72,
+      "uniquePositions": 19,
+      "edges": 51,
+      "boundaryEdges": 0,
+      "nonmanifoldEdges": 0,
+      "positionAccessorSHA256": "4bc42e11eb4dafdbeae30f18403bedb4237eeed21c37c5e4b5cad2b17f69c5b6",
+      "indexAccessorSHA256": "b21d4e05ba0b31d571ac7def1ea720f5af28cd3e4b948915c2b6b83b9df3484f",
+      "normalAccessorSHA256": "5ebc325bf11c49a7873ab4723f9880718855e9b9220306db77ca94c2e85b402b",
+      "canonicalPositionsSHA256": "068b956cdc64e84eca7f882022f234ffce4004bb9041b6f5a4751268fba46a01",
+      "canonicalOrientedTrianglesSHA256": "c9f0fa33ed164c6f37df43b6768933584ad47d9a4755caa3b3c3da54b7723089",
+      "canonicalTopologySHA256": "50fdd033afeddc51abd073321b2d21211a1d85d4f4253063a51a26901296a04a",
+      "nodeTransform": {
+        "matrix": null,
+        "translation": [
+          0,
+          0,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "bounds": {
+        "min": [
+          1.8250336647033691,
+          -0.05322536081075668,
+          -2.5055630207061768
+        ],
+        "max": [
+          2.191720485687256,
+          0.8148888349533081,
+          -2.2320199012756348
+        ]
+      },
+      "material": "SUP Pink opal",
+      "vertexColor": {
+        "storage": 5123,
+        "type": "VEC4",
+        "normalized": true,
+        "meanLinear": [
+          0.49269347168179867,
+          0.4923122080652409,
+          0.6763468206132435,
+          0.609796927850258
+        ],
+        "meanSRGB": [
+          0.7305240079002633,
+          0.7302706731149994,
+          0.8413749920218305
+        ],
+        "ranges": [
+          [
+            0.18782330052643625,
+            0.7862516212710765
+          ],
+          [
+            0.2527962157625696,
+            0.7167925535973144
+          ],
+          [
+            0.5654535744258793,
+            0.8076142519264515
+          ],
+          [
+            0.3944151979858091,
+            0.7700007629510949
+          ]
+        ],
+        "linearLuminance": {
+          "min": 0.30000877393759057,
+          "max": 0.6833699855039291,
+          "mean": 0.5056805637360868
+        },
+        "sha256": "82079797745ace587ead1ddaa5b39ba7e0eb9d5b1fbdff3671d716c20ddc89bc"
+      }
+    },
+    {
+      "name": "Island_Peripheral_Crystals | Cluster 3 facet family 1",
+      "primitiveIndex": 0,
+      "triangles": 34,
+      "vertices": 72,
+      "uniquePositions": 19,
+      "edges": 51,
+      "boundaryEdges": 0,
+      "nonmanifoldEdges": 0,
+      "positionAccessorSHA256": "af1613bed96bfa4fc73b3031dcc5f3f7ac95fbc8c9b3a5f40600dc8cf5bb8350",
+      "indexAccessorSHA256": "b21d4e05ba0b31d571ac7def1ea720f5af28cd3e4b948915c2b6b83b9df3484f",
+      "normalAccessorSHA256": "28b64cde5a519813774118ced64560e0580f502e3495cbd3fe98df3f593d75e4",
+      "canonicalPositionsSHA256": "0e4d1be44f6cc1aca0e453a969086bff675fcfdb8da43a82f303d34331ead1c5",
+      "canonicalOrientedTrianglesSHA256": "99a7a74937758ebbcd2530b57521d9b5261b696c50fb39946ac65d58041e2c52",
+      "canonicalTopologySHA256": "40c9bbea621c07ee03a7ca033ea4ccd148f03ab1c9eb1b28e9622610b20bdf20",
+      "nodeTransform": {
+        "matrix": null,
+        "translation": [
+          0,
+          0,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "bounds": {
+        "min": [
+          0.5014309883117676,
+          -0.038481973111629486,
+          -3.389341354370117
+        ],
+        "max": [
+          0.8750604391098022,
+          1.3465176820755005,
+          -2.9862771034240723
+        ]
+      },
+      "material": "SUP Lavender quartz",
+      "vertexColor": {
+        "storage": 5123,
+        "type": "VEC4",
+        "normalized": true,
+        "meanLinear": [
+          0.30542966862490767,
+          0.29838741808872254,
+          0.5634957571441891,
+          0.6261175114230734
+        ],
+        "meanSRGB": [
+          0.5886238591659474,
+          0.5823984514654375,
+          0.7757242671631901
+        ],
+        "ranges": [
+          [
+            0.0933852140077821,
+            0.6142824444953079
+          ],
+          [
+            0.08438239108873122,
+            0.5787441824979019
+          ],
+          [
+            0.39674982833600364,
+            0.6875257495994507
+          ],
+          [
+            0.39942015716792556,
+            0.7637903410391393
+          ]
+        ],
+        "linearLuminance": {
+          "min": 0.12344438239108874,
+          "max": 0.49004177004654004,
+          "mean": 0.3190254226325205
+        },
+        "sha256": "cdd1753f2468fcd9098536aa9e9af18ced85f7d1aa13bf9afef3a0a67ae43708"
+      }
+    },
+    {
+      "name": "Island_Peripheral_Crystals | Cluster 3 facet family 2",
+      "primitiveIndex": 0,
+      "triangles": 34,
+      "vertices": 72,
+      "uniquePositions": 19,
+      "edges": 51,
+      "boundaryEdges": 0,
+      "nonmanifoldEdges": 0,
+      "positionAccessorSHA256": "c037eb6b706d80b517e746f6dc52b211b3e6fa0e523377cd877757b5cf8f09a0",
+      "indexAccessorSHA256": "b21d4e05ba0b31d571ac7def1ea720f5af28cd3e4b948915c2b6b83b9df3484f",
+      "normalAccessorSHA256": "7cb0fdd1f6544ed517206039d5efff6450d338e44a23bb78d2cf6ac2de3fc227",
+      "canonicalPositionsSHA256": "dbfd290ba6754f18e26d2680ec2cb6b73a32a3a95eb91f1b78d37d31d7618455",
+      "canonicalOrientedTrianglesSHA256": "7712ce8e9d607484167ef41ac71b2c4e8a6fc7e7c4cbacf0d3198a24592962d9",
+      "canonicalTopologySHA256": "f703737afb6e7d8a386ff622d39d66db8a9f177de366805993307ece4583cb13",
+      "nodeTransform": {
+        "matrix": null,
+        "translation": [
+          0,
+          0,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "bounds": {
+        "min": [
+          0.7979412078857422,
+          -0.04089199751615524,
+          -3.3473639488220215
+        ],
+        "max": [
+          1.1911157369613647,
+          0.9003996253013611,
+          -3.0821874141693115
+        ]
+      },
+      "material": "SUP Cyan quartz",
+      "vertexColor": {
+        "storage": 5123,
+        "type": "VEC4",
+        "normalized": true,
+        "meanLinear": [
+          0.28315043700143255,
+          0.4682447038478166,
+          0.6355467392317933,
+          0.6121618643133866
+        ],
+        "meanSRGB": [
+          0.5686290079163219,
+          0.7140409936393514,
+          0.8184349832026191
+        ],
+        "ranges": [
+          [
+            0.05612268253604944,
+            0.5370870527199206
+          ],
+          [
+            0.21940947585259785,
+            0.7700160219729916
+          ],
+          [
+            0.439658197909514,
+            0.8128786144808118
+          ],
+          [
+            0.3947356374456397,
+            0.7700007629510949
+          ]
+        ],
+        "linearLuminance": {
+          "min": 0.2297903105210956,
+          "max": 0.7202453681239033,
+          "mean": 0.44097286967099847
+        },
+        "sha256": "1d8cd1a86d6553d7ca6ad13558e1e20ee9337c2835aace2fd9b9344d093cfcc4"
+      }
+    },
+    {
+      "name": "Island_Peripheral_Crystals | Cluster 3 facet family 3",
+      "primitiveIndex": 0,
+      "triangles": 34,
+      "vertices": 72,
+      "uniquePositions": 19,
+      "edges": 51,
+      "boundaryEdges": 0,
+      "nonmanifoldEdges": 0,
+      "positionAccessorSHA256": "693002994958ea2046f6b9282fc22cfe0c1a58cb48ac575335293758fd109915",
+      "indexAccessorSHA256": "b21d4e05ba0b31d571ac7def1ea720f5af28cd3e4b948915c2b6b83b9df3484f",
+      "normalAccessorSHA256": "cafc919b501689d274fd0f5f7143dc748f2fec8f916cf6715fa3548ac76e6d11",
+      "canonicalPositionsSHA256": "5b8864df5e68e0a1781ef2189ee826ca62d90b677f9f3ffde975f8695620ca7e",
+      "canonicalOrientedTrianglesSHA256": "7ff22ff46199bbbde75b955c0464d0e3c61254c73a80ceb9c52311e3843a5a66",
+      "canonicalTopologySHA256": "fbbadd0a15e9446c79a59cad43c6c4f6cf7cf8882978703b179735153f102eff",
+      "nodeTransform": {
+        "matrix": null,
+        "translation": [
+          0,
+          0,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "bounds": {
+        "min": [
+          0.1737409234046936,
+          -0.03550957143306732,
+          -3.422929525375366
+        ],
+        "max": [
+          0.4936278164386749,
+          0.755212128162384,
+          -3.1712636947631836
+        ]
+      },
+      "material": "SUP Pink opal",
+      "vertexColor": {
+        "storage": 5123,
+        "type": "VEC4",
+        "normalized": true,
+        "meanLinear": [
+          0.477928884480727,
+          0.4644187160380798,
+          0.6616644625857264,
+          0.6152569025880997
+        ],
+        "meanSRGB": [
+          0.7206286199430817,
+          0.7114164898431511,
+          0.8332152259827967
+        ],
+        "ranges": [
+          [
+            0.19172961013199055,
+            0.7872892347600519
+          ],
+          [
+            0.1714351110093843,
+            0.7367971313038835
+          ],
+          [
+            0.520988784618906,
+            0.8197604333562218
+          ],
+          [
+            0.39038681620508126,
+            0.7658960860608836
+          ]
+        ],
+        "linearLuminance": {
+          "min": 0.22697897001602196,
+          "max": 0.7048541939421683,
+          "mean": 0.4815321207497267
+        },
+        "sha256": "25daf64c4fd71aa19190bc238fdb6b1dbae71bc6ee9764715a98a72e47aec3a0"
+      }
+    },
+    {
+      "name": "Island_Peripheral_Crystals | Polished facet edges",
+      "primitiveIndex": 0,
+      "triangles": 1152,
+      "vertices": 720,
+      "uniquePositions": 720,
+      "edges": 1728,
+      "boundaryEdges": 0,
+      "nonmanifoldEdges": 0,
+      "positionAccessorSHA256": "a5aabefad3c0082ac71d28b66146fe61fc0103f7fff169cc5ce160ddd8498ac1",
+      "indexAccessorSHA256": "9ca965c4d65476fd8fe3617b8e9c3224f8d2a0d55e7250675bd2c679ec84432c",
+      "normalAccessorSHA256": "f346db3b1d03ad7eb8010387df56cf094ec60861b2dba70b78be3de9dd12d4ad",
+      "canonicalPositionsSHA256": "4c835d81e8042ae05c2b2dc1e22c2e7801dcc20434278712fefc733d17d79428",
+      "canonicalOrientedTrianglesSHA256": "6d0103f1dd00978ec931e24f7332a79c06e901034b343ccd9e0f5be4cb9e9df0",
+      "canonicalTopologySHA256": "dac9b36e454b673cbb0e7f746798035480d61c81e7a02de60bf37b828adb0d05",
+      "nodeTransform": {
+        "matrix": null,
+        "translation": [
+          0,
+          0,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "bounds": {
+        "min": [
+          -3.4094412326812744,
+          0.00271132355555892,
+          -3.425729513168335
+        ],
+        "max": [
+          2.9061498641967773,
+          1.389304518699646,
+          -0.3085535764694214
+        ]
+      },
+      "material": "SUP Pearl water highlights"
+    },
+    {
+      "name": "Island_Pond | Quiet silver ripples",
+      "primitiveIndex": 0,
+      "triangles": 408,
+      "vertices": 208,
+      "uniquePositions": 208,
+      "edges": 612,
+      "boundaryEdges": 0,
+      "nonmanifoldEdges": 0,
+      "positionAccessorSHA256": "8c015b3cfe1fcba607f0377bc84eab31fda0954c78c2f6d2359c093289860fff",
+      "indexAccessorSHA256": "c1513b80bc7d0d2357c90aac92419354bf583d06d534bb9d952aee287c52dfd6",
+      "normalAccessorSHA256": "542e6da64b8164685bcea6be66162764ec92ee12ef4ff4ed931d6584bcf182c6",
+      "canonicalPositionsSHA256": "7803063543e82ba758a63b04ea42cb5eaf38d5761b70724d43b9a851aa71bf20",
+      "canonicalOrientedTrianglesSHA256": "4a0e01aab306546b819afd9bba11d62fa3f1d695c408a7515a06df5c80ce3555",
+      "canonicalTopologySHA256": "351a0652be7c01b54d1c26dca2edc9ccd3df28f211f38e004c6acf22112d124b",
+      "nodeTransform": {
+        "matrix": null,
+        "translation": [
+          0,
+          0,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "bounds": {
+        "min": [
+          2.9926445484161377,
+          -0.04700000211596489,
+          0.7742460370063782
+        ],
+        "max": [
+          3.3050692081451416,
+          -0.039000000804662704,
+          0.8812230825424194
+        ]
+      },
+      "material": "SUP Pearl water highlights"
+    },
+    {
+      "name": "Island_Pond | Recessed mineral basin",
+      "primitiveIndex": 0,
+      "triangles": 576,
+      "vertices": 321,
+      "uniquePositions": 321,
+      "edges": 896,
+      "boundaryEdges": 64,
+      "nonmanifoldEdges": 0,
+      "positionAccessorSHA256": "a5c0d99a3cfff3535fc7d73980f5901737e48446f6d9c74e30782887b854d4f4",
+      "indexAccessorSHA256": "f90c7466b0ef900eac1aae32874be5fd1d5c59ac9944d2f5e0651c857830a4f0",
+      "normalAccessorSHA256": "2efbcc9f10995fd3d43e6f7067522ca1de170bda44614c6108d5ad6b075b61e0",
+      "canonicalPositionsSHA256": "d4dc15bc80479ed7915c7593d83bdf6880221a94c866a91ec8dca78313969909",
+      "canonicalOrientedTrianglesSHA256": "9368ce02f29e8ca024ecae0cd5b11d1787fe4bb3e8f148e4eaae2f5a57f66881",
+      "canonicalTopologySHA256": "ee0cac8bf905c5e38b7337117fded545611638b6776607696c13a8c2caee501d",
+      "nodeTransform": {
+        "matrix": null,
+        "translation": [
+          0,
+          0,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "bounds": {
+        "min": [
+          2.3625664710998535,
+          -0.11999999731779099,
+          0.4041246473789215
+        ],
+        "max": [
+          3.5879335403442383,
+          0.035364780575037,
+          1.345055103302002
+        ]
+      },
+      "material": "SUP Opalescent ground",
+      "vertexColor": {
+        "storage": 5126,
+        "type": "VEC3",
+        "normalized": false,
+        "meanLinear": [
+          0.37068409191856505,
+          0.5352045092441583,
+          0.5924385126877425
+        ],
+        "meanSRGB": [
+          0.6427032909839289,
+          0.7580845233348524,
+          0.7932434098220527
+        ],
+        "ranges": [
+          [
+            0.18461354076862335,
+            0.5114511251449585
+          ],
+          [
+            0.3915846347808838,
+            0.6513181328773499
+          ],
+          [
+            0.5271627902984619,
+            0.6294475197792053
+          ]
+        ],
+        "linearLuminance": {
+          "min": 0.3762118834197521,
+          "max": 0.6069419062376022,
+          "mean": 0.5043597635693645
+        },
+        "sha256": "e43c07cfc735c34be36184419fe7b475b6179cb61751dca5b0352475e6ff328e"
+      }
+    },
+    {
+      "name": "Island_Pond | Single aqua water sheet",
+      "primitiveIndex": 0,
+      "triangles": 62,
+      "vertices": 64,
+      "uniquePositions": 64,
+      "edges": 125,
+      "boundaryEdges": 64,
+      "nonmanifoldEdges": 0,
+      "positionAccessorSHA256": "32f740773898fdf06b1488792c89d14705a3d82ce1d22eef834f1ef640c81860",
+      "indexAccessorSHA256": "cff7d260e62f966a4548c24aca6ac28fac84f54293a6519df86de4976edce7ed",
+      "normalAccessorSHA256": "9dde864264dda57a4063e4eecd7598b5c02c79a48139f142dc41f727815f8689",
+      "canonicalPositionsSHA256": "25280875d94849706fb19d27cf8eb95f6318dbe7276a26b4b5a8d6be9f82df89",
+      "canonicalOrientedTrianglesSHA256": "b023caa558928d8143c35b2c41077d4460b6c057c31118680134d7a14979d673",
+      "canonicalTopologySHA256": "dba0be2b8a48f9a5ab2ce5905a2289afe9a1a7055a7c19a212c55338b0773b5b",
+      "nodeTransform": {
+        "matrix": null,
+        "translation": [
+          0,
+          0,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "bounds": {
+        "min": [
+          2.450407028198242,
+          -0.04500000178813934,
+          0.4721471965312958
+        ],
+        "max": [
+          3.504222869873047,
+          -0.04500000178813934,
+          1.281347393989563
+        ]
+      },
+      "material": "SUP Still aqua water"
+    },
+    {
+      "name": "Island_Surface | Opalescent planting clearing",
+      "primitiveIndex": 0,
+      "triangles": 2672,
+      "vertices": 1423,
+      "uniquePositions": 1423,
+      "edges": 4095,
+      "boundaryEdges": 174,
+      "nonmanifoldEdges": 0,
+      "positionAccessorSHA256": "1bfa26beb2c6fab68eecf420d9d8e1bf44ed9a7bf6a8e41b593df602922303b2",
+      "indexAccessorSHA256": "3b834bc321a0e89ed1e64423524f2500d07e86ef37f34a0f8462d55fb8fd054d",
+      "normalAccessorSHA256": "1900a53ee818ab454e92ec6747016df4079a1f7d322168ef7a75586ed29e1f43",
+      "canonicalPositionsSHA256": "e350067ea07367e1d08effd0664f765c1fbdbb3b472af8f9f1d59153880a70fe",
+      "canonicalOrientedTrianglesSHA256": "95b88d3a4949a99d5b7af90bb8694c557a831999aa4e201377148060cda6213f",
+      "canonicalTopologySHA256": "792c294c178e1061acbc6b5e99e57f559b5985243b8845d9694dc22526aea380",
+      "nodeTransform": {
+        "matrix": null,
+        "translation": [
+          0,
+          0,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "bounds": {
+        "min": [
+          -3.894942283630371,
+          0,
+          -3.848952054977417
+        ],
+        "max": [
+          3.975203275680542,
+          0.05068972706794739,
+          3.7775959968566895
+        ]
+      },
+      "material": "SUP Opalescent ground",
+      "vertexColor": {
+        "storage": 5126,
+        "type": "VEC3",
+        "normalized": false,
+        "meanLinear": [
+          0.4081369545035855,
+          0.47294622020912436,
+          0.6374805441475718
+        ],
+        "meanSRGB": [
+          0.6712535351772811,
+          0.7172490081634785,
+          0.8195413510120305
+        ],
+        "ranges": [
+          [
+            0.27021828293800354,
+            0.572706401348114
+          ],
+          [
+            0.32852452993392944,
+            0.6074114441871643
+          ],
+          [
+            0.5697862505912781,
+            0.7081427574157715
+          ]
+        ],
+        "linearLuminance": {
+          "min": 0.37187594430446624,
+          "max": 0.558184161055088,
+          "mean": 0.47104714850848234
+        },
+        "sha256": "35a1d4f7afe422b6a8d6bb0fab99ffb7a03b8366bb1f1e4ac332485d9b335a80"
+      }
+    },
+    {
+      "name": "Island_Vegetation | Ferns and bent grasses",
+      "primitiveIndex": 0,
+      "triangles": 4932,
+      "vertices": 3840,
+      "uniquePositions": 3720,
+      "edges": 8358,
+      "boundaryEdges": 1920,
+      "nonmanifoldEdges": 0,
+      "positionAccessorSHA256": "3971182b39eaca21f4fe80950820ba28776aa50f4c91c32be4703a27defe275d",
+      "indexAccessorSHA256": "ff7a7c2816ece644574086ba49263e6778aadf4060c55371affef740c3c29f20",
+      "normalAccessorSHA256": "b1edebb519d699c36ad0e496499dc61afee4f5ffbab2157d6c134a465c18aeb0",
+      "canonicalPositionsSHA256": "9f64a5bdbbd380f06b711d05b208d94f821e74d2050f97adc6d5bc6fb87d93eb",
+      "canonicalOrientedTrianglesSHA256": "e68a0908899e456efb7d16e641a42c4fa44847b75f69dda97a8c6a4131f7a8bd",
+      "canonicalTopologySHA256": "9d03835095c388366b2cd6e8b53f7efa11b751358c01cbdfcbcf834f5527f27c",
+      "nodeTransform": {
+        "matrix": null,
+        "translation": [
+          0,
+          0,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "bounds": {
+        "min": [
+          -3.5420010089874268,
+          0.012964582070708275,
+          -3.659058094024658
+        ],
+        "max": [
+          3.607992172241211,
+          0.5463674664497375,
+          3.4923534393310547
+        ]
+      },
+      "material": "SUP Iridescent foliage",
+      "vertexColor": {
+        "storage": 5126,
+        "type": "VEC3",
+        "normalized": false,
+        "meanLinear": [
+          0.304572814097628,
+          0.4458182611502707,
+          0.4924012790899724
+        ],
+        "meanSRGB": [
+          0.5878708981210697,
+          0.6984739326811866,
+          0.7303298675751745
+        ],
+        "ranges": [
+          [
+            0.16202937066555023,
+            0.3967552185058594
+          ],
+          [
+            0.2622506618499756,
+            0.5540345311164856
+          ],
+          [
+            0.3967552185058594,
+            0.545806884765625
+          ]
+        ],
+        "linearLuminance": {
+          "min": 0.3000338925242424,
+          "max": 0.4899219401359558,
+          "mean": 0.419152773002139
+        },
+        "sha256": "45ce1efb01b1669f0ae79fca4e6a432a9fee2a4a7c49510163e53cec829b19c6"
+      }
+    }
+  ],
+  "materials": [
+    {
+      "name": "SUP Warm luminous filaments",
+      "baseColorFactor": [
+        0.9646862745285034,
+        0.7758222222328186,
+        0.40724021196365356,
+        1
+      ],
+      "roughness": 0.3199999928474426,
+      "metalness": 0,
+      "baseColorTexture": null,
+      "normalTexture": null,
+      "extensions": {
+        "KHR_materials_emissive_strength": {
+          "emissiveStrength": 2.7011215226799834
+        }
+      },
+      "alphaMode": "OPAQUE"
+    },
+    {
+      "name": "SUP Layered turquoise mineral",
+      "baseColorFactor": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "roughness": 0.3199999928474426,
+      "metalness": 0.11999999731779099,
+      "baseColorTexture": null,
+      "normalTexture": null,
+      "extensions": {
+        "KHR_materials_clearcoat": {
+          "clearcoatFactor": 0.2199999988079071,
+          "clearcoatRoughnessFactor": 0.23999999463558197
+        },
+        "KHR_materials_iridescence": {
+          "iridescenceFactor": 0.3199999928474426,
+          "iridescenceThicknessMaximum": 360
+        }
+      },
+      "alphaMode": "OPAQUE"
+    },
+    {
+      "name": "SUP Champagne gold",
+      "baseColorFactor": [
+        0.7912979125976562,
+        0.5394794940948486,
+        0.31854677200317383,
+        1
+      ],
+      "roughness": 0.23999999463558197,
+      "metalness": 0.550000011920929,
+      "baseColorTexture": null,
+      "normalTexture": null,
+      "extensions": {},
+      "alphaMode": "OPAQUE"
+    },
+    {
+      "name": "SUP Brushed rose gold",
+      "baseColorFactor": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "roughness": 0.25999999046325684,
+      "metalness": 0.6000000238418579,
+      "baseColorTexture": null,
+      "normalTexture": null,
+      "extensions": {},
+      "alphaMode": "OPAQUE"
+    },
+    {
+      "name": "SUP Lavender quartz",
+      "baseColorFactor": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "roughness": 0.054999999701976776,
+      "metalness": 0.03999999910593033,
+      "baseColorTexture": null,
+      "normalTexture": null,
+      "extensions": {
+        "KHR_materials_clearcoat": {
+          "clearcoatFactor": 0.11999999731779099,
+          "clearcoatRoughnessFactor": 0.10000000149011612
+        },
+        "KHR_materials_specular": {
+          "specularColorFactor": [
+            0.5647115111351013,
+            0.48514994978904724,
+            0.7835378050804138
+          ]
+        },
+        "KHR_materials_iridescence": {
+          "iridescenceFactor": 0.3199999928474426,
+          "iridescenceThicknessMaximum": 320
+        },
+        "KHR_materials_ior": {
+          "ior": 1.4600000381469727
+        }
+      },
+      "alphaMode": "BLEND"
+    },
+    {
+      "name": "SUP Cyan quartz",
+      "baseColorFactor": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "roughness": 0.06700000166893005,
+      "metalness": 0.03999999910593033,
+      "baseColorTexture": null,
+      "normalTexture": null,
+      "extensions": {
+        "KHR_materials_clearcoat": {
+          "clearcoatFactor": 0.11999999731779099,
+          "clearcoatRoughnessFactor": 0.10000000149011612
+        },
+        "KHR_materials_specular": {
+          "specularColorFactor": [
+            0.37123769521713257,
+            0.6938717365264893,
+            0.7758222222328186
+          ]
+        },
+        "KHR_materials_iridescence": {
+          "iridescenceFactor": 0.3199999928474426,
+          "iridescenceThicknessMaximum": 365
+        },
+        "KHR_materials_ior": {
+          "ior": 1.4600000381469727
+        }
+      },
+      "alphaMode": "BLEND"
+    },
+    {
+      "name": "SUP Pink opal",
+      "baseColorFactor": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "roughness": 0.07900000363588333,
+      "metalness": 0.03999999910593033,
+      "baseColorTexture": null,
+      "normalTexture": null,
+      "extensions": {
+        "KHR_materials_clearcoat": {
+          "clearcoatFactor": 0.11999999731779099,
+          "clearcoatRoughnessFactor": 0.10000000149011612
+        },
+        "KHR_materials_specular": {
+          "specularColorFactor": [
+            0.7605245113372803,
+            0.4793201684951782,
+            0.7011018991470337
+          ]
+        },
+        "KHR_materials_iridescence": {
+          "iridescenceFactor": 0.3199999928474426,
+          "iridescenceThicknessMaximum": 410
+        },
+        "KHR_materials_ior": {
+          "ior": 1.4600000381469727
+        }
+      },
+      "alphaMode": "BLEND"
+    },
+    {
+      "name": "SUP Pearl water highlights",
+      "baseColorFactor": [
+        0.7681511640548706,
+        0.838798999786377,
+        0.8307698965072632,
+        1
+      ],
+      "roughness": 0.2199999988079071,
+      "metalness": 0.11999999731779099,
+      "baseColorTexture": null,
+      "normalTexture": null,
+      "extensions": {},
+      "alphaMode": "OPAQUE"
+    },
+    {
+      "name": "SUP Opalescent ground",
+      "baseColorFactor": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "roughness": 0.38999998569488525,
+      "metalness": 0.03500000014901161,
+      "baseColorTexture": null,
+      "normalTexture": {
+        "index": 0,
+        "scale": 0.1599999964237213
+      },
+      "extensions": {},
+      "alphaMode": "OPAQUE"
+    },
+    {
+      "name": "SUP Still aqua water",
+      "baseColorFactor": [
+        0.47353148460388184,
+        0.7758222222328186,
+        0.7912979125976562,
+        0.6399999856948853
+      ],
+      "roughness": 0.18000000715255737,
+      "metalness": 0.07999999821186066,
+      "baseColorTexture": null,
+      "normalTexture": null,
+      "extensions": {},
+      "alphaMode": "BLEND"
+    },
+    {
+      "name": "SUP Iridescent foliage",
+      "baseColorFactor": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "roughness": 0.38999998569488525,
+      "metalness": 0.07999999821186066,
+      "baseColorTexture": null,
+      "normalTexture": null,
+      "extensions": {},
+      "alphaMode": "OPAQUE"
+    }
+  ],
+  "images": [
+    {
+      "bufferView": 65,
+      "mimeType": "image/png",
+      "name": "SUP Mineral micrograin 512"
+    }
+  ],
+  "triangles": 18779,
+  "geometrySHA256": "e360e49bf30be4f640a93b7dbc6c34cd49866e0dd6c5306a57a5a0efcb8f3f78",
+  "groundBoundary": {
+    "coordinateSystem": "glTF Y-up local coordinates; root and mesh transforms also captured per component",
+    "outer": {
+      "count": 110,
+      "projectedArea": 47.04161255759607,
+      "positionsYUp": [
+        [
+          -0.18131928145885468,
+          0.03335009142756462,
+          3.6908388137817383
+        ],
+        [
+          -0.3613487184047699,
+          0.03686945512890816,
+          3.668835163116455
+        ],
+        [
+          -0.540963888168335,
+          0.04089910537004471,
+          3.6468820571899414
+        ],
+        [
+          -0.7210322022438049,
+          0.04437848553061485,
+          3.6248738765716553
+        ],
+        [
+          -0.9024301171302795,
+          0.0462484247982502,
+          3.6027028560638428
+        ],
+        [
+          -1.0854861736297607,
+          0.046562328934669495,
+          3.578368663787842
+        ],
+        [
+          -1.261949062347412,
+          0.04677605256438255,
+          3.526911497116089
+        ],
+        [
+          -1.4300192594528198,
+          0.04703083634376526,
+          3.4523720741271973
+        ],
+        [
+          -1.9329140186309814,
+          0.031177416443824768,
+          3.22487211227417
+        ],
+        [
+          -2.1032907962799072,
+          0.027726497501134872,
+          3.147797107696533
+        ],
+        [
+          -2.2764642238616943,
+          0.030515287071466446,
+          3.0694565773010254
+        ],
+        [
+          -2.4533627033233643,
+          0.037732966244220734,
+          2.989431142807007
+        ],
+        [
+          -2.6349918842315674,
+          0.04311089217662811,
+          2.9072656631469727
+        ],
+        [
+          -2.811903238296509,
+          0.04309763386845589,
+          2.811903238296509
+        ],
+        [
+          -2.9300906658172607,
+          0.04098112881183624,
+          2.655679225921631
+        ],
+        [
+          -3.021451950073242,
+          0.04105403274297714,
+          2.4796414375305176
+        ],
+        [
+          -3.110933542251587,
+          0.042861394584178925,
+          2.3072257041931152
+        ],
+        [
+          -3.2861385345458984,
+          0.0417017936706543,
+          1.9696356058120728
+        ],
+        [
+          -3.3727409839630127,
+          0.035678014159202576,
+          1.8027676343917847
+        ],
+        [
+          -3.459239959716797,
+          0.02797880582511425,
+          1.6360986232757568
+        ],
+        [
+          -3.546053647994995,
+          0.019618790596723557,
+          1.4688235521316528
+        ],
+        [
+          -3.6315054893493652,
+          0.015199319459497929,
+          1.2993733882904053
+        ],
+        [
+          -3.6850311756134033,
+          0.015405507758259773,
+          1.1178419589996338
+        ],
+        [
+          -3.712127923965454,
+          0.018499387428164482,
+          0.9298396706581116
+        ],
+        [
+          -3.7382686138153076,
+          0.02116563357412815,
+          0.743587851524353
+        ],
+        [
+          -3.8163182735443115,
+          0.021912764757871628,
+          0.18748369812965393
+        ],
+        [
+          -3.8426318168640137,
+          0.02738220989704132,
+          -4.705866768412229e-16
+        ],
+        [
+          -3.8693106174468994,
+          0.03491399809718132,
+          -0.19008705019950867
+        ],
+        [
+          -3.894942283630371,
+          0.041237372905015945,
+          -0.3836183249950409
+        ],
+        [
+          -3.882512092590332,
+          0.04489538446068764,
+          -0.5759162902832031
+        ],
+        [
+          -3.832664728164673,
+          0.04411997273564339,
+          -0.762364387512207
+        ],
+        [
+          -3.7820019721984863,
+          0.04012252762913704,
+          -0.9473421573638916
+        ],
+        [
+          -3.731448173522949,
+          0.035601723939180374,
+          -1.1319223642349243
+        ],
+        [
+          -3.6807589530944824,
+          0.03428999334573746,
+          -1.3169965744018555
+        ],
+        [
+          -3.629687786102295,
+          0.03398030623793602,
+          -1.5034658908843994
+        ],
+        [
+          -3.5779800415039062,
+          0.032480813562870026,
+          -1.692258596420288
+        ],
+        [
+          -3.52536940574646,
+          0.029663173481822014,
+          -1.8843491077423096
+        ],
+        [
+          -3.447939157485962,
+          0.02765977568924427,
+          -2.066615104675293
+        ],
+        [
+          -3.3080637454986572,
+          0.03051149658858776,
+          -2.2103776931762695
+        ],
+        [
+          -3.0203568935394287,
+          0.040192052721977234,
+          -2.478742837905884
+        ],
+        [
+          -2.8796651363372803,
+          0.03864923492074013,
+          -2.609976291656494
+        ],
+        [
+          -2.7401304244995117,
+          0.03226933255791664,
+          -2.7401304244995117
+        ],
+        [
+          -2.601071834564209,
+          0.02603125013411045,
+          -2.869840621948242
+        ],
+        [
+          -2.461817502975464,
+          0.02495320700109005,
+          -2.9997332096099854
+        ],
+        [
+          -2.3185884952545166,
+          0.030195944011211395,
+          -3.1262545585632324
+        ],
+        [
+          -2.1510677337646484,
+          0.03789385408163071,
+          -3.2193002700805664
+        ],
+        [
+          -1.9746959209442139,
+          0.04386066272854805,
+          -3.2945809364318848
+        ],
+        [
+          -1.2842639684677124,
+          0.03838534280657768,
+          -3.589277505874634
+        ],
+        [
+          -1.1112028360366821,
+          0.03441113233566284,
+          -3.663145065307617
+        ],
+        [
+          -0.9362727403640747,
+          0.027887675911188126,
+          -3.7378103733062744
+        ],
+        [
+          -0.7584256529808044,
+          0.023049382492899895,
+          -3.812863349914551
+        ],
+        [
+          -0.5709381103515625,
+          0.02192188985645771,
+          -3.848952054977417
+        ],
+        [
+          -0.37710505723953247,
+          0.022807976230978966,
+          -3.8288118839263916
+        ],
+        [
+          -0.18703030049800873,
+          0.026070397347211838,
+          -3.80708909034729
+        ],
+        [
+          0.1849418580532074,
+          0.042302973568439484,
+          -3.764578104019165
+        ],
+        [
+          0.36871007084846497,
+          0.0481276698410511,
+          -3.7435760498046875
+        ],
+        [
+          0.5521964430809021,
+          0.050302568823099136,
+          -3.7226061820983887
+        ],
+        [
+          0.735407829284668,
+          0.04918263852596283,
+          -3.6971449851989746
+        ],
+        [
+          0.9138163924217224,
+          0.045076776295900345,
+          -3.6481595039367676
+        ],
+        [
+          1.0897666215896606,
+          0.04064258188009262,
+          -3.5924789905548096
+        ],
+        [
+          1.2655102014541626,
+          0.03741199150681496,
+          -3.5368640422821045
+        ],
+        [
+          1.4418963193893433,
+          0.03548711538314819,
+          -3.4810454845428467
+        ],
+        [
+          1.800072431564331,
+          0.034601420164108276,
+          -3.3676986694335938
+        ],
+        [
+          1.9836925268173218,
+          0.034617263823747635,
+          -3.309591054916382
+        ],
+        [
+          2.1716537475585938,
+          0.03482557460665703,
+          -3.2501096725463867
+        ],
+        [
+          2.348440408706665,
+          0.033898502588272095,
+          -3.1665055751800537
+        ],
+        [
+          2.487220048904419,
+          0.02927102893590927,
+          -3.030686378479004
+        ],
+        [
+          2.6186091899871826,
+          0.024005871266126633,
+          -2.889190196990967
+        ],
+        [
+          2.7488889694213867,
+          0.02148408442735672,
+          -2.7488889694213867
+        ],
+        [
+          2.878695487976074,
+          0.02162332460284233,
+          -2.609097480773926
+        ],
+        [
+          3.0086557865142822,
+          0.02287616766989231,
+          -2.46914005279541
+        ],
+        [
+          3.1394004821777344,
+          0.02388547547161579,
+          -2.328338146209717
+        ],
+        [
+          3.2715749740600586,
+          0.025712599977850914,
+          -2.1859965324401855
+        ],
+        [
+          3.405852794647217,
+          0.031019708141684532,
+          -2.0413894653320312
+        ],
+        [
+          3.5139269828796387,
+          0.03772661089897156,
+          -1.8782330751419067
+        ],
+        [
+          3.570791482925415,
+          0.042675308883190155,
+          -1.6888586282730103
+        ],
+        [
+          3.623743772506714,
+          0.04337559640407562,
+          -1.5010038614273071
+        ],
+        [
+          3.6760833263397217,
+          0.04038194194436073,
+          -1.3153235912322998
+        ],
+        [
+          3.728069305419922,
+          0.03683106601238251,
+          -1.1308974027633667
+        ],
+        [
+          3.779954195022583,
+          0.035819604992866516,
+          -0.9468292593955994
+        ],
+        [
+          3.831989049911499,
+          0.037183646112680435,
+          -0.7622299790382385
+        ],
+        [
+          3.8844268321990967,
+          0.039378099143505096,
+          -0.5762003064155579
+        ],
+        [
+          3.9226150512695312,
+          0.04027527943253517,
+          -0.3863438665866852
+        ],
+        [
+          3.9336328506469727,
+          0.03910355642437935,
+          -0.193246990442276
+        ],
+        [
+          3.9542083740234375,
+          0.04298248887062073,
+          0.19425779581069946
+        ],
+        [
+          3.964627265930176,
+          0.04484212398529053,
+          0.39048171043395996
+        ],
+        [
+          3.975203275680542,
+          0.04449094459414482,
+          0.5896657109260559
+        ],
+        [
+          3.9585201740264893,
+          0.041060250252485275,
+          0.787398636341095
+        ],
+        [
+          3.9196364879608154,
+          0.03573046997189522,
+          0.9818178415298462
+        ],
+        [
+          3.880568504333496,
+          0.03149215504527092,
+          1.1771576404571533
+        ],
+        [
+          3.8411247730255127,
+          0.0300191231071949,
+          1.3743764162063599
+        ],
+        [
+          3.8011062145233154,
+          0.030955879017710686,
+          1.5744696855545044
+        ],
+        [
+          3.7603020668029785,
+          0.03133256733417511,
+          1.778490424156189
+        ],
+        [
+          3.6975209712982178,
+          0.02853449247777462,
+          1.9763660430908203
+        ],
+        [
+          3.538794994354248,
+          0.027157824486494064,
+          2.1210720539093018
+        ],
+        [
+          3.2075982093811035,
+          0.036988068372011185,
+          2.3789169788360596
+        ],
+        [
+          2.894054412841797,
+          0.04218234121799469,
+          2.6230180263519287
+        ],
+        [
+          2.5911197662353516,
+          0.039998240768909454,
+          2.8588600158691406
+        ],
+        [
+          2.441683292388916,
+          0.035668447613716125,
+          2.9751996994018555
+        ],
+        [
+          2.2914533615112305,
+          0.03266412019729614,
+          3.0896670818328857
+        ],
+        [
+          2.125880479812622,
+          0.033449526876211166,
+          3.1816048622131348
+        ],
+        [
+          1.9501792192459106,
+          0.03778058663010597,
+          3.2536773681640625
+        ],
+        [
+          1.7767796516418457,
+          0.042864274233579636,
+          3.3241209983825684
+        ],
+        [
+          1.6051661968231201,
+          0.045594681054353714,
+          3.393838882446289
+        ],
+        [
+          0.9198502898216248,
+          0.04236926883459091,
+          3.672248125076294
+        ],
+        [
+          0.7445424199104309,
+          0.037537794560194016,
+          3.743067502975464
+        ],
+        [
+          0.5603534579277039,
+          0.032515719532966614,
+          3.7775959968566895
+        ],
+        [
+          0.3701544404029846,
+          0.028961990028619766,
+          3.7582409381866455
+        ],
+        [
+          0.18350985646247864,
+          0.02793898992240429,
+          3.735429048538208
+        ],
+        [
+          -6.820670339085393e-16,
+          0.029720425605773926,
+          3.7130000591278076
+        ]
+      ],
+      "positionSetSHA256": "e48756c09db286844afac2eb25b4430eea3f1f104f6202e9a98a4649126607eb"
+    },
+    "pond": {
+      "count": 64,
+      "projectedArea": 0.8376526315651773,
+      "positionsYUp": [
+        [
+          2.3625664710998535,
+          0.0019166904967278242,
+          0.9188483357429504
+        ],
+        [
+          2.367657423019409,
+          0.0017251562094315886,
+          0.8694531321525574
+        ],
+        [
+          2.3862669467926025,
+          0.001772252144291997,
+          0.8193451166152954
+        ],
+        [
+          2.4188504219055176,
+          0.0020961170084774494,
+          0.7709879279136658
+        ],
+        [
+          2.463744878768921,
+          0.0027368308510631323,
+          0.7268136143684387
+        ],
+        [
+          2.5175225734710693,
+          0.003710167482495308,
+          0.6885238885879517
+        ],
+        [
+          2.5758371353149414,
+          0.004978796932846308,
+          0.6565723419189453
+        ],
+        [
+          2.634507656097412,
+          0.006465450394898653,
+          0.6300092339515686
+        ],
+        [
+          2.690516710281372,
+          0.008085103705525398,
+          0.606758177280426
+        ],
+        [
+          2.7426254749298096,
+          0.009762575849890709,
+          0.5842540860176086
+        ],
+        [
+          2.7914342880249023,
+          0.011380032636225224,
+          0.5602523684501648
+        ],
+        [
+          2.838900566101074,
+          0.012983705848455429,
+          0.5335603356361389
+        ],
+        [
+          2.8874876499176025,
+          0.014682576060295105,
+          0.5044633746147156
+        ],
+        [
+          2.939232587814331,
+          0.016574831679463387,
+          0.4747120440006256
+        ],
+        [
+          2.9950332641601562,
+          0.01872318610548973,
+          0.4470759928226471
+        ],
+        [
+          3.054368257522583,
+          0.021065453067421913,
+          0.4246044158935547
+        ],
+        [
+          3.115509271621704,
+          0.023469189181923866,
+          0.40982481837272644
+        ],
+        [
+          3.1761205196380615,
+          0.025759410113096237,
+          0.4041246473789215
+        ],
+        [
+          3.234009027481079,
+          0.027760565280914307,
+          0.40749719738960266
+        ],
+        [
+          3.2877533435821533,
+          0.029439754784107208,
+          0.4187110662460327
+        ],
+        [
+          3.336986780166626,
+          0.030781706795096397,
+          0.4358248710632324
+        ],
+        [
+          3.3822455406188965,
+          0.031912580132484436,
+          0.45686075091362
+        ],
+        [
+          3.4244532585144043,
+          0.032884079962968826,
+          0.48040682077407837
+        ],
+        [
+          3.4642441272735596,
+          0.03373779356479645,
+          0.5059527158737183
+        ],
+        [
+          3.5013937950134277,
+          0.03451835364103317,
+          0.5338613986968994
+        ],
+        [
+          3.53458309173584,
+          0.03510091081261635,
+          0.5650102496147156
+        ],
+        [
+          3.561615467071533,
+          0.035364780575037,
+          0.6002482771873474
+        ],
+        [
+          3.5800318717956543,
+          0.03518360108137131,
+          0.6398777365684509
+        ],
+        [
+          3.5879335403442383,
+          0.03449106588959694,
+          0.6833559274673462
+        ],
+        [
+          3.584723949432373,
+          0.03329292684793472,
+          0.7293302416801453
+        ],
+        [
+          3.571507215499878,
+          0.03169342130422592,
+          0.7759994268417358
+        ],
+        [
+          3.5509727001190186,
+          0.029856950044631958,
+          0.8216720223426819
+        ],
+        [
+          3.526768684387207,
+          0.02803625911474228,
+          0.8653203248977661
+        ],
+        [
+          3.5025362968444824,
+          0.02641148492693901,
+          0.9069215655326843
+        ],
+        [
+          3.4808928966522217,
+          0.02502083033323288,
+          0.9474492073059082
+        ],
+        [
+          3.462681293487549,
+          0.023876165971159935,
+          0.9884939789772034
+        ],
+        [
+          3.446728467941284,
+          0.022918719798326492,
+          1.03162682056427
+        ],
+        [
+          3.430191993713379,
+          0.02210639975965023,
+          1.0777088403701782
+        ],
+        [
+          3.409402847290039,
+          0.021460408344864845,
+          1.1263810396194458
+        ],
+        [
+          3.3809421062469482,
+          0.021052047610282898,
+          1.1759170293807983
+        ],
+        [
+          3.3426313400268555,
+          0.020962420850992203,
+          1.2235076427459717
+        ],
+        [
+          3.294139862060547,
+          0.021204980090260506,
+          1.265905737876892
+        ],
+        [
+          3.237037181854248,
+          0.02166660502552986,
+          1.300241470336914
+        ],
+        [
+          3.1743006706237793,
+          0.022167081013321877,
+          1.3247603178024292
+        ],
+        [
+          3.10945463180542,
+          0.02250218763947487,
+          1.33925461769104
+        ],
+        [
+          3.045628786087036,
+          0.022472769021987915,
+          1.345055103302002
+        ],
+        [
+          2.9848341941833496,
+          0.022053157910704613,
+          1.3445888757705688
+        ],
+        [
+          2.9276721477508545,
+          0.02128097042441368,
+          1.3406436443328857
+        ],
+        [
+          2.8735363483428955,
+          0.020184950903058052,
+          1.3355684280395508
+        ],
+        [
+          2.8212008476257324,
+          0.018819458782672882,
+          1.3306571245193481
+        ],
+        [
+          2.7695608139038086,
+          0.017183884978294373,
+          1.3258956670761108
+        ],
+        [
+          2.718249559402466,
+          0.01530195027589798,
+          1.3201308250427246
+        ],
+        [
+          2.667912006378174,
+          0.013341173529624939,
+          1.311584711074829
+        ],
+        [
+          2.6200432777404785,
+          0.011531969532370567,
+          1.298526644706726
+        ],
+        [
+          2.5764639377593994,
+          0.009938376024365425,
+          1.279873013496399
+        ],
+        [
+          2.5386345386505127,
+          0.008579639717936516,
+          1.255519986152649
+        ],
+        [
+          2.507077693939209,
+          0.007445206865668297,
+          1.2263109683990479
+        ],
+        [
+          2.4811365604400635,
+          0.006493137218058109,
+          1.1936734914779663
+        ],
+        [
+          2.45918345451355,
+          0.0056702615693211555,
+          1.1590707302093506
+        ],
+        [
+          2.4392318725585938,
+          0.004915380384773016,
+          1.1234776973724365
+        ],
+        [
+          2.4197518825531006,
+          0.004194358829408884,
+          1.0870760679244995
+        ],
+        [
+          2.4004108905792236,
+          0.003499638056382537,
+          1.0492825508117676
+        ],
+        [
+          2.3824682235717773,
+          0.002853723242878914,
+          1.009102463722229
+        ],
+        [
+          2.3686587810516357,
+          0.0023082727566361427,
+          0.9656810164451599
+        ]
+      ],
+      "positionSetSHA256": "859d73b62cbf57c30579647c19f5f92707161c28936d075e3d5ea4a083b41785"
+    },
+    "loopCount": 2,
+    "boundaryEdges": 174,
+    "boundaryVertexDegrees": [
+      2
+    ],
+    "connectedComponents": 1,
+    "nonmanifoldEdges": 0,
+    "projectedTriangleArea": 46.203959926030905,
+    "expectedProjectedArea": 46.20395992603089,
+    "projectedCoverageAreaError": 1.4210854715202004e-14,
+    "maxPondBoundaryGap": 3.725290298461914e-9
+  }
+}
