@@ -7,7 +7,10 @@ React + Vite 웹앱을 Capacitor로 감싸 Android/iOS 앱으로 빌드합니다
 
 1. [supabase.com](https://supabase.com)에서 프로젝트 생성
 2. **SQL Editor**에서 `supabase/schema.sql` 실행
-   이미 이전 버전 스키마를 실행했다면 `supabase/migrations-002.sql`, `-003`, `-004`, `-005`를 차례로 실행하면 됩니다.
+   이미 이전 버전 스키마를 실행했다면 `supabase/migrations-002.sql`, `-003`, `-004`, `-005`, `-006`을 차례로 실행하면 됩니다.
+   > ⚠️ **`migrations-006.sql`을 실행해야 친구 정원 놀러 가기가 동작합니다.** 친구 정원에는 *그 친구가 받아서 심은 소리*가 보이는데,
+   > 받은 소리는 보낸 사람 정원에 저장되어 있어서 방문용 함수(`visit_flowers`)와 소리 파일 읽기 권한이 따로 필요합니다.
+   > 실행 전에는 놀러 가기 화면에 "서버 준비가 아직 안 됐어요 (Supabase에서 migrations-006.sql 실행 필요)"가 나옵니다.
 3. **Authentication → Sign In / Providers → Email** 켜기. 해커톤 동안은 **Confirm email을 꺼 두세요**(기본 메일 발송은 시간당 몇 통으로 제한되고, 확인 링크를 눌러야 로그인됩니다). 로그인은 필수이며 익명 로그인은 쓰지 않습니다.
 4. `.env.example`을 `.env`로 복사하고 값 입력
    ```

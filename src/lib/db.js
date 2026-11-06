@@ -123,9 +123,16 @@ export async function setGardenPublic(isPublic) {
 }
 
 /** 친구의 공개 정원에 놀러 가기: 친구가 직접 심은 소리만 */
+// 친구 정원 놀러 가기: 그 친구가 받아서 심은 소리 (친구 자신이 보낸 소리는 친구 정원에 없다)
+// 각 꽃에 sender_name(보낸 사람)이 붙어 온다. supabase/migrations-006.sql 의 visit_flowers 필요
 export async function loadVisit(friend) {
-  const { data, error } = await supabase.from('flowers').select('*').eq('garden_id', friend.garden_id).order('created_at')
-  if (error) throw error
+  const { data, error } = await supabase.rpc('visit_flowers', { p_friend: friend.user_id })
+  if (error) {
+    if (error.code === 'PGRST202' || /visit_flowers/.test(error.message || '')) {
+      throw new Error('서버 준비가 아직 안 됐어요 (Supabase에서 migrations-006.sql 실행 필요)')
+    }
+    throw error
+  }
   return data
 }
 

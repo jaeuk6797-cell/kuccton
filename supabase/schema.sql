@@ -422,3 +422,56 @@ begin
 end $$;
 revoke all on function public.respond_share(uuid, boolean) from public, anon;
 grant execute on function public.respond_share(uuid, boolean) to authenticated;
+
+
+-- ───────── (migrations-006) 놀러 가기: 친구 정원 = 친구가 받아서 심은 소리 ─────────
+create or replace function public.visit_flowers(p_friend uuid)
+returns setof jsonb language sql stable security definer set search_path = public as $$
+  select to_jsonb(f) || jsonb_build_object('sender_name', sm.nickname, 'shared_at', s.created_at)
+  from public.shares s
+  join public.flowers f on f.id = s.flower_id
+  left join public.members sm on sm.id = f.sender_id
+  where s.to_user = p_friend
+    and s.status = 'accepted'
+    and p_friend in (select public.my_friend_ids())
+    and exists (
+      select 1 from public.members m join public.gardens g on g.id = m.garden_id
+      where m.user_id = p_friend and g.is_public
+    )
+  order by s.created_at
+$$;
+revoke all on function public.visit_flowers(uuid) from public, anon;
+grant execute on function public.visit_flowers(uuid) to authenticated;
+
+-- 놀러 간 정원에 핀 소리의 id (소리 파일 재생 권한용)
+create or replace function public.visitable_flower_ids()
+returns setof uuid language sql stable security definer set search_path = public as $$
+  select s.flower_id from public.shares s
+  where s.status = 'accepted'
+    and s.to_user in (select public.my_friend_ids())
+    and exists (
+      select 1 from public.members m join public.gardens g on g.id = m.garden_id
+      where m.user_id = s.to_user and g.is_public
+    )
+$$;
+grant execute on function public.visitable_flower_ids() to authenticated;
+
+-- 소리 파일 읽기: 05의 정책에 '놀러 간 정원에 핀 소리'를 더한다 (나머지 조건은 05와 같다)
+drop policy if exists "sounds: garden read" on storage.objects;
+create policy "sounds: garden read" on storage.objects for select to authenticated
+  using (
+    bucket_id = 'sounds' and (
+      (storage.foldername(name))[1] in (select g::text from public.my_garden_ids() as g)
+      or (storage.foldername(name))[1] in (select g::text from public.visitable_garden_ids() as g)
+      or exists (
+        select 1 from public.flowers f
+        where f.audio_path = storage.objects.name
+          and (
+            f.garden_id in (select public.my_garden_ids())
+            or f.garden_id in (select public.visitable_garden_ids())
+            or f.id in (select flower_id from public.shares where to_user = auth.uid())
+            or f.id in (select public.visitable_flower_ids())
+          )
+      )
+    )
+  );
