@@ -5,7 +5,7 @@ import Recorder from './Recorder.jsx'
 import { FlowerDetail, PairDetail } from './Details.jsx'
 import ShareSheet from './Share.jsx'
 import { displayName } from '../lib/tree.js'
-import { Bell, Heart, Menu, Mic, Sprout, User, Users, Wave } from './Icons.jsx'
+import { Bell, ChevronUp, Heart, Menu, Mic, Sprout, User, Users, Wave } from './Icons.jsx'
 import { addFriend, currentUser, deleteFlower, insertFlower, loadGarden, shareFlowers, subscribeGarden, today, uploadAudio } from '../lib/db.js'
 
 // 받침에 따라 조사 고르기
@@ -33,8 +33,9 @@ export default function Garden({ session, onSignOut, email }) {
   const [fresh, setFresh] = useState(() => new Set())
   const [highlight, setHighlight] = useState(null)
   const [sharePick, setSharePick] = useState(null) // { flower } 또는 { friend }
-  // 플로팅 도구: 접어도 손잡이·상태·작은 녹음 버튼은 남긴다.
-  const SHEET_PEEK = 128
+  // 플로팅 도구: 접어도 ^ 손잡이·상태 카드·작은 녹음 버튼은 남긴다.
+  // = 손잡이 28 + 간격 10 + 상태 카드 64 + 아래 여백 8
+  const SHEET_PEEK = 110
   const [sheetOpen, setSheetOpen] = useState(() => localStorage.getItem('sup.sheet') !== 'closed')
   const sheetRef = useRef(null)
   const homeRef = useRef(null)
@@ -273,8 +274,7 @@ export default function Garden({ session, onSignOut, email }) {
               aria-controls="garden-actions"
               aria-label={sheetOpen ? '정원 도구 접기' : '정원 도구 펼치기'}
             >
-              <span className="grip" aria-hidden="true" />
-              <span>{sheetOpen ? '정원 넓게 보기' : '도구 펼치기'}</span>
+              <ChevronUp aria-hidden="true" />
             </button>
             <button
               className="status"
@@ -296,8 +296,7 @@ export default function Garden({ session, onSignOut, email }) {
             <div id="garden-actions" className="garden-actions" inert={sheetOpen ? undefined : ''} aria-hidden={!sheetOpen}>
               <button className="comfort-btn" onClick={comfort}><Heart /> 오늘의 위로</button>
               <button className="record-cta" onClick={() => setRecording(true)} aria-label="오늘의 소리 녹음하기 · 최대 10초">
-                <Mic />
-                <span>오늘의 소리<small>녹음하기 · 10초</small></span>
+                <Mic /> 오늘의 소리 녹음 <small>10초</small>
               </button>
             </div>
           </section>

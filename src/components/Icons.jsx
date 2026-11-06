@@ -3,6 +3,9 @@ const base = { width: 22, height: 22, viewBox: '0 0 24 24', fill: 'none', stroke
 export const Sprout = (p) => (
   <svg {...base} {...p}><path d="M12 21v-9" /><path d="M12 12c0-4-3-6-7-6 0 4 3 6 7 6Z" /><path d="M12 10c0-3.5 2.5-5.5 6-5.5 0 3.5-2.5 5.5-6 5.5Z" /></svg>
 )
+export const ChevronUp = (p) => (
+  <svg {...base} {...p}><path d="M6 15l6-6 6 6" /></svg>
+)
 export const Menu = (p) => (
   <svg {...base} {...p}><path d="M4 7h16M4 12h16M4 17h16" /></svg>
 )
