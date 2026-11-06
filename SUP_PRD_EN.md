@@ -1,4 +1,4 @@
-# SOOP (소리숲) — Product Requirements Document
+# SUP (소리숲) — Product Requirements Document
 
 **Date:** November 6, 2026  
 **Author:** @Yeojung
@@ -11,7 +11,7 @@
 
 ## 1. Overview
 
-SOOP is an emotional sound-sharing app where two people exchange **10 seconds of sound each day**. Every sound blooms into a flower with a Korean onomatopoeic name, and the flowers accumulate to form a private garden shared by the two people.
+SUP is an emotional sound-sharing app where two people exchange **10 seconds of sound each day**. Every sound blooms into a flower with a Korean onomatopoeic name, and the flowers accumulate to form a private garden shared by the two people.
 
 ### Problem Statement
 
@@ -21,7 +21,7 @@ SOOP is an emotional sound-sharing app where two people exchange **10 seconds of
 
 ### Proposed Solution
 
-| Conventional Approach | SOOP |
+| Conventional Approach | SUP |
 | --- | --- |
 | A voice message disappears into chat history after being heard. | Each sound remains in the garden as a flower with its own name. |
 | Visual representations are arbitrary (e.g., volume → color). | Korean sound-symbolic rules provide a basis for the flower's name and appearance. |
@@ -275,7 +275,7 @@ The MVP comprises the **seven P0 features, F1–F7**.
 ### Open Questions
 
 - [x] ~~Confirm whether the hackathon lasts 6 or 12 hours.~~ *(Marked complete in the source; the confirmed duration is not specified.)*
-- [ ] Decide whether to retain the service name **SOOP (소리숲)**.
+- [x] Service name decided: **SUP (소리숲)**.
 - [ ] Secure demonstration devices (**two Android phones or a laptop**).
 
 ---
