@@ -389,3 +389,14 @@ h1, h2 { margin: 0; }
 .sheet-handle { background: none; box-shadow: none; backdrop-filter: none; color: #4f4a58; }
 /* '아직 핀 꽃이 없어요'는 오른쪽에 (왼쪽 상태 카드·안내와 겹치지 않게) */
 .empty-garden { left: 36px; right: 20px; align-items: flex-end; text-align: right; }
+
+/* 녹음 미리보기: 받을 친구 고르기 */
+.send-to { display: flex; flex-direction: column; gap: 8px; width: 100%; text-align: left; }
+.send-to b { font-size: 0.95rem; }
+
+/* 정원에서 누구의 꽃을 볼지: 상자 없이 글자 탭으로 (고른 것만 진하게 + 밑줄) */
+.view-pills { gap: 16px; margin-top: 10px; }
+.view-pills button { padding: 4px 0; border-radius: 0; background: none; backdrop-filter: none; color: var(--muted); font-size: 0.92rem; border-bottom: 2px solid transparent; }
+.view-pills button b { font-weight: 500; color: inherit; margin-left: 2px; }
+.view-pills button.on { background: none; color: var(--ink); font-weight: 700; border-bottom-color: var(--ink); }
+.view-pills button.on b { color: inherit; font-weight: 700; }
