@@ -6,6 +6,7 @@ import { FlowerDetail, PairDetail } from './Details.jsx'
 import ShareSheet from './Share.jsx'
 import Visit from './Visit.jsx'
 import Avatar from './Avatar.jsx'
+import Tutorial, { HelpPage } from './Tutorial.jsx'
 import { displayName } from '../lib/tree.js'
 import { Bell, ChevronUp, Heart, Help, Menu, Mic, Pencil, Sprout, User, Users, Wave } from './Icons.jsx'
 import { GARDEN_LIMIT, GARDEN_NEAR_FULL, addFriend, archiveShares, audioUrl, currentUser, deleteFlower, derivePairs, insertFlower, loadGarden, respondShare, shareFlowers, subscribeGarden, today, updateProfile, uploadAudio } from '../lib/db.js'
@@ -32,6 +33,8 @@ export default function Garden({ session, onSignOut, email, demo }) {
   const [openPair, setOpenPair] = useState(null)
   const [showBell, setShowBell] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
+  const [tutorialOpen, setTutorialOpen] = useState(false)
+  const tutorialPromptedRef = useRef(false)
   const [cleanupOpen, setCleanupOpen] = useState(false) // 정원 정리하기 창
   const [friendPicker, setFriendPicker] = useState(false) // '+N' 친구 고르기 창
   const menuButtonRef = useRef(null)
@@ -120,6 +123,28 @@ export default function Garden({ session, onSignOut, email, demo }) {
     return () => { alive = false; unsub() }
   }, [session.gardenId, meId, refresh, demo])
 
+  // 계정별로 이 기기에서 처음 정원에 들어오면 안내한다. 도움말에서 언제든 다시 볼 수 있다.
+  useEffect(() => {
+    if (!data || tutorialPromptedRef.current) return
+    tutorialPromptedRef.current = true
+    if (demo) {
+      if (new URLSearchParams(location.search).get('tutorial') === '1') setTutorialOpen(true)
+      return
+    }
+    try {
+      if (localStorage.getItem(`sup.tutorial.v1.${data.userId || meId}`)) return
+    } catch {}
+    setTutorialOpen(true)
+  }, [data, demo, meId])
+
+  function finishTutorial(completed) {
+    if (!demo) {
+      try { localStorage.setItem(`sup.tutorial.v1.${data.userId || meId}`, completed ? 'done' : 'skipped') } catch {}
+    }
+    setTutorialOpen(false)
+    if (completed) setTab('garden')
+  }
+
   // 나 탭: 닉네임·프로필 사진 바꾸기. photo: File | 'remove' | null
   async function saveProfile(nickname, photo) {
     if (demo) {
@@ -129,6 +154,17 @@ export default function Garden({ session, onSignOut, email, demo }) {
       await refresh()
     }
     showToast('프로필을 바꿨어요')
+  }
+
+  function updateDemoReceived(shareIds, status) {
+    setData((d) => {
+      const collections = receivedSoundCollections(d.receivedHistory.map((f) => shareIds.includes(f.share_id)
+        ? { ...f, share_status: status } : f))
+      const { receivedFlowers, ...received } = collections
+      const flowers = [...d.flowers.filter((f) => f.sender_id === meId), ...receivedFlowers]
+      const byId = Object.fromEntries(flowers.map((f) => [f.id, f]))
+      return { ...d, ...received, flowers, pairs: derivePairs(d.friends, d.sentShares.filter((s) => s.status === 'accepted'), received.receivedShares, byId) }
+    })
   }
 
   // 받은 소리함: 정원에 심기(받기) / 괜찮아요(거절)
@@ -145,14 +181,7 @@ export default function Garden({ session, onSignOut, email, demo }) {
     setAnswerBusy(true)
     try {
       if (demo) {
-        setData((d) => {
-          const collections = receivedSoundCollections(d.receivedHistory.map((f) => f.share_id === item.share_id
-            ? { ...f, share_status: accept ? 'accepted' : 'declined' } : f))
-          const { receivedFlowers, ...received } = collections
-          const flowers = [...d.flowers.filter((f) => f.sender_id === meId), ...receivedFlowers]
-          const byId = Object.fromEntries(flowers.map((f) => [f.id, f]))
-          return { ...d, ...received, flowers, pairs: derivePairs(d.friends, d.sentShares.filter((s) => s.status === 'accepted'), received.receivedShares, byId) }
-        })
+        updateDemoReceived([item.share_id], accept ? 'accepted' : 'declined')
       } else {
         await respondShare(item.share_id, accept)
         await refresh()
@@ -175,10 +204,11 @@ export default function Garden({ session, onSignOut, email, demo }) {
   // 정원 정리: 고른 소리를 정원에서 뺀다 (앨범에는 남는다)
   async function cleanup(shareIds) {
     try {
-      const n = await archiveShares(shareIds)
+      const n = demo ? shareIds.length : await archiveShares(shareIds)
+      if (demo) updateDemoReceived(shareIds, 'archived')
       showToast(`${n}송이를 정원에서 뺐어요 · 앨범에는 남아 있어요`)
       setCleanupOpen(false); setOpenFlower(null)
-      await refresh()
+      if (!demo) await refresh()
     } catch (e) {
       showToast(e.message || String(e))
     }
@@ -430,7 +460,7 @@ export default function Garden({ session, onSignOut, email, demo }) {
       {tab === 'album' && <Album data={data} meId={meId} onOpen={setOpenFlower} onOpenPair={setOpenPair} flowerById={flowerById} />}
       {tab === 'friends' && <Friends data={data} onOpen={setOpenFlower} onShareTo={(friend) => setSharePick({ friend })} onVisit={setVisiting} onGoMe={() => setTab('me')} />}
       {tab === 'me' && <Me me={me} email={email} onSignOut={onSignOut} code={data.garden.code} onAdded={refresh} onSaveProfile={saveProfile} />}
-      {tab === 'help' && <HelpPage />}
+      {tab === 'help' && <HelpPage onTutorial={() => setTutorialOpen(true)} />}
 
       {/* 오른쪽 위 메뉴 (아래 탭바 대신). 어느 화면에서나 같은 자리에 있다 */}
       <button ref={menuButtonRef} className="round-btn menu-btn" onClick={() => menuOpen ? closeMenu() : setMenuOpen(true)} aria-label="메뉴" aria-expanded={menuOpen} aria-controls="garden-menu">
@@ -476,6 +506,7 @@ export default function Garden({ session, onSignOut, email, demo }) {
         </>
       )}
 
+      {tutorialOpen && <Tutorial onDone={finishTutorial} />}
       {toast && <div className="toast">{toast}</div>}
       {recording && <Recorder onClose={() => setRecording(false)} onSend={handleSend} friends={data.friends} />}
       {openFlower && (
@@ -747,8 +778,10 @@ function Friends({ data, onOpen, onShareTo, onVisit, onGoMe }) {
 
       {data.friends.length === 0 ? (
         <div className="friends-empty">
-          <p className="muted">아직 친구가 없어요.</p>
-          <button className="ghost" onClick={onGoMe}>나 탭에서 친구 코드 주고받기</button>
+          <Users width={36} height={36} aria-hidden="true" />
+          <h2>아직 친구가 없어요</h2>
+          <p className="muted">친구를 등록하고 소리를 나눠 보세요.</p>
+          <button className="ghost" onClick={onGoMe}>친구 등록하기</button>
         </div>
       ) : (
         <ul className="friend-list">
@@ -913,35 +946,6 @@ function Me({ me, email, onSignOut, code, onAdded, onSaveProfile }) {
       <Profile me={me} email={email} onSave={onSaveProfile} />
       <FriendCode code={code} onAdded={onAdded} />
       <button className="link logout" onClick={onSignOut}>로그아웃</button>
-    </div>
-  )
-}
-
-// 도움말: 화면 곳곳에 흩어져 있던 설명을 한곳에 (메뉴 → 도움말)
-const HELP = [
-  ['SUP은', '하루 10초의 소리를 친구에게 보내면, 그 소리가 의성어 이름을 가진 꽃이나 나무가 되어 친구 정원에 자라요. 내 정원은 친구들이 보내 준 소리로 채워져요.'],
-  ['오늘의 소리 보내기', '아래 ‘오늘의 소리 녹음’을 누르면 바로 10초 동안 녹음돼요. 미리보기에서 꽃을 확인하고, 받을 친구를 골라(여러 명 가능) 보내면 돼요. 내가 보낸 소리는 내 정원이 아니라 친구 정원에 피어요.'],
-  ['꽃과 나무', '말소리는 감정에 따라 일곱 가지 꽃(해바라기·별·튤립·작약·연꽃·초롱꽃·엉겅퀴 모양)으로, 그 밖의 소리는 나무로 자라요. 소리가 크면 꽃이 크고, 여러 번 울리면 꽃잎이 많아지고, 소리의 흐름에 따라 꽃잎 길이가 달라져요.'],
-  ['꽃 이름', '소리를 듣고 한국어 의성어로 이름을 지어요. 작고 맑은 소리는 ‘토독’처럼 밝은 모음, 크고 낮은 소리는 ‘투둑’처럼 어두운 모음, 세게 시작하면 ‘톡·탁’처럼 센 소리, 여러 번 울리면 ‘토독토독’처럼 되풀이돼요.'],
-  ['받은 소리함', '아직 고르지 않은 소리만 보여요. ‘심기’나 ‘괜찮아요’를 누르면 소리함에서 사라져요. 처리한 소리는 메뉴 → 친구 → 해당 친구의 주고받은 소리에서 다시 들을 수 있어요. ‘괜찮아요’ 했던 소리도 거기서 다시 정원에 심을 수 있어요.'],
-  ['내 정원 보기', '꽃이나 나무를 누르면 그날의 소리가 들려요. 손가락으로 끌면 섬을 둘러볼 수 있어요. 위쪽 친구 이름을 누르면 그 친구가 보낸 꽃만 보여요. 아래 ^ 표시로 도구를 접고 펼 수 있어요.'],
-  ['우리의 꽃', '같은 날 나와 친구가 서로 소리를 보내고 둘 다 심으면, 두 소리가 만나 정원 가운데에 우리의 꽃이 피어요. 누르면 친구 소리는 왼쪽 귀, 내 소리는 오른쪽 귀로 함께 들려요. 이어폰으로 들어 보세요.'],
-  ['친구', '메뉴 → 나에서 내 코드를 눌러 복사해 친구에게 보내고, 친구 코드를 넣으면 친구가 돼요. 메뉴 → 친구에는 친구 목록이 있고, 친구를 누르면 주고받은 소리 기록을 보고 소리를 공유할 수 있어요. 친구 프로필을 누르면 정원에 놀러 가요. 친구 정원에는 놀러 가서 구경할 수 있어요(소리는 그 친구만 들을 수 있어요).'],
-  ['오늘의 위로', '받은 소리 중 하나를 골라 다시 들려줘요. 힘든 날 눌러 보세요.'],
-  ['내 소리는', '보낸 사람과 받은 사람만 들을 수 있어요. 점수나 연속 기록, 시드는 꽃은 없어요.'],
-  ['계정', '다른 기기에서도 같은 이메일로 로그인하면 내 정원이 그대로 열려요. 메뉴 → 나에서 사진의 ＋를 눌러 프로필 사진을, 이름을 눌러 닉네임을 바꿀 수 있어요. 로그아웃도 여기서 해요.'],
-]
-
-function HelpPage() {
-  return (
-    <div className="page help-page">
-      <h1 className="page-title">도움말</h1>
-      {HELP.map(([title, body]) => (
-        <section key={title} className="help-item">
-          <h2>{title}</h2>
-          <p>{body}</p>
-        </section>
-      ))}
     </div>
   )
 }

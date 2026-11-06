@@ -22,9 +22,11 @@ KUCC 동아리 해커톤(주제: 소리, 4인 팀) 출품작. 응답과 주석�
 
 - 정원은 **최대 50송이**(`GARDEN_LIMIT`, DB `respond_share`와 같아야 함). 45송이부터 알림, 가득 차면 심기를 막고 '정원 정리하기'로 오래된 소리를 정원에서 뺀다(`archive_shares`, 상태 `archived`, 앨범에는 '정리함'으로 남음, migrations-010). 섬에는 반지름 3.4·간격 0.66 벌집 자리 69개를 장식(고리·수정·연못)을 피해 깔고, 먼저 받은 꽃부터 자리를 잡아 새 꽃이 와도 기존 꽃은 움직이지 않는다(`Island3D.jsx`의 `SLOTS`, `placeFlowers`).
 
-## 3. 기술 스택
-
 - 받은 소리함에는 `pending`만 보인다. 심었거나 `declined`(괜찮아요)인 소리도 친구별 수신 내역(`receivedHistory`)에는 남긴다. 친구 → 해당 친구 → 주고받은 소리에서 다시 듣고, `declined`는 다시 심을 수 있다. 정원·우리의 꽃에는 `accepted`만 사용하고 `archived`는 앨범에 유지한다. `migrations-011.sql` 실행 후 거절·정리한 소리도 다시 심을 수 있다.
+
+- 도움말은 앱 취지와 작은 ‘튜토리얼 다시 하기’만 보여 준다. 첫 정원 입장 때 `Tutorial.jsx`의 5단계 안내를 연다. 완료·건너뛰기는 이 기기의 계정별 `sup.tutorial.v1.<user id>`에 기록한다. 데모는 `tutorial=1`일 때만 연다.
+
+## 3. 기술 스택
 
 - React 18 + Vite 5 (모바일 웹) → **Capacitor 8**로 Android/iOS 앱
 - three.js (R3F 아님): `src/components/Island3D.jsx`

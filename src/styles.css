@@ -503,7 +503,57 @@ h1, h2 { margin: 0; }
 
 .send-step { display: flex; flex-direction: column; gap: 12px; width: 100%; }
 .send-step .select-all { align-self: flex-end; }
-.friends-empty { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; }
+.friends-empty { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; padding: 28px 0 64px; text-align: center; }
+.friends-empty > svg { color: var(--muted); margin-bottom: 6px; }
+.friends-empty h2 { font-size: 1.1rem; }
+.friends-empty p { margin: 0; font-size: .88rem; }
+.friends-empty button { margin-top: 6px; }
+
+/* 도움말은 앱 취지와 작은 다시 보기 링크만 남긴다. */
+.help-purpose { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 18px 0; }
+.help-bloom { height: 162px; display: grid; place-items: center; }
+.help-brand { font-size: .75rem; letter-spacing: .22em; font-weight: 700; color: var(--muted); }
+.help-purpose h2 { font-size: clamp(1.15rem, 5vw, 1.4rem); line-height: 1.6; margin: 14px 0 12px; letter-spacing: -.035em; }
+.help-purpose p { font-size: .87rem; line-height: 1.8; color: #64616e; margin: 8px 0; word-break: keep-all; }
+.help-purpose small { font-size: .75rem; line-height: 1.8; color: var(--muted); margin-top: 18px; }
+.tutorial-replay { align-self: center; padding: 12px; font-size: .75rem; color: var(--muted); }
+.tutorial-replay span { margin-left: 5px; }
+.tutorial-replay:hover { color: var(--ink); }
+
+/* 첫 입장 안내: 정원과 데이터를 바꾸지 않는 단계별 튜토리얼. */
+.tutorial-backdrop { position: fixed; inset: 0; z-index: 30; background: rgba(46,47,58,.28); backdrop-filter: blur(8px); display: grid; place-items: center; padding: max(16px, env(safe-area-inset-top)) 16px max(16px, env(safe-area-inset-bottom)); }
+.tutorial-panel { display: flex; flex-direction: column; width: 100%; max-width: 420px; max-height: 100%; overflow-y: auto; padding: 22px; border-radius: 28px; background: var(--paper); box-shadow: 0 20px 80px rgba(46,47,58,.18); }
+.tutorial-header { display: flex; align-items: center; justify-content: space-between; gap: 12px; font-size: .75rem; color: var(--muted); }
+.tutorial-header > span { font-weight: 700; letter-spacing: .03em; }
+.tutorial-header button { padding: 8px 0 8px 12px; font-size: .75rem; }
+.tutorial-progress { display: flex; gap: 5px; margin: 14px 0 20px; }
+.tutorial-progress span { height: 3px; flex: 1; border-radius: 3px; background: var(--line); }
+.tutorial-progress .done { background: var(--accent); }
+.tutorial-art { display: grid; place-items: center; min-height: 178px; border-radius: 22px; background: linear-gradient(150deg, #e4e8f6, #f4e6e8 65%, #f5ece0); padding: 18px 12px; }
+.tutorial-friend-art, .tutorial-record-art, .tutorial-pair-art, .tutorial-garden-art { display: flex; align-items: center; justify-content: center; gap: 14px; }
+.tutorial-avatar { width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; background: #f4d1c8; font-size: .8rem; color: #6b5552; }
+.tutorial-avatar.partner { background: #cbd7f3; }
+.tutorial-code { display: flex; flex-direction: column; text-align: center; gap: 8px; color: var(--muted); font-size: .65rem; }
+.tutorial-code b { color: var(--ink); font-size: 1.1rem; letter-spacing: .12em; }
+.tutorial-record-art { flex-direction: column; gap: 10px; font-size: .7rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+.tutorial-mic { width: 60px; height: 60px; border-radius: 50%; background: var(--accent); color: white; display: grid; place-items: center; }
+.tutorial-wave { display: flex; height: 28px; align-items: center; gap: 4px; }
+.tutorial-wave i { width: 4px; max-height: 28px; border-radius: 4px; background: #cd9e9b; }
+.tutorial-plant-art { display: flex; align-items: center; gap: 16px; }
+.tutorial-plant-art > span:first-of-type { transform: rotate(-90deg); color: var(--muted); }
+.tutorial-islet { width: 92px; height: 62px; border-radius: 50%; display: grid; place-items: center; background: #b1c5aa; color: #567c54; box-shadow: 0 12px 0 #a6a5b5; }
+.tutorial-pair-art > span { color: #8e859c; font-size: .75rem; font-weight: 700; }
+.tutorial-garden-art { gap: 5px; }
+.tutorial-copy { padding-top: 20px; animation: fade .2s; }
+.tutorial-step { font-size: .68rem; letter-spacing: .12em; color: var(--accent-d); font-weight: 700; }
+.tutorial-copy h2 { font-size: 1.35rem; letter-spacing: -.04em; line-height: 1.45; margin: 10px 0 12px; outline: none; }
+.tutorial-copy p { font-size: .88rem; line-height: 1.85; color: #64616e; margin: 0; word-break: keep-all; }
+.tutorial-copy small { display: block; font-size: .74rem; line-height: 1.65; margin-top: 14px; color: var(--muted); }
+.tutorial-footer { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-top: 26px; }
+.tutorial-prev { padding: 12px 0; font-size: .85rem; color: var(--muted); }
+.tutorial-footer .primary { min-width: 120px; }
+@media (max-height: 600px) { .tutorial-art { min-height: 120px; } .tutorial-panel { padding: 16px 20px; } .tutorial-copy { padding-top: 12px; } .tutorial-footer { padding-top: 16px; } }
+@media (prefers-reduced-motion: reduce) { .tutorial-copy { animation: none; } }
 /* 앨범: 꽃·나무·우리의 꽃 모두 같은 48×48 칸에 → 그림과 이름 줄이 나란히 맞는다 */
 .album-item { justify-content: flex-start; gap: 4px; }
 .album-item > svg { width: 48px; height: 48px; flex-shrink: 0; }

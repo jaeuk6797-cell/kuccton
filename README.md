@@ -84,3 +84,10 @@ npm run dev:phone    # 같은 와이파이의 폰에서 https://<PC IP>:5173
 |---|---|---|
 | **교보 손글씨 2024 박서우** | 꽃말 (`public/fonts/KyoboHandwriting2024psw.ttf`) | © 교보문고 · 제작 윤디자인. 제10회 교보손글씨대회 으뜸상 수상자 박서우 님의 손글씨. 개인·기업 무료 사용 가능(웹 포함). 파일 수정·변환·재판매 금지. [교보문고 손글씨 폰트](https://store.kyobobook.co.kr/handwriting/font) |
 | **Pretendard** | 그 밖의 모든 글자 | © Kil Hyung-jin · [SIL Open Font License 1.1](https://github.com/orioncactus/pretendard/blob/main/LICENSE) · jsDelivr CDN으로 불러옴 |
+
+## 처음 사용 안내
+
+처음 정원에 들어오면 친구 맺기 → 녹음 → 소리 심기 → 우리의 꽃 → 다시 듣기의 5단계 튜토리얼이 열립니다. 완료하거나 ‘나중에’를 누르면 이 기기의 계정별로 기록하며, 도움말 아래 ‘튜토리얼 다시 하기’에서 다시 볼 수 있습니다. 도움말에는 앱 취지만 남깁니다.
+개발 화면 `/?view=home&friends=3&tutorial=1`에서 첫 안내를 확인할 수 있습니다.
+
+**배포 시 SQL 실행 필요:** 신규·기존 프로젝트 모두 `schema.sql` 또는 기존 마이그레이션 적용 후 `supabase/migrations-011.sql`을 실행해 주세요. 튜토리얼에는 별도 DB 변경이 없습니다.
