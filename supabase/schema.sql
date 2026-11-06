@@ -593,7 +593,7 @@ drop policy if exists "avatars: own delete" on storage.objects;
 create policy "avatars: own delete" on storage.objects for delete to authenticated
   using (bucket_id = 'avatars' and (storage.foldername(name))[1] = auth.uid()::text);
 
--- ───────── 정원 50송이와 정리하기 (migrations-009.sql과 같음) ─────────
+-- ───────── 정원 50송이와 정리하기 (migrations-010.sql과 같음) ─────────
 alter table public.shares drop constraint if exists shares_status_check;
 alter table public.shares add constraint shares_status_check
   check (status in ('pending', 'accepted', 'declined', 'archived'));
