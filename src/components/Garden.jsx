@@ -442,6 +442,12 @@ function GardenContent({ session, onSignOut, email, demo, initialTab = 'garden' 
       {tab === 'help' && <HelpPage onTutorial={() => setTutorialOpen(true)} />}
 
       {/* 오른쪽 위 메뉴 (아래 탭바 대신). 어느 화면에서나 같은 자리에 있다 */}
+      {/* 정원이 아닌 화면(앨범·친구·나·도움말)에서는 메뉴 왼쪽의 ←로 정원으로 돌아간다. 그래서 메뉴에는 '정원' 항목이 없다 */}
+      {tab !== 'garden' && (
+        <button className="round-btn garden-back-btn" onClick={() => { setTab('garden'); closeMenu() }} aria-label="정원으로 돌아가기">
+          <ArrowLeft />
+        </button>
+      )}
       <button ref={menuButtonRef} className="round-btn menu-btn" onClick={() => menuOpen ? closeMenu() : setMenuOpen(true)} aria-label="메뉴" aria-expanded={menuOpen} aria-controls="garden-menu">
         <Menu />
         {data.inbox.length > 0 && <i className="badge" />}
@@ -462,7 +468,6 @@ function GardenContent({ session, onSignOut, email, demo, initialTab = 'garden' 
           ) : (
           <nav className="menu-nav" aria-label="메뉴">
             {[
-              ['garden', Sprout, '정원'],
               ['album', Wave, '앨범'],
               ['friends', Users, '친구'],
               ['me', User, '나'],

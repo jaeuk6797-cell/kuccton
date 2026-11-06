@@ -234,7 +234,7 @@ h1, h2 { margin: 0; }
 
 /* 탭 페이지 */
 .page { position: absolute; inset: 0 0 var(--tab) 0; overflow-y: auto; padding: calc(22px + var(--safe-top)) max(20px, var(--safe-right)) 30px max(20px, var(--safe-left)); z-index: 1; display: flex; flex-direction: column; gap: 12px; }
-.page-heading { flex-shrink: 0; padding-right: 56px; }
+.page-heading { flex-shrink: 0; padding-right: 110px; } /* 메뉴 버튼(44px) + ← 버튼(44px) + 간격 */
 .page-heading .page-title { padding-right: 0; margin: 0; font-size: clamp(1.2rem, 5.4vw, 1.75rem); letter-spacing: -.02em; overflow-wrap: anywhere; }
 .page-title { font-size: 1.6rem; color: var(--ink); margin-bottom: 6px; }
 .page-sub { font-family: var(--serif); font-size: 1.1rem; margin-top: 12px; }
@@ -319,8 +319,9 @@ h1, h2 { margin: 0; }
 
 /* 오른쪽 위 메뉴 (정원·앨범·친구·나·받은 소리) */
 .menu-btn { position: absolute; top: var(--menu-top); right: max(20px, var(--safe-right)); z-index: 8; }
+.garden-back-btn { position: absolute; top: var(--menu-top); right: calc(max(20px, var(--safe-right)) + 54px); z-index: 8; }
 .menu-backdrop { position: absolute; inset: 0; z-index: 7; }
-.menu { position: absolute; top: calc(var(--menu-top) + 52px); right: max(20px, var(--safe-right)); z-index: 8; width: min(188px, calc(100% - 40px)); height: 273px; max-height: calc(var(--viewport-height, 100dvh) - var(--menu-top) - 72px - var(--safe-bottom)); background: rgba(255,252,248,.97); border-radius: 18px; padding: 6px; box-shadow: 0 12px 34px rgba(46,47,58,.18); display: flex; flex-direction: column; animation: fade .15s; backdrop-filter: blur(10px); overflow: hidden; transform-origin: top right; transition: width .24s ease, height .24s ease; }
+.menu { position: absolute; top: calc(var(--menu-top) + 52px); right: max(20px, var(--safe-right)); z-index: 8; width: min(188px, calc(100% - 40px)); height: 231px; /* 메뉴 항목 5개에 맞춤(위아래 여백 6px씩). 항목을 더하거나 빼면 42px씩 같이 바꾼다 */ max-height: calc(var(--viewport-height, 100dvh) - var(--menu-top) - 72px - var(--safe-bottom)); background: rgba(255,252,248,.97); border-radius: 18px; padding: 6px; box-shadow: 0 12px 34px rgba(46,47,58,.18); display: flex; flex-direction: column; animation: fade .15s; backdrop-filter: blur(10px); overflow: hidden; transform-origin: top right; transition: width .24s ease, height .24s ease; }
 .menu-nav { display: flex; flex-direction: column; overflow-y: auto; }
 .menu-nav > button { display: flex; align-items: center; gap: 12px; padding: 11px 12px; border-radius: 12px; font-size: 0.95rem; text-align: left; position: relative; flex-shrink: 0; }
 .menu-nav > button svg { width: 20px; height: 20px; color: var(--muted); }
@@ -357,7 +358,7 @@ h1, h2 { margin: 0; }
 @media (prefers-reduced-motion: reduce) { .menu { transition: none; animation: none; } .menu-inbox { animation: none; } }
 .dot-new { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); margin-left: auto; }
 /* 탭 페이지 제목이 메뉴 버튼과 겹치지 않게 */
-.page-title { padding-right: 56px; }
+.page-title { padding-right: 110px; }
 /* 로고 줄 높이를 메뉴 버튼(44px)과 맞춰 가운데 정렬 */
 .home-head { min-height: calc(62px + var(--safe-top)); padding-right: 76px; }
 .join-friend { display: flex; flex-direction: column; gap: 10px; }
