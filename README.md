@@ -36,7 +36,14 @@ npm run dev:phone    # 같은 와이파이의 폰에서 https://<PC IP>:5173
 ```
 두 사람 테스트는 계정 두 개로, **다른 브라우저나 시크릿 창**에서 각각 로그인하세요.
 
-## 4. 앱 빌드 (Capacitor)
+## 4. 폰에 설치
+
+- **Android**: 폰에서 아래 링크를 열어 APK를 받고 설치합니다. 처음 한 번은 '출처를 알 수 없는 앱 설치'를 허용해야 합니다.
+  https://github.com/jaeuk6797-cell/kuccton/releases/download/android-latest/sup.apk
+  `android/`나 앱 설정이 바뀌면 GitHub Actions가 자동으로 다시 빌드합니다(Actions 탭에서 수동 실행도 가능). 화면·기능은 앱이 배포본을 불러오므로 다시 설치할 필요가 없습니다.
+- **iPhone / Android 공통**: https://kuccton.vercel.app 을 열고 '홈 화면에 추가'해도 같은 앱처럼 쓸 수 있습니다.
+
+## 5. 앱 직접 빌드 (Capacitor)
 
 `.env` 값은 빌드할 때 앱에 들어가므로 먼저 채워 두세요.
 
@@ -49,7 +56,7 @@ npm run dev:phone    # 같은 와이파이의 폰에서 https://<PC IP>:5173
 설치된 앱은 이 주소를 불러오므로, `main`에 푸시하면 Vercel이 다시 배포하고 앱에도 바로 반영됩니다(앱 재빌드 불필요).
 인터넷 연결이 필요하니 시연장에서는 핫스팟을 준비하세요. 오프라인 빌드가 필요하면 `server` 항목을 지우고 `npm run cap:sync` 하면 됩니다.
 
-## 5. 꽃이 피는 규칙
+## 6. 꽃이 피는 규칙
 
 녹음 전에 **사람 목소리 / 다른 소리**를 고릅니다.
 
