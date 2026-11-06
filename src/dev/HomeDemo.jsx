@@ -6,6 +6,7 @@
 import Garden from '../components/Garden.jsx'
 import { buildFlower, buildSoundFlower } from '../lib/flower.js'
 import { toFlowerRow, pairName } from '../lib/naming.js'
+import { receivedSoundCollections } from '../lib/receivedSounds.js'
 
 const DAY = 86400000
 const localDate = (t) => new Date(t).toLocaleDateString('sv-SE')
@@ -51,7 +52,7 @@ function makeData(withFlowers, friendCount = 1) {
     members.push({ id: fr.member, user_id: fr.user, nickname: fr.name, created_at: iso(now - 2 * DAY), friend: true })
   }
   const base = { garden: { id: 'g-me', code: '123456', created_at: iso(now - 3 * DAY), is_public: false }, members, friends, userId: ME.user }
-  if (!withFlowers) return { ...base, flowers: [], sentShares: [], receivedShares: [], inbox: [], pairs: [] }
+  if (!withFlowers) return { ...base, flowers: [], sentShares: [], receivedShares: [], receivedHistory: [], inbox: [], pairs: [] }
 
   const mine = [
     flower(ME, VOICE('joy', { rms: 0.09, centroid: 2500, attack: 0.55, onsets: 5, sustain: 0.4, envelope: env(1, 0.6, 0.9, 0.5, 0.8) }, '하하 오늘 진짜 웃겼어'), now - 2 * DAY),
@@ -79,9 +80,8 @@ function makeData(withFlowers, friendCount = 1) {
   theirs.push(...extraTheirs)
   // 내가 보낸 소리는 모든 친구에게 (오늘의 소리를 여러 명에게 보내기)
   const allFriends = [FRIEND, ...extra]
-  const sentShares = mine.flatMap((f) => allFriends.map((fr) => ({ flower_id: f.id, to_user: fr.user, created_at: f.created_at })))
+  const sentShares = mine.flatMap((f) => allFriends.map((fr) => ({ flower_id: f.id, to_user: fr.user, created_at: f.created_at, status: 'accepted' })))
   const senderOf = (f) => allFriends.find((fr) => fr.member === f.sender_id)
-  const receivedShares = theirs.map((f) => ({ flower_id: f.id, from_user: senderOf(f).user, created_at: f.created_at }))
   // 오늘 두 사람이 모두 공유했으니 오늘의 우리의 꽃
   const a = mine[2], b = theirs[2]
   const pairs = [{ id: `pair-${FRIEND.user}-${localDate(now)}`, friend: FRIEND.user, flower_a_id: a.id, flower_b_id: b.id, name: pairName(a.root, b.root), sent_date: localDate(now) }]
@@ -106,10 +106,14 @@ function makeData(withFlowers, friendCount = 1) {
     const f = { rms: 0.02 + (i % 7) * 0.018, centroid: 900 + (i * 373) % 3200, attack: (i % 5) * 0.17, onsets: 1 + (i % 6), sustain: (i % 4) * 0.25, envelope: env(0.6, 1, 0.5 + (i % 3) * 0.2, 0.8) }
     const fl = flower(who, i % 3 ? SOUND(f) : VOICE(cats[i % cats.length], f, null), now - (i + 3) * 3600000)
     theirs.push(fl)
-    receivedShares.push({ flower_id: fl.id, from_user: who.user, created_at: fl.created_at })
   }
-  const planted = theirs.map((f, i) => ({ ...f, shared_at: f.created_at, planted_share_id: `demo-share-${i}` }))
-  return { ...base, flowers: [...mine, ...planted], sentShares, receivedShares, inbox, archived: [], pairs }
+  const declined = flower(FRIEND, SOUND({ rms: 0.04, centroid: 2200, attack: 0.4, onsets: 3, sustain: 0.3, envelope: env(0.8, 0.4, 0.7) }), now - DAY)
+  const { receivedFlowers, ...received } = receivedSoundCollections([
+    ...theirs.map((f, i) => ({ ...f, share_id: `share-accepted-${i}`, share_status: 'accepted', from_user: senderOf(f).user, shared_at: f.created_at })),
+    ...inbox.map((f) => ({ ...f, share_status: 'pending' })),
+    { ...declined, share_id: 'share-declined', share_status: 'declined', from_user: FRIEND.user, shared_at: declined.created_at },
+  ])
+  return { ...base, flowers: [...mine, ...receivedFlowers], sentShares, ...received, archived: [], pairs }
 }
 
 export default function HomeDemo() {

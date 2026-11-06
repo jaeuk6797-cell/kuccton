@@ -24,6 +24,8 @@ KUCC 동아리 해커톤(주제: 소리, 4인 팀) 출품작. 응답과 주석�
 
 ## 3. 기술 스택
 
+- 받은 소리함에는 `pending`만 보인다. 심었거나 `declined`(괜찮아요)인 소리도 친구별 수신 내역(`receivedHistory`)에는 남긴다. 친구 → 해당 친구 → 주고받은 소리에서 다시 듣고, `declined`는 다시 심을 수 있다. 정원·우리의 꽃에는 `accepted`만 사용하고 `archived`는 앨범에 유지한다. `migrations-011.sql` 실행 후 거절·정리한 소리도 다시 심을 수 있다.
+
 - React 18 + Vite 5 (모바일 웹) → **Capacitor 8**로 Android/iOS 앱
 - three.js (R3F 아님): `src/components/Island3D.jsx`
 - Supabase: 이메일 로그인, Postgres + RLS, 비공개 Storage(`sounds`), Realtime

@@ -18,9 +18,9 @@ const ISLAND_GLB = `${import.meta.env.BASE_URL}models/island.glb`
 const ISLAND_RADIUS = 4
 const ISLAND_TOP_Y = 0.17
 
-// 카메라: 꽃이 모여 있는 섬 가운데(반지름 약 2)를 가깝게 본다
-const CAMERA = { position: [0, 4.4, 10.5], target: [0, 0.1, 0], fov: 36, min: 6, max: 17 }
-// 화면이 좁으면(폰 세로) 이 반지름(섬)이 가로로 다 들어오도록 카메라를 뒤로 뺀다
+// 카메라: 섬 전체를 보고, 회전하거나 확대해도 화면 밖으로 잘리지 않게 한다
+const CAMERA = { position: [0, 4.4, 10.5], target: [0, 0.1, 0], fov: 36, max: 17 }
+// 섬 가장자리와 아래 바위까지 들어오는 반지름(여백 포함)
 const FIT_RADIUS = 4.4
 
 // 빛 알갱이: 소리를 재생하면 음량에 맞춰 커지고 빨라지고 따뜻한 색이 된다
@@ -264,7 +264,7 @@ function dimObject(obj) {
   })
 }
 
-export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, visibleIds, onPickFlower, onPickPair }) {
+export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, visibleIds, onPickFlower, onPickPair, resetViewKey }) {
   const wrapRef = useRef(null)
   const stateRef = useRef(null)
   const cbRef = useRef({})
@@ -336,7 +336,6 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
     controls.target.set(...CAMERA.target)
     controls.enableDamping = true
     controls.enablePan = false
-    controls.minDistance = CAMERA.min
     controls.maxDistance = CAMERA.max
     controls.minPolarAngle = 0.55
     controls.maxPolarAngle = 1.4
@@ -371,16 +370,23 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
     viewDir.normalize()
     const resize = () => {
       const { clientWidth: w, clientHeight: h } = wrap
+      if (!w || !h) return
       renderer.setSize(w, h)
       composer.setSize(w, h)
       camera.aspect = w / h
-      // 화면이 좁을수록 카메라를 뒤로 빼서 섬 양옆이 잘리지 않게 한다 (화각은 그대로 → 왜곡 없음)
+      // 가로·세로 중 좁은 화각에 섬 전체를 맞춘다.
       camera.fov = CAMERA.fov
-      const halfH = Math.atan(Math.tan(THREE.MathUtils.degToRad(CAMERA.fov) / 2) * camera.aspect)
-      const dist = Math.max(baseDist, FIT_RADIUS / Math.sin(halfH))
-      camera.position.copy(target).addScaledVector(viewDir, dist)
+      const halfVertical = THREE.MathUtils.degToRad(CAMERA.fov) / 2
+      const halfHorizontal = Math.atan(Math.tan(halfVertical) * camera.aspect)
+      const dist = Math.max(baseDist, FIT_RADIUS / Math.sin(Math.min(halfVertical, halfHorizontal)))
+      // 확대도 이 거리까지만 허용해 섬이 화면 밖으로 나가지 않게 한다.
+      controls.minDistance = dist
       controls.maxDistance = Math.max(CAMERA.max, dist + 3)
+      controls.target.copy(target)
+      camera.position.copy(target).addScaledVector(viewDir, dist)
       camera.updateProjectionMatrix()
+      controls.update()
+      controls.saveState()
     }
     const ro = new ResizeObserver(resize)
     ro.observe(wrap)
@@ -426,7 +432,15 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
     }
     loop()
 
-    stateRef.current = { flowerLayer, clock, known: new Set(), first: true }
+    stateRef.current = {
+      flowerLayer, clock, known: new Set(), first: true,
+      resetView: () => {
+        clearTimeout(resumeTimer)
+        controls.autoRotate = false
+        controls.reset()
+        resumeTimer = setTimeout(() => (controls.autoRotate = true), 5000)
+      },
+    }
     return () => {
       cancelAnimationFrame(raf)
       clearTimeout(resumeTimer)
@@ -446,6 +460,10 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
       stateRef.current = null
     }
   }, [])
+
+  useEffect(() => {
+    if (resetViewKey != null) stateRef.current?.resetView()
+  }, [resetViewKey])
 
   // 꽃 데이터가 바뀌면 꽃 층만 다시 만든다
   useEffect(() => {

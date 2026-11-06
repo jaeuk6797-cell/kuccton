@@ -1,5 +1,6 @@
 import { createClient } from '@supabase/supabase-js'
 import { pairName } from './naming.js'
+import { receivedSoundCollections } from './receivedSounds.js'
 
 const url = import.meta.env.VITE_SUPABASE_URL
 const key = import.meta.env.VITE_SUPABASE_ANON_KEY
@@ -188,7 +189,7 @@ const localDate = (iso) => {
 }
 
 // 우리의 꽃: 친구마다, 같은 날 내가 공유한 첫 꽃과 친구가 나에게 공유한 첫 꽃을 공유한 순서대로 잇는다
-function derivePairs(friends, sent, received, flowerById) {
+export function derivePairs(friends, sent, received, flowerById) {
   const pairs = []
   for (const fr of friends) {
     const firstByDate = (list) => {
@@ -254,7 +255,7 @@ export async function loadGarden(gardenId) {
     supabase.from('flowers').select('*').eq('garden_id', gardenId).order('created_at'),
     supabase.rpc('my_friends'),
     supabase.from('shares').select('id, flower_id, to_user, created_at, status').eq('from_user', user.id),
-    supabase.from('shares').select('id, flower_id, from_user, created_at, status, flower:flowers(*)').eq('to_user', user.id).neq('status', 'declined').order('created_at'),
+    supabase.from('shares').select('id, flower_id, from_user, created_at, status, flower:flowers(*)').eq('to_user', user.id).order('created_at'),
   ])
   for (const r of [g, m, f, fr, sent, recv]) if (r.error) throw r.error
 
@@ -263,20 +264,21 @@ export async function loadGarden(gardenId) {
   const own = f.data
   const ownIds = new Set(own.map((x) => x.id))
   // 받기로 한 소리만 정원에 핀다. 아직 고르지 않은 소리는 받은 소리함(inbox)에 둔다
-  const receivedFlowers = recv.data.filter((s) => s.status === 'accepted' && s.flower && !ownIds.has(s.flower.id)).map((s) => ({ ...s.flower, shared_at: s.created_at, planted_share_id: s.id }))
-  // 정원에서 뺀 소리: 앨범에만 남는다
-  const archived = recv.data.filter((s) => s.status === 'archived' && s.flower).map((s) => ({ ...s.flower, shared_at: s.created_at, archived: true }))
-  const inbox = recv.data.filter((s) => s.status === 'pending' && s.flower).map((s) => ({ ...s.flower, share_id: s.id, shared_at: s.created_at, from_user: s.from_user }))
-  const flowers = [...own, ...receivedFlowers]
+  const { receivedHistory, receivedFlowers, receivedShares: received, inbox } = receivedSoundCollections(
+    recv.data.filter((s) => s.flower).map((s) => ({
+      ...s.flower, share_id: s.id, share_status: s.status, shared_at: s.created_at, from_user: s.from_user,
+    })),
+  )
+  const flowers = [...own, ...receivedFlowers.filter((f) => !ownIds.has(f.id))]
+  const archived = receivedHistory.filter((f) => f.share_status === 'archived').map((f) => ({ ...f, archived: true }))
   const flowerById = Object.fromEntries(flowers.map((x) => [x.id, x]))
   // 친구도 members 모양으로 넣어 두면 화면에서 보낸 사람 이름을 같은 방식으로 찾을 수 있다
   const friendMembers = friends.map((x) => ({ id: x.member_id, user_id: x.user_id, nickname: x.nickname, avatar_url: x.avatar_url, created_at: x.since, friend: true }))
   const members = [...m.data, ...friendMembers.filter((x) => !m.data.some((y) => y.id === x.id))]
-  const received = recv.data.filter((s) => s.status === 'accepted').map(({ flower, ...s }) => s)
   return {
     garden: g.data, members, friends, flowers,
     sentShares: sent.data, receivedShares: received,
-    inbox,
+    inbox, receivedHistory,
     archived,
     // 우리의 꽃은 서로 받은 소리끼리만
     pairs: derivePairs(friends, sent.data.filter((x) => x.status === 'accepted'), received, flowerById),

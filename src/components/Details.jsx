@@ -17,7 +17,7 @@ import { categoryLabel } from '../lib/naming.js'
 import { displayName, noun } from '../lib/tree.js'
 
 // S5 꽃 상세
-export function FlowerDetail({ flower, sender, mine, sharedWith = [], onShare, onAccept, onDecline, onArchive, onClose, onDelete }) {
+export function FlowerDetail({ flower, sender, mine, sharedWith = [], onShare, onAccept, onDecline, answerBusy, onArchive, onClose, onDelete }) {
   const [url, setUrl] = useState(null)
   const [confirm, setConfirm] = useState(false)
   const audioRef = useRef(null)
@@ -54,8 +54,8 @@ export function FlowerDetail({ flower, sender, mine, sharedWith = [], onShare, o
         )}
         {onAccept && (
           <div className="row">
-            <button className="ghost" onClick={onDecline}>괜찮아요</button>
-            <button className="primary" onClick={onAccept}>정원에 심기</button>
+            {onDecline && <button className="ghost" disabled={answerBusy} onClick={onDecline}>괜찮아요</button>}
+            <button className="primary" disabled={answerBusy} onClick={onAccept}>{answerBusy ? '심는 중…' : '정원에 심기'}</button>
           </div>
         )}
         {mine && onShare && (

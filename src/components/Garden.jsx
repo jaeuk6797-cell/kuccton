@@ -7,8 +7,9 @@ import ShareSheet from './Share.jsx'
 import Visit from './Visit.jsx'
 import Avatar from './Avatar.jsx'
 import { displayName } from '../lib/tree.js'
-import { Bell, ChevronUp, Heart, Help, Menu, Mic, Sprout, User, Users, Wave } from './Icons.jsx'
-import { GARDEN_LIMIT, GARDEN_NEAR_FULL, addFriend, archiveShares, currentUser, deleteFlower, insertFlower, loadGarden, respondShare, shareFlowers, subscribeGarden, today, updateProfile, uploadAudio } from '../lib/db.js'
+import { Bell, ChevronUp, Heart, Help, Menu, Mic, Pencil, Sprout, User, Users, Wave } from './Icons.jsx'
+import { GARDEN_LIMIT, GARDEN_NEAR_FULL, addFriend, archiveShares, audioUrl, currentUser, deleteFlower, derivePairs, insertFlower, loadGarden, respondShare, shareFlowers, subscribeGarden, today, updateProfile, uploadAudio } from '../lib/db.js'
+import { receivedSoundCollections } from '../lib/receivedSounds.js'
 
 // 받침에 따라 조사 고르기
 const hasBatchim = (w = '') => {
@@ -33,8 +34,27 @@ export default function Garden({ session, onSignOut, email, demo }) {
   const [menuOpen, setMenuOpen] = useState(false)
   const [cleanupOpen, setCleanupOpen] = useState(false) // 정원 정리하기 창
   const [friendPicker, setFriendPicker] = useState(false) // '+N' 친구 고르기 창
+  const menuButtonRef = useRef(null)
+  const inboxBackRef = useRef(null)
+  const inboxMenuRef = useRef(null)
+  useEffect(() => {
+    if (!menuOpen) return
+    if (showBell) inboxBackRef.current?.focus()
+    const onKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        e.preventDefault()
+        closeMenu()
+        menuButtonRef.current?.focus()
+      }
+    }
+    document.addEventListener('keydown', onKeyDown)
+    return () => document.removeEventListener('keydown', onKeyDown)
+  }, [menuOpen, showBell])
   const [viewFriend, setViewFriend] = useState('all') // 정원에서 볼 꽃: 'all' 또는 친구 member id // 오른쪽 위 메뉴: 정원·앨범·친구·나·받은 소리
   const [toast, setToast] = useState('')
+  const [answerBusy, setAnswerBusy] = useState(false)
+  const answeringRef = useRef(false)
+  const [gardenViewReset, setGardenViewReset] = useState(0)
   const [fresh, setFresh] = useState(() => new Set())
   const [highlight, setHighlight] = useState(null)
   const [sharePick, setSharePick] = useState(null) // { flower } 또는 { friend }
@@ -117,11 +137,26 @@ export default function Garden({ session, onSignOut, email, demo }) {
     const planted = data.flowers.filter((f) => f.sender_id !== meId).length
     if (accept && planted >= GARDEN_LIMIT) {
       showToast(`정원이 가득 찼어요(${GARDEN_LIMIT}송이) · 정리한 뒤에 심어 주세요`)
-      setOpenFlower(null); setShowBell(false); setCleanupOpen(true)
+      setOpenFlower(null); closeMenu(); setCleanupOpen(true)
       return
     }
+    if (answeringRef.current) return
+    answeringRef.current = true
+    setAnswerBusy(true)
     try {
-      await respondShare(item.share_id, accept)
+      if (demo) {
+        setData((d) => {
+          const collections = receivedSoundCollections(d.receivedHistory.map((f) => f.share_id === item.share_id
+            ? { ...f, share_status: accept ? 'accepted' : 'declined' } : f))
+          const { receivedFlowers, ...received } = collections
+          const flowers = [...d.flowers.filter((f) => f.sender_id === meId), ...receivedFlowers]
+          const byId = Object.fromEntries(flowers.map((f) => [f.id, f]))
+          return { ...d, ...received, flowers, pairs: derivePairs(d.friends, d.sentShares.filter((s) => s.status === 'accepted'), received.receivedShares, byId) }
+        })
+      } else {
+        await respondShare(item.share_id, accept)
+        await refresh()
+      }
       if (accept) markFresh(item.id)
       const after = planted + 1
       showToast(!accept ? '받지 않았어요'
@@ -129,9 +164,11 @@ export default function Garden({ session, onSignOut, email, demo }) {
         : after >= GARDEN_NEAR_FULL ? `정원이 거의 찼어요(${after}/${GARDEN_LIMIT}) · 정리해 두면 좋아요`
         : `${displayName(item)}을 정원에 심었어요`)
       setOpenFlower(null)
-      await refresh()
     } catch (e) {
       showToast(e.message || String(e))
+    } finally {
+      answeringRef.current = false
+      setAnswerBusy(false)
     }
   }
 
@@ -161,6 +198,8 @@ export default function Garden({ session, onSignOut, email, demo }) {
     setToast(t)
     setTimeout(() => setToast(''), 3500)
   }
+  function openInbox() { setShowBell(true); setMenuOpen(true) }
+  function closeMenu() { setMenuOpen(false); setShowBell(false) }
 
   // 오늘의 소리 보내기: 소리 파일과 꽃은 내 쪽에 한 번 저장하고(공유의 원본), 고른 친구들에게만 공유한다.
   // 내 정원에는 내가 보낸 꽃이 피지 않는다 (받은 소리와 우리의 꽃만).
@@ -227,7 +266,7 @@ export default function Garden({ session, onSignOut, email, demo }) {
   else if (data.inbox.length) {
     const last = data.inbox[data.inbox.length - 1]
     const senders = new Set(data.inbox.map((x) => x.from_user)).size
-    status = { who: nameOf(last.from_user), whoId: last.from_user, title: senders > 1 ? `친구 ${senders}명이 소리를 보냈어요` : `${josa(nameOf(last.from_user), '이', '가')} 소리를 보냈어요`, sub: `받은 소리함에서 정원에 심을지 골라 주세요 · ${data.inbox.length}개`, onClick: () => setShowBell(true) }
+    status = { who: nameOf(last.from_user), whoId: last.from_user, title: senders > 1 ? `친구 ${senders}명이 소리를 보냈어요` : `${josa(nameOf(last.from_user), '이', '가')} 소리를 보냈어요`, sub: `받은 소리함에서 정원에 심을지 골라 주세요 · ${data.inbox.length}개`, onClick: openInbox }
   }
   else if (todayPair) status = { who: nameOf(todayPair.friend), whoId: todayPair.friend, title: `오늘 ‘${todayPair.name}’이 피었어요`, sub: '눌러서 두 소리를 함께 들어 보세요', onClick: () => setOpenPair(todayPair) }
   else if (todayTheirs) status = { who: nameOf(todayRecv.from_user), whoId: todayRecv.from_user, title: `${josa(nameOf(todayRecv.from_user), '이', '가')} ${timeOfDay(todayRecv.created_at)} 소리를 보냈어요`, sub: '나도 오늘의 소리를 보내면 우리의 꽃이 피어요', onClick: () => setOpenFlower(todayTheirs) }
@@ -258,7 +297,6 @@ export default function Garden({ session, onSignOut, email, demo }) {
     flowerById[p.flower_a_id]?.sender_id === viewing || flowerById[p.flower_b_id]?.sender_id === viewing)
   // 친구별 보기: 섬에 보일 꽃 id (전체면 null → 모두). 문자열이라 값이 같으면 섬을 다시 만들지 않는다
   const visibleKey = viewing === 'all' ? null : [...shownFlowers.map((f) => f.id), ...shownPairs.map((p) => p.id)].join(',')
-  const received = data.flowers.filter((f) => f.sender_id !== meId).slice(-8).reverse()
 
   // 손잡이를 끌면 카드·섬·안내 문구가 함께 손가락을 따라오고(--sheet-p: 0 열림 ~ 1 접힘),
   // 놓으면 가까운 쪽으로 부드럽게 붙는다. 빠르게 튕기면 짧게 끌어도 넘어간다. 살짝 누르면 토글
@@ -305,6 +343,7 @@ export default function Garden({ session, onSignOut, email, demo }) {
         <>
           <div className="island-touch">
           <Island3D
+            resetViewKey={gardenViewReset}
             flowers={gardenFlowers}
             pairs={data.pairs}
             visibleIds={visibleKey}
@@ -317,7 +356,7 @@ export default function Garden({ session, onSignOut, email, demo }) {
           </div>
           <div className="home-title">
             <span className="wordmark" aria-label="SUP">SUP</span>
-            <h1>{me?.nickname}의 정원</h1>
+            <h1><button className="garden-view-reset" onClick={() => setGardenViewReset((n) => n + 1)} aria-label={`${me?.nickname}의 정원 시점 초기화`}>{me?.nickname}의 정원</button></h1>
             {gardenFlowers.length >= GARDEN_NEAR_FULL && (
               <button className={`capacity-banner ${gardenFlowers.length >= GARDEN_LIMIT ? 'full' : ''}`} onClick={() => setCleanupOpen(true)}>
                 {gardenFlowers.length >= GARDEN_LIMIT ? '정원이 가득 찼어요' : '정원이 거의 찼어요'} · {gardenFlowers.length}/{GARDEN_LIMIT} · <b>정리하기</b>
@@ -389,38 +428,51 @@ export default function Garden({ session, onSignOut, email, demo }) {
       )}
 
       {tab === 'album' && <Album data={data} meId={meId} onOpen={setOpenFlower} onOpenPair={setOpenPair} flowerById={flowerById} />}
-      {tab === 'friends' && <Friends data={data} meId={meId} onOpen={setOpenFlower} onVisit={setVisiting} onAnswer={answer} onGoMe={() => setTab('me')} />}
+      {tab === 'friends' && <Friends data={data} onOpen={setOpenFlower} onShareTo={(friend) => setSharePick({ friend })} onVisit={setVisiting} onGoMe={() => setTab('me')} />}
       {tab === 'me' && <Me me={me} email={email} onSignOut={onSignOut} code={data.garden.code} onAdded={refresh} onSaveProfile={saveProfile} />}
       {tab === 'help' && <HelpPage />}
 
       {/* 오른쪽 위 메뉴 (아래 탭바 대신). 어느 화면에서나 같은 자리에 있다 */}
-      <button className="round-btn menu-btn" onClick={() => setMenuOpen((o) => !o)} aria-label="메뉴" aria-expanded={menuOpen}>
+      <button ref={menuButtonRef} className="round-btn menu-btn" onClick={() => menuOpen ? closeMenu() : setMenuOpen(true)} aria-label="메뉴" aria-expanded={menuOpen} aria-controls="garden-menu">
         <Menu />
         {data.inbox.length > 0 && <i className="badge" />}
       </button>
       {menuOpen && (
         <>
-          <div className="menu-backdrop" onClick={() => setMenuOpen(false)} />
-          <nav className="menu" aria-label="메뉴">
+          <div className="menu-backdrop" onClick={closeMenu} />
+          <div id="garden-menu" className={`menu${showBell ? ' menu-expanded' : ''}`}>
+          {showBell ? (
+            <section className="menu-inbox" aria-labelledby="inbox-heading">
+              <header className="menu-inbox-header">
+                <button ref={inboxBackRef} className="inbox-back" onClick={() => { setShowBell(false); requestAnimationFrame(() => inboxMenuRef.current?.focus()) }} aria-label="메뉴로 돌아가기">←</button>
+                <h2 id="inbox-heading">받은 소리함</h2>
+                <span className="inbox-count" aria-live="polite">{data.inbox.length}</span>
+              </header>
+              <InboxList items={data.inbox} nameOf={nameOf} onAnswer={answer} busy={answerBusy} />
+            </section>
+          ) : (
+          <nav className="menu-nav" aria-label="메뉴">
             {[
               ['garden', Sprout, '정원'],
               ['album', Wave, '앨범'],
               ['friends', Users, '친구'],
               ['me', User, '나'],
             ].map(([id, Icon, label]) => (
-              <button key={id} className={tab === id ? 'on' : ''} onClick={() => { setTab(id); setMenuOpen(false) }}>
+              <button key={id} className={tab === id ? 'on' : ''} onClick={() => { setTab(id); closeMenu() }}>
                 <Icon /> <span>{label}</span>
               </button>
             ))}
             <hr />
-            <button onClick={() => { setShowBell(true); setMenuOpen(false) }}>
+            <button ref={inboxMenuRef} onClick={openInbox}>
               <Bell /> <span>받은 소리함{data.inbox.length > 0 ? ` ${data.inbox.length}` : ''}</span>
               {data.inbox.length > 0 && <i className="dot-new" />}
             </button>
-            <button className={tab === 'help' ? 'on' : ''} onClick={() => { setTab('help'); setMenuOpen(false) }}>
+            <button className={tab === 'help' ? 'on' : ''} onClick={() => { setTab('help'); closeMenu() }}>
               <Help /> <span>도움말</span>
             </button>
           </nav>
+          )}
+          </div>
         </>
       )}
 
@@ -433,9 +485,10 @@ export default function Garden({ session, onSignOut, email, demo }) {
           mine={openFlower.sender_id === meId}
           sharedWith={data.sentShares.filter((x) => x.flower_id === openFlower.id).map((x) => `${nameOf(x.to_user)}${x.status === 'pending' ? '(고르는 중)' : x.status === 'declined' ? '(안 받음)' : ''}`)}
           onShare={() => setSharePick({ flower: openFlower })}
-          onAccept={openFlower.share_id ? () => answer(openFlower, true) : undefined}
+          onAccept={openFlower.share_id && openFlower.share_status !== 'accepted' ? () => answer(openFlower, true) : undefined}
+          onDecline={openFlower.share_id && openFlower.share_status === 'pending' ? () => answer(openFlower, false) : undefined}
+          answerBusy={answerBusy}
           onArchive={openFlower.planted_share_id ? () => cleanup([openFlower.planted_share_id]) : undefined}
-          onDecline={openFlower.share_id ? () => answer(openFlower, false) : undefined}
           onClose={() => setOpenFlower(null)}
           onDelete={handleDelete}
         />
@@ -461,50 +514,6 @@ export default function Garden({ session, onSignOut, email, demo }) {
           onClose={() => setSharePick(null)}
         />
       )}
-      {showBell && (
-        <div className="sheet-backdrop" onClick={() => setShowBell(false)}>
-          <div className="sheet inbox" onClick={(e) => e.stopPropagation()}>
-            <button className="close" onClick={() => setShowBell(false)} aria-label="닫기">×</button>
-            <h2 className="sheet-title">받은 소리함</h2>
-            {data.inbox.length === 0 ? (
-              <p className="muted">새로 도착한 소리가 없어요.</p>
-            ) : (
-              <>
-                <p className="muted small">들어 보고 정원에 심을지 골라 주세요. 심은 소리만 정원에 자라요.</p>
-                <ul className="list inbox-list">
-                  {[...data.inbox].reverse().map((f) => (
-                    <li key={f.share_id}>
-                      <button className="inbox-item" onClick={() => { setShowBell(false); setOpenFlower(f) }}>
-                        <Flower flower={f} size={40} stem={false} bloom={false} />
-                        <div><b>{displayName(f)}</b><small>{nameOf(f.from_user)} · {timeOfDay(f.shared_at)} · 눌러서 듣기</small></div>
-                      </button>
-                      <div className="inbox-actions">
-                        <button className="primary small-btn" onClick={() => answer(f, true)}>심기</button>
-                        <button className="ghost small-btn" onClick={() => answer(f, false)}>괜찮아요</button>
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-              </>
-            )}
-            {received.length > 0 && (
-              <>
-                <h3 className="page-sub">정원에 심은 소리</h3>
-                <ul className="list">
-                  {received.map((f) => (
-                    <li key={f.id}>
-                      <button onClick={() => { setShowBell(false); setOpenFlower(f) }}>
-                        <Flower flower={f} size={40} stem={false} bloom={false} />
-                        <div><b>{displayName(f)}</b><small>{data.members.find((m) => m.id === f.sender_id)?.nickname || '친구'} · {formatDate(f.sent_date)}</small></div>
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-              </>
-            )}
-          </div>
-        </div>
-      )}
       {cleanupOpen && (
         <Cleanup flowers={gardenFlowers} members={data.members} onSubmit={cleanup} onClose={() => setCleanupOpen(false)} />
       )}
@@ -520,6 +529,50 @@ export default function Garden({ session, onSignOut, email, demo }) {
       {visiting && <Visit friend={visiting} onClose={() => setVisiting(null)} />}
     </div>
   )
+}
+
+// 메뉴 안에서 목록과 재생기를 함께 보여 준다.
+function InboxList({ items, nameOf, onAnswer, busy }) {
+  const [playingId, setPlayingId] = useState(null)
+  return (
+    <div className="menu-inbox-body">
+      {items.length === 0 ? (
+        <div className="inbox-empty"><Bell /><p>새로 도착한 소리가 없어요.</p></div>
+      ) : (
+        <ul className="menu-inbox-list">
+          {[...items].reverse().map((f) => (
+            <li key={f.share_id}>
+              <button className="menu-inbox-item" onClick={() => setPlayingId((id) => id === f.share_id ? null : f.share_id)} aria-label={`${displayName(f)} 듣기`} aria-expanded={playingId === f.share_id} aria-controls={`inbox-audio-${f.share_id}`}>
+                <Flower flower={f} size={40} stem={false} bloom={false} />
+                <span><b>{displayName(f)}</b><small>{nameOf(f.from_user)} · {timeOfDay(f.shared_at)}</small></span>
+              </button>
+              {playingId === f.share_id && <div id={`inbox-audio-${f.share_id}`}><InboxAudio flower={f} /></div>}
+              <div className="inbox-actions">
+                <button className="ghost small-btn" disabled={busy} onClick={() => onAnswer(f, false)}>괜찮아요</button>
+                <button className="primary small-btn" disabled={busy} onClick={() => onAnswer(f, true)}>심기</button>
+              </div>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  )
+}
+
+function InboxAudio({ flower }) {
+  const [url, setUrl] = useState(null)
+  const [error, setError] = useState('')
+  useEffect(() => {
+    let active = true
+    setUrl(null); setError('')
+    if (!flower.audio_path) { setError('재생할 소리가 없어요.'); return }
+    audioUrl(flower.audio_path).then((u) => { if (active) setUrl(u) })
+      .catch(() => { if (active) setError('소리를 불러오지 못했어요. 다시 눌러 주세요.') })
+    return () => { active = false }
+  }, [flower.audio_path])
+  return error ? <p className="small muted" role="status">{error}</p>
+    : url ? <audio src={url} controls autoPlay className="preview-audio" aria-label={`${displayName(flower)} 듣기`} onError={() => setError('소리를 재생하지 못했어요. 다시 눌러 주세요.')} />
+      : <p className="small muted" role="status">소리를 불러오는 중…</p>
 }
 
 // '+N': 친구가 많을 때 이름으로 찾아서 그 친구 꽃만 또렷하게 보기
@@ -637,7 +690,7 @@ function Album({ data, meId, onOpen, onOpenPair, flowerById }) {
 // 친구: 친구 코드(= 정원 코드)로 친구를 맺고, 친구마다 내 소리를 골라 공유한다.
 // 친구가 공유한 소리는 내 정원 왼쪽에, 내 소리는 오른쪽에 핀다.
 // 친구 탭: 친구 목록만. 친구 코드·친구 맺기는 나 탭(FriendCode)에 있다.
-function Friends({ data, meId, onOpen, onVisit, onAnswer, onGoMe }) {
+function Friends({ data, onOpen, onShareTo, onVisit, onGoMe }) {
   const [selectedId, setSelectedId] = useState(null) // 고른 친구 user_id
 
   const mineCount = (userId) => data.sentShares.filter((x) => x.to_user === userId).length
@@ -647,12 +700,13 @@ function Friends({ data, meId, onOpen, onVisit, onAnswer, onGoMe }) {
     // 주고받은 소리: 말로 대화하는 대신, 이 친구와 소리를 주고받은 기록만 날짜순으로 (최근이 위)
     const byId = Object.fromEntries(data.flowers.map((f) => [f.id, f]))
     const at = (f) => f.shared_at || f.created_at
-    const received = data.flowers.filter((f) => f.sender_id === selected.member_id).map((f) => ({ f, dir: 'in', at: at(f), state: '' }))
-    const waiting = data.inbox.filter((f) => f.from_user === selected.user_id).map((f) => ({ f, dir: 'in', at: at(f), state: '받은 소리함에 있어요' }))
-    const SENT_STATE = { pending: '고르는 중', accepted: '심음', declined: '안 받음' }
+    const RECEIVED_STATE = { pending: '받은 소리함', accepted: '정원에 심음', declined: '괜찮아요', archived: '정원에서 뺌' }
+    const received = data.receivedHistory.filter((f) => f.from_user === selected.user_id)
+      .map((f) => ({ f, dir: 'in', at: at(f), state: RECEIVED_STATE[f.share_status] || '' }))
+    const SENT_STATE = { pending: '고르는 중', accepted: '심음', declined: '안 받음', archived: '정원에서 뺌' }
     const sent = data.sentShares.filter((x) => x.to_user === selected.user_id && byId[x.flower_id])
       .map((x) => ({ f: byId[x.flower_id], dir: 'out', at: x.created_at, state: SENT_STATE[x.status] || '' }))
-    const history = [...received, ...waiting, ...sent].sort((a, b) => String(b.at).localeCompare(String(a.at)))
+    const history = [...received, ...sent].sort((a, b) => String(b.at).localeCompare(String(a.at)))
     const since = new Date(selected.since)
     const day = (iso) => formatDate(new Date(iso).toLocaleDateString('sv-SE'))
     return (
@@ -665,6 +719,7 @@ function Friends({ data, meId, onOpen, onVisit, onAnswer, onGoMe }) {
           <small className="muted">{since.getMonth() + 1}월 {since.getDate()}일부터 친구 · 받은 소리 {received.length}개 · 보낸 소리 {mineCount(selected.user_id)}개</small>
           <button className="visit-hint" onClick={() => onVisit(selected)}>{selected.nickname}의 정원 구경하기 ›</button>
         </div>
+        <button className="primary wide" onClick={() => onShareTo(selected)}>소리 공유하기</button>
 
         <h2 className="page-sub">주고받은 소리</h2>
         {history.length === 0 ? (
@@ -698,7 +753,7 @@ function Friends({ data, meId, onOpen, onVisit, onAnswer, onGoMe }) {
       ) : (
         <ul className="friend-list">
           {data.friends.map((fr) => {
-            const theirs = data.flowers.filter((f) => f.sender_id === fr.member_id).length
+            const theirs = data.receivedHistory.filter((f) => f.from_user === fr.user_id).length
             const waiting = data.inbox.filter((f) => f.from_user === fr.user_id).length
             return (
               <li key={fr.user_id}>
@@ -722,6 +777,7 @@ function Friends({ data, meId, onOpen, onVisit, onAnswer, onGoMe }) {
 
 // 나 탭 프로필: 사진의 ＋를 누르면 바로 고르기(사진이 있으면 바꾸기/지우기), 닉네임은 고치고 나면 바로 반영
 function Profile({ me, email, onSave }) {
+  const nameRef = useRef(null)
   const [name, setName] = useState(me?.nickname || '')
   const [photoMenu, setPhotoMenu] = useState(false)
   const [busy, setBusy] = useState(false)
@@ -771,7 +827,11 @@ function Profile({ me, email, onSave }) {
         )}
         <input ref={fileRef} type="file" accept="image/*" hidden onChange={pick} />
       </div>
+      <div className="nickname-editor">
+      <div className="nickname-field">
+      <span className="nickname-measure" aria-hidden="true">{name || '닉네임'}</span>
       <input
+        ref={nameRef}
         className="name-input"
         value={name}
         maxLength={12}
@@ -781,6 +841,9 @@ function Profile({ me, email, onSave }) {
         aria-label="닉네임"
         enterKeyHint="done"
       />
+      </div>
+      <button className="nickname-edit" aria-label="닉네임 수정" disabled={busy} onPointerDown={(e) => e.preventDefault()} onClick={() => { nameRef.current?.focus(); nameRef.current?.select() }}><Pencil width={15} height={15} aria-hidden="true" /></button>
+      </div>
       <small className="muted">{email}</small>
       {error && <p className="error">{error}</p>}
     </section>
@@ -821,7 +884,7 @@ function FriendCode({ code: myCode, onAdded }) {
       <button className="my-code" onClick={copy} aria-label={`내 코드 ${myCode} 복사하기`}>
         <small className="muted">내 코드</small>
         <span className="big-code">{myCode}</span>
-        <small className={copied ? 'copied' : 'muted'}>{copied ? '복사했어요' : '눌러서 복사'}</small>
+        <small className={`code-copy-hint ${copied ? 'copied' : 'muted'}`}>{copied ? '복사했어요' : '눌러서 복사'}</small>
       </button>
       <hr />
       <form className="add-friend" onSubmit={(e) => { e.preventDefault(); if (code.length === 6 && !busy) add() }}>
@@ -860,7 +923,7 @@ const HELP = [
   ['오늘의 소리 보내기', '아래 ‘오늘의 소리 녹음’을 누르면 바로 10초 동안 녹음돼요. 미리보기에서 꽃을 확인하고, 받을 친구를 골라(여러 명 가능) 보내면 돼요. 내가 보낸 소리는 내 정원이 아니라 친구 정원에 피어요.'],
   ['꽃과 나무', '말소리는 감정에 따라 일곱 가지 꽃(해바라기·별·튤립·작약·연꽃·초롱꽃·엉겅퀴 모양)으로, 그 밖의 소리는 나무로 자라요. 소리가 크면 꽃이 크고, 여러 번 울리면 꽃잎이 많아지고, 소리의 흐름에 따라 꽃잎 길이가 달라져요.'],
   ['꽃 이름', '소리를 듣고 한국어 의성어로 이름을 지어요. 작고 맑은 소리는 ‘토독’처럼 밝은 모음, 크고 낮은 소리는 ‘투둑’처럼 어두운 모음, 세게 시작하면 ‘톡·탁’처럼 센 소리, 여러 번 울리면 ‘토독토독’처럼 되풀이돼요.'],
-  ['받은 소리함', '친구가 보낸 소리는 먼저 받은 소리함(메뉴)에 도착해요. 들어 보고 ‘심기’를 누르면 내 정원에 자라고, ‘괜찮아요’를 누르면 받지 않아요.'],
+  ['받은 소리함', '아직 고르지 않은 소리만 보여요. ‘심기’나 ‘괜찮아요’를 누르면 소리함에서 사라져요. 처리한 소리는 메뉴 → 친구 → 해당 친구의 주고받은 소리에서 다시 들을 수 있어요. ‘괜찮아요’ 했던 소리도 거기서 다시 정원에 심을 수 있어요.'],
   ['내 정원 보기', '꽃이나 나무를 누르면 그날의 소리가 들려요. 손가락으로 끌면 섬을 둘러볼 수 있어요. 위쪽 친구 이름을 누르면 그 친구가 보낸 꽃만 보여요. 아래 ^ 표시로 도구를 접고 펼 수 있어요.'],
   ['우리의 꽃', '같은 날 나와 친구가 서로 소리를 보내고 둘 다 심으면, 두 소리가 만나 정원 가운데에 우리의 꽃이 피어요. 누르면 친구 소리는 왼쪽 귀, 내 소리는 오른쪽 귀로 함께 들려요. 이어폰으로 들어 보세요.'],
   ['친구', '메뉴 → 나에서 내 코드를 눌러 복사해 친구에게 보내고, 친구 코드를 넣으면 친구가 돼요. 메뉴 → 친구에는 친구 목록이 있고, 친구를 누르면 주고받은 소리 기록을 보고 소리를 공유할 수 있어요. 친구 프로필을 누르면 정원에 놀러 가요. 친구 정원에는 놀러 가서 구경할 수 있어요(소리는 그 친구만 들을 수 있어요).'],
