@@ -1,7 +1,18 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import Flower from './Flower.jsx'
 import { audioUrl } from '../lib/db.js'
-import { audioCtx, peaks, playStereo, toMono } from '../lib/audio.js'
+import { audioCtx, peaks, playStereo, setPlaybackLevelSource, toMono } from '../lib/audio.js'
+
+// <audio> 재생 중 음량: 오디오를 Web Audio로 다시 연결하면 signed URL(다른 출처)에서 소리가
+// 묵음이 될 수 있어서, 저장된 파형 윤곽(lengths)을 재생 위치에 맞춰 읽는다.
+function envelopeLevel(el, flower) {
+  const env = flower.lengths?.length ? flower.lengths : [0.8]
+  return () => {
+    if (!el || el.paused || !el.duration) return 0
+    const i = Math.min(env.length - 1, Math.floor((el.currentTime / el.duration) * env.length))
+    return (env[i] - 0.5) * 2 * (0.6 + 0.4 * Math.abs(Math.sin(el.currentTime * 9)))
+  }
+}
 import { categoryLabel } from '../lib/naming.js'
 
 // S5 꽃 상세
@@ -9,6 +20,9 @@ export function FlowerDetail({ flower, sender, mine, onClose, onDelete }) {
   const [url, setUrl] = useState(null)
   const [confirm, setConfirm] = useState(false)
   const audioRef = useRef(null)
+
+  // 닫히면 정원 빛 알갱이 반응도 멈춘다
+  useEffect(() => () => setPlaybackLevelSource(null), [])
 
   useEffect(() => {
     audioUrl(flower.audio_path).then((u) => {
@@ -28,7 +42,12 @@ export function FlowerDetail({ flower, sender, mine, onClose, onDelete }) {
         <p className="muted small">
           {mine ? '내가 보낸 꽃' : `${sender?.nickname || '상대'}가 보낸 꽃`} · {flower.sent_date} · {categoryLabel(flower.category)}
         </p>
-        {url ? <audio ref={audioRef} src={url} controls className="preview-audio" /> : <p className="muted">소리를 불러오는 중…</p>}
+        {url ? <audio
+          ref={audioRef} src={url} controls className="preview-audio"
+          onPlay={(e) => setPlaybackLevelSource(envelopeLevel(e.currentTarget, flower))}
+          onPause={() => setPlaybackLevelSource(null)}
+          onEnded={() => setPlaybackLevelSource(null)}
+        /> : <p className="muted">소리를 불러오는 중…</p>}
         {mine && (
           confirm ? (
             <div className="row">

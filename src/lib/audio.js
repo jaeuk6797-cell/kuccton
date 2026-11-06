@@ -2,6 +2,15 @@
 // 음향 특징 추출은 soundFeatures.js에 있다.
 
 let sharedCtx
+
+// ── 재생 음량 (정원의 빛 알갱이가 반응) ─────────────────────────────
+// 지금 재생 중인 소리가 음량(0~1)을 알려 주는 함수를 등록한다. 재생이 끝나면 null.
+let levelSource = null
+export function setPlaybackLevelSource(fn) { levelSource = fn }
+export function playbackLevel() {
+  try { return levelSource ? Math.min(1, Math.max(0, levelSource())) : 0 } catch { return 0 }
+}
+
 export function audioCtx() {
   if (!sharedCtx) sharedCtx = new (window.AudioContext || window.webkitAudioContext)()
   if (sharedCtx.state === 'suspended') sharedCtx.resume()
@@ -41,20 +50,33 @@ export function playStereo(leftBuffer, rightBuffer, onEnd) {
   const ctx = audioCtx()
   const nodes = []
   const startAt = ctx.currentTime + 0.05
+  // 두 소리를 합친 실제 음량을 재서 정원에 알려 준다
+  const meter = ctx.createAnalyser()
+  meter.fftSize = 512
+  meter.connect(ctx.destination)
+  const data = new Uint8Array(meter.fftSize)
+  const level = () => {
+    meter.getByteTimeDomainData(data)
+    let sq = 0
+    for (const v of data) sq += ((v - 128) / 128) ** 2
+    return Math.sqrt(sq / data.length) * 4
+  }
+  setPlaybackLevelSource(level)
+  const release = () => { if (levelSource === level) setPlaybackLevelSource(null) }
   for (const [buf, pan] of [[leftBuffer, -0.8], [rightBuffer, 0.8]]) {
     const src = ctx.createBufferSource()
     src.buffer = buf
     const p = ctx.createStereoPanner()
     p.pan.value = pan
-    src.connect(p).connect(ctx.destination)
+    src.connect(p).connect(meter)
     src.start(startAt)
     nodes.push(src)
   }
   const dur = Math.max(leftBuffer.duration, rightBuffer.duration)
-  const t = setTimeout(() => onEnd && onEnd(), dur * 1000 + 100)
+  const t = setTimeout(() => { release(); onEnd && onEnd() }, dur * 1000 + 100)
   return {
     startedAt: startAt,
     duration: dur,
-    stop() { clearTimeout(t); nodes.forEach((n) => { try { n.stop() } catch {} }); onEnd && onEnd() },
+    stop() { clearTimeout(t); release(); nodes.forEach((n) => { try { n.stop() } catch {} }); onEnd && onEnd() },
   }
 }

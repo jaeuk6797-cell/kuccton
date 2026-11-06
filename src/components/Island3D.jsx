@@ -9,6 +9,7 @@ import { OutputPass } from 'three/examples/jsm/postprocessing/OutputPass.js'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
 import { buildFlower3D, disposeFlower3D } from '../lib/flower3d.js'
+import { playbackLevel } from '../lib/audio.js'
 
 // 블렌더 섬 모델: public/models/island.glb 를 올리면 코드로 만든 섬 대신 자동으로 쓴다.
 // 약속: 원점 = 섬 윗면 중앙, Y-up, Draco 압축 가능. 크기는 지름이 ISLAND_RADIUS*2가 되도록 자동 맞춤.
@@ -20,6 +21,14 @@ const ISLAND_TOP_Y = 0.17
 const BLOOM = { strength: 0.6, radius: 0, threshold: 2.6 }
 // 넓게 퍼지는 큰 블러 단계를 끄면 꽃 주변만 은은하게 빛나고 캔버스 전체에 뿌연 막이 생기지 않는다
 const BLOOM_FACTORS = [1.0, 0.7, 0.3, 0.0, 0.0]
+
+// 카메라: 꽃이 모여 있는 섬 가운데(반지름 약 2)를 가깝게 본다
+const CAMERA = { position: [0, 4.4, 10.5], target: [0, 0.1, 0], min: 6, max: 17 }
+
+// 빛 알갱이: 소리를 재생하면 음량에 맞춰 커지고 빨라지고 따뜻한 색이 된다
+const SPARKLE = { size: 0.06, speed: 0.004, sizeBoost: 4, speedBoost: 8 }
+const SPARKLE_IDLE = new THREE.Color('#ffffff')
+const SPARKLE_PLAY = new THREE.Color('#ffd23f')
 
 function rng(seed) {
   let a = seed >>> 0
@@ -204,7 +213,7 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
 
     const scene = new THREE.Scene()
     const camera = new THREE.PerspectiveCamera(34, 1, 0.1, 100)
-    camera.position.set(0, 6.4, 16.5)
+    camera.position.set(...CAMERA.position)
 
     scene.add(new THREE.HemisphereLight('#e6eef7', '#6b5a48', 1.4))
     const sun = new THREE.DirectionalLight('#ffe0bd', 2.2)
@@ -238,15 +247,17 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
     for (let i = 0; i < N; i++) pts.set([(r0() - 0.5) * 12, r0() * 7 - 1, (r0() - 0.5) * 10], i * 3)
     const pGeo = new THREE.BufferGeometry()
     pGeo.setAttribute('position', new THREE.BufferAttribute(pts, 3))
-    const sparkles = new THREE.Points(pGeo, new THREE.PointsMaterial({ color: '#ffffff', size: 0.05, transparent: true, opacity: 0.8 }))
+    const sparkleMat = new THREE.PointsMaterial({ color: '#ffffff', size: SPARKLE.size, transparent: true, opacity: 0.8 })
+    const sparkles = new THREE.Points(pGeo, sparkleMat)
+    let level = 0 // 부드럽게 따라가는 재생 음량
     scene.add(sparkles)
 
     const controls = new OrbitControls(camera, renderer.domElement)
-    controls.target.set(0, -0.7, 0)
+    controls.target.set(...CAMERA.target)
     controls.enableDamping = true
     controls.enablePan = false
-    controls.minDistance = 9
-    controls.maxDistance = 21
+    controls.minDistance = CAMERA.min
+    controls.maxDistance = CAMERA.max
     controls.minPolarAngle = 0.55
     controls.maxPolarAngle = 1.4
     controls.autoRotate = true
@@ -279,7 +290,7 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
       composer.setSize(w, h)
       camera.aspect = w / h
       // 화면이 좁을수록 조금 더 멀리
-      camera.fov = w / h < 0.75 ? 40 : 34
+      camera.fov = w / h < 0.75 ? 50 : 34 // 세로 화면(폰)은 섬 양옆이 잘리지 않게 넓게
       camera.updateProjectionMatrix()
     }
     const ro = new ResizeObserver(resize)
@@ -291,9 +302,14 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
     const loop = () => {
       const t = clock.getElapsedTime()
       floating.position.y = Math.sin(t * 0.6) * 0.08
+      level += (playbackLevel() - level) * 0.15
+      sparkleMat.size = SPARKLE.size * (1 + level * SPARKLE.sizeBoost)
+      sparkleMat.opacity = 0.8 + level * 0.2
+      sparkleMat.color.copy(SPARKLE_IDLE).lerp(SPARKLE_PLAY, Math.min(1, level * 1.5))
+      const rise = SPARKLE.speed * (1 + level * SPARKLE.speedBoost)
       const p = pGeo.attributes.position
       for (let i = 0; i < N; i++) {
-        let y = p.getY(i) + 0.004
+        let y = p.getY(i) + rise
         if (y > 6) y = -1
         p.setY(i, y)
       }
