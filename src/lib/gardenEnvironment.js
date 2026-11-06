@@ -12,12 +12,17 @@ export function createGardenEnvironment(renderer, size = 256) {
     colors.push(1, 1, 1, Math.max(0, 1 - radiusSquared) ** 2)
   }
   geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 4))
-  // Rear sky bands cross the ground's reflected horizon as the camera orbits.
+  // Overlapping sky bands cover the full orbit; the smaller warm key adds a moving glint.
   for (const [position, scale, color, intensity] of [
-    [[1.3, 1.25, -6.2], [5.2, 2.2], '#f5c8df', 7.875],
-    [[3.8, 2.5, -5.6], [4.4, 1.8], '#b9e7f0', 8.75],
-    [[-3.8, 2.5, -5.6], [4.4, 1.8], '#c6b7ec', 8.75],
+    [[3.8, 2, -5.6], [12, 3.8], '#b9e7f0', 8.75],
+    [[-3.8, 2, -5.6], [12, 3.8], '#c6b7ec', 8.75],
     [[-0.8, 2.6, -6.2], [3.6, 1.2], '#fff2ed', 14],
+    [[1.3, 1.7, -6.2], [6, 3], '#f5c8df', 7],
+    [[6.4, 2, 0], [12, 3.8], '#ecd5ee', 7.5],
+    [[-6.4, 2, 0], [12, 3.8], '#bfe9e8', 7.5],
+    [[4.5, 1.9, 4.5], [7, 2.5], '#cdd4f3', 6.5],
+    [[-4.5, 1.9, 4.5], [7, 2.5], '#eed0e2', 6.5],
+    [[0, 2, 6.4], [8, 2.6], '#e3def5', 9],
   ]) {
     const material = new THREE.MeshBasicMaterial({
       color: new THREE.Color(color).multiplyScalar(intensity), toneMapped: false,

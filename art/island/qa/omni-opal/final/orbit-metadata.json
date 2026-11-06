@@ -1,0 +1,4473 @@
+{
+  "tag": "final",
+  "time": "2026-11-06T17:58:12.028Z",
+  "frames": [
+    {
+      "file": "orbit-00.png",
+      "angle": 0,
+      "samples": [
+        {
+          "world": [
+            0,
+            0.17,
+            0
+          ],
+          "framebufferPixel": [
+            390,
+            478
+          ],
+          "meanRGBA": [
+            216,
+            231,
+            246,
+            255
+          ]
+        },
+        {
+          "world": [
+            -1.1,
+            0.17,
+            0.1
+          ],
+          "framebufferPixel": [
+            295,
+            475
+          ],
+          "meanRGBA": [
+            221,
+            233,
+            248,
+            255
+          ]
+        },
+        {
+          "world": [
+            0.9,
+            0.17,
+            0.5
+          ],
+          "framebufferPixel": [
+            469,
+            462
+          ],
+          "meanRGBA": [
+            207,
+            226.78,
+            244,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            -1
+          ],
+          "framebufferPixel": [
+            390,
+            509
+          ],
+          "meanRGBA": [
+            216.78,
+            229.67,
+            247,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            1.25
+          ],
+          "framebufferPixel": [
+            390,
+            435
+          ],
+          "meanRGBA": [
+            211.67,
+            230,
+            245,
+            255
+          ]
+        }
+      ]
+    },
+    {
+      "file": "orbit-01.png",
+      "angle": 7.5,
+      "samples": [
+        {
+          "world": [
+            0,
+            0.17,
+            0
+          ],
+          "framebufferPixel": [
+            390,
+            478
+          ],
+          "meanRGBA": [
+            221,
+            233,
+            248,
+            255
+          ]
+        },
+        {
+          "world": [
+            -1.1,
+            0.17,
+            0.1
+          ],
+          "framebufferPixel": [
+            296,
+            479
+          ],
+          "meanRGBA": [
+            216,
+            229,
+            248,
+            255
+          ]
+        },
+        {
+          "world": [
+            0.9,
+            0.17,
+            0.5
+          ],
+          "framebufferPixel": [
+            463,
+            458
+          ],
+          "meanRGBA": [
+            220,
+            233,
+            247.44,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            -1
+          ],
+          "framebufferPixel": [
+            401,
+            508
+          ],
+          "meanRGBA": [
+            219.89,
+            230.89,
+            248,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            1.25
+          ],
+          "framebufferPixel": [
+            375,
+            435
+          ],
+          "meanRGBA": [
+            217,
+            232,
+            247,
+            255
+          ]
+        }
+      ]
+    },
+    {
+      "file": "orbit-02.png",
+      "angle": 15,
+      "samples": [
+        {
+          "world": [
+            0,
+            0.17,
+            0
+          ],
+          "framebufferPixel": [
+            390,
+            478
+          ],
+          "meanRGBA": [
+            208,
+            223.22,
+            247,
+            255
+          ]
+        },
+        {
+          "world": [
+            -1.1,
+            0.17,
+            0.1
+          ],
+          "framebufferPixel": [
+            298,
+            484
+          ],
+          "meanRGBA": [
+            200,
+            217,
+            246,
+            255
+          ]
+        },
+        {
+          "world": [
+            0.9,
+            0.17,
+            0.5
+          ],
+          "framebufferPixel": [
+            456,
+            454
+          ],
+          "meanRGBA": [
+            213,
+            228.22,
+            247,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            -1
+          ],
+          "framebufferPixel": [
+            411,
+            508
+          ],
+          "meanRGBA": [
+            208.89,
+            222.44,
+            248,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            1.25
+          ],
+          "framebufferPixel": [
+            360,
+            436
+          ],
+          "meanRGBA": [
+            202,
+            221,
+            245,
+            255
+          ]
+        }
+      ]
+    },
+    {
+      "file": "orbit-03.png",
+      "angle": 22.5,
+      "samples": [
+        {
+          "world": [
+            0,
+            0.17,
+            0
+          ],
+          "framebufferPixel": [
+            390,
+            478
+          ],
+          "meanRGBA": [
+            195,
+            213,
+            246,
+            255
+          ]
+        },
+        {
+          "world": [
+            -1.1,
+            0.17,
+            0.1
+          ],
+          "framebufferPixel": [
+            301,
+            488
+          ],
+          "meanRGBA": [
+            195,
+            212,
+            246,
+            255
+          ]
+        },
+        {
+          "world": [
+            0.9,
+            0.17,
+            0.5
+          ],
+          "framebufferPixel": [
+            447,
+            451
+          ],
+          "meanRGBA": [
+            195.22,
+            216,
+            245,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            -1
+          ],
+          "framebufferPixel": [
+            421,
+            506
+          ],
+          "meanRGBA": [
+            197.11,
+            213,
+            247,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            1.25
+          ],
+          "framebufferPixel": [
+            346,
+            438
+          ],
+          "meanRGBA": [
+            192,
+            213,
+            245,
+            255
+          ]
+        }
+      ]
+    },
+    {
+      "file": "orbit-04.png",
+      "angle": 30,
+      "samples": [
+        {
+          "world": [
+            0,
+            0.17,
+            0
+          ],
+          "framebufferPixel": [
+            390,
+            478
+          ],
+          "meanRGBA": [
+            194,
+            211,
+            246,
+            255
+          ]
+        },
+        {
+          "world": [
+            -1.1,
+            0.17,
+            0.1
+          ],
+          "framebufferPixel": [
+            306,
+            493
+          ],
+          "meanRGBA": [
+            196,
+            211,
+            247,
+            255
+          ]
+        },
+        {
+          "world": [
+            0.9,
+            0.17,
+            0.5
+          ],
+          "framebufferPixel": [
+            438,
+            448
+          ],
+          "meanRGBA": [
+            192,
+            212,
+            245,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            -1
+          ],
+          "framebufferPixel": [
+            431,
+            505
+          ],
+          "meanRGBA": [
+            196.22,
+            211,
+            247.22,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            1.25
+          ],
+          "framebufferPixel": [
+            333,
+            441
+          ],
+          "meanRGBA": [
+            192,
+            211.89,
+            245,
+            255
+          ]
+        }
+      ]
+    },
+    {
+      "file": "orbit-05.png",
+      "angle": 37.5,
+      "samples": [
+        {
+          "world": [
+            0,
+            0.17,
+            0
+          ],
+          "framebufferPixel": [
+            390,
+            478
+          ],
+          "meanRGBA": [
+            194.11,
+            211,
+            246,
+            255
+          ]
+        },
+        {
+          "world": [
+            -1.1,
+            0.17,
+            0.1
+          ],
+          "framebufferPixel": [
+            312,
+            496
+          ],
+          "meanRGBA": [
+            195.67,
+            210,
+            247,
+            255
+          ]
+        },
+        {
+          "world": [
+            0.9,
+            0.17,
+            0.5
+          ],
+          "framebufferPixel": [
+            427,
+            446
+          ],
+          "meanRGBA": [
+            192,
+            212,
+            245,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            -1
+          ],
+          "framebufferPixel": [
+            440,
+            503
+          ],
+          "meanRGBA": [
+            196.78,
+            210,
+            247.56,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            1.25
+          ],
+          "framebufferPixel": [
+            321,
+            444
+          ],
+          "meanRGBA": [
+            192,
+            211,
+            245,
+            255
+          ]
+        }
+      ]
+    },
+    {
+      "file": "orbit-06.png",
+      "angle": 45,
+      "samples": [
+        {
+          "world": [
+            0,
+            0.17,
+            0
+          ],
+          "framebufferPixel": [
+            390,
+            478
+          ],
+          "meanRGBA": [
+            193,
+            211,
+            245,
+            255
+          ]
+        },
+        {
+          "world": [
+            -1.1,
+            0.17,
+            0.1
+          ],
+          "framebufferPixel": [
+            320,
+            500
+          ],
+          "meanRGBA": [
+            194.22,
+            210,
+            246,
+            255
+          ]
+        },
+        {
+          "world": [
+            0.9,
+            0.17,
+            0.5
+          ],
+          "framebufferPixel": [
+            416,
+            444
+          ],
+          "meanRGBA": [
+            191,
+            211.67,
+            244,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            -1
+          ],
+          "framebufferPixel": [
+            448,
+            500
+          ],
+          "meanRGBA": [
+            196,
+            210,
+            247,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            1.25
+          ],
+          "framebufferPixel": [
+            310,
+            448
+          ],
+          "meanRGBA": [
+            191,
+            211,
+            244,
+            255
+          ]
+        }
+      ]
+    },
+    {
+      "file": "orbit-07.png",
+      "angle": 52.5,
+      "samples": [
+        {
+          "world": [
+            0,
+            0.17,
+            0
+          ],
+          "framebufferPixel": [
+            390,
+            478
+          ],
+          "meanRGBA": [
+            191,
+            211,
+            244,
+            255
+          ]
+        },
+        {
+          "world": [
+            -1.1,
+            0.17,
+            0.1
+          ],
+          "framebufferPixel": [
+            329,
+            503
+          ],
+          "meanRGBA": [
+            192.33,
+            212,
+            244,
+            255
+          ]
+        },
+        {
+          "world": [
+            0.9,
+            0.17,
+            0.5
+          ],
+          "framebufferPixel": [
+            404,
+            443
+          ],
+          "meanRGBA": [
+            188.11,
+            212,
+            242,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            -1
+          ],
+          "framebufferPixel": [
+            456,
+            497
+          ],
+          "meanRGBA": [
+            194,
+            210,
+            246,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            1.25
+          ],
+          "framebufferPixel": [
+            301,
+            452
+          ],
+          "meanRGBA": [
+            189,
+            212,
+            242,
+            255
+          ]
+        }
+      ]
+    },
+    {
+      "file": "orbit-08.png",
+      "angle": 60,
+      "samples": [
+        {
+          "world": [
+            0,
+            0.17,
+            0
+          ],
+          "framebufferPixel": [
+            390,
+            478
+          ],
+          "meanRGBA": [
+            189,
+            215,
+            242,
+            255
+          ]
+        },
+        {
+          "world": [
+            -1.1,
+            0.17,
+            0.1
+          ],
+          "framebufferPixel": [
+            338,
+            506
+          ],
+          "meanRGBA": [
+            191,
+            217,
+            243.22,
+            255
+          ]
+        },
+        {
+          "world": [
+            0.9,
+            0.17,
+            0.5
+          ],
+          "framebufferPixel": [
+            392,
+            443
+          ],
+          "meanRGBA": [
+            186,
+            214,
+            239.22,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            -1
+          ],
+          "framebufferPixel": [
+            462,
+            494
+          ],
+          "meanRGBA": [
+            192,
+            213,
+            244,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            1.25
+          ],
+          "framebufferPixel": [
+            294,
+            457
+          ],
+          "meanRGBA": [
+            188.78,
+            218,
+            242,
+            255
+          ]
+        }
+      ]
+    },
+    {
+      "file": "orbit-09.png",
+      "angle": 67.5,
+      "samples": [
+        {
+          "world": [
+            0,
+            0.17,
+            0
+          ],
+          "framebufferPixel": [
+            390,
+            478
+          ],
+          "meanRGBA": [
+            190,
+            221,
+            242.78,
+            255
+          ]
+        },
+        {
+          "world": [
+            -1.1,
+            0.17,
+            0.1
+          ],
+          "framebufferPixel": [
+            348,
+            508
+          ],
+          "meanRGBA": [
+            192.67,
+            224,
+            244,
+            255
+          ]
+        },
+        {
+          "world": [
+            0.9,
+            0.17,
+            0.5
+          ],
+          "framebufferPixel": [
+            379,
+            443
+          ],
+          "meanRGBA": [
+            187,
+            219,
+            240.11,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            -1
+          ],
+          "framebufferPixel": [
+            468,
+            490
+          ],
+          "meanRGBA": [
+            191,
+            219,
+            243.11,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            1.25
+          ],
+          "framebufferPixel": [
+            288,
+            462
+          ],
+          "meanRGBA": [
+            191,
+            223,
+            244,
+            255
+          ]
+        }
+      ]
+    },
+    {
+      "file": "orbit-10.png",
+      "angle": 75,
+      "samples": [
+        {
+          "world": [
+            0,
+            0.17,
+            0
+          ],
+          "framebufferPixel": [
+            390,
+            478
+          ],
+          "meanRGBA": [
+            192.89,
+            225,
+            244,
+            255
+          ]
+        },
+        {
+          "world": [
+            -1.1,
+            0.17,
+            0.1
+          ],
+          "framebufferPixel": [
+            359,
+            510
+          ],
+          "meanRGBA": [
+            195,
+            227,
+            246,
+            255
+          ]
+        },
+        {
+          "world": [
+            0.9,
+            0.17,
+            0.5
+          ],
+          "framebufferPixel": [
+            367,
+            444
+          ],
+          "meanRGBA": [
+            190,
+            223,
+            243,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            -1
+          ],
+          "framebufferPixel": [
+            472,
+            486
+          ],
+          "meanRGBA": [
+            192,
+            225,
+            244.78,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            1.25
+          ],
+          "framebufferPixel": [
+            285,
+            467
+          ],
+          "meanRGBA": [
+            194,
+            226,
+            245,
+            255
+          ]
+        }
+      ]
+    },
+    {
+      "file": "orbit-11.png",
+      "angle": 82.5,
+      "samples": [
+        {
+          "world": [
+            0,
+            0.17,
+            0
+          ],
+          "framebufferPixel": [
+            390,
+            478
+          ],
+          "meanRGBA": [
+            195,
+            226.11,
+            245,
+            255
+          ]
+        },
+        {
+          "world": [
+            -1.1,
+            0.17,
+            0.1
+          ],
+          "framebufferPixel": [
+            370,
+            511
+          ],
+          "meanRGBA": [
+            197,
+            228,
+            246.33,
+            255
+          ]
+        },
+        {
+          "world": [
+            0.9,
+            0.17,
+            0.5
+          ],
+          "framebufferPixel": [
+            356,
+            446
+          ],
+          "meanRGBA": [
+            192.67,
+            224,
+            244,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            -1
+          ],
+          "framebufferPixel": [
+            474,
+            482
+          ],
+          "meanRGBA": [
+            194.67,
+            227,
+            246,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            1.25
+          ],
+          "framebufferPixel": [
+            283,
+            473
+          ],
+          "meanRGBA": [
+            196,
+            227,
+            246,
+            255
+          ]
+        }
+      ]
+    },
+    {
+      "file": "orbit-12.png",
+      "angle": 90,
+      "samples": [
+        {
+          "world": [
+            0,
+            0.17,
+            0
+          ],
+          "framebufferPixel": [
+            390,
+            478
+          ],
+          "meanRGBA": [
+            196,
+            226,
+            246,
+            255
+          ]
+        },
+        {
+          "world": [
+            -1.1,
+            0.17,
+            0.1
+          ],
+          "framebufferPixel": [
+            382,
+            511
+          ],
+          "meanRGBA": [
+            198,
+            228,
+            247,
+            255
+          ]
+        },
+        {
+          "world": [
+            0.9,
+            0.17,
+            0.5
+          ],
+          "framebufferPixel": [
+            345,
+            448
+          ],
+          "meanRGBA": [
+            194,
+            224,
+            244,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            -1
+          ],
+          "framebufferPixel": [
+            476,
+            478
+          ],
+          "meanRGBA": [
+            196,
+            227,
+            246,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            1.25
+          ],
+          "framebufferPixel": [
+            283,
+            478
+          ],
+          "meanRGBA": [
+            196,
+            226,
+            246,
+            255
+          ]
+        }
+      ]
+    },
+    {
+      "file": "orbit-13.png",
+      "angle": 97.5,
+      "samples": [
+        {
+          "world": [
+            0,
+            0.17,
+            0
+          ],
+          "framebufferPixel": [
+            390,
+            478
+          ],
+          "meanRGBA": [
+            196,
+            225,
+            245,
+            255
+          ]
+        },
+        {
+          "world": [
+            -1.1,
+            0.17,
+            0.1
+          ],
+          "framebufferPixel": [
+            394,
+            512
+          ],
+          "meanRGBA": [
+            198,
+            227,
+            246,
+            255
+          ]
+        },
+        {
+          "world": [
+            0.9,
+            0.17,
+            0.5
+          ],
+          "framebufferPixel": [
+            335,
+            450
+          ],
+          "meanRGBA": [
+            194,
+            222.11,
+            244,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            -1
+          ],
+          "framebufferPixel": [
+            476,
+            474
+          ],
+          "meanRGBA": [
+            196,
+            226,
+            246,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            1.25
+          ],
+          "framebufferPixel": [
+            285,
+            483
+          ],
+          "meanRGBA": [
+            196.11,
+            225,
+            245,
+            255
+          ]
+        }
+      ]
+    },
+    {
+      "file": "orbit-14.png",
+      "angle": 105,
+      "samples": [
+        {
+          "world": [
+            0,
+            0.17,
+            0
+          ],
+          "framebufferPixel": [
+            390,
+            478
+          ],
+          "meanRGBA": [
+            195.56,
+            223,
+            244,
+            255
+          ]
+        },
+        {
+          "world": [
+            -1.1,
+            0.17,
+            0.1
+          ],
+          "framebufferPixel": [
+            405,
+            511
+          ],
+          "meanRGBA": [
+            197.56,
+            225,
+            245.33,
+            255
+          ]
+        },
+        {
+          "world": [
+            0.9,
+            0.17,
+            0.5
+          ],
+          "framebufferPixel": [
+            326,
+            453
+          ],
+          "meanRGBA": [
+            193,
+            219,
+            242,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            -1
+          ],
+          "framebufferPixel": [
+            474,
+            470
+          ],
+          "meanRGBA": [
+            196,
+            224,
+            245,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            1.25
+          ],
+          "framebufferPixel": [
+            288,
+            488
+          ],
+          "meanRGBA": [
+            196,
+            221,
+            244,
+            255
+          ]
+        }
+      ]
+    },
+    {
+      "file": "orbit-15.png",
+      "angle": 112.5,
+      "samples": [
+        {
+          "world": [
+            0,
+            0.17,
+            0
+          ],
+          "framebufferPixel": [
+            390,
+            478
+          ],
+          "meanRGBA": [
+            196,
+            218,
+            242,
+            255
+          ]
+        },
+        {
+          "world": [
+            -1.1,
+            0.17,
+            0.1
+          ],
+          "framebufferPixel": [
+            417,
+            510
+          ],
+          "meanRGBA": [
+            198,
+            221,
+            244,
+            255
+          ]
+        },
+        {
+          "world": [
+            0.9,
+            0.17,
+            0.5
+          ],
+          "framebufferPixel": [
+            318,
+            457
+          ],
+          "meanRGBA": [
+            193.33,
+            214,
+            239,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            -1
+          ],
+          "framebufferPixel": [
+            471,
+            465
+          ],
+          "meanRGBA": [
+            195,
+            220,
+            243,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            1.25
+          ],
+          "framebufferPixel": [
+            293,
+            493
+          ],
+          "meanRGBA": [
+            200,
+            217,
+            242,
+            255
+          ]
+        }
+      ]
+    },
+    {
+      "file": "orbit-16.png",
+      "angle": 120,
+      "samples": [
+        {
+          "world": [
+            0,
+            0.17,
+            0
+          ],
+          "framebufferPixel": [
+            390,
+            478
+          ],
+          "meanRGBA": [
+            200.56,
+            213.56,
+            240,
+            255
+          ]
+        },
+        {
+          "world": [
+            -1.1,
+            0.17,
+            0.1
+          ],
+          "framebufferPixel": [
+            428,
+            509
+          ],
+          "meanRGBA": [
+            204,
+            216,
+            242,
+            255
+          ]
+        },
+        {
+          "world": [
+            0.9,
+            0.17,
+            0.5
+          ],
+          "framebufferPixel": [
+            312,
+            461
+          ],
+          "meanRGBA": [
+            199.11,
+            211,
+            238.67,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            -1
+          ],
+          "framebufferPixel": [
+            466,
+            462
+          ],
+          "meanRGBA": [
+            197,
+            215,
+            241,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            1.25
+          ],
+          "framebufferPixel": [
+            300,
+            498
+          ],
+          "meanRGBA": [
+            208,
+            214,
+            242,
+            255
+          ]
+        }
+      ]
+    },
+    {
+      "file": "orbit-17.png",
+      "angle": 127.5,
+      "samples": [
+        {
+          "world": [
+            0,
+            0.17,
+            0
+          ],
+          "framebufferPixel": [
+            390,
+            478
+          ],
+          "meanRGBA": [
+            208,
+            212,
+            241,
+            255
+          ]
+        },
+        {
+          "world": [
+            -1.1,
+            0.17,
+            0.1
+          ],
+          "framebufferPixel": [
+            438,
+            507
+          ],
+          "meanRGBA": [
+            212,
+            214,
+            242,
+            255
+          ]
+        },
+        {
+          "world": [
+            0.9,
+            0.17,
+            0.5
+          ],
+          "framebufferPixel": [
+            307,
+            465
+          ],
+          "meanRGBA": [
+            206,
+            211.44,
+            240,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            -1
+          ],
+          "framebufferPixel": [
+            460,
+            458
+          ],
+          "meanRGBA": [
+            203,
+            211.78,
+            240,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            1.25
+          ],
+          "framebufferPixel": [
+            308,
+            502
+          ],
+          "meanRGBA": [
+            215,
+            213.78,
+            243,
+            255
+          ]
+        }
+      ]
+    },
+    {
+      "file": "orbit-18.png",
+      "angle": 135,
+      "samples": [
+        {
+          "world": [
+            0,
+            0.17,
+            0
+          ],
+          "framebufferPixel": [
+            390,
+            478
+          ],
+          "meanRGBA": [
+            211.44,
+            212,
+            242,
+            255
+          ]
+        },
+        {
+          "world": [
+            -1.1,
+            0.17,
+            0.1
+          ],
+          "framebufferPixel": [
+            448,
+            504
+          ],
+          "meanRGBA": [
+            216.33,
+            214,
+            243,
+            255
+          ]
+        },
+        {
+          "world": [
+            0.9,
+            0.17,
+            0.5
+          ],
+          "framebufferPixel": [
+            304,
+            469
+          ],
+          "meanRGBA": [
+            207.67,
+            211,
+            240,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            -1
+          ],
+          "framebufferPixel": [
+            453,
+            454
+          ],
+          "meanRGBA": [
+            207.67,
+            211.22,
+            240.67,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            1.25
+          ],
+          "framebufferPixel": [
+            318,
+            505
+          ],
+          "meanRGBA": [
+            216.78,
+            213,
+            243,
+            255
+          ]
+        }
+      ]
+    },
+    {
+      "file": "orbit-19.png",
+      "angle": 142.5,
+      "samples": [
+        {
+          "world": [
+            0,
+            0.17,
+            0
+          ],
+          "framebufferPixel": [
+            390,
+            478
+          ],
+          "meanRGBA": [
+            209.11,
+            211,
+            240.22,
+            255
+          ]
+        },
+        {
+          "world": [
+            -1.1,
+            0.17,
+            0.1
+          ],
+          "framebufferPixel": [
+            457,
+            501
+          ],
+          "meanRGBA": [
+            215.67,
+            213,
+            242.78,
+            255
+          ]
+        },
+        {
+          "world": [
+            0.9,
+            0.17,
+            0.5
+          ],
+          "framebufferPixel": [
+            302,
+            473
+          ],
+          "meanRGBA": [
+            203,
+            209,
+            238,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            -1
+          ],
+          "framebufferPixel": [
+            445,
+            451
+          ],
+          "meanRGBA": [
+            206.67,
+            210.22,
+            239.67,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            1.25
+          ],
+          "framebufferPixel": [
+            328,
+            508
+          ],
+          "meanRGBA": [
+            212.22,
+            212,
+            241,
+            255
+          ]
+        }
+      ]
+    },
+    {
+      "file": "orbit-20.png",
+      "angle": 150,
+      "samples": [
+        {
+          "world": [
+            0,
+            0.17,
+            0
+          ],
+          "framebufferPixel": [
+            390,
+            478
+          ],
+          "meanRGBA": [
+            201.56,
+            208,
+            237.11,
+            255
+          ]
+        },
+        {
+          "world": [
+            -1.1,
+            0.17,
+            0.1
+          ],
+          "framebufferPixel": [
+            465,
+            498
+          ],
+          "meanRGBA": [
+            209.11,
+            210.11,
+            240,
+            255
+          ]
+        },
+        {
+          "world": [
+            0.9,
+            0.17,
+            0.5
+          ],
+          "framebufferPixel": [
+            302,
+            478
+          ],
+          "meanRGBA": [
+            197.11,
+            207,
+            236,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            -1
+          ],
+          "framebufferPixel": [
+            435,
+            449
+          ],
+          "meanRGBA": [
+            199.67,
+            208,
+            237,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            1.25
+          ],
+          "framebufferPixel": [
+            339,
+            511
+          ],
+          "meanRGBA": [
+            204,
+            209,
+            239,
+            255
+          ]
+        }
+      ]
+    },
+    {
+      "file": "orbit-21.png",
+      "angle": 157.5,
+      "samples": [
+        {
+          "world": [
+            0,
+            0.17,
+            0
+          ],
+          "framebufferPixel": [
+            390,
+            478
+          ],
+          "meanRGBA": [
+            199,
+            208,
+            238,
+            255
+          ]
+        },
+        {
+          "world": [
+            -1.1,
+            0.17,
+            0.1
+          ],
+          "framebufferPixel": [
+            472,
+            494
+          ],
+          "meanRGBA": [
+            201,
+            208,
+            238,
+            255
+          ]
+        },
+        {
+          "world": [
+            0.9,
+            0.17,
+            0.5
+          ],
+          "framebufferPixel": [
+            303,
+            482
+          ],
+          "meanRGBA": [
+            202.78,
+            210,
+            240.89,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            -1
+          ],
+          "framebufferPixel": [
+            425,
+            447
+          ],
+          "meanRGBA": [
+            194.56,
+            206,
+            235,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            1.25
+          ],
+          "framebufferPixel": [
+            351,
+            513
+          ],
+          "meanRGBA": [
+            204,
+            210,
+            241,
+            255
+          ]
+        }
+      ]
+    },
+    {
+      "file": "orbit-22.png",
+      "angle": 165,
+      "samples": [
+        {
+          "world": [
+            0,
+            0.17,
+            0
+          ],
+          "framebufferPixel": [
+            390,
+            478
+          ],
+          "meanRGBA": [
+            207.33,
+            212,
+            243,
+            255
+          ]
+        },
+        {
+          "world": [
+            -1.1,
+            0.17,
+            0.1
+          ],
+          "framebufferPixel": [
+            477,
+            490
+          ],
+          "meanRGBA": [
+            205,
+            211,
+            242,
+            255
+          ]
+        },
+        {
+          "world": [
+            0.9,
+            0.17,
+            0.5
+          ],
+          "framebufferPixel": [
+            306,
+            486
+          ],
+          "meanRGBA": [
+            211,
+            214,
+            245,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            -1
+          ],
+          "framebufferPixel": [
+            413,
+            445
+          ],
+          "meanRGBA": [
+            201.33,
+            210,
+            240,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            1.25
+          ],
+          "framebufferPixel": [
+            364,
+            515
+          ],
+          "meanRGBA": [
+            212,
+            214,
+            245,
+            255
+          ]
+        }
+      ]
+    },
+    {
+      "file": "orbit-23.png",
+      "angle": 172.5,
+      "samples": [
+        {
+          "world": [
+            0,
+            0.17,
+            0
+          ],
+          "framebufferPixel": [
+            390,
+            478
+          ],
+          "meanRGBA": [
+            213.11,
+            214,
+            246,
+            255
+          ]
+        },
+        {
+          "world": [
+            -1.1,
+            0.17,
+            0.1
+          ],
+          "framebufferPixel": [
+            481,
+            486
+          ],
+          "meanRGBA": [
+            212,
+            214,
+            245,
+            255
+          ]
+        },
+        {
+          "world": [
+            0.9,
+            0.17,
+            0.5
+          ],
+          "framebufferPixel": [
+            310,
+            490
+          ],
+          "meanRGBA": [
+            215.67,
+            215,
+            247,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            -1
+          ],
+          "framebufferPixel": [
+            402,
+            444
+          ],
+          "meanRGBA": [
+            207.67,
+            212.33,
+            243.33,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            1.25
+          ],
+          "framebufferPixel": [
+            377,
+            515
+          ],
+          "meanRGBA": [
+            217,
+            216,
+            247,
+            255
+          ]
+        }
+      ]
+    },
+    {
+      "file": "orbit-24.png",
+      "angle": 180,
+      "samples": [
+        {
+          "world": [
+            0,
+            0.17,
+            0
+          ],
+          "framebufferPixel": [
+            390,
+            478
+          ],
+          "meanRGBA": [
+            215.11,
+            215,
+            246,
+            255
+          ]
+        },
+        {
+          "world": [
+            -1.1,
+            0.17,
+            0.1
+          ],
+          "framebufferPixel": [
+            484,
+            481
+          ],
+          "meanRGBA": [
+            215,
+            215,
+            246,
+            255
+          ]
+        },
+        {
+          "world": [
+            0.9,
+            0.17,
+            0.5
+          ],
+          "framebufferPixel": [
+            315,
+            494
+          ],
+          "meanRGBA": [
+            216.56,
+            216,
+            247,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            -1
+          ],
+          "framebufferPixel": [
+            390,
+            444
+          ],
+          "meanRGBA": [
+            210,
+            213.11,
+            244.11,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            1.25
+          ],
+          "framebufferPixel": [
+            390,
+            516
+          ],
+          "meanRGBA": [
+            218,
+            216,
+            247,
+            255
+          ]
+        }
+      ]
+    },
+    {
+      "file": "orbit-25.png",
+      "angle": 187.5,
+      "samples": [
+        {
+          "world": [
+            0,
+            0.17,
+            0
+          ],
+          "framebufferPixel": [
+            390,
+            478
+          ],
+          "meanRGBA": [
+            214,
+            215,
+            246,
+            255
+          ]
+        },
+        {
+          "world": [
+            -1.1,
+            0.17,
+            0.1
+          ],
+          "framebufferPixel": [
+            485,
+            477
+          ],
+          "meanRGBA": [
+            215,
+            215,
+            246,
+            255
+          ]
+        },
+        {
+          "world": [
+            0.9,
+            0.17,
+            0.5
+          ],
+          "framebufferPixel": [
+            321,
+            497
+          ],
+          "meanRGBA": [
+            214,
+            215,
+            246,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            -1
+          ],
+          "framebufferPixel": [
+            378,
+            444
+          ],
+          "meanRGBA": [
+            207.78,
+            213,
+            243,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            1.25
+          ],
+          "framebufferPixel": [
+            403,
+            515
+          ],
+          "meanRGBA": [
+            217,
+            216,
+            247,
+            255
+          ]
+        }
+      ]
+    },
+    {
+      "file": "orbit-26.png",
+      "angle": 195,
+      "samples": [
+        {
+          "world": [
+            0,
+            0.17,
+            0
+          ],
+          "framebufferPixel": [
+            390,
+            478
+          ],
+          "meanRGBA": [
+            208,
+            213,
+            243,
+            255
+          ]
+        },
+        {
+          "world": [
+            -1.1,
+            0.17,
+            0.1
+          ],
+          "framebufferPixel": [
+            484,
+            472
+          ],
+          "meanRGBA": [
+            211,
+            214,
+            244,
+            255
+          ]
+        },
+        {
+          "world": [
+            0.9,
+            0.17,
+            0.5
+          ],
+          "framebufferPixel": [
+            329,
+            500
+          ],
+          "meanRGBA": [
+            207.33,
+            212.33,
+            242.33,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            -1
+          ],
+          "framebufferPixel": [
+            367,
+            445
+          ],
+          "meanRGBA": [
+            201.11,
+            210,
+            239.22,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            1.25
+          ],
+          "framebufferPixel": [
+            416,
+            515
+          ],
+          "meanRGBA": [
+            180.56,
+            158.67,
+            140.78,
+            255
+          ]
+        }
+      ]
+    },
+    {
+      "file": "orbit-27.png",
+      "angle": 202.5,
+      "samples": [
+        {
+          "world": [
+            0,
+            0.17,
+            0
+          ],
+          "framebufferPixel": [
+            390,
+            478
+          ],
+          "meanRGBA": [
+            199,
+            209,
+            238,
+            255
+          ]
+        },
+        {
+          "world": [
+            -1.1,
+            0.17,
+            0.1
+          ],
+          "framebufferPixel": [
+            482,
+            467
+          ],
+          "meanRGBA": [
+            202.33,
+            210,
+            240,
+            255
+          ]
+        },
+        {
+          "world": [
+            0.9,
+            0.17,
+            0.5
+          ],
+          "framebufferPixel": [
+            337,
+            503
+          ],
+          "meanRGBA": [
+            199,
+            209,
+            239,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            -1
+          ],
+          "framebufferPixel": [
+            355,
+            447
+          ],
+          "meanRGBA": [
+            193,
+            206.22,
+            234,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            1.25
+          ],
+          "framebufferPixel": [
+            429,
+            513
+          ],
+          "meanRGBA": [
+            203,
+            211,
+            240,
+            255
+          ]
+        }
+      ]
+    },
+    {
+      "file": "orbit-28.png",
+      "angle": 210,
+      "samples": [
+        {
+          "world": [
+            0,
+            0.17,
+            0
+          ],
+          "framebufferPixel": [
+            390,
+            478
+          ],
+          "meanRGBA": [
+            197,
+            209,
+            239,
+            255
+          ]
+        },
+        {
+          "world": [
+            -1.1,
+            0.17,
+            0.1
+          ],
+          "framebufferPixel": [
+            478,
+            463
+          ],
+          "meanRGBA": [
+            195,
+            207,
+            236,
+            255
+          ]
+        },
+        {
+          "world": [
+            0.9,
+            0.17,
+            0.5
+          ],
+          "framebufferPixel": [
+            347,
+            505
+          ],
+          "meanRGBA": [
+            200,
+            210.78,
+            241.11,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            -1
+          ],
+          "framebufferPixel": [
+            345,
+            449
+          ],
+          "meanRGBA": [
+            194,
+            208,
+            236,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            1.25
+          ],
+          "framebufferPixel": [
+            441,
+            511
+          ],
+          "meanRGBA": [
+            198,
+            209,
+            239,
+            255
+          ]
+        }
+      ]
+    },
+    {
+      "file": "orbit-29.png",
+      "angle": 217.5,
+      "samples": [
+        {
+          "world": [
+            0,
+            0.17,
+            0
+          ],
+          "framebufferPixel": [
+            390,
+            478
+          ],
+          "meanRGBA": [
+            201,
+            211,
+            242,
+            255
+          ]
+        },
+        {
+          "world": [
+            -1.1,
+            0.17,
+            0.1
+          ],
+          "framebufferPixel": [
+            473,
+            458
+          ],
+          "meanRGBA": [
+            197.33,
+            210,
+            239,
+            255
+          ]
+        },
+        {
+          "world": [
+            0.9,
+            0.17,
+            0.5
+          ],
+          "framebufferPixel": [
+            357,
+            507
+          ],
+          "meanRGBA": [
+            203.22,
+            213,
+            244,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            -1
+          ],
+          "framebufferPixel": [
+            335,
+            451
+          ],
+          "meanRGBA": [
+            197,
+            211,
+            240,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            1.25
+          ],
+          "framebufferPixel": [
+            452,
+            508
+          ],
+          "meanRGBA": [
+            201,
+            211,
+            242,
+            255
+          ]
+        }
+      ]
+    },
+    {
+      "file": "orbit-30.png",
+      "angle": 225,
+      "samples": [
+        {
+          "world": [
+            0,
+            0.17,
+            0
+          ],
+          "framebufferPixel": [
+            390,
+            478
+          ],
+          "meanRGBA": [
+            202,
+            213,
+            243,
+            255
+          ]
+        },
+        {
+          "world": [
+            -1.1,
+            0.17,
+            0.1
+          ],
+          "framebufferPixel": [
+            466,
+            454
+          ],
+          "meanRGBA": [
+            200,
+            211.44,
+            241.11,
+            255
+          ]
+        },
+        {
+          "world": [
+            0.9,
+            0.17,
+            0.5
+          ],
+          "framebufferPixel": [
+            367,
+            508
+          ],
+          "meanRGBA": [
+            204,
+            214,
+            245,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            -1
+          ],
+          "framebufferPixel": [
+            327,
+            454
+          ],
+          "meanRGBA": [
+            198,
+            212,
+            240,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            1.25
+          ],
+          "framebufferPixel": [
+            462,
+            505
+          ],
+          "meanRGBA": [
+            203,
+            213,
+            244,
+            255
+          ]
+        }
+      ]
+    },
+    {
+      "file": "orbit-31.png",
+      "angle": 232.5,
+      "samples": [
+        {
+          "world": [
+            0,
+            0.17,
+            0
+          ],
+          "framebufferPixel": [
+            390,
+            478
+          ],
+          "meanRGBA": [
+            201,
+            213,
+            242,
+            255
+          ]
+        },
+        {
+          "world": [
+            -1.1,
+            0.17,
+            0.1
+          ],
+          "framebufferPixel": [
+            457,
+            451
+          ],
+          "meanRGBA": [
+            181.56,
+            207.56,
+            235.22,
+            255
+          ]
+        },
+        {
+          "world": [
+            0.9,
+            0.17,
+            0.5
+          ],
+          "framebufferPixel": [
+            378,
+            509
+          ],
+          "meanRGBA": [
+            204,
+            214,
+            244,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            -1
+          ],
+          "framebufferPixel": [
+            320,
+            458
+          ],
+          "meanRGBA": [
+            197,
+            212,
+            239,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            1.25
+          ],
+          "framebufferPixel": [
+            472,
+            502
+          ],
+          "meanRGBA": [
+            194,
+            205.56,
+            239.33,
+            255
+          ]
+        }
+      ]
+    },
+    {
+      "file": "orbit-32.png",
+      "angle": 240,
+      "samples": [
+        {
+          "world": [
+            0,
+            0.17,
+            0
+          ],
+          "framebufferPixel": [
+            390,
+            478
+          ],
+          "meanRGBA": [
+            203,
+            213,
+            241,
+            255
+          ]
+        },
+        {
+          "world": [
+            -1.1,
+            0.17,
+            0.1
+          ],
+          "framebufferPixel": [
+            447,
+            447
+          ],
+          "meanRGBA": [
+            165.33,
+            173.33,
+            215.78,
+            255
+          ]
+        },
+        {
+          "world": [
+            0.9,
+            0.17,
+            0.5
+          ],
+          "framebufferPixel": [
+            389,
+            509
+          ],
+          "meanRGBA": [
+            206,
+            214,
+            243,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            -1
+          ],
+          "framebufferPixel": [
+            314,
+            462
+          ],
+          "meanRGBA": [
+            201.78,
+            213,
+            239.56,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            1.25
+          ],
+          "framebufferPixel": [
+            480,
+            498
+          ],
+          "meanRGBA": [
+            202,
+            213,
+            242,
+            255
+          ]
+        }
+      ]
+    },
+    {
+      "file": "orbit-33.png",
+      "angle": 247.5,
+      "samples": [
+        {
+          "world": [
+            0,
+            0.17,
+            0
+          ],
+          "framebufferPixel": [
+            390,
+            478
+          ],
+          "meanRGBA": [
+            202.44,
+            209.67,
+            239.67,
+            255
+          ]
+        },
+        {
+          "world": [
+            -1.1,
+            0.17,
+            0.1
+          ],
+          "framebufferPixel": [
+            436,
+            445
+          ],
+          "meanRGBA": [
+            204,
+            213.89,
+            240,
+            255
+          ]
+        },
+        {
+          "world": [
+            0.9,
+            0.17,
+            0.5
+          ],
+          "framebufferPixel": [
+            400,
+            509
+          ],
+          "meanRGBA": [
+            213,
+            216,
+            244,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            -1
+          ],
+          "framebufferPixel": [
+            309,
+            465
+          ],
+          "meanRGBA": [
+            210,
+            216,
+            242,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            1.25
+          ],
+          "framebufferPixel": [
+            487,
+            493
+          ],
+          "meanRGBA": [
+            206,
+            214,
+            242,
+            255
+          ]
+        }
+      ]
+    },
+    {
+      "file": "orbit-34.png",
+      "angle": 255,
+      "samples": [
+        {
+          "world": [
+            0,
+            0.17,
+            0
+          ],
+          "framebufferPixel": [
+            390,
+            478
+          ],
+          "meanRGBA": [
+            216,
+            218,
+            245,
+            255
+          ]
+        },
+        {
+          "world": [
+            -1.1,
+            0.17,
+            0.1
+          ],
+          "framebufferPixel": [
+            425,
+            443
+          ],
+          "meanRGBA": [
+            211,
+            216,
+            243,
+            255
+          ]
+        },
+        {
+          "world": [
+            0.9,
+            0.17,
+            0.5
+          ],
+          "framebufferPixel": [
+            410,
+            509
+          ],
+          "meanRGBA": [
+            219,
+            218,
+            246,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            -1
+          ],
+          "framebufferPixel": [
+            306,
+            470
+          ],
+          "meanRGBA": [
+            215,
+            218,
+            244,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            1.25
+          ],
+          "framebufferPixel": [
+            492,
+            488
+          ],
+          "meanRGBA": [
+            213,
+            217,
+            243.89,
+            255
+          ]
+        }
+      ]
+    },
+    {
+      "file": "orbit-35.png",
+      "angle": 262.5,
+      "samples": [
+        {
+          "world": [
+            0,
+            0.17,
+            0
+          ],
+          "framebufferPixel": [
+            390,
+            478
+          ],
+          "meanRGBA": [
+            219,
+            219,
+            246,
+            255
+          ]
+        },
+        {
+          "world": [
+            -1.1,
+            0.17,
+            0.1
+          ],
+          "framebufferPixel": [
+            412,
+            441
+          ],
+          "meanRGBA": [
+            214,
+            218,
+            244,
+            255
+          ]
+        },
+        {
+          "world": [
+            0.9,
+            0.17,
+            0.5
+          ],
+          "framebufferPixel": [
+            421,
+            507
+          ],
+          "meanRGBA": [
+            222,
+            220,
+            247,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            -1
+          ],
+          "framebufferPixel": [
+            304,
+            474
+          ],
+          "meanRGBA": [
+            217,
+            219,
+            245,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            1.25
+          ],
+          "framebufferPixel": [
+            495,
+            483
+          ],
+          "meanRGBA": [
+            217,
+            218,
+            245,
+            255
+          ]
+        }
+      ]
+    },
+    {
+      "file": "orbit-36.png",
+      "angle": 270,
+      "samples": [
+        {
+          "world": [
+            0,
+            0.17,
+            0
+          ],
+          "framebufferPixel": [
+            390,
+            478
+          ],
+          "meanRGBA": [
+            219,
+            220,
+            246,
+            255
+          ]
+        },
+        {
+          "world": [
+            -1.1,
+            0.17,
+            0.1
+          ],
+          "framebufferPixel": [
+            399,
+            440
+          ],
+          "meanRGBA": [
+            214.33,
+            219,
+            245,
+            255
+          ]
+        },
+        {
+          "world": [
+            0.9,
+            0.17,
+            0.5
+          ],
+          "framebufferPixel": [
+            431,
+            506
+          ],
+          "meanRGBA": [
+            222,
+            221,
+            247,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            -1
+          ],
+          "framebufferPixel": [
+            304,
+            478
+          ],
+          "meanRGBA": [
+            216.67,
+            220,
+            245.78,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            1.25
+          ],
+          "framebufferPixel": [
+            497,
+            478
+          ],
+          "meanRGBA": [
+            218,
+            219.78,
+            246,
+            255
+          ]
+        }
+      ]
+    },
+    {
+      "file": "orbit-37.png",
+      "angle": 277.5,
+      "samples": [
+        {
+          "world": [
+            0,
+            0.17,
+            0
+          ],
+          "framebufferPixel": [
+            390,
+            478
+          ],
+          "meanRGBA": [
+            217,
+            220.56,
+            246,
+            255
+          ]
+        },
+        {
+          "world": [
+            -1.1,
+            0.17,
+            0.1
+          ],
+          "framebufferPixel": [
+            386,
+            440
+          ],
+          "meanRGBA": [
+            212.33,
+            219,
+            244,
+            255
+          ]
+        },
+        {
+          "world": [
+            0.9,
+            0.17,
+            0.5
+          ],
+          "framebufferPixel": [
+            440,
+            504
+          ],
+          "meanRGBA": [
+            221,
+            221,
+            247,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            -1
+          ],
+          "framebufferPixel": [
+            306,
+            482
+          ],
+          "meanRGBA": [
+            214,
+            220,
+            245,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            1.25
+          ],
+          "framebufferPixel": [
+            497,
+            473
+          ],
+          "meanRGBA": [
+            217,
+            220,
+            246,
+            255
+          ]
+        }
+      ]
+    },
+    {
+      "file": "orbit-38.png",
+      "angle": 285,
+      "samples": [
+        {
+          "world": [
+            0,
+            0.17,
+            0
+          ],
+          "framebufferPixel": [
+            390,
+            478
+          ],
+          "meanRGBA": [
+            213,
+            220,
+            245,
+            255
+          ]
+        },
+        {
+          "world": [
+            -1.1,
+            0.17,
+            0.1
+          ],
+          "framebufferPixel": [
+            373,
+            441
+          ],
+          "meanRGBA": [
+            207.78,
+            219,
+            243,
+            255
+          ]
+        },
+        {
+          "world": [
+            0.9,
+            0.17,
+            0.5
+          ],
+          "framebufferPixel": [
+            449,
+            501
+          ],
+          "meanRGBA": [
+            217.33,
+            221,
+            246,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            -1
+          ],
+          "framebufferPixel": [
+            308,
+            486
+          ],
+          "meanRGBA": [
+            209,
+            220,
+            244,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            1.25
+          ],
+          "framebufferPixel": [
+            495,
+            467
+          ],
+          "meanRGBA": [
+            213.33,
+            220,
+            245,
+            255
+          ]
+        }
+      ]
+    },
+    {
+      "file": "orbit-39.png",
+      "angle": 292.5,
+      "samples": [
+        {
+          "world": [
+            0,
+            0.17,
+            0
+          ],
+          "framebufferPixel": [
+            390,
+            478
+          ],
+          "meanRGBA": [
+            205,
+            220.11,
+            243,
+            255
+          ]
+        },
+        {
+          "world": [
+            -1.1,
+            0.17,
+            0.1
+          ],
+          "framebufferPixel": [
+            360,
+            442
+          ],
+          "meanRGBA": [
+            199,
+            219,
+            241,
+            255
+          ]
+        },
+        {
+          "world": [
+            0.9,
+            0.17,
+            0.5
+          ],
+          "framebufferPixel": [
+            457,
+            498
+          ],
+          "meanRGBA": [
+            211,
+            221,
+            245,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            -1
+          ],
+          "framebufferPixel": [
+            312,
+            490
+          ],
+          "meanRGBA": [
+            200,
+            221,
+            242.44,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            1.25
+          ],
+          "framebufferPixel": [
+            492,
+            462
+          ],
+          "meanRGBA": [
+            207,
+            220,
+            243,
+            255
+          ]
+        }
+      ]
+    },
+    {
+      "file": "orbit-40.png",
+      "angle": 300,
+      "samples": [
+        {
+          "world": [
+            0,
+            0.17,
+            0
+          ],
+          "framebufferPixel": [
+            390,
+            478
+          ],
+          "meanRGBA": [
+            195,
+            223,
+            242.78,
+            255
+          ]
+        },
+        {
+          "world": [
+            -1.1,
+            0.17,
+            0.1
+          ],
+          "framebufferPixel": [
+            348,
+            444
+          ],
+          "meanRGBA": [
+            191,
+            221,
+            240.56,
+            255
+          ]
+        },
+        {
+          "world": [
+            0.9,
+            0.17,
+            0.5
+          ],
+          "framebufferPixel": [
+            464,
+            495
+          ],
+          "meanRGBA": [
+            201,
+            223,
+            244,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            -1
+          ],
+          "framebufferPixel": [
+            318,
+            494
+          ],
+          "meanRGBA": [
+            192.56,
+            224.67,
+            243.11,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            1.25
+          ],
+          "framebufferPixel": [
+            486,
+            457
+          ],
+          "meanRGBA": [
+            197,
+            220,
+            241,
+            255
+          ]
+        }
+      ]
+    },
+    {
+      "file": "orbit-41.png",
+      "angle": 307.5,
+      "samples": [
+        {
+          "world": [
+            0,
+            0.17,
+            0
+          ],
+          "framebufferPixel": [
+            390,
+            478
+          ],
+          "meanRGBA": [
+            191,
+            226,
+            244,
+            255
+          ]
+        },
+        {
+          "world": [
+            -1.1,
+            0.17,
+            0.1
+          ],
+          "framebufferPixel": [
+            337,
+            446
+          ],
+          "meanRGBA": [
+            189,
+            225,
+            243,
+            255
+          ]
+        },
+        {
+          "world": [
+            0.9,
+            0.17,
+            0.5
+          ],
+          "framebufferPixel": [
+            469,
+            491
+          ],
+          "meanRGBA": [
+            193,
+            226,
+            244,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            -1
+          ],
+          "framebufferPixel": [
+            324,
+            497
+          ],
+          "meanRGBA": [
+            191,
+            228.11,
+            245.22,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            1.25
+          ],
+          "framebufferPixel": [
+            479,
+            452
+          ],
+          "meanRGBA": [
+            190,
+            223,
+            241,
+            255
+          ]
+        }
+      ]
+    },
+    {
+      "file": "orbit-42.png",
+      "angle": 315,
+      "samples": [
+        {
+          "world": [
+            0,
+            0.17,
+            0
+          ],
+          "framebufferPixel": [
+            390,
+            478
+          ],
+          "meanRGBA": [
+            190.89,
+            229,
+            246,
+            255
+          ]
+        },
+        {
+          "world": [
+            -1.1,
+            0.17,
+            0.1
+          ],
+          "framebufferPixel": [
+            326,
+            449
+          ],
+          "meanRGBA": [
+            189.11,
+            228,
+            245,
+            255
+          ]
+        },
+        {
+          "world": [
+            0.9,
+            0.17,
+            0.5
+          ],
+          "framebufferPixel": [
+            474,
+            487
+          ],
+          "meanRGBA": [
+            191,
+            229,
+            246,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            -1
+          ],
+          "framebufferPixel": [
+            332,
+            500
+          ],
+          "meanRGBA": [
+            191,
+            230.22,
+            247,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            1.25
+          ],
+          "framebufferPixel": [
+            470,
+            448
+          ],
+          "meanRGBA": [
+            189,
+            226,
+            244,
+            255
+          ]
+        }
+      ]
+    },
+    {
+      "file": "orbit-43.png",
+      "angle": 322.5,
+      "samples": [
+        {
+          "world": [
+            0,
+            0.17,
+            0
+          ],
+          "framebufferPixel": [
+            390,
+            478
+          ],
+          "meanRGBA": [
+            191,
+            230,
+            247,
+            255
+          ]
+        },
+        {
+          "world": [
+            -1.1,
+            0.17,
+            0.1
+          ],
+          "framebufferPixel": [
+            317,
+            453
+          ],
+          "meanRGBA": [
+            190,
+            229,
+            246,
+            255
+          ]
+        },
+        {
+          "world": [
+            0.9,
+            0.17,
+            0.5
+          ],
+          "framebufferPixel": [
+            477,
+            483
+          ],
+          "meanRGBA": [
+            191,
+            230.11,
+            247,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            -1
+          ],
+          "framebufferPixel": [
+            340,
+            503
+          ],
+          "meanRGBA": [
+            191.44,
+            231.33,
+            247.33,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            1.25
+          ],
+          "framebufferPixel": [
+            459,
+            444
+          ],
+          "meanRGBA": [
+            189,
+            228,
+            245,
+            255
+          ]
+        }
+      ]
+    },
+    {
+      "file": "orbit-44.png",
+      "angle": 330,
+      "samples": [
+        {
+          "world": [
+            0,
+            0.17,
+            0
+          ],
+          "framebufferPixel": [
+            390,
+            478
+          ],
+          "meanRGBA": [
+            191,
+            230,
+            247,
+            255
+          ]
+        },
+        {
+          "world": [
+            -1.1,
+            0.17,
+            0.1
+          ],
+          "framebufferPixel": [
+            310,
+            457
+          ],
+          "meanRGBA": [
+            190,
+            229,
+            246,
+            255
+          ]
+        },
+        {
+          "world": [
+            0.9,
+            0.17,
+            0.5
+          ],
+          "framebufferPixel": [
+            478,
+            479
+          ],
+          "meanRGBA": [
+            191,
+            231,
+            247,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            -1
+          ],
+          "framebufferPixel": [
+            349,
+            505
+          ],
+          "meanRGBA": [
+            192,
+            231.33,
+            247.33,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            1.25
+          ],
+          "framebufferPixel": [
+            447,
+            441
+          ],
+          "meanRGBA": [
+            189,
+            228,
+            245,
+            255
+          ]
+        }
+      ]
+    },
+    {
+      "file": "orbit-45.png",
+      "angle": 337.5,
+      "samples": [
+        {
+          "world": [
+            0,
+            0.17,
+            0
+          ],
+          "framebufferPixel": [
+            390,
+            478
+          ],
+          "meanRGBA": [
+            193,
+            229,
+            246,
+            255
+          ]
+        },
+        {
+          "world": [
+            -1.1,
+            0.17,
+            0.1
+          ],
+          "framebufferPixel": [
+            304,
+            461
+          ],
+          "meanRGBA": [
+            193.67,
+            227,
+            245,
+            255
+          ]
+        },
+        {
+          "world": [
+            0.9,
+            0.17,
+            0.5
+          ],
+          "framebufferPixel": [
+            478,
+            474
+          ],
+          "meanRGBA": [
+            191.22,
+            230,
+            247,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            -1
+          ],
+          "framebufferPixel": [
+            359,
+            506
+          ],
+          "meanRGBA": [
+            195,
+            230,
+            247,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            1.25
+          ],
+          "framebufferPixel": [
+            434,
+            438
+          ],
+          "meanRGBA": [
+            190,
+            227,
+            245,
+            255
+          ]
+        }
+      ]
+    },
+    {
+      "file": "orbit-46.png",
+      "angle": 345,
+      "samples": [
+        {
+          "world": [
+            0,
+            0.17,
+            0
+          ],
+          "framebufferPixel": [
+            390,
+            478
+          ],
+          "meanRGBA": [
+            197,
+            227,
+            245,
+            255
+          ]
+        },
+        {
+          "world": [
+            -1.1,
+            0.17,
+            0.1
+          ],
+          "framebufferPixel": [
+            299,
+            466
+          ],
+          "meanRGBA": [
+            198,
+            225,
+            244,
+            255
+          ]
+        },
+        {
+          "world": [
+            0.9,
+            0.17,
+            0.5
+          ],
+          "framebufferPixel": [
+            477,
+            470
+          ],
+          "meanRGBA": [
+            194,
+            228,
+            246,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            -1
+          ],
+          "framebufferPixel": [
+            369,
+            508
+          ],
+          "meanRGBA": [
+            200.33,
+            228.44,
+            246.67,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            1.25
+          ],
+          "framebufferPixel": [
+            420,
+            436
+          ],
+          "meanRGBA": [
+            193,
+            225,
+            244,
+            255
+          ]
+        }
+      ]
+    },
+    {
+      "file": "orbit-47.png",
+      "angle": 352.5,
+      "samples": [
+        {
+          "world": [
+            0,
+            0.17,
+            0
+          ],
+          "framebufferPixel": [
+            390,
+            478
+          ],
+          "meanRGBA": [
+            201.78,
+            225,
+            244,
+            255
+          ]
+        },
+        {
+          "world": [
+            -1.1,
+            0.17,
+            0.1
+          ],
+          "framebufferPixel": [
+            296,
+            470
+          ],
+          "meanRGBA": [
+            207.56,
+            226.78,
+            244,
+            255
+          ]
+        },
+        {
+          "world": [
+            0.9,
+            0.17,
+            0.5
+          ],
+          "framebufferPixel": [
+            474,
+            466
+          ],
+          "meanRGBA": [
+            198,
+            225.56,
+            244,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            -1
+          ],
+          "framebufferPixel": [
+            379,
+            508
+          ],
+          "meanRGBA": [
+            205.67,
+            226,
+            245.33,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            1.25
+          ],
+          "framebufferPixel": [
+            405,
+            435
+          ],
+          "meanRGBA": [
+            196,
+            223,
+            242,
+            255
+          ]
+        }
+      ]
+    }
+  ],
+  "info": {
+    "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+    "canvas": [
+      780,
+      945
+    ],
+    "dpr": 1.5,
+    "toneMapping": 7,
+    "exposure": 1,
+    "outputColorSpace": "srgb",
+    "environmentIntensity": 0.55,
+    "passes": [
+      {
+        "name": "RenderPass",
+        "enabled": true
+      },
+      {
+        "name": "OutputPass",
+        "enabled": true
+      }
+    ],
+    "objects": [
+      {
+        "name": "타닥콩닥꽃",
+        "kind": "pair",
+        "position": [
+          -0.04545222379267216,
+          0,
+          1.0916847019089277
+        ]
+      },
+      {
+        "name": "살랑웅성꽃",
+        "kind": "pair",
+        "position": [
+          0.6810314719565213,
+          0,
+          1.1298412594018394
+        ]
+      },
+      {
+        "name": "콩닥콩닥꽃",
+        "kind": "flower",
+        "position": [
+          1.3002295877225698,
+          0,
+          -2.265058398862534
+        ]
+      },
+      {
+        "name": "킥킥꽃",
+        "kind": "flower",
+        "position": [
+          -0.34281339319422843,
+          0,
+          2.86717117708779
+        ]
+      },
+      {
+        "name": "웅성웅성꽃",
+        "kind": "flower",
+        "position": [
+          -2.309150559017435,
+          0,
+          0.570571514708264
+        ]
+      },
+      {
+        "name": "뚜벅나무",
+        "kind": "flower",
+        "position": [
+          -0.37201368623413145,
+          0,
+          -0.591439107354073
+        ]
+      }
+    ],
+    "island": [
+      "SOOP_Island"
+    ],
+    "memory": {
+      "geometries": 68,
+      "textures": 7
+    },
+    "programs": 11,
+    "glb": [
+      {
+        "size": 730580,
+        "duration": 8.5,
+        "response": 200
+      }
+    ],
+    "rayTimer": true
+  },
+  "logs": [
+    "THREE.Clock: This module has been deprecated. Please use THREE.Timer instead."
+  ],
+  "failures": [],
+  "note": "48 actual app canvas screenshots, constant elevation/radius, 7.5-degree steps around360degrees, frozen bob; default view restored afterward."
+}
