@@ -12,7 +12,7 @@ import { buildFlower, buildSoundFlower } from '../src/lib/flower.js'
 import { toFlowerRow } from '../src/lib/naming.js'
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
-const OUT = path.join(ROOT, 'art/garden-themes')
+const OUT = path.resolve(ROOT, process.env.GARDEN_TEST_OUTPUT || '.qa-browser/garden-themes')
 const BUILD = path.join(ROOT, '.qa-production')
 const PROFILE = path.join(ROOT, '.qa-production-profile')
 const ORIGIN = 'http://127.0.0.1:4175'

@@ -3,7 +3,7 @@ import { chromium } from '@playwright/test'
 import { mkdir, writeFile } from 'node:fs/promises'
 
 const base = process.env.GARDEN_TEST_URL || 'http://127.0.0.1:5199'
-const directory = 'art/garden-themes'
+const directory = process.env.GARDEN_TEST_OUTPUT || '.qa-browser/garden-themes'
 const names = { balanced: 'Balanced Warm', warm: 'Warm Opal', aurora: 'Aurora Crystal', default: 'Original Opal' }
 const themes = Object.keys(names)
 const key = 'sup.garden-theme.v1.demo'
@@ -11,10 +11,14 @@ const report = { browser: 'Chrome headless, native GPU', viewport: { width: 1280
 await mkdir(directory, { recursive: true })
 const browser = await chromium.launch({ channel: 'chrome', headless: true })
 const context = await browser.newContext({ viewport: report.viewport, deviceScaleFactor: 1 })
+await context.route('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css', route => route.fulfill({ contentType: 'text/css', body: '' }))
 const page = await context.newPage()
+const modelRequests = []
+page.on('request', request => { if (/\/models\/island[^/]*\.glb$/.test(request.url())) modelRequests.push(request.url()) })
 page.on('pageerror', e => report.errors.push(e.message))
 page.on('console', e => { if (e.type() === 'error') report.errors.push(e.text()) })
 const snapshot = () => page.evaluate(() => window.__gardenDiagnostics.current.snapshot())
+const paint = () => page.evaluate(() => window.__gardenDiagnostics.current.islandPaint())
 const waitReady = tone => page.waitForFunction(t => {
   const s = window.__gardenDiagnostics?.current?.snapshot()
   return s?.island === 'loaded' && (!t || s.tone === t)
@@ -67,6 +71,8 @@ try {
   await page.evaluate(camera => { window.__gardenDiagnostics.current.setCamera(camera); window.__gardenDiagnostics.current.freeze(6) }, initial.camera)
   await page.waitForTimeout(500)
   const reference = await snapshot()
+  const layoutFields = ['modelUUID', 'grassMeshUUID', 'grassGeometryUUID', 'grassInstanceBufferId', 'grassMatrixVersion']
+  const paints = {}
   await page.evaluate(() => { window.__gardenCanvas = document.querySelector('.island canvas') })
   for (const tone of themes) {
     await choose(tone)
@@ -75,7 +81,9 @@ try {
     assert.equal(current.islandGeometry.grassDrawCalls, 1)
     assert.equal(current.islandGeometry.grassClumps, 1000)
     assert.equal(current.islandGeometry.grassTriangles, 6000)
-    assert.ok(current.islandGeometry.grassCacheSize <= 2)
+    assert.equal(current.islandGeometry.assetTriangles, 14099)
+    for (const field of layoutFields) assert.equal(current.islandGeometry[field], reference.islandGeometry[field], field)
+    paints[tone] = await paint()
     sameCamera(current.camera, reference.camera)
     assert.deepEqual(identity(current), identity(reference), 'Sound identities, positions, growth and LOD survive theme changes')
     assert.ok(current.plantStates.some(f => f.tree) && current.plantStates.some(f => f.blender) && current.plantStates.some(f => f.kind === 'pair'))
@@ -87,12 +95,8 @@ try {
     report.samples[`${tone}-14`] = await snapshot()
   }
   check('All four themes render trees, procedural flowers, Blender peonies and pairs at identical camera/time; same canvas and plant state')
-  for (const [first, second] of [['balanced', 'aurora'], ['warm', 'default']]) {
-    for (const field of ['grassMeshUUID', 'grassGeometryUUID', 'grassInstanceBufferId']) {
-      assert.equal(report.samples[`${first}-14`].islandGeometry[field], report.samples[`${second}-14`].islandGeometry[field])
-    }
-  }
-  check('All four botanical grass palettes use one visible instanced draw; two bounded layouts retain geometry and instance buffers across themes')
+  assert.equal(new Set(Object.values(paints).map(value => JSON.stringify(value))).size, 3)
+  check('All four palettes share one 14,099-triangle island and the same 6,000-triangle grass layout and buffers')
   await openTab('나')
   await capture('theme-selector-desktop')
   await openTab('정원')
@@ -109,24 +113,6 @@ try {
   check('Blender far and near LOD work before and after a theme switch')
   await page.evaluate(camera => window.__gardenDiagnostics.current.setCamera(camera), reference.camera)
 
-  // Delay the archived GLB and inspect the still-visible scene while it is loading.
-  await page.route('**/models/island.glb', async route => {
-    await new Promise(resolve => setTimeout(resolve, 1500))
-    await route.continue()
-  })
-  const other = await context.newPage()
-  await other.goto(`${base}/?view=home&flowers=0`)
-  await other.evaluate(({ key }) => localStorage.setItem(key, 'warm'), { key })
-  await page.waitForFunction(() => window.__gardenDiagnostics.current.snapshot().island === 'loading')
-  const loading = await snapshot()
-  assert.equal(loading.tone, 'balanced')
-  assert.ok(loading.islandChildren > 0)
-  assert.equal(loading.plants, 14)
-  await waitReady('warm')
-  await page.unroute('**/models/island.glb')
-  await other.close()
-  check('Delayed GLB switch retains the complete previous scene until the new island is ready')
-
   // Repeated switches must converge to the same resource counts, not accumulate them.
   report.resourceCycles = []
   for (let cycle = 0; cycle < 3; cycle++) {
@@ -135,12 +121,16 @@ try {
       await choose(tone)
       await page.waitForTimeout(120)
       const s = await snapshot()
+      assert.deepEqual(await paint(), paints[tone], `${tone} restores the same vertex colors`)
+      for (const field of layoutFields) assert.equal(s.islandGeometry[field], reference.islandGeometry[field], field)
       counts[tone] = { geometries: s.geometries, textures: s.textures, programs: s.programs }
     }
     report.resourceCycles.push(counts)
   }
   assert.deepEqual(report.resourceCycles[2], report.resourceCycles[1])
-  check('Twelve repeated switches converge to identical geometry, texture and shader-program counts')
+  assert.equal(modelRequests.length, 1)
+  assert.match(modelRequests[0], /\/models\/island-modern\.glb$/)
+  check('Twelve switches restore exact vertex paint and stable GPU resource counts after one canonical GLB request')
 
   await choose('balanced')
   await page.waitForTimeout(200)
@@ -151,6 +141,25 @@ try {
   await page.locator('.sheet').screenshot({ path: `${directory}/balanced-blender-detail.png` })
   await page.getByRole('button', { name: '닫기', exact: true }).click()
   check('Real canvas raycast opens the selected Blender flower detail')
+
+  // Compare all three directions at the same pose, viewport, fixtures and time.
+  const { position, target } = reference.camera
+  const [x, y, z] = position.map((value, i) => value - target[i])
+  for (const [view, offset] of [['rear', [-x, y, -z]], ['side', [z, y, -x]]]) {
+    const pose = { position: offset.map((value, i) => value + target[i]), target }
+    await page.evaluate(pose => window.__gardenDiagnostics.current.setCamera(pose), pose)
+    for (const tone of themes) {
+      await choose(tone)
+      const state = await snapshot()
+      sameCamera(state.camera, pose)
+      assert.equal(state.islandGeometry.modelUUID, reference.islandGeometry.modelUUID)
+      assert.equal(state.islandGeometry.assetTriangles + state.islandGeometry.grassTriangles, 20099)
+      report.samples[`${tone}-${view}`] = state
+      await capture(`${tone}-${view}`)
+    }
+  }
+  await page.evaluate(camera => window.__gardenDiagnostics.current.setCamera(camera), reference.camera)
+  check('All four themes captured from identical front, rear and side poses')
 
   // The received-sound workflow exercises fresh plant growth in the actual Garden.
   await page.evaluate(() => window.__gardenDiagnostics.current.freeze(undefined))
@@ -171,12 +180,14 @@ try {
   await waitReady()
   await page.waitForFunction(() => window.__gardenDiagnostics.current.snapshot().opened === 52)
   await page.evaluate(() => window.__gardenDiagnostics.current.freeze(8))
+  const denseLayout = (await snapshot()).islandGeometry
   for (const tone of themes) {
     await choose(tone)
     await page.evaluate(() => window.__gardenDiagnostics.current.resetPerformance())
     await page.waitForTimeout(3300)
     const current = await snapshot()
     assert.equal(current.plants, 52)
+    for (const field of layoutFields) assert.equal(current.islandGeometry[field], denseLayout[field], field)
     report.samples[`${tone}-52`] = current
     await capture(`${tone}-dense50`)
   }
@@ -207,6 +218,8 @@ try {
   await blocked.close()
   check('Blocked storage keeps the app functional and makes the in-memory preference explicit')
   assert.deepEqual(report.errors, [])
+  report.modelRequests = modelRequests
+  assert.ok(modelRequests.every(url => /\/models\/island-modern\.glb$/.test(url)))
   report.passed = true
 } catch (error) {
   report.passed = false

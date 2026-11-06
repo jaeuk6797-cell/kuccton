@@ -22,9 +22,8 @@ import { createGardenEnvironment } from '../lib/gardenEnvironment.js'
 import { isTree } from '../lib/tree.js'
 import { playbackLevel } from '../lib/audio.js'
 
-// 블렌더 섬 모델: public/models/island.glb 를 올리면 코드로 만든 섬 대신 자동으로 쓴다.
+// All themes use the same approved Blender island.
 // 약속: 원점 = 섬 윗면 중앙, Y-up, Draco 압축 가능. 크기는 지름이 ISLAND_RADIUS*2가 되도록 자동 맞춤.
-const ISLAND_GLB = `${import.meta.env.BASE_URL}models/island.glb`
 const MODERN_ISLAND_GLB = `${import.meta.env.BASE_URL}models/island-modern.glb`
 const normalizeTone = tone => ['balanced', 'warm', 'aurora', 'default'].includes(tone) ? tone : 'balanced'
 const ISLAND_RADIUS = 4
@@ -175,15 +174,14 @@ function buildIsland(tone) {
   return root
 }
 
-function loadIslandGlb(target, tone, onReady, onError) {
+function loadIslandGlb(onReady, onError) {
   let disposed = false
-  target.userData.assetStatus = 'loading'
   const draco = new DRACOLoader()
   draco.setDecoderPath(`${import.meta.env.BASE_URL}draco/`)
   const loader = new GLTFLoader()
   loader.setDRACOLoader(draco)
   loader.load(
-    tone === 'aurora' || tone === 'balanced' ? MODERN_ISLAND_GLB : ISLAND_GLB,
+    MODERN_ISLAND_GLB,
     (gltf) => {
       const model = gltf.scene
       if (disposed) {
@@ -198,32 +196,18 @@ function loadIslandGlb(target, tone, onReady, onError) {
         if (!o.isMesh) return
         assetTriangles += (o.geometry.index?.count ?? o.geometry.attributes.position.count) / 3
         const materials = Array.isArray(o.material) ? o.material : [o.material]
-        for (const material of materials) {
-          if (tone === 'aurora') applyAuroraIslandMaterial(material)
-          else if (tone !== 'default') applyWarmIslandMaterial(material)
-          applyOpalReflection(material, tone)
-        }
-        if (tone === 'aurora') applyAuroraIslandPaint(o)
-        else if (tone !== 'default') applyWarmIslandPaint(o)
         const transparent = materials.some((material) => material.transparent)
         // Alpha crystals keep their transmitted appearance; only solid perimeter details cast shadows.
-        o.castShadow = !transparent && /Island_(Ornamental_Ring|Vegetation)/.test(o.name)
+        o.castShadow = !transparent && /Island_Vegetation/.test(o.name)
         o.receiveShadow = !transparent && /Island_(Surface|Pond|Accents|Vegetation)/.test(o.name)
       })
-      target.add(model)
-      target.userData.assetTriangles = assetTriangles
-      target.updateWorldMatrix(true, true)
-      target.userData.assetStatus = 'loaded'
-      onReady?.(model)
       draco.dispose()
+      onReady(model, assetTriangles)
     },
     undefined,
     () => {
-      if (!disposed) {
-        target.userData.assetStatus = 'fallback'
-        onError?.()
-      }
       draco.dispose()
+      if (!disposed) onError()
     }, // 모델이 없거나 읽을 수 없으면 코드로 만든 섬을 그대로 둔다
   )
   return () => {
@@ -232,10 +216,57 @@ function loadIslandGlb(target, tone, onReady, onError) {
   }
 }
 
+function prepareIslandAppearance(model) {
+  const meshes = [], paints = new Map(), variants = new Map()
+  model.traverse(mesh => {
+    if (!mesh.isMesh) return
+    meshes.push({ mesh, source: mesh.material })
+    const colors = mesh.geometry.attributes.color
+    if (!colors || paints.has(colors)) return
+    // The canonical GLB uses a single material per primitive and packed colors.
+    paints.set(colors, { original: colors.array.slice(), name: mesh.material.name })
+    colors.setUsage(THREE.DynamicDrawUsage)
+  })
+  let activePaint
+  return {
+    setTone(tone) {
+      let materials = variants.get(tone)
+      if (!materials) variants.set(tone, materials = new Map())
+      const materialFor = source => {
+        if (!materials.has(source)) {
+          const material = source.clone()
+          if (tone === 'aurora') applyAuroraIslandMaterial(material)
+          else if (tone !== 'default') applyWarmIslandMaterial(material)
+          applyOpalReflection(material, tone)
+          materials.set(source, material)
+        }
+        return materials.get(source)
+      }
+      for (const { mesh, source } of meshes) mesh.material = Array.isArray(source) ? source.map(materialFor) : materialFor(source)
+
+      const paint = tone === 'balanced' ? 'warm' : tone
+      if (activePaint === paint) return
+      for (const [colors, { original, name }] of paints) {
+        // Restart from the authored RGBA values. Upload into the same GPU attribute.
+        colors.array.set(original)
+        if (paint === 'aurora') applyAuroraIslandPaint(colors, name)
+        if (paint === 'warm') applyWarmIslandPaint(colors, name)
+        colors.needsUpdate = true
+      }
+      activePaint = paint
+    },
+    dispose() {
+      // Scene cleanup owns the original materials, textures and shared geometry.
+      for (const { mesh, source } of meshes) mesh.material = source
+      for (const materials of variants.values()) for (const material of materials.values()) material.dispose()
+    },
+  }
+}
+
 // ───────── 꽃 자리 ─────────
 // 섬 위에 벌집 모양 자리(슬롯)를 미리 깔고 살짝 흔들어 둔다. 장식(거울 고리·수정 결정·연못)이 있는 곳은 비운다.
 // 반지름 3.4 · 간격 0.66 → 자리 약 69개: 받은 소리 50송이(정원 최대)와 우리의 꽃이 겹치지 않거나 살짝만 닿는다.
-// 장식 위치는 public/models/island.glb를 앱과 같은 크기로 불러와 잰 값 (섬 반지름 4 기준)
+// Keep the historical slot exclusions so existing plants retain their positions.
 const FLOWER_FIELD_RADIUS = 3.4
 const SLOT_GAP = 0.66
 const DECOR = [
@@ -382,11 +413,7 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
     flowerLayer.position.y = ISLAND_TOP_Y
     floating.add(islandGroup, flowerLayer)
     scene.add(floating)
-    // Grass anchors depend on the island variant (the archive retains its hoop).
-    // Keep at most one controller per variant and change its palette in place.
-    const grassCache = new Map()
-    const grassBufferIds = new WeakMap()
-    let nextGrassBufferId = 1
+    let islandModel = null, islandAppearance = null, grass = null
     const N = 140, pts = new Float32Array(N * 3), r0 = rng(7)
     for (let i = 0; i < N; i++) pts.set([(r0() - 0.5) * 12, r0() * 7 - 1, (r0() - 0.5) * 10], i * 3)
     const pGeo = new THREE.BufferGeometry()
@@ -480,7 +507,7 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
     const clock = new THREE.Clock()
     const timings = diagnostics ? { frame: timingSamples(), renderCPU: timingSamples(), lastFrame: null } : null
     let gpuTiming = diagnostics ? createPreviewGpuTiming(renderer) : null
-    let frozenTime, disposed = false, cancelLoad = () => {}, generation = 0
+    let frozenTime, cancelLoad = null
     const st = {
       flowerLayer, islandGroup, clock, camera, controls, viewDir, known: new Set(), first: true,
       tone: normalizeTone(tone), requestedTone: null, themeStatus: null, themeSwitches: 0,
@@ -528,60 +555,53 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
       wrap.dataset.tone = nextTone
     }
     applyLighting(st.tone)
+    function themeStatus(status) {
+      st.themeStatus = status
+      wrap.dataset.ready = status
+      propsRef.current.onThemeStatus?.({ tone: st.requestedTone, status })
+    }
+    function commitTheme() {
+      const nextTone = st.requestedTone
+      islandAppearance.setTone(nextTone)
+      grass?.setTheme(nextTone)
+      if (st.tone !== nextTone) {
+        applyLighting(nextTone)
+        st.rebuildPlants?.(nextTone)
+      }
+      if (timings) {
+        timings.frame = timingSamples()
+        timings.renderCPU = timingSamples()
+        timings.lastFrame = null
+      }
+      st.themeSwitches++
+      themeStatus('loaded')
+    }
     st.requestTone = nextTone => {
       nextTone = normalizeTone(nextTone)
       if (st.requestedTone === nextTone && st.themeStatus !== 'error') return
       st.requestedTone = nextTone
-      st.themeStatus = 'loading'
-      const request = ++generation
-      cancelLoad()
-      islandGroup.userData.assetStatus = 'loading'
-      wrap.dataset.ready = 'loading'
       wrap.dataset.requestedTone = nextTone
-      propsRef.current.onThemeStatus?.({ tone: nextTone, status: 'loading' })
-      const staging = new THREE.Group()
-      // Each loader request owns its parsed GLB; no cached materials are mutated.
-      const stopLoad = loadIslandGlb(staging, nextTone, model => {
-        if (disposed || request !== generation) { disposeMeshes(staging); return }
-        // Commit within one task. No frame sees an empty island during a switch.
-        const variant = nextTone === 'balanced' || nextTone === 'aurora' ? 'modern' : 'archive'
-        let grass = grassCache.get(variant)
-        if (!grass) {
-          grass = createIslandGrass(model, { tone: nextTone })
-          grassCache.set(variant, grass)
-          grassBufferIds.set(grass.mesh.instanceMatrix, nextGrassBufferId++)
-        } else {
-          // Do not reparent a live controller until the replacement GLB is ready.
-          grass.reparent(model)
-          grass.setTheme(nextTone)
-        }
-        const previousGrass = islandGroup.userData.grass
-        if (previousGrass && previousGrass !== grass) previousGrass.mesh.removeFromParent()
-        if (st.tone !== nextTone) applyLighting(nextTone)
+      if (islandModel) { commitTheme(); return }
+      islandGroup.userData.assetStatus = 'loading'
+      themeStatus('loading')
+      if (cancelLoad) return
+      // A pending load serves every theme request. Apply the latest tone when it arrives.
+      cancelLoad = loadIslandGlb((model, assetTriangles) => {
+        cancelLoad = null
+        islandModel = model
+        islandAppearance = prepareIslandAppearance(model)
+        grass = createIslandGrass(model, { tone: st.requestedTone })
         disposeMeshes(islandGroup)
         islandGroup.clear()
-        islandGroup.add(...staging.children)
-        Object.assign(islandGroup.userData, { grass, assetTriangles: staging.userData.assetTriangles, assetStatus: 'loaded' })
-        // Grass belongs to the bounded cache, never to a pending asset request.
-        if (st.rebuildPlants) st.rebuildPlants(nextTone)
-        else grass.updatePlants(flowerLayer.children.map(plant => plant.position), flowerLayer)
-        wrap.dataset.ready = 'loaded'
-        st.themeStatus = 'loaded'
-        if (timings) {
-          timings.frame = timingSamples()
-          timings.renderCPU = timingSamples()
-          timings.lastFrame = null
-        }
-        st.themeSwitches++
-        propsRef.current.onThemeStatus?.({ tone: nextTone, status: 'loaded' })
+        islandGroup.add(model)
+        Object.assign(islandGroup.userData, { grass, assetTriangles, assetStatus: 'loaded' })
+        commitTheme()
+        grass?.updatePlants(flowerLayer.children.map(plant => plant.position), flowerLayer)
       }, () => {
-        if (disposed || request !== generation) return
+        cancelLoad = null
         islandGroup.userData.assetStatus = 'fallback'
-        st.themeStatus = 'error'
-        wrap.dataset.ready = 'error'
-        propsRef.current.onThemeStatus?.({ tone: nextTone, status: 'error' })
+        themeStatus('error')
       })
-      cancelLoad = () => { stopLoad(); disposeMeshes(staging); staging.clear() }
     }
     function snapshot() {
       const plants = flowerLayer.children
@@ -600,6 +620,7 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
         geometries: renderer.info.memory.geometries, textures: renderer.info.memory.textures, programs: renderer.info.programs?.length ?? 0,
         island: islandGroup.userData.assetStatus, islandChildren: islandGroup.children.length,
         islandGeometry: {
+          modelUUID: islandModel?.uuid ?? null,
           assetTriangles: islandGroup.userData.assetTriangles ?? 0,
           grassTriangles: islandGroup.userData.grass?.mesh.userData.triangles ?? 0,
           grassClumps: islandGroup.userData.grass?.mesh.count ?? 0,
@@ -607,8 +628,8 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
           grassTheme: islandGroup.userData.grass?.theme ?? null,
           grassMeshUUID: islandGroup.userData.grass?.mesh.uuid ?? null,
           grassGeometryUUID: islandGroup.userData.grass?.mesh.geometry.uuid ?? null,
-          grassInstanceBufferId: islandGroup.userData.grass ? grassBufferIds.get(islandGroup.userData.grass.mesh.instanceMatrix) : null,
-          grassCacheSize: grassCache.size,
+          grassInstanceBufferId: grass?.mesh.instanceMatrix.id ?? null,
+          grassMatrixVersion: grass?.mesh.instanceMatrix.version ?? null,
         },
         growing: plants.filter(f => !f.userData.opened).length, opened: plants.filter(f => f.userData.opened).length,
         camera: { position: camera.position.toArray(), target: controls.target.toArray() },
@@ -619,6 +640,19 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
     }
     const api = {
       snapshot,
+      islandPaint: () => {
+        const colors = []
+        islandModel?.traverse(mesh => {
+          if (mesh === grass?.mesh) return
+          const array = mesh.geometry?.attributes.color?.array
+          if (!array) return
+          const bytes = new Uint8Array(array.buffer, array.byteOffset, array.byteLength)
+          let checksum = 2166136261
+          for (const byte of bytes) checksum = Math.imul(checksum ^ byte, 16777619)
+          colors.push(checksum >>> 0)
+        })
+        return colors
+      },
       setCamera: ({ position, target: nextTarget }) => {
         controls.autoRotate = false
         // Drain prior pointer damping so fixed-pose comparisons are deterministic.
@@ -698,17 +732,16 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
     }
     loop()
     return () => {
-      disposed = true
       cancelAnimationFrame(raf)
-      cancelLoad()
+      cancelLoad?.()
       gpuTiming?.dispose()
       clearTimeout(resumeTimer)
       ro.disconnect()
       el.removeEventListener('pointerdown', onDown)
       el.removeEventListener('pointerup', onUp)
       controls.dispose()
-      for (const grass of grassCache.values()) grass.dispose()
-      grassCache.clear()
+      grass?.dispose()
+      islandAppearance?.dispose()
       for (const plant of [...flowerLayer.children]) { flowerLayer.remove(plant); disposeFlower3D(plant) }
       disposeMeshes(scene)
       scene.environment = null
@@ -795,10 +828,10 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
       })
       for (const obj of previous.values()) { flowerLayer.remove(obj); disposeFlower3D(obj) }
       wrapRef.current.dataset.plants = String(flowerLayer.children.length)
-      st.islandGroup.userData.grass?.updatePlants(flowerLayer.children.map(plant => plant.position), flowerLayer)
       st.first = false
     }
     st.rebuildPlants(st.tone)
+    st.islandGroup.userData.grass?.updatePlants(st.flowerLayer.children.map(plant => plant.position), st.flowerLayer)
   }, [flowers, pairs, meId, freshIds, highlightId, visibleIds, assets, isBlenderFlower])
 
   return <div ref={wrapRef} className="island" />

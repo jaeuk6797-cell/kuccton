@@ -149,8 +149,7 @@ function footprintFits(points, indices, boundaries, obstacles, plants) {
  * Add grass to an already scaled/positioned GLB. Returns null if its named surface is absent.
  * updatePlants accepts positions in `space` coordinates (e.g. plant.position, flowerLayer).
  * setTheme recolors the same resources; unknown themes fall back to balanced.
- * reparent accepts only another copy of the same GLB variant with identical local coordinates.
- * Before disposing an old model, detach/reparent this mesh or dispose the controller.
+ * Dispose the controller before releasing the model that owns its mesh.
  */
 export function createIslandGrass(model, { count = MAX_CLUMPS, seed = 27439, theme, tone } = {}) {
   count = Math.min(MAX_CLUMPS, Math.max(0, Math.floor(count)))
@@ -290,14 +289,6 @@ export function createIslandGrass(model, { count = MAX_CLUMPS, seed = 27439, the
     mesh,
     get theme() { return resolvedTheme },
     setTheme,
-    reparent(nextModel) {
-      if (disposed) throw new Error('Cannot reparent disposed island grass')
-      if (!nextModel?.isObject3D || nextModel === mesh) throw new TypeError('Grass requires a valid island Object3D')
-      model = nextModel
-      model.add(mesh)
-      model.updateWorldMatrix(true, true)
-      return mesh
-    },
     updatePlants(positions, space = model) {
       if (disposed) return
       model.updateWorldMatrix(true, false)
