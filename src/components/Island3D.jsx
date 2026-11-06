@@ -390,11 +390,18 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
       renderer.setSize(w, h)
       composer.setSize(w, h)
       camera.aspect = w / h
-      // 가로·세로 중 좁은 화각에 섬 전체를 맞춘다.
+      // 캔버스는 화면 전체에 그리고, 기본 시점만 제목·버튼 사이에 맞춘다.
+      const home = wrap.closest('.home')
+      const style = home ? getComputedStyle(home) : null
+      const top = Math.max(0, parseFloat(style?.getPropertyValue('--island-top')) || 120)
+      const bottom = Math.max(0, parseFloat(style?.getPropertyValue('--island-bottom')) || 80)
+      const contentHeight = Math.max(80, h - top - bottom)
       camera.fov = CAMERA.fov
       const halfVertical = THREE.MathUtils.degToRad(CAMERA.fov) / 2
+      const contentHalfVertical = Math.atan(Math.tan(halfVertical) * contentHeight / h)
       const halfHorizontal = Math.atan(Math.tan(halfVertical) * camera.aspect)
-      const dist = Math.max(baseDist, FIT_RADIUS / Math.sin(Math.min(halfVertical, halfHorizontal)))
+      const dist = Math.max(baseDist, FIT_RADIUS / Math.sin(Math.min(contentHalfVertical, halfHorizontal)))
+      camera.setViewOffset(w, h, 0, (bottom - top) / 2, w, h)
       // 처음에는 전체를 보여 주고, 필요하면 기본 화면의 최대 5배까지 확대할 수 있다.
       controls.minDistance = dist * 0.2
       controls.maxDistance = Math.max(CAMERA.max, dist + 3)
@@ -406,6 +413,7 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
     }
     const ro = new ResizeObserver(resize)
     ro.observe(wrap)
+    wrap.closest('.home')?.querySelectorAll('.home-title, .home-sheet').forEach((el) => ro.observe(el))
     resize()
 
     const clock = new THREE.Clock()

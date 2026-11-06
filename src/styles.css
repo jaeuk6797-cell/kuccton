@@ -39,14 +39,14 @@
    - :root와 html의 배경을 모두 하늘 끝 색으로 맞춰 홈 바 영역에도 같은 색을 칠한다
    - 정원 화면은 높이 계산(100dvh) 대신 화면 네 변에 붙인다 */
 html { background: var(--sky-bottom); height: 100%; overflow: hidden; overscroll-behavior: none; }
-body { position: fixed; inset: 0; width: 100%; margin: 0; height: auto; overflow: hidden; overscroll-behavior: none; background: var(--sky); }
-#root { height: 100%; overflow: hidden; }
+body { width: 100%; margin: 0; min-height: 100%; overscroll-behavior: none; background: var(--sky); }
+#root { min-height: 100%; }
 /* 일반 글자의 길게 누르기·드래그 선택은 막고, 입력칸 편집은 유지한다. */
 body { -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
 input, textarea, [contenteditable="true"] { -webkit-user-select: text; user-select: text; -webkit-touch-callout: default; }
 img, svg { -webkit-user-drag: none; }
 h1, .flower-name, .sheet-title, .page-title { font-family: var(--serif); font-weight: 700; }
-button { font: inherit; color: inherit; cursor: pointer; border: 0; background: none; }
+button { touch-action: manipulation; font: inherit; color: inherit; cursor: pointer; border: 0; background: none; }
 button:disabled { opacity: 0.5; cursor: default; }
 ::placeholder { color: #bdb8c4; opacity: 1; }
 input, textarea { font: inherit; }
@@ -195,14 +195,15 @@ h1, h2 { margin: 0; }
 /* ───────── 홈(정원) ───────── */
 .home { --menu-top: calc(var(--safe-top) + 30px); position: fixed; inset: var(--viewport-top, 0px) 0 var(--viewport-bottom, 0px); height: var(--viewport-frame-height, auto); max-width: 520px; margin: 0 auto; overflow: hidden; }
 .home.loading { justify-content: center; }
-.sky { position: absolute; inset: 0; background: var(--sky); overflow: hidden; }
+.sky { position: absolute; inset: 0; background: var(--sky); overflow: hidden; pointer-events: none; }
 .cloud { position: absolute; background: rgba(255,255,255,.75); border-radius: 50%; filter: blur(18px); animation: drift 40s linear infinite alternate; }
 .cloud.c1 { width: 220px; height: 70px; top: 26%; left: -60px; }
 .cloud.c2 { width: 180px; height: 60px; top: 48%; right: -50px; animation-duration: 55s; }
 .cloud.c3 { width: 140px; height: 50px; top: 12%; right: 10%; opacity: .6; animation-duration: 70s; }
 @keyframes drift { to { transform: translateX(60px); } }
 
-.island { position: absolute; left: 0; right: 0; top: var(--island-top, calc(var(--safe-top) + 142px)); bottom: var(--island-bottom, calc(max(16px, var(--tab)) + 54px)); touch-action: none; }
+.island-touch { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
+.island { pointer-events: auto; position: absolute; inset: 0; touch-action: none; }
 .island canvas { display: block; width: 100%; height: 100%; }
 
 .home-head { position: absolute; top: 0; left: 0; right: 0; display: flex; justify-content: space-between; align-items: center; padding: calc(18px + env(safe-area-inset-top)) 20px 0; z-index: 2; }
@@ -217,7 +218,7 @@ h1, h2 { margin: 0; }
 .chips span { background: rgba(255,255,255,.88); border-radius: 999px; padding: 6px 12px; font-size: 0.82rem; color: #2f3a2c; box-shadow: 0 1px 4px rgba(0,0,0,.05); }
 /* 안내는 도구 위 왼쪽에, 도구 사이의 빈 공간은 정원 조작에 사용한다. */
 
-.home-sheet { position: absolute; left: max(16px, env(safe-area-inset-left)); right: max(16px, env(safe-area-inset-right)); bottom: max(12px, var(--safe-bottom)); padding: 0; z-index: 3; display: flex; flex-direction: column; gap: 10px; background: transparent; pointer-events: none; }
+.home-sheet { position: absolute; left: max(16px, env(safe-area-inset-left)); right: max(16px, env(safe-area-inset-right)); bottom: max(12px, var(--safe-bottom)); padding: 0; z-index: 3; display: flex; flex-direction: column; gap: 10px; background: transparent; pointer-events: auto; }
 .home-sheet button { pointer-events: auto; }
 .home-sheet button:focus-visible { outline: 3px solid var(--green-d); outline-offset: 3px; }
 .av { width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center; font-weight: 700; font-size: 0.9rem; border: 2px solid white; }
@@ -417,7 +418,7 @@ h1, h2 { margin: 0; }
 .garden-listen-hint { color: #716c79; font-size: .68rem; font-weight: 400; line-height: 1.5; text-align: center; }
 .garden-actions { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); align-items: stretch; gap: 10px; }
 .garden-actions > button { min-width: 0; }
-.comfort-btn { flex: 1; display: flex; align-items: center; justify-content: center; gap: 6px; min-height: 48px; padding: 0 12px; border: 1px solid rgba(255,255,255,.65); border-radius: 18px; font-size: 0.9rem; background: rgba(255,252,248,.78); backdrop-filter: blur(10px); white-space: nowrap; }
+.comfort-btn { flex: 1; display: flex; align-items: center; justify-content: center; gap: 6px; min-height: 48px; padding: 0 12px; border: 1px solid rgba(255,255,255,.65); border-radius: 18px; font-size: 0.9rem; background: rgba(255,252,248,.92); white-space: nowrap; }
 .comfort-btn svg { width: 18px; height: 18px; flex-shrink: 0; color: var(--accent); }
 .record-cta { flex: 1.7; display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 48px; padding: 0 16px; border-radius: 18px; background: var(--accent); color: white; font-size: .9rem; font-weight: 700; white-space: nowrap; box-shadow: 0 6px 18px rgba(170,78,56,.22); }
 .record-cta svg { width: 22px; height: 22px; flex-shrink: 0; }
