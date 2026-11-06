@@ -139,7 +139,8 @@ function GardenSetup({ email, onEnter }) {
     setBusy(true); setError('')
     try {
       const r = await fn()
-      onEnter({ gardenId: r.garden_id, memberId: r.member_id, code: r.code })
+      // justCreated: 정원을 처음 만든 직후에만 튜토리얼을 띄운다
+      onEnter({ gardenId: r.garden_id, memberId: r.member_id, code: r.code, justCreated: true })
     } catch (e) {
       setError(e.message || String(e))
     } finally { setBusy(false) }

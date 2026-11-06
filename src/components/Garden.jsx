@@ -131,16 +131,11 @@ export default function Garden({ session, onSignOut, email, demo }) {
       if (new URLSearchParams(location.search).get('tutorial') === '1') setTutorialOpen(true)
       return
     }
-    try {
-      if (localStorage.getItem(`sup.tutorial.v1.${data.userId || meId}`)) return
-    } catch {}
-    setTutorialOpen(true)
-  }, [data, demo, meId])
+    // 튜토리얼은 정원을 처음 만든 직후에만 (다른 기기에서 로그인하거나 다시 열 때는 띄우지 않는다)
+    if (session.justCreated) setTutorialOpen(true)
+  }, [data, demo, meId, session.justCreated])
 
   function finishTutorial(completed) {
-    if (!demo) {
-      try { localStorage.setItem(`sup.tutorial.v1.${data.userId || meId}`, completed ? 'done' : 'skipped') } catch {}
-    }
     setTutorialOpen(false)
     if (completed) setTab('garden')
   }
