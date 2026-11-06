@@ -3,6 +3,7 @@
 import { useEffect, useRef } from 'react'
 import * as THREE from 'three'
 import { buildFlower3D, disposeFlower3D } from '../lib/flower3d.js'
+import { createGardenEnvironment } from '../lib/gardenEnvironment.js'
 import { buildTree3D } from '../lib/tree3d.js'
 import { isTree } from '../lib/tree.js'
 
@@ -11,18 +12,22 @@ export default function FlowerBloom3D({ flower, colors, pair = false, size = 180
   const palette = colors || [flower.color]
   const tree = !pair && !colors && isTree(flower)
   // 꽃 모양이 바뀔 때만(예: 감정을 다시 고름) 새로 피운다
-  const shapeKey = JSON.stringify([palette, flower.petals, flower.vowel, flower.consonant, flower.lengths, flower.rms, flower.root, pair, tree])
+  const shapeKey = JSON.stringify([palette, flower.category, flower.petals, flower.vowel, flower.consonant, flower.lengths, flower.rms, flower.root, pair, tree])
 
   useEffect(() => {
     const wrap = wrapRef.current
     const w = size
     const h = Math.round(size * 1.1)
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true })
+    renderer.toneMapping = THREE.NeutralToneMapping
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
     renderer.setSize(w, h)
     wrap.appendChild(renderer.domElement)
 
     const scene = new THREE.Scene()
+    const environment = createGardenEnvironment(renderer, 64)
+    scene.environment = environment.texture
+    scene.environmentIntensity = 0.55
     const camera = new THREE.PerspectiveCamera(32, w / h, 0.1, 50)
     if (tree) {
       camera.position.set(0, 0.95, 3.1) // 나무는 키가 커서 조금 뒤에서 전체를 본다
@@ -31,8 +36,8 @@ export default function FlowerBloom3D({ flower, colors, pair = false, size = 180
       camera.position.set(0, 1.45, 1.4) // 꽃송이가 화면을 채우고 꽃잎 안쪽이 보이도록 위에서 비스듬히
       camera.lookAt(0, 0.5, 0)
     }
-    scene.add(new THREE.HemisphereLight('#ffffff', '#c9b9a8', 1.6))
-    const sun = new THREE.DirectionalLight('#fff1dc', 2)
+    scene.add(new THREE.HemisphereLight('#e3eaff', '#8f838c', 0.65))
+    const sun = new THREE.DirectionalLight('#fff1dc', 1.55)
     sun.position.set(1.5, 3, 2)
     scene.add(sun)
 
@@ -56,6 +61,7 @@ export default function FlowerBloom3D({ flower, colors, pair = false, size = 180
     return () => {
       cancelAnimationFrame(raf)
       disposeFlower3D(obj)
+      environment.dispose()
       renderer.dispose()
       wrap.removeChild(renderer.domElement)
     }

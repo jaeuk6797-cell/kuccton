@@ -1,0 +1,171 @@
+{
+  "before": {
+    "initial": [
+      {
+        "id": "demo-21",
+        "kind": "flower",
+        "category": "flutter"
+      },
+      {
+        "id": "demo-22",
+        "kind": "flower",
+        "category": "sound"
+      },
+      {
+        "id": "demo-23",
+        "kind": "flower",
+        "category": "cozy"
+      },
+      {
+        "id": "demo-24",
+        "kind": "flower",
+        "category": "excited"
+      },
+      {
+        "id": "demo-25",
+        "kind": "flower",
+        "category": "sad"
+      },
+      {
+        "id": "demo-26",
+        "kind": "flower",
+        "category": "sound"
+      },
+      {
+        "id": "demo-29",
+        "kind": "flower",
+        "category": "tense"
+      },
+      {
+        "id": "demo-30",
+        "kind": "flower",
+        "category": "sound"
+      },
+      {
+        "id": "demo-31",
+        "kind": "flower",
+        "category": "sound"
+      },
+      {
+        "id": "demo-32",
+        "kind": "flower",
+        "category": "flutter"
+      },
+      {
+        "id": "demo-33",
+        "kind": "flower",
+        "category": "sound"
+      },
+      {
+        "id": "demo-34",
+        "kind": "flower",
+        "category": "sound"
+      }
+    ],
+    "errors": [],
+    "flower": {
+      "selected": "새근새근꽃"
+    },
+    "tree": {
+      "selected": "뚜벅나무"
+    },
+    "pair": {
+      "selected": "도란새근꽃"
+    }
+  },
+  "after": {
+    "initial": [
+      {
+        "id": "pair-u-jae-2026-11-07",
+        "kind": "pair"
+      },
+      {
+        "id": "pair-u-min-2026-11-07",
+        "kind": "pair"
+      },
+      {
+        "id": "demo-21",
+        "kind": "flower",
+        "category": "flutter"
+      },
+      {
+        "id": "demo-22",
+        "kind": "flower",
+        "category": "sound"
+      },
+      {
+        "id": "demo-23",
+        "kind": "flower",
+        "category": "cozy"
+      },
+      {
+        "id": "demo-24",
+        "kind": "flower",
+        "category": "excited"
+      },
+      {
+        "id": "demo-25",
+        "kind": "flower",
+        "category": "sad"
+      },
+      {
+        "id": "demo-26",
+        "kind": "flower",
+        "category": "sound"
+      },
+      {
+        "id": "demo-29",
+        "kind": "flower",
+        "category": "tense"
+      },
+      {
+        "id": "demo-30",
+        "kind": "flower",
+        "category": "sound"
+      },
+      {
+        "id": "demo-31",
+        "kind": "flower",
+        "category": "sound"
+      },
+      {
+        "id": "demo-32",
+        "kind": "flower",
+        "category": "flutter"
+      },
+      {
+        "id": "demo-33",
+        "kind": "flower",
+        "category": "sound"
+      },
+      {
+        "id": "demo-34",
+        "kind": "flower",
+        "category": "sound"
+      }
+    ],
+    "errors": [],
+    "flower": {
+      "selected": "새근새근꽃",
+      "growth": {
+        "closed": 0.7046874999999999,
+        "opened": 1
+      }
+    },
+    "tree": {
+      "selected": "뚜벅나무",
+      "growth": {
+        "closed": 0.7046874999999999,
+        "opened": 1
+      }
+    },
+    "pair": {
+      "selected": "도란새근꽃",
+      "growth": {
+        "closed": 0.7046874999999999,
+        "opened": 1
+      }
+    }
+  },
+  "notes": "Real Garden UI and raycast selection. Baseline pair-detail screenshot uses a test-only input correction to supply all source rows, so the old pair material can be selected. After uses unmodified application props. Demo audio paths are null and no authenticated backend/audio playback was tested."
+}

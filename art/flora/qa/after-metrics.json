@@ -1,0 +1,103 @@
+{
+  "home": {
+    "metrics": {
+      "frame": 274,
+      "calls": 577,
+      "triangles": 72368,
+      "points": 140,
+      "lines": 0,
+      "memory": {
+        "geometries": 114,
+        "textures": 7
+      }
+    },
+    "plants": 14
+  },
+  "filter": {
+    "dimmed": 9,
+    "metrics": {
+      "frame": 422,
+      "calls": 485,
+      "triangles": 69040,
+      "points": 140,
+      "lines": 0,
+      "memory": {
+        "geometries": 114,
+        "textures": 7
+      }
+    }
+  },
+  "flowers": {
+    "metrics": {
+      "frame": 350,
+      "calls": 447,
+      "triangles": 66160,
+      "points": 140,
+      "lines": 0,
+      "memory": {
+        "geometries": 67,
+        "textures": 7
+      }
+    },
+    "plants": 7
+  },
+  "trees": {
+    "metrics": {
+      "frame": 340,
+      "calls": 111,
+      "triangles": 27592,
+      "points": 140,
+      "lines": 0,
+      "memory": {
+        "geometries": 42,
+        "textures": 7
+      }
+    },
+    "plants": 3
+  },
+  "mixed": {
+    "metrics": {
+      "frame": 346,
+      "calls": 601,
+      "triangles": 77432,
+      "points": 140,
+      "lines": 0,
+      "memory": {
+        "geometries": 95,
+        "textures": 7
+      }
+    },
+    "plants": 11
+  },
+  "details": {},
+  "mobile": {
+    "metrics": {
+      "frame": 390,
+      "calls": 577,
+      "triangles": 72368,
+      "points": 140,
+      "lines": 0,
+      "memory": {
+        "geometries": 114,
+        "textures": 7
+      }
+    },
+    "plants": 14
+  },
+  "dense": {
+    "metrics": {
+      "frame": 352,
+      "calls": 1743,
+      "triangles": 157128,
+      "points": 140,
+      "lines": 0,
+      "memory": {
+        "geometries": 306,
+        "textures": 7
+      }
+    },
+    "plants": 52
+  },
+  "errors": [],
+  "notes": "Final code. Normal home and dense views now include two pair flowers. For an equal-workload performance comparison, use gpu-profile.json. Fixture flower/tree/mixed/detail captures predate the one-line Garden input fix, which does not affect these direct component fixtures."
+}
