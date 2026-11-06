@@ -41,11 +41,11 @@ export default function Recorder({ onClose, onSend, friends = [] }) {
 
   useEffect(() => () => cleanup(), [])
 
-  function cleanup() {
+  function cleanup(keepStt) {
     cancelAnimationFrame(rafRef.current)
     clearInterval(timerRef.current)
     streamRef.current?.getTracks().forEach((t) => t.stop())
-    sttRef.current?.stop()
+    if (!keepStt) sttRef.current?.stop()
   }
 
   async function start() {
@@ -64,7 +64,7 @@ export default function Recorder({ onClose, onSend, friends = [] }) {
     const chunks = []
     rec.ondataavailable = (e) => e.data.size && chunks.push(e.data)
     rec.onstop = () => {
-      cleanup()
+      cleanup(true) // 받아쓰기는 analyze()에서 마무리
       const b = new Blob(chunks, { type: rec.mimeType || mimeType || 'audio/webm' })
       setBlob(b)
       analyze(b)
@@ -122,8 +122,7 @@ export default function Recorder({ onClose, onSend, friends = [] }) {
       const f = await extractFeatures(b)
       setFeatures(f)
       // 받아쓰기의 마지막 결과가 들어올 시간을 조금 준 뒤, 글자가 2자 이상 들렸으면 목소리로 본다
-      await new Promise((r) => setTimeout(r, 700))
-      const heard = (sttRef.current?.text || '').trim()
+      const heard = ((await sttRef.current?.finish?.()) || '').trim()
       const isVoice = heard.replace(/[^가-힣a-zA-Z0-9]/g, '').length >= 2
       setKind(isVoice ? 'voice' : 'other')
       if (!isVoice) { setStep('preview'); return }
