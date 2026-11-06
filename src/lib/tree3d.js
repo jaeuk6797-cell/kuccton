@@ -29,7 +29,7 @@ function crystalCut(profile, baseColor, tone) {
   for (let i = 0; i < positions.count; i++) {
     const side = Math.floor(i / verticesPerSide)
     const y = positions.getY(i)
-    tint.copy(baseColor).lerp(facets[side], 0.42).lerp(PEARL, tone === 'aurora' ? 0.08 + 0.08 * y : 0.20 + 0.15 * y)
+    tint.copy(baseColor).lerp(facets[side], 0.42).lerp(PEARL, tone === 'aurora' ? 0.06 + 0.06 * y : 0.20 + 0.15 * y)
     colors.push(tint.r, tint.g, tint.b)
   }
   geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3))
@@ -61,8 +61,11 @@ export function buildTree3D(f, { tone = 'warm' } = {}) {
     : floraColor(toColor(p.foliage), tone).lerp(tone === 'default' ? palette.aqua : palette.pearl, 0.34)
   const leaf = opalMaterial({ roughness: 0.31, flatShading: true })
   if (tone === 'aurora') {
+    stem.metalness = 0.08
+    leaf.metalness = 0.04
+    leaf.roughness = 0.34
     leaf.iridescence = 0.34
-    leaf.clearcoat = 0.34
+    leaf.clearcoat = 0.24
     applyAuroraFloraRim(leaf, { strength: 0.32 })
   }
 

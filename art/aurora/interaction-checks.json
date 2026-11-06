@@ -1,0 +1,239 @@
+{
+  "initial": {
+    "plants": 13,
+    "near": 2,
+    "far": 0,
+    "calls": 663,
+    "triangles": 88416,
+    "geometries": 100,
+    "island": "loaded",
+    "growing": 0,
+    "opened": 13,
+    "camera": {
+      "position": [
+        -5.793545037702803,
+        8.858216234208763,
+        9.61608217413637
+      ],
+      "target": [
+        0,
+        0.1,
+        0
+      ]
+    },
+    "viewport": {
+      "width": 1646,
+      "height": 695,
+      "pixelRatio": 1.5
+    },
+    "performance": {
+      "frame": {
+        "samples": 180,
+        "meanMs": 50.37,
+        "p95Ms": 100
+      },
+      "renderCPU": {
+        "samples": 180,
+        "meanMs": 3.28,
+        "p95Ms": 5.9
+      },
+      "gpu": {
+        "available": true,
+        "samples": 180,
+        "meanMs": 8.32,
+        "p95Ms": 10.85
+      }
+    }
+  },
+  "planted": {
+    "plants": 13,
+    "near": 2,
+    "far": 0,
+    "calls": 663,
+    "triangles": 88416,
+    "geometries": 100,
+    "island": "loaded",
+    "growing": 0,
+    "opened": 13,
+    "camera": {
+      "position": [
+        -5.793731876776699,
+        8.858191309457759,
+        9.615992305308486
+      ],
+      "target": [
+        0,
+        0.1,
+        0
+      ]
+    },
+    "viewport": {
+      "width": 1646,
+      "height": 695,
+      "pixelRatio": 1.5
+    },
+    "performance": {
+      "frame": {
+        "samples": 180,
+        "meanMs": 56.71,
+        "p95Ms": 191.7
+      },
+      "renderCPU": {
+        "samples": 180,
+        "meanMs": 3.55,
+        "p95Ms": 6.3
+      },
+      "gpu": {
+        "available": true,
+        "samples": 180,
+        "meanMs": 8.37,
+        "p95Ms": 10.95
+      }
+    }
+  },
+  "grown": {
+    "plants": 14,
+    "near": 3,
+    "far": 0,
+    "calls": 673,
+    "triangles": 92008,
+    "geometries": 100,
+    "island": "loaded",
+    "growing": 0,
+    "opened": 14,
+    "camera": {
+      "position": [
+        -5.79480869147088,
+        8.858047655549235,
+        9.615474277495311
+      ],
+      "target": [
+        0,
+        0.1,
+        0
+      ]
+    },
+    "viewport": {
+      "width": 1646,
+      "height": 695,
+      "pixelRatio": 1.5
+    },
+    "performance": {
+      "frame": {
+        "samples": 180,
+        "meanMs": 86.16,
+        "p95Ms": 683.4
+      },
+      "renderCPU": {
+        "samples": 180,
+        "meanMs": 5.56,
+        "p95Ms": 16.1
+      },
+      "gpu": {
+        "available": true,
+        "samples": 180,
+        "meanMs": 9.02,
+        "p95Ms": 13.03
+      }
+    }
+  },
+  "warm": {
+    "plants": 13,
+    "near": 2,
+    "far": 0,
+    "calls": 657,
+    "triangles": 88408,
+    "geometries": 99,
+    "island": "loaded",
+    "growing": 0,
+    "opened": 13,
+    "camera": {
+      "position": [
+        -5.794901766599412,
+        8.858035238383437,
+        9.615429494696995
+      ],
+      "target": [
+        0,
+        0.1,
+        0
+      ]
+    },
+    "viewport": {
+      "width": 1646,
+      "height": 695,
+      "pixelRatio": 1.5
+    },
+    "performance": {
+      "frame": {
+        "samples": 15,
+        "meanMs": 1007.76,
+        "p95Ms": 1016.7
+      },
+      "renderCPU": {
+        "samples": 15,
+        "meanMs": 6.85,
+        "p95Ms": 27
+      },
+      "gpu": {
+        "available": true,
+        "samples": 14,
+        "meanMs": 10.4,
+        "p95Ms": 20.94
+      }
+    }
+  },
+  "aurora": {
+    "plants": 13,
+    "near": 2,
+    "far": 0,
+    "calls": 663,
+    "triangles": 88416,
+    "geometries": 100,
+    "island": "loaded",
+    "growing": 0,
+    "opened": 13,
+    "camera": {
+      "position": [
+        -5.794901766599412,
+        8.858035238383437,
+        9.615429494696995
+      ],
+      "target": [
+        0,
+        0.1,
+        0
+      ]
+    },
+    "viewport": {
+      "width": 1646,
+      "height": 695,
+      "pixelRatio": 1.5
+    },
+    "performance": {
+      "frame": {
+        "samples": 15,
+        "meanMs": 1009.44,
+        "p95Ms": 1017.1
+      },
+      "renderCPU": {
+        "samples": 15,
+        "meanMs": 10.63,
+        "p95Ms": 51.8
+      },
+      "gpu": {
+        "available": true,
+        "samples": 14,
+        "meanMs": 12.24,
+        "p95Ms": 48.75
+      }
+    }
+  },
+  "errors": [],
+  "checks": {
+    "grewTo14": true,
+    "removedTo13": true,
+    "toneCameraPreserved": true,
+    "liveSwitchNoRestart": true
+  }
+}

@@ -1,0 +1,95 @@
+SUP — Bright Aurora Crystal Garden Rebalance
+Branch: codex/aurora-crystal-garden
+
+Preserved versions
+Warm: codex/warm-tone-pass at 536d2acc1e354ac36d0ab21a1b6c752dc15e668b.
+Dark Aurora comparison: e79e488ed4fccb5ebc2da3d22a7c5703f22ab422.
+Warm was independently restored from git archive and built successfully. Its
+40 source/config hashes and protected asset hashes are in preservation.json.
+All 20 archived Warm QA files remain byte-identical. Warm material colors,
+vertex paint, shaders, environment cards and shared sky retain their exact
+rendering inputs. No island/flower/tree remodel or backend/data change occurred.
+
+Visual changes
+Aurora now uses a brighter rose-pink, lavender and aqua sky, stronger diffuse
+illumination and softer shadows. The underside has brighter turquoise and
+lavender mineral colors. Flower/crystal highlights retain selective luminous
+edges and warm centers; wisps and the existing 140 particles stay secondary.
+
+The ground's broad coated highlight is substantially reduced: roughness rises
+from 0.14 to 0.42, clearcoat falls from 0.70 to 0.18, and the broad upper-view
+specular multiplier falls from 31.0 to 1.2. New derivative-filtered mineral
+grains and small view-dependent glints replace that broad white shine, while
+pink/aqua opal color shifts remain. Matched island-only screenshots show a
+more granular, colored crystal surface instead of the former slick pale plate.
+Glow strength drops from 0.38 to 0.24 and its threshold rises from 0.85 to 1.05.
+The reference is retained as reference.png for direct mood/palette inspection.
+
+Changed application files relative to dark Aurora
+src/components/Island3D.jsx — brighter lighting, restrained gloss, grain hook,
+  selective glow, preview-only GPU timing integration.
+src/components/FlowerBloom3D.jsx — matching bright crystal-detail lighting.
+src/dev/IslandPreview.css — bright rose/lavender/aqua atmosphere.
+src/lib/auroraGround.js — filtered mineral grain and small directional glints.
+src/lib/auroraAtmosphere.js — lighter, quieter wisps.
+src/lib/islandTone.js — rougher opal and brighter mineral underside.
+src/lib/gardenEnvironment.js — brighter balanced reflection colors.
+src/lib/crystalFlora.js, flower3d.js, tree3d.js, blenderFlower.js — brighter
+  Aurora flora and controlled edge/center highlights, with exact Warm paths.
+
+Screenshots and matching checks
+Each prefix baseline-, warm-, updated- has all five files:
+  garden.jpg, rotated.jpg, island.jpg, portrait-50.jpg, peonies.jpg.
+All 15 captures report a loaded island and fully opened plants. Cameras,
+targets, viewport sizes and DPR match per view within 1e-6. Rotated baseline
+was recaptured from the restored dark commit using the matching preset.
+Desktop canvas: 1646 x 695, DPR 1.5. Portrait canvas: 390 x 624, DPR about 1.
+Numeric evidence: rebalance-comparison.json and comparison-validation.json.
+
+Verification commands/results
+npm run build — PASSED, Vite 5.4.21, 130 modules, 9.01 seconds.
+node art/aurora/verify-tones.mjs — PASSED. Eleven flower/pair/tree cases at
+  four growth stages retain geometry and poses; exact Warm appearance/shaders
+  remain intact. Eleven island material/paint cases preserve Warm values and
+  Aurora geometry/facet alpha. Both peony GLBs, island GLB and .blend source
+  remain byte-identical. Blender LOD hysteresis, material sharing/isolation,
+  disposal and cached-source immutability pass.
+node art/aurora/verify-preview-performance.mjs — PASSED. GPU query availability,
+  four-query bounds, disjoint reset, external-profiler isolation, context loss,
+  disposal and 180-sample bounds pass. Glow uses four fullscreen draws and two
+  targets capped at 384 pixels; state restoration/resource cleanup pass.
+git diff --check — PASSED.
+Browser interactions — grew from 13 to 14 fully opened plants; removal restored
+  13. Warm/Aurora switches retained identical camera coordinates and expected
+  draw counts. No console errors were recorded. See interaction-checks.json.
+
+Render complexity (garden renderer, including shadows and post-processing)
+View                    Warm calls/triangles    Dark Aurora     Updated Aurora
+Garden / rotated        657 / 88,408            663 / 88,416    663 / 88,416
+Peony-comparison garden 657 / 88,408            663 / 88,416    663 / 88,416
+Island only             27 / 24,048             33 / 24,056     33 / 24,056
+50-plant portrait       2,119 / 213,056          2,125 / 213,064 2,125 / 213,064
+The rebalance adds no draws or triangles over dark Aurora. Both Aurora versions
+add six calls/eight triangles over Warm: two wisp planes and four glow draws.
+Near/far counts match in every view: two near peonies in the garden, twelve far
+peonies in the portrait. Separate detail canvases are excluded from these counts.
+Garden geometry memory matches dark Aurora at 100 and portrait at 256. Empty
+island memory differs with prior flora/LOD cache history (30 baseline versus
+25 updated), so that sample is not a clean memory benchmark.
+
+Performance limits and remaining issues
+GPU timers are available in updated captures, but browser focus changes and
+concurrent tabs made timings highly noisy. Updated mean GPU samples range from
+7.43 to 14.36 ms across views; sample counts vary from 29 to 180. These numbers
+are observations only. Dark/Warm comparison captures lack matched GPU queries,
+and frame gaps reach about one second, so no controlled FPS or GPU-regression
+claim is justified. A focused single-tab/device benchmark remains outstanding.
+The existing Vite warning about a minified chunk over 500 kB remains. Portrait
+was checked on desktop hardware rather than a physical phone. No functional
+failure was observed in the completed build, preservation and interaction checks.
+
+Cleanup
+The isolated baseline preview on port 5192 was stopped after comparison capture.
+Its owned .aurora-baseline-bAuteq directory was removed after verifying its
+resolved absolute path was directly inside the workspace. Main preview 5191
+was left untouched. Nothing was merged into main.

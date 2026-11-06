@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SUP — Aurora comparison</title>
+  <style>
+    :root { color-scheme: light; font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color: #392d43; background: #f6f0f4; }
+    * { box-sizing: border-box; }
+    body { margin: 0; }
+    main { width: min(1600px, calc(100% - 48px)); margin: 0 auto; padding: 44px 0 32px; }
+    .eyebrow { margin: 0 0 10px; color: #8c527b; font-size: 12px; font-weight: 750; letter-spacing: .13em; text-transform: uppercase; }
+    h1 { margin: 0; font-size: clamp(28px, 4vw, 44px); font-weight: 650; letter-spacing: -.04em; line-height: 1.12; }
+    .note { max-width: 830px; margin: 16px 0 0; color: #695b71; font-size: 15px; line-height: 1.65; }
+    .reference { display: grid; grid-template-columns: minmax(180px, 1fr) minmax(0, 3fr); gap: 24px; align-items: center; padding: 24px; margin: 28px 0 36px; border: 1px solid #e6d9e5; border-radius: 18px; background: #fffafc; }
+    .reference h2 { margin: 0 0 8px; font-size: 18px; }
+    .reference p { margin: 0; color: #79677d; font-size: 14px; line-height: 1.6; }
+    .reference img { display: block; width: 100%; max-height: 340px; object-fit: contain; border-radius: 10px; }
+    .columns { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; padding-bottom: 13px; border-bottom: 1px solid #d9cadb; }
+    .columns span { font-size: 14px; font-weight: 700; }
+    .columns span::before { content: ""; display: inline-block; width: 9px; height: 9px; margin-right: 8px; border-radius: 50%; }
+    .warm::before { background: #ce9b94; }
+    .baseline::before { background: #50315e; }
+    .updated::before { background: #cb5597; }
+    section { margin-top: 28px; }
+    section h2 { margin: 0 0 12px; font-size: 17px; font-weight: 650; }
+    .comparison-row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; align-items: start; }
+    figure { min-width: 0; margin: 0; overflow: hidden; border: 1px solid #e1d3e0; border-radius: 12px; background: #fffafc; }
+    figure a { display: block; }
+    figure img { display: block; width: 100%; height: auto; }
+    .portrait img { max-height: 640px; object-fit: contain; object-position: center top; }
+    figcaption { padding: 11px 14px; color: #6e5e74; font-size: 12px; line-height: 1.4; }
+    a:focus-visible { outline: 3px solid #a04b8a; outline-offset: 3px; }
+    footer { margin-top: 30px; padding-top: 18px; border-top: 1px solid #e1d3e0; color: #79677d; font-size: 13px; }
+    @media (max-width: 760px) {
+      main { width: calc(100% - 28px); padding-top: 28px; }
+      .reference { grid-template-columns: 1fr; gap: 16px; padding: 16px; }
+      .columns { display: none; }
+      .comparison-row { grid-template-columns: 1fr; gap: 14px; }
+      section { margin-top: 32px; }
+      figcaption { font-size: 13px; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <p class="eyebrow">SUP / palette, lighting &amp; materials</p>
+      <h1>Aurora visual comparison</h1>
+      <p class="note">Warm preserved, the initial dark Aurora baseline, and the refined intense Aurora. Same geometry and plant placements, with fixed animation time and matched camera views. The portrait preview uses 390 × 844 CSS pixels.</p>
+    </header>
+
+    <aside class="reference" aria-labelledby="reference-title">
+      <div>
+        <h2 id="reference-title">Art direction reference</h2>
+        <p>Rich rose, luminous lavender, and aqua crystal reflections.</p>
+      </div>
+      <a href="reference.png" target="_blank" rel="noopener" title="Open the reference at full resolution">
+        <img src="reference.png" alt="Reference artwork: a floating crystal garden against a luminous pink, lavender, and aqua sky" decoding="async">
+      </a>
+    </aside>
+
+    <div class="columns" aria-hidden="true">
+      <span class="warm">Warm preserved</span>
+      <span class="baseline">Initial dark Aurora baseline</span>
+      <span class="updated">Refined intense Aurora</span>
+    </div>
+
+    <section aria-labelledby="garden-title">
+      <h2 id="garden-title">Default garden</h2>
+      <div class="comparison-row">
+        <figure><a href="warm-garden.jpg" target="_blank" rel="noopener"><img src="warm-garden.jpg" alt="Warm preserved — default garden view" decoding="async"></a><figcaption>Warm preserved</figcaption></figure>
+        <figure><a href="baseline-garden.jpg" target="_blank" rel="noopener"><img src="baseline-garden.jpg" alt="Initial dark Aurora baseline — default garden view" decoding="async"></a><figcaption>Initial dark Aurora baseline</figcaption></figure>
+        <figure><a href="updated-garden.jpg" target="_blank" rel="noopener"><img src="updated-garden.jpg" alt="Refined intense Aurora — default garden view" decoding="async"></a><figcaption>Refined intense Aurora</figcaption></figure>
+      </div>
+    </section>
+
+    <section aria-labelledby="rotated-title">
+      <h2 id="rotated-title">Rotated reflections</h2>
+      <div class="comparison-row">
+        <figure><a href="warm-rotated.jpg" target="_blank" rel="noopener"><img src="warm-rotated.jpg" alt="Warm preserved — rotated camera view showing reflections" loading="lazy" decoding="async"></a><figcaption>Warm preserved</figcaption></figure>
+        <figure><a href="baseline-rotated.jpg" target="_blank" rel="noopener"><img src="baseline-rotated.jpg" alt="Initial dark Aurora baseline — rotated camera view showing reflections" loading="lazy" decoding="async"></a><figcaption>Initial dark Aurora baseline</figcaption></figure>
+        <figure><a href="updated-rotated.jpg" target="_blank" rel="noopener"><img src="updated-rotated.jpg" alt="Refined intense Aurora — rotated camera view showing reflections" loading="lazy" decoding="async"></a><figcaption>Refined intense Aurora</figcaption></figure>
+      </div>
+    </section>
+
+    <section aria-labelledby="island-title">
+      <h2 id="island-title">Island only</h2>
+      <div class="comparison-row">
+        <figure><a href="warm-island.jpg" target="_blank" rel="noopener"><img src="warm-island.jpg" alt="Warm preserved — island without plants" loading="lazy" decoding="async"></a><figcaption>Warm preserved</figcaption></figure>
+        <figure><a href="baseline-island.jpg" target="_blank" rel="noopener"><img src="baseline-island.jpg" alt="Initial dark Aurora baseline — island without plants" loading="lazy" decoding="async"></a><figcaption>Initial dark Aurora baseline</figcaption></figure>
+        <figure><a href="updated-island.jpg" target="_blank" rel="noopener"><img src="updated-island.jpg" alt="Refined intense Aurora — island without plants" loading="lazy" decoding="async"></a><figcaption>Refined intense Aurora</figcaption></figure>
+      </div>
+    </section>
+
+    <section aria-labelledby="peonies-title">
+      <h2 id="peonies-title">Compare peonies</h2>
+      <div class="comparison-row">
+        <figure><a href="warm-peonies.jpg" target="_blank" rel="noopener"><img src="warm-peonies.jpg" alt="Warm preserved — procedural and Blender peonies" loading="lazy" decoding="async"></a><figcaption>Warm preserved</figcaption></figure>
+        <figure><a href="baseline-peonies.jpg" target="_blank" rel="noopener"><img src="baseline-peonies.jpg" alt="Initial dark Aurora baseline — procedural and Blender peonies" loading="lazy" decoding="async"></a><figcaption>Initial dark Aurora baseline</figcaption></figure>
+        <figure><a href="updated-peonies.jpg" target="_blank" rel="noopener"><img src="updated-peonies.jpg" alt="Refined intense Aurora — procedural and Blender peonies" loading="lazy" decoding="async"></a><figcaption>Refined intense Aurora</figcaption></figure>
+      </div>
+    </section>
+
+    <section class="portrait" aria-labelledby="portrait-title">
+      <h2 id="portrait-title">50 plants · portrait</h2>
+      <div class="comparison-row">
+        <figure><a href="warm-portrait-50.jpg" target="_blank" rel="noopener"><img src="warm-portrait-50.jpg" alt="Warm preserved — 50 plants in a 390 by 844 portrait preview" loading="lazy" decoding="async"></a><figcaption>Warm preserved</figcaption></figure>
+        <figure><a href="baseline-portrait-50.jpg" target="_blank" rel="noopener"><img src="baseline-portrait-50.jpg" alt="Initial dark Aurora baseline — 50 plants in a 390 by 844 portrait preview" loading="lazy" decoding="async"></a><figcaption>Initial dark Aurora baseline</figcaption></figure>
+        <figure><a href="updated-portrait-50.jpg" target="_blank" rel="noopener"><img src="updated-portrait-50.jpg" alt="Refined intense Aurora — 50 plants in a 390 by 844 portrait preview" loading="lazy" decoding="async"></a><figcaption>Refined intense Aurora</figcaption></figure>
+      </div>
+    </section>
+    <footer>Open any image to view it at full resolution.</footer>
+  </main>
+</body>
+</html>

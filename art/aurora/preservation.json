@@ -292,7 +292,22 @@
   },
   "island": {
     "warmGroundMaterialAndShaderPreserved": true,
-    "warmEnvironmentPreserved": true
+    "warmEnvironmentPreserved": true,
+    "warmSkyPreserved": true,
+    "warmMaterialAndPaintCases": [
+      "SUP Warm luminous filaments",
+      "SUP Layered turquoise mineral",
+      "SUP Champagne gold",
+      "SUP Brushed rose gold",
+      "SUP Lavender quartz",
+      "SUP Cyan quartz",
+      "SUP Pink opal",
+      "SUP Pearl water highlights",
+      "SUP Opalescent ground",
+      "SUP Still aqua water",
+      "SUP Iridescent foliage"
+    ],
+    "auroraPaintPreservesGeometryAndAlpha": true
   },
   "protectedAssets": [
     {

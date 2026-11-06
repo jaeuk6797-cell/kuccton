@@ -72,22 +72,29 @@ function createVariant(source, tint, tone, opal) {
   }
   if (tone === 'aurora') {
     if (opal) {
+      material.metalness = 0.12
+      material.roughness = 0.28
+      material.clearcoat = 0.28
       material.iridescence = 0.32
-      applyAuroraFloraRim(material, { strength: 0.65 })
+      applyAuroraFloraRim(material, { strength: 0.5 })
     } else if (source.name === '03 | Champagne crystal') {
       material.emissive.set('#ffd692')
       material.emissiveIntensity = 0.48
     } else if (source.name === '02 | Aqua mineral') {
+      material.metalness = 0.10
+      material.roughness = 0.32
+      material.clearcoat = 0.24
       const previousCompile = source.onBeforeCompile
       material.onBeforeCompile = function (shader, renderer) {
         previousCompile.call(this, shader, renderer)
         shader.fragmentShader = shader.fragmentShader.replace('#include <color_fragment>', `
           #include <color_fragment>
           float mineralValue = dot(diffuseColor.rgb, vec3(0.2126, 0.7152, 0.0722));
+          mineralValue += 0.06 * (1.0 - mineralValue);
           diffuseColor.rgb = mix(diffuseColor.rgb, mineralValue * vec3(0.34, 1.18, 1.26), 0.72);
         `)
       }
-      material.customProgramCacheKey = () => 'sup-aurora-flora-mineral-v1'
+      material.customProgramCacheKey = () => 'sup-aurora-flora-mineral-v2'
       applyAuroraFloraRim(material, { strength: 0.36 })
     }
   }
@@ -117,7 +124,7 @@ export function buildBlenderFlower(flower, assets, { dimmed = false, detail = fa
   const scale = (0.55 + 0.25 * flowerParams(flower).size) / height
   const tint = tone === 'default'
     ? new THREE.Color('white').lerp(toColor(flower.color), 0.34)
-    : getFloraPalette(tone).pearl.clone().lerp(floraColor(toColor(flower.color), tone), tone === 'aurora' ? 0.60 : 0.28)
+    : getFloraPalette(tone).pearl.clone().lerp(floraColor(toColor(flower.color), tone), tone === 'aurora' ? 0.78 : 0.28)
   const materials = new Map()
   const release = []
 

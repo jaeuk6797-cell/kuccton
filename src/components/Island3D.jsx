@@ -16,6 +16,8 @@ import { applyWarmIslandMaterial, applyWarmIslandPaint, applyAuroraIslandMateria
 import { createAuroraAtmosphere } from '../lib/auroraAtmosphere.js'
 import { AuroraGlowPass } from '../lib/AuroraGlowPass.js'
 import { createAuroraSparkleMaterial } from '../lib/auroraSparkles.js'
+import { applyAuroraGroundGrain } from '../lib/auroraGround.js'
+import { createPreviewGpuTiming } from '../lib/previewGpuTiming.js'
 import { playbackLevel } from '../lib/audio.js'
 
 // 블렌더 섬 모델: public/models/island.glb 를 올리면 코드로 만든 섬 대신 자동으로 쓴다.
@@ -92,11 +94,11 @@ function applyOpalReflection(material, tone) {
         1.0 - opalReflection.z,
         1.0 + 0.8660254 * opalReflection.x + 0.5 * opalReflection.z,
         1.0 - 0.8660254 * opalReflection.x + 0.5 * opalReflection.z) / 3.0;
-      vec3 opalTint = opalWeights.x * vec3(${aurora ? '0.48, 1.40, 1.65' : warm ? '1.02, 1.03, 1.10' : '0.72, 1.12, 1.14'})
-        + opalWeights.y * vec3(${aurora ? '1.64, 0.58, 1.24' : warm ? '1.26, 0.78, 0.96' : '1.18, 0.78, 1.03'})
-        + opalWeights.z * vec3(${aurora ? '0.98, 0.70, 1.66' : warm ? '1.02, 0.86, 1.24' : '1.14, 0.76, 1.18'});
+      vec3 opalTint = opalWeights.x * vec3(${aurora ? '1.14, 0.88, 1.20' : warm ? '1.02, 1.03, 1.10' : '0.72, 1.12, 1.14'})
+        + opalWeights.y * vec3(${aurora ? '1.40, 0.72, 1.10' : warm ? '1.26, 0.78, 0.96' : '1.18, 0.78, 1.03'})
+        + opalWeights.z * vec3(${aurora ? '0.78, 1.14, 1.28' : warm ? '1.02, 0.86, 1.24' : '1.14, 0.76, 1.18'});
       // A quiet pearl body persists while reflected color strengthens toward grazing views.
-      reflectedLight.indirectDiffuse *= mix(vec3(${aurora ? '0.82, 0.92, 1.14' : warm ? '1.06, 1.0, 0.97' : '0.92, 1.02, 1.04'}), opalTint,
+      reflectedLight.indirectDiffuse *= mix(vec3(${aurora ? '0.92, 1.04, 1.11' : warm ? '1.06, 1.0, 0.97' : '0.92, 1.02, 1.04'}), opalTint,
         0.55 + 0.20 * opalGrazing);
       reflectedLight.indirectSpecular *= mix(vec3(1.0), opalTint, 0.70 + 0.25 * opalGrazing);
       // Upper viewing directions retain a polished response without brightening diffuse light.
@@ -107,10 +109,11 @@ function applyOpalReflection(material, tone) {
       float opalUpperLobe2 = opalUpperLobe * opalUpperLobe;
       float opalUpperLobe4 = opalUpperLobe2 * opalUpperLobe2;
       float opalUpperHighlight = opalUpperLobe4 * opalUpperLobe4 * opalUpperLobe4;
-      reflectedLight.indirectSpecular *= 1.0 + 31.0 * opalUpperView * opalUpperHighlight;
+      reflectedLight.indirectSpecular *= 1.0 + ${aurora ? '1.2' : '31.0'} * opalUpperView * opalUpperHighlight;
     `)
+    if (aurora) applyAuroraGroundGrain(shader)
   }
-  material.customProgramCacheKey = () => `sup-opal-reflection-v3-${tone}`
+  material.customProgramCacheKey = () => `sup-opal-reflection-v3-${tone}${aurora ? '-mineral-grains-v1' : ''}`
   material.needsUpdate = true
 }
 
@@ -343,27 +346,27 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
     const scene = new THREE.Scene()
     const environment = createGardenEnvironment(renderer, 256, tone)
     scene.environment = environment.texture
-    scene.environmentIntensity = aurora ? 0.42 : 0.55
+    scene.environmentIntensity = aurora ? 0.52 : 0.55
     const camera = new THREE.PerspectiveCamera(34, 1, 0.1, 100)
     camera.position.set(...CAMERA.position)
 
     const warm = tone !== 'default'
-    scene.add(new THREE.HemisphereLight(aurora ? '#8584ca' : warm ? '#f6dfd8' : '#ccd9f3', aurora ? '#171c38' : warm ? '#94747f' : '#6c7d88', aurora ? 0.38 : warm ? 0.46 : 0.38))
-    const sun = new THREE.DirectionalLight(aurora ? '#cee9ff' : warm ? '#fff1dc' : '#fff1e8', aurora ? 2.2 : 1.5)
+    scene.add(new THREE.HemisphereLight(aurora ? '#ead9ef' : warm ? '#f6dfd8' : '#ccd9f3', aurora ? '#789bac' : warm ? '#94747f' : '#6c7d88', aurora ? 0.72 : warm ? 0.46 : 0.38))
+    const sun = new THREE.DirectionalLight(aurora ? '#ffe5d6' : warm ? '#fff1dc' : '#fff1e8', 1.5)
     sun.position.set(5, 8, 5)
     sun.castShadow = true
     sun.shadow.mapSize.set(1024, 1024)
     Object.assign(sun.shadow.camera, { left: -5, right: 5, top: 5, bottom: -5, near: 0.5, far: 25 })
-    sun.shadow.intensity = aurora ? 0.68 : 0.55
+    sun.shadow.intensity = aurora ? 0.48 : 0.55
     sun.shadow.radius = 3
     sun.shadow.normalBias = 0.025
     sun.shadow.bias = -0.0001
     scene.add(sun)
-    const fill = new THREE.DirectionalLight(aurora ? '#f181c9' : warm ? '#dcb8d3' : '#a8dce4', aurora ? 1.0 : warm ? 0.52 : 0.65)
+    const fill = new THREE.DirectionalLight(aurora ? '#f19bc5' : warm ? '#dcb8d3' : '#a8dce4', aurora ? 0.6 : warm ? 0.52 : 0.65)
     fill.position.set(-4, -1, 3)
     scene.add(fill)
     if (aurora) {
-      const rim = new THREE.DirectionalLight('#53d8ee', 1.1)
+      const rim = new THREE.DirectionalLight('#99e0eb', 0.7)
       rim.position.set(-3, 4, -6)
       scene.add(rim)
     }
@@ -371,7 +374,7 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
     const composer = new EffectComposer(renderer)
     composer.addPass(new RenderPass(scene, camera))
     // Warm retains its original two-pass renderer; Aurora adds bounded highlight glow.
-    if (aurora) composer.addPass(new AuroraGlowPass({ strength: 0.38, threshold: 0.85 }))
+    if (aurora) composer.addPass(new AuroraGlowPass({ strength: 0.24, threshold: 1.05 }))
     composer.addPass(new OutputPass())
 
     const floating = new THREE.Group()
@@ -479,14 +482,16 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
     const clock = new THREE.Clock()
     let lastStats = 0
     const timings = onPreviewStats ? { frame: timingSamples(), renderCPU: timingSamples(), lastFrame: null } : null
+    const gpuTiming = onPreviewStats ? createPreviewGpuTiming(renderer) : null
     if (onPreviewStats) renderer.info.autoReset = false
     let raf
     const loop = frameTime => {
+      const elapsed = clock.getElapsedTime()
+      const measure = timings && elapsed >= 2 && islandGroup.userData.assetStatus === 'loaded'
       if (timings && frameTime != null) {
-        if (timings.lastFrame != null) recordTiming(timings.frame, frameTime - timings.lastFrame)
+        if (measure && timings.lastFrame != null) recordTiming(timings.frame, frameTime - timings.lastFrame)
         timings.lastFrame = frameTime
       }
-      const elapsed = clock.getElapsedTime()
       const t = previewTime ?? elapsed
       floating.position.y = Math.sin(t * 0.6) * 0.08
       level += (playbackLevel() - level) * 0.15
@@ -523,9 +528,13 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
         u.updateLOD?.(camera, viewportHeight, u.size)
       }
       if (onPreviewStats) renderer.info.reset()
-      const renderStart = timings ? performance.now() : 0
+      const renderStart = measure ? performance.now() : 0
+      if (measure) gpuTiming.begin()
       composer.render()
-      if (timings) recordTiming(timings.renderCPU, performance.now() - renderStart)
+      if (measure) {
+        gpuTiming.end()
+        recordTiming(timings.renderCPU, performance.now() - renderStart)
+      }
       if (onPreviewStats && elapsed - lastStats >= 0.25) {
         lastStats = elapsed
         const plants = flowerLayer.children
@@ -541,7 +550,7 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
           opened: plants.filter(f => f.userData.opened).length,
           camera: { position: camera.position.toArray(), target: controls.target.toArray() },
           viewport: { width: viewportWidth, height: viewportHeight, pixelRatio: renderer.getPixelRatio() },
-          performance: { frame: timingSummary(timings.frame), renderCPU: timingSummary(timings.renderCPU) },
+          performance: { frame: timingSummary(timings.frame), renderCPU: timingSummary(timings.renderCPU), gpu: gpuTiming.sample() },
         })
       }
       raf = requestAnimationFrame(loop)
@@ -563,6 +572,7 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
         angle: previewAngle, width: viewportWidth, height: viewportHeight,
       }
       cancelAnimationFrame(raf)
+      gpuTiming?.dispose()
       clearTimeout(resumeTimer)
       ro.disconnect()
       el.removeEventListener('pointerdown', onDown)

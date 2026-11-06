@@ -25,7 +25,7 @@ const fragmentShader = `
     float flow = 0.22 * sin(p.x * 2.2 + drift + uPhase)
       + 0.14 * sin(p.x * 4.3 - drift * 0.7 + uPhase);
     float distanceToFlow = p.y - flow;
-    float veil = exp(-distanceToFlow * distanceToFlow * 9.0);
+    float veil = exp(-distanceToFlow * distanceToFlow * 7.5);
     float filamentDistance = distanceToFlow - 0.12 * sin(p.x * 7.0 + drift);
     float filament = exp(-filamentDistance * filamentDistance * 36.0);
     float patches = 0.3 + 0.7 * smoothstep(-0.4, 1.0, sin(p.x * 3.4 + drift * 0.6 + uPhase));
@@ -41,7 +41,7 @@ const fragmentShader = `
     float point = pow(max(0.0, 1.0 - length(fract(grid) - 0.5) * 3.2), 6.0);
     float pulse = 0.35 + 0.65 * pow(0.5 + 0.5 * sin(uTime * 0.25 + seed * 31.0), 4.0);
     float shimmer = smoothstep(0.98, 1.0, seed) * point * pulse * veil;
-    float alpha = uOpacity * fade * ((veil * 0.65 + filament * 0.18) * patches + shimmer * 0.12);
+    float alpha = uOpacity * fade * ((veil * 0.65 + filament * 0.12) * patches + shimmer * 0.08);
     gl_FragColor = vec4(uTint, alpha);
   }
 `
@@ -51,8 +51,8 @@ export function createAuroraAtmosphere() {
   group.name = 'Aurora sky wisps'
   const geometry = new THREE.PlaneGeometry(1, 1)
   const placements = [
-    { x: -5.4, y: 3.5, depth: 9, width: 14, height: 7.5, tint: '#e9a0d7', phase: 0.4, opacity: 0.14 },
-    { x: 5.8, y: 1.4, depth: 10, width: 15, height: 8, tint: '#8ad9e8', phase: 2.7, opacity: 0.12 },
+    { x: -5.4, y: 3.5, depth: 9, width: 14, height: 7.5, tint: '#f2c1e6', phase: 0.4, opacity: 0.12 },
+    { x: 5.8, y: 1.4, depth: 10, width: 15, height: 8, tint: '#b5e9ef', phase: 2.7, opacity: 0.1 },
   ]
   for (const placement of placements) {
     const material = new THREE.ShaderMaterial({
@@ -71,7 +71,7 @@ export function createAuroraAtmosphere() {
       toneMapped: false,
     })
     const plane = new THREE.Mesh(geometry, material)
-    plane.name = `Aurora ${placement.tint === '#e9a0d7' ? 'rose' : 'aqua'} wisp`
+    plane.name = `Aurora ${placement.phase === 0.4 ? 'rose' : 'aqua'} wisp`
     plane.scale.set(placement.width, placement.height, 1)
     // Opaque island surfaces occlude the wisps; other transparent crystals render afterward.
     plane.renderOrder = -10

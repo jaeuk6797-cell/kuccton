@@ -80,8 +80,8 @@ export function applyAuroraIslandPaint(mesh) {
     const brightness = Math.max(color.r, color.g, color.b)
     if (mineral) {
       const seam = Math.max(color.b - color.r, color.g - color.r) > 0.025
-      target.set(seam ? '#62e9ea' : '#6388ad')
-      scaled.copy(target).multiplyScalar(brightness * (seam ? 2.5 : 1.45))
+      target.set(seam ? '#84e5eb' : color.r - color.g > 0.13 ? '#a194cc' : '#67a8be')
+      scaled.copy(target).multiplyScalar(brightness * (seam ? 2.0 : 1.6))
       color.copy(scaled)
     } else {
       color.lerp(scaled.copy(target).multiplyScalar(brightness / peak), tint[1])
@@ -96,17 +96,19 @@ export function applyAuroraIslandMaterial(material) {
   material.userData.auroraTone = true
   switch (material.name) {
     case 'SUP Opalescent ground':
-      material.color.setRGB(0.30, 0.40, 0.60)
-      material.roughness = 0.14
-      material.clearcoat = 0.7
+      material.color.setRGB(0.34, 0.42, 0.68)
+      material.roughness = 0.42
+      material.clearcoat = 0.18
+      material.clearcoatRoughness = 0.36
+      material.normalScale?.setScalar(0.28)
       break
     case 'SUP Champagne gold':
-      material.color.set('#d5ad7e')
-      material.roughness = 0.19
+      material.color.set('#e7b58b')
+      material.roughness = 0.28
       break
     case 'SUP Brushed rose gold':
-      material.color.set('#c8a9dc')
-      material.roughness = 0.21
+      material.color.set('#e69bb5')
+      material.roughness = 0.3
       break
     case 'SUP Pearl water highlights':
       material.color.set('#bbf4ff')
@@ -136,7 +138,7 @@ export function applyAuroraIslandMaterial(material) {
           float auroraEdge = 1.0 - max(0.0, dot(normal, normalize(vViewPosition)));
           auroraEdge *= auroraEdge;
           ${mineral ? `
-            float seam = smoothstep(0.04, 0.18, diffuseColor.g - diffuseColor.r);
+            float seam = smoothstep(0.82, 0.94, diffuseColor.g / max(0.001, diffuseColor.b));
             totalEmissiveRadiance += vec3(0.08, 0.75, 0.95) * seam * (0.18 + 0.35 * auroraEdge);
           ` : `
             totalEmissiveRadiance += vec3(0.30, 0.85, 1.0) * auroraEdge * auroraEdge * 0.85;

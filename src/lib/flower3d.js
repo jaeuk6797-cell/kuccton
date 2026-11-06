@@ -108,6 +108,8 @@ export function buildFlower3D(f, colors = [f.color], { pair = false, tone = 'war
   const leafMat = new THREE.MeshStandardMaterial({ vertexColors: true, side: THREE.DoubleSide, roughness: 0.39, metalness: 0.13 })
   const stamenMat = new THREE.MeshStandardMaterial({ color: palette.stamen, roughness: 0.34, metalness: 0.24 })
   if (aurora) {
+    stemMat.metalness = 0.08
+    leafMat.metalness = 0.07
     stamenMat.emissive.set('#ffe0a5')
     stamenMat.emissiveIntensity = 0.8
     applyAuroraFloraRim(leafMat, { contour: true, strength: 0.45 })
@@ -145,10 +147,11 @@ export function buildFlower3D(f, colors = [f.color], { pair = false, tone = 'war
   const blend = pair && bases[1] ? bases[0].clone().lerp(bases[1], 0.5) : bases[0]
   const petalMat = opalMaterial({ side: THREE.DoubleSide })
   if (aurora) {
-    petalMat.roughness = 0.29
-    petalMat.clearcoat = 0.34
+    petalMat.metalness = 0.04
+    petalMat.roughness = 0.32
+    petalMat.clearcoat = 0.24
     petalMat.iridescence = 0.32
-    applyAuroraFloraRim(petalMat, { contour: true, strength: 0.7 })
+    applyAuroraFloraRim(petalMat, { contour: true, strength: 0.55 })
   }
   const petals = []   // { mesh, openTilt, delay }
   for (let i = 0; i < prm.layers; i++) {
@@ -157,7 +160,7 @@ export function buildFlower3D(f, colors = [f.color], { pair = false, tone = 'war
     const geos = bases.map((c, j) => petalGeometry({
       pointy: prm.pointy, length, width, cup: shape.cup, curl: shape.curl, notch: shape.notch ?? 0, aurora,
       baseColor: c.clone().lerp(blend, pair ? 0.24 : 0).lerp(LAVENDER, 0.20 + i * 0.04),
-      tipColor: c.clone().lerp(PEARL, aurora ? 0.22 : 0.36),
+      tipColor: c.clone().lerp(PEARL, aurora ? 0.12 : 0.36),
       edgeColor: PEARL.clone().lerp(tone === 'default'
         ? (j % 2 ? AQUA : BLUSH) : (i === 1 ? AQUA : i === 2 ? LAVENDER : BLUSH), 0.35),
     }))

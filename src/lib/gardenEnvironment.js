@@ -5,7 +5,7 @@ export function createGardenEnvironment(renderer, size = 256, tone = 'warm') {
   const studio = new THREE.Scene()
   const aurora = tone === 'aurora'
   const warm = tone !== 'default'
-  studio.background = new THREE.Color(aurora ? '#15213d' : warm ? '#e7cfc9' : '#c5d3e6')
+  studio.background = new THREE.Color(aurora ? '#c5a1be' : warm ? '#e7cfc9' : '#c5d3e6')
   const geometry = new THREE.PlaneGeometry(1, 1, 12, 12)
   const position = geometry.attributes.position
   const colors = []
@@ -16,15 +16,15 @@ export function createGardenEnvironment(renderer, size = 256, tone = 'warm') {
   geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 4))
   // Overlapping sky bands cover the full orbit; the smaller warm key adds a moving glint.
   const cards = aurora ? [
-    [[3.8, 2, -5.6], [10, 2.6], '#55dce8', 7.2],
-    [[-3.8, 2, -5.6], [10, 2.6], '#c681ef', 5.8],
-    [[-0.8, 2.6, -6.2], [3.6, 1.2], '#d5f5ff', 15],
-    [[1.3, 1.7, -6.2], [5, 2], '#f36bc0', 5.5],
-    [[6.4, 2, 0], [10, 2.8], '#f481c5', 5.4],
-    [[-6.4, 2, 0], [10, 2.8], '#5ce6da', 6.5],
-    [[4.5, 1.9, 4.5], [7, 2.2], '#897be2', 4.5],
-    [[-4.5, 1.9, 4.5], [7, 2.2], '#cc82de', 4.8],
-    [[0, 2, 6.4], [8, 2.4], '#8dbde9', 7],
+    [[3.8, 2, -5.6], [10, 2.6], '#8ce2ec', 5.6],
+    [[-3.8, 2, -5.6], [10, 2.6], '#d2a8ef', 5.0],
+    [[-0.8, 2.6, -6.2], [3.6, 1.2], '#ebf8ff', 8.5],
+    [[1.3, 1.7, -6.2], [5, 2], '#ee87bf', 4.8],
+    [[6.4, 2, 0], [10, 2.8], '#ef91c8', 4.8],
+    [[-6.4, 2, 0], [10, 2.8], '#9be9e1', 5.4],
+    [[4.5, 1.9, 4.5], [7, 2.2], '#b6ace9', 4.5],
+    [[-4.5, 1.9, 4.5], [7, 2.2], '#d795d7', 4.8],
+    [[0, 2, 6.4], [8, 2.4], '#b4d9f1', 5.4],
   ] : [
     [[3.8, 2, -5.6], [12, 3.8], warm ? '#f6d8b9' : '#b9e7f0', 8.75],
     [[-3.8, 2, -5.6], [12, 3.8], warm ? '#c6abe3' : '#c6b7ec', 8.75],

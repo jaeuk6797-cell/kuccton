@@ -21,13 +21,13 @@ const WARM_PALETTE = {
   trunk: '#b58a7c', darkTrunk: '#946773',
 }
 const AURORA_PALETTE = {
-  pearl: new THREE.Color('#e4efff'),
-  aqua: new THREE.Color('#45ddd9'),
-  lavender: new THREE.Color('#9b7ae2'),
-  blush: new THREE.Color('#ec73bf'),
+  pearl: new THREE.Color('#f2e9f7'),
+  aqua: new THREE.Color('#22e2d8'),
+  lavender: new THREE.Color('#b54ddd'),
+  blush: new THREE.Color('#f53aa8'),
   champagne: new THREE.Color('#e3b776'),
-  stem: '#376b80', leaf: '#348f9f', stamen: '#f6d491',
-  trunk: '#447786', darkTrunk: '#56557c',
+  stem: '#6096a5', leaf: '#32c9ce', stamen: '#f6d491',
+  trunk: '#6b9aa3', darkTrunk: '#817ca0',
 }
 
 export const getFloraPalette = (tone = 'warm') => tone === 'default' ? DEFAULT_PALETTE
@@ -40,13 +40,13 @@ export function floraColor(color, tone = 'warm') {
   const degrees = hsl.h * 360
   let hue = degrees
   if (tone === 'aurora') {
-    if (degrees >= 75 && degrees < 155) hue = 318 - (degrees - 75) * 0.24
+    if (degrees >= 75 && degrees < 155) hue = 330 - (degrees - 75) * 0.24
     else if (degrees >= 155 && degrees < 195) hue = 173 + (degrees - 155) * 0.28
-    else if (degrees >= 195 && degrees < 260) hue = 246 + (degrees - 195) * 0.42
-    else if (degrees >= 260 && degrees < 300) hue = 281 + (degrees - 260) * 0.38
+    else if (degrees >= 195 && degrees < 260) hue = 270 + (degrees - 195) * 0.30
+    else if (degrees >= 260 && degrees < 300) hue = 292 + (degrees - 260) * 0.30
     else if (degrees < 35) hue = 342 + degrees * 0.24
-    return new THREE.Color().setHSL(hue / 360, Math.min(0.85, hsl.s * 0.98 + 0.08),
-      Math.min(0.77, Math.max(0.37, hsl.l - 0.025)), THREE.SRGBColorSpace)
+    return new THREE.Color().setHSL(hue / 360, Math.min(0.94, Math.max(0.76, hsl.s * 0.98 + 0.18)),
+      Math.min(0.65, Math.max(0.52, hsl.l - 0.005)), THREE.SRGBColorSpace)
   }
   if (degrees >= 75 && degrees < 190) hue = 330 - (degrees - 75) * 0.48
   else if (degrees >= 190 && degrees < 260) hue = 270 + (degrees - 190) * 0.2
@@ -72,11 +72,11 @@ export function applyAuroraFloraRim(material, { contour = false, strength = 0.55
       #include <aomap_fragment>
       float floraRim = 1.0 - saturate(abs(dot(geometryNormal, geometryViewDir)));
       floraRim *= floraRim;
-      float floraGlint = ${contour ? 'vAuroraEdge * (0.18 + 0.82 * floraRim)' : 'floraRim * floraRim'};
+      float floraGlint = ${contour ? 'vAuroraEdge * (0.12 + 0.88 * floraRim)' : 'floraRim * floraRim'};
       totalEmissiveRadiance += vec3(0.55, 0.90, 1.15) * floraGlint * ${strength.toFixed(3)};
     `)
   }
-  material.customProgramCacheKey = () => `${previousKey}:sup-aurora-flora-rim-v1:${contour}:${strength}`
+  material.customProgramCacheKey = () => `${previousKey}:sup-aurora-flora-rim-v2:${contour}:${strength}`
   return material
 }
 

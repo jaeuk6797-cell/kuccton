@@ -1,0 +1,152 @@
+{
+  "status": "passed",
+  "tolerance": 0.000001,
+  "views": [
+    {
+      "view": "garden",
+      "matchingCameraAndViewport": true,
+      "loadedAndFullyOpened": true,
+      "plants": 13,
+      "near": 2,
+      "far": 0,
+      "calls": {
+        "warm": 657,
+        "baseline": 663,
+        "updated": 663
+      },
+      "triangles": {
+        "warm": 88408,
+        "baseline": 88416,
+        "updated": 88416
+      },
+      "geometryMemory": {
+        "warm": 99,
+        "baseline": 100,
+        "updated": 100
+      },
+      "updatedGpu": {
+        "available": true,
+        "samples": 180,
+        "meanMs": 8.21,
+        "p95Ms": 12.2
+      }
+    },
+    {
+      "view": "rotated",
+      "matchingCameraAndViewport": true,
+      "loadedAndFullyOpened": true,
+      "plants": 13,
+      "near": 2,
+      "far": 0,
+      "calls": {
+        "warm": 657,
+        "baseline": 663,
+        "updated": 663
+      },
+      "triangles": {
+        "warm": 88408,
+        "baseline": 88416,
+        "updated": 88416
+      },
+      "geometryMemory": {
+        "warm": 99,
+        "baseline": 100,
+        "updated": 100
+      },
+      "updatedGpu": {
+        "available": true,
+        "samples": 29,
+        "meanMs": 7.43,
+        "p95Ms": 9.53
+      }
+    },
+    {
+      "view": "island",
+      "matchingCameraAndViewport": true,
+      "loadedAndFullyOpened": true,
+      "plants": 0,
+      "near": 0,
+      "far": 0,
+      "calls": {
+        "warm": 27,
+        "baseline": 33,
+        "updated": 33
+      },
+      "triangles": {
+        "warm": 24048,
+        "baseline": 24056,
+        "updated": 24056
+      },
+      "geometryMemory": {
+        "warm": 29,
+        "baseline": 30,
+        "updated": 25
+      },
+      "updatedGpu": {
+        "available": true,
+        "samples": 44,
+        "meanMs": 8.37,
+        "p95Ms": 8.88
+      }
+    },
+    {
+      "view": "portrait-50",
+      "matchingCameraAndViewport": true,
+      "loadedAndFullyOpened": true,
+      "plants": 50,
+      "near": 0,
+      "far": 12,
+      "calls": {
+        "warm": 2119,
+        "baseline": 2125,
+        "updated": 2125
+      },
+      "triangles": {
+        "warm": 213056,
+        "baseline": 213064,
+        "updated": 213064
+      },
+      "geometryMemory": {
+        "warm": 255,
+        "baseline": 256,
+        "updated": 256
+      },
+      "updatedGpu": {
+        "available": true,
+        "samples": 89,
+        "meanMs": 8.52,
+        "p95Ms": 13.77
+      }
+    },
+    {
+      "view": "peonies",
+      "matchingCameraAndViewport": true,
+      "loadedAndFullyOpened": true,
+      "plants": 13,
+      "near": 2,
+      "far": 0,
+      "calls": {
+        "warm": 657,
+        "baseline": 663,
+        "updated": 663
+      },
+      "triangles": {
+        "warm": 88408,
+        "baseline": 88416,
+        "updated": 88416
+      },
+      "geometryMemory": {
+        "warm": 99,
+        "baseline": 100,
+        "updated": 100
+      },
+      "updatedGpu": {
+        "available": true,
+        "samples": 31,
+        "meanMs": 14.36,
+        "p95Ms": 40.33
+      }
+    }
+  ],
+  "performanceLimit": "Browser focus changes and concurrent tabs make timings noisy; warm/dark captures have no GPU query baseline, so this is not a controlled FPS/GPU comparison."
+}

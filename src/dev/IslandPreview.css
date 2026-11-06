@@ -8,9 +8,10 @@
 }
 .flora-preview[data-tone="aurora"] {
   background:
-    radial-gradient(ellipse at 22% 12%, #db4b9f3d, transparent 58%),
-    radial-gradient(ellipse at 88% 84%, #3dbfca2e, transparent 52%),
-    linear-gradient(180deg, #50315e 0%, #28294e 53%, #123e51 100%);
+    radial-gradient(ellipse at 16% 10%, #e35aa733, transparent 58%),
+    radial-gradient(ellipse at 80% 18%, #f3bfd833, transparent 55%),
+    radial-gradient(ellipse at 88% 84%, #54c6d02b, transparent 52%),
+    linear-gradient(155deg, #cb5597 0%, #c878b0 32%, #b38ac7 58%, #559fbd 100%);
 }
 .flora-preview[data-portrait="true"] {
   width: min(390px, 100%);
@@ -49,15 +50,16 @@
 .flora-preview[data-tone="warm"] .flora-actions button[aria-pressed="true"] { background: #855d6b; }
 .flora-preview[data-tone="aurora"] .flora-actions button,
 .flora-preview[data-tone="aurora"] .flora-card {
-  color: #f5e7f6;
-  background: #342b50ed;
-  box-shadow: inset 0 0 0 1px #bd8bcb30, 0 1px 8px #090d2640;
+  color: #514460;
+  background: #fff5fce8;
+  box-shadow: inset 0 0 0 1px #fff7fc80, 0 1px 8px #7a567129;
 }
 .flora-preview[data-tone="aurora"] .flora-actions button[aria-pressed="true"] {
-  background: #965184;
-  box-shadow: inset 0 0 0 1px #e5b3da66, 0 1px 8px #090d2640;
+  color: #fff7fd;
+  background: #8d5e8b;
+  box-shadow: inset 0 0 0 1px #e5b3da66, 0 1px 8px #7a567129;
 }
-.flora-preview[data-tone="aurora"] .flora-stats { color: #e2d9f0; }
+.flora-preview[data-tone="aurora"] .flora-stats { color: #2b1936; }
 .flora-stats { font-size: 12px; font-variant-numeric: tabular-nums; }
 .flora-card {
   position: relative;
