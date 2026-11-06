@@ -1,0 +1,505 @@
+{
+  "generatedAt": "2026-11-06T18:02:10.855Z",
+  "requestedShadingBaseline": "f57cc0d",
+  "actualMergedAppBaseline": "c06bdde",
+  "baselineExplanation": "The two rendering functions were unchanged from f57cc0d. Archived current c06bdde component was replayed so merged camera, flower, tree, and UI behavior is identical before/after.",
+  "asset": {
+    "bytes": 730580,
+    "triangles": 16607,
+    "baselineSHA256": "52ed6300962c469a0bd3e6eee9452bd9d6578d14de5b1df3004967ecfa20c083",
+    "finalSHA256": "52ed6300962c469a0bd3e6eee9452bd9d6578d14de5b1df3004967ecfa20c083",
+    "unchanged": true
+  },
+  "environment": {
+    "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+    "viewportCSS": [
+      520,
+      820
+    ],
+    "framebuffer": [
+      780,
+      945
+    ],
+    "dpr": 1.5,
+    "toneMapping": "Neutral",
+    "exposure": 1,
+    "passes": [
+      {
+        "name": "RenderPass",
+        "enabled": true
+      },
+      {
+        "name": "OutputPass",
+        "enabled": true
+      }
+    ],
+    "physicalMobileTested": false
+  },
+  "matchedPerformance": {
+    "sequence": [
+      "before",
+      "after",
+      "after",
+      "before"
+    ],
+    "samplesPerBlock": 60,
+    "method": "One Chrome process, baseline/final/final/baseline. Each reload uses current merged app; baseline served module and unchanged GLB are intercepted from the archived c06bdde state. Settled default camera, frozen bob, identical viewport and content. Mean of two block medians per version.",
+    "groups": {
+      "before": {
+        "flowers": {
+          "blockMedianFrameMs": [
+            53.3,
+            56.1
+          ],
+          "meanOfBlockMediansMs": 54.7,
+          "drawCalls": 353,
+          "drawnTriangles": 68216,
+          "cpuSubmitBlockMedianMs": [
+            1.8,
+            2.1
+          ]
+        },
+        "islandOnly": {
+          "blockMedianFrameMs": [
+            39.1,
+            40.2
+          ],
+          "meanOfBlockMediansMs": 39.65,
+          "drawCalls": 26,
+          "drawnTriangles": 24048,
+          "cpuSubmitBlockMedianMs": [
+            0.6,
+            0.7
+          ]
+        }
+      },
+      "after": {
+        "flowers": {
+          "blockMedianFrameMs": [
+            54.1,
+            58.2
+          ],
+          "meanOfBlockMediansMs": 56.15,
+          "drawCalls": 353,
+          "drawnTriangles": 68216,
+          "cpuSubmitBlockMedianMs": [
+            1.8,
+            2.2
+          ]
+        },
+        "islandOnly": {
+          "blockMedianFrameMs": [
+            37.5,
+            38.7
+          ],
+          "meanOfBlockMediansMs": 38.1,
+          "drawCalls": 26,
+          "drawnTriangles": 24048,
+          "cpuSubmitBlockMedianMs": [
+            0.7,
+            0.7
+          ]
+        }
+      }
+    },
+    "percentChange": {
+      "flowers": 2.65,
+      "islandOnly": -3.91
+    },
+    "raw": "paired/paired-metrics.json"
+  },
+  "scene": {
+    "dynamicObjects": 6,
+    "dynamicAdditionalDrawCalls": 327,
+    "baselineGeometries": 68,
+    "finalGeometries": 68,
+    "baselineTextures": 7,
+    "finalTextures": 7,
+    "baselinePrograms": 11,
+    "finalPrograms": 11,
+    "cameras": [
+      {
+        "variant": "before",
+        "camera": [
+          -0.008178738158552069,
+          6.5373581592387495,
+          15.719128261120504
+        ],
+        "target": [
+          0,
+          0.1,
+          0
+        ]
+      },
+      {
+        "variant": "after",
+        "camera": [
+          -0.008181438557984552,
+          6.5373581592387495,
+          15.719128259715243
+        ],
+        "target": [
+          0,
+          0.1,
+          0
+        ]
+      },
+      {
+        "variant": "after",
+        "camera": [
+          -0.00806581449650176,
+          6.5373581592387495,
+          15.719128319469618
+        ],
+        "target": [
+          0,
+          0.1,
+          0
+        ]
+      },
+      {
+        "variant": "before",
+        "camera": [
+          -0.008047780329201807,
+          6.5373581592387495,
+          15.71912832871298
+        ],
+        "target": [
+          0,
+          0.1,
+          0
+        ]
+      }
+    ],
+    "groundRuntimeMaterial": {
+      "name": "SUP Opalescent ground",
+      "type": "MeshPhysicalMaterial",
+      "transparent": false,
+      "opacity": 1,
+      "roughness": 0.18000000715255737,
+      "metalness": 0.019999999552965164,
+      "clearcoat": 0.550000011920929,
+      "iridescence": 0,
+      "transmission": 0,
+      "vertexColors": true
+    }
+  },
+  "fiveViews": [
+    {
+      "label": "front",
+      "camera": [
+        0,
+        5.7407245920921275,
+        13.77386237603891
+      ],
+      "target": [
+        0,
+        0.1,
+        0
+      ],
+      "distance": 14.884121024699212,
+      "beforeCenter": [
+        215,
+        237,
+        242,
+        255
+      ],
+      "afterCenter": [
+        216,
+        231,
+        246,
+        255
+      ],
+      "allSamplesOpaque": true,
+      "peakSampleRGB": 248
+    },
+    {
+      "label": "left90",
+      "camera": [
+        -13.77386237603891,
+        5.7407245920921275,
+        0
+      ],
+      "target": [
+        0,
+        0.1,
+        0
+      ],
+      "distance": 14.884121024699212,
+      "beforeCenter": [
+        168,
+        182,
+        199,
+        255
+      ],
+      "afterCenter": [
+        219,
+        220,
+        246,
+        255
+      ],
+      "allSamplesOpaque": true,
+      "peakSampleRGB": 247
+    },
+    {
+      "label": "right90",
+      "camera": [
+        13.77386237603891,
+        5.7407245920921275,
+        0
+      ],
+      "target": [
+        0,
+        0.1,
+        0
+      ],
+      "distance": 14.884121024699212,
+      "beforeCenter": [
+        167,
+        182,
+        203,
+        255
+      ],
+      "afterCenter": [
+        196,
+        226,
+        246,
+        255
+      ],
+      "allSamplesOpaque": true,
+      "peakSampleRGB": 247
+    },
+    {
+      "label": "rear180",
+      "camera": [
+        0,
+        5.7407245920921275,
+        -13.77386237603891
+      ],
+      "target": [
+        0,
+        0.1,
+        0
+      ],
+      "distance": 14.884121024699212,
+      "beforeCenter": [
+        157,
+        192,
+        202,
+        255
+      ],
+      "afterCenter": [
+        215.11,
+        215,
+        246,
+        255
+      ],
+      "allSamplesOpaque": true,
+      "peakSampleRGB": 247
+    },
+    {
+      "label": "low-angle",
+      "camera": [
+        0,
+        3.1945827685813737,
+        14.558867269341128
+      ],
+      "target": [
+        0,
+        0.1,
+        0
+      ],
+      "distance": 14.884121024699212,
+      "beforeCenter": [
+        226,
+        226,
+        244,
+        255
+      ],
+      "afterCenter": [
+        218,
+        224,
+        249,
+        255
+      ],
+      "allSamplesOpaque": true,
+      "peakSampleRGB": 249
+    },
+    {
+      "label": "gap60",
+      "camera": [
+        11.928514725880383,
+        5.7407245920921275,
+        6.886931188019457
+      ],
+      "target": [
+        0,
+        0.1,
+        0
+      ],
+      "distance": 14.884121024699212,
+      "afterCenter": [
+        189,
+        215,
+        242,
+        255
+      ],
+      "allSamplesOpaque": true,
+      "peakSampleRGB": 244
+    },
+    {
+      "label": "gap300",
+      "camera": [
+        -11.928514725880383,
+        5.7407245920921275,
+        6.886931188019457
+      ],
+      "target": [
+        0,
+        0.1,
+        0
+      ],
+      "distance": 14.884121024699212,
+      "afterCenter": [
+        195,
+        223,
+        242.78,
+        255
+      ],
+      "allSamplesOpaque": true,
+      "peakSampleRGB": 244
+    }
+  ],
+  "upperElevation": {
+    "views": [
+      {
+        "label": "mid-front",
+        "camera": [
+          0,
+          9.667328575751569,
+          11.40189820168118
+        ],
+        "centerRGBA": [
+          194,
+          224,
+          246,
+          255
+        ],
+        "allSamplesOpaque": true,
+        "peakSampleRGB": 247
+      },
+      {
+        "label": "mid-rear",
+        "camera": [
+          0,
+          9.667328575751569,
+          -11.40189820168118
+        ],
+        "centerRGBA": [
+          203,
+          215,
+          245,
+          255
+        ],
+        "allSamplesOpaque": true,
+        "peakSampleRGB": 247
+      },
+      {
+        "label": "high-front",
+        "camera": [
+          0,
+          12.789078162857535,
+          7.779739973468595
+        ],
+        "centerRGBA": [
+          199,
+          225,
+          249,
+          255
+        ],
+        "allSamplesOpaque": true,
+        "peakSampleRGB": 249
+      },
+      {
+        "label": "high-rear",
+        "camera": [
+          0,
+          12.789078162857535,
+          -7.779739973468595
+        ],
+        "centerRGBA": [
+          206,
+          219,
+          249,
+          255
+        ],
+        "allSamplesOpaque": true,
+        "peakSampleRGB": 249
+      }
+    ],
+    "diagonalCenterRGBA": [
+      190,
+      219,
+      243,
+      255
+    ],
+    "flowersAndShadowsReadable": true,
+    "assessment": "Soft pearlescent upper sheen; less glossy than horizon-card views. Flowers and contact shadows remain readable; no visible diagonal crease.",
+    "raw": "final/high-angle/final-five-views.json"
+  },
+  "continuousOrbit": {
+    "frames": 48,
+    "stepDegrees": 7.5,
+    "durationMs": 3840,
+    "frozenBob": true,
+    "centerRGBMin": [
+      189,
+      208,
+      237.11
+    ],
+    "centerRGBMax": [
+      221,
+      233,
+      248
+    ],
+    "maxAdjacentCenterChannelStep": 14.22,
+    "all240SamplesOpaque": true,
+    "peakSampleRGB": 248,
+    "artifact": "final/opal-360-orbit.webp",
+    "raw": "final/orbit-metadata.json"
+  },
+  "visualAssessment": {
+    "flowersReadable": true,
+    "contactShadowsVisible": true,
+    "geometryClippingObserved": false,
+    "angularSeamObserved": false,
+    "unstableShimmerObserved": false,
+    "notes": "Five required views plus targeted60/300-degree coverage and reachable high-elevation bounds were reviewed. Reflection strength and hue still vary across the orbit; the former muted side/rear views retain pearly color."
+  },
+  "errors": {
+    "baseline": [
+      "THREE.Clock: This module has been deprecated. Please use THREE.Timer instead."
+    ],
+    "final": [
+      "THREE.Clock: This module has been deprecated. Please use THREE.Timer instead."
+    ],
+    "orbit": [
+      "THREE.Clock: This module has been deprecated. Please use THREE.Timer instead."
+    ],
+    "paired": [
+      "THREE.Clock: This module has been deprecated. Please use THREE.Timer instead."
+    ],
+    "loadFailures": []
+  },
+  "artifacts": {
+    "before": "baseline/",
+    "after": "final/",
+    "comparison": "before-after-five-views.png"
+  },
+  "limitations": [
+    "Software SwiftShader/Vulkan rendering, not physical Android FPS. Absolute frame intervals vary between browser contexts and sessions; only internally paired comparisons support relative conclusions.",
+    "CPU submit timing excludes asynchronous GPU work. Startup shader compilation and one-time PMREM baking are excluded from settled frame samples and were not independently timed.",
+    "Upper-elevation views retain a soft pearlescent sheen, with less distinct gloss than the horizon-card views. The result does not make every angle equally glossy or mirror-like.",
+    "Visual inspection and fixed-world pixel samples cover specified orientations and a48-frame orbit, not a mathematical guarantee for every possible camera pose."
+  ]
+}

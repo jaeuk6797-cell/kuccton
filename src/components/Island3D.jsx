@@ -75,12 +75,17 @@ function createGardenEnvironment(renderer) {
     colors.push(1, 1, 1, Math.max(0, 1 - radiusSquared) ** 2)
   }
   geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 4))
-  // Rear sky bands cross the ground's reflected horizon as the camera orbits.
+  // Overlapping sky bands cover the full orbit; the smaller warm key adds a moving glint.
   for (const [position, size, color, intensity] of [
-    [[1.3, 1.25, -6.2], [5.2, 2.2], '#f5c8df', 7.875],
-    [[3.8, 2.5, -5.6], [4.4, 1.8], '#b9e7f0', 8.75],
-    [[-3.8, 2.5, -5.6], [4.4, 1.8], '#c6b7ec', 8.75],
+    [[3.8, 2, -5.6], [12, 3.8], '#b9e7f0', 8.75],
+    [[-3.8, 2, -5.6], [12, 3.8], '#c6b7ec', 8.75],
     [[-0.8, 2.6, -6.2], [3.6, 1.2], '#fff2ed', 14],
+    [[1.3, 1.7, -6.2], [6, 3], '#f5c8df', 7],
+    [[6.4, 2, 0], [12, 3.8], '#ecd5ee', 7.5],
+    [[-6.4, 2, 0], [12, 3.8], '#bfe9e8', 7.5],
+    [[4.5, 1.9, 4.5], [7, 2.5], '#cdd4f3', 6.5],
+    [[-4.5, 1.9, 4.5], [7, 2.5], '#eed0e2', 6.5],
+    [[0, 2, 6.4], [8, 2.6], '#e3def5', 9],
   ]) {
     const material = new THREE.MeshBasicMaterial({
       color: new THREE.Color(color).multiplyScalar(intensity), toneMapped: false,
@@ -115,18 +120,31 @@ function applyOpalReflection(material) {
       vec3 opalReflection = transformDirectionByInverseViewMatrix(
         reflect(-geometryViewDir, geometryNormal), viewMatrix);
       float opalEdge = 1.0 - saturate(dot(geometryNormal, geometryViewDir));
-      float opalFresnel = opalEdge * opalEdge;
-      opalFresnel *= opalFresnel * opalEdge;
-      float opalShift = opalReflection.x + 0.15 * opalReflection.z;
-      vec3 opalTint = mix(vec3(0.72, 1.12, 1.14), vec3(1.14, 0.76, 1.18),
-        smoothstep(0.10, 0.65, -opalShift));
-      opalTint = mix(opalTint, vec3(1.18, 0.78, 1.03),
-        smoothstep(0.10, 0.65, opalShift));
-      reflectedLight.indirectDiffuse *= mix(vec3(1.0), opalTint, 0.45 + 0.45 * opalFresnel);
-      reflectedLight.indirectSpecular *= mix(vec3(1.0), opalTint, 0.65 + 0.25 * opalFresnel);
+      float opalGrazing = opalEdge * opalEdge;
+      // These nonnegative circular weights sum to one without angular seams or hue plateaus.
+      vec3 opalWeights = vec3(
+        1.0 - opalReflection.z,
+        1.0 + 0.8660254 * opalReflection.x + 0.5 * opalReflection.z,
+        1.0 - 0.8660254 * opalReflection.x + 0.5 * opalReflection.z) / 3.0;
+      vec3 opalTint = opalWeights.x * vec3(0.72, 1.12, 1.14)
+        + opalWeights.y * vec3(1.18, 0.78, 1.03)
+        + opalWeights.z * vec3(1.14, 0.76, 1.18);
+      // A quiet pearl body persists while reflected color strengthens toward grazing views.
+      reflectedLight.indirectDiffuse *= mix(vec3(0.92, 1.02, 1.04), opalTint,
+        0.55 + 0.20 * opalGrazing);
+      reflectedLight.indirectSpecular *= mix(vec3(1.0), opalTint, 0.70 + 0.25 * opalGrazing);
+      // Upper viewing directions retain a polished response without brightening diffuse light.
+      float opalUpperView = smoothstep(0.45, 0.78, opalReflection.y);
+      // Exact maximum of four cardinal upper lobes, evaluated with scalar arithmetic.
+      float opalUpperLobe = max(0.0, 0.8 * opalReflection.y
+        + 0.6 * max(abs(opalReflection.x), abs(opalReflection.z)));
+      float opalUpperLobe2 = opalUpperLobe * opalUpperLobe;
+      float opalUpperLobe4 = opalUpperLobe2 * opalUpperLobe2;
+      float opalUpperHighlight = opalUpperLobe4 * opalUpperLobe4 * opalUpperLobe4;
+      reflectedLight.indirectSpecular *= 1.0 + 31.0 * opalUpperView * opalUpperHighlight;
     `)
   }
-  material.customProgramCacheKey = () => 'soop-opal-reflection-v1'
+  material.customProgramCacheKey = () => 'soop-opal-reflection-v3'
   material.needsUpdate = true
 }
 
