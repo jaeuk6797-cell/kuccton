@@ -2,7 +2,7 @@
 // PRD 4.4: 꽃잎 수 = onset, 양성모음 = 작고 2겹 / 음성모음 = 크고 3겹,
 //          된소리·거센소리 = 뾰족한 꽃잎, 음량 = 크기·중심 발광, 색 = 카테고리 계열(naming.js에서 모음 톤까지 반영됨)
 import * as THREE from 'three'
-import { AQUA, BLUSH, LAVENDER, PEARL, opalMaterial } from './crystalFlora.js'
+import { applyAuroraFloraRim, floraColor, getFloraPalette, opalMaterial } from './crystalFlora.js'
 
 const clamp = (v, a, b) => Math.min(b, Math.max(a, v))
 const easeOutBack = (x) => {
@@ -10,7 +10,6 @@ const easeOutBack = (x) => {
   return 1 + c3 * (x - 1) ** 3 + c1 * (x - 1) ** 2
 }
 const CLOSED_TILT = 0.12   // 봉오리일 때 꽃잎 기울기(0 = 똑바로 위)
-const CHAMPAGNE = new THREE.Color('#d39e73')
 
 // 'hsl(335 70% 80%)', 'hsl(335, 70%, 80%)', '#ff9ec7' 모두 처리
 export function toColor(input, fallback = '#f0a0c0') {
@@ -51,10 +50,11 @@ export function flowerParams(f) {
 }
 
 // A shallow keel and beveled margins give the curved petal distinct reflecting planes.
-function petalGeometry({ pointy, length, width, baseColor, tipColor, edgeColor, cup = 0.5, curl = 0.25, notch = 0 }) {
+function petalGeometry({ pointy, length, width, baseColor, tipColor, edgeColor, cup = 0.5, curl = 0.25, notch = 0, aurora = false }) {
   const U = 12
   const across = [-1, -0.78, -0.38, 0, 0.38, 0.78, 1]
   const pos = [], col = [], idx = []
+  const glow = aurora ? [] : null
   const body = new THREE.Color()
   const tint = new THREE.Color()
   for (let i = 0; i <= U; i++) {
@@ -72,6 +72,7 @@ function petalGeometry({ pointy, length, width, baseColor, tipColor, edgeColor, 
       tint.copy(body).lerp(edgeColor, 0.58 * side ** 5 + 0.13 * u ** 4)
       tint.multiplyScalar(1 + 0.07 * v)
       col.push(tint.r, tint.g, tint.b)
+      if (glow) glow.push(side ** 10 * Math.sin(Math.PI * u) ** 0.35 + 0.12 * u ** 8)
     }
   }
   for (let i = 0; i < U; i++) {
@@ -83,6 +84,7 @@ function petalGeometry({ pointy, length, width, baseColor, tipColor, edgeColor, 
   const g = new THREE.BufferGeometry()
   g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3))
   g.setAttribute('color', new THREE.Float32BufferAttribute(col, 3))
+  if (glow) g.setAttribute('auroraEdge', new THREE.Float32BufferAttribute(glow, 1))
   g.setIndex(idx)
   g.computeVertexNormals()
   return g
@@ -91,7 +93,11 @@ function petalGeometry({ pointy, length, width, baseColor, tipColor, edgeColor, 
 // colors: [색] 또는 우리의 꽃이면 [상대 색, 내 색] → 꽃잎마다 번갈아
 // 반환 Group.userData: { headY, setOpen(p) }  p = 0(봉오리) ~ 1(활짝)
 // 재질·지오메트리는 꽃마다 따로 만든다 → disposeFlower3D로 통째로 정리 가능
-export function buildFlower3D(f, colors = [f.color], { pair = false } = {}) {
+export function buildFlower3D(f, colors = [f.color], { pair = false, tone = 'balanced' } = {}) {
+  const balanced = tone === 'balanced'
+  const aurora = tone === 'aurora'
+  const palette = getFloraPalette(tone)
+  const { pearl: PEARL, aqua: AQUA, lavender: LAVENDER, blush: BLUSH, champagne: CHAMPAGNE } = palette
   const prm = flowerParams(f)
   const shape = (!pair && EMOTION_SHAPES[f.category]) || DEFAULT_SHAPE
   if (!pair && EMOTION_SHAPES[f.category]) {
@@ -99,9 +105,22 @@ export function buildFlower3D(f, colors = [f.color], { pair = false } = {}) {
     prm.layers = shape.layers
     if (shape.pointy !== undefined) prm.pointy = shape.pointy
   }
-  const stemMat = new THREE.MeshStandardMaterial({ color: '#56888d', roughness: 0.43, metalness: 0.16, flatShading: true })
+  const stemMat = new THREE.MeshStandardMaterial({ color: palette.stem, roughness: 0.43, metalness: 0.16, flatShading: true })
   const leafMat = new THREE.MeshStandardMaterial({ vertexColors: true, side: THREE.DoubleSide, roughness: 0.39, metalness: 0.13 })
-  const stamenMat = new THREE.MeshStandardMaterial({ color: '#e5b995', roughness: 0.34, metalness: 0.24 })
+  const stamenMat = new THREE.MeshStandardMaterial({ color: palette.stamen, roughness: 0.34, metalness: 0.24 })
+  if (balanced) {
+    stemMat.roughness = 0.48
+    stemMat.metalness = 0.06
+    leafMat.roughness = 0.44
+    leafMat.metalness = 0.07
+  }
+  if (aurora) {
+    stemMat.metalness = 0.08
+    leafMat.metalness = 0.07
+    stamenMat.emissive.set('#ffe0a5')
+    stamenMat.emissiveIntensity = 0.8
+    applyAuroraFloraRim(leafMat, { contour: true, strength: 0.45 })
+  }
   if (pair) Object.assign(prm, { layers: 3, size: 0.85 })
   const g = new THREE.Group()
 
@@ -119,8 +138,10 @@ export function buildFlower3D(f, colors = [f.color], { pair = false } = {}) {
   const stem = new THREE.Mesh(new THREE.TubeGeometry(curve, 12, 0.016, 5, false), stemMat)
   g.add(stem)
   const leafGeo = petalGeometry({
-    pointy: true, length: 0.22, width: 0.07, cup: 0.4, curl: -0.2,
-    baseColor: new THREE.Color('#54858f'), tipColor: AQUA, edgeColor: PEARL,
+    pointy: true, length: 0.22, width: 0.07, cup: 0.4, curl: -0.2, aurora,
+    baseColor: new THREE.Color(balanced ? palette.darkGreen : palette.leaf),
+    tipColor: balanced ? new THREE.Color(palette.leaf) : tone === 'default' || aurora ? AQUA : BLUSH,
+    edgeColor: balanced ? new THREE.Color(palette.leaf).lerp(PEARL, 0.35) : PEARL,
   })
   const leaf = new THREE.Mesh(leafGeo, leafMat)
   leaf.position.set(0.01, h * 0.3, 0)
@@ -131,18 +152,27 @@ export function buildFlower3D(f, colors = [f.color], { pair = false } = {}) {
   const head = new THREE.Group()
   head.position.copy(tip)
   head.rotation.x = droop
-  const bases = colors.map((c) => toColor(c))
+  const bases = colors.map((c) => floraColor(toColor(c), tone))
   const blend = pair && bases[1] ? bases[0].clone().lerp(bases[1], 0.5) : bases[0]
   const petalMat = opalMaterial({ side: THREE.DoubleSide })
+  if (aurora) {
+    petalMat.metalness = 0.04
+    petalMat.roughness = 0.32
+    petalMat.clearcoat = 0.24
+    petalMat.iridescence = 0.32
+    applyAuroraFloraRim(petalMat, { contour: true, strength: 0.55 })
+  }
   const petals = []   // { mesh, openTilt, delay }
   for (let i = 0; i < prm.layers; i++) {
     const length = 0.42 * prm.size * (1 - i * 0.2) * (shape.len ?? 1)
     const width = length * (shape.width ?? (prm.pointy ? 0.3 : 0.4))
     const geos = bases.map((c, j) => petalGeometry({
-      pointy: prm.pointy, length, width, cup: shape.cup, curl: shape.curl, notch: shape.notch ?? 0,
-      baseColor: c.clone().lerp(blend, pair ? 0.24 : 0).lerp(LAVENDER, 0.20 + i * 0.04),
-      tipColor: c.clone().lerp(PEARL, 0.36),
-      edgeColor: PEARL.clone().lerp(j % 2 ? AQUA : BLUSH, 0.35),
+      pointy: prm.pointy, length, width, cup: shape.cup, curl: shape.curl, notch: shape.notch ?? 0, aurora,
+      baseColor: c.clone().lerp(blend, pair ? (balanced ? 0.12 : 0.24) : 0)
+        .lerp(LAVENDER, balanced ? 0.07 + i * 0.015 : 0.20 + i * 0.04),
+      tipColor: c.clone().lerp(PEARL, balanced ? 0.28 : aurora ? 0.12 : 0.36),
+      edgeColor: balanced ? c.clone().lerp(PEARL, 0.72) : PEARL.clone().lerp(tone === 'default'
+        ? (j % 2 ? AQUA : BLUSH) : (i === 1 ? AQUA : i === 2 ? LAVENDER : BLUSH), 0.35),
     }))
     const layer = new THREE.Group()
     layer.position.y = i * 0.012
@@ -170,6 +200,10 @@ export function buildFlower3D(f, colors = [f.color], { pair = false } = {}) {
     new THREE.IcosahedronGeometry(centerR, 1),
     new THREE.MeshStandardMaterial({ color: centerColor, roughness: 0.37, metalness: 0.14, flatShading: true }),
   )
+  if (aurora) {
+    center.material.emissive.set('#ffc473')
+    center.material.emissiveIntensity = 0.23
+  }
   center.position.y = centerR * 0.4
   head.add(center)
   const nStamen = Math.max(5, prm.petals)
@@ -201,6 +235,7 @@ export function buildFlower3D(f, colors = [f.color], { pair = false } = {}) {
 }
 
 export function disposeFlower3D(obj) {
+  if (obj.userData.dispose) return obj.userData.dispose()
   const resources = new Set()
   obj.traverse((o) => {
     if (o.geometry) resources.add(o.geometry)

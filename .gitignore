@@ -10,3 +10,10 @@ __pycache__/
 
 # Vercel
 .vercel
+
+# Local browser verification builds and runtime state
+.qa-production/
+.qa-production-profile/
+.qa-browser/
+test-results/
+playwright-report/

@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react'
 import Island3D from './Island3D.jsx'
+import { useGardenTheme } from '../lib/gardenTheme.jsx'
+import { isBlenderGardenFlower } from '../lib/plantAppearance.js'
 import { loadVisit } from '../lib/db.js'
 import { isTree } from '../lib/tree.js'
 
@@ -8,6 +10,7 @@ import { isTree } from '../lib/tree.js'
 // (DB에서도 방문할 때는 소리 파일 경로와 꽃말을 내려주지 않는다 — migrations-008.sql)
 // 친구 정원 = 그 친구가 받아서 심은 소리들
 export default function Visit({ friend, onClose }) {
+  const { tone } = useGardenTheme()
   const [flowers, setFlowers] = useState(null)
   const [error, setError] = useState('')
 
@@ -21,14 +24,14 @@ export default function Visit({ friend, onClose }) {
   const blooms = (flowers?.length ?? 0) - trees
 
   return (
-    <div className="home visit">
+    <div className="home visit" data-garden-theme={tone}>
       <div className="sky">
         <div className="cloud c1" /><div className="cloud c2" /><div className="cloud c3" />
       </div>
       {flowers && (
         <div className="island-touch">
           {/* 고르기 없음: onPickFlower를 넘기지 않으면 눌러도 아무 일도 일어나지 않는다 */}
-          <Island3D flowers={flowers} pairs={[]} meId={friend.member_id} />
+          <Island3D tone={tone} isBlenderFlower={isBlenderGardenFlower} flowers={flowers} pairs={[]} meId={friend.member_id} />
         </div>
       )}
       <div className="home-title">

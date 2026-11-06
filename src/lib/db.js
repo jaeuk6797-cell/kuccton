@@ -264,6 +264,8 @@ export async function updateProfile(nickname, photo = null) {
 
 export async function loadGarden(gardenId) {
   const user = await currentUser()
+  // A queued refresh can complete its auth lookup after logout.
+  if (!user) return null
   const [g, m, f, fr, sent, recv] = await Promise.all([
     supabase.from('gardens').select('*').eq('id', gardenId).single(),
     supabase.from('members').select('*').eq('garden_id', gardenId).order('created_at'),

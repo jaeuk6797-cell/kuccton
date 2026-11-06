@@ -1,0 +1,5293 @@
+{
+  "measuredAt": "2026-11-06T20:51:03.605Z",
+  "methodology": "Serial headless Chrome, 1280x900, DPR 1, mixed 50-plant preview, fixed t=6, exact same camera/target and 36-degree FOV, matched Blender near/far LOD counts, 180-sample rolling windows after warm-up. Source camera approaches plants before returning to the comparison pose to align LOD hysteresis. Source visual modules/assets extracted from bbc538b and 2af54a7. Current-main flower.js/soundFeatures.js/naming.js/tree.js used by both sides to generate identical stored sound fixtures; no visual settings changed except camera alignment. Source test handle exposes scene diagnostics. Wall-clock timings can vary under concurrent system load; draw and triangle differences are deterministic.",
+  "sources": {
+    "balanced": "bbc538b",
+    "warm": "536d2ac (identical warm path in bbc538b)",
+    "default": "536d2ac (identical default path in bbc538b)",
+    "aurora": "2af54a7"
+  },
+  "cases": [
+    {
+      "tone": "balanced",
+      "integration": {
+        "tone": "balanced",
+        "requestedTone": "balanced",
+        "themeStatus": "loaded",
+        "themeSwitches": 1,
+        "plants": 50,
+        "near": 8,
+        "far": 4,
+        "calls": 2116,
+        "triangles": 233720,
+        "geometries": 259,
+        "textures": 7,
+        "programs": 17,
+        "island": "loaded",
+        "islandChildren": 1,
+        "islandGeometry": {
+          "assetTriangles": 14099,
+          "grassTriangles": 6000,
+          "grassClumps": 1000,
+          "grassDrawCalls": 1,
+          "grassTheme": "balanced",
+          "grassMeshUUID": "0c5dfb90-e6ba-43e1-9e5d-67070dac1ba0",
+          "grassGeometryUUID": "c91c00b3-9a46-4b13-b276-b5a3038126da",
+          "grassInstanceBufferId": 1,
+          "grassCacheSize": 1
+        },
+        "growing": 0,
+        "opened": 50,
+        "camera": {
+          "position": [
+            0,
+            5.496125175623439,
+            13.176584731173508
+          ],
+          "target": [
+            0,
+            0.1,
+            0
+          ]
+        },
+        "viewport": {
+          "width": 1280,
+          "height": 710,
+          "pixelRatio": 1
+        },
+        "plantStates": [
+          {
+            "id": "demo-pair",
+            "kind": "pair",
+            "tree": false,
+            "blender": false,
+            "lod": null,
+            "position": [
+              -0.04545222379267216,
+              0,
+              1.0916847019089277
+            ],
+            "scale": [
+              1.508,
+              1.508,
+              1.508
+            ],
+            "bornAt": 0.0225,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 638.8824823160248,
+              "y": 308.84039165970097
+            }
+          },
+          {
+            "id": "pair-flutter",
+            "kind": "flower",
+            "tree": false,
+            "blender": false,
+            "lod": null,
+            "position": [
+              1.3002295877225698,
+              0,
+              -2.265058398862534
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 0.08249999999999999,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 728.0760169516893,
+              "y": 255.7352579058919
+            }
+          },
+          {
+            "id": "peony-procedural-89",
+            "kind": "flower",
+            "tree": false,
+            "blender": false,
+            "lod": null,
+            "position": [
+              -1.5940342026762664,
+              0,
+              1.6925735093987382
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 0.1425,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 497.74499281192675,
+              "y": 357.9979653794282
+            }
+          },
+          {
+            "id": "sample-0",
+            "kind": "flower",
+            "tree": false,
+            "blender": false,
+            "lod": null,
+            "position": [
+              1.0397728460747748,
+              0,
+              -0.5979485726498944
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 0.3225,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 717.3561661635447,
+              "y": 285.9833284539644
+            }
+          },
+          {
+            "id": "sample-1",
+            "kind": "flower",
+            "tree": false,
+            "blender": false,
+            "lod": null,
+            "position": [
+              1.3457107540592552,
+              0,
+              -1.1974280372453745
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 0.3825,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 735.405589453876,
+              "y": 293.52160905783023
+            }
+          },
+          {
+            "id": "sample-2",
+            "kind": "flower",
+            "tree": false,
+            "blender": false,
+            "lod": null,
+            "position": [
+              -0.9622955754585564,
+              0,
+              0.5792141549431664
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 0.4425,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 564.1599554253086,
+              "y": 322.1540769160674
+            }
+          },
+          {
+            "id": "sample-3",
+            "kind": "flower",
+            "tree": false,
+            "blender": false,
+            "lod": null,
+            "position": [
+              -0.050492155300453305,
+              0,
+              0.04920616582967341
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 0.5025,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 637.8309489785152,
+              "y": 309.1122611053519
+            }
+          },
+          {
+            "id": "sample-4",
+            "kind": "flower",
+            "tree": false,
+            "blender": false,
+            "lod": null,
+            "position": [
+              -1.3558664581272752,
+              0,
+              1.1827137936191525
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 0.5625,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 522.6120206888907,
+              "y": 341.40885821248924
+            }
+          },
+          {
+            "id": "sample-5",
+            "kind": "flower",
+            "tree": true,
+            "blender": false,
+            "lod": null,
+            "position": [
+              -1.9602467569336295,
+              0,
+              1.1936920884163942
+            ],
+            "scale": [
+              0.8989999999999999,
+              0.8989999999999999,
+              0.8989999999999999
+            ],
+            "bornAt": 0.6224999999999999,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 472.5956646381564,
+              "y": 326.16860964320426
+            }
+          },
+          {
+            "id": "sample-6",
+            "kind": "flower",
+            "tree": true,
+            "blender": false,
+            "lod": null,
+            "position": [
+              -1.700403137532994,
+              0,
+              2.870547557553715
+            ],
+            "scale": [
+              0.8989999999999999,
+              0.8989999999999999,
+              0.8989999999999999
+            ],
+            "bornAt": 0.6824999999999999,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 476.8973826717478,
+              "y": 382.3597553843105
+            }
+          },
+          {
+            "id": "sample-7",
+            "kind": "flower",
+            "tree": true,
+            "blender": false,
+            "lod": null,
+            "position": [
+              -2.0291316240280866,
+              0,
+              2.2556785053677637
+            ],
+            "scale": [
+              0.8989999999999999,
+              0.8989999999999999,
+              0.8989999999999999
+            ],
+            "bornAt": 0.7424999999999999,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 450.1300124972096,
+              "y": 360.2517136590576
+            }
+          },
+          {
+            "id": "dense-1",
+            "kind": "flower",
+            "tree": false,
+            "blender": false,
+            "lod": null,
+            "position": [
+              2.5908450262527913,
+              0,
+              -1.1111899548867608
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 0.8624999999999999,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 828.6284817891277,
+              "y": 273.98180268572463
+            }
+          },
+          {
+            "id": "dense-2",
+            "kind": "flower",
+            "tree": false,
+            "blender": false,
+            "lod": null,
+            "position": [
+              2.319718709466979,
+              0,
+              -0.5186452893123907
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 0.9224999999999999,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 815.4542728919942,
+              "y": 310.1709743831141
+            }
+          },
+          {
+            "id": "dense-3",
+            "kind": "flower",
+            "tree": false,
+            "blender": false,
+            "lod": null,
+            "position": [
+              1.3326224250532688,
+              0,
+              -0.019894646052271127
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 0.9824999999999999,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 745.9044779576391,
+              "y": 305.72443591032936
+            }
+          },
+          {
+            "id": "dense-5",
+            "kind": "flower",
+            "tree": false,
+            "blender": false,
+            "lod": null,
+            "position": [
+              0.33294613603502515,
+              0,
+              1.7122922039645558
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 1.1025,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 666.5856389654532,
+              "y": 358.55462889622504
+            }
+          },
+          {
+            "id": "dense-6",
+            "kind": "flower",
+            "tree": true,
+            "blender": false,
+            "lod": null,
+            "position": [
+              -0.01613745907321572,
+              0,
+              2.2431335491884283
+            ],
+            "scale": [
+              0.8989999999999999,
+              0.8989999999999999,
+              0.8989999999999999
+            ],
+            "bornAt": 1.1624999999999999,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 636.9650058479322,
+              "y": 360.5207298559704
+            }
+          },
+          {
+            "id": "dense-7",
+            "kind": "flower",
+            "tree": true,
+            "blender": false,
+            "lod": null,
+            "position": [
+              -0.6410461969021708,
+              0,
+              2.2278779549535144
+            ],
+            "scale": [
+              0.8989999999999999,
+              0.8989999999999999,
+              0.8989999999999999
+            ],
+            "bornAt": 1.2225,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 583.5553985943637,
+              "y": 358.54545194462975
+            }
+          },
+          {
+            "id": "dense-9",
+            "kind": "flower",
+            "tree": false,
+            "blender": false,
+            "lod": null,
+            "position": [
+              0.6408680352754891,
+              0,
+              0.026351685700938106
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 1.3424999999999998,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 690.7290747715895,
+              "y": 308.59687097849303
+            }
+          },
+          {
+            "id": "dense-10",
+            "kind": "flower",
+            "tree": false,
+            "blender": false,
+            "lod": null,
+            "position": [
+              1.63906675754115,
+              0,
+              -0.569153188620968
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 1.4024999999999999,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 761.2483869170444,
+              "y": 286.72273278566877
+            }
+          },
+          {
+            "id": "dense-11",
+            "kind": "flower",
+            "tree": false,
+            "blender": false,
+            "lod": null,
+            "position": [
+              1.9432080371305347,
+              0,
+              -1.0993539800314123
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 1.4625,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 779.6308228337693,
+              "y": 295.82649183570453
+            }
+          },
+          {
+            "id": "dense-13",
+            "kind": "flower",
+            "tree": false,
+            "blender": false,
+            "lod": null,
+            "position": [
+              0.9674795072525739,
+              0,
+              0.5413254183673245
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 1.5825,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 718.5546892547342,
+              "y": 322.6364134166481
+            }
+          },
+          {
+            "id": "dense-14",
+            "kind": "flower",
+            "tree": false,
+            "blender": false,
+            "lod": null,
+            "position": [
+              -1.04152443414554,
+              0,
+              2.803862275720081
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 1.6424999999999998,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 541.2728376319052,
+              "y": 398.4771947504747
+            }
+          },
+          {
+            "id": "dense-15",
+            "kind": "flower",
+            "tree": true,
+            "blender": false,
+            "lod": null,
+            "position": [
+              -2.302978009600192,
+              0,
+              1.684363706564421
+            ],
+            "scale": [
+              0.8989999999999999,
+              0.8989999999999999,
+              0.8989999999999999
+            ],
+            "bornAt": 1.7025,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 433.77850206968947,
+              "y": 341.5942815333666
+            }
+          },
+          {
+            "id": "dense-17",
+            "kind": "flower",
+            "tree": true,
+            "blender": false,
+            "lod": null,
+            "position": [
+              -1.9515348682366311,
+              0,
+              -2.3413861659180153
+            ],
+            "scale": [
+              0.8989999999999999,
+              0.8989999999999999,
+              0.8989999999999999
+            ],
+            "bornAt": 1.8224999999999998,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 510.20334128842825,
+              "y": 240.51909635877877
+            }
+          },
+          {
+            "id": "dense-18",
+            "kind": "flower",
+            "tree": false,
+            "blender": false,
+            "lod": null,
+            "position": [
+              -0.6527487778756768,
+              0,
+              0.022236423371359705
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 1.8824999999999998,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 591.2439076158466,
+              "y": 308.53523312557155
+            }
+          },
+          {
+            "id": "dense-19",
+            "kind": "flower",
+            "tree": false,
+            "blender": false,
+            "lod": null,
+            "position": [
+              -0.37201368623413145,
+              0,
+              -0.591439107354073
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 1.9425,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 613.7086124689159,
+              "y": 286.159291213989
+            }
+          },
+          {
+            "id": "dense-21",
+            "kind": "flower",
+            "tree": false,
+            "blender": false,
+            "lod": null,
+            "position": [
+              1.0219876279123128,
+              0,
+              2.846936054859749
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 2.0625,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 738.826636638264,
+              "y": 398.7632879235111
+            }
+          },
+          {
+            "id": "dense-22",
+            "kind": "flower",
+            "tree": false,
+            "blender": false,
+            "lod": null,
+            "position": [
+              -1.6083270015008746,
+              0,
+              -1.7102944008129484
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 2.1225,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 529.2766002172838,
+              "y": 267.1510284244696
+            }
+          },
+          {
+            "id": "dense-23",
+            "kind": "flower",
+            "tree": false,
+            "blender": false,
+            "lod": null,
+            "position": [
+              0.0228406326379627,
+              0,
+              -1.1680797178396847
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 2.1825,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 642.9791694305653,
+              "y": 278.75247408620004
+            }
+          },
+          {
+            "id": "dense-25",
+            "kind": "flower",
+            "tree": true,
+            "blender": false,
+            "lod": null,
+            "position": [
+              -1.3490004234015942,
+              0,
+              -0.05120112139731645
+            ],
+            "scale": [
+              0.8989999999999999,
+              0.8989999999999999,
+              0.8989999999999999
+            ],
+            "bornAt": 2.3024999999999998,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 531.1917591554915,
+              "y": 290.42874601667666
+            }
+          },
+          {
+            "id": "dense-26",
+            "kind": "flower",
+            "tree": true,
+            "blender": false,
+            "lod": null,
+            "position": [
+              -2.309150559017435,
+              0,
+              0.570571514708264
+            ],
+            "scale": [
+              0.8989999999999999,
+              0.8989999999999999,
+              0.8989999999999999
+            ],
+            "bornAt": 2.3625,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 450.9175968169046,
+              "y": 307.4787515574491
+            }
+          },
+          {
+            "id": "dense-27",
+            "kind": "flower",
+            "tree": false,
+            "blender": false,
+            "lod": null,
+            "position": [
+              -3.029462039479986,
+              0,
+              0.5132416231607032
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 2.4225,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 397.24768173264914,
+              "y": 322.0037083296854
+            }
+          },
+          {
+            "id": "dense-29",
+            "kind": "flower",
+            "tree": false,
+            "blender": false,
+            "lod": null,
+            "position": [
+              1.3034326221048833,
+              0,
+              1.1651752619078273
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 2.5425,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 749.1637159159086,
+              "y": 358.4144652379244
+            }
+          },
+          {
+            "id": "dense-30",
+            "kind": "flower",
+            "tree": false,
+            "blender": false,
+            "lod": null,
+            "position": [
+              -1.9283059452474116,
+              0,
+              -0.03935232519172132
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 2.6025,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 492.1698422336394,
+              "y": 305.234964346767
+            }
+          },
+          {
+            "id": "dense-31",
+            "kind": "flower",
+            "tree": false,
+            "blender": false,
+            "lod": null,
+            "position": [
+              -0.941548967063427,
+              0,
+              -0.5964016442795229
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 2.6624999999999996,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 570.5357749107422,
+              "y": 292.60268827824586
+            }
+          },
+          {
+            "id": "dense-33",
+            "kind": "flower",
+            "tree": true,
+            "blender": false,
+            "lod": null,
+            "position": [
+              0.38641913381405174,
+              0,
+              -0.602715708525194
+            ],
+            "scale": [
+              0.8989999999999999,
+              0.8989999999999999,
+              0.8989999999999999
+            ],
+            "bornAt": 2.7824999999999998,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 666.1814132419954,
+              "y": 278.1542153213748
+            }
+          },
+          {
+            "id": "dense-34",
+            "kind": "flower",
+            "tree": true,
+            "blender": false,
+            "lod": null,
+            "position": [
+              1.928916658759117,
+              0,
+              2.3368257875658354
+            ],
+            "scale": [
+              0.8989999999999999,
+              0.8989999999999999,
+              0.8989999999999999
+            ],
+            "bornAt": 2.8425,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 820.4463783237651,
+              "y": 362.3794161100935
+            }
+          },
+          {
+            "id": "dense-35",
+            "kind": "flower",
+            "tree": true,
+            "blender": false,
+            "lod": null,
+            "position": [
+              2.3188356017321348,
+              0,
+              1.772321831337998
+            ],
+            "scale": [
+              0.8989999999999999,
+              0.8989999999999999,
+              0.8989999999999999
+            ],
+            "bornAt": 2.9025,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 843.5136168846919,
+              "y": 343.77258463784466
+            }
+          },
+          {
+            "id": "peony-blender-41",
+            "kind": "flower",
+            "tree": false,
+            "blender": true,
+            "lod": "near",
+            "position": [
+              1.6220897298865022,
+              0,
+              1.6710500583666212
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 0.20249999999999999,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 783.9890122354489,
+              "y": 367.8436720663146
+            }
+          },
+          {
+            "id": "peony-jade-16",
+            "kind": "flower",
+            "tree": false,
+            "blender": true,
+            "lod": "near",
+            "position": [
+              2.013126093512401,
+              0,
+              0.05712493733502924
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 0.2625,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 796.6694441978701,
+              "y": 318.65351432165977
+            }
+          },
+          {
+            "id": "dense-peony-0",
+            "kind": "flower",
+            "tree": false,
+            "blender": true,
+            "lod": "far",
+            "position": [
+              -0.659393731020391,
+              0,
+              -1.1223402108257527
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 0.8025,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 593.3496609440634,
+              "y": 288.9078740871999
+            }
+          },
+          {
+            "id": "dense-peony-4",
+            "kind": "flower",
+            "tree": false,
+            "blender": true,
+            "lod": "near",
+            "position": [
+              1.5962097175419332,
+              0,
+              0.5821860259634388
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 1.0425,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 770.7997853928374,
+              "y": 333.47546096065594
+            }
+          },
+          {
+            "id": "dense-peony-8",
+            "kind": "flower",
+            "tree": false,
+            "blender": true,
+            "lod": "near",
+            "position": [
+              2.9573783736024053,
+              0,
+              -0.5679500528381152
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 1.2825,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 860.5274326893932,
+              "y": 302.34505484552966
+            }
+          },
+          {
+            "id": "dense-peony-12",
+            "kind": "flower",
+            "tree": false,
+            "blender": true,
+            "lod": "far",
+            "position": [
+              1.6449466818105432,
+              0,
+              -2.894927209789372
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 1.5225,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 745.8962338621243,
+              "y": 251.51421389761703
+            }
+          },
+          {
+            "id": "dense-peony-16",
+            "kind": "flower",
+            "tree": false,
+            "blender": true,
+            "lod": "near",
+            "position": [
+              -2.633189873630181,
+              0,
+              1.1600868603685761
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 1.7625,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 418.1437643349933,
+              "y": 351.0108105795947
+            }
+          },
+          {
+            "id": "dense-peony-20",
+            "kind": "flower",
+            "tree": false,
+            "blender": true,
+            "lod": "near",
+            "position": [
+              -1.6044348892383276,
+              0,
+              0.5325870396153015
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 2.0025,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 512.1946659511478,
+              "y": 332.0316531453826
+            }
+          },
+          {
+            "id": "dense-peony-24",
+            "kind": "flower",
+            "tree": false,
+            "blender": true,
+            "lod": "near",
+            "position": [
+              -1.2971717195212842,
+              0,
+              2.2953815645921756
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 2.2424999999999997,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 522.5129409779123,
+              "y": 390.13312110662923
+            }
+          },
+          {
+            "id": "dense-peony-28",
+            "kind": "flower",
+            "tree": false,
+            "blender": true,
+            "lod": "far",
+            "position": [
+              0.6769868751615287,
+              0,
+              -1.106266941037577
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 2.4825,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 687.8300765534973,
+              "y": 289.2889936810498
+            }
+          },
+          {
+            "id": "dense-peony-32",
+            "kind": "flower",
+            "tree": false,
+            "blender": true,
+            "lod": "far",
+            "position": [
+              -0.38593576446175576,
+              0,
+              -1.6894400747082032
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 2.7224999999999997,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 613.631497600828,
+              "y": 276.07083876016486
+            }
+          },
+          {
+            "id": "dense-peony-36",
+            "kind": "flower",
+            "tree": false,
+            "blender": true,
+            "lod": "near",
+            "position": [
+              -0.9551888545230031,
+              0,
+              1.7488127315006055
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 2.9625,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 554.045385948645,
+              "y": 370.5013058127967
+            }
+          }
+        ],
+        "performance": {
+          "frame": {
+            "samples": 180,
+            "meanMs": 16.67,
+            "p95Ms": 16.8
+          },
+          "renderCPU": {
+            "samples": 180,
+            "meanMs": 5.35,
+            "p95Ms": 7
+          },
+          "gpu": {
+            "available": true,
+            "samples": 180,
+            "meanMs": 11.05,
+            "p95Ms": 13.98
+          }
+        },
+        "webglRenderer": "ANGLE (Intel, Intel(R) Arc(TM) 140V GPU (16GB) (0x000064A0) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+      },
+      "source": {
+        "plants": 50,
+        "near": 8,
+        "far": 4,
+        "calls": 2119,
+        "triangles": 232736,
+        "geometries": 260,
+        "island": "loaded",
+        "growing": 0,
+        "opened": 50,
+        "camera": {
+          "position": [
+            0,
+            5.496125175623439,
+            13.176584731173508
+          ],
+          "target": [
+            0,
+            0.1,
+            0
+          ]
+        },
+        "viewport": {
+          "width": 1280,
+          "height": 710,
+          "pixelRatio": 1
+        },
+        "performance": {
+          "frame": {
+            "samples": 180,
+            "meanMs": 16.67,
+            "p95Ms": 16.8
+          },
+          "renderCPU": {
+            "samples": 180,
+            "meanMs": 6.09,
+            "p95Ms": 8.7
+          }
+        },
+        "webglRenderer": "ANGLE (Intel, Intel(R) Arc(TM) 140V GPU (16GB) (0x000064A0) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+      },
+      "delta": {
+        "calls": -3,
+        "triangles": 984,
+        "renderCpuMeanMs": -0.74,
+        "frameMeanMs": 0
+      }
+    },
+    {
+      "tone": "aurora",
+      "integration": {
+        "tone": "aurora",
+        "requestedTone": "aurora",
+        "themeStatus": "loaded",
+        "themeSwitches": 1,
+        "plants": 50,
+        "near": 8,
+        "far": 4,
+        "calls": 2122,
+        "triangles": 233728,
+        "geometries": 260,
+        "textures": 9,
+        "programs": 22,
+        "island": "loaded",
+        "islandChildren": 1,
+        "islandGeometry": {
+          "assetTriangles": 14099,
+          "grassTriangles": 6000,
+          "grassClumps": 1000,
+          "grassDrawCalls": 1,
+          "grassTheme": "aurora",
+          "grassMeshUUID": "3efdc935-b025-4607-813c-44339e8a9b14",
+          "grassGeometryUUID": "000b35ea-972e-4d10-9b80-1fa4096a4edf",
+          "grassInstanceBufferId": 1,
+          "grassCacheSize": 1
+        },
+        "growing": 0,
+        "opened": 50,
+        "camera": {
+          "position": [
+            0,
+            5.496125175623439,
+            13.176584731173508
+          ],
+          "target": [
+            0,
+            0.1,
+            0
+          ]
+        },
+        "viewport": {
+          "width": 1280,
+          "height": 710,
+          "pixelRatio": 1
+        },
+        "plantStates": [
+          {
+            "id": "demo-pair",
+            "kind": "pair",
+            "tree": false,
+            "blender": false,
+            "lod": null,
+            "position": [
+              -0.04545222379267216,
+              0,
+              1.0916847019089277
+            ],
+            "scale": [
+              1.508,
+              1.508,
+              1.508
+            ],
+            "bornAt": 0.026199999928474427,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 638.8824823160248,
+              "y": 308.84039165970097
+            }
+          },
+          {
+            "id": "pair-flutter",
+            "kind": "flower",
+            "tree": false,
+            "blender": false,
+            "lod": null,
+            "position": [
+              1.3002295877225698,
+              0,
+              -2.265058398862534
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 0.08619999992847442,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 728.0760169516893,
+              "y": 255.7352579058919
+            }
+          },
+          {
+            "id": "peony-procedural-89",
+            "kind": "flower",
+            "tree": false,
+            "blender": false,
+            "lod": null,
+            "position": [
+              -1.5940342026762664,
+              0,
+              1.6925735093987382
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 0.14619999992847443,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 497.74499281192675,
+              "y": 357.9979653794282
+            }
+          },
+          {
+            "id": "sample-0",
+            "kind": "flower",
+            "tree": false,
+            "blender": false,
+            "lod": null,
+            "position": [
+              1.0397728460747748,
+              0,
+              -0.5979485726498944
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 0.3261999999284744,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 717.3561661635447,
+              "y": 285.9833284539644
+            }
+          },
+          {
+            "id": "sample-1",
+            "kind": "flower",
+            "tree": false,
+            "blender": false,
+            "lod": null,
+            "position": [
+              1.3457107540592552,
+              0,
+              -1.1974280372453745
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 0.3861999999284744,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 735.405589453876,
+              "y": 293.52160905783023
+            }
+          },
+          {
+            "id": "sample-2",
+            "kind": "flower",
+            "tree": false,
+            "blender": false,
+            "lod": null,
+            "position": [
+              -0.9622955754585564,
+              0,
+              0.5792141549431664
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 0.4461999999284744,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 564.1599554253086,
+              "y": 322.1540769160674
+            }
+          },
+          {
+            "id": "sample-3",
+            "kind": "flower",
+            "tree": false,
+            "blender": false,
+            "lod": null,
+            "position": [
+              -0.050492155300453305,
+              0,
+              0.04920616582967341
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 0.5061999999284744,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 637.8309489785152,
+              "y": 309.1122611053519
+            }
+          },
+          {
+            "id": "sample-4",
+            "kind": "flower",
+            "tree": false,
+            "blender": false,
+            "lod": null,
+            "position": [
+              -1.3558664581272752,
+              0,
+              1.1827137936191525
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 0.5661999999284745,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 522.6120206888907,
+              "y": 341.40885821248924
+            }
+          },
+          {
+            "id": "sample-5",
+            "kind": "flower",
+            "tree": true,
+            "blender": false,
+            "lod": null,
+            "position": [
+              -1.9602467569336295,
+              0,
+              1.1936920884163942
+            ],
+            "scale": [
+              0.8989999999999999,
+              0.8989999999999999,
+              0.8989999999999999
+            ],
+            "bornAt": 0.6261999999284744,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 472.5956646381564,
+              "y": 326.16860964320426
+            }
+          },
+          {
+            "id": "sample-6",
+            "kind": "flower",
+            "tree": true,
+            "blender": false,
+            "lod": null,
+            "position": [
+              -1.700403137532994,
+              0,
+              2.870547557553715
+            ],
+            "scale": [
+              0.8989999999999999,
+              0.8989999999999999,
+              0.8989999999999999
+            ],
+            "bornAt": 0.6861999999284744,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 476.8973826717478,
+              "y": 382.3597553843105
+            }
+          },
+          {
+            "id": "sample-7",
+            "kind": "flower",
+            "tree": true,
+            "blender": false,
+            "lod": null,
+            "position": [
+              -2.0291316240280866,
+              0,
+              2.2556785053677637
+            ],
+            "scale": [
+              0.8989999999999999,
+              0.8989999999999999,
+              0.8989999999999999
+            ],
+            "bornAt": 0.7461999999284744,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 450.1300124972096,
+              "y": 360.2517136590576
+            }
+          },
+          {
+            "id": "dense-1",
+            "kind": "flower",
+            "tree": false,
+            "blender": false,
+            "lod": null,
+            "position": [
+              2.5908450262527913,
+              0,
+              -1.1111899548867608
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 0.8661999999284744,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 828.6284817891277,
+              "y": 273.98180268572463
+            }
+          },
+          {
+            "id": "dense-2",
+            "kind": "flower",
+            "tree": false,
+            "blender": false,
+            "lod": null,
+            "position": [
+              2.319718709466979,
+              0,
+              -0.5186452893123907
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 0.9261999999284743,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 815.4542728919942,
+              "y": 310.1709743831141
+            }
+          },
+          {
+            "id": "dense-3",
+            "kind": "flower",
+            "tree": false,
+            "blender": false,
+            "lod": null,
+            "position": [
+              1.3326224250532688,
+              0,
+              -0.019894646052271127
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 0.9861999999284744,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 745.9044779576391,
+              "y": 305.72443591032936
+            }
+          },
+          {
+            "id": "dense-5",
+            "kind": "flower",
+            "tree": false,
+            "blender": false,
+            "lod": null,
+            "position": [
+              0.33294613603502515,
+              0,
+              1.7122922039645558
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 1.1061999999284744,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 666.5856389654532,
+              "y": 358.55462889622504
+            }
+          },
+          {
+            "id": "dense-6",
+            "kind": "flower",
+            "tree": true,
+            "blender": false,
+            "lod": null,
+            "position": [
+              -0.01613745907321572,
+              0,
+              2.2431335491884283
+            ],
+            "scale": [
+              0.8989999999999999,
+              0.8989999999999999,
+              0.8989999999999999
+            ],
+            "bornAt": 1.1661999999284742,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 636.9650058479322,
+              "y": 360.5207298559704
+            }
+          },
+          {
+            "id": "dense-7",
+            "kind": "flower",
+            "tree": true,
+            "blender": false,
+            "lod": null,
+            "position": [
+              -0.6410461969021708,
+              0,
+              2.2278779549535144
+            ],
+            "scale": [
+              0.8989999999999999,
+              0.8989999999999999,
+              0.8989999999999999
+            ],
+            "bornAt": 1.2261999999284743,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 583.5553985943637,
+              "y": 358.54545194462975
+            }
+          },
+          {
+            "id": "dense-9",
+            "kind": "flower",
+            "tree": false,
+            "blender": false,
+            "lod": null,
+            "position": [
+              0.6408680352754891,
+              0,
+              0.026351685700938106
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 1.3461999999284742,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 690.7290747715895,
+              "y": 308.59687097849303
+            }
+          },
+          {
+            "id": "dense-10",
+            "kind": "flower",
+            "tree": false,
+            "blender": false,
+            "lod": null,
+            "position": [
+              1.63906675754115,
+              0,
+              -0.569153188620968
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 1.4061999999284742,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 761.2483869170444,
+              "y": 286.72273278566877
+            }
+          },
+          {
+            "id": "dense-11",
+            "kind": "flower",
+            "tree": false,
+            "blender": false,
+            "lod": null,
+            "position": [
+              1.9432080371305347,
+              0,
+              -1.0993539800314123
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 1.4661999999284743,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 779.6308228337693,
+              "y": 295.82649183570453
+            }
+          },
+          {
+            "id": "dense-13",
+            "kind": "flower",
+            "tree": false,
+            "blender": false,
+            "lod": null,
+            "position": [
+              0.9674795072525739,
+              0,
+              0.5413254183673245
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 1.5861999999284744,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 718.5546892547342,
+              "y": 322.6364134166481
+            }
+          },
+          {
+            "id": "dense-14",
+            "kind": "flower",
+            "tree": false,
+            "blender": false,
+            "lod": null,
+            "position": [
+              -1.04152443414554,
+              0,
+              2.803862275720081
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 1.6461999999284742,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 541.2728376319052,
+              "y": 398.4771947504747
+            }
+          },
+          {
+            "id": "dense-15",
+            "kind": "flower",
+            "tree": true,
+            "blender": false,
+            "lod": null,
+            "position": [
+              -2.302978009600192,
+              0,
+              1.684363706564421
+            ],
+            "scale": [
+              0.8989999999999999,
+              0.8989999999999999,
+              0.8989999999999999
+            ],
+            "bornAt": 1.7061999999284743,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 433.77850206968947,
+              "y": 341.5942815333666
+            }
+          },
+          {
+            "id": "dense-17",
+            "kind": "flower",
+            "tree": true,
+            "blender": false,
+            "lod": null,
+            "position": [
+              -1.9515348682366311,
+              0,
+              -2.3413861659180153
+            ],
+            "scale": [
+              0.8989999999999999,
+              0.8989999999999999,
+              0.8989999999999999
+            ],
+            "bornAt": 1.8261999999284741,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 510.20334128842825,
+              "y": 240.51909635877877
+            }
+          },
+          {
+            "id": "dense-18",
+            "kind": "flower",
+            "tree": false,
+            "blender": false,
+            "lod": null,
+            "position": [
+              -0.6527487778756768,
+              0,
+              0.022236423371359705
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 1.8861999999284742,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 591.2439076158466,
+              "y": 308.53523312557155
+            }
+          },
+          {
+            "id": "dense-19",
+            "kind": "flower",
+            "tree": false,
+            "blender": false,
+            "lod": null,
+            "position": [
+              -0.37201368623413145,
+              0,
+              -0.591439107354073
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 1.9461999999284743,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 613.7086124689159,
+              "y": 286.159291213989
+            }
+          },
+          {
+            "id": "dense-21",
+            "kind": "flower",
+            "tree": false,
+            "blender": false,
+            "lod": null,
+            "position": [
+              1.0219876279123128,
+              0,
+              2.846936054859749
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 2.0661999999284744,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 738.826636638264,
+              "y": 398.7632879235111
+            }
+          },
+          {
+            "id": "dense-22",
+            "kind": "flower",
+            "tree": false,
+            "blender": false,
+            "lod": null,
+            "position": [
+              -1.6083270015008746,
+              0,
+              -1.7102944008129484
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 2.1261999999284744,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 529.2766002172838,
+              "y": 267.1510284244696
+            }
+          },
+          {
+            "id": "dense-23",
+            "kind": "flower",
+            "tree": false,
+            "blender": false,
+            "lod": null,
+            "position": [
+              0.0228406326379627,
+              0,
+              -1.1680797178396847
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 2.1861999999284745,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 642.9791694305653,
+              "y": 278.75247408620004
+            }
+          },
+          {
+            "id": "dense-25",
+            "kind": "flower",
+            "tree": true,
+            "blender": false,
+            "lod": null,
+            "position": [
+              -1.3490004234015942,
+              0,
+              -0.05120112139731645
+            ],
+            "scale": [
+              0.8989999999999999,
+              0.8989999999999999,
+              0.8989999999999999
+            ],
+            "bornAt": 2.306199999928474,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 531.1917591554915,
+              "y": 290.42874601667666
+            }
+          },
+          {
+            "id": "dense-26",
+            "kind": "flower",
+            "tree": true,
+            "blender": false,
+            "lod": null,
+            "position": [
+              -2.309150559017435,
+              0,
+              0.570571514708264
+            ],
+            "scale": [
+              0.8989999999999999,
+              0.8989999999999999,
+              0.8989999999999999
+            ],
+            "bornAt": 2.366199999928474,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 450.9175968169046,
+              "y": 307.4787515574491
+            }
+          },
+          {
+            "id": "dense-27",
+            "kind": "flower",
+            "tree": false,
+            "blender": false,
+            "lod": null,
+            "position": [
+              -3.029462039479986,
+              0,
+              0.5132416231607032
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 2.4261999999284742,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 397.24768173264914,
+              "y": 322.0037083296854
+            }
+          },
+          {
+            "id": "dense-29",
+            "kind": "flower",
+            "tree": false,
+            "blender": false,
+            "lod": null,
+            "position": [
+              1.3034326221048833,
+              0,
+              1.1651752619078273
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 2.5461999999284743,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 749.1637159159086,
+              "y": 358.4144652379244
+            }
+          },
+          {
+            "id": "dense-30",
+            "kind": "flower",
+            "tree": false,
+            "blender": false,
+            "lod": null,
+            "position": [
+              -1.9283059452474116,
+              0,
+              -0.03935232519172132
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 2.6061999999284744,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 492.1698422336394,
+              "y": 305.234964346767
+            }
+          },
+          {
+            "id": "dense-31",
+            "kind": "flower",
+            "tree": false,
+            "blender": false,
+            "lod": null,
+            "position": [
+              -0.941548967063427,
+              0,
+              -0.5964016442795229
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 2.666199999928474,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 570.5357749107422,
+              "y": 292.60268827824586
+            }
+          },
+          {
+            "id": "dense-33",
+            "kind": "flower",
+            "tree": true,
+            "blender": false,
+            "lod": null,
+            "position": [
+              0.38641913381405174,
+              0,
+              -0.602715708525194
+            ],
+            "scale": [
+              0.8989999999999999,
+              0.8989999999999999,
+              0.8989999999999999
+            ],
+            "bornAt": 2.786199999928474,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 666.1814132419954,
+              "y": 278.1542153213748
+            }
+          },
+          {
+            "id": "dense-34",
+            "kind": "flower",
+            "tree": true,
+            "blender": false,
+            "lod": null,
+            "position": [
+              1.928916658759117,
+              0,
+              2.3368257875658354
+            ],
+            "scale": [
+              0.8989999999999999,
+              0.8989999999999999,
+              0.8989999999999999
+            ],
+            "bornAt": 2.846199999928474,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 820.4463783237651,
+              "y": 362.3794161100935
+            }
+          },
+          {
+            "id": "dense-35",
+            "kind": "flower",
+            "tree": true,
+            "blender": false,
+            "lod": null,
+            "position": [
+              2.3188356017321348,
+              0,
+              1.772321831337998
+            ],
+            "scale": [
+              0.8989999999999999,
+              0.8989999999999999,
+              0.8989999999999999
+            ],
+            "bornAt": 2.906199999928474,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 843.5136168846919,
+              "y": 343.77258463784466
+            }
+          },
+          {
+            "id": "peony-blender-41",
+            "kind": "flower",
+            "tree": false,
+            "blender": true,
+            "lod": "near",
+            "position": [
+              1.6220897298865022,
+              0,
+              1.6710500583666212
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 0.20619999992847443,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 783.9890122354489,
+              "y": 367.8436720663146
+            }
+          },
+          {
+            "id": "peony-jade-16",
+            "kind": "flower",
+            "tree": false,
+            "blender": true,
+            "lod": "near",
+            "position": [
+              2.013126093512401,
+              0,
+              0.05712493733502924
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 0.26619999992847443,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 796.6694441978701,
+              "y": 318.65351432165977
+            }
+          },
+          {
+            "id": "dense-peony-0",
+            "kind": "flower",
+            "tree": false,
+            "blender": true,
+            "lod": "far",
+            "position": [
+              -0.659393731020391,
+              0,
+              -1.1223402108257527
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 0.8061999999284745,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 593.3496609440634,
+              "y": 288.9078740871999
+            }
+          },
+          {
+            "id": "dense-peony-4",
+            "kind": "flower",
+            "tree": false,
+            "blender": true,
+            "lod": "near",
+            "position": [
+              1.5962097175419332,
+              0,
+              0.5821860259634388
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 1.0461999999284743,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 770.7997853928374,
+              "y": 333.47546096065594
+            }
+          },
+          {
+            "id": "dense-peony-8",
+            "kind": "flower",
+            "tree": false,
+            "blender": true,
+            "lod": "near",
+            "position": [
+              2.9573783736024053,
+              0,
+              -0.5679500528381152
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 1.2861999999284743,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 860.5274326893932,
+              "y": 302.34505484552966
+            }
+          },
+          {
+            "id": "dense-peony-12",
+            "kind": "flower",
+            "tree": false,
+            "blender": true,
+            "lod": "far",
+            "position": [
+              1.6449466818105432,
+              0,
+              -2.894927209789372
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 1.5261999999284743,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 745.8962338621243,
+              "y": 251.51421389761703
+            }
+          },
+          {
+            "id": "dense-peony-16",
+            "kind": "flower",
+            "tree": false,
+            "blender": true,
+            "lod": "near",
+            "position": [
+              -2.633189873630181,
+              0,
+              1.1600868603685761
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 1.7661999999284743,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 418.1437643349933,
+              "y": 351.0108105795947
+            }
+          },
+          {
+            "id": "dense-peony-20",
+            "kind": "flower",
+            "tree": false,
+            "blender": true,
+            "lod": "near",
+            "position": [
+              -1.6044348892383276,
+              0,
+              0.5325870396153015
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 2.0061999999284743,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 512.1946659511478,
+              "y": 332.0316531453826
+            }
+          },
+          {
+            "id": "dense-peony-24",
+            "kind": "flower",
+            "tree": false,
+            "blender": true,
+            "lod": "near",
+            "position": [
+              -1.2971717195212842,
+              0,
+              2.2953815645921756
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 2.246199999928474,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 522.5129409779123,
+              "y": 390.13312110662923
+            }
+          },
+          {
+            "id": "dense-peony-28",
+            "kind": "flower",
+            "tree": false,
+            "blender": true,
+            "lod": "far",
+            "position": [
+              0.6769868751615287,
+              0,
+              -1.106266941037577
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 2.4861999999284743,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 687.8300765534973,
+              "y": 289.2889936810498
+            }
+          },
+          {
+            "id": "dense-peony-32",
+            "kind": "flower",
+            "tree": false,
+            "blender": true,
+            "lod": "far",
+            "position": [
+              -0.38593576446175576,
+              0,
+              -1.6894400747082032
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 2.726199999928474,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 613.631497600828,
+              "y": 276.07083876016486
+            }
+          },
+          {
+            "id": "dense-peony-36",
+            "kind": "flower",
+            "tree": false,
+            "blender": true,
+            "lod": "near",
+            "position": [
+              -0.9551888545230031,
+              0,
+              1.7488127315006055
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 2.9661999999284743,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 554.045385948645,
+              "y": 370.5013058127967
+            }
+          }
+        ],
+        "performance": {
+          "frame": {
+            "samples": 180,
+            "meanMs": 16.67,
+            "p95Ms": 16.8
+          },
+          "renderCPU": {
+            "samples": 180,
+            "meanMs": 5.97,
+            "p95Ms": 8.6
+          },
+          "gpu": {
+            "available": true,
+            "samples": 180,
+            "meanMs": 11.35,
+            "p95Ms": 14.93
+          }
+        },
+        "webglRenderer": "ANGLE (Intel, Intel(R) Arc(TM) 140V GPU (16GB) (0x000064A0) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+      },
+      "source": {
+        "plants": 50,
+        "near": 8,
+        "far": 4,
+        "calls": 2122,
+        "triangles": 233728,
+        "geometries": 260,
+        "island": "loaded",
+        "islandGeometry": {
+          "assetTriangles": 14099,
+          "grassTriangles": 6000,
+          "grassClumps": 1000,
+          "grassDrawCalls": 1
+        },
+        "growing": 0,
+        "opened": 50,
+        "camera": {
+          "position": [
+            0,
+            5.496125175623439,
+            13.176584731173508
+          ],
+          "target": [
+            0,
+            0.1,
+            0
+          ]
+        },
+        "viewport": {
+          "width": 1280,
+          "height": 710,
+          "pixelRatio": 1
+        },
+        "performance": {
+          "frame": {
+            "samples": 180,
+            "meanMs": 16.67,
+            "p95Ms": 16.8
+          },
+          "renderCPU": {
+            "samples": 180,
+            "meanMs": 6.03,
+            "p95Ms": 8.8
+          },
+          "gpu": {
+            "available": true,
+            "samples": 180,
+            "meanMs": 11.23,
+            "p95Ms": 14.61
+          }
+        },
+        "webglRenderer": "ANGLE (Intel, Intel(R) Arc(TM) 140V GPU (16GB) (0x000064A0) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+      },
+      "delta": {
+        "calls": 0,
+        "triangles": 0,
+        "renderCpuMeanMs": -0.06,
+        "frameMeanMs": 0
+      }
+    },
+    {
+      "tone": "warm",
+      "integration": {
+        "tone": "warm",
+        "requestedTone": "warm",
+        "themeStatus": "loaded",
+        "themeSwitches": 1,
+        "plants": 50,
+        "near": 8,
+        "far": 4,
+        "calls": 2120,
+        "triangles": 238736,
+        "geometries": 261,
+        "textures": 7,
+        "programs": 16,
+        "island": "loaded",
+        "islandChildren": 1,
+        "islandGeometry": {
+          "assetTriangles": 16607,
+          "grassTriangles": 6000,
+          "grassClumps": 1000,
+          "grassDrawCalls": 1,
+          "grassTheme": "warm",
+          "grassMeshUUID": "183a0015-c963-4efd-a039-96dc2c9309c0",
+          "grassGeometryUUID": "a137c1cf-d628-484b-8cfd-6352180ca35a",
+          "grassInstanceBufferId": 1,
+          "grassCacheSize": 1
+        },
+        "growing": 0,
+        "opened": 50,
+        "camera": {
+          "position": [
+            0,
+            5.496125175623439,
+            13.176584731173508
+          ],
+          "target": [
+            0,
+            0.1,
+            0
+          ]
+        },
+        "viewport": {
+          "width": 1280,
+          "height": 710,
+          "pixelRatio": 1
+        },
+        "plantStates": [
+          {
+            "id": "demo-pair",
+            "kind": "pair",
+            "tree": false,
+            "blender": false,
+            "lod": null,
+            "position": [
+              -0.04545222379267216,
+              0,
+              1.0916847019089277
+            ],
+            "scale": [
+              1.508,
+              1.508,
+              1.508
+            ],
+            "bornAt": 0.020899999976158143,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 638.8824823160248,
+              "y": 308.84039165970097
+            }
+          },
+          {
+            "id": "pair-flutter",
+            "kind": "flower",
+            "tree": false,
+            "blender": false,
+            "lod": null,
+            "position": [
+              1.3002295877225698,
+              0,
+              -2.265058398862534
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 0.08089999997615814,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 728.0760169516893,
+              "y": 255.7352579058919
+            }
+          },
+          {
+            "id": "peony-procedural-89",
+            "kind": "flower",
+            "tree": false,
+            "blender": false,
+            "lod": null,
+            "position": [
+              -1.5940342026762664,
+              0,
+              1.6925735093987382
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 0.14089999997615815,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 497.74499281192675,
+              "y": 357.9979653794282
+            }
+          },
+          {
+            "id": "sample-0",
+            "kind": "flower",
+            "tree": false,
+            "blender": false,
+            "lod": null,
+            "position": [
+              1.0397728460747748,
+              0,
+              -0.5979485726498944
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 0.32089999997615815,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 717.3561661635447,
+              "y": 285.9833284539644
+            }
+          },
+          {
+            "id": "sample-1",
+            "kind": "flower",
+            "tree": false,
+            "blender": false,
+            "lod": null,
+            "position": [
+              1.3457107540592552,
+              0,
+              -1.1974280372453745
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 0.38089999997615814,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 735.405589453876,
+              "y": 293.52160905783023
+            }
+          },
+          {
+            "id": "sample-2",
+            "kind": "flower",
+            "tree": false,
+            "blender": false,
+            "lod": null,
+            "position": [
+              -0.9622955754585564,
+              0,
+              0.5792141549431664
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 0.44089999997615814,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 564.1599554253086,
+              "y": 322.1540769160674
+            }
+          },
+          {
+            "id": "sample-3",
+            "kind": "flower",
+            "tree": false,
+            "blender": false,
+            "lod": null,
+            "position": [
+              -0.050492155300453305,
+              0,
+              0.04920616582967341
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 0.5008999999761581,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 637.8309489785152,
+              "y": 309.1122611053519
+            }
+          },
+          {
+            "id": "sample-4",
+            "kind": "flower",
+            "tree": false,
+            "blender": false,
+            "lod": null,
+            "position": [
+              -1.3558664581272752,
+              0,
+              1.1827137936191525
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 0.5608999999761581,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 522.6120206888907,
+              "y": 341.40885821248924
+            }
+          },
+          {
+            "id": "sample-5",
+            "kind": "flower",
+            "tree": true,
+            "blender": false,
+            "lod": null,
+            "position": [
+              -1.9602467569336295,
+              0,
+              1.1936920884163942
+            ],
+            "scale": [
+              0.8989999999999999,
+              0.8989999999999999,
+              0.8989999999999999
+            ],
+            "bornAt": 0.6208999999761581,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 472.5956646381564,
+              "y": 326.16860964320426
+            }
+          },
+          {
+            "id": "sample-6",
+            "kind": "flower",
+            "tree": true,
+            "blender": false,
+            "lod": null,
+            "position": [
+              -1.700403137532994,
+              0,
+              2.870547557553715
+            ],
+            "scale": [
+              0.8989999999999999,
+              0.8989999999999999,
+              0.8989999999999999
+            ],
+            "bornAt": 0.680899999976158,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 476.8973826717478,
+              "y": 382.3597553843105
+            }
+          },
+          {
+            "id": "sample-7",
+            "kind": "flower",
+            "tree": true,
+            "blender": false,
+            "lod": null,
+            "position": [
+              -2.0291316240280866,
+              0,
+              2.2556785053677637
+            ],
+            "scale": [
+              0.8989999999999999,
+              0.8989999999999999,
+              0.8989999999999999
+            ],
+            "bornAt": 0.7408999999761581,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 450.1300124972096,
+              "y": 360.2517136590576
+            }
+          },
+          {
+            "id": "dense-1",
+            "kind": "flower",
+            "tree": false,
+            "blender": false,
+            "lod": null,
+            "position": [
+              2.5908450262527913,
+              0,
+              -1.1111899548867608
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 0.8608999999761581,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 828.6284817891277,
+              "y": 273.98180268572463
+            }
+          },
+          {
+            "id": "dense-2",
+            "kind": "flower",
+            "tree": false,
+            "blender": false,
+            "lod": null,
+            "position": [
+              2.319718709466979,
+              0,
+              -0.5186452893123907
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 0.920899999976158,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 815.4542728919942,
+              "y": 310.1709743831141
+            }
+          },
+          {
+            "id": "dense-3",
+            "kind": "flower",
+            "tree": false,
+            "blender": false,
+            "lod": null,
+            "position": [
+              1.3326224250532688,
+              0,
+              -0.019894646052271127
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 0.9808999999761581,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 745.9044779576391,
+              "y": 305.72443591032936
+            }
+          },
+          {
+            "id": "dense-5",
+            "kind": "flower",
+            "tree": false,
+            "blender": false,
+            "lod": null,
+            "position": [
+              0.33294613603502515,
+              0,
+              1.7122922039645558
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 1.1008999999761582,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 666.5856389654532,
+              "y": 358.55462889622504
+            }
+          },
+          {
+            "id": "dense-6",
+            "kind": "flower",
+            "tree": true,
+            "blender": false,
+            "lod": null,
+            "position": [
+              -0.01613745907321572,
+              0,
+              2.2431335491884283
+            ],
+            "scale": [
+              0.8989999999999999,
+              0.8989999999999999,
+              0.8989999999999999
+            ],
+            "bornAt": 1.160899999976158,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 636.9650058479322,
+              "y": 360.5207298559704
+            }
+          },
+          {
+            "id": "dense-7",
+            "kind": "flower",
+            "tree": true,
+            "blender": false,
+            "lod": null,
+            "position": [
+              -0.6410461969021708,
+              0,
+              2.2278779549535144
+            ],
+            "scale": [
+              0.8989999999999999,
+              0.8989999999999999,
+              0.8989999999999999
+            ],
+            "bornAt": 1.220899999976158,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 583.5553985943637,
+              "y": 358.54545194462975
+            }
+          },
+          {
+            "id": "dense-9",
+            "kind": "flower",
+            "tree": false,
+            "blender": false,
+            "lod": null,
+            "position": [
+              0.6408680352754891,
+              0,
+              0.026351685700938106
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 1.340899999976158,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 690.7290747715895,
+              "y": 308.59687097849303
+            }
+          },
+          {
+            "id": "dense-10",
+            "kind": "flower",
+            "tree": false,
+            "blender": false,
+            "lod": null,
+            "position": [
+              1.63906675754115,
+              0,
+              -0.569153188620968
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 1.400899999976158,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 761.2483869170444,
+              "y": 286.72273278566877
+            }
+          },
+          {
+            "id": "dense-11",
+            "kind": "flower",
+            "tree": false,
+            "blender": false,
+            "lod": null,
+            "position": [
+              1.9432080371305347,
+              0,
+              -1.0993539800314123
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 1.460899999976158,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 779.6308228337693,
+              "y": 295.82649183570453
+            }
+          },
+          {
+            "id": "dense-13",
+            "kind": "flower",
+            "tree": false,
+            "blender": false,
+            "lod": null,
+            "position": [
+              0.9674795072525739,
+              0,
+              0.5413254183673245
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 1.5808999999761582,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 718.5546892547342,
+              "y": 322.6364134166481
+            }
+          },
+          {
+            "id": "dense-14",
+            "kind": "flower",
+            "tree": false,
+            "blender": false,
+            "lod": null,
+            "position": [
+              -1.04152443414554,
+              0,
+              2.803862275720081
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 1.640899999976158,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 541.2728376319052,
+              "y": 398.4771947504747
+            }
+          },
+          {
+            "id": "dense-15",
+            "kind": "flower",
+            "tree": true,
+            "blender": false,
+            "lod": null,
+            "position": [
+              -2.302978009600192,
+              0,
+              1.684363706564421
+            ],
+            "scale": [
+              0.8989999999999999,
+              0.8989999999999999,
+              0.8989999999999999
+            ],
+            "bornAt": 1.700899999976158,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 433.77850206968947,
+              "y": 341.5942815333666
+            }
+          },
+          {
+            "id": "dense-17",
+            "kind": "flower",
+            "tree": true,
+            "blender": false,
+            "lod": null,
+            "position": [
+              -1.9515348682366311,
+              0,
+              -2.3413861659180153
+            ],
+            "scale": [
+              0.8989999999999999,
+              0.8989999999999999,
+              0.8989999999999999
+            ],
+            "bornAt": 1.820899999976158,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 510.20334128842825,
+              "y": 240.51909635877877
+            }
+          },
+          {
+            "id": "dense-18",
+            "kind": "flower",
+            "tree": false,
+            "blender": false,
+            "lod": null,
+            "position": [
+              -0.6527487778756768,
+              0,
+              0.022236423371359705
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 1.880899999976158,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 591.2439076158466,
+              "y": 308.53523312557155
+            }
+          },
+          {
+            "id": "dense-19",
+            "kind": "flower",
+            "tree": false,
+            "blender": false,
+            "lod": null,
+            "position": [
+              -0.37201368623413145,
+              0,
+              -0.591439107354073
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 1.940899999976158,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 613.7086124689159,
+              "y": 286.159291213989
+            }
+          },
+          {
+            "id": "dense-21",
+            "kind": "flower",
+            "tree": false,
+            "blender": false,
+            "lod": null,
+            "position": [
+              1.0219876279123128,
+              0,
+              2.846936054859749
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 2.0608999999761584,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 738.826636638264,
+              "y": 398.7632879235111
+            }
+          },
+          {
+            "id": "dense-22",
+            "kind": "flower",
+            "tree": false,
+            "blender": false,
+            "lod": null,
+            "position": [
+              -1.6083270015008746,
+              0,
+              -1.7102944008129484
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 2.1208999999761584,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 529.2766002172838,
+              "y": 267.1510284244696
+            }
+          },
+          {
+            "id": "dense-23",
+            "kind": "flower",
+            "tree": false,
+            "blender": false,
+            "lod": null,
+            "position": [
+              0.0228406326379627,
+              0,
+              -1.1680797178396847
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 2.1808999999761585,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 642.9791694305653,
+              "y": 278.75247408620004
+            }
+          },
+          {
+            "id": "dense-25",
+            "kind": "flower",
+            "tree": true,
+            "blender": false,
+            "lod": null,
+            "position": [
+              -1.3490004234015942,
+              0,
+              -0.05120112139731645
+            ],
+            "scale": [
+              0.8989999999999999,
+              0.8989999999999999,
+              0.8989999999999999
+            ],
+            "bornAt": 2.300899999976158,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 531.1917591554915,
+              "y": 290.42874601667666
+            }
+          },
+          {
+            "id": "dense-26",
+            "kind": "flower",
+            "tree": true,
+            "blender": false,
+            "lod": null,
+            "position": [
+              -2.309150559017435,
+              0,
+              0.570571514708264
+            ],
+            "scale": [
+              0.8989999999999999,
+              0.8989999999999999,
+              0.8989999999999999
+            ],
+            "bornAt": 2.360899999976158,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 450.9175968169046,
+              "y": 307.4787515574491
+            }
+          },
+          {
+            "id": "dense-27",
+            "kind": "flower",
+            "tree": false,
+            "blender": false,
+            "lod": null,
+            "position": [
+              -3.029462039479986,
+              0,
+              0.5132416231607032
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 2.4208999999761582,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 397.24768173264914,
+              "y": 322.0037083296854
+            }
+          },
+          {
+            "id": "dense-29",
+            "kind": "flower",
+            "tree": false,
+            "blender": false,
+            "lod": null,
+            "position": [
+              1.3034326221048833,
+              0,
+              1.1651752619078273
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 2.5408999999761583,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 749.1637159159086,
+              "y": 358.4144652379244
+            }
+          },
+          {
+            "id": "dense-30",
+            "kind": "flower",
+            "tree": false,
+            "blender": false,
+            "lod": null,
+            "position": [
+              -1.9283059452474116,
+              0,
+              -0.03935232519172132
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 2.6008999999761584,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 492.1698422336394,
+              "y": 305.234964346767
+            }
+          },
+          {
+            "id": "dense-31",
+            "kind": "flower",
+            "tree": false,
+            "blender": false,
+            "lod": null,
+            "position": [
+              -0.941548967063427,
+              0,
+              -0.5964016442795229
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 2.660899999976158,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 570.5357749107422,
+              "y": 292.60268827824586
+            }
+          },
+          {
+            "id": "dense-33",
+            "kind": "flower",
+            "tree": true,
+            "blender": false,
+            "lod": null,
+            "position": [
+              0.38641913381405174,
+              0,
+              -0.602715708525194
+            ],
+            "scale": [
+              0.8989999999999999,
+              0.8989999999999999,
+              0.8989999999999999
+            ],
+            "bornAt": 2.780899999976158,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 666.1814132419954,
+              "y": 278.1542153213748
+            }
+          },
+          {
+            "id": "dense-34",
+            "kind": "flower",
+            "tree": true,
+            "blender": false,
+            "lod": null,
+            "position": [
+              1.928916658759117,
+              0,
+              2.3368257875658354
+            ],
+            "scale": [
+              0.8989999999999999,
+              0.8989999999999999,
+              0.8989999999999999
+            ],
+            "bornAt": 2.840899999976158,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 820.4463783237651,
+              "y": 362.3794161100935
+            }
+          },
+          {
+            "id": "dense-35",
+            "kind": "flower",
+            "tree": true,
+            "blender": false,
+            "lod": null,
+            "position": [
+              2.3188356017321348,
+              0,
+              1.772321831337998
+            ],
+            "scale": [
+              0.8989999999999999,
+              0.8989999999999999,
+              0.8989999999999999
+            ],
+            "bornAt": 2.900899999976158,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 843.5136168846919,
+              "y": 343.77258463784466
+            }
+          },
+          {
+            "id": "peony-blender-41",
+            "kind": "flower",
+            "tree": false,
+            "blender": true,
+            "lod": "near",
+            "position": [
+              1.6220897298865022,
+              0,
+              1.6710500583666212
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 0.20089999997615815,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 783.9890122354489,
+              "y": 367.8436720663146
+            }
+          },
+          {
+            "id": "peony-jade-16",
+            "kind": "flower",
+            "tree": false,
+            "blender": true,
+            "lod": "near",
+            "position": [
+              2.013126093512401,
+              0,
+              0.05712493733502924
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 0.26089999997615815,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 796.6694441978701,
+              "y": 318.65351432165977
+            }
+          },
+          {
+            "id": "dense-peony-0",
+            "kind": "flower",
+            "tree": false,
+            "blender": true,
+            "lod": "far",
+            "position": [
+              -0.659393731020391,
+              0,
+              -1.1223402108257527
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 0.8008999999761581,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 593.3496609440634,
+              "y": 288.9078740871999
+            }
+          },
+          {
+            "id": "dense-peony-4",
+            "kind": "flower",
+            "tree": false,
+            "blender": true,
+            "lod": "near",
+            "position": [
+              1.5962097175419332,
+              0,
+              0.5821860259634388
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 1.0408999999761581,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 770.7997853928374,
+              "y": 333.47546096065594
+            }
+          },
+          {
+            "id": "dense-peony-8",
+            "kind": "flower",
+            "tree": false,
+            "blender": true,
+            "lod": "near",
+            "position": [
+              2.9573783736024053,
+              0,
+              -0.5679500528381152
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 1.280899999976158,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 860.5274326893932,
+              "y": 302.34505484552966
+            }
+          },
+          {
+            "id": "dense-peony-12",
+            "kind": "flower",
+            "tree": false,
+            "blender": true,
+            "lod": "far",
+            "position": [
+              1.6449466818105432,
+              0,
+              -2.894927209789372
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 1.520899999976158,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 745.8962338621243,
+              "y": 251.51421389761703
+            }
+          },
+          {
+            "id": "dense-peony-16",
+            "kind": "flower",
+            "tree": false,
+            "blender": true,
+            "lod": "near",
+            "position": [
+              -2.633189873630181,
+              0,
+              1.1600868603685761
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 1.760899999976158,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 418.1437643349933,
+              "y": 351.0108105795947
+            }
+          },
+          {
+            "id": "dense-peony-20",
+            "kind": "flower",
+            "tree": false,
+            "blender": true,
+            "lod": "near",
+            "position": [
+              -1.6044348892383276,
+              0,
+              0.5325870396153015
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 2.0008999999761583,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 512.1946659511478,
+              "y": 332.0316531453826
+            }
+          },
+          {
+            "id": "dense-peony-24",
+            "kind": "flower",
+            "tree": false,
+            "blender": true,
+            "lod": "near",
+            "position": [
+              -1.2971717195212842,
+              0,
+              2.2953815645921756
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 2.240899999976158,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 522.5129409779123,
+              "y": 390.13312110662923
+            }
+          },
+          {
+            "id": "dense-peony-28",
+            "kind": "flower",
+            "tree": false,
+            "blender": true,
+            "lod": "far",
+            "position": [
+              0.6769868751615287,
+              0,
+              -1.106266941037577
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 2.4808999999761583,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 687.8300765534973,
+              "y": 289.2889936810498
+            }
+          },
+          {
+            "id": "dense-peony-32",
+            "kind": "flower",
+            "tree": false,
+            "blender": true,
+            "lod": "far",
+            "position": [
+              -0.38593576446175576,
+              0,
+              -1.6894400747082032
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 2.720899999976158,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 613.631497600828,
+              "y": 276.07083876016486
+            }
+          },
+          {
+            "id": "dense-peony-36",
+            "kind": "flower",
+            "tree": false,
+            "blender": true,
+            "lod": "near",
+            "position": [
+              -0.9551888545230031,
+              0,
+              1.7488127315006055
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 2.9608999999761583,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 554.045385948645,
+              "y": 370.5013058127967
+            }
+          }
+        ],
+        "performance": {
+          "frame": {
+            "samples": 180,
+            "meanMs": 16.67,
+            "p95Ms": 16.8
+          },
+          "renderCPU": {
+            "samples": 180,
+            "meanMs": 5.75,
+            "p95Ms": 8.7
+          },
+          "gpu": {
+            "available": true,
+            "samples": 180,
+            "meanMs": 10.58,
+            "p95Ms": 14.1
+          }
+        },
+        "webglRenderer": "ANGLE (Intel, Intel(R) Arc(TM) 140V GPU (16GB) (0x000064A0) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+      },
+      "source": {
+        "plants": 50,
+        "near": 8,
+        "far": 4,
+        "calls": 2119,
+        "triangles": 232736,
+        "geometries": 260,
+        "island": "loaded",
+        "growing": 0,
+        "opened": 50,
+        "camera": {
+          "position": [
+            0,
+            5.496125175623439,
+            13.176584731173508
+          ],
+          "target": [
+            0,
+            0.1,
+            0
+          ]
+        },
+        "viewport": {
+          "width": 1280,
+          "height": 710,
+          "pixelRatio": 1
+        },
+        "performance": {
+          "frame": {
+            "samples": 180,
+            "meanMs": 16.67,
+            "p95Ms": 16.8
+          },
+          "renderCPU": {
+            "samples": 180,
+            "meanMs": 5.76,
+            "p95Ms": 7.5
+          }
+        },
+        "webglRenderer": "ANGLE (Intel, Intel(R) Arc(TM) 140V GPU (16GB) (0x000064A0) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+      },
+      "delta": {
+        "calls": 1,
+        "triangles": 6000,
+        "renderCpuMeanMs": -0.01,
+        "frameMeanMs": 0
+      }
+    },
+    {
+      "tone": "default",
+      "integration": {
+        "tone": "default",
+        "requestedTone": "default",
+        "themeStatus": "loaded",
+        "themeSwitches": 1,
+        "plants": 50,
+        "near": 8,
+        "far": 4,
+        "calls": 2120,
+        "triangles": 238736,
+        "geometries": 261,
+        "textures": 7,
+        "programs": 15,
+        "island": "loaded",
+        "islandChildren": 1,
+        "islandGeometry": {
+          "assetTriangles": 16607,
+          "grassTriangles": 6000,
+          "grassClumps": 1000,
+          "grassDrawCalls": 1,
+          "grassTheme": "default",
+          "grassMeshUUID": "551c2442-ef27-457b-a7d1-6004185f0b81",
+          "grassGeometryUUID": "815530b4-3c1e-48f7-8dac-8782c42f02ab",
+          "grassInstanceBufferId": 1,
+          "grassCacheSize": 1
+        },
+        "growing": 0,
+        "opened": 50,
+        "camera": {
+          "position": [
+            0,
+            5.496125175623439,
+            13.176584731173508
+          ],
+          "target": [
+            0,
+            0.1,
+            0
+          ]
+        },
+        "viewport": {
+          "width": 1280,
+          "height": 710,
+          "pixelRatio": 1
+        },
+        "plantStates": [
+          {
+            "id": "demo-pair",
+            "kind": "pair",
+            "tree": false,
+            "blender": false,
+            "lod": null,
+            "position": [
+              -0.04545222379267216,
+              0,
+              1.0916847019089277
+            ],
+            "scale": [
+              1.508,
+              1.508,
+              1.508
+            ],
+            "bornAt": 0.01889999997615814,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 638.8824823160248,
+              "y": 308.84039165970097
+            }
+          },
+          {
+            "id": "pair-flutter",
+            "kind": "flower",
+            "tree": false,
+            "blender": false,
+            "lod": null,
+            "position": [
+              1.3002295877225698,
+              0,
+              -2.265058398862534
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 0.07889999997615814,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 728.0760169516893,
+              "y": 255.7352579058919
+            }
+          },
+          {
+            "id": "peony-procedural-89",
+            "kind": "flower",
+            "tree": false,
+            "blender": false,
+            "lod": null,
+            "position": [
+              -1.5940342026762664,
+              0,
+              1.6925735093987382
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 0.13889999997615815,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 497.74499281192675,
+              "y": 357.9979653794282
+            }
+          },
+          {
+            "id": "sample-0",
+            "kind": "flower",
+            "tree": false,
+            "blender": false,
+            "lod": null,
+            "position": [
+              1.0397728460747748,
+              0,
+              -0.5979485726498944
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 0.31889999997615814,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 717.3561661635447,
+              "y": 285.9833284539644
+            }
+          },
+          {
+            "id": "sample-1",
+            "kind": "flower",
+            "tree": false,
+            "blender": false,
+            "lod": null,
+            "position": [
+              1.3457107540592552,
+              0,
+              -1.1974280372453745
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 0.37889999997615814,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 735.405589453876,
+              "y": 293.52160905783023
+            }
+          },
+          {
+            "id": "sample-2",
+            "kind": "flower",
+            "tree": false,
+            "blender": false,
+            "lod": null,
+            "position": [
+              -0.9622955754585564,
+              0,
+              0.5792141549431664
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 0.43889999997615814,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 564.1599554253086,
+              "y": 322.1540769160674
+            }
+          },
+          {
+            "id": "sample-3",
+            "kind": "flower",
+            "tree": false,
+            "blender": false,
+            "lod": null,
+            "position": [
+              -0.050492155300453305,
+              0,
+              0.04920616582967341
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 0.49889999997615814,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 637.8309489785152,
+              "y": 309.1122611053519
+            }
+          },
+          {
+            "id": "sample-4",
+            "kind": "flower",
+            "tree": false,
+            "blender": false,
+            "lod": null,
+            "position": [
+              -1.3558664581272752,
+              0,
+              1.1827137936191525
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 0.5588999999761581,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 522.6120206888907,
+              "y": 341.40885821248924
+            }
+          },
+          {
+            "id": "sample-5",
+            "kind": "flower",
+            "tree": true,
+            "blender": false,
+            "lod": null,
+            "position": [
+              -1.9602467569336295,
+              0,
+              1.1936920884163942
+            ],
+            "scale": [
+              0.8989999999999999,
+              0.8989999999999999,
+              0.8989999999999999
+            ],
+            "bornAt": 0.6188999999761581,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 472.5956646381564,
+              "y": 326.16860964320426
+            }
+          },
+          {
+            "id": "sample-6",
+            "kind": "flower",
+            "tree": true,
+            "blender": false,
+            "lod": null,
+            "position": [
+              -1.700403137532994,
+              0,
+              2.870547557553715
+            ],
+            "scale": [
+              0.8989999999999999,
+              0.8989999999999999,
+              0.8989999999999999
+            ],
+            "bornAt": 0.678899999976158,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 476.8973826717478,
+              "y": 382.3597553843105
+            }
+          },
+          {
+            "id": "sample-7",
+            "kind": "flower",
+            "tree": true,
+            "blender": false,
+            "lod": null,
+            "position": [
+              -2.0291316240280866,
+              0,
+              2.2556785053677637
+            ],
+            "scale": [
+              0.8989999999999999,
+              0.8989999999999999,
+              0.8989999999999999
+            ],
+            "bornAt": 0.7388999999761581,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 450.1300124972096,
+              "y": 360.2517136590576
+            }
+          },
+          {
+            "id": "dense-1",
+            "kind": "flower",
+            "tree": false,
+            "blender": false,
+            "lod": null,
+            "position": [
+              2.5908450262527913,
+              0,
+              -1.1111899548867608
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 0.8588999999761581,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 828.6284817891277,
+              "y": 273.98180268572463
+            }
+          },
+          {
+            "id": "dense-2",
+            "kind": "flower",
+            "tree": false,
+            "blender": false,
+            "lod": null,
+            "position": [
+              2.319718709466979,
+              0,
+              -0.5186452893123907
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 0.918899999976158,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 815.4542728919942,
+              "y": 310.1709743831141
+            }
+          },
+          {
+            "id": "dense-3",
+            "kind": "flower",
+            "tree": false,
+            "blender": false,
+            "lod": null,
+            "position": [
+              1.3326224250532688,
+              0,
+              -0.019894646052271127
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 0.9788999999761581,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 745.9044779576391,
+              "y": 305.72443591032936
+            }
+          },
+          {
+            "id": "dense-5",
+            "kind": "flower",
+            "tree": false,
+            "blender": false,
+            "lod": null,
+            "position": [
+              0.33294613603502515,
+              0,
+              1.7122922039645558
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 1.0988999999761582,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 666.5856389654532,
+              "y": 358.55462889622504
+            }
+          },
+          {
+            "id": "dense-6",
+            "kind": "flower",
+            "tree": true,
+            "blender": false,
+            "lod": null,
+            "position": [
+              -0.01613745907321572,
+              0,
+              2.2431335491884283
+            ],
+            "scale": [
+              0.8989999999999999,
+              0.8989999999999999,
+              0.8989999999999999
+            ],
+            "bornAt": 1.158899999976158,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 636.9650058479322,
+              "y": 360.5207298559704
+            }
+          },
+          {
+            "id": "dense-7",
+            "kind": "flower",
+            "tree": true,
+            "blender": false,
+            "lod": null,
+            "position": [
+              -0.6410461969021708,
+              0,
+              2.2278779549535144
+            ],
+            "scale": [
+              0.8989999999999999,
+              0.8989999999999999,
+              0.8989999999999999
+            ],
+            "bornAt": 1.218899999976158,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 583.5553985943637,
+              "y": 358.54545194462975
+            }
+          },
+          {
+            "id": "dense-9",
+            "kind": "flower",
+            "tree": false,
+            "blender": false,
+            "lod": null,
+            "position": [
+              0.6408680352754891,
+              0,
+              0.026351685700938106
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 1.338899999976158,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 690.7290747715895,
+              "y": 308.59687097849303
+            }
+          },
+          {
+            "id": "dense-10",
+            "kind": "flower",
+            "tree": false,
+            "blender": false,
+            "lod": null,
+            "position": [
+              1.63906675754115,
+              0,
+              -0.569153188620968
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 1.398899999976158,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 761.2483869170444,
+              "y": 286.72273278566877
+            }
+          },
+          {
+            "id": "dense-11",
+            "kind": "flower",
+            "tree": false,
+            "blender": false,
+            "lod": null,
+            "position": [
+              1.9432080371305347,
+              0,
+              -1.0993539800314123
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 1.458899999976158,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 779.6308228337693,
+              "y": 295.82649183570453
+            }
+          },
+          {
+            "id": "dense-13",
+            "kind": "flower",
+            "tree": false,
+            "blender": false,
+            "lod": null,
+            "position": [
+              0.9674795072525739,
+              0,
+              0.5413254183673245
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 1.5788999999761582,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 718.5546892547342,
+              "y": 322.6364134166481
+            }
+          },
+          {
+            "id": "dense-14",
+            "kind": "flower",
+            "tree": false,
+            "blender": false,
+            "lod": null,
+            "position": [
+              -1.04152443414554,
+              0,
+              2.803862275720081
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 1.638899999976158,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 541.2728376319052,
+              "y": 398.4771947504747
+            }
+          },
+          {
+            "id": "dense-15",
+            "kind": "flower",
+            "tree": true,
+            "blender": false,
+            "lod": null,
+            "position": [
+              -2.302978009600192,
+              0,
+              1.684363706564421
+            ],
+            "scale": [
+              0.8989999999999999,
+              0.8989999999999999,
+              0.8989999999999999
+            ],
+            "bornAt": 1.698899999976158,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 433.77850206968947,
+              "y": 341.5942815333666
+            }
+          },
+          {
+            "id": "dense-17",
+            "kind": "flower",
+            "tree": true,
+            "blender": false,
+            "lod": null,
+            "position": [
+              -1.9515348682366311,
+              0,
+              -2.3413861659180153
+            ],
+            "scale": [
+              0.8989999999999999,
+              0.8989999999999999,
+              0.8989999999999999
+            ],
+            "bornAt": 1.818899999976158,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 510.20334128842825,
+              "y": 240.51909635877877
+            }
+          },
+          {
+            "id": "dense-18",
+            "kind": "flower",
+            "tree": false,
+            "blender": false,
+            "lod": null,
+            "position": [
+              -0.6527487778756768,
+              0,
+              0.022236423371359705
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 1.878899999976158,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 591.2439076158466,
+              "y": 308.53523312557155
+            }
+          },
+          {
+            "id": "dense-19",
+            "kind": "flower",
+            "tree": false,
+            "blender": false,
+            "lod": null,
+            "position": [
+              -0.37201368623413145,
+              0,
+              -0.591439107354073
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 1.938899999976158,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 613.7086124689159,
+              "y": 286.159291213989
+            }
+          },
+          {
+            "id": "dense-21",
+            "kind": "flower",
+            "tree": false,
+            "blender": false,
+            "lod": null,
+            "position": [
+              1.0219876279123128,
+              0,
+              2.846936054859749
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 2.058899999976158,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 738.826636638264,
+              "y": 398.7632879235111
+            }
+          },
+          {
+            "id": "dense-22",
+            "kind": "flower",
+            "tree": false,
+            "blender": false,
+            "lod": null,
+            "position": [
+              -1.6083270015008746,
+              0,
+              -1.7102944008129484
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 2.118899999976158,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 529.2766002172838,
+              "y": 267.1510284244696
+            }
+          },
+          {
+            "id": "dense-23",
+            "kind": "flower",
+            "tree": false,
+            "blender": false,
+            "lod": null,
+            "position": [
+              0.0228406326379627,
+              0,
+              -1.1680797178396847
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 2.1788999999761582,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 642.9791694305653,
+              "y": 278.75247408620004
+            }
+          },
+          {
+            "id": "dense-25",
+            "kind": "flower",
+            "tree": true,
+            "blender": false,
+            "lod": null,
+            "position": [
+              -1.3490004234015942,
+              0,
+              -0.05120112139731645
+            ],
+            "scale": [
+              0.8989999999999999,
+              0.8989999999999999,
+              0.8989999999999999
+            ],
+            "bornAt": 2.298899999976158,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 531.1917591554915,
+              "y": 290.42874601667666
+            }
+          },
+          {
+            "id": "dense-26",
+            "kind": "flower",
+            "tree": true,
+            "blender": false,
+            "lod": null,
+            "position": [
+              -2.309150559017435,
+              0,
+              0.570571514708264
+            ],
+            "scale": [
+              0.8989999999999999,
+              0.8989999999999999,
+              0.8989999999999999
+            ],
+            "bornAt": 2.358899999976158,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 450.9175968169046,
+              "y": 307.4787515574491
+            }
+          },
+          {
+            "id": "dense-27",
+            "kind": "flower",
+            "tree": false,
+            "blender": false,
+            "lod": null,
+            "position": [
+              -3.029462039479986,
+              0,
+              0.5132416231607032
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 2.418899999976158,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 397.24768173264914,
+              "y": 322.0037083296854
+            }
+          },
+          {
+            "id": "dense-29",
+            "kind": "flower",
+            "tree": false,
+            "blender": false,
+            "lod": null,
+            "position": [
+              1.3034326221048833,
+              0,
+              1.1651752619078273
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 2.538899999976158,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 749.1637159159086,
+              "y": 358.4144652379244
+            }
+          },
+          {
+            "id": "dense-30",
+            "kind": "flower",
+            "tree": false,
+            "blender": false,
+            "lod": null,
+            "position": [
+              -1.9283059452474116,
+              0,
+              -0.03935232519172132
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 2.598899999976158,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 492.1698422336394,
+              "y": 305.234964346767
+            }
+          },
+          {
+            "id": "dense-31",
+            "kind": "flower",
+            "tree": false,
+            "blender": false,
+            "lod": null,
+            "position": [
+              -0.941548967063427,
+              0,
+              -0.5964016442795229
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 2.658899999976158,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 570.5357749107422,
+              "y": 292.60268827824586
+            }
+          },
+          {
+            "id": "dense-33",
+            "kind": "flower",
+            "tree": true,
+            "blender": false,
+            "lod": null,
+            "position": [
+              0.38641913381405174,
+              0,
+              -0.602715708525194
+            ],
+            "scale": [
+              0.8989999999999999,
+              0.8989999999999999,
+              0.8989999999999999
+            ],
+            "bornAt": 2.778899999976158,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 666.1814132419954,
+              "y": 278.1542153213748
+            }
+          },
+          {
+            "id": "dense-34",
+            "kind": "flower",
+            "tree": true,
+            "blender": false,
+            "lod": null,
+            "position": [
+              1.928916658759117,
+              0,
+              2.3368257875658354
+            ],
+            "scale": [
+              0.8989999999999999,
+              0.8989999999999999,
+              0.8989999999999999
+            ],
+            "bornAt": 2.838899999976158,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 820.4463783237651,
+              "y": 362.3794161100935
+            }
+          },
+          {
+            "id": "dense-35",
+            "kind": "flower",
+            "tree": true,
+            "blender": false,
+            "lod": null,
+            "position": [
+              2.3188356017321348,
+              0,
+              1.772321831337998
+            ],
+            "scale": [
+              0.8989999999999999,
+              0.8989999999999999,
+              0.8989999999999999
+            ],
+            "bornAt": 2.898899999976158,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 843.5136168846919,
+              "y": 343.77258463784466
+            }
+          },
+          {
+            "id": "peony-blender-41",
+            "kind": "flower",
+            "tree": false,
+            "blender": true,
+            "lod": "near",
+            "position": [
+              1.6220897298865022,
+              0,
+              1.6710500583666212
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 0.19889999997615815,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 783.9890122354489,
+              "y": 367.8436720663146
+            }
+          },
+          {
+            "id": "peony-jade-16",
+            "kind": "flower",
+            "tree": false,
+            "blender": true,
+            "lod": "near",
+            "position": [
+              2.013126093512401,
+              0,
+              0.05712493733502924
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 0.25889999997615815,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 796.6694441978701,
+              "y": 318.65351432165977
+            }
+          },
+          {
+            "id": "dense-peony-0",
+            "kind": "flower",
+            "tree": false,
+            "blender": true,
+            "lod": "far",
+            "position": [
+              -0.659393731020391,
+              0,
+              -1.1223402108257527
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 0.7988999999761581,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 593.3496609440634,
+              "y": 288.9078740871999
+            }
+          },
+          {
+            "id": "dense-peony-4",
+            "kind": "flower",
+            "tree": false,
+            "blender": true,
+            "lod": "near",
+            "position": [
+              1.5962097175419332,
+              0,
+              0.5821860259634388
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 1.0388999999761581,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 770.7997853928374,
+              "y": 333.47546096065594
+            }
+          },
+          {
+            "id": "dense-peony-8",
+            "kind": "flower",
+            "tree": false,
+            "blender": true,
+            "lod": "near",
+            "position": [
+              2.9573783736024053,
+              0,
+              -0.5679500528381152
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 1.278899999976158,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 860.5274326893932,
+              "y": 302.34505484552966
+            }
+          },
+          {
+            "id": "dense-peony-12",
+            "kind": "flower",
+            "tree": false,
+            "blender": true,
+            "lod": "far",
+            "position": [
+              1.6449466818105432,
+              0,
+              -2.894927209789372
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 1.518899999976158,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 745.8962338621243,
+              "y": 251.51421389761703
+            }
+          },
+          {
+            "id": "dense-peony-16",
+            "kind": "flower",
+            "tree": false,
+            "blender": true,
+            "lod": "near",
+            "position": [
+              -2.633189873630181,
+              0,
+              1.1600868603685761
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 1.758899999976158,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 418.1437643349933,
+              "y": 351.0108105795947
+            }
+          },
+          {
+            "id": "dense-peony-20",
+            "kind": "flower",
+            "tree": false,
+            "blender": true,
+            "lod": "near",
+            "position": [
+              -1.6044348892383276,
+              0,
+              0.5325870396153015
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 1.998899999976158,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 512.1946659511478,
+              "y": 332.0316531453826
+            }
+          },
+          {
+            "id": "dense-peony-24",
+            "kind": "flower",
+            "tree": false,
+            "blender": true,
+            "lod": "near",
+            "position": [
+              -1.2971717195212842,
+              0,
+              2.2953815645921756
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 2.238899999976158,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 522.5129409779123,
+              "y": 390.13312110662923
+            }
+          },
+          {
+            "id": "dense-peony-28",
+            "kind": "flower",
+            "tree": false,
+            "blender": true,
+            "lod": "far",
+            "position": [
+              0.6769868751615287,
+              0,
+              -1.106266941037577
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 2.478899999976158,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 687.8300765534973,
+              "y": 289.2889936810498
+            }
+          },
+          {
+            "id": "dense-peony-32",
+            "kind": "flower",
+            "tree": false,
+            "blender": true,
+            "lod": "far",
+            "position": [
+              -0.38593576446175576,
+              0,
+              -1.6894400747082032
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 2.718899999976158,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 613.631497600828,
+              "y": 276.07083876016486
+            }
+          },
+          {
+            "id": "dense-peony-36",
+            "kind": "flower",
+            "tree": false,
+            "blender": true,
+            "lod": "near",
+            "position": [
+              -0.9551888545230031,
+              0,
+              1.7488127315006055
+            ],
+            "scale": [
+              1.044,
+              1.044,
+              1.044
+            ],
+            "bornAt": 2.958899999976158,
+            "opened": true,
+            "highlighted": false,
+            "screen": {
+              "x": 554.045385948645,
+              "y": 370.5013058127967
+            }
+          }
+        ],
+        "performance": {
+          "frame": {
+            "samples": 180,
+            "meanMs": 16.67,
+            "p95Ms": 16.8
+          },
+          "renderCPU": {
+            "samples": 180,
+            "meanMs": 5.25,
+            "p95Ms": 7
+          },
+          "gpu": {
+            "available": true,
+            "samples": 180,
+            "meanMs": 10.73,
+            "p95Ms": 14.01
+          }
+        },
+        "webglRenderer": "ANGLE (Intel, Intel(R) Arc(TM) 140V GPU (16GB) (0x000064A0) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+      },
+      "source": {
+        "plants": 50,
+        "near": 8,
+        "far": 4,
+        "calls": 2119,
+        "triangles": 232736,
+        "geometries": 260,
+        "island": "loaded",
+        "growing": 0,
+        "opened": 50,
+        "camera": {
+          "position": [
+            0,
+            5.496125175623439,
+            13.176584731173508
+          ],
+          "target": [
+            0,
+            0.1,
+            0
+          ]
+        },
+        "viewport": {
+          "width": 1280,
+          "height": 710,
+          "pixelRatio": 1
+        },
+        "performance": {
+          "frame": {
+            "samples": 180,
+            "meanMs": 16.67,
+            "p95Ms": 16.8
+          },
+          "renderCPU": {
+            "samples": 180,
+            "meanMs": 5.78,
+            "p95Ms": 7.7
+          }
+        },
+        "webglRenderer": "ANGLE (Intel, Intel(R) Arc(TM) 140V GPU (16GB) (0x000064A0) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+      },
+      "delta": {
+        "calls": 1,
+        "triangles": 6000,
+        "renderCpuMeanMs": -0.53,
+        "frameMeanMs": 0
+      }
+    }
+  ],
+  "errors": []
+}

@@ -1,0 +1,98 @@
+.flora-preview {
+  position: relative;
+  min-height: 100dvh;
+  background: linear-gradient(180deg, #ecd2df 0%, #f3d6d3 38%, #f8dfce 70%, #f8eddb 100%);
+}
+.flora-preview[data-tone="default"] {
+  background: linear-gradient(180deg, #f7d6e6, #d9ccf5 52%, #bfe8e3);
+}
+.flora-preview[data-tone="balanced"] { background: linear-gradient(180deg, #ece6de 0%, #f4e5d4 36%, #f7edda 68%, #dce7da 100%); }
+.flora-preview[data-tone="aurora"] {
+  background:
+    radial-gradient(ellipse at 16% 10%, #e35aa733, transparent 58%),
+    radial-gradient(ellipse at 80% 18%, #f3bfd833, transparent 55%),
+    radial-gradient(ellipse at 88% 84%, #54c6d02b, transparent 52%),
+    linear-gradient(155deg, #cb5597 0%, #c878b0 32%, #b38ac7 58%, #559fbd 100%);
+}
+.flora-preview[data-portrait="true"] {
+  width: min(390px, 100%);
+  height: 844px;
+  min-height: 844px;
+  margin: 0 auto;
+  box-shadow: 0 0 60px #6b485923;
+}
+.flora-preview .island { inset: 142px 0 48px; }
+.flora-preview[data-portrait="true"] .island { top: 172px; }
+.flora-toolbar, .flora-inspector {
+  position: absolute;
+  left: 0;
+  right: 0;
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+  padding: 8px;
+  pointer-events: none;
+}
+.flora-toolbar { top: 0; }
+.flora-inspector { bottom: 0; }
+.flora-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; }
+.flora-actions button, .flora-card {
+  pointer-events: auto;
+  background: #fffdf4f0;
+  box-shadow: 0 1px 5px #4a376324;
+}
+.flora-actions button {
+  border-radius: 24px;
+  padding: 7px 11px;
+  font-size: 13px;
+  font-weight: 600;
+}
+.flora-actions button[aria-pressed="true"] { background: #58456f; color: white; }
+.flora-preview[data-tone="warm"] .flora-actions button[aria-pressed="true"] { background: #855d6b; }
+.flora-preview[data-tone="balanced"] .flora-actions button[aria-pressed="true"] { background: #496653; }
+.flora-stats { font-size: 12px; font-variant-numeric: tabular-nums; }
+.flora-card {
+  position: relative;
+  border-radius: 16px;
+  padding: 8px 12px 12px;
+  min-width: 180px;
+  max-width: calc(100vw - 16px);
+  text-align: center;
+  font-size: 13px;
+}
+.flora-comparison { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.flora-comparison .bloom3d, .flora-comparison canvas { max-width: 100%; height: auto !important; }
+.flora-close { position: absolute; z-index: 1; top: 0; right: 3px; font-size: 22px; }
+.flora-study { width: min(640px, 100%); max-width: 100%; max-height: calc(100dvh - 190px); overflow-y: auto; padding: 16px; }
+.flora-study h2 { margin: 0 18px 12px; font-size: 17px; }
+.flora-study-body { display: grid; grid-template-columns: minmax(0, 1fr) 270px; gap: 18px; align-items: center; }
+.flora-study-nav { display: grid; gap: 15px; text-align: left; }
+.flora-study-group h3 { margin: 0 0 7px; font-size: 12px; font-weight: 600; color: #766a77; }
+.flora-study-group .flora-actions { justify-content: flex-start; }
+.flora-study-group .flora-actions button { padding: 6px 10px; font-size: 12px; }
+.flora-study-detail { display: grid; justify-items: center; gap: 4px; }
+.flora-study-detail > span { font-size: 12px; color: #766a77; }
+.flora-preview[data-portrait="true"] .flora-study-body { grid-template-columns: 1fr; gap: 10px; }
+.flora-preview[data-portrait="true"] .flora-study-nav { gap: 9px; }
+@media (max-width: 600px) {
+  .flora-study-body { grid-template-columns: 1fr; gap: 10px; }
+  .flora-study-nav { gap: 9px; }
+}
+@media (max-width: 480px) {
+  .flora-preview .island { top: 172px; }
+  .flora-actions { gap: 4px; }
+  .flora-actions button { padding: 6px 9px; font-size: 12px; }
+}
+
+.flora-preview[data-tone="aurora"] .flora-actions button,
+.flora-preview[data-tone="aurora"] .flora-card {
+  color: #514460;
+  background: #fff5fce8;
+  box-shadow: inset 0 0 0 1px #fff7fc80, 0 1px 8px #7a567129;
+}
+.flora-preview[data-tone="aurora"] .flora-actions button[aria-pressed="true"] {
+  color: #fff7fd;
+  background: #8d5e8b;
+  box-shadow: inset 0 0 0 1px #e5b3da66, 0 1px 8px #7a567129;
+}
+.flora-preview[data-tone="aurora"] .flora-stats { color: #2b1936; }
