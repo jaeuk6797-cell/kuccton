@@ -1,7 +1,8 @@
 // 개발용: 실제 홈(Garden) 화면을 가짜 데이터로 보기. Supabase 계정·녹음 없이 화면만 확인한다.
 //   npm run dev → /?view=home            꽃이 있는 정원 (친구 1명, 오늘 우리의 꽃까지)
 //                 /?view=home&flowers=0  꽃이 하나도 없는 정원
-//                 /?view=home&friends=3  친구 3명 (여러 친구 테스트, 최대 10명)
+//                 /?view=home&friends=3  친구 3명 (여러 친구 테스트, 최대 200명)
+//                 /?view=home&friends=100&many=50&album=1000&tab=album
 // 꽃 데이터는 실제 앱과 같은 규칙(flower.js → naming.js toFlowerRow)으로 만든다.
 import Garden from '../components/Garden.jsx'
 import { buildFlower, buildSoundFlower } from '../lib/flower.js'
@@ -42,7 +43,7 @@ function flower(who, sample, time) {
   }
 }
 
-function makeData(withFlowers, friendCount = 1) {
+function makeData(withFlowers, friendCount = 1, albumCount = 0) {
   const now = Date.now()
   const friends = [{ member_id: FRIEND.member, user_id: FRIEND.user, nickname: FRIEND.name, since: iso(now - 3 * DAY), is_public: true }]
   const members = [
@@ -50,7 +51,9 @@ function makeData(withFlowers, friendCount = 1) {
     { id: FRIEND.member, user_id: FRIEND.user, nickname: FRIEND.name, created_at: iso(now - 3 * DAY), friend: true },
   ]
   // 친구 여러 명: 민지·하늘을 더한다
-  const extra = MORE_FRIENDS.slice(0, Math.max(0, friendCount - 1))
+  const extra = Array.from({ length: Math.max(0, friendCount - 1) }, (_, i) => MORE_FRIENDS[i] || {
+    member: `m-extra-${i}`, user: `u-extra-${i}`, name: `친구 ${String(i + 2).padStart(3, '0')}`,
+  })
   for (const fr of extra) {
     friends.push({ member_id: fr.member, user_id: fr.user, nickname: fr.name, since: iso(now - 2 * DAY), is_public: fr.name === '민지' })
     members.push({ id: fr.member, user_id: fr.user, nickname: fr.name, created_at: iso(now - 2 * DAY), friend: true })
@@ -79,7 +82,7 @@ function makeData(withFlowers, friendCount = 1) {
   }
   // 그 밖의 친구들: 며칠 전에 하나씩 (최근에 주고받은 순서가 뒤로 밀린다)
   extra.slice(2).forEach((fr, i) => {
-    extraTheirs.push(flower(fr, SOUND({ rms: 0.04 + i * 0.03, centroid: 1500 + i * 700, attack: 0.2 + i * 0.2, onsets: 2 + i, sustain: 0.4, envelope: env(0.7, 1, 0.6, 0.8) }), now - (2 + i) * DAY))
+    extraTheirs.push(flower(fr, SOUND({ rms: 0.04 + (i % 4) * 0.02, centroid: 1500 + (i % 5) * 500, attack: 0.2 + (i % 3) * 0.2, onsets: 2 + (i % 5), sustain: 0.4, envelope: env(0.7, 1, 0.6, 0.8) }), now - (2 + i) * DAY))
   })
   theirs.push(...extraTheirs)
   // 내가 보낸 소리는 모든 친구에게 (오늘의 소리를 여러 명에게 보내기)
@@ -109,7 +112,7 @@ function makeData(withFlowers, friendCount = 1) {
     const sample = flower(who, SOUND({ rms: 0.04, centroid: 2200, attack: 0.4, onsets: 3, sustain: 0.3, envelope: env(0.8, 0.4, 0.7) }), now - (i - 1) * DAY)
     inbox.push({ ...sample, share_id: `share-inbox-${i}`, from_user: who.user, shared_at: sample.created_at })
   }
-  const many = Number(new URLSearchParams(location.search).get('many')) || 0
+  const many = Math.min(50, Math.max(0, Number(new URLSearchParams(location.search).get('many')) || 0))
   const pool = [FRIEND, ...extra]
   const cats = ['joy', 'excited', 'flutter', 'cozy', 'calm', 'sad', 'tense']
   for (let i = theirs.length; i < many; i++) {
@@ -119,8 +122,18 @@ function makeData(withFlowers, friendCount = 1) {
     theirs.push(fl)
   }
   const declined = flower(FRIEND, SOUND({ rms: 0.04, centroid: 2200, attack: 0.4, onsets: 3, sustain: 0.3, envelope: env(0.8, 0.4, 0.7) }), now - DAY)
+  // 정원 50개 제한을 지키면서 나머지는 앨범 보관 상태로 채운다.
+  const stored = []
+  const additional = Math.max(0, albumCount - theirs.length - inbox.length - 1)
+  for (let i = 0; i < additional; i++) {
+    const who = pool[i % pool.length]
+    const features = { rms: 0.02 + (i % 5) * 0.018, centroid: 900 + (i * 373) % 3200, attack: (i % 5) * 0.17, onsets: 1 + i % 6, sustain: (i % 4) * 0.25, envelope: env(0.6, 1, 0.7, 0.8) }
+    const item = flower(who, i % 3 ? SOUND(features) : VOICE(cats[i % cats.length], features, '오늘도 수고했어'), now - Math.floor(i / 8) * DAY - (i % 8) * 3600000)
+    stored.push({ ...item, share_id: `share-stored-${i}`, share_status: 'archived', from_user: who.user, shared_at: item.created_at })
+  }
   const { receivedFlowers, ...received } = receivedSoundCollections([
-    ...theirs.map((f, i) => ({ ...f, share_id: `share-accepted-${i}`, share_status: 'accepted', from_user: senderOf(f).user, shared_at: f.created_at })),
+    ...theirs.map((f, i) => ({ ...f, share_id: `share-accepted-${i}`, share_status: i < 50 ? 'accepted' : 'archived', from_user: senderOf(f).user, shared_at: f.created_at })),
+    ...stored,
     ...inbox.map((f) => ({ ...f, share_status: 'pending' })),
     { ...declined, share_id: 'share-declined', share_status: 'declined', from_user: FRIEND.user, shared_at: declined.created_at },
   ])
@@ -130,11 +143,13 @@ function makeData(withFlowers, friendCount = 1) {
 export default function HomeDemo() {
   const q = new URLSearchParams(location.search)
   const withFlowers = q.get('flowers') !== '0'
-  const friendCount = Math.min(1 + MORE_FRIENDS.length, Math.max(1, Number(q.get('friends')) || 1))
-  const data = makeData(withFlowers, friendCount)
+  const friendCount = Math.min(200, Math.max(1, Math.floor(Number(q.get('friends')) || 1)))
+  const albumCount = Math.min(5000, Math.max(0, Math.floor(Number(q.get('album')) || 0)))
+  const data = makeData(withFlowers, friendCount, albumCount)
   return (
     <Garden
-      key={`${withFlowers ? 'with' : 'empty'}-${friendCount}`}
+      key={`${withFlowers ? 'with' : 'empty'}-${friendCount}-${albumCount}`}
+      initialTab={q.get('tab')}
       session={{ gardenId: 'g-me', memberId: ME.member, code: '123456' }}
       email="demo@sup.app"
       onSignOut={() => {}}

@@ -49,3 +49,7 @@ export const User = (p) => (
 
 export const Play = (p) => (<svg {...base} {...p}><path d="m9 5 11 7-11 7Z" fill="currentColor" stroke="none" /></svg>)
 export const Pause = (p) => (<svg {...base} {...p}><path d="M8 5v14M16 5v14" strokeWidth="3" /></svg>)
+
+export const Pin = (p) => (<svg {...base} {...p}><path d="m9 3 6 0-1 7 4 4H6l4-4ZM12 14v7" /></svg>)
+
+export const ChevronDown = (p) => (<svg {...base} {...p}><path d="m6 9 6 6 6-6" /></svg>)

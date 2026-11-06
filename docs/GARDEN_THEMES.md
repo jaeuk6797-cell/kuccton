@@ -9,7 +9,7 @@ Balanced Warm is SUP's default personal garden appearance. Me → **정원 테�
 | `aurora` | Aurora Crystal | Modern island with Aurora atmosphere and glow |
 | `default` | Original Opal | Archived cool opal island |
 
-The integration started from `origin/main` at `05c7efd`. It reconciles the visual changes from Balanced `bbc538b`, Warm `536d2ac`, and Aurora `2af54a7`. Main remains authoritative for audio, sound analysis, authentication, profiles, sharing, notifications, mobile framing, and the four-times camera zoom limit. These unrelated systems were not replaced with older branch files.
+The integration started from `origin/main` at `05c7efd` and incorporated the newer main through `f8cfac4` before delivery, including its album period picker, totals, friend pinning and notification tutorial. It reconciles the visual changes from Balanced `bbc538b`, Warm `536d2ac`, and Aurora `2af54a7`. Main remains authoritative for audio, sound analysis, authentication, profiles, sharing, notifications, mobile framing, and the four-times camera zoom limit. These unrelated systems were not replaced with older branch files.
 
 The four sets of procedural flower, tree, Blender, reflection, and lighting values come from those source implementations. Automated tests compare their actual geometry buffers, transforms, material properties, shader modifications, and growth poses. The archived `public/models/island.glb` remains byte-for-byte intact. `island-modern.glb` is the exact modern asset from `2af54a7`; crystal flower near/far assets are also preserved.
 

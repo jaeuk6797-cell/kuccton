@@ -10,9 +10,10 @@ import PageHeading from './PageHeading.jsx'
 import Tutorial, { HelpPage } from './Tutorial.jsx'
 import PushSettings from './PushSettings.jsx'
 import SoundPlayer from './SoundPlayer.jsx'
+import AlbumPeriodPicker from './AlbumPeriodPicker.jsx'
 import { displayName } from '../lib/tree.js'
-import { ArrowLeft, Bell, Check, Heart, Help, Menu, Mic, Pencil, Sprout, User, Users, Wave } from './Icons.jsx'
-import { GARDEN_LIMIT, addFriend, archiveShares, audioUrl, currentUser, deleteFlower, deleteReceivedSound, derivePairs, insertFlower, loadGarden, respondShare, shareFlowers, subscribeGarden, today, updateProfile, uploadAudio } from '../lib/db.js'
+import { ArrowLeft, Bell, Check, Heart, Help, Menu, Mic, Pencil, Pin, Sprout, User, Users, Wave } from './Icons.jsx'
+import { FRIEND_LIMIT, GARDEN_LIMIT, addFriend, archiveShares, audioUrl, currentUser, deleteFlower, deleteReceivedSound, derivePairs, insertFlower, loadGarden, respondShare, shareFlowers, subscribeGarden, today, updateProfile, uploadAudio } from '../lib/db.js'
 import { newestReceivedFirst, receivedSoundCollections } from '../lib/receivedSounds.js'
 import { GardenThemeProvider, useGardenTheme } from '../lib/gardenTheme.jsx'
 import { GARDEN_THEMES } from '../lib/gardenThemeStorage.js'
@@ -30,7 +31,7 @@ export default function Garden(props) {
   return <GardenThemeProvider userId={props.userId} demo={Boolean(props.demo)}><GardenContent {...props} /></GardenThemeProvider>
 }
 
-function GardenContent({ session, onSignOut, email, demo }) {
+function GardenContent({ session, onSignOut, email, demo, initialTab = 'garden' }) {
   const { tone } = useGardenTheme()
   const [themeStatus, setThemeStatus] = useState(null)
   const [retryThemeKey, setRetryThemeKey] = useState(0)
@@ -43,7 +44,7 @@ function GardenContent({ session, onSignOut, email, demo }) {
   }, [diagnostics])
   const [data, setData] = useState(null)
   const [error, setError] = useState('')
-  const [tab, setTab] = useState('garden')
+  const [tab, setTab] = useState(() => demo && ['garden', 'album', 'friends', 'me', 'help'].includes(initialTab) ? initialTab : 'garden')
   const [recording, setRecording] = useState(false)
   const [openFlower, setOpenFlower] = useState(null)
   const [openPair, setOpenPair] = useState(null)
@@ -52,6 +53,31 @@ function GardenContent({ session, onSignOut, email, demo }) {
   const [tutorialOpen, setTutorialOpen] = useState(false)
   const tutorialPromptedRef = useRef(false)
   const [friendPicker, setFriendPicker] = useState(false) // '+N' 친구 고르기 창
+  const pinKey = `sup.pinned-friends.v1.${demo ? 'demo' : session.memberId}`
+  const [pinnedIds, setPinnedIds] = useState(() => {
+    try {
+      const value = JSON.parse(localStorage.getItem(pinKey))
+      return Array.isArray(value) ? [...new Set(value.filter((id) => typeof id === 'string'))].slice(0, 3) : null
+    } catch { return null }
+  })
+  useEffect(() => {
+    if (!data) return
+    if (pinnedIds === null) { setPinnedIds(data.friends.slice(0, 3).map((friend) => friend.user_id)); return }
+    const valid = pinnedIds.filter((id) => data.friends.some((friend) => friend.user_id === id))
+    if (valid.length !== pinnedIds.length) { setPinnedIds(valid); return }
+    try { localStorage.setItem(pinKey, JSON.stringify(valid)) } catch { /* 저장할 수 없어도 이번 화면에서는 유지한다. */ }
+  }, [data, pinnedIds, pinKey])
+  function togglePin(id) {
+    if (!(pinnedIds || []).includes(id) && (pinnedIds || []).length >= 3) {
+      showToast('친구는 3명까지만 상단에 고정할 수 있어요.')
+      return
+    }
+    setPinnedIds((previous) => {
+      const ids = previous || []
+      return ids.includes(id) ? ids.filter((value) => value !== id) : ids.length < 3 ? [...ids, id] : ids
+    })
+  }
+
   const menuButtonRef = useRef(null)
   const inboxBackRef = useRef(null)
   const inboxMenuRef = useRef(null)
@@ -291,7 +317,7 @@ function GardenContent({ session, onSignOut, email, demo }) {
   const flowerById = Object.fromEntries(data.flowers.map((f) => [f.id, f]))
 
   const receivedCount = data.flowers.filter((f) => f.sender_id !== meId).length
-  // 친구별 보기: 친구가 몇 명이든 같은 방식 (지금 DB는 정원당 2명이라 친구는 1명)
+  // 친구별 보기는 내 정원에 심어진 소리를 친구별로 구분한다.
   const friends = data.members.filter((m) => m.id !== meId)
   const plantedCount = (id) => data.flowers.filter((f) => f.sender_id === id).length
   const viewing = friends.some((m) => m.id === viewFriend) ? viewFriend : 'all'
@@ -302,10 +328,7 @@ function GardenContent({ session, onSignOut, email, demo }) {
     return [...got, ...gave].sort().pop() || m.created_at || ''
   }
   const byRecent = [...friends].sort((a, b) => lastTouch(b).localeCompare(lastTouch(a)))
-  const PILL_FRIENDS = 3
-  const pillFriends = byRecent.slice(0, PILL_FRIENDS)
-  const pickedFriend = friends.find((m) => m.id === viewing)
-  if (pickedFriend && !pillFriends.includes(pickedFriend)) pillFriends.push(pickedFriend)
+  const pillFriends = (pinnedIds || []).map((id) => friends.find((friend) => friend.user_id === id)).filter(Boolean)
   const moreCount = friends.length - pillFriends.length
   // 내 정원에는 친구에게 받은 소리만 핀다 (내가 보낸 소리는 친구 정원에, 둘이 만나면 가운데 우리의 꽃)
   const gardenFlowers = data.flowers.filter((f) => f.sender_id !== meId)
@@ -355,8 +378,8 @@ function GardenContent({ session, onSignOut, email, demo }) {
                     {m.nickname} <b>{plantedCount(m.id)}</b>
                   </button>
                 ))}
-                {moreCount > 0 && (
-                  <button className="more-pill" onClick={() => setFriendPicker(true)} aria-label={`친구 ${moreCount}명 더 보기`}>＋{moreCount}</button>
+                {friends.length > 0 && (
+                  <button className={`more-pill${viewing !== 'all' && !pillFriends.some((friend) => friend.id === viewing) ? ' on' : ''}`} onClick={() => setFriendPicker(true)} aria-label="친구 선택 및 고정">{moreCount > 0 ? `＋${moreCount}` : <Pin width={16} height={16} aria-hidden="true" />}</button>
                 )}
               </div>
             )}
@@ -381,7 +404,7 @@ function GardenContent({ session, onSignOut, email, demo }) {
 
       {tab === 'album' && <Album data={data} meId={meId} onOpen={setOpenFlower} onOpenPair={setOpenPair} flowerById={flowerById} />}
       {tab === 'friends' && <Friends data={data} onOpen={setOpenFlower} onVisit={setVisiting} onGoMe={() => setTab('me')} />}
-      {tab === 'me' && <Me demo={Boolean(demo)} me={me} email={email} onSignOut={onSignOut} code={data.garden.code} onAdded={refresh} onSaveProfile={saveProfile} themeStatus={themeStatus} onRetryTheme={() => setRetryThemeKey(value => value + 1)} />}
+      {tab === 'me' && <Me friendCount={data.friends.length} demo={Boolean(demo)} me={me} email={email} onSignOut={onSignOut} code={data.garden.code} onAdded={refresh} onSaveProfile={saveProfile} themeStatus={themeStatus} onRetryTheme={() => setRetryThemeKey(value => value + 1)} />}
       {tab === 'help' && <HelpPage onTutorial={() => setTutorialOpen(true)} />}
 
       {/* 오른쪽 위 메뉴 (아래 탭바 대신). 어느 화면에서나 같은 자리에 있다 */}
@@ -428,7 +451,7 @@ function GardenContent({ session, onSignOut, email, demo }) {
         </>
       )}
 
-      {tutorialOpen && <Tutorial onDone={finishTutorial} />}
+      {tutorialOpen && <Tutorial demo={Boolean(demo)} onDone={finishTutorial} />}
       {toast && <div key={toastKey} className="toast" role="status" aria-live="polite">{toast}</div>}
       {recording && <Recorder onClose={() => setRecording(false)} onSend={handleSend} friends={data.friends} />}
       {openFlower && (
@@ -475,6 +498,8 @@ function GardenContent({ session, onSignOut, email, demo }) {
           friends={byRecent}
           counts={Object.fromEntries(friends.map((m) => [m.id, plantedCount(m.id)]))}
           viewing={viewing}
+          pinnedIds={pinnedIds || []}
+          onTogglePin={togglePin}
           onPick={(id) => { setViewFriend(id); setFriendPicker(false) }}
           onClose={() => setFriendPicker(false)}
         />
@@ -487,8 +512,28 @@ function GardenContent({ session, onSignOut, email, demo }) {
 // 메뉴 안에서 목록과 재생기를 함께 보여 준다.
 function InboxList({ items, nameOf, onAnswer, busy }) {
   const [playingId, setPlayingId] = useState(null)
+  const bodyRef = useRef(null)
+  useLayoutEffect(() => {
+    const body = bodyRef.current
+    if (!body || !items.length) return
+    const rows = [...body.querySelectorAll('.menu-inbox-list > li')].slice(0, 3)
+    const measure = () => {
+      const style = getComputedStyle(body)
+      const gap = parseFloat(getComputedStyle(body.querySelector('.menu-inbox-list')).gap) || 0
+      const total = rows.reduce((sum, row) => {
+        const player = row.querySelector('[id^="inbox-audio-"]')
+        return sum + row.getBoundingClientRect().height - (player?.getBoundingClientRect().height || 0)
+      }, 0)
+      const cap = total / rows.length * 3 + gap * 2 + parseFloat(style.paddingTop) + parseFloat(style.paddingBottom)
+      body.style.setProperty('--inbox-list-max-height', `${Math.ceil(cap)}px`)
+    }
+    measure()
+    const observer = new ResizeObserver(measure)
+    rows.forEach((row) => observer.observe(row))
+    return () => observer.disconnect()
+  }, [items])
   return (
-    <div className={`menu-inbox-body${items.length === 0 ? ' is-empty' : ''}`}>
+    <div ref={bodyRef} className={`menu-inbox-body${items.length === 0 ? ' is-empty' : ''}`}>
       {items.length === 0 ? (
         <div className="inbox-empty"><Bell /><p>새로 도착한 소리가 없어요.</p></div>
       ) : (
@@ -528,10 +573,8 @@ function InboxAudio({ flower }) {
       : <p className="small muted" role="status">소리를 불러오는 중…</p>
 }
 
-// '+N': 친구가 많을 때 이름으로 찾아서 그 친구 꽃만 또렷하게 보기
-function FriendPicker({ friends, counts, viewing, onPick, onClose }) {
-  const [q, setQ] = useState('')
-  const shown = friends.filter((m) => m.nickname.toLowerCase().includes(q.trim().toLowerCase()))
+// 전체 목록에서 정원에 표시할 친구와 상단에 고정할 친구를 고른다.
+function FriendPicker({ friends, counts, viewing, pinnedIds, onTogglePin, onPick, onClose }) {
   return (
     <div className="sheet-backdrop" onClick={onClose}>
       <div className="sheet friend-picker" onClick={(e) => e.stopPropagation()}>
@@ -542,18 +585,23 @@ function FriendPicker({ friends, counts, viewing, onPick, onClose }) {
           <span>모든 꽃 보기</span>
           {viewing === 'all' && <Check className="picker-all-check" width={18} height={18} aria-hidden="true" />}
         </button>
-        <input className="picker-search" value={q} onChange={(e) => setQ(e.target.value)} placeholder="친구 이름 찾기" autoFocus />
         <ul className="list">
-          {shown.map((m) => (
-            <li key={m.id}>
-              <button className={viewing === m.id ? 'on' : ''} onClick={() => onPick(m.id)}>
-                <span className="av partner">{[...m.nickname][0]}</span>
-                <div className="picker-friend-name"><b>{m.nickname}</b><small>정원에 심은 소리</small></div>
-                <span className="picker-friend-count">{counts[m.id] || 0}<small>개</small></span>
-              </button>
-            </li>
-          ))}
-          {shown.length === 0 && <li className="muted small">‘{q}’ 친구가 없어요</li>}
+          {friends.map((m) => {
+            const pinned = pinnedIds.includes(m.user_id)
+            return (
+              <li key={m.id} className={`picker-friend-row${viewing === m.id ? ' on' : ''}`}>
+                <button className={`picker-friend${viewing === m.id ? ' on' : ''}`} onClick={() => onPick(m.id)}>
+                  <span className="av partner">{[...m.nickname][0]}</span>
+                  <div className="picker-friend-name"><b>{m.nickname}</b><small>정원에 심은 소리</small></div>
+                  <span className="picker-friend-count">{counts[m.id] || 0}<small>개</small></span>
+                </button>
+                <button className="friend-pin" aria-label={`${m.nickname} 상단 고정${pinned ? ' 해제' : ''}`} aria-pressed={pinned}
+                  onClick={() => onTogglePin(m.user_id)}>
+                  <Pin aria-hidden="true" />
+                </button>
+              </li>
+            )
+          })}
         </ul>
       </div>
     </div>
@@ -573,9 +621,25 @@ function Album({ data, meId, onOpen, onOpenPair, flowerById }) {
     return Object.values(byDate).sort((a, b) => b.date.localeCompare(a.date))
   }, [data, meId])
 
+  const years = [...new Set(rows.map((row) => row.date.slice(0, 4)))].sort().reverse()
+  const [year, setYear] = useState(() => rows[0]?.date.slice(0, 4) || 'all')
+  const [month, setMonth] = useState(() => rows[0]?.date.slice(5, 7) || 'all')
+  const selectedYear = year === 'all' || years.includes(year) ? year : years[0] || 'all'
+  const months = [...new Set(rows.filter((row) => row.date.startsWith(selectedYear + '-')).map((row) => row.date.slice(5, 7)))].sort().reverse()
+  const selectedMonth = selectedYear === 'all' ? 'all' : month === 'all' || months.includes(month) ? month : months[0] || 'all'
+  const filtered = rows.filter((row) => (selectedYear === 'all' || row.date.startsWith(selectedYear + '-'))
+    && (selectedMonth === 'all' || row.date.slice(5, 7) === selectedMonth))
+  const dayCount = (row) => row.list.length + row.pairs.filter((pair) => flowerById[pair.flower_a_id] && flowerById[pair.flower_b_id]).length
+  const periodTotal = filtered.reduce((sum, row) => sum + dayCount(row), 0)
+  const scrollRef = useRef(null)
+  useLayoutEffect(() => { if (scrollRef.current) scrollRef.current.scrollTop = 0 }, [selectedYear, selectedMonth])
+
   const renderDay = (r) => (
     <div key={r.date} className="album-day">
-      <div className="album-date">{formatDate(r.date)}</div>
+      <div className="album-date-line">
+        <time className="album-date" dateTime={r.date}>{formatDate(r.date)}</time>
+        <small>{dayCount(r)}</small>
+      </div>
       <div className="album-flowers">
         {r.pairs.filter((p) => flowerById[p.flower_a_id] && flowerById[p.flower_b_id]).map((p) => (
           <button key={p.id} className="album-item pair" onClick={() => onOpenPair(p)}>
@@ -598,11 +662,20 @@ function Album({ data, meId, onOpen, onOpenPair, flowerById }) {
     <div className="page fixed-heading-page">
       {/* 받은 소리를 날짜별로 (오늘 · 어제 · 11월 5일 …). 주 단위로 나누지 않는다 */}
       <PageHeading>앨범</PageHeading>
-      <div className="page-scroll" aria-label="앨범 목록">
+      {rows.length > 0 && <div className="album-period" role="group" aria-label="앨범 기간 선택">
+        <AlbumPeriodPicker label="앨범 연도" value={selectedYear}
+          options={[{ value: 'all', label: '전체 연도' }, ...years.map((value) => ({ value, label: `${value}년` }))]}
+          onChange={(value) => { setYear(value); setMonth('all') }} />
+        <AlbumPeriodPicker label="앨범 월" value={selectedMonth} disabled={selectedYear === 'all'}
+          options={[{ value: 'all', label: '전체 월' }, ...months.map((value) => ({ value, label: `${Number(value)}월` }))]}
+          onChange={setMonth} />
+        <small className="album-period-total" aria-live="polite">총 꽃나무는 {periodTotal.toLocaleString('ko-KR')}개예요</small>
+      </div>}
+      <div ref={scrollRef} className="page-scroll" aria-label="앨범 목록">
       {rows.length === 0 && (
         <p className="album-empty">아직 받은 소리가 없어요</p>
       )}
-      {rows.map(renderDay)}
+      {filtered.map(renderDay)}
       </div>
     </div>
   )
@@ -781,7 +854,7 @@ function Profile({ me, email, onSave }) {
 }
 
 // 내 코드(누르면 복사) + 친구 코드로 친구 맺기
-function FriendCode({ code: myCode, onAdded }) {
+function FriendCode({ friendCount, code: myCode, onAdded }) {
   const [copied, setCopied] = useState(false)
   const [code, setCode] = useState('')
   const [busy, setBusy] = useState(false)
@@ -797,7 +870,9 @@ function FriendCode({ code: myCode, onAdded }) {
     setCopied(true); setTimeout(() => setCopied(false), 1800)
   }
 
+  const full = friendCount >= FRIEND_LIMIT
   async function add() {
+    if (full) { setError(`친구는 최대 ${FRIEND_LIMIT}명까지 맺을 수 있어요.`); return }
     setBusy(true); setError(''); setNotice('')
     try {
       const r = await addFriend(code)
@@ -817,25 +892,27 @@ function FriendCode({ code: myCode, onAdded }) {
         <small className={`code-copy-hint ${copied ? 'copied' : 'muted'}`}>{copied ? '복사했어요' : '눌러서 복사'}</small>
       </button>
       <hr />
-      <form className="add-friend" onSubmit={(e) => { e.preventDefault(); if (code.length === 6 && !busy) add() }}>
+      <form className="add-friend" onSubmit={(e) => { e.preventDefault(); if (code.length === 6 && !busy && !full) add() }}>
         <input
           value={code}
           inputMode="numeric"
           maxLength={6}
           onChange={(e) => { setCode(e.target.value.replace(/\D/g, '')); setError(''); setNotice('') }}
           placeholder="친구 코드 6자리"
+          disabled={full}
           aria-label="친구 코드"
           className="code-input"
         />
-        <button className="primary" type="submit" disabled={busy || code.length !== 6}>{busy ? '맺는 중…' : '친구 맺기'}</button>
+        <button className="primary" type="submit" disabled={full || busy || code.length !== 6}>{busy ? '맺는 중…' : '친구 맺기'}</button>
       </form>
+      {full && <p className="small muted">친구는 최대 {FRIEND_LIMIT}명까지 맺을 수 있어요.</p>}
       {notice && <p className="small notice">{notice}</p>}
       {error && <p className="error">{error}</p>}
     </div>
   )
 }
 
-function Me({ demo, me, email, onSignOut, code, onAdded, onSaveProfile, themeStatus, onRetryTheme }) {
+function Me({ friendCount, demo, me, email, onSignOut, code, onAdded, onSaveProfile, themeStatus, onRetryTheme }) {
   return (
     <div className="page me-page">
       <PageHeading>나</PageHeading>
@@ -843,7 +920,7 @@ function Me({ demo, me, email, onSignOut, code, onAdded, onSaveProfile, themeSta
       <div className="me-content">
       <Profile me={me} email={email} onSave={onSaveProfile} />
       <GardenThemeSelector themeStatus={themeStatus} onRetry={onRetryTheme} />
-      <FriendCode code={code} onAdded={onAdded} />
+      <FriendCode friendCount={friendCount} code={code} onAdded={onAdded} />
       <PushSettings demo={demo} />
       <button className="link logout" onClick={onSignOut}>로그아웃</button>
       </div>

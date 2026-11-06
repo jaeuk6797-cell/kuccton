@@ -22,7 +22,7 @@ const changes = baseline.cases.map(({ tone, source, integration, delta }) => `| 
 const checks = [...browser.checks, ...production.checks.map(check => check.name), ...retry.checks].map(check => `- Passed: ${check}`).join('\n')
 const markdown = `# SUP garden theme integration — verification
 
-Branch: \`codex/garden-theme-selector\`. Base: latest fetched \`origin/main\`, \`05c7efd\`. Main was not merged or pushed by this work. Historical visual branches and their artifacts were not overwritten.
+Branch: \`codex/garden-theme-selector\`. Started from \`origin/main\` at \`05c7efd\`, then incorporated its newer album/friend/tutorial changes through \`f8cfac4\`. No changes were merged into or pushed to main. Historical visual branches and their artifacts were not overwritten.
 
 Balanced Warm is the default. All four themes are available from Me → **정원 테마**, with an explicit selected state and personal account-scoped storage. The new shared grass requirement from the authorized island conversation is included from \`e24cc39\` (resized geometry based on \`6da2b6f\`). Warm/Original retain their archived island geometry; their added grass is the explicitly approved exception to the older appearance.
 
