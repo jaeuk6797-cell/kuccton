@@ -8,6 +8,14 @@ import { OutputPass } from 'three/examples/jsm/postprocessing/OutputPass.js'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
 import { buildFlower3D, disposeFlower3D } from '../lib/flower3d.js'
+import { buildBlenderFlower, useBlenderFlowerAssets } from '../lib/blenderFlower.js'
+import { applyWarmIslandMaterial, applyWarmIslandPaint, applyAuroraIslandMaterial, applyAuroraIslandPaint } from '../lib/islandTone.js'
+import { createAuroraAtmosphere } from '../lib/auroraAtmosphere.js'
+import { AuroraGlowPass } from '../lib/AuroraGlowPass.js'
+import { createAuroraSparkleMaterial } from '../lib/auroraSparkles.js'
+import { applyAuroraGroundGrain } from '../lib/auroraGround.js'
+import { createPreviewGpuTiming } from '../lib/previewGpuTiming.js'
+import { createIslandGrass } from '../lib/islandGrass.js'
 import { buildTree3D } from '../lib/tree3d.js'
 import { createGardenEnvironment } from '../lib/gardenEnvironment.js'
 import { isTree } from '../lib/tree.js'
@@ -16,6 +24,8 @@ import { playbackLevel } from '../lib/audio.js'
 // 블렌더 섬 모델: public/models/island.glb 를 올리면 코드로 만든 섬 대신 자동으로 쓴다.
 // 약속: 원점 = 섬 윗면 중앙, Y-up, Draco 압축 가능. 크기는 지름이 ISLAND_RADIUS*2가 되도록 자동 맞춤.
 const ISLAND_GLB = `${import.meta.env.BASE_URL}models/island.glb`
+const MODERN_ISLAND_GLB = `${import.meta.env.BASE_URL}models/island-modern.glb`
+const normalizeTone = tone => ['balanced', 'warm', 'aurora', 'default'].includes(tone) ? tone : 'balanced'
 const ISLAND_RADIUS = 4
 const ISLAND_TOP_Y = 0.17
 
@@ -64,11 +74,14 @@ function disposeMeshes(root) {
   for (const resource of resources) resource.dispose()
 }
 
-function applyOpalReflection(material) {
+function applyOpalReflection(material, tone) {
   if (material.name !== 'SUP Opalescent ground' || material.userData.opalReflection) return
   material.userData.opalReflection = true
   // Native thin-film shading added measured cost without a visible gain over this angular scatter.
   material.iridescence = 0
+  const warm = tone !== 'default'
+  const aurora = tone === 'aurora'
+  const balanced = tone === 'balanced'
   const previousCompile = material.onBeforeCompile
   material.onBeforeCompile = function (shader, renderer) {
     previousCompile.call(this, shader, renderer)
@@ -85,11 +98,11 @@ function applyOpalReflection(material) {
         1.0 - opalReflection.z,
         1.0 + 0.8660254 * opalReflection.x + 0.5 * opalReflection.z,
         1.0 - 0.8660254 * opalReflection.x + 0.5 * opalReflection.z) / 3.0;
-      vec3 opalTint = opalWeights.x * vec3(0.72, 1.12, 1.14)
-        + opalWeights.y * vec3(1.18, 0.78, 1.03)
-        + opalWeights.z * vec3(1.14, 0.76, 1.18);
+      vec3 opalTint = opalWeights.x * vec3(${aurora ? '1.14, 0.88, 1.20' : balanced ? '0.96, 1.12, 1.02' : warm ? '1.02, 1.03, 1.10' : '0.72, 1.12, 1.14'})
+        + opalWeights.y * vec3(${aurora ? '1.40, 0.72, 1.10' : balanced ? '1.14, 1.03, 0.88' : warm ? '1.26, 0.78, 0.96' : '1.18, 0.78, 1.03'})
+        + opalWeights.z * vec3(${aurora ? '0.78, 1.14, 1.28' : balanced ? '1.04, 0.99, 1.13' : warm ? '1.02, 0.86, 1.24' : '1.14, 0.76, 1.18'});
       // A quiet pearl body persists while reflected color strengthens toward grazing views.
-      reflectedLight.indirectDiffuse *= mix(vec3(0.92, 1.02, 1.04), opalTint,
+      reflectedLight.indirectDiffuse *= mix(vec3(${aurora ? '0.92, 1.04, 1.11' : warm ? '1.06, 1.0, 0.97' : '0.92, 1.02, 1.04'}), opalTint,
         0.55 + 0.20 * opalGrazing);
       reflectedLight.indirectSpecular *= mix(vec3(1.0), opalTint, 0.70 + 0.25 * opalGrazing);
       // Upper viewing directions retain a polished response without brightening diffuse light.
@@ -100,10 +113,11 @@ function applyOpalReflection(material) {
       float opalUpperLobe2 = opalUpperLobe * opalUpperLobe;
       float opalUpperLobe4 = opalUpperLobe2 * opalUpperLobe2;
       float opalUpperHighlight = opalUpperLobe4 * opalUpperLobe4 * opalUpperLobe4;
-      reflectedLight.indirectSpecular *= 1.0 + 31.0 * opalUpperView * opalUpperHighlight;
+      reflectedLight.indirectSpecular *= 1.0 + ${aurora ? '1.2' : '31.0'} * opalUpperView * opalUpperHighlight;
     `)
+    if (aurora) applyAuroraGroundGrain(shader)
   }
-  material.customProgramCacheKey = () => 'soop-opal-reflection-v3'
+  material.customProgramCacheKey = () => `sup-opal-reflection-v3-${tone}${aurora ? '-mineral-grains-v1' : ''}`
   material.needsUpdate = true
 }
 
@@ -122,21 +136,21 @@ function jitter(geo, amount, rand, keep = () => false) {
 }
 
 
-function buildIsland() {
+function buildIsland(tone) {
   const rand = rng(20261106)
   const root = new THREE.Group()
 
-  const grass = new THREE.Mesh(jitter(new THREE.CylinderGeometry(4, 3.9, 0.35, 30, 1), 0.25, rand, (x, y) => y > 0 && Math.hypot(x) < 0), mat('#86b85c'))
+  const grass = new THREE.Mesh(jitter(new THREE.CylinderGeometry(4, 3.9, 0.35, 30, 1), 0.25, rand, (x, y) => y > 0 && Math.hypot(x) < 0), mat(tone === 'aurora' ? '#4b5a83' : tone === 'default' ? '#86b85c' : '#dfccc5'))
   grass.receiveShadow = true
   root.add(grass)
 
-  const dirt = new THREE.Mesh(jitter(new THREE.CylinderGeometry(3.95, 3.6, 0.5, 30, 1), 0.2, rand), mat('#6e4b33'))
+  const dirt = new THREE.Mesh(jitter(new THREE.CylinderGeometry(3.95, 3.6, 0.5, 30, 1), 0.2, rand), mat(tone === 'aurora' ? '#253849' : tone === 'default' ? '#6e4b33' : '#8f6d68'))
   dirt.position.y = -0.4
   root.add(dirt)
 
   const rockGeo = new THREE.ConeGeometry(3.6, 3.4, 16, 5)
   rockGeo.rotateX(Math.PI)
-  const rock = new THREE.Mesh(jitter(rockGeo, 0.7, rand, (x, y) => y > 1.6), mat('#857565'))
+  const rock = new THREE.Mesh(jitter(rockGeo, 0.7, rand, (x, y) => y > 1.6), mat(tone === 'aurora' ? '#365b7f' : tone === 'default' ? '#857565' : '#9c7e82'))
   rock.position.y = -2.35
   root.add(rock)
 
@@ -148,7 +162,7 @@ function buildIsland() {
     s.castShadow = true
     root.add(s)
   }
-  const tuftMat = mat('#9ccc6a')
+  const tuftMat = mat(tone === 'aurora' ? '#46949e' : tone === 'default' || tone === 'balanced' ? '#9ccc6a' : '#cfb3c0')
   for (let i = 0; i < 90; i++) {
     const a = rand() * Math.PI * 2, r = Math.sqrt(rand()) * 3.8
     const t = new THREE.Mesh(new THREE.ConeGeometry(0.04, 0.18 + rand() * 0.12, 3), tuftMat)
@@ -160,14 +174,15 @@ function buildIsland() {
   return root
 }
 
-function loadIslandGlb(target) {
+function loadIslandGlb(target, tone, onReady, onError) {
   let disposed = false
+  target.userData.assetStatus = 'loading'
   const draco = new DRACOLoader()
   draco.setDecoderPath(`${import.meta.env.BASE_URL}draco/`)
   const loader = new GLTFLoader()
   loader.setDRACOLoader(draco)
   loader.load(
-    ISLAND_GLB,
+    tone === 'aurora' || tone === 'balanced' ? MODERN_ISLAND_GLB : ISLAND_GLB,
     (gltf) => {
       const model = gltf.scene
       if (disposed) {
@@ -177,22 +192,38 @@ function loadIslandGlb(target) {
       const size = new THREE.Box3().setFromObject(model).getSize(new THREE.Vector3())
       model.scale.setScalar((ISLAND_RADIUS * 2) / Math.max(size.x, size.z, 0.001))
       model.position.y = ISLAND_TOP_Y
+      let assetTriangles = 0
       model.traverse((o) => {
         if (!o.isMesh) return
+        assetTriangles += (o.geometry.index?.count ?? o.geometry.attributes.position.count) / 3
         const materials = Array.isArray(o.material) ? o.material : [o.material]
-        for (const material of materials) applyOpalReflection(material)
+        for (const material of materials) {
+          if (tone === 'aurora') applyAuroraIslandMaterial(material)
+          else if (tone !== 'default') applyWarmIslandMaterial(material)
+          applyOpalReflection(material, tone)
+        }
+        if (tone === 'aurora') applyAuroraIslandPaint(o)
+        else if (tone !== 'default') applyWarmIslandPaint(o)
         const transparent = materials.some((material) => material.transparent)
         // Alpha crystals keep their transmitted appearance; only solid perimeter details cast shadows.
         o.castShadow = !transparent && /Island_(Ornamental_Ring|Vegetation)/.test(o.name)
         o.receiveShadow = !transparent && /Island_(Surface|Pond|Accents|Vegetation)/.test(o.name)
       })
-      disposeMeshes(target)
-      target.clear()
       target.add(model)
+      target.userData.assetTriangles = assetTriangles
+      target.updateWorldMatrix(true, true)
+      target.userData.assetStatus = 'loaded'
+      onReady?.(model)
       draco.dispose()
     },
     undefined,
-    () => draco.dispose(), // 모델이 없거나 읽을 수 없으면 코드로 만든 섬을 그대로 둔다
+    () => {
+      if (!disposed) {
+        target.userData.assetStatus = 'fallback'
+        onError?.()
+      }
+      draco.dispose()
+    }, // 모델이 없거나 읽을 수 없으면 코드로 만든 섬을 그대로 둔다
   )
   return () => {
     disposed = true
@@ -265,88 +296,102 @@ function placeFlowers(items) {
 //             친구를 바꿔 봐도 꽃 자리가 움직이지 않는다. 없으면 모두 보인다.
 // 친구별 보기: 고른 친구의 꽃만 또렷하게, 나머지는 색을 빼고 반투명하게
 const DIM_GREY = new THREE.Color('#c9c4d6')
-function dimObject(obj) {
+function dimObject(obj, tone) {
   const materials = new Set()
   obj.traverse((o) => {
     if (!o.isMesh) return
-    materials.add(o.material)
+    for (const material of Array.isArray(o.material) ? o.material : [o.material]) materials.add(material)
     o.castShadow = false
   })
   // Each plant owns its materials. All petals or facets on that plant can stay on the same material.
   for (const material of materials) {
     material.transparent = true
     material.opacity = 0.22
-    material.color.lerp(DIM_GREY, 0.55)
+    material.color.lerp(tone === 'default' ? DIM_GREY : new THREE.Color('#cdbbc1'), 0.55)
   }
 }
 
-export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, visibleIds, onPickFlower, onPickPair, resetViewKey }) {
+// Preview diagnostics use a fixed window; normal gardens allocate no timing samples.
+function timingSamples() {
+  return { values: new Float64Array(180), cursor: 0, count: 0 }
+}
+function recordTiming(samples, value) {
+  samples.values[samples.cursor] = value
+  samples.cursor = (samples.cursor + 1) % samples.values.length
+  samples.count = Math.min(samples.count + 1, samples.values.length)
+}
+function timingSummary(samples) {
+  if (!samples.count) return { samples: 0, meanMs: 0, p95Ms: 0 }
+  const sorted = samples.values.slice(0, samples.count).sort()
+  const mean = sorted.reduce((sum, value) => sum + value, 0) / sorted.length
+  return {
+    samples: samples.count,
+    meanMs: Number(mean.toFixed(2)),
+    p95Ms: Number(sorted[Math.ceil(sorted.length * 0.95) - 1].toFixed(2)),
+  }
+}
+
+export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, visibleIds, onPickFlower, onPickPair, resetViewKey, isBlenderFlower, onPreviewStats, previewApi, onThemeStatus, retryThemeKey, tone = 'balanced', previewAngle = 'front', previewTime, active = true }) {
   const wrapRef = useRef(null)
   const stateRef = useRef(null)
-  const cbRef = useRef({})
-  cbRef.current = { onPickFlower, onPickPair }
+  const propsRef = useRef(null)
+  propsRef.current = { onPickFlower, onPickPair, onPreviewStats, onThemeStatus, previewTime, active }
+  const assets = useBlenderFlowerAssets(Boolean(isBlenderFlower))
 
-  // 장면은 한 번만 만든다
+  // The renderer, clock, camera and controls survive every theme change.
   useEffect(() => {
     const wrap = wrapRef.current
+    const diagnostics = Boolean(onPreviewStats || previewApi)
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true })
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5)) // 빛 번짐 후처리 비용 때문에 1.5로 제한
-    // OutputPass applies this display transform once, after the linear scene render.
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5))
     renderer.outputColorSpace = THREE.SRGBColorSpace
     renderer.toneMapping = THREE.NeutralToneMapping
     renderer.toneMappingExposure = 1
     renderer.shadowMap.enabled = true
     renderer.shadowMap.type = THREE.PCFShadowMap
+    renderer.info.autoReset = !diagnostics
     wrap.appendChild(renderer.domElement)
-
     const scene = new THREE.Scene()
-    const environment = createGardenEnvironment(renderer)
-    scene.environment = environment.texture
-    scene.environmentIntensity = 0.55
-    const camera = new THREE.PerspectiveCamera(34, 1, 0.1, 100)
+    const camera = new THREE.PerspectiveCamera(CAMERA.fov, 1, 0.1, 100)
     camera.position.set(...CAMERA.position)
-
-    scene.add(new THREE.HemisphereLight('#ccd9f3', '#6c7d88', 0.38))
-    const sun = new THREE.DirectionalLight('#fff1e8', 1.5)
+    const hemisphere = new THREE.HemisphereLight()
+    const sun = new THREE.DirectionalLight('#fff1dc', 1.5)
     sun.position.set(5, 8, 5)
     sun.castShadow = true
     sun.shadow.mapSize.set(1024, 1024)
     Object.assign(sun.shadow.camera, { left: -5, right: 5, top: 5, bottom: -5, near: 0.5, far: 25 })
-    sun.shadow.intensity = 0.55
     sun.shadow.radius = 3
     sun.shadow.normalBias = 0.025
     sun.shadow.bias = -0.0001
-    scene.add(sun)
-    const fill = new THREE.DirectionalLight('#a8dce4', 0.65)
+    const fill = new THREE.DirectionalLight()
     fill.position.set(-4, -1, 3)
-    scene.add(fill)
+    const rim = new THREE.DirectionalLight('#99e0eb', 0.7)
+    rim.position.set(-3, 4, -6)
+    scene.add(hemisphere, sun, fill, rim)
 
     const composer = new EffectComposer(renderer)
     composer.addPass(new RenderPass(scene, camera))
-    // 빛 번짐(bloom) 없이 그린다
     composer.addPass(new OutputPass())
-
+    let glow = null, environment = null, atmosphere = null
     const floating = new THREE.Group()
     const islandGroup = new THREE.Group()
-    islandGroup.add(buildIsland())
-    floating.add(islandGroup)
-    const stopIslandLoad = loadIslandGlb(islandGroup)
+    islandGroup.add(buildIsland(normalizeTone(tone)))
     const flowerLayer = new THREE.Group()
-    flowerLayer.position.y = 0.17
-    floating.add(flowerLayer)
+    flowerLayer.position.y = ISLAND_TOP_Y
+    floating.add(islandGroup, flowerLayer)
     scene.add(floating)
-
-    // 떠다니는 빛 알갱이
-    const N = 140
-    const pts = new Float32Array(N * 3)
-    const r0 = rng(7)
+    // Grass anchors depend on the island variant (the archive retains its hoop).
+    // Keep at most one controller per variant and change its palette in place.
+    const grassCache = new Map()
+    const grassBufferIds = new WeakMap()
+    let nextGrassBufferId = 1
+    const N = 140, pts = new Float32Array(N * 3), r0 = rng(7)
     for (let i = 0; i < N; i++) pts.set([(r0() - 0.5) * 12, r0() * 7 - 1, (r0() - 0.5) * 10], i * 3)
     const pGeo = new THREE.BufferGeometry()
     pGeo.setAttribute('position', new THREE.BufferAttribute(pts, 3))
-    const sparkleMat = new THREE.PointsMaterial({ color: '#ffffff', size: SPARKLE.size, transparent: true, opacity: 0.8 })
-    const sparkles = new THREE.Points(pGeo, sparkleMat)
-    let level = 0 // 부드럽게 따라가는 재생 음량
+    const sparkles = new THREE.Points(pGeo, new THREE.PointsMaterial())
     scene.add(sparkles)
+    let level = 0
 
     const controls = new OrbitControls(camera, renderer.domElement)
     controls.target.set(...CAMERA.target)
@@ -355,27 +400,31 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
     controls.maxDistance = CAMERA.max
     controls.minPolarAngle = 0.55
     controls.maxPolarAngle = 1.4
-    controls.autoRotate = true
+    controls.autoRotate = !diagnostics
     controls.autoRotateSpeed = 0.35
     let resumeTimer
+    const resumeOrbit = () => {
+      if (!diagnostics) resumeTimer = setTimeout(() => (controls.autoRotate = true), 5000)
+    }
     controls.addEventListener('start', () => { controls.autoRotate = false; clearTimeout(resumeTimer) })
-    controls.addEventListener('end', () => { resumeTimer = setTimeout(() => (controls.autoRotate = true), 5000) })
-
-    // 탭으로 꽃 고르기 (드래그와 구분)
+    controls.addEventListener('end', resumeOrbit)
     const ray = new THREE.Raycaster()
     let down = null
     const el = renderer.domElement
-    const onDown = (e) => { down = { x: e.clientX, y: e.clientY } }
-    const onUp = (e) => {
+    const pick = o => {
+      if (o?.userData.dimmed) return
+      if (o?.userData.kind === 'flower') propsRef.current.onPickFlower?.(o.userData.data)
+      if (o?.userData.kind === 'pair') propsRef.current.onPickPair?.(o.userData.data)
+    }
+    const onDown = e => { down = { x: e.clientX, y: e.clientY } }
+    const onUp = e => {
       if (!down || Math.hypot(e.clientX - down.x, e.clientY - down.y) > 8) return
       const rect = el.getBoundingClientRect()
       ray.setFromCamera(new THREE.Vector2(((e.clientX - rect.left) / rect.width) * 2 - 1, -((e.clientY - rect.top) / rect.height) * 2 + 1), camera)
-      const hit = ray.intersectObjects(flowerLayer.children, true)[0]
-      let o = hit?.object
+      let o = ray.intersectObjects(flowerLayer.children, true)[0]?.object
       while (o && !o.userData.kind) o = o.parent
-      if (o?.userData.dimmed) return // 흐리게 된 꽃은 고를 수 없다
-      if (o?.userData.kind === 'flower') cbRef.current.onPickFlower?.(o.userData.data)
-      if (o?.userData.kind === 'pair') cbRef.current.onPickPair?.(o.userData.data)
+      pick(o)
+      down = null
     }
     el.addEventListener('pointerdown', onDown)
     el.addEventListener('pointerup', onUp)
@@ -384,161 +433,361 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
     const viewDir = new THREE.Vector3(...CAMERA.position).sub(target)
     const baseDist = viewDir.length()
     viewDir.normalize()
+    if (previewAngle === 'rotated') viewDir.applyAxisAngle(new THREE.Vector3(0, 1, 0), Math.PI * 0.7)
+    let viewportWidth = 0, viewportHeight = 0, homeDistance = baseDist
     const resize = () => {
       const { clientWidth: w, clientHeight: h } = wrap
       if (!w || !h) return
+      const first = !viewportWidth
+      const dimensionsChanged = w !== viewportWidth || h !== viewportHeight
+      const previousHomeDistance = homeDistance
+      viewportWidth = w
+      viewportHeight = h
       renderer.setSize(w, h)
       composer.setSize(w, h)
       camera.aspect = w / h
-      // 캔버스는 화면 전체에 그리고, 기본 시점만 제목·버튼 사이에 맞춘다.
+      // Keep main's full-screen framing and maximum 4x zoom in production.
       const home = wrap.closest('.home')
       const style = home ? getComputedStyle(home) : null
-      const top = Math.max(0, parseFloat(style?.getPropertyValue('--island-top')) || 120)
-      const bottom = Math.max(0, parseFloat(style?.getPropertyValue('--island-bottom')) || 80)
+      const top = home ? Math.max(0, parseFloat(style?.getPropertyValue('--island-top')) || 120) : 0
+      const bottom = home ? Math.max(0, parseFloat(style?.getPropertyValue('--island-bottom')) || 80) : 0
       const contentHeight = Math.max(80, h - top - bottom)
-      camera.fov = CAMERA.fov
       const halfVertical = THREE.MathUtils.degToRad(CAMERA.fov) / 2
       const contentHalfVertical = Math.atan(Math.tan(halfVertical) * contentHeight / h)
       const halfHorizontal = Math.atan(Math.tan(halfVertical) * camera.aspect)
-      const dist = Math.max(baseDist, FIT_RADIUS / Math.sin(Math.min(contentHalfVertical, halfHorizontal)))
+      homeDistance = Math.max(baseDist, FIT_RADIUS / Math.sin(Math.min(contentHalfVertical, halfHorizontal)))
       camera.setViewOffset(w, h, 0, (bottom - top) / 2, w, h)
-      // 처음에는 전체를 보여 주고, 필요하면 기본 화면의 최대 4배까지 확대할 수 있다.
-      controls.minDistance = dist * 0.25
-      controls.maxDistance = Math.max(CAMERA.max, dist + 3)
-      controls.target.copy(target)
-      camera.position.copy(target).addScaledVector(viewDir, dist)
+      controls.minDistance = homeDistance * 0.25
+      controls.maxDistance = Math.max(CAMERA.max, homeDistance + (diagnostics ? 15 : 3))
       camera.updateProjectionMatrix()
-      controls.update()
-      controls.saveState()
+      if (first) {
+        controls.target.copy(target)
+        camera.position.copy(target).addScaledVector(viewDir, homeDistance)
+        controls.update()
+        controls.saveState()
+      } else if (dimensionsChanged) {
+        // Preserve the user's orbit and relative zoom when the phone rotates.
+        camera.position.sub(controls.target).multiplyScalar(homeDistance / previousHomeDistance).add(controls.target)
+        controls.update()
+      }
     }
     const ro = new ResizeObserver(resize)
     ro.observe(wrap)
-    wrap.closest('.home')?.querySelectorAll('.home-title, .home-sheet').forEach((el) => ro.observe(el))
+    wrap.closest('.home')?.querySelectorAll('.home-title, .home-sheet').forEach(node => ro.observe(node))
     resize()
-
     const clock = new THREE.Clock()
-    let raf
-    const loop = () => {
-      const t = clock.getElapsedTime()
+    const timings = diagnostics ? { frame: timingSamples(), renderCPU: timingSamples(), lastFrame: null } : null
+    let gpuTiming = diagnostics ? createPreviewGpuTiming(renderer) : null
+    let frozenTime, disposed = false, cancelLoad = () => {}, generation = 0
+    const st = {
+      flowerLayer, islandGroup, clock, camera, controls, viewDir, known: new Set(), first: true,
+      tone: normalizeTone(tone), requestedTone: null, themeStatus: null, themeSwitches: 0,
+      resetView: () => {
+        clearTimeout(resumeTimer)
+        controls.autoRotate = false
+        controls.target.copy(target)
+        camera.position.copy(target).addScaledVector(viewDir, homeDistance)
+        controls.update()
+        resumeOrbit()
+      },
+    }
+    function applyLighting(nextTone) {
+      const aurora = nextTone === 'aurora', warm = nextTone !== 'default', balanced = nextTone === 'balanced'
+      const nextEnvironment = createGardenEnvironment(renderer, 256, nextTone)
+      scene.environment = nextEnvironment.texture
+      scene.environmentIntensity = aurora ? 0.52 : 0.55
+      environment?.dispose()
+      environment = nextEnvironment
+      hemisphere.color.set(aurora ? '#ead9ef' : balanced ? '#f5edda' : warm ? '#f6dfd8' : '#ccd9f3')
+      hemisphere.groundColor.set(aurora ? '#789bac' : balanced ? '#89917b' : warm ? '#94747f' : '#6c7d88')
+      hemisphere.intensity = aurora ? 0.72 : warm ? 0.46 : 0.38
+      sun.color.set(aurora ? '#ffe5d6' : warm ? '#fff1dc' : '#fff1e8')
+      sun.shadow.intensity = aurora ? 0.48 : 0.55
+      fill.color.set(aurora ? '#f19bc5' : balanced ? '#d8e2c6' : warm ? '#dcb8d3' : '#a8dce4')
+      fill.intensity = aurora ? 0.6 : warm ? 0.52 : 0.65
+      rim.visible = aurora
+      if (atmosphere) { scene.remove(atmosphere); disposeMeshes(atmosphere); atmosphere = null }
+      if (aurora) { atmosphere = createAuroraAtmosphere(); scene.add(atmosphere) }
+      sparkles.material.dispose()
+      sparkles.material = aurora ? createAuroraSparkleMaterial(SPARKLE.size)
+        : new THREE.PointsMaterial({ color: '#ffffff', size: SPARKLE.size, transparent: true, opacity: 0.8 })
+      if (glow) { composer.removePass(glow); glow.dispose(); glow = null }
+      if (aurora) {
+        glow = new AuroraGlowPass({ strength: 0.24, threshold: 1.05 })
+        composer.insertPass(glow, 1)
+      }
+      st.tone = nextTone
+      wrap.dataset.tone = nextTone
+    }
+    applyLighting(st.tone)
+    st.requestTone = nextTone => {
+      nextTone = normalizeTone(nextTone)
+      if (st.requestedTone === nextTone && st.themeStatus !== 'error') return
+      st.requestedTone = nextTone
+      st.themeStatus = 'loading'
+      const request = ++generation
+      cancelLoad()
+      islandGroup.userData.assetStatus = 'loading'
+      wrap.dataset.ready = 'loading'
+      wrap.dataset.requestedTone = nextTone
+      propsRef.current.onThemeStatus?.({ tone: nextTone, status: 'loading' })
+      const staging = new THREE.Group()
+      // Each loader request owns its parsed GLB; no cached materials are mutated.
+      const stopLoad = loadIslandGlb(staging, nextTone, model => {
+        if (disposed || request !== generation) { disposeMeshes(staging); return }
+        // Commit within one task. No frame sees an empty island during a switch.
+        const variant = nextTone === 'balanced' || nextTone === 'aurora' ? 'modern' : 'archive'
+        let grass = grassCache.get(variant)
+        if (!grass) {
+          grass = createIslandGrass(model, { tone: nextTone })
+          grassCache.set(variant, grass)
+          grassBufferIds.set(grass.mesh.instanceMatrix, nextGrassBufferId++)
+        } else {
+          // Do not reparent a live controller until the replacement GLB is ready.
+          grass.reparent(model)
+          grass.setTheme(nextTone)
+        }
+        const previousGrass = islandGroup.userData.grass
+        if (previousGrass && previousGrass !== grass) previousGrass.mesh.removeFromParent()
+        if (st.tone !== nextTone) applyLighting(nextTone)
+        disposeMeshes(islandGroup)
+        islandGroup.clear()
+        islandGroup.add(...staging.children)
+        Object.assign(islandGroup.userData, { grass, assetTriangles: staging.userData.assetTriangles, assetStatus: 'loaded' })
+        // Grass belongs to the bounded cache, never to a pending asset request.
+        if (st.rebuildPlants) st.rebuildPlants(nextTone)
+        else grass.updatePlants(flowerLayer.children.map(plant => plant.position), flowerLayer)
+        wrap.dataset.ready = 'loaded'
+        st.themeStatus = 'loaded'
+        if (timings) {
+          timings.frame = timingSamples()
+          timings.renderCPU = timingSamples()
+          timings.lastFrame = null
+        }
+        st.themeSwitches++
+        propsRef.current.onThemeStatus?.({ tone: nextTone, status: 'loaded' })
+      }, () => {
+        if (disposed || request !== generation) return
+        islandGroup.userData.assetStatus = 'fallback'
+        st.themeStatus = 'error'
+        wrap.dataset.ready = 'error'
+        propsRef.current.onThemeStatus?.({ tone: nextTone, status: 'error' })
+      })
+      cancelLoad = () => { stopLoad(); disposeMeshes(staging); staging.clear() }
+    }
+    function snapshot() {
+      const plants = flowerLayer.children
+      scene.updateMatrixWorld(true)
+      camera.updateMatrixWorld(true)
+      const project = plant => {
+        const center = new THREE.Vector3(0, plant.userData.headY ?? 0.5, 0)
+        plant.localToWorld(center).project(camera)
+        return { x: (center.x + 1) * viewportWidth / 2, y: (1 - center.y) * viewportHeight / 2 }
+      }
+      return {
+        tone: st.tone, requestedTone: st.requestedTone, themeStatus: st.themeStatus, themeSwitches: st.themeSwitches,
+        plants: plants.length, near: plants.filter(f => f.userData.lod === 'near').length, far: plants.filter(f => f.userData.lod === 'far').length,
+        calls: renderer.info.render.calls, triangles: renderer.info.render.triangles,
+        geometries: renderer.info.memory.geometries, textures: renderer.info.memory.textures, programs: renderer.info.programs?.length ?? 0,
+        island: islandGroup.userData.assetStatus, islandChildren: islandGroup.children.length,
+        islandGeometry: {
+          assetTriangles: islandGroup.userData.assetTriangles ?? 0,
+          grassTriangles: islandGroup.userData.grass?.mesh.userData.triangles ?? 0,
+          grassClumps: islandGroup.userData.grass?.mesh.count ?? 0,
+          grassDrawCalls: islandGroup.userData.grass ? 1 : 0,
+          grassTheme: islandGroup.userData.grass?.theme ?? null,
+          grassMeshUUID: islandGroup.userData.grass?.mesh.uuid ?? null,
+          grassGeometryUUID: islandGroup.userData.grass?.mesh.geometry.uuid ?? null,
+          grassInstanceBufferId: islandGroup.userData.grass ? grassBufferIds.get(islandGroup.userData.grass.mesh.instanceMatrix) : null,
+          grassCacheSize: grassCache.size,
+        },
+        growing: plants.filter(f => !f.userData.opened).length, opened: plants.filter(f => f.userData.opened).length,
+        camera: { position: camera.position.toArray(), target: controls.target.toArray() },
+        viewport: { width: viewportWidth, height: viewportHeight, pixelRatio: renderer.getPixelRatio() },
+        plantStates: plants.map(f => ({ id: f.userData.data.id, kind: f.userData.kind, tree: isTree(f.userData.data), blender: Boolean(f.userData.blender), lod: f.userData.lod ?? null, position: f.position.toArray(), scale: f.scale.toArray(), bornAt: f.userData.bornAt, opened: Boolean(f.userData.opened), highlighted: Boolean(f.userData.highlight), screen: project(f) })),
+        performance: diagnostics ? { frame: timingSummary(timings.frame), renderCPU: timingSummary(timings.renderCPU), gpu: gpuTiming.sample() } : null,
+      }
+    }
+    const api = {
+      snapshot,
+      setCamera: ({ position, target: nextTarget }) => {
+        controls.autoRotate = false
+        // Drain prior pointer damping so fixed-pose comparisons are deterministic.
+        const damping = controls.enableDamping
+        controls.enableDamping = false
+        controls.update()
+        if (position) camera.position.fromArray(position)
+        if (nextTarget) controls.target.fromArray(nextTarget)
+        controls.update()
+        controls.enableDamping = damping
+      },
+      pick: id => pick(flowerLayer.children.find(f => f.userData.data.id === id)),
+      resetView: st.resetView,
+      freeze: time => { frozenTime = time; controls.autoRotate = false },
+      resetPerformance: () => {
+        if (!timings) return
+        timings.frame = timingSamples()
+        timings.renderCPU = timingSamples()
+        timings.lastFrame = null
+        gpuTiming?.dispose()
+        gpuTiming = createPreviewGpuTiming(renderer)
+      },
+    }
+    if (previewApi) previewApi.current = api
+    stateRef.current = st
+    let raf, lastStats = 0
+    const loop = frameTime => {
+      raf = requestAnimationFrame(loop)
+      if (!propsRef.current.active) { if (timings) timings.lastFrame = null; return }
+      const elapsed = clock.getElapsedTime()
+      const t = frozenTime ?? propsRef.current.previewTime ?? elapsed
+      const measure = diagnostics && elapsed >= 2 && islandGroup.userData.assetStatus === 'loaded'
+      if (timings && frameTime != null) {
+        if (measure && timings.lastFrame != null) recordTiming(timings.frame, frameTime - timings.lastFrame)
+        timings.lastFrame = frameTime
+      }
       floating.position.y = Math.sin(t * 0.6) * 0.08
       level += (playbackLevel() - level) * 0.15
-      sparkleMat.size = SPARKLE.size * (1 + level * SPARKLE.sizeBoost)
+      const sparkleMat = sparkles.material, aurora = st.tone === 'aurora'
+      sparkleMat.size = SPARKLE.size * (aurora ? 1.6 : 1) * (1 + level * SPARKLE.sizeBoost)
+      if (aurora) sparkleMat.userData.time.value = t
       sparkleMat.opacity = 0.8 + level * 0.2
       sparkleMat.color.copy(SPARKLE_IDLE).lerp(SPARKLE_PLAY, Math.min(1, level * 1.5))
-      const rise = SPARKLE.speed * (1 + level * SPARKLE.speedBoost)
+      const rise = frozenTime == null && propsRef.current.previewTime == null ? SPARKLE.speed * (1 + level * SPARKLE.speedBoost) : 0
       const p = pGeo.attributes.position
-      for (let i = 0; i < N; i++) {
-        let y = p.getY(i) + rise
-        if (y > 6) y = -1
-        p.setY(i, y)
-      }
+      for (let i = 0; i < N; i++) { const y = p.getY(i) + rise; p.setY(i, y > 6 ? -1 : y) }
       p.needsUpdate = true
+      controls.update()
+      atmosphere?.userData.tick(t, camera)
       for (const f of flowerLayer.children) {
         const u = f.userData
-        const age = t - (u.bornAt ?? -10)
-        const grow = Math.min(1, Math.max(0, age / 1.2))
-        const e = 1 - Math.pow(1 - grow, 3)
-        // 하이라이트(오늘의 위로·새로 핀 꽃)는 빛 대신 살짝 커졌다 작아진다
+        const age = propsRef.current.previewTime == null ? t - (u.bornAt ?? -10) : propsRef.current.previewTime
+        const grow = Math.min(1, Math.max(0, age / 1.2)), e = 1 - Math.pow(1 - grow, 3)
         const pulse = u.highlight || u.fresh ? 1 + Math.sin(t * 4) * 0.08 : 1
         f.scale.setScalar(u.size * Math.max(0.001, 0.3 + 0.7 * e) * pulse)
-        // 꽃잎이 바깥 겹부터 펼쳐진다 (다 피면 더 계산하지 않음)
         if (!u.opened && u.setOpen) {
           const open = Math.min(1, Math.max(0, age / 1.8))
           u.setOpen(open)
           if (open >= 1) u.opened = true
         }
-        u.tick?.(t) // 감정 꽃의 움직임 (긴장 = 바르르 떨림)
+        u.tick?.(t)
         f.rotation.z = Math.sin(t * 1.3 + u.phase) * 0.05
+        u.updateLOD?.(camera, viewportHeight, u.size)
       }
-      controls.update()
+      if (diagnostics) renderer.info.reset()
+      const renderStart = measure ? performance.now() : 0
+      if (measure) gpuTiming.begin()
       composer.render()
-      raf = requestAnimationFrame(loop)
+      if (measure) { gpuTiming.end(); recordTiming(timings.renderCPU, performance.now() - renderStart) }
+      if (propsRef.current.onPreviewStats && elapsed - lastStats >= 0.25) {
+        lastStats = elapsed
+        propsRef.current.onPreviewStats(snapshot())
+      }
     }
     loop()
-
-    stateRef.current = {
-      flowerLayer, clock, known: new Set(), first: true,
-      resetView: () => {
-        clearTimeout(resumeTimer)
-        controls.autoRotate = false
-        controls.reset()
-        resumeTimer = setTimeout(() => (controls.autoRotate = true), 5000)
-      },
-    }
     return () => {
+      disposed = true
       cancelAnimationFrame(raf)
+      cancelLoad()
+      gpuTiming?.dispose()
       clearTimeout(resumeTimer)
       ro.disconnect()
       el.removeEventListener('pointerdown', onDown)
       el.removeEventListener('pointerup', onUp)
       controls.dispose()
-      stopIslandLoad()
+      for (const grass of grassCache.values()) grass.dispose()
+      grassCache.clear()
+      for (const plant of [...flowerLayer.children]) { flowerLayer.remove(plant); disposeFlower3D(plant) }
       disposeMeshes(scene)
       scene.environment = null
-      environment.dispose()
+      environment?.dispose()
       sun.shadow.dispose()
       for (const pass of composer.passes) pass.dispose()
       composer.dispose()
       renderer.dispose()
       wrap.removeChild(el)
+      if (previewApi?.current === api) previewApi.current = null
       stateRef.current = null
     }
   }, [])
 
-  useEffect(() => {
-    if (resetViewKey != null) stateRef.current?.resetView()
-  }, [resetViewKey])
-
-  // 꽃 데이터가 바뀌면 꽃 층만 다시 만든다
+  useEffect(() => { stateRef.current?.requestTone(tone) }, [tone, retryThemeKey])
+  useEffect(() => { if (resetViewKey != null) stateRef.current?.resetView() }, [resetViewKey])
   useEffect(() => {
     const st = stateRef.current
     if (!st) return
-    const { flowerLayer, clock, known } = st
-    for (const c of [...flowerLayer.children]) { flowerLayer.remove(c); disposeFlower3D(c) }
-
-    const byId = Object.fromEntries(flowers.map((f) => [f.id, f]))
-    const pairedIds = new Set()
-    const items = []
-    for (const p of pairs) {
-      const a = byId[p.flower_a_id], b = byId[p.flower_b_id]
-      if (!a || !b) continue
-      pairedIds.add(a.id); pairedIds.add(b.id)
-      const at = (f) => f.shared_at || f.created_at || ''
-      items.push({ key: p.id, kind: 'pair', data: p, a, b, t: [at(a), at(b)].sort().pop() })
+    const angle = previewAngle === 'rotated' ? Math.PI * 0.7 : 0
+    if (st.previewAngle != null && st.previewAngle !== previewAngle) {
+      const previousAngle = st.previewAngle === 'rotated' ? Math.PI * 0.7 : 0
+      st.viewDir.applyAxisAngle(new THREE.Vector3(0, 1, 0), angle - previousAngle)
+      st.camera.position.sub(st.controls.target).applyAxisAngle(new THREE.Vector3(0, 1, 0), angle - previousAngle).add(st.controls.target)
+      st.controls.update()
     }
-    // 내 꽃은 내 정원에 피지 않는다(우리의 꽃 재료로만 쓴다). 받은 꽃은 id로 정해진 자리 근처에
-    for (const f of flowers) {
-      if (f.sender_id === meId) continue
-      items.push({ key: f.id, kind: 'flower', data: f, t: f.shared_at || f.created_at })
-    }
-    const pos = placeFlowers(items) // 항상 전체 기준 → 친구별로 숨겨도 자리 고정
-    // 섬에 핀 수가 많을수록 조금씩 작게: 12송이까지는 그대로, 50송이면 약 0.6배 (구별은 되게 자리 간격 0.66에 맞춤)
-    const density = Math.max(0.58, Math.min(1, Math.sqrt(12 / Math.max(items.length, 1))))
-    const visible = visibleIds == null ? null : new Set(visibleIds ? visibleIds.split(',') : [])
-    const now = clock.getElapsedTime()
+    st.previewAngle = previewAngle
+  }, [previewAngle])
 
-    items.forEach((it, i) => {
-      const obj = it.kind === 'pair'
-        ? buildFlower3D({ ...it.b, petals: Math.min(8, Math.max(it.a.petals, it.b.petals) + 1) }, [it.a.color, it.b.color], { pair: true })
-        : isTree(it.data) ? buildTree3D(it.data) : buildFlower3D(it.data, [it.data.color])
-      obj.position.set(pos[i].x, 0, pos[i].z)
-      const isNew = !known.has(it.key)
-      Object.assign(obj.userData, {
-        kind: it.kind,
-        data: it.data,
-        size: (it.kind === 'pair' ? 2.6 : isTree(it.data) ? 1.55 : 1.8) * density, // 나무는 키가 커서 조금 더 작게
-        phase: (hash(it.key) % 100) / 16,
-        bornAt: isNew ? (st.first ? now + i * 0.06 : now) : -10,
-        fresh: freshIds?.has(it.key),
-        highlight: highlightId === it.key,
-        dimmed: Boolean(visible && !visible.has(it.key)),
+  // Also used by the atomic theme commit. Preserve bornAt, opened petals and LOD.
+  useEffect(() => {
+    const st = stateRef.current
+    if (!st) return
+    st.rebuildPlants = appliedTone => {
+      const { flowerLayer, clock, known } = st
+      const previous = new Map(flowerLayer.children.map(plant => [plant.userData.data.id, plant]))
+      const byId = Object.fromEntries(flowers.map(f => [f.id, f]))
+      const items = []
+      for (const p of pairs) {
+        const a = byId[p.flower_a_id], b = byId[p.flower_b_id]
+        if (!a || !b) continue
+        const at = f => f.shared_at || f.created_at || ''
+        items.push({ key: p.id, kind: 'pair', data: p, a, b, t: [at(a), at(b)].sort().pop() })
+      }
+      for (const f of flowers) {
+        if (f.sender_id === meId) continue
+        items.push({ key: f.id, kind: 'flower', data: f, t: f.shared_at || f.created_at })
+      }
+      const pos = placeFlowers(items)
+      const density = Math.max(0.58, Math.min(1, Math.sqrt(12 / Math.max(items.length, 1))))
+      const visible = visibleIds == null ? null : new Set(visibleIds ? visibleIds.split(',') : [])
+      const now = clock.getElapsedTime()
+      items.forEach((it, i) => {
+        const dimmed = Boolean(visible && !visible.has(it.key))
+        const blender = Boolean(assets && it.kind === 'flower' && !isTree(it.data) && isBlenderFlower?.(it.data))
+        const old = previous.get(it.key), u = old?.userData
+        const reuse = u && u.data === it.data && u.a === it.a && u.b === it.b
+          && Boolean(u.blender) === blender && u.dimmed === dimmed && u.tone === appliedTone
+        let obj = old
+        if (!reuse) {
+          if (it.kind === 'pair') obj = buildFlower3D({ ...it.b, petals: Math.min(8, Math.max(it.a.petals, it.b.petals) + 1) }, [it.a.color, it.b.color], { pair: true, tone: appliedTone })
+          else if (isTree(it.data)) obj = buildTree3D(it.data, { tone: appliedTone })
+          else obj = blender ? buildBlenderFlower(it.data, assets, { dimmed, tone: appliedTone }) : buildFlower3D(it.data, undefined, { tone: appliedTone })
+          if (dimmed) dimObject(obj, appliedTone)
+          if (u) {
+            obj.scale.copy(old.scale)
+            obj.rotation.copy(old.rotation)
+            obj.userData.setOpen?.(u.opened ? 1 : Math.min(1, Math.max(0, (now - (u.bornAt ?? -10)) / 1.8)))
+            obj.userData.opened = u.opened
+            obj.userData.setLOD?.(u.lod)
+          }
+          flowerLayer.add(obj)
+        } else previous.delete(it.key)
+        obj.position.set(pos[i].x, 0, pos[i].z)
+        const isNew = !known.has(it.key)
+        Object.assign(obj.userData, {
+          kind: it.kind, data: it.data, a: it.a, b: it.b, tone: appliedTone,
+          size: (it.kind === 'pair' ? 2.6 : isTree(it.data) ? 1.55 : 1.8) * density,
+          phase: (hash(it.key) % 100) / 16,
+          bornAt: u?.bornAt ?? (isNew ? (st.first ? now + i * 0.06 : now) : -10),
+          fresh: freshIds?.has(it.key), highlight: highlightId === it.key, dimmed,
+        })
+        known.add(it.key)
       })
-      if (obj.userData.dimmed) dimObject(obj)
-      known.add(it.key)
-      flowerLayer.add(obj)
-    })
-    st.first = false
-  }, [flowers, pairs, meId, freshIds, highlightId, visibleIds])
+      for (const obj of previous.values()) { flowerLayer.remove(obj); disposeFlower3D(obj) }
+      wrapRef.current.dataset.plants = String(flowerLayer.children.length)
+      st.islandGroup.userData.grass?.updatePlants(flowerLayer.children.map(plant => plant.position), flowerLayer)
+      st.first = false
+    }
+    st.rebuildPlants(st.tone)
+  }, [flowers, pairs, meId, freshIds, highlightId, visibleIds, assets, isBlenderFlower])
 
   return <div ref={wrapRef} className="island" />
 }

@@ -1,93 +1,242 @@
-// 개발용: Supabase 없이 3D 정원만 확인하는 화면.  npm run dev → http://localhost:5173/?view=island
-// 실제 앱과 같은 naming.js 규칙으로 가짜 flowers / pair_flowers 행을 만들어 Island3D에 넣는다.
-import { useMemo, useState } from 'react'
+// Supabase-free test of the actual garden and detail renderers.
+import { useCallback, useMemo, useRef, useState } from 'react'
 import Island3D from '../components/Island3D.jsx'
 import FlowerBloom3D from '../components/FlowerBloom3D.jsx'
-import { buildFlower, buildSoundFlower } from '../lib/flower.js'
+import { CATEGORIES, buildFlower, buildSoundFlower } from '../lib/flower.js'
 import { toFlowerRow, pairName } from '../lib/naming.js'
+import { displayName } from '../lib/tree.js'
+import { gardenThemeStorageKey, normalizeGardenTheme, readGardenTheme, writeGardenTheme } from '../lib/gardenThemeStorage.js'
+import './IslandPreview.css'
 
 const ME = 'me'
 const PARTNER = 'partner'
 const DAY = 86400000
+const START = Date.UTC(2026, 0, 1)
+const MIXED_CATEGORIES = new Set(['cozy'])
+// Hash to two foreground slots at the same depth through the garden's usual placement rules.
+const CONTROL_ID = 'peony-procedural-89'
+const HERO_ID = 'peony-blender-41'
 
-// 파형 윤곽(envelope): 꽃잎별 길이에 쓰인다
-const env = (...v) => v
-// [종류, 감정 카테고리(목소리만), 음향 특징, 꽃말]
+const VOICE = (category, features, transcript) => ({ kind: 'voice', category, features, transcript })
+const SOUND = features => ({ kind: 'sound', features: { envelope: [0.9, 0.5, 0.75, 0.4, 0.6], ...features } })
+const PEONY = VOICE('cozy', { rms: 0.035, centroid: 2800, attack: 0.1, onsets: 6, sustain: 0.8, envelope: [0.7, 0.6, 0.9, 0.55, 0.8, 0.65] }, '잘 자')
+const PEONY_COLORS = ['#edacc9', '#89cdbd', '#a597dd']
 const SAMPLES = [
-  ['sound', null, { rms: 0.03, centroid: 3200, attack: 0.6, onsets: 3, sustain: 0.2, envelope: env(0.9, 0.3, 0.8, 0.2, 0.7, 0.1) }, null],
-  ['voice', 'flutter', { rms: 0.02, centroid: 2600, attack: 0.1, onsets: 3, sustain: 0.6, envelope: env(0.4, 0.6, 0.5, 0.7, 0.4) }, '오늘도 고생했어'],
-  ['voice', 'joy', { rms: 0.09, centroid: 2500, attack: 0.55, onsets: 5, sustain: 0.4, envelope: env(1, 0.6, 0.9, 0.5, 0.8, 0.4) }, '하하 진짜 웃기다'],
-  ['voice', 'calm', { rms: 0.12, centroid: 1500, attack: 0.3, onsets: 6, sustain: 0.7, envelope: env(0.6, 0.7, 0.6, 0.8, 0.7, 0.6) }, '저녁 맛있게 먹어!'],
-  ['sound', null, { rms: 0.12, centroid: 1200, attack: 0.3, onsets: 2, sustain: 0.3, envelope: env(1, 0.4, 0.9, 0.3) }, null],
-  ['sound', null, { rms: 0.04, centroid: 3600, attack: 0.1, onsets: 1, sustain: 0.9, envelope: env(0.5, 0.7, 0.8, 0.7, 0.6) }, null],
-  ['voice', 'cozy', { rms: 0.03, centroid: 1800, attack: 0.1, onsets: 2, sustain: 0.8, envelope: env(0.5, 0.6, 0.5) }, '잘 자'],
-  ['sound', null, { rms: 0.05, centroid: 3000, attack: 0.7, onsets: 7, sustain: 0.1, envelope: env(1, 0.2, 0.9, 0.3, 1, 0.2, 0.8) }, null],
+  VOICE('flutter', { rms: 0.02, centroid: 2600, attack: 0.1, onsets: 3, sustain: 0.6 }, '오늘도 고생했어'),
+  VOICE('joy', { rms: 0.09, centroid: 2500, attack: 0.55, onsets: 5, sustain: 0.4 }, '하하 진짜 웃기다'),
+  VOICE('calm', { rms: 0.12, centroid: 1500, attack: 0.3, onsets: 6, sustain: 0.7 }, '저녁 맛있게 먹어!'),
+  VOICE('excited', { rms: 0.09, centroid: 3100, attack: 0.68, onsets: 5, sustain: 0.25 }),
+  VOICE('sad', { rms: 0.025, centroid: 1500, attack: 0.15, onsets: 4, sustain: 0.6 }),
+  VOICE('tense', { rms: 0.04, centroid: 3300, attack: 0.32, onsets: 5, sustain: 0.25 }),
+  SOUND({ rms: 0.03, centroid: 3200, attack: 0.17, onsets: 3, sustain: 0.2 }),
+  SOUND({ rms: 0.05, centroid: 3000, attack: 0.7, onsets: 7, sustain: 0.1 }),
+  SOUND({ rms: 0.04, centroid: 3600, attack: 0.1, onsets: 1, sustain: 0.9 }),
 ]
 
-let seq = 0
-function row(sender, [kind, category, features, transcript], time) {
+function row(id, sample, day, sender = PARTNER, offset = 0) {
+  const { kind, category, features, transcript } = sample
   const flower = kind === 'voice' ? buildFlower(category, features, 1) : buildSoundFlower(features)
+  const time = new Date(START + day * DAY + offset).toISOString()
   return {
-    id: `mock-${seq++}`, sender_id: sender,
+    id, sender_id: sender,
     ...toFlowerRow({ flower, features, kind, category, transcript }),
-    sent_date: new Date(time).toISOString().slice(0, 10), created_at: new Date(time).toISOString(),
+    sent_date: time.slice(0, 10), created_at: time,
   }
 }
 
-// 같은 날 두 사람이 각각 처음 보낸 꽃끼리 하루에 하나 (db.js 규칙과 동일)
-function pairsOf(flowers) {
-  const byDate = {}
-  for (const f of [...flowers].sort((a, b) => a.created_at.localeCompare(b.created_at))) {
-    const d = (byDate[f.sent_date] ||= {})
-    d[f.sender_id] ||= f
-  }
-  return Object.entries(byDate)
-    .filter(([, d]) => d[ME] && d[PARTNER])
-    .map(([date, d]) => {
-      const [a, b] = [d[ME], d[PARTNER]].sort((x, y) => x.created_at.localeCompare(y.created_at))
-      return { id: `pair-${date}`, flower_a_id: a.id, flower_b_id: b.id, name: pairName(a.root, b.root), sent_date: date }
-    })
+function peony(id, day, color) {
+  return { ...row(id, PEONY, day), color }
 }
 
-function initial() {
-  const now = Date.now()
-  const plan = [[3, ME, 0], [3, PARTNER, 1], [2, PARTNER, 2], [1, ME, 5], [1, PARTNER, 3], [1, ME, 7], [0, PARTNER, 4]]
-  return plan.map(([d, s, i], k) => row(s, SAMPLES[i], now - d * DAY + k * 60000))
+const CONTROL = peony(CONTROL_ID, 1, PEONY_COLORS[0])
+const HERO = peony(HERO_ID, 2, PEONY_COLORS[0])
+const PAIR_A = row('pair-source', PEONY, 0, ME)
+const PAIR_B = row('pair-flutter', SAMPLES[0], 0, PARTNER, 1000)
+const PAIR = {
+  id: 'demo-pair', flower_a_id: PAIR_A.id, flower_b_id: PAIR_B.id,
+  name: pairName(PAIR_A.root, PAIR_B.root), sent_date: PAIR_A.sent_date,
+}
+const BASE = [PAIR_A, PAIR_B, CONTROL, HERO, peony('peony-jade-16', 3, PEONY_COLORS[1]),
+  ...SAMPLES.slice(1).map((sample, i) => row(`sample-${i}`, sample, i + 4))]
+const DENSE = Array.from({ length: 50 - BASE.length }, (_, i) => i % 4 === 0
+  ? peony(`dense-peony-${i}`, 20 + i, PEONY_COLORS[(i / 4) % PEONY_COLORS.length])
+  : row(`dense-${i}`, SAMPLES[i % SAMPLES.length], 20 + i))
+const PAIRS = [PAIR]
+const EMPTY = []
+const DEMO_THEME_KEY = gardenThemeStorageKey(null, true)
+const isMixedFlower = flower => flower.id !== CONTROL_ID && MIXED_CATEGORIES.has(flower.category)
+const isProceduralFlower = () => false
+const EMOTION_LABELS = { joy: 'Joy', excited: 'Excited', flutter: 'Flutter', cozy: 'Cozy', calm: 'Calm', sad: 'Sad', tense: 'Tense' }
+// Use the actual category colors from buildFlower; the pink hero override is not a palette fixture.
+const STUDY_FLOWERS = CATEGORIES.map(({ id }, i) => ({
+  id, label: EMOTION_LABELS[id], group: 'Emotion flowers',
+  flower: row(`study-${id}`, VOICE(id, PEONY.features), 100 + i),
+}))
+const STUDY_TREES = ['Round tree', 'Pine tree', 'Willow tree'].map((label, i) => ({
+  id: ['tree-round', 'tree-pine', 'tree-willow'][i], label, group: 'Sound trees',
+  flower: row(`study-tree-${i}`, SAMPLES[6 + i], 110 + i),
+}))
+const STUDY_PAIR = {
+  id: 'pair', label: 'Cozy + Flutter', group: 'Two-color pair', pair: true,
+  flower: { ...PAIR_B, petals: Math.min(8, Math.max(PAIR_A.petals, PAIR_B.petals) + 1) },
+  colors: [PAIR_A.color, PAIR_B.color],
+}
+const STUDY_SPECIMENS = [...STUDY_FLOWERS, ...STUDY_TREES, STUDY_PAIR]
+const STUDY_GROUPS = [STUDY_FLOWERS, STUDY_TREES, [STUDY_PAIR]]
+
+function updateQuery(values) {
+  const url = new URL(location.href)
+  for (const [key, value] of Object.entries(values)) {
+    if (value == null) url.searchParams.delete(key)
+    else url.searchParams.set(key, value)
+  }
+  history.replaceState(null, '', url)
 }
 
 export default function IslandPreview() {
-  const [flowers, setFlowers] = useState(initial)
-  const [fresh, setFresh] = useState(() => new Set())
+  const params = new URLSearchParams(location.search)
+  const [mode, setMode] = useState(() => params.get('flora') === 'mixed' ? 'mixed' : 'original')
+  const [dense, setDense] = useState(() => params.get('plants') === '50')
+  const [tone, setTone] = useState(() => params.has('tone') ? normalizeGardenTheme(params.get('tone')) : readGardenTheme(DEMO_THEME_KEY))
+  const [islandOnly, setIslandOnly] = useState(() => params.get('islandOnly') === '1')
+  const [angle, setAngle] = useState(() => params.get('angle') === 'rotated' ? 'rotated' : 'front')
+  const [portrait, setPortrait] = useState(() => params.get('portrait') === '1')
+  const [still, setStill] = useState(() => params.get('still') === '1')
+  const [extra, setExtra] = useState([])
+  const [fresh, setFresh] = useState(null)
   const [picked, setPicked] = useState(null)
-  const pairs = useMemo(() => pairsOf(flowers), [flowers])
+  const [compare, setCompare] = useState(() => params.get('compare') === '1')
+  const [study, setStudy] = useState(() => params.get('study') === 'flora')
+  const [specimen, setSpecimen] = useState(() => STUDY_SPECIMENS.find(item => item.id === params.get('specimen'))?.id || 'joy')
+  const [reset, setReset] = useState(null)
+  const [stats, setStats] = useState(null)
+  const seq = useRef(0)
+  const flowers = useMemo(() => [...BASE, ...(dense ? DENSE : []), ...extra], [dense, extra])
+  const isBlenderFlower = mode === 'mixed' ? isMixedFlower : isProceduralFlower
+  const previewTime = still ? 6 : undefined
+  const selectedSpecimen = STUDY_SPECIMENS.find(item => item.id === specimen)
+  const studyBlender = mode === 'mixed' && selectedSpecimen.flower.category === 'cozy' && !selectedSpecimen.pair
 
-  const add = (sender) => {
-    const f = row(sender, SAMPLES[Math.floor(Math.random() * SAMPLES.length)], Date.now())
-    setFlowers((l) => [...l, f])
-    setFresh(new Set([f.id]))
-    setPicked(f)
+  const setView = (nextMode, nextDense) => {
+    updateQuery({ flora: nextMode, plants: nextDense ? '50' : null })
+    setMode(nextMode)
+    setDense(nextDense)
+    if (picked?.id.startsWith('dense-')) setPicked(null)
+  }
+  const pick = useCallback(flower => {
+    updateQuery({ compare: null, study: null, specimen: null })
+    setStudy(false)
+    setCompare(false)
+    setPicked(flower)
+  }, [])
+  const add = () => {
+    const i = seq.current++
+    const flower = peony(`fresh-peony-${i}`, 80 + i, PEONY_COLORS[i % PEONY_COLORS.length])
+    setExtra(list => [...list, flower])
+    setFresh(new Set([flower.id]))
+  }
+  const remove = () => {
+    if (picked === extra.at(-1)) setPicked(null)
+    setExtra(list => list.slice(0, -1))
+    setFresh(null)
+  }
+  const close = () => { updateQuery({ compare: null }); setCompare(false); setPicked(null) }
+  const chooseTone = next => { updateQuery({ tone: next }); setTone(next); writeGardenTheme(DEMO_THEME_KEY, next) }
+  const toggleStudy = () => {
+    updateQuery({ study: study ? null : 'flora', specimen: study ? null : specimen, compare: null })
+    setStudy(value => !value)
+    setCompare(false)
+    setPicked(null)
+  }
+  const chooseSpecimen = id => { updateQuery({ specimen: id }); setSpecimen(id) }
+  const toggleIsland = () => {
+    updateQuery({ islandOnly: !islandOnly ? '1' : null, compare: null })
+    setIslandOnly(value => !value)
+    setCompare(false)
+    setPicked(null)
+  }
+  const resetView = () => {
+    updateQuery({ angle: null })
+    setAngle('front')
+    setReset(value => (value ?? 0) + 1)
   }
 
   return (
-    <div className="screen" style={{ background: 'linear-gradient(180deg, #f7d6e6 0%, #d9ccf5 50%, #bfe8e3 100%)' }}>
+    <main className="flora-preview" data-mode={mode} data-tone={tone} data-portrait={portrait} data-still={still} data-study={study ? 'flora' : undefined}>
       <Island3D
-        flowers={flowers} pairs={pairs} meId={ME} freshIds={fresh} highlightId={picked?.id}
-        onPickFlower={setPicked} onPickPair={setPicked}
+        flowers={islandOnly ? EMPTY : flowers} pairs={islandOnly ? EMPTY : PAIRS} meId={ME} freshIds={fresh} highlightId={picked?.id}
+        onPickFlower={pick} onPickPair={pick} resetViewKey={reset}
+        isBlenderFlower={isBlenderFlower} onPreviewStats={setStats}
+        tone={tone} previewAngle={angle} previewTime={previewTime}
       />
-      <div style={{ position: 'absolute', left: 16, right: 16, bottom: 16, display: 'flex', flexDirection: 'column', gap: 8, alignItems: 'center' }}>
-        {picked && (
-          <div style={{ background: 'rgba(255,255,255,.88)', borderRadius: 14, padding: '10px 14px', maxWidth: 420, width: '100%', fontSize: 14 }}>
-            {picked.color && <FlowerBloom3D flower={picked} size={120} />}
-            <strong>{picked.name}</strong>
-            {picked.reason && <div>{picked.reason}</div>}
-            {picked.transcript && <div>꽃말: “{picked.transcript}”</div>}
-          </div>
-        )}
-        <div style={{ display: 'flex', gap: 8 }}>
-          <button className="ghost" onClick={() => add(PARTNER)}>상대 꽃 받기</button>
-          <button className="primary" onClick={() => add(ME)}>내 꽃 보내기</button>
+      <header className="flora-toolbar" aria-label="Garden comparison controls">
+        <div className="flora-actions" aria-label="Tone comparison">
+          <button aria-pressed={tone === 'default'} onClick={() => chooseTone('default')}>Original Opal</button>
+          <button aria-pressed={tone === 'warm'} onClick={() => chooseTone('warm')}>Warm Opal</button>
+          <button aria-pressed={tone === 'balanced'} onClick={() => chooseTone('balanced')}>Balanced Warm</button>
+          <button aria-pressed={tone === 'aurora'} onClick={() => chooseTone('aurora')}>Aurora Crystal</button>
+          <button aria-pressed={still} onClick={() => { updateQuery({ still: !still ? '1' : null }); setStill(value => !value) }}>Still frame</button>
         </div>
-      </div>
-    </div>
+        <div className="flora-actions">
+          <button aria-pressed={mode === 'original'} onClick={() => setView('original', dense)}>Procedural flora</button>
+          <button aria-pressed={mode === 'mixed'} onClick={() => setView('mixed', dense)}>Mixed flora</button>
+          <button aria-pressed={dense} onClick={() => setView(mode, !dense)}>50 plants</button>
+          <button aria-pressed={islandOnly} onClick={toggleIsland}>Island only</button>
+        </div>
+        <div className="flora-actions">
+          <button aria-pressed={angle === 'rotated'} onClick={() => {
+            const next = angle === 'front' ? 'rotated' : 'front'
+            updateQuery({ angle: next === 'front' ? null : next })
+            setAngle(next)
+          }}>Rotated view</button>
+          <button aria-pressed={portrait} onClick={() => { updateQuery({ portrait: !portrait ? '1' : null }); setPortrait(value => !value) }}>Portrait</button>
+          <button onClick={resetView}>Reset view</button>
+          <button aria-pressed={study} onClick={toggleStudy}>Palette study</button>
+        </div>
+        {stats && <output className="flora-stats" data-stats={JSON.stringify(stats)}>
+          {stats.plants} plants · {stats.near} near / {stats.far} far · {stats.calls.toLocaleString()} calls · {stats.triangles.toLocaleString()} triangles
+        </output>}
+      </header>
+      <footer className="flora-inspector">
+        {study && <section className="flora-card flora-study" aria-label="Palette study" data-study-specimen={specimen}>
+          <button className="flora-close" onClick={toggleStudy} aria-label="Close palette study">×</button>
+          <h2>Palette study</h2>
+          <div className="flora-study-body">
+            <nav className="flora-study-nav" aria-label="Study specimens">
+              {STUDY_GROUPS.map(group => <div className="flora-study-group" key={group[0].group}>
+                <h3>{group[0].group}</h3>
+                <div className="flora-actions">
+                  {group.map(item => <button key={item.id} aria-pressed={specimen === item.id} onClick={() => chooseSpecimen(item.id)}>{item.label}</button>)}
+                </div>
+              </div>)}
+            </nav>
+            <div className="flora-study-detail">
+              <FlowerBloom3D flower={selectedSpecimen.flower} colors={selectedSpecimen.colors} pair={selectedSpecimen.pair} size={270}
+                blender={studyBlender} closeUp={studyBlender} tone={tone} previewTime={previewTime} />
+              <strong>{selectedSpecimen.label}</strong>
+              <span>{selectedSpecimen.pair ? 'Two-color procedural flower' : selectedSpecimen.flower.category === 'sound' ? 'Crystal-flora tree' : studyBlender ? 'Blender crystal peony' : 'Procedural flower'}</span>
+            </div>
+          </div>
+        </section>}
+        {!study && (compare || picked) && <section className="flora-card" aria-label={compare ? 'Peony comparison' : 'Plant detail'} data-picked={picked?.id}>
+          <button className="flora-close" onClick={close} aria-label="Close preview">×</button>
+          {compare ? <div className="flora-comparison">
+            <div><FlowerBloom3D flower={CONTROL} size={216} closeUp blender={false} tone={tone} previewTime={previewTime} /><strong>Procedural peony</strong></div>
+            <div><FlowerBloom3D flower={HERO} size={216} closeUp blender={mode === 'mixed'} tone={tone} previewTime={previewTime} /><strong>{mode === 'mixed' ? 'Crystal peony' : 'Procedural peony'}</strong></div>
+          </div> : <>
+            {picked === PAIR
+              ? <FlowerBloom3D flower={{ ...PAIR_B, petals: Math.min(8, Math.max(PAIR_A.petals, PAIR_B.petals) + 1) }} colors={[PAIR_A.color, PAIR_B.color]} pair size={148} tone={tone} previewTime={previewTime} />
+              : <FlowerBloom3D flower={picked} size={148} blender={Boolean(isBlenderFlower?.(picked))} closeUp={isBlenderFlower?.(picked)} tone={tone} previewTime={previewTime} />}
+            <strong>{displayName(picked)}</strong>
+            {picked.transcript && <div>꽃말: “{picked.transcript}”</div>}
+          </>}
+        </section>}
+        <div className="flora-actions">
+          <button onClick={() => { updateQuery({ compare: '1', study: null, specimen: null }); setStudy(false); setPicked(null); setCompare(true) }}>Compare peonies</button>
+          <button disabled={islandOnly} onClick={add}>Plant peony</button>
+          <button disabled={!extra.length} onClick={remove}>Remove last</button>
+        </div>
+      </footer>
+    </main>
   )
 }

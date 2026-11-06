@@ -41,7 +41,8 @@ export default function App() {
   if (!garden) return <GardenSetup email={user.email} onEnter={setGarden} />
   return (
     <Garden
-      key={garden.gardenId}
+      key={`${user.id}:${garden.gardenId}`}
+      userId={user.id}
       session={garden}
       onSignOut={leaveAccount}
       email={user.email}

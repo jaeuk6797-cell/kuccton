@@ -14,6 +14,9 @@ import { displayName } from '../lib/tree.js'
 import { ArrowLeft, Bell, Check, Heart, Help, Menu, Mic, Pencil, Sprout, User, Users, Wave } from './Icons.jsx'
 import { GARDEN_LIMIT, addFriend, archiveShares, audioUrl, currentUser, deleteFlower, deleteReceivedSound, derivePairs, insertFlower, loadGarden, respondShare, shareFlowers, subscribeGarden, today, updateProfile, uploadAudio } from '../lib/db.js'
 import { newestReceivedFirst, receivedSoundCollections } from '../lib/receivedSounds.js'
+import { GardenThemeProvider, useGardenTheme } from '../lib/gardenTheme.jsx'
+import { GARDEN_THEMES } from '../lib/gardenThemeStorage.js'
+import { isBlenderGardenFlower } from '../lib/plantAppearance.js'
 
 // 받침에 따라 조사 고르기
 const hasBatchim = (w = '') => {
@@ -23,7 +26,21 @@ const hasBatchim = (w = '') => {
 const josa = (w, a, b) => `${w}${hasBatchim(w) ? a : b}`
 
 // demo: 개발용 미리보기(?view=home)에서만 넘긴다. 주면 Supabase 대신 그 데이터로 화면만 그린다.
-export default function Garden({ session, onSignOut, email, demo }) {
+export default function Garden(props) {
+  return <GardenThemeProvider userId={props.userId} demo={Boolean(props.demo)}><GardenContent {...props} /></GardenThemeProvider>
+}
+
+function GardenContent({ session, onSignOut, email, demo }) {
+  const { tone } = useGardenTheme()
+  const [themeStatus, setThemeStatus] = useState(null)
+  const [retryThemeKey, setRetryThemeKey] = useState(0)
+  const diagnosticsRef = useRef(null)
+  const diagnostics = import.meta.env.DEV && new URLSearchParams(location.search).get('diagnostics') === '1'
+  useEffect(() => {
+    if (!diagnostics) return
+    window.__gardenDiagnostics = diagnosticsRef
+    return () => { delete window.__gardenDiagnostics }
+  }, [diagnostics])
   const [data, setData] = useState(null)
   const [error, setError] = useState('')
   const [tab, setTab] = useState('garden')
@@ -299,15 +316,19 @@ export default function Garden({ session, onSignOut, email, demo }) {
   const visibleKey = viewing === 'all' ? null : [...shownFlowers.map((f) => f.id), ...shownPairs.map((p) => p.id)].join(',')
 
   return (
-    <div ref={homeRef} className="home">
+    <div ref={homeRef} className="home" data-garden-theme={tone}>
       <div className="sky">
         <div className="cloud c1" /><div className="cloud c2" /><div className="cloud c3" />
       </div>
 
-      {tab === 'garden' && (
-        <>
-          <div className="island-touch">
+          <div className={`island-touch${tab === 'garden' ? '' : ' garden-island-hidden'}`} aria-hidden={tab !== 'garden'}>
           <Island3D
+            tone={tone}
+            onThemeStatus={setThemeStatus}
+            retryThemeKey={retryThemeKey}
+            isBlenderFlower={isBlenderGardenFlower}
+            active={tab === 'garden'}
+            previewApi={diagnostics ? diagnosticsRef : undefined}
             resetViewKey={gardenViewReset}
             flowers={data.flowers}
             pairs={data.pairs}
@@ -319,6 +340,8 @@ export default function Garden({ session, onSignOut, email, demo }) {
             onPickPair={setOpenPair}
           />
           </div>
+      {tab === 'garden' && (
+        <>
           <div ref={titleRef} className="home-title">
             <span className="wordmark" aria-label="SUP">SUP</span>
             <h1><button className="garden-view-reset" onClick={() => setGardenViewReset((n) => n + 1)} aria-label={`${me?.nickname}의 정원 시점 초기화`}>{me?.nickname}의 정원</button></h1>
@@ -358,7 +381,7 @@ export default function Garden({ session, onSignOut, email, demo }) {
 
       {tab === 'album' && <Album data={data} meId={meId} onOpen={setOpenFlower} onOpenPair={setOpenPair} flowerById={flowerById} />}
       {tab === 'friends' && <Friends data={data} onOpen={setOpenFlower} onVisit={setVisiting} onGoMe={() => setTab('me')} />}
-      {tab === 'me' && <Me demo={Boolean(demo)} me={me} email={email} onSignOut={onSignOut} code={data.garden.code} onAdded={refresh} onSaveProfile={saveProfile} />}
+      {tab === 'me' && <Me demo={Boolean(demo)} me={me} email={email} onSignOut={onSignOut} code={data.garden.code} onAdded={refresh} onSaveProfile={saveProfile} themeStatus={themeStatus} onRetryTheme={() => setRetryThemeKey(value => value + 1)} />}
       {tab === 'help' && <HelpPage onTutorial={() => setTutorialOpen(true)} />}
 
       {/* 오른쪽 위 메뉴 (아래 탭바 대신). 어느 화면에서나 같은 자리에 있다 */}
@@ -812,18 +835,40 @@ function FriendCode({ code: myCode, onAdded }) {
   )
 }
 
-function Me({ demo, me, email, onSignOut, code, onAdded, onSaveProfile }) {
+function Me({ demo, me, email, onSignOut, code, onAdded, onSaveProfile, themeStatus, onRetryTheme }) {
   return (
     <div className="page me-page">
       <PageHeading>나</PageHeading>
       {/* 프로필(사진·닉네임), 내 코드·친구 맺기, 로그아웃. 설명은 도움말에 있다 */}
       <div className="me-content">
       <Profile me={me} email={email} onSave={onSaveProfile} />
+      <GardenThemeSelector themeStatus={themeStatus} onRetry={onRetryTheme} />
       <FriendCode code={code} onAdded={onAdded} />
       <PushSettings demo={demo} />
       <button className="link logout" onClick={onSignOut}>로그아웃</button>
       </div>
     </div>
+  )
+}
+
+function GardenThemeSelector({ themeStatus, onRetry }) {
+  const { tone, setTone, saved } = useGardenTheme()
+  return (
+    <section className="garden-theme-settings" aria-labelledby="garden-theme-heading">
+      <h3 id="garden-theme-heading">정원 테마</h3>
+      <div className="garden-theme-options" role="group" aria-label="정원 테마">
+        {GARDEN_THEMES.map(({ id, name }) => (
+          <button key={id} type="button" className="garden-theme-option" aria-pressed={tone === id} onClick={() => setTone(id)}>
+            <span className={`garden-theme-swatch swatch-${id}`} aria-hidden="true"><i /><i /><i /></span>
+            <span className="garden-theme-name">{name}</span>
+            <span className="garden-theme-check" aria-hidden="true">{tone === id ? '✓' : ''}</span>
+          </button>
+        ))}
+      </div>
+      <p className="garden-theme-note" role="status">{saved ? '이 기기에서 내가 보는 정원에만 적용돼요.' : '지금은 기기에 저장할 수 없어요. 이번에는 선택한 테마로 볼 수 있어요.'}</p>
+      {themeStatus?.tone === tone && themeStatus.status === 'loading' && <p className="garden-theme-note" role="status">테마를 준비하고 있어요…</p>}
+      {themeStatus?.tone === tone && themeStatus.status === 'error' && <p className="garden-theme-note" role="status">테마를 불러오지 못했어요. <button type="button" className="link" onClick={onRetry}>다시 시도</button></p>}
+    </section>
   )
 }
 
