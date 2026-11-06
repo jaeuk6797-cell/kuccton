@@ -1,0 +1,103 @@
+{
+  "home": {
+    "metrics": {
+      "frame": 308,
+      "calls": 453,
+      "triangles": 70336,
+      "points": 140,
+      "lines": 0,
+      "memory": {
+        "geometries": 123,
+        "textures": 7
+      }
+    },
+    "plants": 12
+  },
+  "filter": {
+    "dimmed": 8,
+    "metrics": {
+      "frame": 366,
+      "calls": 370,
+      "triangles": 64828,
+      "points": 140,
+      "lines": 0,
+      "memory": {
+        "geometries": 123,
+        "textures": 7
+      }
+    }
+  },
+  "flowers": {
+    "metrics": {
+      "frame": 352,
+      "calls": 447,
+      "triangles": 82288,
+      "points": 140,
+      "lines": 0,
+      "memory": {
+        "geometries": 67,
+        "textures": 7
+      }
+    },
+    "plants": 7
+  },
+  "trees": {
+    "metrics": {
+      "frame": 342,
+      "calls": 111,
+      "triangles": 28128,
+      "points": 140,
+      "lines": 0,
+      "memory": {
+        "geometries": 55,
+        "textures": 7
+      }
+    },
+    "plants": 3
+  },
+  "mixed": {
+    "metrics": {
+      "frame": 350,
+      "calls": 601,
+      "triangles": 96584,
+      "points": 140,
+      "lines": 0,
+      "memory": {
+        "geometries": 108,
+        "textures": 7
+      }
+    },
+    "plants": 11
+  },
+  "details": {},
+  "mobile": {
+    "metrics": {
+      "frame": 346,
+      "calls": 453,
+      "triangles": 70336,
+      "points": 140,
+      "lines": 0,
+      "memory": {
+        "geometries": 123,
+        "textures": 7
+      }
+    },
+    "plants": 12
+  },
+  "dense": {
+    "metrics": {
+      "frame": 348,
+      "calls": 1619,
+      "triangles": 178392,
+      "points": 140,
+      "lines": 0,
+      "memory": {
+        "geometries": 466,
+        "textures": 7
+      }
+    },
+    "plants": 50
+  },
+  "errors": [],
+  "notes": "Original main. Normal home and dense views omit pair models because Garden passes received-only rows. Fixture mixed view includes a pair with complete input rows."
+}

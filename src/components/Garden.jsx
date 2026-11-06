@@ -374,7 +374,7 @@ export default function Garden({ session, onSignOut, email, demo }) {
           <div className="island-touch">
           <Island3D
             resetViewKey={gardenViewReset}
-            flowers={gardenFlowers}
+            flowers={data.flowers}
             pairs={data.pairs}
             visibleIds={visibleKey}
             meId={meId}
