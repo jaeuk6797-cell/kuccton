@@ -69,3 +69,7 @@ KUCC 동아리 해커톤(주제: 소리, 4인 팀) 출품작. 응답과 주석�
 - 두 사람 테스트는 계정 두 개로 다른 브라우저/시크릿 창에서.
 
 - 메인에는 접기·펼치기 없이 ‘오늘의 위로’·‘오늘의 소리 10초’를 항상 표시한다. 앨범의 정원 등록 여부는 그림 우상단 체크로만 표시한다. 수신 항목 삭제 권한은 migrations-012.sql을 실행해야 한다.
+
+- 웹 푸시는 `public/sw.js`, `src/lib/push.js`, `PushSettings.jsx`와 Supabase `sound-push` 함수로 처리한다. 갤럭시 지원 브라우저와 iOS 16.4+ 홈 화면 앱에서 나 탭의 ‘소리 도착 알림’을 직접 켠다. DB 수신 INSERT가 발송하며 앱이 열려 있을 필요는 없다. migrations-013.sql·Edge Function·VAPID 및 Vault 설정 필요(`supabase/PUSH_SETUP.md`). 로그아웃 시 기기 구독을 해제한다. 워커에는 fetch 캐시가 없다. 실제 두 기기 수신 검증은 서버 설정 후 진행한다.
+
+- 소리 UI는 `SoundPlayer.jsx`(숨긴 audio + 재생/일시정지·시간)로 통일한다. 우리의 꽃은 `audioLevel.js`의 `stereoWave`로 상대·나를 각각 왼쪽·오른쪽에 넣은 단일 WAV를 만들어 같은 플레이어로 재생한다. Web Audio 실시간 2중 재생은 사용하지 않는다.

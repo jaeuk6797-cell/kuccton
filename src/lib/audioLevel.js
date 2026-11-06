@@ -37,3 +37,23 @@ export function pcmWave(channels, sampleRate, gain = 1) {
   }
   return new Blob([view.buffer], { type: 'audio/wav' })
 }
+
+// 한 미디어 파일의 왼쪽·오른쪽 채널로 합쳐 iPhone에서도 한 번에 재생한다.
+export function stereoWave(left, right) {
+  const rate = left.sampleRate
+  const frames = Math.max(Math.ceil(left.duration * rate), Math.ceil(right.duration * rate))
+  const channels = [left, right].map((buffer) => {
+    const out = new Float32Array(frames)
+    for (let ch = 0; ch < buffer.numberOfChannels; ch++) {
+      const data = buffer.getChannelData(ch)
+      for (let i = 0; i < frames; i++) {
+        const at = i * buffer.sampleRate / rate
+        if (at >= data.length) break
+        const index = Math.floor(at), fraction = at - index
+        out[i] += (data[index] * (1 - fraction) + data[Math.min(index + 1, data.length - 1)] * fraction) / buffer.numberOfChannels
+      }
+    }
+    return out
+  })
+  return pcmWave(channels, rate)
+}

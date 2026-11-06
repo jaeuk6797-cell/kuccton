@@ -508,7 +508,7 @@ h1, h2 { margin: 0; }
 
 /* 도움말은 앱 취지와 작은 다시 보기 링크만 남긴다. */
 .help-page { overflow: hidden; }
-.help-purpose { flex: 1 1 0; min-height: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+.help-purpose { padding-bottom: clamp(16px, 4dvh, 40px); flex: 1 1 0; min-height: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
 .help-bloom { height: clamp(64px, 18dvh, 180px); min-height: 0; flex: 0 1 auto; display: flex; justify-content: center; }
 .help-bloom > svg { height: 100%; width: auto; display: block; }
 .help-message { flex-shrink: 0; }
@@ -659,7 +659,7 @@ h1, h2 { margin: 0; }
   .page { padding-top: calc(8px + var(--safe-top)); }
   .page-heading .wordmark { font-size: .75rem; line-height: 1.3; padding: 0; }
   .page-heading .page-title { font-size: 1.05rem; }
-  .help-purpose { flex-direction: row; gap: 24px; }
+  .help-purpose { flex-direction: row; gap: 24px; padding-bottom: 0; }
   .help-bloom { flex: 0 1 80px; height: 120px; }
   .help-message { flex: 1; min-width: 0; }
   .help-brand { margin-top: 0; font-size: 1.2rem; }
@@ -713,3 +713,22 @@ h1, h2 { margin: 0; }
   .entry .hero h1 { font-size: 1.9rem; }
   .entry .slogan { font-size: .9rem; }
 }
+
+.push-settings { width: 100%; max-width: 360px; padding: 4px 0; }
+.push-settings-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.push-settings-row > span { display: flex; align-items: center; gap: 8px; font-size: .88rem; }
+.push-toggle { min-width: 62px; min-height: 44px; padding: 8px 14px; border: 1px solid var(--line); border-radius: 14px; font-size: .8rem; }
+.push-toggle[aria-pressed="true"] { background: #fbeee9; color: var(--accent-d); }
+.push-settings p { margin: 6px 0 0; text-align: left; font-size: .72rem; line-height: 1.5; }
+
+.menu-expanded.menu-empty { height: 190px; }
+.sound-player-wrap { width: 100%; max-width: 320px; }
+.sound-player { display: flex; justify-content: center; align-items: center; gap: 14px; padding: 8px 0; }
+.sound-play { display: grid; place-items: center; width: 48px; height: 48px; flex-shrink: 0; border-radius: 50%; background: var(--accent); color: white; }
+.sound-play svg { width: 22px; height: 22px; }
+.sound-play:active { background: var(--accent-d); }
+.sound-play:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.sound-time { font-size: .9rem; font-variant-numeric: tabular-nums; }
+.sound-time > span { color: var(--muted); }
+.sound-player-wrap > p { margin: 4px 0; text-align: center; }
+.stereo-labels { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px 24px; color: var(--muted); font-size: .8rem; }

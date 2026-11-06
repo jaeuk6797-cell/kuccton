@@ -46,3 +46,6 @@ export const Users = (p) => (
 export const User = (p) => (
   <svg {...base} {...p}><circle cx="12" cy="8" r="3.5" /><path d="M5 20c.8-3.6 3.6-5.5 7-5.5s6.2 1.9 7 5.5" /></svg>
 )
+
+export const Play = (p) => (<svg {...base} {...p}><path d="m9 5 11 7-11 7Z" fill="currentColor" stroke="none" /></svg>)
+export const Pause = (p) => (<svg {...base} {...p}><path d="M8 5v14M16 5v14" strokeWidth="3" /></svg>)

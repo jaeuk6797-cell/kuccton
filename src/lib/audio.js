@@ -21,8 +21,8 @@ export function playbackLevel() {
 }
 
 export function audioCtx() {
-  if (!sharedCtx) sharedCtx = new (window.AudioContext || window.webkitAudioContext)()
-  if (sharedCtx.state === 'suspended') sharedCtx.resume()
+  if (!sharedCtx || sharedCtx.state === 'closed') sharedCtx = new (window.AudioContext || window.webkitAudioContext)()
+  if (sharedCtx.state === 'suspended' || sharedCtx.state === 'interrupted') sharedCtx.resume().catch(() => {})
   return sharedCtx
 }
 
@@ -52,40 +52,4 @@ export function peaks(samples, count = 120) {
   }
   const max = Math.max(...out, 1e-6)
   return out.map((v) => v / max)
-}
-
-// 우리의 꽃: 상대는 왼쪽(-1), 나는 오른쪽(+1)으로 동시에 재생
-export function playStereo(leftBuffer, rightBuffer, onEnd) {
-  const ctx = audioCtx()
-  const nodes = []
-  const startAt = ctx.currentTime + 0.05
-  // 두 소리를 합친 실제 음량을 재서 정원에 알려 준다
-  const meter = ctx.createAnalyser()
-  meter.fftSize = 512
-  meter.connect(ctx.destination)
-  const data = new Uint8Array(meter.fftSize)
-  const level = () => {
-    meter.getByteTimeDomainData(data)
-    let sq = 0
-    for (const v of data) sq += ((v - 128) / 128) ** 2
-    return Math.sqrt(sq / data.length) * 4
-  }
-  setPlaybackLevelSource(level)
-  const release = () => { if (levelSource === level) setPlaybackLevelSource(null) }
-  for (const [buf, pan] of [[leftBuffer, -1], [rightBuffer, 1]]) {
-    const src = ctx.createBufferSource()
-    src.buffer = buf
-    const p = ctx.createStereoPanner()
-    p.pan.value = pan
-    src.connect(p).connect(meter)
-    src.start(startAt)
-    nodes.push(src)
-  }
-  const dur = Math.max(leftBuffer.duration, rightBuffer.duration)
-  const t = setTimeout(() => { release(); onEnd && onEnd() }, dur * 1000 + 100)
-  return {
-    startedAt: startAt,
-    duration: dur,
-    stop() { clearTimeout(t); release(); nodes.forEach((n) => { try { n.stop() } catch {} }); onEnd && onEnd() },
-  }
 }

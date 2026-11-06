@@ -1,10 +1,16 @@
 import { useEffect, useState } from 'react'
 import Garden from './components/Garden.jsx'
 import Flower from './components/Flower.jsx'
+import { clearPushForLogout } from './lib/push.js'
 import {
   configured, createGarden,
   currentUser, onAuthChange, signIn, signUp, signOut, myLatestGarden,
 } from './lib/db.js'
+
+async function leaveAccount() {
+  try { await clearPushForLogout() } catch { /* 푸시 정리 실패가 로그아웃을 막지 않도록 한다. */ }
+  await signOut()
+}
 
 // 로그인 필수: 로그인 → (계정의 정원이 있으면 바로 입장 / 없으면 정원 만들기·코드 입장) → 정원
 export default function App() {
@@ -37,7 +43,7 @@ export default function App() {
     <Garden
       key={garden.gardenId}
       session={garden}
-      onSignOut={signOut}
+      onSignOut={leaveAccount}
       email={user.email}
     />
   )
@@ -149,7 +155,7 @@ function GardenSetup({ email, onEnter }) {
     <div className="screen entry center-col">
       <Hero />
       <p className="account-line">
-        {email}로 로그인됨 · <button className="link" onClick={signOut}>로그아웃</button>
+        {email}로 로그인됨 · <button className="link" onClick={leaveAccount}>로그아웃</button>
       </p>
       <label className="field">
         닉네임

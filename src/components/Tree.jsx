@@ -12,6 +12,9 @@ export default function Tree({ flower, size = 96, stem = true, bloom = true, glo
   const trunkW = (3.2 + 2.2 * p.size) * (p.dark ? 1.3 : 1)
   const n = p.branches
   const fill = p.foliage
+  // 작은 아이콘에서는 뿌리가 아니라 실제 그림의 위·아래 중심을 맞춘다.
+  let minY = top + 8
+  let maxY = 100
 
   let crown = null
   if (p.kind === 'pine') {
@@ -20,6 +23,7 @@ export default function Tree({ flower, size = 96, stem = true, bloom = true, glo
     crown = Array.from({ length: n }, (_, i) => {
       const yb = 88 - i * step
       const w = (24 + 14 * p.size) * (1 - i / (n + 1.2)) * (0.75 + 0.25 * len(i))
+      minY = Math.min(minY, yb - step * 1.9)
       return (
         <polygon
           key={i}
@@ -33,6 +37,7 @@ export default function Tree({ flower, size = 96, stem = true, bloom = true, glo
       )
     })
   } else if (p.kind === 'willow') {
+    minY = Math.min(minY, top + 2 - (7 + 3 * p.size))
     // 버드나무: 꼭대기에서 바깥으로 나갔다가 아래로 늘어지는 가지. 길이 = 소리 크기
     crown = (
       <>
@@ -42,6 +47,7 @@ export default function Tree({ flower, size = 96, stem = true, bloom = true, glo
           const droop = (22 + 26 * p.size) * len(i)
           const x1 = side * reach
           const y0 = top + 6
+          maxY = Math.max(maxY, y0 + droop + 2.6 + p.size)
           return (
             <g key={i}>
               <path
@@ -61,6 +67,7 @@ export default function Tree({ flower, size = 96, stem = true, bloom = true, glo
       </>
     )
   } else {
+    minY = Math.min(minY, top - (12 + 9 * p.size))
     // 활엽수: 줄기에서 번갈아 뻗는 가지 끝마다 잎 뭉치. 가지 길이 = 소리 크기
     crown = (
       <>
@@ -72,6 +79,7 @@ export default function Tree({ flower, size = 96, stem = true, bloom = true, glo
           const ang = ((28 + (i % 3) * 9) * Math.PI) / 180
           const x1 = side * Math.sin(ang) * L
           const y1 = y0 - Math.cos(ang) * L
+          minY = Math.min(minY, y1 - (7 + 6 * p.size) * (0.7 + 0.3 * len(i)))
           return (
             <g key={i}>
               <line x1="0" y1={y0} x2={x1} y2={y1} stroke={BROWN} strokeWidth={2 + p.size} strokeLinecap="round" />
@@ -87,7 +95,7 @@ export default function Tree({ flower, size = 96, stem = true, bloom = true, glo
   return (
     <svg
       className={`tree ${bloom ? 'bloom' : ''} ${glow ? 'glow' : ''}`}
-      viewBox={stem ? '-50 -50 100 150' : '-55 -25 110 130'}
+      viewBox={stem ? '-50 -50 100 150' : `-55 ${(minY + maxY) / 2 - 65} 110 130`}
       width={size}
       height={stem ? size * 1.5 : size}
       aria-hidden="true"

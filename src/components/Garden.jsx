@@ -8,6 +8,8 @@ import Visit from './Visit.jsx'
 import Avatar from './Avatar.jsx'
 import PageHeading from './PageHeading.jsx'
 import Tutorial, { HelpPage } from './Tutorial.jsx'
+import PushSettings from './PushSettings.jsx'
+import SoundPlayer from './SoundPlayer.jsx'
 import { displayName } from '../lib/tree.js'
 import { ArrowLeft, Bell, Check, Heart, Help, Menu, Mic, Pencil, Sprout, User, Users, Wave } from './Icons.jsx'
 import { GARDEN_LIMIT, addFriend, archiveShares, audioUrl, currentUser, deleteFlower, deleteReceivedSound, derivePairs, insertFlower, loadGarden, respondShare, shareFlowers, subscribeGarden, today, updateProfile, uploadAudio } from '../lib/db.js'
@@ -28,8 +30,8 @@ export default function Garden({ session, onSignOut, email, demo }) {
   const [recording, setRecording] = useState(false)
   const [openFlower, setOpenFlower] = useState(null)
   const [openPair, setOpenPair] = useState(null)
-  const [showBell, setShowBell] = useState(false)
-  const [menuOpen, setMenuOpen] = useState(false)
+  const [showBell, setShowBell] = useState(() => new URLSearchParams(location.search).get('inbox') === '1')
+  const [menuOpen, setMenuOpen] = useState(() => new URLSearchParams(location.search).get('inbox') === '1')
   const [tutorialOpen, setTutorialOpen] = useState(false)
   const tutorialPromptedRef = useRef(false)
   const [friendPicker, setFriendPicker] = useState(false) // '+N' 친구 고르기 창
@@ -356,7 +358,7 @@ export default function Garden({ session, onSignOut, email, demo }) {
 
       {tab === 'album' && <Album data={data} meId={meId} onOpen={setOpenFlower} onOpenPair={setOpenPair} flowerById={flowerById} />}
       {tab === 'friends' && <Friends data={data} onOpen={setOpenFlower} onVisit={setVisiting} onGoMe={() => setTab('me')} />}
-      {tab === 'me' && <Me me={me} email={email} onSignOut={onSignOut} code={data.garden.code} onAdded={refresh} onSaveProfile={saveProfile} />}
+      {tab === 'me' && <Me demo={Boolean(demo)} me={me} email={email} onSignOut={onSignOut} code={data.garden.code} onAdded={refresh} onSaveProfile={saveProfile} />}
       {tab === 'help' && <HelpPage onTutorial={() => setTutorialOpen(true)} />}
 
       {/* 오른쪽 위 메뉴 (아래 탭바 대신). 어느 화면에서나 같은 자리에 있다 */}
@@ -367,7 +369,7 @@ export default function Garden({ session, onSignOut, email, demo }) {
       {menuOpen && (
         <>
           <div className="menu-backdrop" onClick={closeMenu} />
-          <div id="garden-menu" className={`menu${showBell ? ' menu-expanded' : ''}`}>
+          <div id="garden-menu" className={`menu${showBell ? ' menu-expanded' : ''}${showBell && data.inbox.length === 0 ? ' menu-empty' : ''}`}>
           {showBell ? (
             <section className="menu-inbox" aria-labelledby="inbox-heading">
               <header className="menu-inbox-header">
@@ -499,7 +501,7 @@ function InboxAudio({ flower }) {
     return () => { active = false }
   }, [flower.audio_path])
   return error ? <p className="small muted" role="status">{error}</p>
-    : url ? <audio src={url} controls controlsList="nodownload" onContextMenu={(e) => e.preventDefault()} autoPlay className="preview-audio" aria-label={`${displayName(flower)} 듣기`} onError={() => setError('소리를 재생하지 못했어요. 다시 눌러 주세요.')} />
+    : url ? <SoundPlayer src={url} autoPlay label={displayName(flower)} flower={flower} />
       : <p className="small muted" role="status">소리를 불러오는 중…</p>
 }
 
@@ -810,7 +812,7 @@ function FriendCode({ code: myCode, onAdded }) {
   )
 }
 
-function Me({ me, email, onSignOut, code, onAdded, onSaveProfile }) {
+function Me({ demo, me, email, onSignOut, code, onAdded, onSaveProfile }) {
   return (
     <div className="page me-page">
       <PageHeading>나</PageHeading>
@@ -818,6 +820,7 @@ function Me({ me, email, onSignOut, code, onAdded, onSaveProfile }) {
       <div className="me-content">
       <Profile me={me} email={email} onSave={onSaveProfile} />
       <FriendCode code={code} onAdded={onAdded} />
+      <PushSettings demo={demo} />
       <button className="link logout" onClick={onSignOut}>로그아웃</button>
       </div>
     </div>

@@ -1,0 +1,4 @@
+# 사용자 요청은 함수 안에서 Supabase JWT를 검증하고,
+# DB 트리거 요청은 PUSH_HOOK_SECRET을 따로 검증한다.
+[functions.sound-push]
+verify_jwt = false
