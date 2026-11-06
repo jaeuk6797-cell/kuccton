@@ -297,3 +297,6 @@ h1, h2 { margin: 0; }
 /* 3D 꽃 미리보기 (녹음 미리보기·꽃 상세) */
 .bloom3d { display: grid; place-items: center; margin: -6px auto -4px; }
 .bloom3d canvas { display: block; }
+.join-friend { display: flex; flex-direction: column; gap: 10px; }
+.join-friend input { padding: 12px 14px; border-radius: 12px; border: 1.5px solid var(--line); background: var(--paper); color: var(--ink); }
+.join-friend p { margin: 0; }

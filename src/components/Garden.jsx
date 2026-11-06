@@ -5,7 +5,7 @@ import Recorder from './Recorder.jsx'
 import { FlowerDetail, PairDetail } from './Details.jsx'
 import { displayName, grewText, isTree } from '../lib/tree.js'
 import { Bell, Heart, Mic, Sprout, User, Users, Wave } from './Icons.jsx'
-import { deleteFlower, ensurePairs, insertFlower, loadGarden, subscribeGarden, today, uploadAudio } from '../lib/db.js'
+import { joinFriendGarden, deleteFlower, ensurePairs, insertFlower, loadGarden, subscribeGarden, today, uploadAudio } from '../lib/db.js'
 
 // 받침에 따라 조사 고르기
 const hasBatchim = (w = '') => {
@@ -18,7 +18,7 @@ const timeOfDay = (iso) => {
   return h < 5 ? '새벽' : h < 11 ? '아침' : h < 17 ? '낮' : h < 21 ? '저녁' : '밤'
 }
 
-export default function Garden({ session, onSignOut, email }) {
+export default function Garden({ session, onSignOut, email, onMoved }) {
   const [data, setData] = useState(null)
   const [error, setError] = useState('')
   const [tab, setTab] = useState('garden')
@@ -269,7 +269,7 @@ export default function Garden({ session, onSignOut, email }) {
       )}
 
       {tab === 'album' && <Album data={data} meId={meId} onOpen={setOpenFlower} onOpenPair={setOpenPair} flowerById={flowerById} />}
-      {tab === 'friends' && <Friends data={data} partner={partner} />}
+      {tab === 'friends' && <Friends data={data} partner={partner} meId={meId} onMoved={onMoved} />}
       {tab === 'me' && <Me me={me} data={data} email={email} onSignOut={onSignOut} />}
 
       <nav className="tabbar">
@@ -380,13 +380,38 @@ function Album({ data, meId, onOpen, onOpenPair, flowerById }) {
 
 // 친구 목록: 한 사람당 정원은 하나, 정원 하나에 두 사람 → 친구는 내 정원을 함께 가꾸는 사람.
 // 친구가 보낸 소리는 내 정원 왼쪽에, 내가 보낸 소리는 오른쪽에 꽃으로 핀다.
-function Friends({ data, partner }) {
+function Friends({ data, partner, meId, onMoved }) {
   const [copied, setCopied] = useState(false)
-  const copy = async () => {
-    try { await navigator.clipboard.writeText(data.garden.code); setCopied(true); setTimeout(() => setCopied(false), 2000) } catch {}
+  const [code, setCode] = useState('')
+  const [confirm, setConfirm] = useState(false)
+  const [busy, setBusy] = useState(false)
+  const [error, setError] = useState('')
+  const myCode = data.garden.code
+
+  const share = async () => {
+    const text = `소리숲에서 같이 정원 가꿔요! 정원 코드: ${myCode}
+https://kuccton.vercel.app`
+    try {
+      if (navigator.share) { await navigator.share({ title: '소리숲 정원 코드', text }); return }
+    } catch { return } // 공유 창을 닫은 경우
+    try { await navigator.clipboard.writeText(myCode); setCopied(true); setTimeout(() => setCopied(false), 2000) } catch {}
   }
   const sentBy = (id) => data.flowers.filter((f) => f.sender_id === id).length
   const since = new Date(partner?.created_at || data.garden.created_at)
+  const mine = sentBy(meId)
+
+  async function join() {
+    if (code === myCode) { setError('내 정원 코드예요. 친구의 코드를 넣어 주세요.'); return }
+    if (!confirm) { setConfirm(true); setError(''); return }
+    setBusy(true); setError('')
+    try {
+      const g = await joinFriendGarden(code)
+      onMoved?.(g)
+    } catch (e) {
+      setError(e.message || String(e))
+      setConfirm(false)
+    } finally { setBusy(false) }
+  }
 
   return (
     <div className="page">
@@ -397,19 +422,41 @@ function Friends({ data, partner }) {
             <span className="av partner big">{[...partner.nickname][0]}</span>
             <div>
               <b>{partner.nickname}</b>
-              <small className="muted">{since.getMonth() + 1}월 {since.getDate()}일부터 함께 · 보낸 소리 {sentBy(partner.id)}송이 · 우리의 꽃 {data.pairs.length}송이</small>
+              <small className="muted">{since.getMonth() + 1}월 {since.getDate()}일부터 함께 · 보낸 소리 {sentBy(partner.id)}개 · 우리의 꽃 {data.pairs.length}송이</small>
             </div>
           </li>
         </ul>
       ) : (
         <>
-          <p className="muted">아직 함께하는 친구가 없어요. 정원 코드를 알려 주면 친구가 들어와 소리를 보낼 수 있어요.</p>
+          <p className="muted">아직 함께하는 친구가 없어요. 내 코드를 보내거나, 친구에게 받은 코드를 넣어 주세요.</p>
           <div className="card invite">
             <div>
               <small className="muted">내 정원 코드</small>
-              <div className="big-code">{data.garden.code}</div>
+              <div className="big-code">{myCode}</div>
             </div>
-            <button className="ghost" onClick={copy}>{copied ? '복사했어요' : '코드 복사'}</button>
+            <button className="ghost" onClick={share}>{copied ? '복사했어요' : '코드 보내기'}</button>
+          </div>
+
+          <div className="card join-friend">
+            <b>친구 코드로 함께하기</b>
+            <input
+              value={code}
+              inputMode="numeric"
+              maxLength={6}
+              onChange={(e) => { setCode(e.target.value.replace(/\D/g, '')); setConfirm(false); setError('') }}
+              placeholder="친구 정원 코드 6자리"
+              className="code-input"
+            />
+            {confirm && (
+              <p className="small notice">
+                친구 정원으로 옮겨 갈까요? {mine > 0 ? `내가 보낸 소리 ${mine}개도 함께 옮겨지고, ` : ''}지금 혼자 가꾸던 이 정원은 사라져요.
+              </p>
+            )}
+            <button className="primary" disabled={busy || code.length !== 6} onClick={join}>
+              {busy ? '옮기는 중…' : confirm ? '네, 친구 정원으로 갈게요' : '친구 정원으로 가기'}
+            </button>
+            {confirm && !busy && <button className="link" onClick={() => setConfirm(false)}>취소</button>}
+            {error && <p className="error">{error}</p>}
           </div>
         </>
       )}
