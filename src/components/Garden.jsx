@@ -28,26 +28,17 @@ export default function Garden({ session, onSignOut, email }) {
   const [toast, setToast] = useState('')
   const [fresh, setFresh] = useState(() => new Set())
   const [highlight, setHighlight] = useState(null)
-  const [sheetOpen, setSheetOpen] = useState(false) // 아래 시트: 접힘 = 녹음 버튼만, 펼침 = 상태·오늘의 위로
+  // 녹음 카드: 아래로 끌어내리면 접혀서 정원을 크게 본다 (접힌 상태는 기기에 기억)
+  const [sheetOpen, setSheetOpen] = useState(() => localStorage.getItem('sup.sheet') !== 'closed')
+  const sheetRef = useRef(null)
+  const dragRef = useRef(null)
+  useEffect(() => { localStorage.setItem('sup.sheet', sheetOpen ? 'open' : 'closed') }, [sheetOpen])
   const [hintOn, setHintOn] = useState(true) // 처음 몇 초만 보여 주는 조작 안내
-  const meId = session.memberId
-
   useEffect(() => {
     const t = setTimeout(() => setHintOn(false), 4500)
     return () => clearTimeout(t)
   }, [])
-
-  // 시트 손잡이: 위로 끌면 펼치고 아래로 끌면 접는다. 짧게 누르면 토글
-  const dragY = useRef(null)
-  const onGripDown = (e) => { dragY.current = e.clientY }
-  const onGripUp = (e) => {
-    if (dragY.current == null) return
-    const dy = e.clientY - dragY.current
-    dragY.current = null
-    if (dy < -24) setSheetOpen(true)
-    else if (dy > 24) setSheetOpen(false)
-    else setSheetOpen((o) => !o)
-  }
+  const meId = session.memberId
 
   const refresh = useCallback(async () => {
     setError('')
@@ -142,24 +133,51 @@ export default function Garden({ session, onSignOut, email }) {
 
   const received = data.flowers.filter((f) => f.sender_id !== meId).slice(-8).reverse()
 
+  // 손잡이를 끌면 카드가 손가락을 따라오고, 놓으면 열림/접힘으로 붙는다. 살짝 누르면 토글
+  const SHEET_PEEK = 78
+  const onHandleDown = (e) => {
+    const el = sheetRef.current
+    dragRef.current = { y: e.clientY, dy: 0, h: el.offsetHeight }
+    e.currentTarget.setPointerCapture(e.pointerId)
+    el.style.transition = 'none'
+  }
+  const onHandleMove = (e) => {
+    const d = dragRef.current
+    if (!d) return
+    d.dy = e.clientY - d.y
+    const closedY = d.h - SHEET_PEEK
+    const y = Math.min(closedY, Math.max(0, (sheetOpen ? 0 : closedY) + d.dy))
+    sheetRef.current.style.transform = `translateY(${y}px)`
+  }
+  const onHandleUp = () => {
+    const d = dragRef.current
+    dragRef.current = null
+    const el = sheetRef.current
+    if (el) { el.style.transition = ''; el.style.transform = '' }
+    if (!d) return
+    if (Math.abs(d.dy) < 6) setSheetOpen((o) => !o)
+    else if (d.dy > 40) setSheetOpen(false)
+    else if (d.dy < -40) setSheetOpen(true)
+  }
+
   return (
-    <div className="home">
+    <div className={`home ${sheetOpen ? '' : 'sheet-closed'}`}>
       <div className="sky">
         <div className="cloud c1" /><div className="cloud c2" /><div className="cloud c3" />
       </div>
 
       {tab === 'garden' && (
         <>
-          <div className="island-wrap" onPointerDown={() => setHintOn(false)}>
-            <Island3D
-              flowers={data.flowers}
-              pairs={data.pairs}
-              meId={meId}
-              freshIds={fresh}
-              highlightId={highlight}
-              onPickFlower={setOpenFlower}
-              onPickPair={setOpenPair}
-            />
+          <div className="island-touch" onPointerDown={() => setHintOn(false)}>
+          <Island3D
+            flowers={data.flowers}
+            pairs={data.pairs}
+            meId={meId}
+            freshIds={fresh}
+            highlightId={highlight}
+            onPickFlower={setOpenFlower}
+            onPickPair={setOpenPair}
+          />
           </div>
           <header className="home-head">
             <div className="brand"><Sprout /> 소리숲</div>
@@ -176,7 +194,6 @@ export default function Garden({ session, onSignOut, email }) {
               <span>우리의 꽃 {data.pairs.length}송이</span>
             </div>
           </div>
-
           {data.flowers.length === 0 ? (
             <div className="empty-garden">
               <b>아직 핀 꽃이 없어요</b>
@@ -186,36 +203,39 @@ export default function Garden({ session, onSignOut, email }) {
             <div className={`hint ${hintOn ? '' : 'off'}`}>꽃을 누르면 그날의 소리가 들려요 · 드래그로 둘러보기</div>
           )}
 
-          {sheetOpen && <div className="sheet-dim" onClick={() => setSheetOpen(false)} />}
-          <section className={`home-sheet ${sheetOpen ? 'open' : ''}`}>
-            <button
+          <section ref={sheetRef} className={`home-sheet ${sheetOpen ? '' : 'closed'}`}>
+            <div
               className="sheet-handle"
-              onPointerDown={onGripDown}
-              onPointerUp={onGripUp}
-              aria-expanded={sheetOpen}
-              aria-label={sheetOpen ? '정원 소식 접기' : '정원 소식 펼치기'}
+              onPointerDown={onHandleDown}
+              onPointerMove={onHandleMove}
+              onPointerUp={onHandleUp}
+              onPointerCancel={onHandleUp}
+              role="button"
+              aria-label={sheetOpen ? '녹음 카드 접기' : '녹음 카드 펼치기'}
             >
-              <span className="grip" />
-              {!sheetOpen && <span className="peek">{status.title}</span>}
+              <div className="grip" />
+            </div>
+            <button
+              className="status"
+              onClick={sheetOpen ? status.onClick : () => setSheetOpen(true)}
+              disabled={sheetOpen && !status.onClick}
+            >
+              <div className="avatars">
+                <span className="av partner">{partner ? [...pName][0] : '?'}</span>
+                <span className="av me">나</span>
+              </div>
+              <div className="status-text">
+                <b>{status.title}</b>
+                <small>{status.sub}</small>
+              </div>
             </button>
-            {sheetOpen && (
-              <button className="status" onClick={status.onClick} disabled={!status.onClick}>
-                <div className="avatars">
-                  <span className="av partner">{partner ? [...pName][0] : '?'}</span>
-                  <span className="av me">나</span>
-                </div>
-                <div className="status-text">
-                  <b>{status.title}</b>
-                  <small>{status.sub}</small>
-                </div>
-              </button>
-            )}
-            <button className="record-cta" onClick={() => { setSheetOpen(false); setRecording(true) }}>
+            <button className="mini-rec" onClick={() => setRecording(true)} aria-label="오늘의 소리 녹음하기" tabIndex={sheetOpen ? -1 : 0}>
+              <Mic />
+            </button>
+            <button className="record-cta" onClick={() => setRecording(true)}>
               <Mic /> 오늘의 소리 녹음하기 · 10초
             </button>
-            {sheetOpen && (
-              <button className="comfort-btn" onClick={comfort}><Heart /> 오늘의 위로 · 받은 소리 하나 다시 듣기</button>
-            )}
+            <button className="comfort-btn" onClick={comfort}><Heart /> 오늘의 위로 · 받은 소리 하나 다시 듣기</button>
           </section>
         </>
       )}

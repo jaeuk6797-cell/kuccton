@@ -24,7 +24,6 @@
   --mine: #e9846b;
   --theirs: #7b96e3;
   --line: #e6dfe0;
-  --sheet-peek: 132px; /* 접힌 아래 시트 높이 (손잡이 + 녹음 버튼) */
   font-family: var(--sans);
   color: var(--ink);
   background: var(--bg);
@@ -181,8 +180,7 @@ h1, h2 { margin: 0; }
 .cloud.c3 { width: 140px; height: 50px; top: 12%; right: 10%; opacity: .6; animation-duration: 70s; }
 @keyframes drift { to { transform: translateX(60px); } }
 
-.island-wrap { position: absolute; left: 0; right: 0; top: calc(120px + env(safe-area-inset-top)); bottom: calc(var(--tab) + var(--sheet-peek) - 20px); }
-.island { position: absolute; inset: 0; touch-action: none; }
+.island { position: absolute; left: 0; right: 0; top: 140px; bottom: calc(var(--tab) + 215px); touch-action: none; transition: bottom .35s cubic-bezier(.2,.8,.2,1); }
 .island canvas { display: block; width: 100%; height: 100%; }
 
 .home-head { position: absolute; top: 0; left: 0; right: 0; display: flex; justify-content: space-between; align-items: center; padding: calc(18px + env(safe-area-inset-top)) 20px 0; z-index: 2; }
@@ -194,20 +192,10 @@ h1, h2 { margin: 0; }
 .home-title h1 { font-size: 1.75rem; color: var(--ink); letter-spacing: -0.02em; }
 .chips { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
 .chips span { background: rgba(255,255,255,.88); border-radius: 999px; padding: 6px 12px; font-size: 0.82rem; color: #2f3a2c; box-shadow: 0 1px 4px rgba(0,0,0,.05); }
-.hint { position: absolute; left: 50%; transform: translateX(-50%); bottom: calc(var(--tab) + var(--sheet-peek) + 10px); background: rgba(46,47,58,.55); color: white; font-size: 0.78rem; padding: 7px 14px; border-radius: 999px; white-space: nowrap; z-index: 2; pointer-events: none; backdrop-filter: blur(6px); transition: opacity .6s, transform .6s; }
-.hint.off { opacity: 0; transform: translate(-50%, 6px); }
-.empty-garden { position: absolute; left: 50%; transform: translateX(-50%); bottom: calc(var(--tab) + var(--sheet-peek) + 10px); display: flex; flex-direction: column; align-items: center; gap: 2px; background: rgba(255,252,248,.85); border-radius: 16px; padding: 10px 18px; text-align: center; z-index: 2; pointer-events: none; box-shadow: 0 4px 16px rgba(60,50,80,.1); white-space: nowrap; }
-.empty-garden b { font-size: 0.95rem; }
-.empty-garden small { color: var(--muted); font-size: 0.8rem; }
+.hint { position: absolute; left: 50%; transform: translateX(-50%); bottom: calc(var(--tab) + 246px); transition: bottom .35s cubic-bezier(.2,.8,.2,1); background: rgba(46,47,58,.55); color: white; font-size: 0.78rem; padding: 7px 14px; border-radius: 999px; white-space: nowrap; z-index: 2; pointer-events: none; backdrop-filter: blur(6px); }
 
-.home-sheet { position: absolute; left: 0; right: 0; bottom: var(--tab); background: #fff; border-radius: 26px 26px 0 0; padding: 0 20px 16px; z-index: 4; box-shadow: 0 -8px 30px rgba(60,50,80,.12); display: flex; flex-direction: column; gap: 12px; animation: up .25s ease-out; }
-.home-sheet.open { gap: 14px; }
-.sheet-handle { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 10px 0 0; width: 100%; touch-action: none; }
-.grip { width: 40px; height: 4px; border-radius: 4px; background: #e2dde3; }
-.peek { font-size: 0.85rem; color: var(--muted); max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.sheet-dim { position: absolute; inset: 0; background: rgba(46,47,58,.18); z-index: 3; animation: fade .2s; }
-.comfort-btn { display: flex; align-items: center; justify-content: center; gap: 8px; border: 1.5px solid var(--line); border-radius: 16px; padding: 13px 8px; font-size: 0.92rem; background: #fff; }
-.comfort-btn svg { width: 18px; height: 18px; color: var(--accent); }
+.home-sheet { position: absolute; left: 0; right: 0; bottom: var(--tab); background: #fff; border-radius: 26px 26px 0 0; padding: 10px 20px 16px; z-index: 3; box-shadow: 0 -8px 30px rgba(60,50,40,.12); display: flex; flex-direction: column; gap: 14px; transition: transform .35s cubic-bezier(.2,.8,.2,1); }
+.grip { width: 40px; height: 4px; border-radius: 4px; background: #e2ddd5; margin: 0 auto 2px; }
 .status { display: flex; align-items: center; gap: 12px; text-align: left; width: 100%; }
 .status:disabled { opacity: 1; cursor: default; }
 .avatars { display: flex; flex-shrink: 0; }
@@ -221,7 +209,7 @@ h1, h2 { margin: 0; }
 .record-cta { display: flex; align-items: center; justify-content: center; gap: 10px; background: var(--accent); color: white; font-weight: 700; font-size: 1.05rem; border-radius: 999px; padding: 18px; box-shadow: 0 8px 20px rgba(217,105,79,.3); }
 .record-cta:active { background: var(--accent-d); transform: scale(.99); }
 
-.tabbar { position: absolute; left: 0; right: 0; bottom: 0; height: var(--tab); padding-bottom: env(safe-area-inset-bottom); background: #fff; border-top: 1px solid #efeaee; display: grid; grid-template-columns: repeat(4, 1fr); z-index: 5; }
+.tabbar { position: absolute; left: 0; right: 0; bottom: 0; height: var(--tab); padding-bottom: env(safe-area-inset-bottom); background: #fff; border-top: 1px solid #eee9e1; display: grid; grid-template-columns: repeat(4, 1fr); z-index: 4; }
 .tabbar button { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; font-size: 0.75rem; color: #9a9890; }
 .tabbar button.on { color: var(--ink); font-weight: 700; }
 
@@ -242,8 +230,6 @@ h1, h2 { margin: 0; }
 .album-item b { font-size: 0.8rem; white-space: nowrap; }
 .album-item small { font-size: 0.7rem; color: var(--muted); }
 .album-item.pair { background: #fbefe9; }
-.album-empty { display: flex; flex-direction: column; align-items: center; gap: 6px; text-align: center; padding: 28px 16px; }
-.album-empty .flower { opacity: .55; }
 .sheet-title { font-size: 1.3rem; margin-bottom: 10px; }
 .list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px; }
 .list button { display: flex; align-items: center; gap: 12px; width: 100%; text-align: left; padding: 6px; border-radius: 12px; }
@@ -262,14 +248,40 @@ h1, h2 { margin: 0; }
 .auth-tabs button { padding: 10px; border-radius: 999px; font-weight: 600; color: var(--muted); }
 .auth-tabs button.on { background: white; color: var(--ink); box-shadow: 0 1px 4px rgba(0,0,0,.08); }
 
-/* 친구 목록 */
+/* 아이폰 홈 화면 앱: 상태 표시줄 아래로 내용이 겹치지 않게 */
+.screen { padding-top: calc(20px + env(safe-area-inset-top)); padding-bottom: calc(20px + env(safe-area-inset-bottom)); }
+
+/* 녹음 카드 접기: 손잡이와 오늘 상태 한 줄만 남기고 정원을 크게 */
+.sheet-handle { margin: -10px -20px -6px; padding: 10px 0 8px; cursor: grab; touch-action: none; }
+.home-sheet.closed { transform: translateY(calc(100% - 78px)); }
+.home.sheet-closed .island { bottom: calc(var(--tab) + 70px); }
+.home.sheet-closed .hint { bottom: calc(var(--tab) + 94px); }
+.mini-rec { position: absolute; top: 22px; right: 18px; width: 44px; height: 44px; border-radius: 50%; background: var(--accent); color: white; display: grid; place-items: center; box-shadow: 0 4px 12px rgba(217,105,79,.35); opacity: 0; pointer-events: none; transform: scale(.8); transition: opacity .25s, transform .25s; }
+.home-sheet.closed .mini-rec { opacity: 1; pointer-events: auto; transform: scale(1); }
+.home-sheet.closed .status { padding-right: 56px; }
+.home-sheet.closed .status-text small { display: none; }
+
+/* 안내 문구: 처음 몇 초 뒤 사라짐 */
+.hint { transition: bottom .35s cubic-bezier(.2,.8,.2,1), opacity .6s; }
+.hint.off { opacity: 0; }
+/* 꽃이 하나도 없을 때 (안내 문구 자리에) */
+.empty-garden { position: absolute; left: 50%; transform: translateX(-50%); bottom: calc(var(--tab) + 236px); transition: bottom .35s cubic-bezier(.2,.8,.2,1); display: flex; flex-direction: column; align-items: center; gap: 2px; background: rgba(255,252,248,.88); border-radius: 16px; padding: 10px 18px; text-align: center; z-index: 2; pointer-events: none; box-shadow: 0 4px 16px rgba(60,50,80,.1); white-space: nowrap; }
+.home.sheet-closed .empty-garden { bottom: calc(var(--tab) + 90px); }
+.empty-garden b { font-size: 0.95rem; }
+.empty-garden small { color: var(--muted); font-size: 0.8rem; }
+/* 오늘의 위로 (앨범 탭과 겹치던 버튼은 뺌) */
+.comfort-btn { display: flex; align-items: center; justify-content: center; gap: 8px; border: 1.5px solid var(--line); border-radius: 16px; padding: 13px 8px; font-size: 0.92rem; background: #fff; }
+.comfort-btn svg { width: 18px; height: 18px; color: var(--accent); }
+
+/* 친구 */
 .friend-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
 .invite { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 .invite .big-code { font-size: 1.5rem; padding-left: 0; }
 
+/* 앨범이 비었을 때 */
+.album-empty { display: flex; flex-direction: column; align-items: center; gap: 6px; text-align: center; padding: 28px 16px; }
+.album-empty .flower { opacity: .55; }
+
 /* 3D 꽃 미리보기 (녹음 미리보기·꽃 상세) */
 .bloom3d { display: grid; place-items: center; margin: -6px auto -4px; }
 .bloom3d canvas { display: block; }
-
-/* 아이폰 홈 화면 앱: 상태 표시줄 아래로 내용이 겹치지 않게 */
-.screen { padding-top: calc(20px + env(safe-area-inset-top)); padding-bottom: calc(20px + env(safe-area-inset-bottom)); }
