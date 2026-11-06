@@ -1,4 +1,4 @@
-# 소리숲 (SOOP) — 작업 인계 문서
+# 소리숲 (SUP) — 작업 인계 문서
 
 > 이 문서는 `feat/3d`에서 작성한 초기 기획과 작업 기록입니다. 현재 `main`의 실행 방법과 통합 기준은 [README](README.md)와 [통합 가이드](docs/INTEGRATION.md)를 참고하세요.
 
