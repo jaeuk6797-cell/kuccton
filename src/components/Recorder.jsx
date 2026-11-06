@@ -256,7 +256,7 @@ export default function Recorder({ onClose, onSend }) {
             <div className="row">
               <button className="ghost" onClick={() => setStep('idle')} disabled={step === 'sending'}>다시 녹음</button>
               <button className="primary" onClick={send} disabled={step === 'sending'}>
-                {step === 'sending' ? '보내는 중…' : '보내기'}
+                {step === 'sending' ? '심는 중…' : '정원에 심기'}
               </button>
             </div>
           </div>
