@@ -380,3 +380,8 @@ h1, h2 { margin: 0; }
 /* 접힘: 상태 카드 오른쪽에 작은 녹음 버튼 (손잡이 28 + 간격 10 + (카드 64 - 버튼 48)/2) */
 .mini-rec { position: absolute; top: 46px; right: 0; width: 48px; height: 48px; border-radius: 50%; background: var(--accent); color: white; display: grid; place-items: center; box-shadow: 0 4px 12px rgba(196,87,58,.25); opacity: var(--sheet-p); transform: scale(calc(.8 + .2 * var(--sheet-p))); visibility: hidden; }
 .home-sheet.closed .status { width: calc(100% - 58px); height: 64px; }
+
+/* ^ 손잡이는 배경 없이 표시만 */
+.sheet-handle { background: none; box-shadow: none; backdrop-filter: none; color: #4f4a58; }
+/* '아직 핀 꽃이 없어요'는 오른쪽에 (왼쪽 상태 카드·안내와 겹치지 않게) */
+.empty-garden { left: 36px; right: 20px; align-items: flex-end; text-align: right; }

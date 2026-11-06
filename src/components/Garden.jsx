@@ -19,7 +19,8 @@ const timeOfDay = (iso) => {
   return h < 5 ? '새벽' : h < 11 ? '아침' : h < 17 ? '낮' : h < 21 ? '저녁' : '밤'
 }
 
-export default function Garden({ session, onSignOut, email }) {
+// demo: 개발용 미리보기(?view=home)에서만 넘긴다. 주면 Supabase 대신 그 데이터로 화면만 그린다.
+export default function Garden({ session, onSignOut, email, demo }) {
   const [data, setData] = useState(null)
   const [error, setError] = useState('')
   const [tab, setTab] = useState('garden')
@@ -73,16 +74,18 @@ export default function Garden({ session, onSignOut, email }) {
 
   const refresh = useCallback(async () => {
     setError('')
+    if (demo) { setData(demo); return }
     try {
       setData(await loadGarden(session.gardenId))
     } catch (e) {
       console.error(e)
       setError(e.message || String(e))
     }
-  }, [session.gardenId])
+  }, [session.gardenId, demo])
 
   useEffect(() => {
     refresh()
+    if (demo) return
     let unsub = () => {}, alive = true
     currentUser().then((u) => {
       if (!alive || !u) return
@@ -93,7 +96,7 @@ export default function Garden({ session, onSignOut, email }) {
       })
     })
     return () => { alive = false; unsub() }
-  }, [session.gardenId, meId, refresh])
+  }, [session.gardenId, meId, refresh, demo])
 
   async function handleShare(flowerIds, userIds) {
     await shareFlowers(flowerIds, userIds)
