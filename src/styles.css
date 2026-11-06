@@ -38,8 +38,9 @@
 /* 아이폰(특히 홈 화면 웹앱)에서 아래가 흰색으로 비지 않게:
    - :root와 html의 배경을 모두 하늘 끝 색으로 맞춰 홈 바 영역에도 같은 색을 칠한다
    - 정원 화면은 높이 계산(100dvh) 대신 화면 네 변에 붙인다 */
-html { background: var(--sky-bottom); min-height: 100%; }
-body { margin: 0; min-height: 100%; min-height: 100dvh; background: var(--sky); }
+html { background: var(--sky-bottom); height: 100%; overflow: hidden; overscroll-behavior: none; }
+body { position: fixed; inset: 0; width: 100%; margin: 0; height: 100%; overflow: hidden; overscroll-behavior: none; background: var(--sky); }
+#root { height: 100%; overflow: hidden; }
 h1, .flower-name, .sheet-title, .page-title { font-family: var(--serif); font-weight: 700; }
 button { font: inherit; color: inherit; cursor: pointer; border: 0; background: none; }
 button:disabled { opacity: 0.5; cursor: default; }
@@ -47,7 +48,7 @@ button:disabled { opacity: 0.5; cursor: default; }
 input, textarea { font: inherit; }
 h1, h2 { margin: 0; }
 
-.screen { max-width: 520px; margin: 0 auto; min-height: var(--viewport-height, 100dvh); padding: 20px; }
+.screen { position: fixed; top: var(--viewport-top, 0px); left: 0; right: 0; width: 100%; max-width: 520px; margin: 0 auto; height: var(--viewport-height, 100dvh); min-height: 0; overflow-y: auto; overscroll-behavior: none; padding: 20px; }
 .center-col { display: flex; flex-direction: column; align-items: center; gap: 12px; text-align: center; }
 .row { display: flex; gap: 10px; justify-content: center; width: 100%; }
 .muted { color: var(--muted); }
@@ -67,7 +68,10 @@ h1, h2 { margin: 0; }
 .danger-text { color: #c0392b; }
 
 /* S1 입장 */
-.entry { justify-content: center; gap: 14px; }
+.entry { justify-content: flex-start; gap: 14px; }
+.entry > * { flex-shrink: 0; }
+.entry > :first-child { margin-top: auto; }
+.entry > :last-child { margin-bottom: auto; }
 .hero { display: flex; flex-direction: column; align-items: center; gap: 6px; margin-bottom: 16px; }
 .hero h1 { font-size: 2.2rem; letter-spacing: 0.05em; }
 .slogan { color: var(--muted); line-height: 1.6; margin: 4px 0 0; }
@@ -209,7 +213,7 @@ h1, h2 { margin: 0; }
 .chips span { background: rgba(255,255,255,.88); border-radius: 999px; padding: 6px 12px; font-size: 0.82rem; color: #2f3a2c; box-shadow: 0 1px 4px rgba(0,0,0,.05); }
 /* 안내는 도구 위 왼쪽에, 도구 사이의 빈 공간은 정원 조작에 사용한다. */
 
-.home-sheet { position: absolute; left: max(16px, env(safe-area-inset-left)); right: max(16px, env(safe-area-inset-right)); bottom: max(16px, var(--tab)); padding: 0 0 8px; z-index: 3; display: flex; flex-direction: column; gap: 10px; background: transparent; pointer-events: none; }
+.home-sheet { position: absolute; left: max(16px, env(safe-area-inset-left)); right: max(16px, env(safe-area-inset-right)); bottom: max(12px, var(--safe-bottom)); padding: 0; z-index: 3; display: flex; flex-direction: column; gap: 10px; background: transparent; pointer-events: none; }
 .home-sheet button { pointer-events: auto; }
 .home-sheet button:focus-visible { outline: 3px solid var(--green-d); outline-offset: 3px; }
 .av { width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center; font-weight: 700; font-size: 0.9rem; border: 2px solid white; }
@@ -674,7 +678,7 @@ h1, h2 { margin: 0; }
 
 /* 제목과 메뉴는 고정하고 목록 영역만 스크롤한다. */
 .fixed-heading-page { overflow: hidden; }
-.page-scroll { position: relative; flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior-y: contain; display: flex; flex-direction: column; gap: 12px; }
+.page-scroll { position: relative; flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior-y: none; touch-action: pan-y; display: flex; flex-direction: column; gap: 12px; }
 .page-scroll > * { flex-shrink: 0; }
 .page-scroll > .friends-empty { flex: 1; }
 
@@ -692,3 +696,12 @@ h1, h2 { margin: 0; }
 .picker-friend-name small { font-size: .75rem; }
 .picker-friend-count { display: flex; align-items: baseline; gap: 3px; flex-shrink: 0; font-size: 1.2rem; font-variant-numeric: tabular-nums; }
 .picker-friend-count small { font-size: .75rem; }
+
+/* 작은 화면은 로고와 여백을 줄이고, 키보드로 좁아지면 내부에서 입력칸에 접근한다. */
+@media (max-height: 740px) {
+  .entry { gap: 10px; }
+  .entry .hero { gap: 4px; margin-bottom: 8px; }
+  .entry .hero > .flower { width: 80px; height: 120px; }
+  .entry .hero h1 { font-size: 1.9rem; }
+  .entry .slogan { font-size: .9rem; }
+}

@@ -7,8 +7,15 @@ export function installViewport(win = window, doc = document) {
     frame = 0
     // 사용자의 확대 동작은 브라우저가 그대로 처리한다.
     if (viewport && Math.abs(viewport.scale - 1) > 0.01) return
-    const height = viewport?.height || win.innerHeight
-    const top = viewport?.offsetTop || 0
+    const layoutHeight = Math.max(win.innerHeight || 0, doc.documentElement.clientHeight || 0)
+    const visibleHeight = viewport?.height || layoutHeight
+    const standalone = win.navigator?.standalone || win.matchMedia?.('(display-mode: standalone)').matches
+    const editing = doc.activeElement?.matches('input, textarea, [contenteditable="true"]')
+    const keyboardOpen = editing && layoutHeight - visibleHeight > 100
+    // 홈 화면 앱은 키보드가 없으면 전체 높이를 쓴다. visualViewport의 남은
+    // 오프셋·축소 높이를 따라가면 화면 전체가 밀리거나 하단이 비어 보일 수 있다.
+    const height = standalone && !keyboardOpen ? layoutHeight : visibleHeight
+    const top = keyboardOpen ? viewport?.offsetTop || 0 : 0
     if (!Number.isFinite(height) || height <= 0) return
     const next = `${height}:${top}`
     if (last === next) return
@@ -24,6 +31,8 @@ export function installViewport(win = window, doc = document) {
   viewport?.addEventListener('resize', schedule)
   viewport?.addEventListener('scroll', schedule)
   doc.addEventListener('visibilitychange', onVisible)
+  doc.addEventListener('focusin', schedule)
+  doc.addEventListener('focusout', schedule)
   return () => {
     win.cancelAnimationFrame(frame)
     win.removeEventListener('resize', schedule)
@@ -31,6 +40,8 @@ export function installViewport(win = window, doc = document) {
     viewport?.removeEventListener('resize', schedule)
     viewport?.removeEventListener('scroll', schedule)
     doc.removeEventListener('visibilitychange', onVisible)
+    doc.removeEventListener('focusin', schedule)
+    doc.removeEventListener('focusout', schedule)
     doc.documentElement.style.removeProperty('--viewport-height')
     doc.documentElement.style.removeProperty('--viewport-top')
   }
