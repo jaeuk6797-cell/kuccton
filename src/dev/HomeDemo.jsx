@@ -30,13 +30,13 @@ function flower(who, sample, time) {
 
 function makeData(withFlowers) {
   const now = Date.now()
-  const friends = [{ member_id: FRIEND.member, user_id: FRIEND.user, nickname: FRIEND.name, since: iso(now - 3 * DAY) }]
+  const friends = [{ member_id: FRIEND.member, user_id: FRIEND.user, nickname: FRIEND.name, since: iso(now - 3 * DAY), is_public: true }]
   const members = [
     { id: ME.member, user_id: ME.user, garden_id: 'g-me', nickname: ME.name, created_at: iso(now - 3 * DAY) },
     { id: FRIEND.member, user_id: FRIEND.user, nickname: FRIEND.name, created_at: iso(now - 3 * DAY), friend: true },
   ]
-  const base = { garden: { id: 'g-me', code: '123456', created_at: iso(now - 3 * DAY) }, members, friends, userId: ME.user }
-  if (!withFlowers) return { ...base, flowers: [], sentShares: [], receivedShares: [], pairs: [] }
+  const base = { garden: { id: 'g-me', code: '123456', created_at: iso(now - 3 * DAY), is_public: false }, members, friends, userId: ME.user }
+  if (!withFlowers) return { ...base, flowers: [], sentShares: [], receivedShares: [], inbox: [], pairs: [] }
 
   const mine = [
     flower(ME, VOICE('joy', { rms: 0.09, centroid: 2500, attack: 0.55, onsets: 5, sustain: 0.4, envelope: env(1, 0.6, 0.9, 0.5, 0.8) }, '하하 오늘 진짜 웃겼어'), now - 2 * DAY),
@@ -53,7 +53,10 @@ function makeData(withFlowers) {
   // 오늘 두 사람이 모두 공유했으니 오늘의 우리의 꽃
   const a = mine[2], b = theirs[2]
   const pairs = [{ id: `pair-${FRIEND.user}-${localDate(now)}`, friend: FRIEND.user, flower_a_id: a.id, flower_b_id: b.id, name: pairName(a.root, b.root), sent_date: localDate(now) }]
-  return { ...base, flowers: [...mine, ...theirs], sentShares, receivedShares, pairs }
+  // 받은 소리함: 아직 심을지 고르지 않은 소리 하나
+  const waiting = flower(FRIEND, SOUND({ rms: 0.05, centroid: 3000, attack: 0.7, onsets: 6, sustain: 0.1, envelope: env(1, 0.2, 0.9, 0.3, 1, 0.2) }), now - 10 * 60000)
+  const inbox = [{ ...waiting, share_id: 'share-waiting', from_user: FRIEND.user, shared_at: waiting.created_at }]
+  return { ...base, flowers: [...mine, ...theirs], sentShares, receivedShares, inbox, pairs }
 }
 
 export default function HomeDemo() {

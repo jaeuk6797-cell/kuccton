@@ -16,6 +16,7 @@ const errorText = (e) => {
   if (m.includes('GARDEN_FULL')) return '이미 두 사람이 가꾸는 정원이에요.'
   if (m.includes('ALREADY_PAIRED')) return '이미 다른 친구와 함께 가꾸는 정원이 있어요.'
   if (m.includes('SELF_FRIEND')) return '내 코드예요. 친구의 코드를 넣어 주세요.'
+  if (m.includes('SHARE_NOT_FOUND')) return '이미 처리한 소리예요.'
   if (m.includes('NOT_AUTHENTICATED')) return '먼저 로그인해 주세요.'
   return m
 }
@@ -109,6 +110,25 @@ export async function shareFlowers(flowerIds, toUserIds) {
   if (error) throw error
 }
 
+/** 공유받은 소리를 정원에 심을지(true) 말지(false) */
+export async function respondShare(shareId, accept) {
+  const { error } = await supabase.rpc('respond_share', { p_share_id: shareId, p_accept: accept })
+  if (error) throw new Error(errorText(error))
+}
+
+/** 내 정원 공개/비공개 */
+export async function setGardenPublic(isPublic) {
+  const { error } = await supabase.rpc('set_garden_public', { p_public: isPublic })
+  if (error) throw new Error(errorText(error))
+}
+
+/** 친구의 공개 정원에 놀러 가기: 친구가 직접 심은 소리만 */
+export async function loadVisit(friend) {
+  const { data, error } = await supabase.from('flowers').select('*').eq('garden_id', friend.garden_id).order('created_at')
+  if (error) throw error
+  return data
+}
+
 const localDate = (iso) => {
   const d = new Date(iso)
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
@@ -145,8 +165,8 @@ export async function loadGarden(gardenId) {
     supabase.from('members').select('*').eq('garden_id', gardenId).order('created_at'),
     supabase.from('flowers').select('*').eq('garden_id', gardenId).order('created_at'),
     supabase.rpc('my_friends'),
-    supabase.from('shares').select('flower_id, to_user, created_at').eq('from_user', user.id),
-    supabase.from('shares').select('flower_id, from_user, created_at, flower:flowers(*)').eq('to_user', user.id).order('created_at'),
+    supabase.from('shares').select('id, flower_id, to_user, created_at, status').eq('from_user', user.id),
+    supabase.from('shares').select('id, flower_id, from_user, created_at, status, flower:flowers(*)').eq('to_user', user.id).neq('status', 'declined').order('created_at'),
   ])
   for (const r of [g, m, f, fr, sent, recv]) if (r.error) throw r.error
 
@@ -154,17 +174,21 @@ export async function loadGarden(gardenId) {
   // 받은 꽃은 내 정원 꽃과 함께 섬에 핀다 (보낸 친구는 sender_id로 구분)
   const own = f.data
   const ownIds = new Set(own.map((x) => x.id))
-  const receivedFlowers = recv.data.filter((s) => s.flower && !ownIds.has(s.flower.id)).map((s) => ({ ...s.flower, shared_at: s.created_at }))
+  // 받기로 한 소리만 정원에 핀다. 아직 고르지 않은 소리는 받은 소리함(inbox)에 둔다
+  const receivedFlowers = recv.data.filter((s) => s.status === 'accepted' && s.flower && !ownIds.has(s.flower.id)).map((s) => ({ ...s.flower, shared_at: s.created_at }))
+  const inbox = recv.data.filter((s) => s.status === 'pending' && s.flower).map((s) => ({ ...s.flower, share_id: s.id, shared_at: s.created_at, from_user: s.from_user }))
   const flowers = [...own, ...receivedFlowers]
   const flowerById = Object.fromEntries(flowers.map((x) => [x.id, x]))
   // 친구도 members 모양으로 넣어 두면 화면에서 보낸 사람 이름을 같은 방식으로 찾을 수 있다
   const friendMembers = friends.map((x) => ({ id: x.member_id, user_id: x.user_id, nickname: x.nickname, created_at: x.since, friend: true }))
   const members = [...m.data, ...friendMembers.filter((x) => !m.data.some((y) => y.id === x.id))]
-  const received = recv.data.map(({ flower, ...s }) => s)
+  const received = recv.data.filter((s) => s.status === 'accepted').map(({ flower, ...s }) => s)
   return {
     garden: g.data, members, friends, flowers,
     sentShares: sent.data, receivedShares: received,
-    pairs: derivePairs(friends, sent.data, received, flowerById),
+    inbox,
+    // 우리의 꽃은 서로 받은 소리끼리만
+    pairs: derivePairs(friends, sent.data.filter((x) => x.status === 'accepted'), received, flowerById),
     userId: user.id,
   }
 }
@@ -206,6 +230,7 @@ export function subscribeGarden(gardenId, userId, onChange) {
     .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'flowers', filter }, (e) => onChange('flower', e.new))
     .on('postgres_changes', { event: 'DELETE', schema: 'public', table: 'flowers' }, () => onChange('delete'))
     .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'shares', filter: `to_user=eq.${userId}` }, (e) => onChange('share', e.new))
+    .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'shares', filter: `from_user=eq.${userId}` }, (e) => onChange('answered', e.new))
     .on('postgres_changes', { event: '*', schema: 'public', table: 'friendships' }, () => onChange('friend'))
     .subscribe()
   return () => supabase.removeChannel(ch)
