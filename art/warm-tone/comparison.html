@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SUP · Warm tone comparison</title>
+<style>
+  :root { color-scheme: light; font-family: system-ui, sans-serif; color: #543f49; background: #faf4ef; }
+  body { margin: 0 auto; max-width: 1600px; padding: 32px 24px 60px; }
+  h1 { font-family: Georgia, serif; font-weight: 500; font-size: clamp(32px, 4vw, 52px); margin-bottom: 12px; }
+  h2 { font-size: 20px; margin-top: 40px; }
+  p { max-width: 900px; line-height: 1.6; }
+  a { color: #87546c; }
+  nav { display: flex; flex-wrap: wrap; gap: 12px; margin: 24px 0; }
+  nav a { padding: 8px 14px; background: #f0e1e0; border-radius: 24px; text-decoration: none; }
+  .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  figure { margin: 0; background: #fffaf5; border-radius: 12px; overflow: hidden; border: 1px solid #eadbd9; }
+  figcaption { font-size: 14px; font-weight: 600; padding: 12px 16px; }
+  img { display: block; width: 100%; height: auto; }
+  .portrait img { max-width: 390px; margin: auto; }
+  .note { font-size: 14px; color: #765e67; }
+  .swatches { display: flex; flex-wrap: wrap; gap: 12px; margin: 24px 0; }
+  .swatches span { display: inline-flex; gap: 8px; align-items: center; font-size: 13px; }
+  .swatches i { display: inline-block; width: 22px; height: 22px; border-radius: 50%; border: 1px solid #84687433; background: var(--color); }
+  table { border-collapse: collapse; font-size: 14px; width: 100%; max-width: 880px; }
+  th, td { text-align: left; padding: 10px; border-bottom: 1px solid #eadbd9; }
+  footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid #eadbd9; }
+  @media (max-width: 700px) { body { padding: 24px 12px; } .pair { grid-template-columns: 1fr; } }
+</style>
+<header>
+  <p>SUP / visual material study</p>
+  <h1>A warmer opal garden</h1>
+  <p>Warm pearl, blush, champagne and soft mauve unify the sky, island, crystals and flora. The island silhouette, peony assets, flower shapes and growth behavior remain intact.</p>
+  <p class="note">Before uses the original mixed-flora palette with the required omnidirectional island reflection refinement already incorporated. Each pair uses matching camera position and a fixed animation time of six seconds. Click an image to inspect its full resolution.</p>
+  <div class="swatches">
+    <span><i style="--color:#fff2e6"></i>Pearl ivory</span>
+    <span><i style="--color:#efb9c2"></i>Blush</span>
+    <span><i style="--color:#d5aa87"></i>Champagne</span>
+    <span><i style="--color:#c5a6cc"></i>Warm lavender</span>
+    <span><i style="--color:#946773"></i>Rose-brown</span>
+    <span><i style="--color:#c0dcd5"></i>Aqua accent</span>
+  </div>
+  <nav aria-label="Comparison views">
+    <a href="#garden">Garden</a><a href="#peonies">Peonies</a><a href="#island">Island only</a>
+    <a href="#portrait">50 plants</a><a href="#rotated">Rotated</a><a href="#high">High angle</a>
+  </nav>
+</header>
+<main>
+  <section id="garden"><h2>Default garden view</h2><div class="pair">
+    <figure><figcaption>Before · original tone</figcaption><a href="default-garden.jpg"><img src="default-garden.jpg" alt="Original mixed-flora garden with cool opal ground and cyan accents"></a></figure>
+    <figure><figcaption>After · warm tone</figcaption><a href="warm-garden.jpg"><img src="warm-garden.jpg" alt="Warm garden with pearl ground, blush flowers and peach sky"></a></figure>
+  </div></section>
+  <section id="peonies"><h2>Procedural and Blender peonies</h2><div class="pair">
+    <figure><figcaption>Before · original tone</figcaption><a href="default-peonies.jpg"><img src="default-peonies.jpg" alt="Original procedural and Blender peony detail comparison" loading="lazy"></a></figure>
+    <figure><figcaption>After · warm tone</figcaption><a href="warm-peonies.jpg"><img src="warm-peonies.jpg" alt="Warm procedural and Blender peonies retaining their different sculptural forms" loading="lazy"></a></figure>
+  </div></section>
+  <section id="island"><h2>Island only</h2><div class="pair">
+    <figure><figcaption>Before · original tone</figcaption><a href="default-island.jpg"><img src="default-island.jpg" alt="Original empty island materials" loading="lazy"></a></figure>
+    <figure><figcaption>After · warm tone</figcaption><a href="warm-island.jpg"><img src="warm-island.jpg" alt="Warm empty island with champagne rim and rose mineral underside" loading="lazy"></a></figure>
+  </div></section>
+  <section id="portrait"><h2>50 plants · portrait</h2><div class="pair portrait">
+    <figure><figcaption>Before · original tone</figcaption><a href="default-portrait-50.jpg"><img src="default-portrait-50.jpg" alt="Original dense garden in portrait framing" loading="lazy"></a></figure>
+    <figure><figcaption>After · warm tone</figcaption><a href="warm-portrait-50.jpg"><img src="warm-portrait-50.jpg" alt="Warm dense garden in portrait framing" loading="lazy"></a></figure>
+  </div></section>
+  <section id="rotated"><h2>Rotated camera · reflected color</h2><div class="pair">
+    <figure><figcaption>Before · original tone</figcaption><a href="default-rotated.jpg"><img src="default-rotated.jpg" alt="Original garden at the rotated camera angle" loading="lazy"></a></figure>
+    <figure><figcaption>After · warm tone</figcaption><a href="warm-rotated.jpg"><img src="warm-rotated.jpg" alt="Warm garden showing opal reflections from the same rotated angle" loading="lazy"></a></figure>
+  </div></section>
+  <section id="high"><h2>Additional check · high viewing angle</h2><div class="pair">
+    <figure><figcaption>Before · original tone</figcaption><a href="default-high-angle.jpg"><img src="default-high-angle.jpg" alt="Original island viewed from above" loading="lazy"></a></figure>
+    <figure><figcaption>After · warm tone</figcaption><a href="warm-high-angle.jpg"><img src="warm-high-angle.jpg" alt="Warm island retaining opal sheen from above" loading="lazy"></a></figure>
+  </div></section>
+  <section><h2>Render complexity</h2>
+    <table><thead><tr><th>View</th><th>Draw calls, before / after</th><th>Triangles, before / after</th></tr></thead>
+      <tbody><tr><td>13-plant garden</td><td>657 / 657</td><td>88,408 / 88,408</td></tr>
+      <tr><td>Island only</td><td>27 / 27</td><td>24,048 / 24,048</td></tr>
+      <tr><td>50 plants, portrait</td><td>2,119 / 2,119</td><td>213,056 / 213,056</td></tr></tbody></table>
+    <p class="note">Counts include the garden's shadow and post-processing passes. Separate peony detail canvases are excluded. Automated browser timing samples were interrupted and are not a reliable FPS or GPU benchmark. Geometry, growth and LOD behavior also passed the Node validation.</p>
+  </section>
+</main>
+<footer>
+  <p><a href="report.txt">Implementation and verification report</a> · <a href="browser-comparison.json">Browser measurements</a> · <a href="material-validation.json">Material validation</a> · <a href="interaction-checks.json">Interaction checks</a></p>
+</footer>
+</html>

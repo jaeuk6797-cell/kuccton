@@ -3,7 +3,7 @@
 import * as THREE from 'three'
 import { treeParams } from './tree.js'
 import { toColor } from './flower3d.js'
-import { AQUA, BLUSH, LAVENDER, PEARL, opalMaterial } from './crystalFlora.js'
+import { floraColor, getFloraPalette, opalMaterial } from './crystalFlora.js'
 
 const clamp = (v, a, b) => Math.min(b, Math.max(a, v))
 const easeOutBack = (x) => {
@@ -15,12 +15,14 @@ const TIER_CUT = [[0, -0.5], [0.9, -0.5], [1, -0.36], [0.44, 0.12], [0, 0.5]]
 const CROWN_CUT = [[0, -1], [0.75, -0.69], [1, -0.22], [0.88, 0.44], [0, 1]]
 const DROP_CUT = [[0, -1], [1, -0.16], [0.82, 0.38], [0, 1]]
 
-function crystalCut(profile, baseColor) {
+function crystalCut(profile, baseColor, tone) {
+  const { aqua: AQUA, pearl: PEARL, lavender: LAVENDER, blush: BLUSH, champagne: CHAMPAGNE } = getFloraPalette(tone)
   const sides = 6
   const geometry = new THREE.LatheGeometry(profile.map(([radius, y]) => new THREE.Vector2(radius, y)), sides).toNonIndexed()
   const positions = geometry.attributes.position
   const colors = []
-  const facets = [AQUA, PEARL, LAVENDER, BLUSH, AQUA, LAVENDER]
+  const facets = tone === 'default' ? [AQUA, PEARL, LAVENDER, BLUSH, AQUA, LAVENDER]
+    : [BLUSH, PEARL, LAVENDER, CHAMPAGNE, AQUA, BLUSH]
   const verticesPerSide = (profile.length - 1) * 6
   const tint = new THREE.Color()
   for (let i = 0; i < positions.count; i++) {
@@ -43,7 +45,8 @@ function limb(a, b, r0, r1, mat) {
   return mesh
 }
 
-export function buildTree3D(f) {
+export function buildTree3D(f, { tone = 'warm' } = {}) {
+  const palette = getFloraPalette(tone)
   const p = treeParams(f)
   const n = p.branches
   const len = (i) => p.lengths?.[i] ?? 1
@@ -51,9 +54,9 @@ export function buildTree3D(f) {
   const trunkR = (0.02 + 0.02 * p.size) * (p.dark ? 1.3 : 1)
 
   const stem = new THREE.MeshStandardMaterial({
-    color: p.dark ? '#936773' : '#b88c84', roughness: 0.46, metalness: 0.14, flatShading: true,
+    color: p.dark ? palette.darkTrunk : palette.trunk, roughness: 0.46, metalness: 0.14, flatShading: true,
   })
-  const leafColor = toColor(p.foliage).lerp(AQUA, 0.34)
+  const leafColor = floraColor(toColor(p.foliage), tone).lerp(tone === 'default' ? palette.aqua : palette.pearl, 0.34)
   const leaf = opalMaterial({ roughness: 0.31, flatShading: true })
 
   const tree = new THREE.Group() // 땅에서 자라는 부분. 이 그룹만 키운다
@@ -68,7 +71,7 @@ export function buildTree3D(f) {
   if (p.kind === 'pine') {
     // 소나무: 위로 갈수록 좁아지는 뾰족한 층. 층 너비 = 그 순간의 소리 크기
     const step = (H - 0.1) / (n + 0.4)
-    const tierGeo = crystalCut(TIER_CUT, leafColor)
+    const tierGeo = crystalCut(TIER_CUT, leafColor, tone)
     for (let i = 0; i < n; i++) {
       const r = (0.2 + 0.13 * p.size) * (1 - i / (n + 1.2)) * (0.75 + 0.25 * len(i))
       const h = step * 1.9
@@ -80,12 +83,12 @@ export function buildTree3D(f) {
     }
   } else if (p.kind === 'willow') {
     // 버드나무: 꼭대기에서 바깥으로 나갔다가 아래로 늘어지는 가지
-    const top = new THREE.Mesh(crystalCut(CROWN_CUT, leafColor), leaf)
+    const top = new THREE.Mesh(crystalCut(CROWN_CUT, leafColor, tone), leaf)
     const topR = 0.1 + 0.07 * p.size
     top.scale.set(topR, topR * 0.75, topR)
     top.position.y = H
     tree.add(top)
-    const dropGeo = crystalCut(DROP_CUT, leafColor)
+    const dropGeo = crystalCut(DROP_CUT, leafColor, tone)
     const dropR = 0.02 + 0.008 * p.size
     for (let i = 0; i < n; i++) {
       const phi = (i / n) * Math.PI * 2
@@ -110,7 +113,7 @@ export function buildTree3D(f) {
     }
   } else {
     // 활엽수: 줄기에서 돌아가며 뻗는 가지 끝마다 잎 뭉치. 가지 길이 = 소리 크기
-    const crownGeo = crystalCut(CROWN_CUT, leafColor)
+    const crownGeo = crystalCut(CROWN_CUT, leafColor, tone)
     for (let i = 0; i < n; i++) {
       const t = 0.42 + 0.4 * (i / Math.max(n - 1, 1))
       const start = new THREE.Vector3(0, H * t, 0)

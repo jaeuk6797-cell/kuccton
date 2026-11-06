@@ -1,0 +1,96 @@
+{
+  "growthStart": {
+    "plants": 14,
+    "growing": 1,
+    "opened": 13
+  },
+  "cameraContinuityError": 3.552713678800501e-15,
+  "growthComplete": {
+    "plants": 14,
+    "near": 3,
+    "far": 0,
+    "calls": 667,
+    "triangles": 92000,
+    "geometries": 99,
+    "island": "loaded",
+    "growing": 0,
+    "opened": 14,
+    "camera": {
+      "position": [
+        7.444090651952473,
+        2.5201110048130375,
+        11.894079585183862
+      ],
+      "target": [
+        0,
+        0.1,
+        0
+      ]
+    },
+    "viewport": {
+      "width": 1646,
+      "height": 695,
+      "pixelRatio": 1.5
+    },
+    "performance": {
+      "frame": {
+        "samples": 180,
+        "meanMs": 57.64,
+        "p95Ms": 366.6
+      },
+      "renderCPU": {
+        "samples": 180,
+        "meanMs": 7.98,
+        "p95Ms": 13
+      }
+    }
+  },
+  "removal": {
+    "plants": 13,
+    "near": 2,
+    "far": 0,
+    "calls": 657,
+    "triangles": 88408,
+    "geometries": 99,
+    "island": "loaded",
+    "growing": 0,
+    "opened": 13,
+    "camera": {
+      "position": [
+        5.6448418773503985e-15,
+        5.49612517562342,
+        13.176584731173513
+      ],
+      "target": [
+        0,
+        0.1,
+        0
+      ]
+    },
+    "viewport": {
+      "width": 1646,
+      "height": 695,
+      "pixelRatio": 1.5
+    },
+    "performance": {
+      "frame": {
+        "samples": 180,
+        "meanMs": 105.51,
+        "p95Ms": 533.3
+      },
+      "renderCPU": {
+        "samples": 180,
+        "meanMs": 14.46,
+        "p95Ms": 47.3
+      }
+    }
+  },
+  "blenderSelection": {
+    "picked": "peony-blender-41",
+    "renderer": "blender"
+  },
+  "pairSelection": {
+    "picked": "demo-pair",
+    "renderer": "pair"
+  }
+}

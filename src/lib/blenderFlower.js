@@ -2,13 +2,14 @@ import { useEffect, useState } from 'react'
 import * as THREE from 'three'
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js'
 import { flowerParams, toColor } from './flower3d.js'
+import { floraColor, getFloraPalette } from './crystalFlora.js'
 
 const MODEL_PATH = `${import.meta.env.BASE_URL}models/flora/`
 const PETAL_PIVOTS = ['Outer_Petal_Pivot', 'Middle_Petal_Pivot', 'Inner_Petal_Pivot']
 // Projected bloom width in CSS pixels. The gap keeps small zoom/orbit changes from flipping LODs.
 const NEAR_WIDTH = 46
 const FAR_WIDTH = 36
-const opalVariants = new Map()
+const materialVariants = new Map()
 let cached
 let pending
 
@@ -50,29 +51,52 @@ export function useBlenderFlowerAssets(enabled) {
   return enabled ? cached || assets : null
 }
 
-function acquireOpal(source, tint, release) {
-  const key = tint.getHex()
-  let variant = opalVariants.get(key)
+function createVariant(source, tint, tone, opal) {
+  const material = source.clone()
+  if (opal) material.color.multiply(tint)
+  if (tone !== 'default' && source.name === '03 | Champagne crystal') {
+    material.color.multiply(new THREE.Color('#ffe9df'))
+  }
+  if (tone !== 'default' && source.name === '02 | Aqua mineral') {
+    // Preserve the exported cuts and their tonal variation, warming only the baked color.
+    const previousCompile = source.onBeforeCompile
+    material.onBeforeCompile = function (shader, renderer) {
+      previousCompile.call(this, shader, renderer)
+      shader.fragmentShader = shader.fragmentShader.replace('#include <color_fragment>', `
+        #include <color_fragment>
+        float mineralValue = dot(diffuseColor.rgb, vec3(0.2126, 0.7152, 0.0722));
+        diffuseColor.rgb = mix(diffuseColor.rgb, mineralValue * vec3(1.30, 0.86, 0.82), 0.72);
+      `)
+    }
+    material.customProgramCacheKey = () => 'sup-warm-flora-mineral-v1'
+  }
+  return material
+}
+
+function acquireMaterial(source, tint, tone, opal, release) {
+  const key = `${source.uuid}:${tone}:${opal ? tint.getHex() : 'mineral'}`
+  let variant = materialVariants.get(key)
   if (!variant) {
-    const material = source.clone()
-    material.color.multiply(tint)
+    const material = createVariant(source, tint, tone, opal)
     variant = { material, users: 0 }
-    opalVariants.set(key, variant)
+    materialVariants.set(key, variant)
   }
   variant.users++
   release.push(() => {
     if (--variant.users > 0) return
-    opalVariants.delete(key)
+    materialVariants.delete(key)
     variant.material.dispose()
   })
   return variant.material
 }
 
-export function buildBlenderFlower(flower, assets, { dimmed = false, detail = false } = {}) {
+export function buildBlenderFlower(flower, assets, { dimmed = false, detail = false, tone = 'warm' } = {}) {
   const root = new THREE.Group()
   const { near, far, height, width } = assets
   const scale = (0.55 + 0.25 * flowerParams(flower).size) / height
-  const tint = new THREE.Color('white').lerp(toColor(flower.color), 0.34)
+  const tint = tone === 'default'
+    ? new THREE.Color('white').lerp(toColor(flower.color), 0.34)
+    : getFloraPalette(tone).pearl.clone().lerp(floraColor(toColor(flower.color), tone), 0.28)
   const materials = new Map()
   const release = []
 
@@ -89,11 +113,10 @@ export function buildBlenderFlower(flower, assets, { dimmed = false, detail = fa
       if (!materials.has(source.name)) {
         let material = source
         if (dimmed) {
-          material = source.clone()
-          if (source === opal) material.color.multiply(tint)
+          material = createVariant(source, tint, tone, source === opal)
           release.push(() => material.dispose())
-        } else if (source === opal) {
-          material = acquireOpal(source, tint, release)
+        } else if (source === opal || tone !== 'default') {
+          material = acquireMaterial(source, tint, tone, source === opal, release)
         }
         materials.set(source.name, material)
       }

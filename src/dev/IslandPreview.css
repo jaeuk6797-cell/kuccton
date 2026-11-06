@@ -1,9 +1,20 @@
 .flora-preview {
   position: relative;
   min-height: 100dvh;
+  background: var(--sky);
+}
+.flora-preview[data-tone="default"] {
   background: linear-gradient(180deg, #f7d6e6, #d9ccf5 52%, #bfe8e3);
 }
-.flora-preview .island { inset: 70px 0 48px; }
+.flora-preview[data-portrait="true"] {
+  width: min(390px, 100%);
+  height: 844px;
+  min-height: 844px;
+  margin: 0 auto;
+  box-shadow: 0 0 60px #6b485923;
+}
+.flora-preview .island { inset: 142px 0 48px; }
+.flora-preview[data-portrait="true"] .island { top: 172px; }
 .flora-toolbar, .flora-inspector {
   position: absolute;
   left: 0;
@@ -29,6 +40,7 @@
   font-weight: 600;
 }
 .flora-actions button[aria-pressed="true"] { background: #58456f; color: white; }
+.flora-preview[data-tone="warm"] .flora-actions button[aria-pressed="true"] { background: #855d6b; }
 .flora-stats { font-size: 12px; font-variant-numeric: tabular-nums; }
 .flora-card {
   position: relative;
@@ -42,3 +54,8 @@
 .flora-comparison { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
 .flora-comparison .bloom3d, .flora-comparison canvas { max-width: 100%; height: auto !important; }
 .flora-close { position: absolute; z-index: 1; top: 0; right: 3px; font-size: 22px; }
+@media (max-width: 480px) {
+  .flora-preview .island { top: 172px; }
+  .flora-actions { gap: 4px; }
+  .flora-actions button { padding: 6px 9px; font-size: 12px; }
+}

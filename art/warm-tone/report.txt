@@ -1,0 +1,111 @@
+SUP — Warm Tone Unification Pass
+Branch: codex/warm-tone-pass
+
+Source lineage
+Started from latest origin/codex/mixed-flora-test, 22a1b5d.
+Merged island-refinement commit 1c14b6f6ebb88dadb97de9436239f45113038756
+in merge ee62e21 before visual work. The environment helper's full-orbit cards
+and the circular opal shader weights/high-angle highlight are retained.
+The comparison's "original tone" includes this required orbit refinement;
+it is not a pixel-identical capture of the older pre-merge scene.
+
+Visual result
+The sky moves from lavender/aqua toward blush, peach and pale golden haze.
+The ground keeps its opaque holographic opal response with a warmer pearl
+body and pink/lavender reflected color. Champagne and rose-gold rims frame
+warm quartz accents. Rose-brown mineral shading retains quiet aqua seams.
+Procedural flowers, Blender peonies and trees share warm pearl/blush/lavender
+materials. Warm-white key light and a pink-lavender fill replace the strong
+cyan fill; one restrained aqua environment band preserves cool contrast.
+
+Representative palette
+Pearl ivory #fff2e6; blush #efb9c2; champagne #d5aa87;
+warm lavender #c5a6cc; rose-brown #946773; aqua accent #c0dcd5.
+Sky gradient: #ecd2df → #f3d6d3 → #f8dfce → #f8eddb.
+
+Changed application files
+src/components/Island3D.jsx — tone-aware island/lighting, retained camera pose,
+  deterministic preview time and bounded preview diagnostics.
+src/components/FlowerBloom3D.jsx — matching tone in detail renderers.
+src/lib/islandTone.js — runtime material/vertex-paint tinting for imported island.
+src/lib/gardenEnvironment.js — warm full-orbit reflection cards.
+src/lib/crystalFlora.js — shared original/warm presentation palettes.
+src/lib/flower3d.js — procedural petal, leaf and stem colors.
+src/lib/tree3d.js — warm mineral trunks and crystal foliage colors.
+src/lib/blenderFlower.js — cached runtime material variants; existing assets/LOD.
+src/dev/IslandPreview.jsx — tone, island-only, camera, portrait and still controls.
+src/dev/IslandPreview.css — comparison layout and original-tone background.
+src/styles.css — warm shared sky gradient.
+
+No backend, schema or stored emotion/color data changed. Island and flower
+geometry, the Blender .blend source and exported GLBs were not remodeled.
+QA files in this directory include this report, comparison.html, before/after screenshots,
+browser-comparison.json, interaction-checks.json, material-validation.json and
+the repeatable verify-materials.mjs script.
+
+Before/after comparison
+Open comparison.html for all five requested matched pairs plus high-angle views.
+Captured animation time is fixed at six seconds; each requested pair has identical
+camera coordinates, CSS canvas size and renderer pixel ratio.
+Desktop garden canvas: 1646 × 695, DPR 1.5.
+Portrait preview: 390 × 844 layout; 390 × 624 garden canvas, DPR approximately 1.
+
+Live preview examples (run npm run dev, then use its printed local address)
+?view=island&flora=mixed&tone=default&still=1
+?view=island&flora=mixed&tone=warm&still=1
+Append &compare=1 for peonies, &islandOnly=1 for the empty island,
+&plants=50&portrait=1 for density, or &angle=rotated for reflected-color comparison.
+Remove still=1 to inspect growth and animated motion.
+
+Verification
+node art/warm-tone/verify-materials.mjs art/warm-tone/material-validation.json
+  PASSED: original tone matches 22a1b5d flora appearance; warm/default positions,
+  indices, normals and poses match across 7 emotions, pairs and 3 tree forms at
+  opening values 0, 0.25, 0.5 and 1. Mesh/material counts are unchanged.
+  Blender LOD sequence at 60/41/33/41/50 px: near/near/far/far/near.
+  Cached materials share within a tone, remain isolated across tones, and dispose
+  once after the final lease. Cached asset scenes remain unmodified.
+  Island and both Blender peony GLBs are byte-identical to 22a1b5d.
+npm run build
+  PASSED: Vite 5.4.21, 125 modules, production assets emitted.
+git diff --check
+  PASSED.
+git merge-base --is-ancestor 1c14b6f6ebb88dadb97de9436239f45113038756 HEAD
+  PASSED.
+Browser comparison metadata assertions
+  PASSED: matching cameras/viewports/DPR and plant/LOD/draw counts for all 5 pairs.
+Live interaction checks
+  A new peony progressed from 14 plants / 1 growing to 14 fully opened plants.
+  Removing it restored 13 plants and the original render counts.
+  Selecting peony-blender-41 opened the Blender detail renderer; selecting
+  demo-pair opened the pair renderer. Tone switching retained a manually rotated
+  camera within 3.56e-15 world units. All captured scenes report island loaded.
+  The main home preview also rendered the warm sky and island.
+
+Performance observations
+Garden render counters include shadow and post-processing passes; detail-view
+canvases are separate and excluded from these counts.
+View                    Before calls / triangles    After calls / triangles
+13-plant garden         657 / 88,408                 657 / 88,408
+Compare-peonies garden  657 / 88,408                 657 / 88,408
+Island only             27 / 24,048                  27 / 24,048
+50-plant portrait       2,119 / 213,056               2,119 / 213,056
+Rotated garden          657 / 88,408                 657 / 88,408
+The garden has 2 near peonies in both tones; portrait has 12 far peonies in both.
+Geometry memory matches at 99 for garden/rotated and 255 for fresh portrait loads.
+The empty-island sample reports 24 before / 29 after; that capture followed
+different plant/LOD transitions, so it is not a clean memory comparison.
+The material pass adds no lights, render passes, mesh geometry or texture assets.
+PMREM remains generated once per scene; warm Blender mineral shading adds a
+small luminance/tint calculation. Runtime GPU cost was not directly measured.
+
+Limits / unresolved verification
+No functional defect was observed. Browser timing samples contain large frame
+gaps during automated interaction/focus changes, consistent with throttling or
+interruption. They are preserved in browser-comparison.json but are unsuitable
+for an FPS or GPU regression claim. Draw complexity is unchanged; a controlled
+foreground/device benchmark is still needed to quantify frame-time differences.
+Portrait framing was checked on desktop hardware, not a physical mobile device.
+The existing Vite warning about a minified chunk larger than 500 kB remains.
+The optional high-angle screenshots are visual evidence; the five primary pairs
+have the saved numeric camera/viewport measurements.

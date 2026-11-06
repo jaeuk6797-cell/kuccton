@@ -8,7 +8,7 @@ import { createGardenEnvironment } from '../lib/gardenEnvironment.js'
 import { buildTree3D } from '../lib/tree3d.js'
 import { isTree } from '../lib/tree.js'
 
-export default function FlowerBloom3D({ flower, colors, pair = false, size = 180, blender = false, closeUp = false }) {
+export default function FlowerBloom3D({ flower, colors, pair = false, size = 180, blender = false, closeUp = false, tone = 'warm', previewTime }) {
   const wrapRef = useRef(null)
   const palette = colors || [flower.color]
   const tree = !pair && !colors && isTree(flower)
@@ -27,7 +27,7 @@ export default function FlowerBloom3D({ flower, colors, pair = false, size = 180
     wrap.appendChild(renderer.domElement)
 
     const scene = new THREE.Scene()
-    const environment = createGardenEnvironment(renderer, 64)
+    const environment = createGardenEnvironment(renderer, 64, tone)
     scene.environment = environment.texture
     scene.environmentIntensity = 0.55
     const camera = new THREE.PerspectiveCamera(closeUp ? 25 : 32, w / h, 0.1, 50)
@@ -38,27 +38,28 @@ export default function FlowerBloom3D({ flower, colors, pair = false, size = 180
       camera.position.set(0, 1.45, 1.4) // 꽃송이가 화면을 채우고 꽃잎 안쪽이 보이도록 위에서 비스듬히
       camera.lookAt(0, 0.5, 0)
     }
-    scene.add(new THREE.HemisphereLight('#e3eaff', '#8f838c', 0.65))
+    const warm = tone !== 'default'
+    scene.add(new THREE.HemisphereLight(warm ? '#f6dfd8' : '#e3eaff', warm ? '#94747f' : '#8f838c', 0.65))
     const sun = new THREE.DirectionalLight('#fff1dc', 1.55)
     sun.position.set(1.5, 3, 2)
     scene.add(sun)
 
-    const obj = assets ? buildBlenderFlower(flower, assets, { detail: true })
-      : tree ? buildTree3D(flower) : buildFlower3D(flower, palette, { pair })
+    const obj = assets ? buildBlenderFlower(flower, assets, { detail: true, tone })
+      : tree ? buildTree3D(flower, { tone }) : buildFlower3D(flower, palette, { pair, tone })
     if (import.meta.env.DEV) wrap.dataset.flora = assets ? 'blender' : tree ? 'tree' : pair ? 'pair' : 'procedural'
     scene.add(obj)
 
     const clock = new THREE.Clock()
     let raf
     const loop = () => {
-      const t = clock.getElapsedTime()
+      const t = previewTime ?? clock.getElapsedTime()
       const grow = Math.min(1, t / 1.2)
       obj.scale.setScalar(0.3 + 0.7 * (1 - (1 - grow) ** 3))
       obj.userData.setOpen?.(Math.min(1, Math.max(0, (t - 0.2) / 1.8)))
       obj.userData.tick?.(t)
       obj.rotation.y = t * 0.35
       renderer.render(scene, camera)
-      raf = requestAnimationFrame(loop)
+      if (previewTime == null) raf = requestAnimationFrame(loop)
     }
     loop()
 
@@ -70,7 +71,7 @@ export default function FlowerBloom3D({ flower, colors, pair = false, size = 180
       wrap.removeChild(renderer.domElement)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [shapeKey, size, closeUp, assets])
+  }, [shapeKey, size, closeUp, assets, tone, previewTime])
 
   return <div ref={wrapRef} className="bloom3d" style={{ width: size, height: Math.round(size * 1.1) }} aria-hidden="true" />
 }

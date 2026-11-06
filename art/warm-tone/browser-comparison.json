@@ -1,0 +1,408 @@
+{
+  "baseline": "Original mixed-flora palette plus required 1c14b6f orbit refinement",
+  "comparison": "Warm tone",
+  "fixedAnimationTime": 6,
+  "cameraContinuityMaxError": 3.552713678800501e-15,
+  "measurements": {
+    "warm-garden": {
+      "plants": 13,
+      "near": 2,
+      "far": 0,
+      "calls": 657,
+      "triangles": 88408,
+      "geometries": 99,
+      "island": "loaded",
+      "growing": 0,
+      "opened": 13,
+      "camera": {
+        "position": [
+          0,
+          5.496125175623439,
+          13.176584731173508
+        ],
+        "target": [
+          0,
+          0.1,
+          0
+        ]
+      },
+      "viewport": {
+        "width": 1646,
+        "height": 695,
+        "pixelRatio": 1.5
+      },
+      "performance": {
+        "frame": {
+          "samples": 87,
+          "meanMs": 334,
+          "p95Ms": 1009
+        },
+        "renderCPU": {
+          "samples": 89,
+          "meanMs": 16.54,
+          "p95Ms": 85.1
+        }
+      }
+    },
+    "default-garden": {
+      "plants": 13,
+      "near": 2,
+      "far": 0,
+      "calls": 657,
+      "triangles": 88408,
+      "geometries": 99,
+      "island": "loaded",
+      "growing": 0,
+      "opened": 13,
+      "camera": {
+        "position": [
+          0,
+          5.496125175623439,
+          13.176584731173508
+        ],
+        "target": [
+          0,
+          0.1,
+          0
+        ]
+      },
+      "viewport": {
+        "width": 1646,
+        "height": 695,
+        "pixelRatio": 1.5
+      },
+      "performance": {
+        "frame": {
+          "samples": 51,
+          "meanMs": 81.21,
+          "p95Ms": 533.2
+        },
+        "renderCPU": {
+          "samples": 53,
+          "meanMs": 11.95,
+          "p95Ms": 41.2
+        }
+      }
+    },
+    "default-peonies": {
+      "plants": 13,
+      "near": 2,
+      "far": 0,
+      "calls": 657,
+      "triangles": 88408,
+      "geometries": 99,
+      "island": "loaded",
+      "growing": 0,
+      "opened": 13,
+      "camera": {
+        "position": [
+          0,
+          5.496125175623439,
+          13.176584731173508
+        ],
+        "target": [
+          0,
+          0.1,
+          0
+        ]
+      },
+      "viewport": {
+        "width": 1646,
+        "height": 695,
+        "pixelRatio": 1.5
+      },
+      "performance": {
+        "frame": {
+          "samples": 111,
+          "meanMs": 94.52,
+          "p95Ms": 516.8
+        },
+        "renderCPU": {
+          "samples": 113,
+          "meanMs": 11.54,
+          "p95Ms": 30.8
+        }
+      }
+    },
+    "warm-peonies": {
+      "plants": 13,
+      "near": 2,
+      "far": 0,
+      "calls": 657,
+      "triangles": 88408,
+      "geometries": 99,
+      "island": "loaded",
+      "growing": 0,
+      "opened": 13,
+      "camera": {
+        "position": [
+          0,
+          5.496125175623439,
+          13.176584731173508
+        ],
+        "target": [
+          0,
+          0.1,
+          0
+        ]
+      },
+      "viewport": {
+        "width": 1646,
+        "height": 695,
+        "pixelRatio": 1.5
+      },
+      "performance": {
+        "frame": {
+          "samples": 41,
+          "meanMs": 122.15,
+          "p95Ms": 883.3
+        },
+        "renderCPU": {
+          "samples": 43,
+          "meanMs": 15.56,
+          "p95Ms": 70.8
+        }
+      }
+    },
+    "warm-island": {
+      "plants": 0,
+      "near": 0,
+      "far": 0,
+      "calls": 27,
+      "triangles": 24048,
+      "geometries": 29,
+      "island": "loaded",
+      "growing": 0,
+      "opened": 0,
+      "camera": {
+        "position": [
+          0,
+          5.496125175623439,
+          13.176584731173508
+        ],
+        "target": [
+          0,
+          0.1,
+          0
+        ]
+      },
+      "viewport": {
+        "width": 1646,
+        "height": 695,
+        "pixelRatio": 1.5
+      },
+      "performance": {
+        "frame": {
+          "samples": 180,
+          "meanMs": 129.63,
+          "p95Ms": 333.1
+        },
+        "renderCPU": {
+          "samples": 180,
+          "meanMs": 7.31,
+          "p95Ms": 34.8
+        }
+      }
+    },
+    "default-island": {
+      "plants": 0,
+      "near": 0,
+      "far": 0,
+      "calls": 27,
+      "triangles": 24048,
+      "geometries": 24,
+      "island": "loaded",
+      "growing": 0,
+      "opened": 0,
+      "camera": {
+        "position": [
+          0,
+          5.496125175623439,
+          13.176584731173508
+        ],
+        "target": [
+          0,
+          0.1,
+          0
+        ]
+      },
+      "viewport": {
+        "width": 1646,
+        "height": 695,
+        "pixelRatio": 1.5
+      },
+      "performance": {
+        "frame": {
+          "samples": 80,
+          "meanMs": 79.38,
+          "p95Ms": 283
+        },
+        "renderCPU": {
+          "samples": 82,
+          "meanMs": 6.03,
+          "p95Ms": 3.5
+        }
+      }
+    },
+    "default-rotated": {
+      "plants": 13,
+      "near": 2,
+      "far": 0,
+      "calls": 657,
+      "triangles": 88408,
+      "geometries": 99,
+      "island": "loaded",
+      "growing": 0,
+      "opened": 13,
+      "camera": {
+        "position": [
+          10.660080975340813,
+          5.496125175623437,
+          -7.745002180565966
+        ],
+        "target": [
+          0,
+          0.1,
+          0
+        ]
+      },
+      "viewport": {
+        "width": 1646,
+        "height": 695,
+        "pixelRatio": 1.5
+      },
+      "performance": {
+        "frame": {
+          "samples": 63,
+          "meanMs": 99.34,
+          "p95Ms": 349.9
+        },
+        "renderCPU": {
+          "samples": 65,
+          "meanMs": 10.27,
+          "p95Ms": 43.5
+        }
+      }
+    },
+    "warm-rotated": {
+      "plants": 13,
+      "near": 2,
+      "far": 0,
+      "calls": 657,
+      "triangles": 88408,
+      "geometries": 99,
+      "island": "loaded",
+      "growing": 0,
+      "opened": 13,
+      "camera": {
+        "position": [
+          10.660080975340813,
+          5.496125175623437,
+          -7.745002180565966
+        ],
+        "target": [
+          0,
+          0.1,
+          0
+        ]
+      },
+      "viewport": {
+        "width": 1646,
+        "height": 695,
+        "pixelRatio": 1.5
+      },
+      "performance": {
+        "frame": {
+          "samples": 95,
+          "meanMs": 57.81,
+          "p95Ms": 149.9
+        },
+        "renderCPU": {
+          "samples": 97,
+          "meanMs": 8.7,
+          "p95Ms": 34.8
+        }
+      }
+    },
+    "warm-portrait-50": {
+      "plants": 50,
+      "near": 0,
+      "far": 12,
+      "calls": 2119,
+      "triangles": 213056,
+      "geometries": 255,
+      "island": "loaded",
+      "growing": 0,
+      "opened": 50,
+      "camera": {
+        "position": [
+          0,
+          8.478834570803286,
+          20.459944882194062
+        ],
+        "target": [
+          0,
+          0.1,
+          0
+        ]
+      },
+      "viewport": {
+        "width": 390,
+        "height": 624,
+        "pixelRatio": 1.0000000447034836
+      },
+      "performance": {
+        "frame": {
+          "samples": 65,
+          "meanMs": 182.56,
+          "p95Ms": 1033.3
+        },
+        "renderCPU": {
+          "samples": 67,
+          "meanMs": 24.23,
+          "p95Ms": 66.1
+        }
+      }
+    },
+    "default-portrait-50": {
+      "plants": 50,
+      "near": 0,
+      "far": 12,
+      "calls": 2119,
+      "triangles": 213056,
+      "geometries": 255,
+      "island": "loaded",
+      "growing": 0,
+      "opened": 50,
+      "camera": {
+        "position": [
+          0,
+          8.478834570803286,
+          20.459944882194062
+        ],
+        "target": [
+          0,
+          0.1,
+          0
+        ]
+      },
+      "viewport": {
+        "width": 390,
+        "height": 624,
+        "pixelRatio": 1.0000000447034836
+      },
+      "performance": {
+        "frame": {
+          "samples": 96,
+          "meanMs": 138.71,
+          "p95Ms": 534.2
+        },
+        "renderCPU": {
+          "samples": 98,
+          "meanMs": 22.97,
+          "p95Ms": 52.7
+        }
+      }
+    }
+  }
+}

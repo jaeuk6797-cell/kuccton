@@ -61,33 +61,49 @@ const DENSE = Array.from({ length: 50 - BASE.length }, (_, i) => i % 4 === 0
   ? peony(`dense-peony-${i}`, 20 + i, PEONY_COLORS[(i / 4) % PEONY_COLORS.length])
   : row(`dense-${i}`, SAMPLES[i % SAMPLES.length], 20 + i))
 const PAIRS = [PAIR]
+const EMPTY = []
 const isMixedFlower = flower => flower.id !== CONTROL_ID && MIXED_CATEGORIES.has(flower.category)
+
+function updateQuery(values) {
+  const url = new URL(location.href)
+  for (const [key, value] of Object.entries(values)) {
+    if (value == null) url.searchParams.delete(key)
+    else url.searchParams.set(key, value)
+  }
+  history.replaceState(null, '', url)
+}
 
 export default function IslandPreview() {
   const params = new URLSearchParams(location.search)
   const [mode, setMode] = useState(() => params.get('flora') === 'mixed' ? 'mixed' : 'original')
   const [dense, setDense] = useState(() => params.get('plants') === '50')
+  const [tone, setTone] = useState(() => params.get('tone') === 'default' ? 'default' : 'warm')
+  const [islandOnly, setIslandOnly] = useState(() => params.get('islandOnly') === '1')
+  const [angle, setAngle] = useState(() => params.get('angle') === 'rotated' ? 'rotated' : 'front')
+  const [portrait, setPortrait] = useState(() => params.get('portrait') === '1')
+  const [still, setStill] = useState(() => params.get('still') === '1')
   const [extra, setExtra] = useState([])
   const [fresh, setFresh] = useState(null)
   const [picked, setPicked] = useState(null)
-  const [compare, setCompare] = useState(false)
+  const [compare, setCompare] = useState(() => params.get('compare') === '1')
   const [reset, setReset] = useState(null)
   const [stats, setStats] = useState(null)
   const seq = useRef(0)
   const flowers = useMemo(() => [...BASE, ...(dense ? DENSE : []), ...extra], [dense, extra])
   const isBlenderFlower = mode === 'mixed' ? isMixedFlower : undefined
+  const previewTime = still ? 6 : undefined
 
   const setView = (nextMode, nextDense) => {
-    const url = new URL(location.href)
-    url.searchParams.set('flora', nextMode)
-    if (nextDense) url.searchParams.set('plants', '50')
-    else url.searchParams.delete('plants')
-    history.replaceState(null, '', url)
+    updateQuery({ flora: nextMode, plants: nextDense ? '50' : null })
     setMode(nextMode)
     setDense(nextDense)
     if (picked?.id.startsWith('dense-')) setPicked(null)
   }
-  const pick = useCallback(flower => { setCompare(false); setPicked(flower) }, [])
+  const pick = useCallback(flower => {
+    updateQuery({ compare: null })
+    setCompare(false)
+    setPicked(flower)
+  }, [])
   const add = () => {
     const i = seq.current++
     const flower = peony(`fresh-peony-${i}`, 80 + i, PEONY_COLORS[i % PEONY_COLORS.length])
@@ -99,21 +115,48 @@ export default function IslandPreview() {
     setExtra(list => list.slice(0, -1))
     setFresh(null)
   }
-  const close = () => { setCompare(false); setPicked(null) }
+  const close = () => { updateQuery({ compare: null }); setCompare(false); setPicked(null) }
+  const chooseTone = next => { updateQuery({ tone: next }); setTone(next) }
+  const toggleIsland = () => {
+    updateQuery({ islandOnly: !islandOnly ? '1' : null, compare: null })
+    setIslandOnly(value => !value)
+    setCompare(false)
+    setPicked(null)
+  }
+  const resetView = () => {
+    updateQuery({ angle: null })
+    setAngle('front')
+    setReset(value => (value ?? 0) + 1)
+  }
 
   return (
-    <main className="flora-preview" data-mode={mode}>
+    <main className="flora-preview" data-mode={mode} data-tone={tone} data-portrait={portrait} data-still={still}>
       <Island3D
-        flowers={flowers} pairs={PAIRS} meId={ME} freshIds={fresh} highlightId={picked?.id}
+        flowers={islandOnly ? EMPTY : flowers} pairs={islandOnly ? EMPTY : PAIRS} meId={ME} freshIds={fresh} highlightId={picked?.id}
         onPickFlower={pick} onPickPair={pick} resetViewKey={reset}
         isBlenderFlower={isBlenderFlower} onPreviewStats={setStats}
+        tone={tone} previewAngle={angle} previewTime={previewTime}
       />
       <header className="flora-toolbar" aria-label="Garden comparison controls">
+        <div className="flora-actions" aria-label="Tone comparison">
+          <button aria-pressed={tone === 'default'} onClick={() => chooseTone('default')}>Original tone</button>
+          <button aria-pressed={tone === 'warm'} onClick={() => chooseTone('warm')}>Warm tone</button>
+          <button aria-pressed={still} onClick={() => { updateQuery({ still: !still ? '1' : null }); setStill(value => !value) }}>Still frame</button>
+        </div>
         <div className="flora-actions">
-          <button aria-pressed={mode === 'original'} onClick={() => setView('original', dense)}>Original</button>
-          <button aria-pressed={mode === 'mixed'} onClick={() => setView('mixed', dense)}>Mixed</button>
+          <button aria-pressed={mode === 'original'} onClick={() => setView('original', dense)}>Procedural flora</button>
+          <button aria-pressed={mode === 'mixed'} onClick={() => setView('mixed', dense)}>Mixed flora</button>
           <button aria-pressed={dense} onClick={() => setView(mode, !dense)}>50 plants</button>
-          <button onClick={() => setReset(value => (value ?? 0) + 1)}>Reset view</button>
+          <button aria-pressed={islandOnly} onClick={toggleIsland}>Island only</button>
+        </div>
+        <div className="flora-actions">
+          <button aria-pressed={angle === 'rotated'} onClick={() => {
+            const next = angle === 'front' ? 'rotated' : 'front'
+            updateQuery({ angle: next === 'front' ? null : next })
+            setAngle(next)
+          }}>Rotated view</button>
+          <button aria-pressed={portrait} onClick={() => { updateQuery({ portrait: !portrait ? '1' : null }); setPortrait(value => !value) }}>Portrait</button>
+          <button onClick={resetView}>Reset view</button>
         </div>
         {stats && <output className="flora-stats" data-stats={JSON.stringify(stats)}>
           {stats.plants} plants · {stats.near} near / {stats.far} far · {stats.calls.toLocaleString()} calls · {stats.triangles.toLocaleString()} triangles
@@ -123,19 +166,19 @@ export default function IslandPreview() {
         {(compare || picked) && <section className="flora-card" aria-label={compare ? 'Peony comparison' : 'Plant detail'} data-picked={picked?.id}>
           <button className="flora-close" onClick={close} aria-label="Close preview">×</button>
           {compare ? <div className="flora-comparison">
-            <div><FlowerBloom3D flower={CONTROL} size={216} closeUp /><strong>Procedural peony</strong></div>
-            <div><FlowerBloom3D flower={HERO} size={216} closeUp blender={mode === 'mixed'} /><strong>{mode === 'mixed' ? 'Crystal peony' : 'Procedural peony'}</strong></div>
+            <div><FlowerBloom3D flower={CONTROL} size={216} closeUp tone={tone} previewTime={previewTime} /><strong>Procedural peony</strong></div>
+            <div><FlowerBloom3D flower={HERO} size={216} closeUp blender={mode === 'mixed'} tone={tone} previewTime={previewTime} /><strong>{mode === 'mixed' ? 'Crystal peony' : 'Procedural peony'}</strong></div>
           </div> : <>
             {picked === PAIR
-              ? <FlowerBloom3D flower={{ ...PAIR_B, petals: Math.min(8, Math.max(PAIR_A.petals, PAIR_B.petals) + 1) }} colors={[PAIR_A.color, PAIR_B.color]} pair size={148} />
-              : <FlowerBloom3D flower={picked} size={148} blender={isBlenderFlower?.(picked)} closeUp={isBlenderFlower?.(picked)} />}
+              ? <FlowerBloom3D flower={{ ...PAIR_B, petals: Math.min(8, Math.max(PAIR_A.petals, PAIR_B.petals) + 1) }} colors={[PAIR_A.color, PAIR_B.color]} pair size={148} tone={tone} previewTime={previewTime} />
+              : <FlowerBloom3D flower={picked} size={148} blender={isBlenderFlower?.(picked)} closeUp={isBlenderFlower?.(picked)} tone={tone} previewTime={previewTime} />}
             <strong>{displayName(picked)}</strong>
             {picked.transcript && <div>꽃말: “{picked.transcript}”</div>}
           </>}
         </section>}
         <div className="flora-actions">
-          <button onClick={() => { setPicked(null); setCompare(true) }}>Compare peonies</button>
-          <button onClick={add}>Plant peony</button>
+          <button onClick={() => { updateQuery({ compare: '1' }); setPicked(null); setCompare(true) }}>Compare peonies</button>
+          <button disabled={islandOnly} onClick={add}>Plant peony</button>
           <button disabled={!extra.length} onClick={remove}>Remove last</button>
         </div>
       </footer>

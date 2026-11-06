@@ -12,6 +12,7 @@ import { buildBlenderFlower, useBlenderFlowerAssets } from '../lib/blenderFlower
 import { buildTree3D } from '../lib/tree3d.js'
 import { createGardenEnvironment } from '../lib/gardenEnvironment.js'
 import { isTree } from '../lib/tree.js'
+import { applyWarmIslandMaterial, applyWarmIslandPaint } from '../lib/islandTone.js'
 import { playbackLevel } from '../lib/audio.js'
 
 // 블렌더 섬 모델: public/models/island.glb 를 올리면 코드로 만든 섬 대신 자동으로 쓴다.
@@ -65,11 +66,12 @@ function disposeMeshes(root) {
   for (const resource of resources) resource.dispose()
 }
 
-function applyOpalReflection(material) {
+function applyOpalReflection(material, tone) {
   if (material.name !== 'SUP Opalescent ground' || material.userData.opalReflection) return
   material.userData.opalReflection = true
   // Native thin-film shading added measured cost without a visible gain over this angular scatter.
   material.iridescence = 0
+  const warm = tone !== 'default'
   const previousCompile = material.onBeforeCompile
   material.onBeforeCompile = function (shader, renderer) {
     previousCompile.call(this, shader, renderer)
@@ -86,11 +88,11 @@ function applyOpalReflection(material) {
         1.0 - opalReflection.z,
         1.0 + 0.8660254 * opalReflection.x + 0.5 * opalReflection.z,
         1.0 - 0.8660254 * opalReflection.x + 0.5 * opalReflection.z) / 3.0;
-      vec3 opalTint = opalWeights.x * vec3(0.72, 1.12, 1.14)
-        + opalWeights.y * vec3(1.18, 0.78, 1.03)
-        + opalWeights.z * vec3(1.14, 0.76, 1.18);
+      vec3 opalTint = opalWeights.x * vec3(${warm ? '1.02, 1.03, 1.10' : '0.72, 1.12, 1.14'})
+        + opalWeights.y * vec3(${warm ? '1.26, 0.78, 0.96' : '1.18, 0.78, 1.03'})
+        + opalWeights.z * vec3(${warm ? '1.02, 0.86, 1.24' : '1.14, 0.76, 1.18'});
       // A quiet pearl body persists while reflected color strengthens toward grazing views.
-      reflectedLight.indirectDiffuse *= mix(vec3(0.92, 1.02, 1.04), opalTint,
+      reflectedLight.indirectDiffuse *= mix(vec3(${warm ? '1.06, 1.0, 0.97' : '0.92, 1.02, 1.04'}), opalTint,
         0.55 + 0.20 * opalGrazing);
       reflectedLight.indirectSpecular *= mix(vec3(1.0), opalTint, 0.70 + 0.25 * opalGrazing);
       // Upper viewing directions retain a polished response without brightening diffuse light.
@@ -104,7 +106,7 @@ function applyOpalReflection(material) {
       reflectedLight.indirectSpecular *= 1.0 + 31.0 * opalUpperView * opalUpperHighlight;
     `)
   }
-  material.customProgramCacheKey = () => 'soop-opal-reflection-v3'
+  material.customProgramCacheKey = () => `sup-opal-reflection-v3-${tone}`
   material.needsUpdate = true
 }
 
@@ -123,21 +125,21 @@ function jitter(geo, amount, rand, keep = () => false) {
 }
 
 
-function buildIsland() {
+function buildIsland(tone) {
   const rand = rng(20261106)
   const root = new THREE.Group()
 
-  const grass = new THREE.Mesh(jitter(new THREE.CylinderGeometry(4, 3.9, 0.35, 30, 1), 0.25, rand, (x, y) => y > 0 && Math.hypot(x) < 0), mat('#86b85c'))
+  const grass = new THREE.Mesh(jitter(new THREE.CylinderGeometry(4, 3.9, 0.35, 30, 1), 0.25, rand, (x, y) => y > 0 && Math.hypot(x) < 0), mat(tone === 'default' ? '#86b85c' : '#dfccc5'))
   grass.receiveShadow = true
   root.add(grass)
 
-  const dirt = new THREE.Mesh(jitter(new THREE.CylinderGeometry(3.95, 3.6, 0.5, 30, 1), 0.2, rand), mat('#6e4b33'))
+  const dirt = new THREE.Mesh(jitter(new THREE.CylinderGeometry(3.95, 3.6, 0.5, 30, 1), 0.2, rand), mat(tone === 'default' ? '#6e4b33' : '#8f6d68'))
   dirt.position.y = -0.4
   root.add(dirt)
 
   const rockGeo = new THREE.ConeGeometry(3.6, 3.4, 16, 5)
   rockGeo.rotateX(Math.PI)
-  const rock = new THREE.Mesh(jitter(rockGeo, 0.7, rand, (x, y) => y > 1.6), mat('#857565'))
+  const rock = new THREE.Mesh(jitter(rockGeo, 0.7, rand, (x, y) => y > 1.6), mat(tone === 'default' ? '#857565' : '#9c7e82'))
   rock.position.y = -2.35
   root.add(rock)
 
@@ -149,7 +151,7 @@ function buildIsland() {
     s.castShadow = true
     root.add(s)
   }
-  const tuftMat = mat('#9ccc6a')
+  const tuftMat = mat(tone === 'default' ? '#9ccc6a' : '#cfb3c0')
   for (let i = 0; i < 90; i++) {
     const a = rand() * Math.PI * 2, r = Math.sqrt(rand()) * 3.8
     const t = new THREE.Mesh(new THREE.ConeGeometry(0.04, 0.18 + rand() * 0.12, 3), tuftMat)
@@ -161,8 +163,9 @@ function buildIsland() {
   return root
 }
 
-function loadIslandGlb(target) {
+function loadIslandGlb(target, tone) {
   let disposed = false
+  target.userData.assetStatus = 'loading'
   const draco = new DRACOLoader()
   draco.setDecoderPath(`${import.meta.env.BASE_URL}draco/`)
   const loader = new GLTFLoader()
@@ -181,7 +184,11 @@ function loadIslandGlb(target) {
       model.traverse((o) => {
         if (!o.isMesh) return
         const materials = Array.isArray(o.material) ? o.material : [o.material]
-        for (const material of materials) applyOpalReflection(material)
+        for (const material of materials) {
+          if (tone !== 'default') applyWarmIslandMaterial(material)
+          applyOpalReflection(material, tone)
+        }
+        if (tone !== 'default') applyWarmIslandPaint(o)
         const transparent = materials.some((material) => material.transparent)
         // Alpha crystals keep their transmitted appearance; only solid perimeter details cast shadows.
         o.castShadow = !transparent && /Island_(Ornamental_Ring|Vegetation)/.test(o.name)
@@ -190,10 +197,14 @@ function loadIslandGlb(target) {
       disposeMeshes(target)
       target.clear()
       target.add(model)
+      target.userData.assetStatus = 'loaded'
       draco.dispose()
     },
     undefined,
-    () => draco.dispose(), // 모델이 없거나 읽을 수 없으면 코드로 만든 섬을 그대로 둔다
+    () => {
+      if (!disposed) target.userData.assetStatus = 'fallback'
+      draco.dispose()
+    }, // 모델이 없거나 읽을 수 없으면 코드로 만든 섬을 그대로 둔다
   )
   return () => {
     disposed = true
@@ -266,7 +277,7 @@ function placeFlowers(items) {
 //             친구를 바꿔 봐도 꽃 자리가 움직이지 않는다. 없으면 모두 보인다.
 // 친구별 보기: 고른 친구의 꽃만 또렷하게, 나머지는 색을 빼고 반투명하게
 const DIM_GREY = new THREE.Color('#c9c4d6')
-function dimObject(obj) {
+function dimObject(obj, tone) {
   const materials = new Set()
   obj.traverse((o) => {
     if (!o.isMesh) return
@@ -277,18 +288,39 @@ function dimObject(obj) {
   for (const material of materials) {
     material.transparent = true
     material.opacity = 0.22
-    material.color.lerp(DIM_GREY, 0.55)
+    material.color.lerp(tone === 'default' ? DIM_GREY : new THREE.Color('#cdbbc1'), 0.55)
   }
 }
 
-export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, visibleIds, onPickFlower, onPickPair, resetViewKey, isBlenderFlower, onPreviewStats }) {
+// Preview diagnostics use a fixed window; normal gardens allocate no timing samples.
+function timingSamples() {
+  return { values: new Float64Array(180), cursor: 0, count: 0 }
+}
+function recordTiming(samples, value) {
+  samples.values[samples.cursor] = value
+  samples.cursor = (samples.cursor + 1) % samples.values.length
+  samples.count = Math.min(samples.count + 1, samples.values.length)
+}
+function timingSummary(samples) {
+  if (!samples.count) return { samples: 0, meanMs: 0, p95Ms: 0 }
+  const sorted = samples.values.slice(0, samples.count).sort()
+  const mean = sorted.reduce((sum, value) => sum + value, 0) / sorted.length
+  return {
+    samples: samples.count,
+    meanMs: Number(mean.toFixed(2)),
+    p95Ms: Number(sorted[Math.ceil(sorted.length * 0.95) - 1].toFixed(2)),
+  }
+}
+
+export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, visibleIds, onPickFlower, onPickPair, resetViewKey, isBlenderFlower, onPreviewStats, tone = 'warm', previewAngle = 'front', previewTime }) {
   const wrapRef = useRef(null)
   const stateRef = useRef(null)
+  const cameraPoseRef = useRef(null)
   const cbRef = useRef({})
   cbRef.current = { onPickFlower, onPickPair }
   const assets = useBlenderFlowerAssets(Boolean(isBlenderFlower))
 
-  // 장면은 한 번만 만든다
+  // Rebuild materials for a tone change while retaining the user's comparison viewpoint.
   useEffect(() => {
     const wrap = wrapRef.current
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true })
@@ -302,14 +334,15 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
     wrap.appendChild(renderer.domElement)
 
     const scene = new THREE.Scene()
-    const environment = createGardenEnvironment(renderer)
+    const environment = createGardenEnvironment(renderer, 256, tone)
     scene.environment = environment.texture
     scene.environmentIntensity = 0.55
     const camera = new THREE.PerspectiveCamera(34, 1, 0.1, 100)
     camera.position.set(...CAMERA.position)
 
-    scene.add(new THREE.HemisphereLight('#ccd9f3', '#6c7d88', 0.38))
-    const sun = new THREE.DirectionalLight('#fff1e8', 1.5)
+    const warm = tone !== 'default'
+    scene.add(new THREE.HemisphereLight(warm ? '#f6dfd8' : '#ccd9f3', warm ? '#94747f' : '#6c7d88', warm ? 0.46 : 0.38))
+    const sun = new THREE.DirectionalLight(warm ? '#fff1dc' : '#fff1e8', 1.5)
     sun.position.set(5, 8, 5)
     sun.castShadow = true
     sun.shadow.mapSize.set(1024, 1024)
@@ -319,7 +352,7 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
     sun.shadow.normalBias = 0.025
     sun.shadow.bias = -0.0001
     scene.add(sun)
-    const fill = new THREE.DirectionalLight('#a8dce4', 0.65)
+    const fill = new THREE.DirectionalLight(warm ? '#dcb8d3' : '#a8dce4', warm ? 0.52 : 0.65)
     fill.position.set(-4, -1, 3)
     scene.add(fill)
 
@@ -330,9 +363,9 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
 
     const floating = new THREE.Group()
     const islandGroup = new THREE.Group()
-    islandGroup.add(buildIsland())
+    islandGroup.add(buildIsland(tone))
     floating.add(islandGroup)
-    const stopIslandLoad = loadIslandGlb(islandGroup)
+    const stopIslandLoad = loadIslandGlb(islandGroup, tone)
     const flowerLayer = new THREE.Group()
     flowerLayer.position.y = 0.17
     floating.add(flowerLayer)
@@ -389,10 +422,16 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
     const viewDir = new THREE.Vector3(...CAMERA.position).sub(target)
     const baseDist = viewDir.length()
     viewDir.normalize()
+    if (previewAngle === 'rotated') viewDir.applyAxisAngle(new THREE.Vector3(0, 1, 0), Math.PI * 0.7)
+    let viewportWidth = 0
     let viewportHeight = 0
+    const savedPose = cameraPoseRef.current
     const resize = () => {
       const { clientWidth: w, clientHeight: h } = wrap
-      if (!w || !h) return
+      if (!w || !h || (w === viewportWidth && h === viewportHeight)) return
+      const restorePose = !viewportWidth && savedPose?.angle === previewAngle
+        && savedPose.width === w && savedPose.height === h
+      viewportWidth = w
       viewportHeight = h
       renderer.setSize(w, h)
       composer.setSize(w, h)
@@ -410,6 +449,12 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
       camera.updateProjectionMatrix()
       controls.update()
       controls.saveState()
+      // saveState always retains the preset so Reset view does not keep a manual orbit.
+      if (restorePose) {
+        camera.position.copy(savedPose.position)
+        controls.target.copy(savedPose.target)
+        controls.update()
+      }
     }
     const ro = new ResizeObserver(resize)
     ro.observe(wrap)
@@ -417,16 +462,22 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
 
     const clock = new THREE.Clock()
     let lastStats = 0
+    const timings = onPreviewStats ? { frame: timingSamples(), renderCPU: timingSamples(), lastFrame: null } : null
     if (onPreviewStats) renderer.info.autoReset = false
     let raf
-    const loop = () => {
-      const t = clock.getElapsedTime()
+    const loop = frameTime => {
+      if (timings && frameTime != null) {
+        if (timings.lastFrame != null) recordTiming(timings.frame, frameTime - timings.lastFrame)
+        timings.lastFrame = frameTime
+      }
+      const elapsed = clock.getElapsedTime()
+      const t = previewTime ?? elapsed
       floating.position.y = Math.sin(t * 0.6) * 0.08
       level += (playbackLevel() - level) * 0.15
       sparkleMat.size = SPARKLE.size * (1 + level * SPARKLE.sizeBoost)
       sparkleMat.opacity = 0.8 + level * 0.2
       sparkleMat.color.copy(SPARKLE_IDLE).lerp(SPARKLE_PLAY, Math.min(1, level * 1.5))
-      const rise = SPARKLE.speed * (1 + level * SPARKLE.speedBoost)
+      const rise = previewTime == null ? SPARKLE.speed * (1 + level * SPARKLE.speedBoost) : 0
       const p = pGeo.attributes.position
       for (let i = 0; i < N; i++) {
         let y = p.getY(i) + rise
@@ -437,7 +488,7 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
       controls.update()
       for (const f of flowerLayer.children) {
         const u = f.userData
-        const age = t - (u.bornAt ?? -10)
+        const age = previewTime == null ? t - (u.bornAt ?? -10) : previewTime
         const grow = Math.min(1, Math.max(0, age / 1.2))
         const e = 1 - Math.pow(1 - grow, 3)
         // 하이라이트(오늘의 위로·새로 핀 꽃)는 빛 대신 살짝 커졌다 작아진다
@@ -454,9 +505,11 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
         u.updateLOD?.(camera, viewportHeight, u.size)
       }
       if (onPreviewStats) renderer.info.reset()
+      const renderStart = timings ? performance.now() : 0
       composer.render()
-      if (onPreviewStats && t - lastStats >= 0.25) {
-        lastStats = t
+      if (timings) recordTiming(timings.renderCPU, performance.now() - renderStart)
+      if (onPreviewStats && elapsed - lastStats >= 0.25) {
+        lastStats = elapsed
         const plants = flowerLayer.children
         onPreviewStats({
           plants: plants.length,
@@ -465,6 +518,12 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
           calls: renderer.info.render.calls,
           triangles: renderer.info.render.triangles,
           geometries: renderer.info.memory.geometries,
+          island: islandGroup.userData.assetStatus,
+          growing: plants.filter(f => !f.userData.opened).length,
+          opened: plants.filter(f => f.userData.opened).length,
+          camera: { position: camera.position.toArray(), target: controls.target.toArray() },
+          viewport: { width: viewportWidth, height: viewportHeight, pixelRatio: renderer.getPixelRatio() },
+          performance: { frame: timingSummary(timings.frame), renderCPU: timingSummary(timings.renderCPU) },
         })
       }
       raf = requestAnimationFrame(loop)
@@ -481,6 +540,10 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
       },
     }
     return () => {
+      cameraPoseRef.current = {
+        position: camera.position.clone(), target: controls.target.clone(),
+        angle: previewAngle, width: viewportWidth, height: viewportHeight,
+      }
       cancelAnimationFrame(raf)
       clearTimeout(resumeTimer)
       ro.disconnect()
@@ -502,7 +565,7 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
       wrap.removeChild(el)
       stateRef.current = null
     }
-  }, [])
+  }, [tone, previewAngle, previewTime])
 
   useEffect(() => {
     if (resetViewKey != null) stateRef.current?.resetView()
@@ -544,13 +607,13 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
       let obj = old
       if (!reuse) {
         if (it.kind === 'pair') {
-          obj = buildFlower3D({ ...it.b, petals: Math.min(8, Math.max(it.a.petals, it.b.petals) + 1) }, [it.a.color, it.b.color], { pair: true })
+          obj = buildFlower3D({ ...it.b, petals: Math.min(8, Math.max(it.a.petals, it.b.petals) + 1) }, [it.a.color, it.b.color], { pair: true, tone })
         } else if (isTree(it.data)) {
-          obj = buildTree3D(it.data)
+          obj = buildTree3D(it.data, { tone })
         } else {
-          obj = blender ? buildBlenderFlower(it.data, assets, { dimmed }) : buildFlower3D(it.data)
+          obj = blender ? buildBlenderFlower(it.data, assets, { dimmed, tone }) : buildFlower3D(it.data, undefined, { tone })
         }
-        if (dimmed) dimObject(obj)
+        if (dimmed) dimObject(obj, tone)
         flowerLayer.add(obj)
       } else {
         previous.delete(it.key)
@@ -576,7 +639,7 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
       disposeFlower3D(obj)
     }
     st.first = false
-  }, [flowers, pairs, meId, freshIds, highlightId, visibleIds, assets, isBlenderFlower])
+  }, [flowers, pairs, meId, freshIds, highlightId, visibleIds, assets, isBlenderFlower, tone, previewAngle, previewTime])
 
   return <div ref={wrapRef} className="island" />
 }

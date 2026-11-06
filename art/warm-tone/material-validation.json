@@ -1,0 +1,135 @@
+{
+  "baseline": "22a1b5d",
+  "cases": [
+    {
+      "name": "joy",
+      "meshes": 27,
+      "triangles": 2168,
+      "geometries": 5,
+      "materials": 5,
+      "originalPreserved": true,
+      "geometryAndGrowthUnchanged": true
+    },
+    {
+      "name": "excited",
+      "meshes": 21,
+      "triangles": 2120,
+      "geometries": 6,
+      "materials": 5,
+      "originalPreserved": true,
+      "geometryAndGrowthUnchanged": true
+    },
+    {
+      "name": "flutter",
+      "meshes": 21,
+      "triangles": 2120,
+      "geometries": 6,
+      "materials": 5,
+      "originalPreserved": true,
+      "geometryAndGrowthUnchanged": true
+    },
+    {
+      "name": "cozy",
+      "meshes": 33,
+      "triangles": 3848,
+      "geometries": 8,
+      "materials": 5,
+      "originalPreserved": true,
+      "geometryAndGrowthUnchanged": true
+    },
+    {
+      "name": "calm",
+      "meshes": 27,
+      "triangles": 2984,
+      "geometries": 7,
+      "materials": 5,
+      "originalPreserved": true,
+      "geometryAndGrowthUnchanged": true
+    },
+    {
+      "name": "sad",
+      "meshes": 15,
+      "triangles": 1256,
+      "geometries": 5,
+      "materials": 5,
+      "originalPreserved": true,
+      "geometryAndGrowthUnchanged": true
+    },
+    {
+      "name": "tense",
+      "meshes": 39,
+      "triangles": 3896,
+      "geometries": 6,
+      "materials": 5,
+      "originalPreserved": true,
+      "geometryAndGrowthUnchanged": true
+    },
+    {
+      "name": "pair",
+      "meshes": 27,
+      "triangles": 2984,
+      "geometries": 10,
+      "materials": 5,
+      "originalPreserved": true,
+      "geometryAndGrowthUnchanged": true
+    },
+    {
+      "name": "round",
+      "meshes": 14,
+      "triangles": 508,
+      "geometries": 8,
+      "materials": 2,
+      "originalPreserved": true,
+      "geometryAndGrowthUnchanged": true
+    },
+    {
+      "name": "pine",
+      "meshes": 7,
+      "triangles": 316,
+      "geometries": 2,
+      "materials": 2,
+      "originalPreserved": true,
+      "geometryAndGrowthUnchanged": true
+    },
+    {
+      "name": "willow",
+      "meshes": 26,
+      "triangles": 1204,
+      "geometries": 9,
+      "materials": 2,
+      "originalPreserved": true,
+      "geometryAndGrowthUnchanged": true
+    }
+  ],
+  "blender": {
+    "lodSequence": [
+      "near",
+      "near",
+      "far",
+      "far",
+      "near"
+    ],
+    "identicalGeometryAndPoses": true,
+    "defaultAppearancePreserved": true,
+    "sourceMaterialsUntouched": true,
+    "materialLeaseLifetimePassed": true
+  },
+  "protectedAssets": [
+    {
+      "file": "public/models/island.glb",
+      "sha256": "52ed6300962c469a0bd3e6eee9452bd9d6578d14de5b1df3004967ecfa20c083",
+      "unchanged": true
+    },
+    {
+      "file": "public/models/flora/crystal_flower.glb",
+      "sha256": "63da14f5909379e86624a40485506ba6c0e308146117cdd3abe4ebb05f2ddd56",
+      "unchanged": true
+    },
+    {
+      "file": "public/models/flora/crystal_flower_lod.glb",
+      "sha256": "54b20b8acd64a610bb1a97e4af341e47e5169bcb13c267392cb663d97b8ef6ee",
+      "unchanged": true
+    }
+  ],
+  "status": "passed"
+}
