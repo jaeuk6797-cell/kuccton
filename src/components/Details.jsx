@@ -13,11 +13,10 @@ function envelopeLevel(el, flower) {
     return (env[i] - 0.5) * 2 * (0.6 + 0.4 * Math.abs(Math.sin(el.currentTime * 9)))
   }
 }
-import { categoryLabel } from '../lib/naming.js'
 import { displayName, noun } from '../lib/tree.js'
 
 // S5 꽃 상세
-export function FlowerDetail({ flower, sender, mine, sharedWith = [], onShare, onAccept, onDecline, answerBusy, onArchive, onClose, onDelete }) {
+export function FlowerDetail({ flower, sender, mine, sharedWith = [], onShare, onAccept, onDecline, answerBusy, onClose, onDelete }) {
   const [url, setUrl] = useState(null)
   const [confirm, setConfirm] = useState(false)
   const audioRef = useRef(null)
@@ -41,7 +40,7 @@ export function FlowerDetail({ flower, sender, mine, sharedWith = [], onShare, o
         <p className="reason">{flower.reason}</p>
         {flower.transcript && <p className="hanamal-view">꽃말: “{flower.transcript}”</p>}
         <p className="muted small">
-          {mine ? `내가 보낸 ${noun(flower)}` : `${sender?.nickname || '상대'}가 보낸 ${noun(flower)}`} · {flower.sent_date} · {categoryLabel(flower.category)}
+          {mine ? `내가 보낸 ${noun(flower)}` : `${sender?.nickname || '상대'}가 보낸 ${noun(flower)}`} · {flower.sent_date}
         </p>
         {url ? <audio
           ref={audioRef} src={url} controls className="preview-audio"
@@ -49,9 +48,6 @@ export function FlowerDetail({ flower, sender, mine, sharedWith = [], onShare, o
           onPause={() => setPlaybackLevelSource(null)}
           onEnded={() => setPlaybackLevelSource(null)}
         /> : <p className="muted">소리를 불러오는 중…</p>}
-        {onArchive && (
-          <button className="link" onClick={onArchive}>정원에서 빼기 (앨범에는 남아요)</button>
-        )}
         {onAccept && (
           <div className="row">
             {onDecline && <button className="ghost" disabled={answerBusy} onClick={onDecline}>괜찮아요</button>}
