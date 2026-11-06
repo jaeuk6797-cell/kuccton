@@ -277,11 +277,12 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
         const pulse = u.highlight || u.fresh ? 1 + Math.sin(t * 4) * 0.08 : 1
         f.scale.setScalar(u.size * Math.max(0.001, 0.3 + 0.7 * e) * pulse)
         // 꽃잎이 바깥 겹부터 펼쳐진다 (다 피면 더 계산하지 않음)
-        if (!u.opened) {
+        if (!u.opened && u.setOpen) {
           const open = Math.min(1, Math.max(0, age / 1.8))
           u.setOpen(open)
           if (open >= 1) u.opened = true
         }
+        u.tick?.(t) // 감정 꽃의 움직임 (긴장 = 바르르 떨림)
         f.rotation.z = Math.sin(t * 1.3 + u.phase) * 0.05
       }
       controls.update()
