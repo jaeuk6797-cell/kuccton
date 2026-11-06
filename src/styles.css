@@ -348,7 +348,7 @@ h1, h2 { margin: 0; }
 .menu-inbox-item > span { min-width: 0; }
 .menu-inbox-item b { display: block; font-size: .9rem; overflow-wrap: anywhere; }
 .menu-inbox-item small { display: block; margin-top: 3px; color: var(--muted); font-size: .73rem; }
-.menu-inbox-list .inbox-actions { justify-content: flex-end; margin-top: 10px; }
+.menu-inbox-list .inbox-actions { justify-content: flex-end; margin-top: 10px; margin-right: 6px; }
 .menu-inbox-list .preview-audio { height: 36px; }
 .inbox-empty { min-height: 180px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; color: var(--muted); font-size: .88rem; text-align: center; }
 .inbox-empty p { margin: 0; }
