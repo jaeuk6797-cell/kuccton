@@ -1,7 +1,7 @@
 // 개발용: 실제 홈(Garden) 화면을 가짜 데이터로 보기. Supabase 계정·녹음 없이 화면만 확인한다.
 //   npm run dev → /?view=home            꽃이 있는 정원 (친구 1명, 오늘 우리의 꽃까지)
 //                 /?view=home&flowers=0  꽃이 하나도 없는 정원
-//                 /?view=home&friends=3  친구 3명 (여러 친구 테스트)
+//                 /?view=home&friends=3  친구 3명 (여러 친구 테스트, 최대 6명)
 // 꽃 데이터는 실제 앱과 같은 규칙(flower.js → naming.js toFlowerRow)으로 만든다.
 import Garden from '../components/Garden.jsx'
 import { buildFlower, buildSoundFlower } from '../lib/flower.js'
@@ -16,6 +16,10 @@ const FRIEND = { member: 'm-jae', user: 'u-jae', name: '재욱' }
 const MORE_FRIENDS = [
   { member: 'm-min', user: 'u-min', name: '민지' },
   { member: 'm-sky', user: 'u-sky', name: '하늘' },
+  // 친구가 많을 때('+N' 버튼) 확인용
+  { member: 'm-doy', user: 'u-doy', name: '도윤' },
+  { member: 'm-seo', user: 'u-seo', name: '서연' },
+  { member: 'm-jih', user: 'u-jih', name: '지호' },
 ]
 
 const VOICE = (category, f, transcript) => ({ kind: 'voice', category, f, transcript })
@@ -68,6 +72,10 @@ function makeData(withFlowers, friendCount = 1) {
   if (extra[1]) {
     extraTheirs.push(flower(extra[1], SOUND({ rms: 0.03, centroid: 3600, attack: 0.1, onsets: 1, sustain: 0.9, envelope: env(0.5, 0.7, 0.8, 0.7) }), now - DAY + 10800000))
   }
+  // 그 밖의 친구들: 며칠 전에 하나씩 (최근에 주고받은 순서가 뒤로 밀린다)
+  extra.slice(2).forEach((fr, i) => {
+    extraTheirs.push(flower(fr, SOUND({ rms: 0.04 + i * 0.03, centroid: 1500 + i * 700, attack: 0.2 + i * 0.2, onsets: 2 + i, sustain: 0.4, envelope: env(0.7, 1, 0.6, 0.8) }), now - (2 + i) * DAY))
+  })
   theirs.push(...extraTheirs)
   // 내가 보낸 소리는 모든 친구에게 (오늘의 소리를 여러 명에게 보내기)
   const allFriends = [FRIEND, ...extra]
@@ -95,7 +103,7 @@ function makeData(withFlowers, friendCount = 1) {
 export default function HomeDemo() {
   const q = new URLSearchParams(location.search)
   const withFlowers = q.get('flowers') !== '0'
-  const friendCount = Math.min(3, Math.max(1, Number(q.get('friends')) || 1))
+  const friendCount = Math.min(1 + MORE_FRIENDS.length, Math.max(1, Number(q.get('friends')) || 1))
   const data = makeData(withFlowers, friendCount)
   return (
     <Garden

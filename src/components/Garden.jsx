@@ -31,6 +31,7 @@ export default function Garden({ session, onSignOut, email, demo }) {
   const [openPair, setOpenPair] = useState(null)
   const [showBell, setShowBell] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
+  const [friendPicker, setFriendPicker] = useState(false) // '+N' 친구 고르기 창
   const [viewFriend, setViewFriend] = useState('all') // 정원에서 볼 꽃: 'all' 또는 친구 member id // 오른쪽 위 메뉴: 정원·앨범·친구·나·받은 소리
   const [toast, setToast] = useState('')
   const [fresh, setFresh] = useState(() => new Set())
@@ -214,6 +215,18 @@ export default function Garden({ session, onSignOut, email, demo }) {
   const friends = data.members.filter((m) => m.id !== meId)
   const sentCount = (id) => data.flowers.filter((f) => f.sender_id === id).length
   const viewing = friends.some((m) => m.id === viewFriend) ? viewFriend : 'all'
+  // 최근에 소리를 주고받은 친구 순 (받은 소리의 공유 시각, 내가 보낸 공유 시각 중 늦은 것)
+  const lastTouch = (m) => {
+    const got = data.flowers.filter((f) => f.sender_id === m.id).map((f) => f.shared_at || f.created_at)
+    const gave = data.sentShares.filter((x) => x.to_user === m.user_id).map((x) => x.created_at)
+    return [...got, ...gave].sort().pop() || m.created_at || ''
+  }
+  const byRecent = [...friends].sort((a, b) => lastTouch(b).localeCompare(lastTouch(a)))
+  const PILL_FRIENDS = 3
+  const pillFriends = byRecent.slice(0, PILL_FRIENDS)
+  const pickedFriend = friends.find((m) => m.id === viewing)
+  if (pickedFriend && !pillFriends.includes(pickedFriend)) pillFriends.push(pickedFriend)
+  const moreCount = friends.length - pillFriends.length
   // 내 정원에는 친구에게 받은 소리만 핀다 (내가 보낸 소리는 친구 정원에, 둘이 만나면 가운데 우리의 꽃)
   const gardenFlowers = data.flowers.filter((f) => f.sender_id !== meId)
   const shownFlowers = viewing === 'all' ? gardenFlowers : gardenFlowers.filter((f) => f.sender_id === viewing)
@@ -286,11 +299,14 @@ export default function Garden({ session, onSignOut, email, demo }) {
                 <button role="tab" aria-selected={viewing === 'all'} className={viewing === 'all' ? 'on' : ''} onClick={() => setViewFriend('all')}>
                   전체 <b>{receivedCount}</b>
                 </button>
-                {friends.map((m) => (
-                  <button key={m.id} role="tab" aria-selected={viewing === m.id} className={viewing === m.id ? 'on' : ''} onClick={() => setViewFriend(m.id)}>
+                {pillFriends.map((m) => (
+                  <button key={m.id} role="tab" aria-selected={viewing === m.id} className={viewing === m.id ? 'on' : ''} onClick={() => setViewFriend(viewing === m.id ? 'all' : m.id)}>
                     {m.nickname} <b>{sentCount(m.id)}</b>
                   </button>
                 ))}
+                {moreCount > 0 && (
+                  <button className="more-pill" onClick={() => setFriendPicker(true)} aria-label={`친구 ${moreCount}명 더 보기`}>＋{moreCount}</button>
+                )}
               </div>
             )}
           </div>
@@ -459,7 +475,43 @@ export default function Garden({ session, onSignOut, email, demo }) {
           </div>
         </div>
       )}
+      {friendPicker && (
+        <FriendPicker
+          friends={byRecent}
+          counts={Object.fromEntries(friends.map((m) => [m.id, sentCount(m.id)]))}
+          viewing={viewing}
+          onPick={(id) => { setViewFriend(id); setFriendPicker(false) }}
+          onClose={() => setFriendPicker(false)}
+        />
+      )}
       {visiting && <Visit friend={visiting} onClose={() => setVisiting(null)} />}
+    </div>
+  )
+}
+
+// '+N': 친구가 많을 때 이름으로 찾아서 그 친구 꽃만 또렷하게 보기
+function FriendPicker({ friends, counts, viewing, onPick, onClose }) {
+  const [q, setQ] = useState('')
+  const shown = friends.filter((m) => m.nickname.toLowerCase().includes(q.trim().toLowerCase()))
+  return (
+    <div className="sheet-backdrop" onClick={onClose}>
+      <div className="sheet friend-picker" onClick={(e) => e.stopPropagation()}>
+        <button className="close" onClick={onClose} aria-label="닫기">×</button>
+        <h2 className="sheet-title">누구의 꽃을 볼까요?</h2>
+        <input className="picker-search" value={q} onChange={(e) => setQ(e.target.value)} placeholder="친구 이름 찾기" autoFocus />
+        <ul className="list">
+          <li><button className={viewing === 'all' ? 'on' : ''} onClick={() => onPick('all')}><b>전체</b><small>모든 친구의 꽃</small></button></li>
+          {shown.map((m) => (
+            <li key={m.id}>
+              <button className={viewing === m.id ? 'on' : ''} onClick={() => onPick(m.id)}>
+                <span className="av partner">{[...m.nickname][0]}</span>
+                <div><b>{m.nickname}</b><small>받은 소리 {counts[m.id] || 0}개</small></div>
+              </button>
+            </li>
+          ))}
+          {shown.length === 0 && <li className="muted small">‘{q}’ 친구가 없어요</li>}
+        </ul>
+      </div>
     </div>
   )
 }

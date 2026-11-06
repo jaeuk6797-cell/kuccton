@@ -206,6 +206,24 @@ function placeFlowers(items) {
 // flowers: 우리의 꽃을 만들 때 찾을 수 있도록 내 꽃까지 전부 받는다. 섬에는 받은 꽃(meId가 아닌 꽃)과 우리의 꽃만 핀다.
 // visibleIds: 쉼표로 이은 id 목록(친구별 보기). 위치는 항상 전체 기준으로 정하고 여기 없는 것만 숨겨서,
 //             친구를 바꿔 봐도 꽃 자리가 움직이지 않는다. 없으면 모두 보인다.
+// 친구별 보기: 고른 친구의 꽃만 또렷하게, 나머지는 색을 빼고 반투명하게 (재질은 복사해서 바꾼다)
+const DIM_GREY = new THREE.Color('#c9c4d6')
+function dimObject(obj) {
+  obj.traverse((o) => {
+    if (!o.isMesh || !o.material) return
+    const dim = (m) => {
+      const c = m.clone()
+      c.transparent = true
+      c.opacity = 0.22
+      if (c.color) c.color.lerp(DIM_GREY, 0.55)
+      if (c.emissive) c.emissive.multiplyScalar(0.2)
+      return c
+    }
+    o.material = Array.isArray(o.material) ? o.material.map(dim) : dim(o.material)
+    o.castShadow = false
+  })
+}
+
 export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, visibleIds, onPickFlower, onPickPair }) {
   const wrapRef = useRef(null)
   const stateRef = useRef(null)
@@ -300,6 +318,7 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
       const hit = ray.intersectObjects(flowerLayer.children, true)[0]
       let o = hit?.object
       while (o && !o.userData.kind) o = o.parent
+      if (o?.userData.dimmed) return // 흐리게 된 꽃은 고를 수 없다
       if (o?.userData.kind === 'flower') cbRef.current.onPickFlower?.(o.userData.data)
       if (o?.userData.kind === 'pair') cbRef.current.onPickPair?.(o.userData.data)
     }
@@ -414,7 +433,6 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
     const now = clock.getElapsedTime()
 
     items.forEach((it, i) => {
-      if (visible && !visible.has(it.key)) return
       const obj = it.kind === 'pair'
         ? buildFlower3D({ ...it.b, petals: Math.min(8, Math.max(it.a.petals, it.b.petals) + 1) }, [it.a.color, it.b.color], { pair: true })
         : isTree(it.data) ? buildTree3D(it.data) : buildFlower3D(it.data, [it.data.color])
@@ -428,7 +446,9 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
         bornAt: isNew ? (st.first ? now + i * 0.06 : now) : -10,
         fresh: freshIds?.has(it.key),
         highlight: highlightId === it.key,
+        dimmed: Boolean(visible && !visible.has(it.key)),
       })
+      if (obj.userData.dimmed) dimObject(obj)
       known.add(it.key)
       flowerLayer.add(obj)
     })

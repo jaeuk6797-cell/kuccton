@@ -520,3 +520,10 @@ h1, h2 { margin: 0; }
 .profile .profile-links { flex-direction: row; gap: 14px; font-size: 0.82rem; }
 .profile .profile-actions { flex-direction: row; gap: 8px; }
 .profile-actions button { flex: 1; white-space: nowrap; }
+
+/* 친구 버튼 '+N'과 친구 찾기 */
+.view-pills .more-pill { font-weight: 700; }
+.friend-picker { display: flex; flex-direction: column; gap: 10px; }
+.picker-search { padding: 12px 14px; border-radius: 12px; border: 1.5px solid var(--line); background: var(--paper); font-size: 1rem; color: var(--ink); }
+.friend-picker .list { max-height: 50dvh; overflow-y: auto; }
+.friend-picker .list button.on { background: #fbeee9; }
