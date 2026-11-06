@@ -348,3 +348,6 @@ h1, h2 { margin: 0; }
 .pick-grid button.done { opacity: .5; }
 .pick-grid b { font-size: 0.78rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
 .pick-grid small { font-size: 0.7rem; color: var(--muted); }
+
+/* 친구 코드 입력칸: 숫자 코드용 넓은 자간이 한글 안내 문구까지 벌려 놓지 않게 */
+.join-friend .code-input::placeholder { letter-spacing: normal; font-size: 0.95rem; }
