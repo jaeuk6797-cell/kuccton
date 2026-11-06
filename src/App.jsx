@@ -10,7 +10,6 @@ import {
 export default function App() {
   const [user, setUser] = useState(undefined) // undefined = 확인 중
   const [garden, setGarden] = useState(undefined) // undefined = 찾는 중, null = 없음
-  const [choosing, setChoosing] = useState(false) // '다른 정원 열기'를 눌렀을 때
 
   useEffect(() => {
     if (!configured) return
@@ -20,7 +19,7 @@ export default function App() {
 
   // 로그인하면 그 계정의 정원을 찾는다
   useEffect(() => {
-    if (!user) { setGarden(undefined); setChoosing(false); return }
+    if (!user) { setGarden(undefined); return }
     let alive = true
     setGarden(undefined)
     myLatestGarden()
@@ -32,20 +31,12 @@ export default function App() {
   if (!configured) return <SetupNeeded />
   if (user === undefined || (user && garden === undefined)) return <Splash />
   if (!user) return <AuthScreen />
-  if (!garden || choosing) {
-    return (
-      <GardenSetup
-        email={user.email}
-        onEnter={(g) => { setGarden(g); setChoosing(false) }}
-        onBack={garden ? () => setChoosing(false) : null}
-      />
-    )
-  }
+  // 한 사람당 정원은 하나: 정원이 없을 때만 만들기·코드 입장 화면
+  if (!garden) return <GardenSetup email={user.email} onEnter={setGarden} />
   return (
     <Garden
       key={garden.gardenId}
       session={garden}
-      onLeave={() => setChoosing(true)}
       onSignOut={signOut}
       email={user.email}
     />
@@ -138,7 +129,7 @@ function AuthScreen() {
 }
 
 // 정원 만들기 / 코드로 들어가기 (로그인한 뒤, 아직 정원이 없을 때)
-function GardenSetup({ email, onEnter, onBack }) {
+function GardenSetup({ email, onEnter }) {
   const [nickname, setNickname] = useState('')
   const [code, setCode] = useState('')
   const [busy, setBusy] = useState(false)
@@ -186,7 +177,6 @@ function GardenSetup({ email, onEnter, onBack }) {
       <button className="ghost wide" disabled={busy || code.length !== 6} onClick={() => run(() => joinGarden(code, nickname.trim()))}>
         정원에 들어가기
       </button>
-      {onBack && <button className="link" onClick={onBack}>내 정원으로 돌아가기</button>}
 
       {error && <p className="error">{error}</p>}
     </div>
