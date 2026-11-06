@@ -1,3 +1,10 @@
+/* 꽃말 손글씨: 교보문고에서 받은 원본 파일을 public/fonts/ 에 그대로 넣는다 (형식 변환·재배포 금지 라이선스) */
+@font-face {
+  font-family: 'Kyobo Handwriting 2024 psw';
+  src: url('/fonts/KyoboHandwriting2024psw.ttf') format('truetype'); /* OTF는 Chrome이 읽지 못해 TTF 사용. 꽃말이 처음 보일 때만 내려받는다 */
+  font-display: swap;
+}
+
 :root {
   --bg: #f4f1e8;
   --paper: #fffdf7;
@@ -7,12 +14,15 @@
   --green-d: #3a5f31;
   --accent: #c4573a;
   --accent-d: #a8462c;
-  --serif: 'Gowun Batang', serif;
+  /* 글꼴: 전체는 Pretendard, 꽃말만 손글씨(교보 손글씨 2024 박서우) */
+  --sans: 'Pretendard Variable', 'Pretendard', 'Apple SD Gothic Neo', 'Noto Sans KR', system-ui, sans-serif;
+  --serif: var(--sans); /* 제목도 Pretendard로 통일 (예전 Gowun Batang 자리) */
+  --hand: 'Kyobo Handwriting 2024 psw', var(--sans);
   --tab: calc(64px + env(safe-area-inset-bottom));
   --mine: #e9846b;
   --theirs: #6b8fe9;
   --line: #e2dccb;
-  font-family: 'Pretendard', 'Apple SD Gothic Neo', 'Noto Sans KR', system-ui, sans-serif;
+  font-family: var(--sans);
   color: var(--ink);
   background: var(--bg);
   -webkit-tap-highlight-color: transparent;
@@ -119,8 +129,8 @@ h1, h2 { margin: 0; }
 .flower-name { font-size: 1.6rem; }
 .reason { margin: 0; color: var(--muted); font-size: 0.92rem; line-height: 1.5; }
 .hanamal { display: flex; flex-direction: column; gap: 6px; width: 100%; text-align: left; font-size: 0.85rem; color: var(--muted); }
-.hanamal textarea { border: 1.5px solid var(--line); border-radius: 12px; padding: 10px 12px; resize: none; color: var(--ink); background: white; }
-.hanamal-view { margin: 0; font-style: italic; }
+.hanamal textarea { border: 1.5px solid var(--line); border-radius: 12px; padding: 10px 12px; resize: none; color: var(--ink); background: white; font-family: var(--hand); font-size: 1.15rem; line-height: 1.5; }
+.hanamal-view { margin: 0; font-family: var(--hand); font-size: 1.2rem; line-height: 1.5; }
 .cat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; width: 100%; }
 .cat-grid button { background: white; border: 1.5px solid var(--line); border-radius: 12px; padding: 10px 4px; display: flex; flex-direction: column; gap: 2px; }
 .cat-grid small { color: var(--muted); }

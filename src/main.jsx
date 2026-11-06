@@ -1,8 +1,6 @@
 import React from 'react'
 import { createRoot } from 'react-dom/client'
 import App from './App.jsx'
-import '@fontsource/gowun-batang/korean-400.css'
-import '@fontsource/gowun-batang/korean-700.css'
 import './styles.css'
 
 // 개발 서버에서만: ?view=island → Supabase 없이 3D 정원 확인 (배포 빌드에는 포함되지 않음)
