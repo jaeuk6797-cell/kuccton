@@ -1,0 +1,99 @@
+SOOP Aurora grass sizing revision
+
+Baseline: 2af54a72f65b04b3d788c5f5fcb1ca19881ce257.
+Destination branch: codex/aurora-crystal-garden. No merge into main.
+
+The final grass uses half the height and horizontal dimensions of the large
+candidate shown in chat, following the user's correction. Height is 0.075–0.12
+runtime units; horizontal scale is 0.26–0.31. More opal is intentionally exposed
+than in that rejected candidate. The final asset does not claim majority coverage.
+
+The two bent, tapered ribbons in each clump retain six triangles. Their width
+and height vary independently. Perimeter, pond, crystal and flower-stem clearance
+uses the actual projected blade triangles rather than a large root exclusion disc.
+Grass is opaque, matte, double-sided and instanced. It receives flower shadows,
+does not cast individual shadows, and has no picking/raycast target. The opaque
+grass batch renders before the opal ground. Placement is deterministic and runs
+at creation; crop updates run when plant positions change. No per-frame grass
+animation, alpha overdraw, new textures, density popping or extra draw calls.
+
+Triangulated geometry, including every instance:
+  Original island before ring removal       16,607
+  Upright hoop and exclusive feet removed    2,508 (2,348 + 160)
+  Current base island / exported GLB        14,099
+  Runtime grass: 1,000 clumps x 6             6,000
+  Total static island including grass      20,099
+  User's hard maximum                      25,000
+  Grass draw calls                              1
+  Grass shadow draws                            0
+  Exported GLB materials                       11
+  Additional runtime grass material             1
+
+The base island's surfaces, underside, colors, materials, pond, rim and crystal
+geometry are unchanged from 2af54a7. Regeneration changes only the underside index
+ordering; the full oriented triangle sets are identical. The centered keel and
+all planting positions are preserved. Warm assets and flower/tree code are
+unchanged. See asset-source-audit.json for byte-level and semantic comparisons.
+
+The editable island.blend now includes a grass preview matching the runtime
+geometry. It is a separate collection outside SUP_Floating_Island and is excluded
+from GLB export. The browser therefore still draws one runtime grass batch without
+duplicating 6,000 triangles in the asset. The Blender preview shows an empty garden;
+runtime flower-stem cropping remains dynamic.
+
+Reproduction:
+  1. Run node art/island/export-grass-preview.mjs after changing islandGrass.js.
+  2. Run art/island/generate_island.py in Blender to rebuild and save the source.
+  3. Refresh the preview snapshot after a GLB re-export if its byte hash changes.
+The snapshot checks source and GLB hashes to reject stale previews. Saved Blender
+preview vertices and faces match the runtime snapshot exactly; linear colors
+match within float32 rounding (maximum error 2.98e-8).
+
+Focused checks pass: actual GLB anchoring, complete blade footprint on the ground,
+pond/crystal exclusion, stem clearance and restoration, triangle cap, no picking,
+deterministic distribution and idempotent cleanup. The independent 0.04-unit
+geometry mask measures 37.70% coverage of the eligible surface, or 36.53% with 50
+plant clearances. These are geometry diagnostics, not camera-visible coverage.
+See grass-geometry-results.json and comparison.html for evidence.
+
+The separate rendered top-down mask includes the entire visible planting surface,
+including the exposed perimeter margin, and omits flower/tree geometry. It measures
+34.01% empty-garden grass coverage and 33.21% with 50 plants. Pond holes and crystal
+footprints are excluded. The same mask measured 3.70% / 3.06% on baseline 2af54a7.
+The superseded large candidate's majority-coverage measurements are not final data.
+
+Six matched desktop/mobile screenshots pass visual inspection. Procedural and
+Blender flower selection and closing work with 50 plants on desktop; Blender flower
+selection and closing also pass at 390 x 844 mobile viewport size. No runtime or
+network errors. The pre-existing THREE.Clock deprecation warning remains.
+
+Main renderer draw calls, including existing shadow/render passes:
+  Empty island: before 30, final 30
+  Mixed garden: before 660, final 660
+  50 plants: before 2,122, final 2,122 (desktop and mobile)
+These are whole-garden renderer statistics; they are not unique mesh triangles.
+The grass contributes one of those calls and does not add a shadow pass.
+
+Desktop timing observation (ANGLE SwiftShader software renderer): one active tab,
+30 settled samples per block, discarded initial warm-up, ABBA ordering.
+  Dense garden baseline block medians: 184.4 / 318.6 ms
+  Dense garden final block medians:    195.1 / 199.7 ms
+  Empty island baseline block medians: 109.6 / 187.5 ms
+  Empty island final block medians:    203.8 / 203.7 ms
+The shared-host baseline varies substantially. Empty final samples are slower,
+but these measurements cannot isolate a grass GPU regression or establish a
+speedup. No physical phone GPU was tested. Real-device frame timing, fill rate,
+thermal behavior, and the pre-existing 2,122-call dense garden remain unverified
+mobile limitations. Do not interpret software-rendered frame time as mobile FPS.
+
+Production verification: npm run build passes (131 modules, Vite 5.4.21).
+The existing >500 kB bundle-size warning remains. git diff --check passes.
+
+Outputs:
+  src/lib/islandGrass.js
+  art/island/generate_island.py
+  art/island/export-grass-preview.mjs
+  art/island/grass-preview.json
+  art/island/island.blend
+  public/models/island.glb
+  art/island/qa/grass-canopy/

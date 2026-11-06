@@ -1,0 +1,32 @@
+{
+  "status": "passed",
+  "sourceSha256Lf": "86d75bd0ee9154670dabe2d1ab15f88b67493b1a8c00245dea243e313c721cef",
+  "clumps": 1000,
+  "triangles": 6000,
+  "materialCount": 1,
+  "mainDrawCalls": 1,
+  "shadowDrawCalls": 0,
+  "placementMs": 71.2,
+  "maxAnchorError": 6.667994545406231e-9,
+  "minHeight": 0.07501114365943738,
+  "maxHeight": 0.11998891828240524,
+  "regions": {
+    "left": 322,
+    "center": 354,
+    "right": 324
+  },
+  "eligibleGroundArea": 41.512,
+  "projectedGrassCoverage": 0.377,
+  "fiftyPlantCoverage": 0.3653,
+  "fiftyPlantUpdateMs": 19.6,
+  "checks": [
+    "actual transformed GLB anchoring",
+    "full tuft footprint on ground / outside pond",
+    "crystal exclusion",
+    "hard triangle budget",
+    "stem clearance and restore",
+    "no picking",
+    "determinism",
+    "cleanup"
+  ]
+}

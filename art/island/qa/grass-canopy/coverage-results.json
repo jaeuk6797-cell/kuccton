@@ -1,0 +1,89 @@
+{
+  "revision": "2af54a7-half-size-final",
+  "mode": "coverage",
+  "time": "2026-11-06T20:00:22.489Z",
+  "baseURL": "http://127.0.0.1:5297",
+  "baselineURL": "http://127.0.0.1:5298",
+  "masks": [
+    {
+      "label": "island-only",
+      "resolution": 768,
+      "surfaceObjects": [
+        "Island_Surface_|_Opalescent_planting_clearing"
+      ],
+      "crystalObjects": [
+        "Island_Peripheral_Crystals_|_Cluster_1_facet_family_1",
+        "Island_Peripheral_Crystals_|_Cluster_1_facet_family_2",
+        "Island_Peripheral_Crystals_|_Cluster_1_facet_family_3",
+        "Island_Peripheral_Crystals_|_Cluster_2_facet_family_1",
+        "Island_Peripheral_Crystals_|_Cluster_2_facet_family_2",
+        "Island_Peripheral_Crystals_|_Cluster_2_facet_family_3",
+        "Island_Peripheral_Crystals_|_Cluster_3_facet_family_1",
+        "Island_Peripheral_Crystals_|_Cluster_3_facet_family_2",
+        "Island_Peripheral_Crystals_|_Cluster_3_facet_family_3",
+        "Island_Peripheral_Crystals_|_Polished_facet_edges"
+      ],
+      "plants": 0,
+      "grassCount": 1000,
+      "eligiblePixels": 384002,
+      "exposedPixels": 253389,
+      "coveredPixels": 130613,
+      "coveragePercent": 34.01362492903683,
+      "worldSquareSize": 8.41423193246009
+    },
+    {
+      "label": "50-plants",
+      "resolution": 768,
+      "surfaceObjects": [
+        "Island_Surface_|_Opalescent_planting_clearing"
+      ],
+      "crystalObjects": [
+        "Island_Peripheral_Crystals_|_Cluster_1_facet_family_1",
+        "Island_Peripheral_Crystals_|_Cluster_1_facet_family_2",
+        "Island_Peripheral_Crystals_|_Cluster_1_facet_family_3",
+        "Island_Peripheral_Crystals_|_Cluster_2_facet_family_1",
+        "Island_Peripheral_Crystals_|_Cluster_2_facet_family_2",
+        "Island_Peripheral_Crystals_|_Cluster_2_facet_family_3",
+        "Island_Peripheral_Crystals_|_Cluster_3_facet_family_1",
+        "Island_Peripheral_Crystals_|_Cluster_3_facet_family_2",
+        "Island_Peripheral_Crystals_|_Cluster_3_facet_family_3",
+        "Island_Peripheral_Crystals_|_Polished_facet_edges"
+      ],
+      "plants": 50,
+      "grassCount": 1000,
+      "eligiblePixels": 384002,
+      "exposedPixels": 256476,
+      "coveredPixels": 127526,
+      "coveragePercent": 33.20972286602674,
+      "worldSquareSize": 8.41423193246009
+    }
+  ],
+  "method": "Actual runtime instanced geometry rendered into a 768px orthographic top-down mask. Denominator is the entire visible Island_Surface area, including bare rim margins; pond holes are naturally absent and crystal meshes occlude their exact footprints. Plant meshes are omitted from the mask so flower heads cannot inflate grass coverage, while real 50-plant stem cropping remains in instance matrices. White pixels are exposed ground, black pixels over the planting-surface mask are grass-covered. No application source or GLB modifications.",
+  "errors": [],
+  "warnings": [
+    "THREE.Clock: This module has been deprecated. Please use THREE.Timer instead."
+  ],
+  "networkFailures": [],
+  "assets": [
+    {
+      "url": "http://127.0.0.1:5297/models/island.glb",
+      "status": 200,
+      "bytes": 277
+    },
+    {
+      "url": "http://127.0.0.1:5297/models/flora/crystal_flower.glb",
+      "status": 200,
+      "bytes": 275
+    },
+    {
+      "url": "http://127.0.0.1:5297/models/flora/crystal_flower_lod.glb",
+      "status": 200,
+      "bytes": 275
+    },
+    {
+      "url": "http://127.0.0.1:5297/models/island.glb",
+      "status": 200,
+      "bytes": 127
+    }
+  ]
+}

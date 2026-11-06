@@ -1,0 +1,194 @@
+{
+  "passed": true,
+  "checks": {
+    "glbSemanticallyIdenticalToTaskBaseline": true,
+    "warmAndProtectedFilesUnchanged": true,
+    "noExtraModelAssetsChanged": true,
+    "assetBudgetUnchanged": true,
+    "previewSixThousandTriangles": true,
+    "previewExcludedFromAssetRoot": true,
+    "previewPositionsMatchRuntimeExactly": true,
+    "previewColorsMatchFloat32": true,
+    "previewFacesMatchRuntimeExactly": true,
+    "moduleHashSynchronized": true,
+    "finalGlbHashSynchronized": true,
+    "userSelectedHalfHeight": true,
+    "opaqueMatteDoubleSidedGrass": true,
+    "oneEditableScene": true
+  },
+  "method": {
+    "baseline": "Task-start HEAD, 2af54a72f65b04b3d788c5f5fcb1ca19881ce257",
+    "glb": "Compare full JSON, every accessor and all remaining BIN bytes. Reordered indices are accepted only when sorted cyclic-oriented triangle tuples are identical.",
+    "source": "Read-only Blender 5.2.3 background load; compare every saved preview vertex, triangle and linear vertex color against the actual runtime module snapshot.",
+    "previewPurpose": "Blender editing/viewport only. Runtime remains one instanced grass mesh; preview collection is outside the GLB export root.",
+    "scope": "Final user-selected half-height and half-horizontal grass; no further source/asset mutations."
+  },
+  "glb": {
+    "baselineCommit": "2af54a72f65b04b3d788c5f5fcb1ca19881ce257",
+    "before": {
+      "sha256": "975283d9d1753e577981a25a53593299ea4d53f9044c872cd4d3297a8a7983a1",
+      "bytes": 682436,
+      "jsonLength": 20808
+    },
+    "after": {
+      "sha256": "098828b961f252083722c4dda5f7839895febf7b58ebd68c3a77fcf87dd63594",
+      "bytes": 682436,
+      "jsonLength": 20808
+    },
+    "jsonDifferences": [],
+    "changedAccessors": [
+      {
+        "index": 10,
+        "roles": [
+          "Island_Crystal_Underside | Asymmetric mineral keel:INDEX"
+        ],
+        "count": 3267,
+        "differingBytes": 548,
+        "indexOnly": true,
+        "sameOrientedTriangles": true
+      }
+    ],
+    "differingBytesOutsideChangedAccessors": 0,
+    "protectedFiles": [
+      {
+        "path": "public/models/island-warm.glb",
+        "baselineSha256": "52ed6300962c469a0bd3e6eee9452bd9d6578d14de5b1df3004967ecfa20c083",
+        "currentSha256": "52ed6300962c469a0bd3e6eee9452bd9d6578d14de5b1df3004967ecfa20c083",
+        "unchanged": true
+      },
+      {
+        "path": "src/lib/islandTone.js",
+        "baselineSha256": "5dcc4f3272908181099de3d799ccfe29bec58dbb43d9af9cff01a3ef86bbb4fa",
+        "currentSha256": "5dcc4f3272908181099de3d799ccfe29bec58dbb43d9af9cff01a3ef86bbb4fa",
+        "unchanged": true
+      },
+      {
+        "path": "src/lib/gardenEnvironment.js",
+        "baselineSha256": "80cbe069a6e89efa38815815be6e0ae21d3ea7997f0698e02276b54fe2aa69d5",
+        "currentSha256": "80cbe069a6e89efa38815815be6e0ae21d3ea7997f0698e02276b54fe2aa69d5",
+        "unchanged": true
+      },
+      {
+        "path": "src/components/Island3D.jsx",
+        "baselineSha256": "3d837b3678206363b06fb81c0f8a7fd1c26fe327f827825526dc070a5c5db1b0",
+        "currentSha256": "3d837b3678206363b06fb81c0f8a7fd1c26fe327f827825526dc070a5c5db1b0",
+        "unchanged": true
+      },
+      {
+        "path": "src/lib/flower3d.js",
+        "baselineSha256": "02833e1f0a8e71d2ae2c0ab1d62634ed05ab88fe727287431384cb68450997f8",
+        "currentSha256": "02833e1f0a8e71d2ae2c0ab1d62634ed05ab88fe727287431384cb68450997f8",
+        "unchanged": true
+      },
+      {
+        "path": "src/lib/tree3d.js",
+        "baselineSha256": "01473a028f43138555d73f7f1d3aa1a3d2f6fcc4e5f2a2c17074b3ac758e9d2e",
+        "currentSha256": "01473a028f43138555d73f7f1d3aa1a3d2f6fcc4e5f2a2c17074b3ac758e9d2e",
+        "unchanged": true
+      }
+    ],
+    "modelPathsChanged": [
+      "public/models/island.glb"
+    ],
+    "previewJson": {
+      "sha256": "815ecb53cb3022d3fe31418cbc4a1ce2b16c1c8fc2ed2ac1a7584b6b544df1df",
+      "bytes": 528738,
+      "source": {
+        "modulePath": "src/lib/islandGrass.js",
+        "moduleSha256": "86d75bd0ee9154670dabe2d1ab15f88b67493b1a8c00245dea243e313c721cef",
+        "moduleHashNormalization": "UTF-8 text with CRLF/CR normalized to LF",
+        "glbPath": "public/models/island.glb",
+        "glbSha256": "098828b961f252083722c4dda5f7839895febf7b58ebd68c3a77fcf87dd63594",
+        "threeRevision": "187"
+      },
+      "metrics": {
+        "verticesPerInstance": 10,
+        "trianglesPerInstance": 6,
+        "grassTriangles": 6000,
+        "assetTriangles": 14099,
+        "totalRuntimeTriangles": 20099,
+        "minRuntimeHeight": 0.0750022891703271,
+        "maxRuntimeHeight": 0.11998891901378379,
+        "gltfSceneLocalBounds": {
+          "min": [
+            -3.8052278090522056,
+            -0.007011889295574947,
+            -3.787234458026618
+          ],
+          "max": [
+            3.9416739886697427,
+            0.17487264003563352,
+            3.700368315558617
+          ]
+        },
+        "runtimeBounds": {
+          "min": [
+            -3.8380136130850864,
+            0.16292769633769566,
+            -3.8198652315303896
+          ],
+          "max": [
+            3.975635411596014,
+            0.3463793409204746,
+            3.7322506512639277
+          ]
+        }
+      }
+    }
+  },
+  "source": {
+    "sourcePath": "C:\\Users\\kuson\\.codex\\worktrees\\soop-island\\kuccthon-sound\\art\\island\\island.blend",
+    "sourceBytes": 757715,
+    "sourceSha256": "6371d1a4f4b91f27b43d09b1165242b3a3e4279943ce7b793d29809b979a2158",
+    "scenes": [
+      "SOOP_Island"
+    ],
+    "assetRoot": "SUP_Island_Root",
+    "assetMeshCount": 20,
+    "assetTriangles": 14099,
+    "assetMaterials": [
+      "SUP Brushed rose gold",
+      "SUP Champagne gold",
+      "SUP Cyan quartz",
+      "SUP Iridescent foliage",
+      "SUP Lavender quartz",
+      "SUP Layered turquoise mineral",
+      "SUP Opalescent ground",
+      "SUP Pearl water highlights",
+      "SUP Pink opal",
+      "SUP Still aqua water",
+      "SUP Warm luminous filaments"
+    ],
+    "previewName": "SUP Grass preview | Runtime instances, excluded from GLB",
+    "previewCollections": [
+      "SUP_Runtime_Grass_Preview | excluded from GLB"
+    ],
+    "previewParent": null,
+    "previewVertices": 10000,
+    "previewTriangles": 6000,
+    "previewOutsideAssetCollection": true,
+    "previewSourceModuleHash": "86d75bd0ee9154670dabe2d1ab15f88b67493b1a8c00245dea243e313c721cef",
+    "currentModuleHash": "86d75bd0ee9154670dabe2d1ab15f88b67493b1a8c00245dea243e313c721cef",
+    "jsonSourceModuleHash": "86d75bd0ee9154670dabe2d1ab15f88b67493b1a8c00245dea243e313c721cef",
+    "jsonGlbHash": "098828b961f252083722c4dda5f7839895febf7b58ebd68c3a77fcf87dd63594",
+    "actualGlbHash": "098828b961f252083722c4dda5f7839895febf7b58ebd68c3a77fcf87dd63594",
+    "maxPreviewPositionError": 0,
+    "maxPreviewColorError": 2.9781730859212985e-8,
+    "previewFacesExact": true,
+    "runtimeHeightRange": [
+      0.0750022891703271,
+      0.11998891901378379
+    ],
+    "previewMaterial": {
+      "name": "SUP Short mint grass preview",
+      "roughness": 1,
+      "metallic": 0,
+      "alpha": 1,
+      "transmission": 0,
+      "baseColorSources": [
+        "VERTEX_COLOR"
+      ],
+      "doubleSided": true
+    }
+  }
+}

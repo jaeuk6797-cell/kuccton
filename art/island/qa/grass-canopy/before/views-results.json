@@ -1,0 +1,3095 @@
+{
+  "revision": "a051bf4-working-glb975283d9",
+  "mode": "views",
+  "time": "2026-11-06T19:24:46.934Z",
+  "baseURL": "http://127.0.0.1:5297",
+  "baselineURL": "http://127.0.0.1:5298",
+  "views": [
+    {
+      "name": "aurora-default",
+      "path": "C:\\Users\\kuson\\.codex\\worktrees\\soop-island\\kuccthon-sound\\art\\island\\qa\\grass\\final\\aurora-default.png",
+      "info": {
+        "preview": {
+          "plants": 13,
+          "near": 0,
+          "far": 0,
+          "calls": 812,
+          "triangles": 102280,
+          "geometries": 110,
+          "island": "loaded",
+          "islandGeometry": {
+            "assetTriangles": 14099,
+            "grassTriangles": 6000,
+            "grassClumps": 1000,
+            "grassDrawCalls": 1
+          },
+          "growing": 0,
+          "opened": 13,
+          "camera": {
+            "position": [
+              0,
+              5.496125175623439,
+              13.176584731173508
+            ],
+            "target": [
+              0,
+              0.1,
+              0
+            ]
+          },
+          "viewport": {
+            "width": 1200,
+            "height": 710,
+            "pixelRatio": 1.5
+          },
+          "performance": {
+            "frame": {
+              "samples": 22,
+              "meanMs": 183.33,
+              "p95Ms": 466.6
+            },
+            "renderCPU": {
+              "samples": 22,
+              "meanMs": 3.37,
+              "p95Ms": 4.4
+            },
+            "gpu": {
+              "available": true,
+              "samples": 17,
+              "meanMs": 175.92,
+              "p95Ms": 306.82
+            }
+          }
+        },
+        "tone": "aurora",
+        "camera": [
+          0,
+          5.496125175623439,
+          13.176584731173508
+        ],
+        "target": [
+          0,
+          0.1,
+          0
+        ],
+        "cameraLimits": {
+          "min": 6.549801586459576,
+          "max": 29.238699100999078,
+          "minPolar": 0.55,
+          "maxPolar": 1.4
+        },
+        "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "glError": 0,
+        "programs": 19,
+        "textures": 9,
+        "passes": [
+          "RenderPass",
+          "AuroraGlowPass",
+          "OutputPass"
+        ],
+        "grass": [
+          {
+            "name": "Island_Grass | Short garden coverage",
+            "count": 1000,
+            "baseTriangles": 6,
+            "castShadow": false,
+            "receiveShadow": true,
+            "materials": 1,
+            "material": "SUP Short mint grass",
+            "roughness": 1,
+            "metalness": 0,
+            "opacity": 1,
+            "transparent": false,
+            "frustumCulled": true
+          }
+        ],
+        "plantKinds": [
+          {
+            "id": "demo-pair",
+            "kind": "pair",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -0.04545222379267216,
+              0,
+              1.0916847019089277
+            ]
+          },
+          {
+            "id": "pair-flutter",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              1.3002295877225698,
+              0,
+              -2.265058398862534
+            ]
+          },
+          {
+            "id": "peony-procedural-89",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -1.5940342026762664,
+              0,
+              1.6925735093987382
+            ]
+          },
+          {
+            "id": "peony-blender-41",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              1.6220897298865022,
+              0,
+              1.6710500583666212
+            ]
+          },
+          {
+            "id": "peony-jade-16",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              2.013126093512401,
+              0,
+              0.05712493733502924
+            ]
+          },
+          {
+            "id": "sample-0",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              1.0397728460747748,
+              0,
+              -0.5979485726498944
+            ]
+          },
+          {
+            "id": "sample-1",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              1.3457107540592552,
+              0,
+              -1.1974280372453745
+            ]
+          },
+          {
+            "id": "sample-2",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -0.9622955754585564,
+              0,
+              0.5792141549431664
+            ]
+          },
+          {
+            "id": "sample-3",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -0.050492155300453305,
+              0,
+              0.04920616582967341
+            ]
+          },
+          {
+            "id": "sample-4",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -1.3558664581272752,
+              0,
+              1.1827137936191525
+            ]
+          },
+          {
+            "id": "sample-5",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -1.9602467569336295,
+              0,
+              1.1936920884163942
+            ]
+          },
+          {
+            "id": "sample-6",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -1.700403137532994,
+              0,
+              2.870547557553715
+            ]
+          },
+          {
+            "id": "sample-7",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -2.0291316240280866,
+              0,
+              2.2556785053677637
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "aurora-mixed12",
+      "path": "C:\\Users\\kuson\\.codex\\worktrees\\soop-island\\kuccthon-sound\\art\\island\\qa\\grass\\final\\aurora-mixed12.png",
+      "info": {
+        "preview": {
+          "plants": 13,
+          "near": 2,
+          "far": 0,
+          "calls": 660,
+          "triangles": 89400,
+          "geometries": 99,
+          "island": "loaded",
+          "islandGeometry": {
+            "assetTriangles": 14099,
+            "grassTriangles": 6000,
+            "grassClumps": 1000,
+            "grassDrawCalls": 1
+          },
+          "growing": 0,
+          "opened": 13,
+          "camera": {
+            "position": [
+              0,
+              5.496125175623439,
+              13.176584731173508
+            ],
+            "target": [
+              0,
+              0.1,
+              0
+            ]
+          },
+          "viewport": {
+            "width": 1200,
+            "height": 710,
+            "pixelRatio": 1.5
+          },
+          "performance": {
+            "frame": {
+              "samples": 46,
+              "meanMs": 195.11,
+              "p95Ms": 483.3
+            },
+            "renderCPU": {
+              "samples": 46,
+              "meanMs": 14.52,
+              "p95Ms": 4.4
+            },
+            "gpu": {
+              "available": true,
+              "samples": 40,
+              "meanMs": 181.85,
+              "p95Ms": 306.82
+            }
+          }
+        },
+        "tone": "aurora",
+        "camera": [
+          0,
+          5.496125175623439,
+          13.176584731173508
+        ],
+        "target": [
+          0,
+          0.1,
+          0
+        ],
+        "cameraLimits": {
+          "min": 6.549801586459576,
+          "max": 29.238699100999078,
+          "minPolar": 0.55,
+          "maxPolar": 1.4
+        },
+        "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "glError": 0,
+        "programs": 22,
+        "textures": 9,
+        "passes": [
+          "RenderPass",
+          "AuroraGlowPass",
+          "OutputPass"
+        ],
+        "grass": [
+          {
+            "name": "Island_Grass | Short garden coverage",
+            "count": 1000,
+            "baseTriangles": 6,
+            "castShadow": false,
+            "receiveShadow": true,
+            "materials": 1,
+            "material": "SUP Short mint grass",
+            "roughness": 1,
+            "metalness": 0,
+            "opacity": 1,
+            "transparent": false,
+            "frustumCulled": true
+          }
+        ],
+        "plantKinds": [
+          {
+            "id": "demo-pair",
+            "kind": "pair",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -0.04545222379267216,
+              0,
+              1.0916847019089277
+            ]
+          },
+          {
+            "id": "pair-flutter",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              1.3002295877225698,
+              0,
+              -2.265058398862534
+            ]
+          },
+          {
+            "id": "peony-procedural-89",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -1.5940342026762664,
+              0,
+              1.6925735093987382
+            ]
+          },
+          {
+            "id": "sample-0",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              1.0397728460747748,
+              0,
+              -0.5979485726498944
+            ]
+          },
+          {
+            "id": "sample-1",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              1.3457107540592552,
+              0,
+              -1.1974280372453745
+            ]
+          },
+          {
+            "id": "sample-2",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -0.9622955754585564,
+              0,
+              0.5792141549431664
+            ]
+          },
+          {
+            "id": "sample-3",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -0.050492155300453305,
+              0,
+              0.04920616582967341
+            ]
+          },
+          {
+            "id": "sample-4",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -1.3558664581272752,
+              0,
+              1.1827137936191525
+            ]
+          },
+          {
+            "id": "sample-5",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -1.9602467569336295,
+              0,
+              1.1936920884163942
+            ]
+          },
+          {
+            "id": "sample-6",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -1.700403137532994,
+              0,
+              2.870547557553715
+            ]
+          },
+          {
+            "id": "sample-7",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -2.0291316240280866,
+              0,
+              2.2556785053677637
+            ]
+          },
+          {
+            "id": "peony-blender-41",
+            "kind": "flower",
+            "blender": true,
+            "lod": "near",
+            "opened": true,
+            "position": [
+              1.6220897298865022,
+              0,
+              1.6710500583666212
+            ]
+          },
+          {
+            "id": "peony-jade-16",
+            "kind": "flower",
+            "blender": true,
+            "lod": "near",
+            "opened": true,
+            "position": [
+              2.013126093512401,
+              0,
+              0.05712493733502924
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "aurora-island-only",
+      "path": "C:\\Users\\kuson\\.codex\\worktrees\\soop-island\\kuccthon-sound\\art\\island\\qa\\grass\\final\\aurora-island-only.png",
+      "info": {
+        "preview": {
+          "plants": 0,
+          "near": 0,
+          "far": 0,
+          "calls": 30,
+          "triangles": 25040,
+          "geometries": 29,
+          "island": "loaded",
+          "islandGeometry": {
+            "assetTriangles": 14099,
+            "grassTriangles": 6000,
+            "grassClumps": 1000,
+            "grassDrawCalls": 1
+          },
+          "growing": 0,
+          "opened": 0,
+          "camera": {
+            "position": [
+              0,
+              5.496125175623439,
+              13.176584731173508
+            ],
+            "target": [
+              0,
+              0.1,
+              0
+            ]
+          },
+          "viewport": {
+            "width": 1200,
+            "height": 710,
+            "pixelRatio": 1.5
+          },
+          "performance": {
+            "frame": {
+              "samples": 64,
+              "meanMs": 182.16,
+              "p95Ms": 466.6
+            },
+            "renderCPU": {
+              "samples": 64,
+              "meanMs": 10.8,
+              "p95Ms": 4.4
+            },
+            "gpu": {
+              "available": true,
+              "samples": 58,
+              "meanMs": 164.9,
+              "p95Ms": 306.82
+            }
+          }
+        },
+        "tone": "aurora",
+        "camera": [
+          0,
+          5.496125175623439,
+          13.176584731173508
+        ],
+        "target": [
+          0,
+          0.1,
+          0
+        ],
+        "cameraLimits": {
+          "min": 6.549801586459576,
+          "max": 29.238699100999078,
+          "minPolar": 0.55,
+          "maxPolar": 1.4
+        },
+        "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "glError": 0,
+        "programs": 15,
+        "textures": 9,
+        "passes": [
+          "RenderPass",
+          "AuroraGlowPass",
+          "OutputPass"
+        ],
+        "grass": [
+          {
+            "name": "Island_Grass | Short garden coverage",
+            "count": 1000,
+            "baseTriangles": 6,
+            "castShadow": false,
+            "receiveShadow": true,
+            "materials": 1,
+            "material": "SUP Short mint grass",
+            "roughness": 1,
+            "metalness": 0,
+            "opacity": 1,
+            "transparent": false,
+            "frustumCulled": true
+          }
+        ],
+        "plantKinds": []
+      }
+    },
+    {
+      "name": "grass-closeup",
+      "path": "C:\\Users\\kuson\\.codex\\worktrees\\soop-island\\kuccthon-sound\\art\\island\\qa\\grass\\final\\grass-closeup.png",
+      "info": {
+        "preview": {
+          "plants": 0,
+          "near": 0,
+          "far": 0,
+          "calls": 30,
+          "triangles": 25040,
+          "geometries": 29,
+          "island": "loaded",
+          "islandGeometry": {
+            "assetTriangles": 14099,
+            "grassTriangles": 6000,
+            "grassClumps": 1000,
+            "grassDrawCalls": 1
+          },
+          "growing": 0,
+          "opened": 0,
+          "camera": {
+            "position": [
+              1.6723699728758046,
+              3.6056625010083407,
+              6.391369707825089
+            ],
+            "target": [
+              0,
+              0.17,
+              0.15
+            ]
+          },
+          "viewport": {
+            "width": 1200,
+            "height": 710,
+            "pixelRatio": 1.5
+          },
+          "performance": {
+            "frame": {
+              "samples": 82,
+              "meanMs": 181.4,
+              "p95Ms": 433.4
+            },
+            "renderCPU": {
+              "samples": 82,
+              "meanMs": 8.59,
+              "p95Ms": 4.4
+            },
+            "gpu": {
+              "available": true,
+              "samples": 76,
+              "meanMs": 168.87,
+              "p95Ms": 257.85
+            }
+          }
+        },
+        "tone": "aurora",
+        "camera": [
+          1.6723699728758046,
+          3.6056625010083407,
+          6.391369707825089
+        ],
+        "target": [
+          0,
+          0.17,
+          0.15
+        ],
+        "cameraLimits": {
+          "min": 6.549801586459576,
+          "max": 29.238699100999078,
+          "minPolar": 0.55,
+          "maxPolar": 1.4
+        },
+        "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "glError": 0,
+        "programs": 15,
+        "textures": 9,
+        "passes": [
+          "RenderPass",
+          "AuroraGlowPass",
+          "OutputPass"
+        ],
+        "grass": [
+          {
+            "name": "Island_Grass | Short garden coverage",
+            "count": 1000,
+            "baseTriangles": 6,
+            "castShadow": false,
+            "receiveShadow": true,
+            "materials": 1,
+            "material": "SUP Short mint grass",
+            "roughness": 1,
+            "metalness": 0,
+            "opacity": 1,
+            "transparent": false,
+            "frustumCulled": true
+          }
+        ],
+        "plantKinds": []
+      }
+    },
+    {
+      "name": "island-side",
+      "path": "C:\\Users\\kuson\\.codex\\worktrees\\soop-island\\kuccthon-sound\\art\\island\\qa\\grass\\final\\island-side.png",
+      "info": {
+        "preview": {
+          "plants": 0,
+          "near": 0,
+          "far": 0,
+          "calls": 30,
+          "triangles": 25040,
+          "geometries": 29,
+          "island": "loaded",
+          "islandGeometry": {
+            "assetTriangles": 14099,
+            "grassTriangles": 6000,
+            "grassClumps": 1000,
+            "grassDrawCalls": 1
+          },
+          "growing": 0,
+          "opened": 0,
+          "camera": {
+            "position": [
+              13.176584731173506,
+              5.496125175623438,
+              8.068331157362761e-16
+            ],
+            "target": [
+              0,
+              0.1,
+              0
+            ]
+          },
+          "viewport": {
+            "width": 1200,
+            "height": 710,
+            "pixelRatio": 1.5
+          },
+          "performance": {
+            "frame": {
+              "samples": 116,
+              "meanMs": 175.14,
+              "p95Ms": 466.6
+            },
+            "renderCPU": {
+              "samples": 116,
+              "meanMs": 6.27,
+              "p95Ms": 4.4
+            },
+            "gpu": {
+              "available": true,
+              "samples": 111,
+              "meanMs": 161.47,
+              "p95Ms": 250.02
+            }
+          }
+        },
+        "tone": "aurora",
+        "camera": [
+          13.176584731173506,
+          5.496125175623438,
+          8.068331157362761e-16
+        ],
+        "target": [
+          0,
+          0.1,
+          0
+        ],
+        "cameraLimits": {
+          "min": 6.549801586459576,
+          "max": 29.238699100999078,
+          "minPolar": 0.55,
+          "maxPolar": 1.4
+        },
+        "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "glError": 0,
+        "programs": 15,
+        "textures": 9,
+        "passes": [
+          "RenderPass",
+          "AuroraGlowPass",
+          "OutputPass"
+        ],
+        "grass": [
+          {
+            "name": "Island_Grass | Short garden coverage",
+            "count": 1000,
+            "baseTriangles": 6,
+            "castShadow": false,
+            "receiveShadow": true,
+            "materials": 1,
+            "material": "SUP Short mint grass",
+            "roughness": 1,
+            "metalness": 0,
+            "opacity": 1,
+            "transparent": false,
+            "frustumCulled": true
+          }
+        ],
+        "plantKinds": []
+      }
+    },
+    {
+      "name": "island-rear",
+      "path": "C:\\Users\\kuson\\.codex\\worktrees\\soop-island\\kuccthon-sound\\art\\island\\qa\\grass\\final\\island-rear.png",
+      "info": {
+        "preview": {
+          "plants": 0,
+          "near": 0,
+          "far": 0,
+          "calls": 30,
+          "triangles": 25040,
+          "geometries": 29,
+          "island": "loaded",
+          "islandGeometry": {
+            "assetTriangles": 14099,
+            "grassTriangles": 6000,
+            "grassClumps": 1000,
+            "grassDrawCalls": 1
+          },
+          "growing": 0,
+          "opened": 0,
+          "camera": {
+            "position": [
+              1.6136662314725522e-15,
+              5.496125175623438,
+              -13.176584731173506
+            ],
+            "target": [
+              0,
+              0.1,
+              0
+            ]
+          },
+          "viewport": {
+            "width": 1200,
+            "height": 710,
+            "pixelRatio": 1.5
+          },
+          "performance": {
+            "frame": {
+              "samples": 180,
+              "meanMs": 176.85,
+              "p95Ms": 416.6
+            },
+            "renderCPU": {
+              "samples": 180,
+              "meanMs": 4.25,
+              "p95Ms": 3.9
+            },
+            "gpu": {
+              "available": true,
+              "samples": 179,
+              "meanMs": 167,
+              "p95Ms": 225.9
+            }
+          }
+        },
+        "tone": "aurora",
+        "camera": [
+          1.6136662314725522e-15,
+          5.496125175623438,
+          -13.176584731173506
+        ],
+        "target": [
+          0,
+          0.1,
+          0
+        ],
+        "cameraLimits": {
+          "min": 6.549801586459576,
+          "max": 29.238699100999078,
+          "minPolar": 0.55,
+          "maxPolar": 1.4
+        },
+        "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "glError": 0,
+        "programs": 15,
+        "textures": 9,
+        "passes": [
+          "RenderPass",
+          "AuroraGlowPass",
+          "OutputPass"
+        ],
+        "grass": [
+          {
+            "name": "Island_Grass | Short garden coverage",
+            "count": 1000,
+            "baseTriangles": 6,
+            "castShadow": false,
+            "receiveShadow": true,
+            "materials": 1,
+            "material": "SUP Short mint grass",
+            "roughness": 1,
+            "metalness": 0,
+            "opacity": 1,
+            "transparent": false,
+            "frustumCulled": true
+          }
+        ],
+        "plantKinds": []
+      }
+    },
+    {
+      "name": "island-left",
+      "path": "C:\\Users\\kuson\\.codex\\worktrees\\soop-island\\kuccthon-sound\\art\\island\\qa\\grass\\final\\island-left.png",
+      "info": {
+        "preview": {
+          "plants": 0,
+          "near": 0,
+          "far": 0,
+          "calls": 30,
+          "triangles": 25040,
+          "geometries": 29,
+          "island": "loaded",
+          "islandGeometry": {
+            "assetTriangles": 14099,
+            "grassTriangles": 6000,
+            "grassClumps": 1000,
+            "grassDrawCalls": 1
+          },
+          "growing": 0,
+          "opened": 0,
+          "camera": {
+            "position": [
+              -13.176584731173506,
+              5.496125175623438,
+              8.068331157362761e-16
+            ],
+            "target": [
+              0,
+              0.1,
+              0
+            ]
+          },
+          "viewport": {
+            "width": 1200,
+            "height": 710,
+            "pixelRatio": 1.5
+          },
+          "performance": {
+            "frame": {
+              "samples": 180,
+              "meanMs": 181.25,
+              "p95Ms": 416.6
+            },
+            "renderCPU": {
+              "samples": 180,
+              "meanMs": 0.91,
+              "p95Ms": 1.8
+            },
+            "gpu": {
+              "available": true,
+              "samples": 180,
+              "meanMs": 170.41,
+              "p95Ms": 223.96
+            }
+          }
+        },
+        "tone": "aurora",
+        "camera": [
+          -13.176584731173506,
+          5.496125175623438,
+          8.068331157362761e-16
+        ],
+        "target": [
+          0,
+          0.1,
+          0
+        ],
+        "cameraLimits": {
+          "min": 6.549801586459576,
+          "max": 29.238699100999078,
+          "minPolar": 0.55,
+          "maxPolar": 1.4
+        },
+        "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "glError": 0,
+        "programs": 15,
+        "textures": 9,
+        "passes": [
+          "RenderPass",
+          "AuroraGlowPass",
+          "OutputPass"
+        ],
+        "grass": [
+          {
+            "name": "Island_Grass | Short garden coverage",
+            "count": 1000,
+            "baseTriangles": 6,
+            "castShadow": false,
+            "receiveShadow": true,
+            "materials": 1,
+            "material": "SUP Short mint grass",
+            "roughness": 1,
+            "metalness": 0,
+            "opacity": 1,
+            "transparent": false,
+            "frustumCulled": true
+          }
+        ],
+        "plantKinds": []
+      }
+    },
+    {
+      "name": "island-low-side",
+      "path": "C:\\Users\\kuson\\.codex\\worktrees\\soop-island\\kuccthon-sound\\art\\island\\qa\\grass\\final\\island-low-side.png",
+      "info": {
+        "preview": {
+          "plants": 0,
+          "near": 0,
+          "far": 0,
+          "calls": 30,
+          "triangles": 25040,
+          "geometries": 29,
+          "island": "loaded",
+          "islandGeometry": {
+            "assetTriangles": 14099,
+            "grassTriangles": 6000,
+            "grassClumps": 1000,
+            "grassDrawCalls": 1
+          },
+          "growing": 0,
+          "opened": 0,
+          "camera": {
+            "position": [
+              13.927549363212842,
+              3.0603920051340263,
+              8.528164373812682e-16
+            ],
+            "target": [
+              0,
+              0.1,
+              0
+            ]
+          },
+          "viewport": {
+            "width": 1200,
+            "height": 710,
+            "pixelRatio": 1.5
+          },
+          "performance": {
+            "frame": {
+              "samples": 180,
+              "meanMs": 181.43,
+              "p95Ms": 408.3
+            },
+            "renderCPU": {
+              "samples": 180,
+              "meanMs": 0.85,
+              "p95Ms": 1.7
+            },
+            "gpu": {
+              "available": true,
+              "samples": 180,
+              "meanMs": 169.94,
+              "p95Ms": 223.96
+            }
+          }
+        },
+        "tone": "aurora",
+        "camera": [
+          13.927549363212842,
+          3.0603920051340263,
+          8.528164373812682e-16
+        ],
+        "target": [
+          0,
+          0.1,
+          0
+        ],
+        "cameraLimits": {
+          "min": 6.549801586459576,
+          "max": 29.238699100999078,
+          "minPolar": 0.55,
+          "maxPolar": 1.4
+        },
+        "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "glError": 0,
+        "programs": 15,
+        "textures": 9,
+        "passes": [
+          "RenderPass",
+          "AuroraGlowPass",
+          "OutputPass"
+        ],
+        "grass": [
+          {
+            "name": "Island_Grass | Short garden coverage",
+            "count": 1000,
+            "baseTriangles": 6,
+            "castShadow": false,
+            "receiveShadow": true,
+            "materials": 1,
+            "material": "SUP Short mint grass",
+            "roughness": 1,
+            "metalness": 0,
+            "opacity": 1,
+            "transparent": false,
+            "frustumCulled": true
+          }
+        ],
+        "plantKinds": []
+      }
+    },
+    {
+      "name": "aurora-50-plants",
+      "path": "C:\\Users\\kuson\\.codex\\worktrees\\soop-island\\kuccthon-sound\\art\\island\\qa\\grass\\final\\aurora-50-plants.png",
+      "info": {
+        "preview": {
+          "plants": 50,
+          "near": 4,
+          "far": 8,
+          "calls": 2122,
+          "triangles": 223888,
+          "geometries": 260,
+          "island": "loaded",
+          "islandGeometry": {
+            "assetTriangles": 14099,
+            "grassTriangles": 6000,
+            "grassClumps": 1000,
+            "grassDrawCalls": 1
+          },
+          "growing": 0,
+          "opened": 50,
+          "camera": {
+            "position": [
+              0,
+              5.496125175623439,
+              13.176584731173508
+            ],
+            "target": [
+              0,
+              0.1,
+              0
+            ]
+          },
+          "viewport": {
+            "width": 1200,
+            "height": 710,
+            "pixelRatio": 1.5
+          },
+          "performance": {
+            "frame": {
+              "samples": 12,
+              "meanMs": 242.36,
+              "p95Ms": 1116.6
+            },
+            "renderCPU": {
+              "samples": 12,
+              "meanMs": 23.08,
+              "p95Ms": 180
+            },
+            "gpu": {
+              "available": true,
+              "samples": 6,
+              "meanMs": 220.04,
+              "p95Ms": 380.52
+            }
+          }
+        },
+        "tone": "aurora",
+        "camera": [
+          0,
+          5.496125175623439,
+          13.176584731173508
+        ],
+        "target": [
+          0,
+          0.1,
+          0
+        ],
+        "cameraLimits": {
+          "min": 6.549801586459576,
+          "max": 29.238699100999078,
+          "minPolar": 0.55,
+          "maxPolar": 1.4
+        },
+        "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "glError": 0,
+        "programs": 22,
+        "textures": 9,
+        "passes": [
+          "RenderPass",
+          "AuroraGlowPass",
+          "OutputPass"
+        ],
+        "grass": [
+          {
+            "name": "Island_Grass | Short garden coverage",
+            "count": 1000,
+            "baseTriangles": 6,
+            "castShadow": false,
+            "receiveShadow": true,
+            "materials": 1,
+            "material": "SUP Short mint grass",
+            "roughness": 1,
+            "metalness": 0,
+            "opacity": 1,
+            "transparent": false,
+            "frustumCulled": true
+          }
+        ],
+        "plantKinds": [
+          {
+            "id": "demo-pair",
+            "kind": "pair",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -0.04545222379267216,
+              0,
+              1.0916847019089277
+            ]
+          },
+          {
+            "id": "pair-flutter",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              1.3002295877225698,
+              0,
+              -2.265058398862534
+            ]
+          },
+          {
+            "id": "peony-procedural-89",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -1.5940342026762664,
+              0,
+              1.6925735093987382
+            ]
+          },
+          {
+            "id": "sample-0",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              1.0397728460747748,
+              0,
+              -0.5979485726498944
+            ]
+          },
+          {
+            "id": "sample-1",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              1.3457107540592552,
+              0,
+              -1.1974280372453745
+            ]
+          },
+          {
+            "id": "sample-2",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -0.9622955754585564,
+              0,
+              0.5792141549431664
+            ]
+          },
+          {
+            "id": "sample-3",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -0.050492155300453305,
+              0,
+              0.04920616582967341
+            ]
+          },
+          {
+            "id": "sample-4",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -1.3558664581272752,
+              0,
+              1.1827137936191525
+            ]
+          },
+          {
+            "id": "sample-5",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -1.9602467569336295,
+              0,
+              1.1936920884163942
+            ]
+          },
+          {
+            "id": "sample-6",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -1.700403137532994,
+              0,
+              2.870547557553715
+            ]
+          },
+          {
+            "id": "sample-7",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -2.0291316240280866,
+              0,
+              2.2556785053677637
+            ]
+          },
+          {
+            "id": "dense-1",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              2.5908450262527913,
+              0,
+              -1.1111899548867608
+            ]
+          },
+          {
+            "id": "dense-2",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              2.319718709466979,
+              0,
+              -0.5186452893123907
+            ]
+          },
+          {
+            "id": "dense-3",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              1.3326224250532688,
+              0,
+              -0.019894646052271127
+            ]
+          },
+          {
+            "id": "dense-5",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              0.33294613603502515,
+              0,
+              1.7122922039645558
+            ]
+          },
+          {
+            "id": "dense-6",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -0.01613745907321572,
+              0,
+              2.2431335491884283
+            ]
+          },
+          {
+            "id": "dense-7",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -0.6410461969021708,
+              0,
+              2.2278779549535144
+            ]
+          },
+          {
+            "id": "dense-9",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              0.6408680352754891,
+              0,
+              0.026351685700938106
+            ]
+          },
+          {
+            "id": "dense-10",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              1.63906675754115,
+              0,
+              -0.569153188620968
+            ]
+          },
+          {
+            "id": "dense-11",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              1.9432080371305347,
+              0,
+              -1.0993539800314123
+            ]
+          },
+          {
+            "id": "dense-13",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              0.9674795072525739,
+              0,
+              0.5413254183673245
+            ]
+          },
+          {
+            "id": "dense-14",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -1.04152443414554,
+              0,
+              2.803862275720081
+            ]
+          },
+          {
+            "id": "dense-15",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -2.302978009600192,
+              0,
+              1.684363706564421
+            ]
+          },
+          {
+            "id": "dense-17",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -1.9515348682366311,
+              0,
+              -2.3413861659180153
+            ]
+          },
+          {
+            "id": "dense-18",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -0.6527487778756768,
+              0,
+              0.022236423371359705
+            ]
+          },
+          {
+            "id": "dense-19",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -0.37201368623413145,
+              0,
+              -0.591439107354073
+            ]
+          },
+          {
+            "id": "dense-21",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              1.0219876279123128,
+              0,
+              2.846936054859749
+            ]
+          },
+          {
+            "id": "dense-22",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -1.6083270015008746,
+              0,
+              -1.7102944008129484
+            ]
+          },
+          {
+            "id": "dense-23",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              0.0228406326379627,
+              0,
+              -1.1680797178396847
+            ]
+          },
+          {
+            "id": "dense-25",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -1.3490004234015942,
+              0,
+              -0.05120112139731645
+            ]
+          },
+          {
+            "id": "dense-26",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -2.309150559017435,
+              0,
+              0.570571514708264
+            ]
+          },
+          {
+            "id": "dense-27",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -3.029462039479986,
+              0,
+              0.5132416231607032
+            ]
+          },
+          {
+            "id": "dense-29",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              1.3034326221048833,
+              0,
+              1.1651752619078273
+            ]
+          },
+          {
+            "id": "dense-30",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -1.9283059452474116,
+              0,
+              -0.03935232519172132
+            ]
+          },
+          {
+            "id": "dense-31",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -0.941548967063427,
+              0,
+              -0.5964016442795229
+            ]
+          },
+          {
+            "id": "dense-33",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              0.38641913381405174,
+              0,
+              -0.602715708525194
+            ]
+          },
+          {
+            "id": "dense-34",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              1.928916658759117,
+              0,
+              2.3368257875658354
+            ]
+          },
+          {
+            "id": "dense-35",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              2.3188356017321348,
+              0,
+              1.772321831337998
+            ]
+          },
+          {
+            "id": "peony-blender-41",
+            "kind": "flower",
+            "blender": true,
+            "lod": "near",
+            "opened": true,
+            "position": [
+              1.6220897298865022,
+              0,
+              1.6710500583666212
+            ]
+          },
+          {
+            "id": "peony-jade-16",
+            "kind": "flower",
+            "blender": true,
+            "lod": "far",
+            "opened": true,
+            "position": [
+              2.013126093512401,
+              0,
+              0.05712493733502924
+            ]
+          },
+          {
+            "id": "dense-peony-0",
+            "kind": "flower",
+            "blender": true,
+            "lod": "far",
+            "opened": true,
+            "position": [
+              -0.659393731020391,
+              0,
+              -1.1223402108257527
+            ]
+          },
+          {
+            "id": "dense-peony-4",
+            "kind": "flower",
+            "blender": true,
+            "lod": "far",
+            "opened": true,
+            "position": [
+              1.5962097175419332,
+              0,
+              0.5821860259634388
+            ]
+          },
+          {
+            "id": "dense-peony-8",
+            "kind": "flower",
+            "blender": true,
+            "lod": "far",
+            "opened": true,
+            "position": [
+              2.9573783736024053,
+              0,
+              -0.5679500528381152
+            ]
+          },
+          {
+            "id": "dense-peony-12",
+            "kind": "flower",
+            "blender": true,
+            "lod": "far",
+            "opened": true,
+            "position": [
+              1.6449466818105432,
+              0,
+              -2.894927209789372
+            ]
+          },
+          {
+            "id": "dense-peony-16",
+            "kind": "flower",
+            "blender": true,
+            "lod": "near",
+            "opened": true,
+            "position": [
+              -2.633189873630181,
+              0,
+              1.1600868603685761
+            ]
+          },
+          {
+            "id": "dense-peony-20",
+            "kind": "flower",
+            "blender": true,
+            "lod": "far",
+            "opened": true,
+            "position": [
+              -1.6044348892383276,
+              0,
+              0.5325870396153015
+            ]
+          },
+          {
+            "id": "dense-peony-24",
+            "kind": "flower",
+            "blender": true,
+            "lod": "near",
+            "opened": true,
+            "position": [
+              -1.2971717195212842,
+              0,
+              2.2953815645921756
+            ]
+          },
+          {
+            "id": "dense-peony-28",
+            "kind": "flower",
+            "blender": true,
+            "lod": "far",
+            "opened": true,
+            "position": [
+              0.6769868751615287,
+              0,
+              -1.106266941037577
+            ]
+          },
+          {
+            "id": "dense-peony-32",
+            "kind": "flower",
+            "blender": true,
+            "lod": "far",
+            "opened": true,
+            "position": [
+              -0.38593576446175576,
+              0,
+              -1.6894400747082032
+            ]
+          },
+          {
+            "id": "dense-peony-36",
+            "kind": "flower",
+            "blender": true,
+            "lod": "near",
+            "opened": true,
+            "position": [
+              -0.9551888545230031,
+              0,
+              1.7488127315006055
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "aurora-mobile-390x844",
+      "path": "C:\\Users\\kuson\\.codex\\worktrees\\soop-island\\kuccthon-sound\\art\\island\\qa\\grass\\final\\aurora-mobile-390x844.png",
+      "info": {
+        "preview": {
+          "plants": 13,
+          "near": 0,
+          "far": 2,
+          "calls": 660,
+          "triangles": 84480,
+          "geometries": 99,
+          "island": "loaded",
+          "islandGeometry": {
+            "assetTriangles": 14099,
+            "grassTriangles": 6000,
+            "grassClumps": 1000,
+            "grassDrawCalls": 1
+          },
+          "growing": 0,
+          "opened": 13,
+          "camera": {
+            "position": [
+              0,
+              8.478834570803286,
+              20.459944882194062
+            ],
+            "target": [
+              0,
+              0.1,
+              0
+            ]
+          },
+          "viewport": {
+            "width": 390,
+            "height": 624,
+            "pixelRatio": 1.5
+          },
+          "performance": {
+            "frame": {
+              "samples": 34,
+              "meanMs": 108.09,
+              "p95Ms": 591.7
+            },
+            "renderCPU": {
+              "samples": 34,
+              "meanMs": 2.89,
+              "p95Ms": 3.9
+            },
+            "gpu": {
+              "available": true,
+              "samples": 30,
+              "meanMs": 74.07,
+              "p95Ms": 93.81
+            }
+          }
+        },
+        "tone": "aurora",
+        "camera": [
+          0,
+          8.478834570803286,
+          20.459944882194062
+        ],
+        "target": [
+          0,
+          0.1,
+          0
+        ],
+        "cameraLimits": {
+          "min": 10.170205875216599,
+          "max": 37.109143206992606,
+          "minPolar": 0.55,
+          "maxPolar": 1.4
+        },
+        "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "glError": 0,
+        "programs": 22,
+        "textures": 9,
+        "passes": [
+          "RenderPass",
+          "AuroraGlowPass",
+          "OutputPass"
+        ],
+        "grass": [
+          {
+            "name": "Island_Grass | Short garden coverage",
+            "count": 1000,
+            "baseTriangles": 6,
+            "castShadow": false,
+            "receiveShadow": true,
+            "materials": 1,
+            "material": "SUP Short mint grass",
+            "roughness": 1,
+            "metalness": 0,
+            "opacity": 1,
+            "transparent": false,
+            "frustumCulled": true
+          }
+        ],
+        "plantKinds": [
+          {
+            "id": "demo-pair",
+            "kind": "pair",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -0.04545222379267216,
+              0,
+              1.0916847019089277
+            ]
+          },
+          {
+            "id": "pair-flutter",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              1.3002295877225698,
+              0,
+              -2.265058398862534
+            ]
+          },
+          {
+            "id": "peony-procedural-89",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -1.5940342026762664,
+              0,
+              1.6925735093987382
+            ]
+          },
+          {
+            "id": "sample-0",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              1.0397728460747748,
+              0,
+              -0.5979485726498944
+            ]
+          },
+          {
+            "id": "sample-1",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              1.3457107540592552,
+              0,
+              -1.1974280372453745
+            ]
+          },
+          {
+            "id": "sample-2",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -0.9622955754585564,
+              0,
+              0.5792141549431664
+            ]
+          },
+          {
+            "id": "sample-3",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -0.050492155300453305,
+              0,
+              0.04920616582967341
+            ]
+          },
+          {
+            "id": "sample-4",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -1.3558664581272752,
+              0,
+              1.1827137936191525
+            ]
+          },
+          {
+            "id": "sample-5",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -1.9602467569336295,
+              0,
+              1.1936920884163942
+            ]
+          },
+          {
+            "id": "sample-6",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -1.700403137532994,
+              0,
+              2.870547557553715
+            ]
+          },
+          {
+            "id": "sample-7",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -2.0291316240280866,
+              0,
+              2.2556785053677637
+            ]
+          },
+          {
+            "id": "peony-blender-41",
+            "kind": "flower",
+            "blender": true,
+            "lod": "far",
+            "opened": true,
+            "position": [
+              1.6220897298865022,
+              0,
+              1.6710500583666212
+            ]
+          },
+          {
+            "id": "peony-jade-16",
+            "kind": "flower",
+            "blender": true,
+            "lod": "far",
+            "opened": true,
+            "position": [
+              2.013126093512401,
+              0,
+              0.05712493733502924
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "aurora-mobile-50",
+      "path": "C:\\Users\\kuson\\.codex\\worktrees\\soop-island\\kuccthon-sound\\art\\island\\qa\\grass\\final\\aurora-mobile-50.png",
+      "info": {
+        "preview": {
+          "plants": 50,
+          "near": 0,
+          "far": 12,
+          "calls": 2122,
+          "triangles": 214048,
+          "geometries": 255,
+          "island": "loaded",
+          "islandGeometry": {
+            "assetTriangles": 14099,
+            "grassTriangles": 6000,
+            "grassClumps": 1000,
+            "grassDrawCalls": 1
+          },
+          "growing": 0,
+          "opened": 50,
+          "camera": {
+            "position": [
+              0,
+              8.478834570803286,
+              20.459944882194062
+            ],
+            "target": [
+              0,
+              0.1,
+              0
+            ]
+          },
+          "viewport": {
+            "width": 390,
+            "height": 624,
+            "pixelRatio": 1.5
+          },
+          "performance": {
+            "frame": {
+              "samples": 19,
+              "meanMs": 164.91,
+              "p95Ms": 575.1
+            },
+            "renderCPU": {
+              "samples": 19,
+              "meanMs": 43.07,
+              "p95Ms": 571.3
+            },
+            "gpu": {
+              "available": true,
+              "samples": 16,
+              "meanMs": 158.11,
+              "p95Ms": 815.44
+            }
+          }
+        },
+        "tone": "aurora",
+        "camera": [
+          0,
+          8.478834570803286,
+          20.459944882194062
+        ],
+        "target": [
+          0,
+          0.1,
+          0
+        ],
+        "cameraLimits": {
+          "min": 10.170205875216599,
+          "max": 37.109143206992606,
+          "minPolar": 0.55,
+          "maxPolar": 1.4
+        },
+        "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "glError": 0,
+        "programs": 22,
+        "textures": 9,
+        "passes": [
+          "RenderPass",
+          "AuroraGlowPass",
+          "OutputPass"
+        ],
+        "grass": [
+          {
+            "name": "Island_Grass | Short garden coverage",
+            "count": 1000,
+            "baseTriangles": 6,
+            "castShadow": false,
+            "receiveShadow": true,
+            "materials": 1,
+            "material": "SUP Short mint grass",
+            "roughness": 1,
+            "metalness": 0,
+            "opacity": 1,
+            "transparent": false,
+            "frustumCulled": true
+          }
+        ],
+        "plantKinds": [
+          {
+            "id": "demo-pair",
+            "kind": "pair",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -0.04545222379267216,
+              0,
+              1.0916847019089277
+            ]
+          },
+          {
+            "id": "pair-flutter",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              1.3002295877225698,
+              0,
+              -2.265058398862534
+            ]
+          },
+          {
+            "id": "peony-procedural-89",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -1.5940342026762664,
+              0,
+              1.6925735093987382
+            ]
+          },
+          {
+            "id": "sample-0",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              1.0397728460747748,
+              0,
+              -0.5979485726498944
+            ]
+          },
+          {
+            "id": "sample-1",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              1.3457107540592552,
+              0,
+              -1.1974280372453745
+            ]
+          },
+          {
+            "id": "sample-2",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -0.9622955754585564,
+              0,
+              0.5792141549431664
+            ]
+          },
+          {
+            "id": "sample-3",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -0.050492155300453305,
+              0,
+              0.04920616582967341
+            ]
+          },
+          {
+            "id": "sample-4",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -1.3558664581272752,
+              0,
+              1.1827137936191525
+            ]
+          },
+          {
+            "id": "sample-5",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -1.9602467569336295,
+              0,
+              1.1936920884163942
+            ]
+          },
+          {
+            "id": "sample-6",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -1.700403137532994,
+              0,
+              2.870547557553715
+            ]
+          },
+          {
+            "id": "sample-7",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -2.0291316240280866,
+              0,
+              2.2556785053677637
+            ]
+          },
+          {
+            "id": "dense-1",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              2.5908450262527913,
+              0,
+              -1.1111899548867608
+            ]
+          },
+          {
+            "id": "dense-2",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              2.319718709466979,
+              0,
+              -0.5186452893123907
+            ]
+          },
+          {
+            "id": "dense-3",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              1.3326224250532688,
+              0,
+              -0.019894646052271127
+            ]
+          },
+          {
+            "id": "dense-5",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              0.33294613603502515,
+              0,
+              1.7122922039645558
+            ]
+          },
+          {
+            "id": "dense-6",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -0.01613745907321572,
+              0,
+              2.2431335491884283
+            ]
+          },
+          {
+            "id": "dense-7",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -0.6410461969021708,
+              0,
+              2.2278779549535144
+            ]
+          },
+          {
+            "id": "dense-9",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              0.6408680352754891,
+              0,
+              0.026351685700938106
+            ]
+          },
+          {
+            "id": "dense-10",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              1.63906675754115,
+              0,
+              -0.569153188620968
+            ]
+          },
+          {
+            "id": "dense-11",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              1.9432080371305347,
+              0,
+              -1.0993539800314123
+            ]
+          },
+          {
+            "id": "dense-13",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              0.9674795072525739,
+              0,
+              0.5413254183673245
+            ]
+          },
+          {
+            "id": "dense-14",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -1.04152443414554,
+              0,
+              2.803862275720081
+            ]
+          },
+          {
+            "id": "dense-15",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -2.302978009600192,
+              0,
+              1.684363706564421
+            ]
+          },
+          {
+            "id": "dense-17",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -1.9515348682366311,
+              0,
+              -2.3413861659180153
+            ]
+          },
+          {
+            "id": "dense-18",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -0.6527487778756768,
+              0,
+              0.022236423371359705
+            ]
+          },
+          {
+            "id": "dense-19",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -0.37201368623413145,
+              0,
+              -0.591439107354073
+            ]
+          },
+          {
+            "id": "dense-21",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              1.0219876279123128,
+              0,
+              2.846936054859749
+            ]
+          },
+          {
+            "id": "dense-22",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -1.6083270015008746,
+              0,
+              -1.7102944008129484
+            ]
+          },
+          {
+            "id": "dense-23",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              0.0228406326379627,
+              0,
+              -1.1680797178396847
+            ]
+          },
+          {
+            "id": "dense-25",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -1.3490004234015942,
+              0,
+              -0.05120112139731645
+            ]
+          },
+          {
+            "id": "dense-26",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -2.309150559017435,
+              0,
+              0.570571514708264
+            ]
+          },
+          {
+            "id": "dense-27",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -3.029462039479986,
+              0,
+              0.5132416231607032
+            ]
+          },
+          {
+            "id": "dense-29",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              1.3034326221048833,
+              0,
+              1.1651752619078273
+            ]
+          },
+          {
+            "id": "dense-30",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -1.9283059452474116,
+              0,
+              -0.03935232519172132
+            ]
+          },
+          {
+            "id": "dense-31",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -0.941548967063427,
+              0,
+              -0.5964016442795229
+            ]
+          },
+          {
+            "id": "dense-33",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              0.38641913381405174,
+              0,
+              -0.602715708525194
+            ]
+          },
+          {
+            "id": "dense-34",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              1.928916658759117,
+              0,
+              2.3368257875658354
+            ]
+          },
+          {
+            "id": "dense-35",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              2.3188356017321348,
+              0,
+              1.772321831337998
+            ]
+          },
+          {
+            "id": "peony-blender-41",
+            "kind": "flower",
+            "blender": true,
+            "lod": "far",
+            "opened": true,
+            "position": [
+              1.6220897298865022,
+              0,
+              1.6710500583666212
+            ]
+          },
+          {
+            "id": "peony-jade-16",
+            "kind": "flower",
+            "blender": true,
+            "lod": "far",
+            "opened": true,
+            "position": [
+              2.013126093512401,
+              0,
+              0.05712493733502924
+            ]
+          },
+          {
+            "id": "dense-peony-0",
+            "kind": "flower",
+            "blender": true,
+            "lod": "far",
+            "opened": true,
+            "position": [
+              -0.659393731020391,
+              0,
+              -1.1223402108257527
+            ]
+          },
+          {
+            "id": "dense-peony-4",
+            "kind": "flower",
+            "blender": true,
+            "lod": "far",
+            "opened": true,
+            "position": [
+              1.5962097175419332,
+              0,
+              0.5821860259634388
+            ]
+          },
+          {
+            "id": "dense-peony-8",
+            "kind": "flower",
+            "blender": true,
+            "lod": "far",
+            "opened": true,
+            "position": [
+              2.9573783736024053,
+              0,
+              -0.5679500528381152
+            ]
+          },
+          {
+            "id": "dense-peony-12",
+            "kind": "flower",
+            "blender": true,
+            "lod": "far",
+            "opened": true,
+            "position": [
+              1.6449466818105432,
+              0,
+              -2.894927209789372
+            ]
+          },
+          {
+            "id": "dense-peony-16",
+            "kind": "flower",
+            "blender": true,
+            "lod": "far",
+            "opened": true,
+            "position": [
+              -2.633189873630181,
+              0,
+              1.1600868603685761
+            ]
+          },
+          {
+            "id": "dense-peony-20",
+            "kind": "flower",
+            "blender": true,
+            "lod": "far",
+            "opened": true,
+            "position": [
+              -1.6044348892383276,
+              0,
+              0.5325870396153015
+            ]
+          },
+          {
+            "id": "dense-peony-24",
+            "kind": "flower",
+            "blender": true,
+            "lod": "far",
+            "opened": true,
+            "position": [
+              -1.2971717195212842,
+              0,
+              2.2953815645921756
+            ]
+          },
+          {
+            "id": "dense-peony-28",
+            "kind": "flower",
+            "blender": true,
+            "lod": "far",
+            "opened": true,
+            "position": [
+              0.6769868751615287,
+              0,
+              -1.106266941037577
+            ]
+          },
+          {
+            "id": "dense-peony-32",
+            "kind": "flower",
+            "blender": true,
+            "lod": "far",
+            "opened": true,
+            "position": [
+              -0.38593576446175576,
+              0,
+              -1.6894400747082032
+            ]
+          },
+          {
+            "id": "dense-peony-36",
+            "kind": "flower",
+            "blender": true,
+            "lod": "far",
+            "opened": true,
+            "position": [
+              -0.9551888545230031,
+              0,
+              1.7488127315006055
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "warm-mixed12",
+      "path": "C:\\Users\\kuson\\.codex\\worktrees\\soop-island\\kuccthon-sound\\art\\island\\qa\\grass\\final\\warm-mixed12.png",
+      "info": {
+        "preview": {
+          "plants": 13,
+          "near": 2,
+          "far": 0,
+          "calls": 657,
+          "triangles": 88408,
+          "geometries": 99,
+          "island": "loaded",
+          "islandGeometry": {
+            "assetTriangles": 16607,
+            "grassTriangles": 0,
+            "grassClumps": 0,
+            "grassDrawCalls": 0
+          },
+          "growing": 0,
+          "opened": 13,
+          "camera": {
+            "position": [
+              0,
+              5.496125175623439,
+              13.176584731173508
+            ],
+            "target": [
+              0,
+              0.1,
+              0
+            ]
+          },
+          "viewport": {
+            "width": 1200,
+            "height": 710,
+            "pixelRatio": 1.5
+          },
+          "performance": {
+            "frame": {
+              "samples": 23,
+              "meanMs": 158.7,
+              "p95Ms": 425
+            },
+            "renderCPU": {
+              "samples": 23,
+              "meanMs": 3.25,
+              "p95Ms": 3.8
+            },
+            "gpu": {
+              "available": true,
+              "samples": 20,
+              "meanMs": 124.23,
+              "p95Ms": 140.21
+            }
+          }
+        },
+        "tone": "warm",
+        "camera": [
+          0,
+          5.496125175623439,
+          13.176584731173508
+        ],
+        "target": [
+          0,
+          0.1,
+          0
+        ],
+        "cameraLimits": {
+          "min": 6.549801586459576,
+          "max": 29.238699100999078,
+          "minPolar": 0.55,
+          "maxPolar": 1.4
+        },
+        "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "glError": 0,
+        "programs": 15,
+        "textures": 7,
+        "passes": [
+          "RenderPass",
+          "OutputPass"
+        ],
+        "grass": [],
+        "plantKinds": [
+          {
+            "id": "demo-pair",
+            "kind": "pair",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -0.04545222379267216,
+              0,
+              1.0916847019089277
+            ]
+          },
+          {
+            "id": "pair-flutter",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              1.3002295877225698,
+              0,
+              -2.265058398862534
+            ]
+          },
+          {
+            "id": "peony-procedural-89",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -1.5940342026762664,
+              0,
+              1.6925735093987382
+            ]
+          },
+          {
+            "id": "sample-0",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              1.0397728460747748,
+              0,
+              -0.5979485726498944
+            ]
+          },
+          {
+            "id": "sample-1",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              1.3457107540592552,
+              0,
+              -1.1974280372453745
+            ]
+          },
+          {
+            "id": "sample-2",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -0.9622955754585564,
+              0,
+              0.5792141549431664
+            ]
+          },
+          {
+            "id": "sample-3",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -0.050492155300453305,
+              0,
+              0.04920616582967341
+            ]
+          },
+          {
+            "id": "sample-4",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -1.3558664581272752,
+              0,
+              1.1827137936191525
+            ]
+          },
+          {
+            "id": "sample-5",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -1.9602467569336295,
+              0,
+              1.1936920884163942
+            ]
+          },
+          {
+            "id": "sample-6",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -1.700403137532994,
+              0,
+              2.870547557553715
+            ]
+          },
+          {
+            "id": "sample-7",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -2.0291316240280866,
+              0,
+              2.2556785053677637
+            ]
+          },
+          {
+            "id": "peony-blender-41",
+            "kind": "flower",
+            "blender": true,
+            "lod": "near",
+            "opened": true,
+            "position": [
+              1.6220897298865022,
+              0,
+              1.6710500583666212
+            ]
+          },
+          {
+            "id": "peony-jade-16",
+            "kind": "flower",
+            "blender": true,
+            "lod": "near",
+            "opened": true,
+            "position": [
+              2.013126093512401,
+              0,
+              0.05712493733502924
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "warm-island-only",
+      "path": "C:\\Users\\kuson\\.codex\\worktrees\\soop-island\\kuccthon-sound\\art\\island\\qa\\grass\\final\\warm-island-only.png",
+      "info": {
+        "preview": {
+          "plants": 0,
+          "near": 0,
+          "far": 0,
+          "calls": 27,
+          "triangles": 24048,
+          "geometries": 29,
+          "island": "loaded",
+          "islandGeometry": {
+            "assetTriangles": 16607,
+            "grassTriangles": 0,
+            "grassClumps": 0,
+            "grassDrawCalls": 0
+          },
+          "growing": 0,
+          "opened": 0,
+          "camera": {
+            "position": [
+              0,
+              5.496125175623439,
+              13.176584731173508
+            ],
+            "target": [
+              0,
+              0.1,
+              0
+            ]
+          },
+          "viewport": {
+            "width": 1200,
+            "height": 710,
+            "pixelRatio": 1.5
+          },
+          "performance": {
+            "frame": {
+              "samples": 42,
+              "meanMs": 136.9,
+              "p95Ms": 425
+            },
+            "renderCPU": {
+              "samples": 42,
+              "meanMs": 2.36,
+              "p95Ms": 3.8
+            },
+            "gpu": {
+              "available": true,
+              "samples": 39,
+              "meanMs": 113.27,
+              "p95Ms": 154.06
+            }
+          }
+        },
+        "tone": "warm",
+        "camera": [
+          0,
+          5.496125175623439,
+          13.176584731173508
+        ],
+        "target": [
+          0,
+          0.1,
+          0
+        ],
+        "cameraLimits": {
+          "min": 6.549801586459576,
+          "max": 29.238699100999078,
+          "minPolar": 0.55,
+          "maxPolar": 1.4
+        },
+        "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "glError": 0,
+        "programs": 10,
+        "textures": 7,
+        "passes": [
+          "RenderPass",
+          "OutputPass"
+        ],
+        "grass": [],
+        "plantKinds": []
+      }
+    }
+  ],
+  "errors": [],
+  "warnings": [
+    "THREE.Clock: This module has been deprecated. Please use THREE.Timer instead."
+  ],
+  "networkFailures": [],
+  "assets": [
+    {
+      "url": "http://127.0.0.1:5297/models/island.glb",
+      "status": 200,
+      "bytes": 277
+    },
+    {
+      "url": "http://127.0.0.1:5297/models/flora/crystal_flower.glb",
+      "status": 200,
+      "bytes": 275
+    },
+    {
+      "url": "http://127.0.0.1:5297/models/flora/crystal_flower_lod.glb",
+      "status": 200,
+      "bytes": 275
+    },
+    {
+      "url": "http://127.0.0.1:5297/models/flora/crystal_flower.glb",
+      "status": 200,
+      "bytes": 127
+    },
+    {
+      "url": "http://127.0.0.1:5297/models/flora/crystal_flower_lod.glb",
+      "status": 200,
+      "bytes": 127
+    },
+    {
+      "url": "http://127.0.0.1:5297/models/island.glb",
+      "status": 200,
+      "bytes": 127
+    },
+    {
+      "url": "http://127.0.0.1:5297/models/flora/crystal_flower.glb",
+      "status": 200,
+      "bytes": 127
+    },
+    {
+      "url": "http://127.0.0.1:5297/models/flora/crystal_flower_lod.glb",
+      "status": 200,
+      "bytes": 127
+    },
+    {
+      "url": "http://127.0.0.1:5297/models/island.glb",
+      "status": 200,
+      "bytes": 127
+    },
+    {
+      "url": "http://127.0.0.1:5297/models/flora/crystal_flower.glb",
+      "status": 200,
+      "bytes": 127
+    },
+    {
+      "url": "http://127.0.0.1:5297/models/flora/crystal_flower_lod.glb",
+      "status": 200,
+      "bytes": 127
+    },
+    {
+      "url": "http://127.0.0.1:5297/models/island.glb",
+      "status": 200,
+      "bytes": 127
+    },
+    {
+      "url": "http://127.0.0.1:5297/models/flora/crystal_flower.glb",
+      "status": 200,
+      "bytes": 127
+    },
+    {
+      "url": "http://127.0.0.1:5297/models/flora/crystal_flower_lod.glb",
+      "status": 200,
+      "bytes": 127
+    },
+    {
+      "url": "http://127.0.0.1:5297/models/island-warm.glb",
+      "status": 200,
+      "bytes": 277
+    },
+    {
+      "url": "http://127.0.0.1:5297/models/flora/crystal_flower.glb",
+      "status": 200,
+      "bytes": 127
+    },
+    {
+      "url": "http://127.0.0.1:5297/models/flora/crystal_flower_lod.glb",
+      "status": 200,
+      "bytes": 127
+    },
+    {
+      "url": "http://127.0.0.1:5297/models/island.glb",
+      "status": 200,
+      "bytes": 127
+    }
+  ]
+}

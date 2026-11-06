@@ -1,5 +1,7 @@
 """Build the SUP mineral garden with Blender Python. Add -- --render for a preview."""
 import math
+import hashlib
+import json
 import random
 import re
 import subprocess
@@ -9,7 +11,7 @@ from pathlib import Path
 
 import bpy
 import bmesh
-from mathutils import Vector, Euler, noise
+from mathutils import Vector, Euler, Matrix, noise
 from mathutils.geometry import delaunay_2d_cdt
 
 TAU = math.tau
@@ -674,6 +676,57 @@ def preview_rig():
     preview_backdrop(rig, camera)
 
 
+def runtime_grass_preview():
+    """Mirror the app's grass in Blender without exporting a second grass layer."""
+    path = ROOT / 'art' / 'island' / 'grass-preview.json'
+    if not path.exists():
+        return
+    snapshot = json.loads(path.read_text(encoding='utf-8'))
+    module_text = (ROOT / 'src' / 'lib' / 'islandGrass.js').read_text(encoding='utf-8')
+    module_hash = hashlib.sha256(module_text.replace('\r\n', '\n').replace('\r', '\n').encode()).hexdigest()
+    if snapshot['source']['moduleSha256'] != module_hash:
+        raise ValueError('Grass preview is stale. Run node art/island/export-grass-preview.mjs first.')
+    glb_hash = hashlib.sha256((ROOT / 'public' / 'models' / 'island.glb').read_bytes()).hexdigest()
+    if snapshot['source']['glbSha256'] != glb_hash:
+        raise ValueError('Grass preview uses a different island. Run node art/island/export-grass-preview.mjs first.')
+    geometry = snapshot['geometry']
+    points = [Vector(geometry['positions'][i:i + 3]) for i in range(0, len(geometry['positions']), 3)]
+    source_colors = [geometry['colors'][i:i + 3] for i in range(0, len(geometry['colors']), 3)]
+    def matrix(values):
+        return Matrix([values[i:i + 4] for i in range(0, 16, 4)]).transposed()
+    mesh_matrix = matrix(snapshot['meshMatrix'])
+    vertices, faces, colors = [], [], []
+    for instance in snapshot['instances']:
+        transform = mesh_matrix @ matrix(instance['matrix'])
+        offset = len(vertices)
+        for point, color in zip(points, source_colors):
+            p = transform @ point
+            vertices.append((p.x, -p.z, p.y))
+            colors.extend([color[i] * instance['color'][i] * snapshot['material']['color'][i] for i in range(3)] + [1])
+        indices = geometry['indices']
+        faces.extend(tuple(offset + index for index in indices[i:i + 3]) for i in range(0, len(indices), 3))
+    preview = collection('SUP_Runtime_Grass_Preview | excluded from GLB', scene.collection)
+    mesh = bpy.data.meshes.new('SUP Runtime grass preview mesh')
+    mesh.from_pydata(vertices, [], faces)
+    mesh.update()
+    tint = mesh.color_attributes.new(name='Tint', type='FLOAT_COLOR', domain='POINT')
+    tint.data.foreach_set('color', colors)
+    mesh.color_attributes.active_color = tint
+    mesh.color_attributes.render_color_index = 0
+    for polygon in mesh.polygons:
+        polygon.use_smooth = True
+    grass_material = material('SUP Short mint grass preview', 'FFFFFF', 1, painted=True)
+    grass_material.diffuse_color = (*rgb('91BD92'), 1)
+    grass_material.use_backface_culling = False
+    mesh.materials.append(grass_material)
+    obj = bpy.data.objects.new('SUP Grass preview | Runtime instances, excluded from GLB', mesh)
+    preview.objects.link(obj)
+    obj['runtime_preview_only'] = True
+    obj['grass_triangles'] = len(faces)
+    obj['source_module_sha256'] = module_hash
+    print('Blender grass preview:', len(snapshot['instances']), 'clumps,', len(faces), 'triangles; excluded from GLB')
+
+
 def build():
     global scene, asset, groups, mats
     rng.seed(61749)
@@ -725,6 +778,7 @@ def build():
     crystalline_details()
     pond()
     vegetation()
+    runtime_grass_preview()
     preview_rig()
     for ob in root.all_objects:
         if ob.type == 'MESH':

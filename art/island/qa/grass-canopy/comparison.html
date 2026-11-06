@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SOOP grass size comparison</title>
+<style>
+body{margin:0;background:#17212a;color:#eef4f2;font:16px/1.5 system-ui,sans-serif}main{max-width:1500px;margin:auto;padding:32px}h1{font-size:28px}h2{font-size:20px;margin-top:38px}p{max-width:85ch;color:#cbd6d7}.pair{display:grid;grid-template-columns:1fr 1fr;gap:16px}figure{margin:0}figcaption{padding:10px 0}img{display:block;width:100%;background:#243240}.mobile img{max-height:850px;object-fit:contain}a{color:#a9e4da}@media(max-width:720px){main{padding:16px}.pair{grid-template-columns:1fr}}
+</style>
+<main>
+<h1>Grass resized to half the large preview</h1>
+<p>The final blades use half the height and horizontal dimensions of the large candidate shown in chat: height 0.075–0.12 units and horizontal scale 0.26–0.31. There are still 1,000 clumps, 6,000 grass triangles and one grass draw call. The larger candidate was discarded.</p>
+<p>These matched views compare the previous committed short grass (2af54a7) with the final resized ribbons. The pond, rim, crystal formations, planting positions and centered underside remain unchanged. <a href="report.txt">Validation report</a></p>
+<section><h2>Island only</h2><div class="pair"><figure><figcaption>Before · 2af54a7</figcaption><img src="before/aurora-island-only.png" alt="Previous grass coverage"></figure><figure><figcaption>Final · resized ribbons</figcaption><img src="final/aurora-island-only.png" alt="Final half-size grass blades"></figure></div></section>
+<section><h2>Grass close-up</h2><div class="pair"><figure><figcaption>Before</figcaption><img loading="lazy" src="before/grass-closeup.png" alt="Previous grass close-up"></figure><figure><figcaption>Final</figcaption><img loading="lazy" src="final/grass-closeup.png" alt="Resized grass close-up"></figure></div></section>
+<section><h2>Mixed garden</h2><div class="pair"><figure><figcaption>Before</figcaption><img loading="lazy" src="before/aurora-mixed12.png" alt="Previous mixed garden"></figure><figure><figcaption>Final</figcaption><img loading="lazy" src="final/aurora-mixed12.png" alt="Final mixed garden"></figure></div></section>
+<section><h2>50 plants</h2><div class="pair"><figure><figcaption>Before</figcaption><img loading="lazy" src="before/aurora-50-plants.png" alt="Previous 50-plant garden"></figure><figure><figcaption>Final</figcaption><img loading="lazy" src="final/aurora-50-plants.png" alt="Final 50-plant garden"></figure></div></section>
+<section><h2>Mobile portrait</h2><div class="pair mobile"><figure><figcaption>Before</figcaption><img loading="lazy" src="before/aurora-mobile-390x844.png" alt="Previous portrait garden"></figure><figure><figcaption>Final</figcaption><img loading="lazy" src="final/aurora-mobile-390x844.png" alt="Final portrait garden"></figure></div></section>
+<section><h2>Mobile portrait · 50 plants</h2><div class="pair mobile"><figure><figcaption>Before</figcaption><img loading="lazy" src="before/aurora-mobile-50.png" alt="Previous dense portrait garden"></figure><figure><figcaption>Final</figcaption><img loading="lazy" src="final/aurora-mobile-50.png" alt="Final dense portrait garden"></figure></div></section>
+</main>
+</html>
