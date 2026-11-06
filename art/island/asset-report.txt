@@ -1,170 +1,201 @@
-SUP floating mineral garden - color and geometry refinement
+SUP floating island — opaque holographic opal revision
 2026-11-07 (Asia/Seoul)
 
-Baseline and scope
+Scope and baseline
 
-Working branch codex/island-refinement, starting at commit 44ce1cc.
-The asymmetric outline, thin metal perimeter, main crystals, ornamental
-ring and faceted underside are preserved. Work was evaluated in separate
-material-only and geometry-only stages before final integration.
+Working branch: codex/island-refinement. Baseline: 32cf717.
+The asymmetric outline, thin metal rim, peripheral crystal clusters, ring,
+vegetation distribution and open planting zone are preserved. The static asset
+contains no flowers, buds, petals or flower placeholders. Flowers in app QA
+screenshots are existing runtime content, not part of island.glb.
 
-Diagnosis
+Geometry and export
 
-The dullness came principally from authored mineral albedos and the dark
-reflection environment. It was not a double color-space conversion bug.
-The generator converts sRGB hex palettes once to linear values, writes
-FLOAT_COLOR Tint attributes, and connects them directly to Principled Base
-Color. Painted GLB materials have white baseColorFactor. GLTFLoader numeric
-checks found zero conversion error across all 16 colored primitives.
-The single 512 x 512 normal map is Non-Color/NoColorSpace. The linear scene
-render receives tone mapping and sRGB display conversion once in OutputPass.
+Component                            Baseline          Final
+Planting ground triangles               2,672            500
+Complete island triangles              18,779         16,607
+Mesh primitives                            22             22
+Materials                                  11             11
+GLB bytes                           1,355,428        730,580
+Editable blend bytes                1,164,970        526,370
 
-The underside does not receive shadows, ruling out shadow-map occlusion as
-the cause of its darkness. Its lower normals had little direct sunlight
-and reflected the dark gray-blue environment below the overhead light cards.
-Hemisphere lighting also intentionally keeps the lower side dimmer.
+Ground geometry falls 81.29%; total geometry falls 11.57%; GLB size falls
+46.10%. A constrained triangulation preserves both exact boundary loops:
+110 exported perimeter vertices and 64 pond boundary vertices. The original
+128 perimeter guides include collinear points consolidated by triangulation.
+All 21 other components preserve their geometry and normals. Their original
+placements remain stable because the generator consumes the original random
+sampling sequence before building the sparse ground.
 
-Phase A - unchanged geometry, improved color and reflection
+The central 2.3-unit region is continuously flat, with all tested rays at zero
+native height and nonflat triangles beginning beyond runtime radius 2.3573.
+Permanent decorative clearance remains 2.36378 units. The pond rim/basin join,
+normal lengths, oriented triangles and surface coverage pass validation. There
+are no geometry gaps or invalid normals introduced by this change.
 
-Ground palette changed from 4799A9 / 9373B6 / 80BABE to
-8BCDD1 / B29BD4 / DBB4D3, with turquoise, lavender and pink transitions.
-The mineral palette changed from 216E88 / 70509F / 54BBC0 to
-5CABB9 / A28AC4 / 84D8DB. Selective edge tint changed to B9E4E2.
-Rose-gold vertex colors changed from B67C96 / F0C5A5 to C38D9A / EFC6AC.
-These are authored sRGB values; exported vertex colors remain linear.
+Blender uses a separate SOOP_Island scene and SUP_Floating_Island collection,
+with a named root, eight component collections and a separate preview rig.
+Existing live Blender scenes were preserved. The saved editable source is a
+clean standalone scene. Export is glTF Y-up and excludes preview cameras,
+lights and backdrop. Native top-center is zero; the existing app loader fits
+maximum horizontal diameter to 8 and translates the top to Y=.17. The shared
+floating parent moves flowers and island together.
 
-Average linear vertex luminance rose from .283 to .471 on the ground and
-.240 to .426 on the underside. The lower planes remain visibly darker than
-the planting area because of their orientation and lighting. All 22 component
-position/normal signatures and canonical oriented triangles match baseline;
-the exporter only reordered some underside triangle indices.
+Opaque opal material
 
-An environment-only diagnostic on the original GLB isolated reflection fill.
-The PMREM background changed from 69788B to C5D3E6, raising its linear
-luminance from about .183 to .642. Existing pink, lavender, cyan and turquoise
-cards, environment intensity .55, light directions/intensities and shadows
-remain unchanged. The existing 256-face PMREM is captured once at startup.
-There are no realtime reflection captures or new render passes.
+Large painted turquoise/lavender/pink ground gradients were removed. A nearly
+uniform BDDCD9 milky-aqua base has only minute DFD9E7 undertone variation and
+fine grain. Vertex colors are linear, with white exported baseColorFactor;
+there is no duplicate sRGB conversion.
 
-ACES, AgX and Neutral were compared with identical camera, lights, palette
-and numeric exposure 1. ACES made the upper surface too pale; AgX reduced
-color separation further. Neutral retained turquoise/lavender/pink saturation,
-crystal face separation and flower-petal shading. Final rendering uses
-THREE.NeutralToneMapping at exposure 1. The light settings remain hemisphere
-.38, main directional 1.5 and cool fill .65. No exposure increase was used.
+Native exported ground/basin material: MeshPhysicalMaterial-compatible PBR,
+roughness .18, metalness .02, IOR 1.5, clearcoat .55, coat roughness .10,
+iridescence .18 at 410 nm, opacity 1, transmission 0, emission 0. The ground
+uses OPAQUE alpha mode and no refraction pass. A single packed 256-square
+Non-Color normal map provides subtle mineral platelet orientation at strength
+.20. Its clearcoat normal remains smooth. No new geometry supports the effect.
 
-PBR roughness, metalness, transparency and shader features are unchanged.
-Ground remains MeshStandardMaterial (roughness .39, metalness .035), without
-clearcoat or iridescence overhead. The smaller crystal/mineral surfaces retain
-existing physical materials. Crystal vertex alpha remains about .39-.77,
-roughness .055/.067/.079, and water alpha .64. No refraction or extra
-transparent layers were added. Bloom remains absent.
+Standard Physical shading was evaluated first. Its highlights moved, but
+changing native iridescence .18 to .24 changed the tested center pixel by less
+than one RGB byte. A small ground/basin-material onBeforeCompile extension therefore
+adds bounded pastel angular scatter to indirect diffuse/specular lighting.
+It uses reflected world direction and a Schlick-style grazing term, without
+UV/world-position painting, time animation, emission, additional textures,
+passes or transparent layers. Direct lighting, shadow response and clearcoat
+remain native. A per-material guard prevents duplicate hooks; a stable program
+cache key selects the shader program. Native thin-film iridescence is disabled
+only on this runtime material because the angular extension supplies the visible
+holographic shift. Its exported .18 fallback remains available in other viewers.
 
-Phase B - geometry reduction with accepted Phase A appearance
+This additional angular scatter exists in Island3D.jsx, not in glTF. External
+viewers retain the native opaque PBR/clearcoat/iridescence fallback. Blender's
+Cycles preview is an offline material preview, not a screenshot of Three.js.
 
-Straight fern stems use two cross-section rings instead of ten; their
-positions, taper and endpoints are retained. Curved grasses use four of the
-original eight rings, keeping their endpoints and luminous tips. All 240 fern
-leaves are retained. The 96 small gravel fragments keep their positions,
-shoulders, tips and upper facets; hidden lower detail becomes a six-face taper.
-Each fragment drops from 34 to 12 triangles. The garden keeps its density.
+Warm mineral underside
 
-Component                    Baseline / Phase A       Final
-Vegetation and grasses                   8,484       4,932
-Scattered opal gravel                    3,264       1,152
-Planting surface                         2,672       2,672
-Metal perimeter                          2,560       2,560
-Ornamental ring                          2,348       2,348
-Crystalline underside                    1,089       1,089
-Complete static island                  24,443      18,779
-Mesh primitives                             22          22
-Materials                                   11          11
-GLB bytes                            1,577,764   1,355,428
+The existing 1,089-triangle faceted underside is unchanged geometrically.
+Rose-brown AC8984, warm taupe C1ADA0 and muted mauve A18A9F replace the dominant
+cool base. Cyan 63C3C8 and lavender A78AD0 inclusions follow an exposed dipping
+bed and oblique fracture; occasional D6A1BB pink joins upper rear facets.
+Area-weighted inclusion strength is approximately 17.67%. No separate attached crystal
+meshes, extra materials or realistic dirt textures were added.
 
-The final triangle count is 23.17% lower and meets the quality-sensitive
-18,000-20,000 target. GLB size drops 14.09% to 1.36 MB. The normal texture
-is unchanged at 624,332 bytes. Exactly 20 unaffected components retain their
-Phase A geometry and vertex colors, and all 11 material records match.
+Lighting and reflections
 
-Verification and outputs
+Neutral Tone Mapping remains at exposure 1. Hemisphere intensity .38, primary
+sun 1.5, cyan directional fill .65 and environment intensity .55 are unchanged.
+Only the primary sun casts shadows. Existing soft flower/contact shadows and
+pastel visible sky remain intact; no Bloom or additional render pass was added.
 
-The GLB remains Y-up with top-center origin (0,0,0). Raw X/Z dimensions are
-7.931661 x 7.687877; the existing loader scales by 1.00861599 to 8 units and
-places the planting origin at Y=.17. All 1,653 central radius-2.3 ray samples
-hit the flat ground, with maximum deviation .00000738. Nearest permanent
-decoration is at runtime radius 2.36378. All fixed fern bases are supported.
-There are no static flowers, buds or petals in the exported island.
+Four soft elliptical sky cards are captured once into the existing 256 PMREM.
+Rear placement covers the flat ground's reflected rays as the camera orbits.
+Pink, cyan and lavender cards provide color, with a narrow warm-white key for
+polish. Radiance multipliers are 7.875 / 8.75 / 8.75 / 14, and initial angular
+blur .03 preserves contrast. The cards and capture resources are disposed
+immediately after capture; only the filtered environment remains at runtime.
+Brighter card radiance is local reflected light, not higher global exposure.
 
-No degenerate triangles, winding conflicts, invalid normals or underside
-non-manifold edges were found. The underside remains one connected shell
-with its only open boundary concealed at the upper rim join. No camera,
-light, backdrop or animation is exported. Actual Three.js loading preserves
-materials, alpha and hierarchy. The saved .blend has one SOOP_Island scene,
-SUP_Floating_Island root collection, 22 asset meshes and separate preview rig.
-Its preview uses the available Khronos PBR Neutral view and matching pastel
-world fill. Existing live Blender scenes were preserved.
+The final .20 normal strength was selected over .55 because stronger normals
+made the reflected highlights look like conspicuous patches. Smooth clearcoat
+and restrained base-normal variation produce the quieter polished result.
+The current app shows aqua at default, cyan at one orbit angle and lavender/
+pink at the opposite/grazing angle. Flowers retain readable color and shape.
 
-Updated files
+Staged evidence and outputs
 
-art/island/generate_island.py
-art/island/island.blend
-art/island/preview.png
+qa/opal-baseline: matched screenshots from 32cf717 and baseline metrics.
+qa/opal-stage-1: 500-triangle ground with original materials.
+qa/opal-stage-2: initial native opaque opal material, with unchanged geometry.
+qa/opal-stage-3: warm underside palette and integrated mineral seams.
+qa/opal-stage-4*, opal-*-probe*, opal-normal-02, opal-bright-hdr:
+intermediate lighting/material diagnostics, not separate delivered assets.
+qa/opal-final-validation.json: final geometry, materials and source audit.
+
 public/models/island.glb
+  SHA-256: 52ed6300962c469a0bd3e6eee9452bd9d6578d14de5b1df3004967ecfa20c083
+art/island/island.blend
+art/island/generate_island.py
+art/island/preview.png
 src/components/Island3D.jsx
-art/island/asset-report.txt
-art/island/qa/color-*.json and color-* screenshot directories
 
-Only two runtime constants changed: environment background and tone mapper.
-src/lib/flower3d.js, application UI, audio, synchronization and other features
-are unchanged. Production build passes; Vite's existing large-chunk warning
-remains. Public and dist GLB SHA-256 match
-67276ab06dbe18b066ad75ab24a3c2ce47654c94ad768af7bdbaaeb69fec2ce4.
+Production build: npm run build passed. The existing large-bundle warning
+remains. Code review verified the shader hook against installed Three 0.187.0,
+resource cleanup and unchanged interaction/flower code. git diff --check passed.
 
-Comparisons and functional checks
+Feature cost and angular response
 
-color-baseline preserves the original app views. color-diagnostics contains
-the environment-only study. color-phase-a preserves matched ACES/AgX/Neutral
-views and accepted material-only captures. color-final contains the final
-empty, populated, rotated, rear, portrait and perimeter-detail captures.
-Geometry signatures and color-space evidence are in color-baseline-geometry,
-color-material-investigation, color-phase-a-validation and color-final-validation
-JSON files. Controlled timing and final performance results are reported in
-color-performance-comparison.json, with the raw paired run also preserved.
+A same-context alternating feature test used 60 frames per block after warmup.
+Island-only median frame intervals were 38.6 / 37.8 / 38.5 ms with native
+iridescence and 34.7 / 34.8 / 35.1 ms with it disabled. This is approximately
+9% less frame time (mean of block medians: 38.30 to 34.87 ms) for the selected runtime material. The custom angular
+scatter and clearcoat remain enabled. A Standard-material diagnostic measured
+32.5 ms, but was not selected because polished material quality is the goal.
+These are Chromium ANGLE SwiftShader software-rendering observations, not
+physical mobile GPU benchmarks.
 
-The actual /?view=island route was checked with and without dynamic flowers,
-multiple orbit angles and a portrait viewport. Picking, orbit dragging and
-new-flower growth pass; the test scene grows from 9 to 11 opened objects.
-There are no runtime errors beyond the existing THREE.Clock deprecation.
-Small gravel and foliage retain their visual
-density at the default mobile distance. No new decoration was added.
+The native-on/off orbit comparison differed by at most 1.9/255 at the fixed
+center sample. With the selected native-off shader, that same surface point
+changes from aqua [215,237,242] at default to cyan [190,228,241] at -30 degrees
+and lavender [199,201,240] at +30 degrees. Alpha is 255 in every sample. This
+demonstrates view-dependent coloration with unchanged underlying vertex color.
+The tested center highlights remain below clipping.
 
-Controlled performance observations
+Matched baseline/final rendering comparison
 
-The same browser replayed baseline, accepted Phase A, final, final, Phase A,
-baseline, measuring 60 settled frames per desktop scenario. Geometry savings
-are stable: rendered triangles including shadows fall from 81,332 to 72,116
-with dynamic content, and 35,436 to 26,220 for the island alone. Calls remain
-405 and 26 respectively. The mock scene's dynamic content adds 379 calls,
-unchanged by this task. Shader programs remain 11 and texture count remains 7.
+A separate baseline -> final -> final -> baseline run on the same SwiftShader
+context, viewport and scene compared block medians after warmup:
 
-Median frame cadence (ms)        Baseline        Phase A          Final
-With dynamic content           51.1 / 54.7     91.0 / 91.9     50.5 / 88.2
-Island only                    35.1 / 61.8     61.2 / 61.7     33.7 / 59.7
+Scene                 Baseline ms       Final ms       Difference
+Existing flowers          154.45          157.80            +2.17%
+Island only               101.30          105.75            +4.39%
 
-SwiftShader switched between fast and slow cadences even for identical
-variants in this controlled session. Those results do not establish a reliable
-timing speedup or hardware performance equivalence. The final portrait sample
-was 72.3 ms under the slower conditions. Exported size, rendered triangles and
-unchanged draw calls/material features are the reliable optimization evidence.
-Real-device verification remains necessary for a physical-mobile frame budget.
+These absolute times belong to this paired window. The software renderer ran
+in a different speed regime during the earlier feature test; raw times from
+the two windows must not be combined. The matched result shows a modest shader
+cost for the redesigned ground, not a claimed universal speedup from fewer
+triangles. No physical Android/iOS GPU benchmark was available.
 
-Limitations
+Draw calls remain 405 with runtime flowers and 26 for the island-only app view.
+Rendered triangles including existing shadow/output passes fall from 72,116
+to 69,944 with flowers, and 26,220 to 24,048 island-only. Static asset geometry
+is independently 16,607 triangles. No load or shader/console errors appeared;
+the existing THREE.Clock deprecation warning remains.
 
-Frame cadence is measured with Chrome ANGLE/SwiftShader at DPR 1.5. It is a
-software-renderer diagnostic, not physical mobile GPU timing. The Android SDK
-is available but adb reports no connected device, so real Android performance
-remains unverified. Thin crystal edges still show some distant-view aliasing.
-Tiny gravel lower profiles are simplified and can differ in extreme close-ups.
-No new material shader features or visual clutter were introduced. Real audio recording,
-stereo playback and live garden synchronization were not exercised by the mock
-preview route; their implementation was not changed.
+Interaction checks and final visual evidence
+
+The exact final GLB loads in the actual ?view=island route. Selecting the
+existing mock flower opens its details; both side and rear drag gestures
+change the camera. Mock add/growth increases content from 9 to 11 items and
+both new plants open. Portrait layout fits without island cropping. Flower
+roots stay on the shared flat ground and contact shadows remain visible.
+No shader errors, failed loads or broken selection/orbit behavior were found.
+
+qa/opal-final/final-empty.png and final-flowers.png: matched default views.
+qa/opal-final/final-side.png and final-rear.png: rotated views.
+qa/opal-final/final-mobile.png: portrait layout.
+qa/opal-final/final-ground-close.png and final-underside-close.png: close-ups.
+qa/opal-final/final-azimuth-left.png and final-azimuth-right.png: angular sheen.
+qa/opal-final/opal-orbit.webp: actual rendered orbit with bob frozen for clarity.
+qa/opal-baseline contains equivalent before views from baseline 32cf717.
+
+Remaining limits
+
+The lightweight ground extension approximates pastel mineral scattering; it
+is not spectral opal optics. Sky reflections are prefiltered and static in
+world space, and do not reflect live flowers. They respond to camera movement
+without dynamic cubemap capture. The native GLB fallback and offline Cycles
+preview differ from the final app shader. Existing alpha-crystal rendering
+retains its normal transparency-ordering limitations. Future Three upgrades
+should recheck the shader-chunk integration. Physical mobile GPU performance
+and on-device visual fidelity remain unmeasured.
+
+The final asset is intentionally flowerless, with the central region reserved
+for existing runtime planting. No application data model, audio, authentication
+or interaction code was changed in this revision.
+
+Final QA summary: qa/opal-performance-comparison.json. The orbit WebP contains
+24 frames over 3 seconds (780 x 639), using 13 actual rendered angles from
+-30 to +30 degrees and a ping-pong sequence. Encoded sample-frame comparisons
+are lossless. All 15 final ground pixel probes have alpha 255; the sampled
+RGB peak is 246/255. This is a sampled highlight check, not a claim that every
+pixel in the entire scene was measured.

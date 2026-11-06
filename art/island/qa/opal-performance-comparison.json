@@ -1,0 +1,260 @@
+{
+  "generatedAt": "2026-11-06T16:43:50.508Z",
+  "baselineCommit": "32cf717",
+  "finalGLB": {
+    "bytes": 730580,
+    "sha256": "52ed6300962c469a0bd3e6eee9452bd9d6578d14de5b1df3004967ecfa20c083",
+    "triangles": 16607,
+    "groundTriangles": 500,
+    "materials": 11
+  },
+  "baselineAsset": {
+    "bytes": 1355428,
+    "triangles": 18779,
+    "groundTriangles": 2672,
+    "materials": 11
+  },
+  "environment": {
+    "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+    "desktopCSS": [
+      520,
+      820
+    ],
+    "desktopFramebuffer": [
+      780,
+      819
+    ],
+    "portraitCSS": [
+      420,
+      900
+    ],
+    "portraitFramebuffer": [
+      630,
+      939
+    ],
+    "dpr": 1.5,
+    "toneMapping": "Neutral",
+    "exposure": 1,
+    "passes": [
+      {
+        "name": "RenderPass",
+        "enabled": true
+      },
+      {
+        "name": "OutputPass",
+        "enabled": true
+      }
+    ],
+    "physicalDeviceTested": false
+  },
+  "controlledComparison": {
+    "sequence": [
+      "before",
+      "after",
+      "after",
+      "before"
+    ],
+    "samplesPerBlock": 60,
+    "settled": true,
+    "method": "One Chrome process, archived baseline module + GLB replayed at response time; exact final module + GLB; same camera/viewport, idle bob frozen. Fresh WebGL context per reload. Mean of the two block medians per variant.",
+    "groups": {
+      "before": {
+        "flowers": {
+          "blockMedianFrameMs": [
+            152.1,
+            156.8
+          ],
+          "meanOfBlockMediansMs": 154.45,
+          "drawCalls": 405,
+          "drawnTriangles": 72116
+        },
+        "islandOnly": {
+          "blockMedianFrameMs": [
+            100.9,
+            101.7
+          ],
+          "meanOfBlockMediansMs": 101.3,
+          "drawCalls": 26,
+          "drawnTriangles": 26220
+        }
+      },
+      "after": {
+        "flowers": {
+          "blockMedianFrameMs": [
+            158.6,
+            157
+          ],
+          "meanOfBlockMediansMs": 157.8,
+          "drawCalls": 405,
+          "drawnTriangles": 69944
+        },
+        "islandOnly": {
+          "blockMedianFrameMs": [
+            105.4,
+            106.1
+          ],
+          "meanOfBlockMediansMs": 105.75,
+          "drawCalls": 26,
+          "drawnTriangles": 24048
+        }
+      }
+    },
+    "percentChange": {
+      "flowers": 2.17,
+      "islandOnly": 4.39
+    },
+    "raw": "opal-paired/paired-metrics.json"
+  },
+  "materialFeatureProbe": {
+    "method": "One unchanged WebGL context. Alternating native iridescence .18 / 0 three times, 60 settled frames per block, identical custom tint + clearcoat .55 + normal map. Standard is diagnostic only.",
+    "results": {
+      "full": {
+        "blockMedianFrameMs": [
+          38.6,
+          37.8,
+          38.5
+        ],
+        "meanOfBlockMediansMs": 38.3
+      },
+      "coat-only": {
+        "blockMedianFrameMs": [
+          34.7,
+          34.8,
+          35.1
+        ],
+        "meanOfBlockMediansMs": 34.87
+      },
+      "standard": {
+        "blockMedianFrameMs": [
+          32.5
+        ],
+        "meanOfBlockMediansMs": 32.5
+      }
+    },
+    "nativeIridescenceDisabledReductionPercent": 8.96,
+    "aggregation": "Percentage reduction of the mean of three block medians: 38.30 to 34.87 ms.",
+    "decision": "Native ground iridescence disabled in app only; portable GLB retains .18. Custom angular tint and clearcoat retained.",
+    "raw": "opal-feature-cost/material-feature-metrics.json"
+  },
+  "standaloneFinal": [
+    {
+      "name": "desktop-flowers",
+      "samples": 60,
+      "frameMedianMs": 68.5,
+      "frameP95Ms": 76.8,
+      "cpuSubmitMedianMs": 2.5,
+      "drawCalls": 405,
+      "drawnTriangles": 69944
+    },
+    {
+      "name": "desktop-island-only",
+      "samples": 60,
+      "frameMedianMs": 34.9,
+      "frameP95Ms": 39.1,
+      "cpuSubmitMedianMs": 0.7,
+      "drawCalls": 26,
+      "drawnTriangles": 24048
+    },
+    {
+      "name": "portrait-flowers",
+      "samples": 60,
+      "frameMedianMs": 42.3,
+      "frameP95Ms": 47.5,
+      "cpuSubmitMedianMs": 1.6,
+      "drawCalls": 405,
+      "drawnTriangles": 69944
+    }
+  ],
+  "rendering": {
+    "ground": {
+      "name": "SUP Opalescent ground",
+      "type": "MeshPhysicalMaterial",
+      "transparent": false,
+      "opacity": 1,
+      "roughness": 0.18000000715255737,
+      "metalness": 0.019999999552965164,
+      "clearcoat": 0.550000011920929,
+      "iridescence": 0,
+      "transmission": 0,
+      "vertexColors": true
+    },
+    "viewDependentEvidence": [
+      {
+        "view": "default",
+        "centerRGBA": [
+          215,
+          237,
+          242,
+          255
+        ],
+        "allFiveSamplesOpaque": true,
+        "maxSampledRGB": 246
+      },
+      {
+        "view": "azimuth-left",
+        "centerRGBA": [
+          189.78,
+          228,
+          241,
+          255
+        ],
+        "allFiveSamplesOpaque": true,
+        "maxSampledRGB": 243
+      },
+      {
+        "view": "azimuth-right",
+        "centerRGBA": [
+          199,
+          201,
+          240.33,
+          255
+        ],
+        "allFiveSamplesOpaque": true,
+        "maxSampledRGB": 243
+      }
+    ],
+    "groundNormalScale": 0.2,
+    "clearcoatRoughness": 0.1,
+    "textures": 7,
+    "geometries": 92,
+    "programs": 11,
+    "dynamicMockContentAdditionalDrawCalls": 379,
+    "bloomEnabled": false
+  },
+  "interaction": {
+    "selected": {
+      "x": 305,
+      "y": 368,
+      "choice": "킥킥꽃"
+    },
+    "sideOrbitChanged": true,
+    "rearOrbitChanged": true,
+    "flowerCountBefore": 9,
+    "flowerCountAfter": 11,
+    "allOpened": true,
+    "portraitFits": true
+  },
+  "errors": {
+    "loadFailures": [],
+    "console": [
+      "THREE.Clock: This module has been deprecated. Please use THREE.Timer instead."
+    ],
+    "shaderErrors": []
+  },
+  "artifacts": {
+    "before": "opal-baseline/baseline-empty.png",
+    "after": "opal-final/final-empty.png",
+    "flowers": "opal-final/final-flowers.png",
+    "portrait": "opal-final/final-mobile.png",
+    "ground": "opal-final/final-ground-close.png",
+    "underside": "opal-final/final-underside-close.png",
+    "orbit": "opal-final/opal-orbit.webp",
+    "reflection": "opal-final/final-reflection-metrics.json"
+  },
+  "limitations": [
+    "SwiftShader software rendering changes speed regimes across browser contexts and runs. Do not compare absolute times between the feature, paired, and standalone windows. Relative evidence is limited to each internally matched window.",
+    "Frame callback interval is not an isolated GPU timer or physical-device FPS. CPU submit timing does not include asynchronous GPU work. Startup shader/PMREM compilation was excluded from settled samples and not separately isolated.",
+    "Portrait viewport was emulated on desktop Chrome. Physical Android performance, live audio recording/playback, and cross-device garden synchronization were not tested.",
+    "The 379 dynamic mock-content draw calls are preserved existing app behavior, separate from the static island."
+  ]
+}

@@ -1,0 +1,116 @@
+{
+  "status": "No generator defect found in read-only review; final export pending.",
+  "baselineCommit": "32cf717",
+  "generatorSyntax": "AST parse succeeded in Blender Python without executing the generator.",
+  "findings": [
+    "Ground IOR is now explicitly 1.5, matching the omitted-extension glTF default and runtime material.",
+    "Opaque ground has alpha 1 and transmission 0 explicitly set.",
+    "Base normal map is a packed 256x256 Non-Color image with 21x21 cells, slope sigma .035, normal strength .55; clearcoat normal remains unconnected.",
+    "The sparse constrained ground maintains the existing outer and pond guide coordinates; the flat ring at radius 2.34 protects the central radius 2.3 after loader normalization.",
+    "Original random draws are deliberately consumed; prior stage signatures already prove all 21 other component geometries and placements unchanged.",
+    "Warm underside inclusions are stored in vertex colors without added meshes or material slots."
+  ],
+  "perimeterFernGrounding": {
+    "samples": [
+      {
+        "plant": 0,
+        "base": [
+          -2.930000066757202,
+          0.018151059979572892,
+          0.5299999713897705
+        ],
+        "surfaceY": 0.017111970912866648,
+        "rootGap": 0.0010390890667062447
+      },
+      {
+        "plant": 1,
+        "base": [
+          -2,
+          0.016501724952831864,
+          -2.549999952316284
+        ],
+        "surfaceY": 0.018506809890231457,
+        "rootGap": -0.0020050849373995927
+      },
+      {
+        "plant": 2,
+        "base": [
+          -1.4500000476837158,
+          0.031184534076601267,
+          -3.2100000381469727
+        ],
+        "surfaceY": 0.03255046974448672,
+        "rootGap": -0.001365935667885454
+      },
+      {
+        "plant": 3,
+        "base": [
+          1.4900000095367432,
+          0.02697964757680893,
+          -2.9600000381469727
+        ],
+        "surfaceY": 0.026620367295391523,
+        "rootGap": 0.00035928028141740675
+      },
+      {
+        "plant": 4,
+        "base": [
+          3.2899999618530273,
+          0.03560888022184372,
+          -0.41999998688697815
+        ],
+        "surfaceY": 0.03311591952318915,
+        "rootGap": 0.002492960698654567
+      },
+      {
+        "plant": 5,
+        "base": [
+          2.0000000298023224,
+          0.023881053552031517,
+          2.6500000953674316
+        ],
+        "surfaceY": 0.0237001897093414,
+        "rootGap": 0.00018086384269011546
+      },
+      {
+        "plant": 6,
+        "base": [
+          -2.0999999046325684,
+          0.02273489348590374,
+          2.7200000286102295
+        ],
+        "surfaceY": 0.025252574513702886,
+        "rootGap": -0.0025176810277991457
+      },
+      {
+        "plant": 7,
+        "base": [
+          -3.25,
+          0.04223255440592766,
+          -1.600000023841858
+        ],
+        "surfaceY": 0.03925550274551526,
+        "rootGap": 0.0029770516604123998
+      }
+    ],
+    "maxAbsoluteGap": 0.0029770516604123998
+  },
+  "groundingInterpretation": "Eight fixed fern roots remain within .003 local units of the simplified surface. Dynamic flowers use the exactly flat central ground at runtime Y=.17.",
+  "finalAuditChecklist": [
+    "Recompute final file hashes/counts/materials/texture image metadata.",
+    "Compare all 21 non-ground geometries and normal accessors against 32cf717.",
+    "Compare exact exported outer and pond boundary coordinates and two-loop topology against baseline.",
+    "Check ground coverage area, nonmanifold edges, normals, winding, degenerate triangles, central clearance and flatness.",
+    "Confirm actual GLTFLoader ground is opaque physical with alpha1/transmission0/IOR1.5 and correct specular/normal-map settings.",
+    "Check canonical saved source hierarchy, mesh counts, material sockets and packed texture color spaces in read-only background Blender.",
+    "Confirm no preview camera/light/backdrop/animation in GLB and runtime diameter8 / groundY.17 contract.",
+    "Record native GLB features separately from any app-only angular color response and point to matched browser performance/interaction evidence."
+  ],
+  "reportRequirements": [
+    "Replace prior color-refinement asset-report baseline/counts/material descriptions with the selected opal result.",
+    "Describe final base-only normal mapping; Stage2 shared coat-normal evidence remains a historical experiment.",
+    "Report software-renderer timing as diagnostic rather than mobile GPU performance.",
+    "Retain baseline/stage artifacts and state any remaining visual limitations."
+  ],
+  "readOnly": true
+}

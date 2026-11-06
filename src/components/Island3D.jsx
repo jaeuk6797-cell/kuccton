@@ -67,15 +67,24 @@ function createGardenEnvironment(renderer) {
   // Capture broad pastel sky reflections once; only the filtered cubemap is sampled each frame.
   const studio = new THREE.Scene()
   studio.background = new THREE.Color('#c5d3e6')
-  const geometry = new THREE.PlaneGeometry(1, 1)
+  const geometry = new THREE.PlaneGeometry(1, 1, 12, 12)
+  const position = geometry.attributes.position
+  const colors = []
+  for (let i = 0; i < position.count; i++) {
+    const radiusSquared = 4 * (position.getX(i) ** 2 + position.getY(i) ** 2)
+    colors.push(1, 1, 1, Math.max(0, 1 - radiusSquared) ** 2)
+  }
+  geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 4))
+  // Rear sky bands cross the ground's reflected horizon as the camera orbits.
   for (const [position, size, color, intensity] of [
-    [[-3, 4, 5], [6.5, 5.5], '#f5c8df', 1.7],
-    [[5, 2, 2], [5, 6], '#b9e7f0', 1.7],
-    [[-4, 3, -4], [7, 4.5], '#c6b7ec', 1.55],
-    [[0, 5, -1], [5, 5], '#c5ece5', 1.45],
+    [[1.3, 1.25, -6.2], [5.2, 2.2], '#f5c8df', 7.875],
+    [[3.8, 2.5, -5.6], [4.4, 1.8], '#b9e7f0', 8.75],
+    [[-3.8, 2.5, -5.6], [4.4, 1.8], '#c6b7ec', 8.75],
+    [[-0.8, 2.6, -6.2], [3.6, 1.2], '#fff2ed', 14],
   ]) {
     const material = new THREE.MeshBasicMaterial({
       color: new THREE.Color(color).multiplyScalar(intensity), toneMapped: false,
+      vertexColors: true, transparent: true, depthWrite: false,
     })
     const panel = new THREE.Mesh(geometry, material)
     panel.position.set(...position)
@@ -84,11 +93,41 @@ function createGardenEnvironment(renderer) {
     studio.add(panel)
   }
   const generator = new THREE.PMREMGenerator(renderer)
-  // A small angular blur softens light-card edges without adding a realtime render pass.
-  const environment = generator.fromScene(studio, 0.14, 0.1, 30, { size: 256 })
+  // Card falloff supplies softness; preserve enough contrast for a moving polished highlight.
+  const environment = generator.fromScene(studio, 0.03, 0.1, 30, { size: 256 })
   generator.dispose()
   disposeMeshes(studio)
   return environment
+}
+
+function applyOpalReflection(material) {
+  if (material.name !== 'SUP Opalescent ground' || material.userData.opalReflection) return
+  material.userData.opalReflection = true
+  // Native thin-film shading added measured cost without a visible gain over this angular scatter.
+  material.iridescence = 0
+  const previousCompile = material.onBeforeCompile
+  material.onBeforeCompile = function (shader, renderer) {
+    previousCompile.call(this, shader, renderer)
+    // Opaque mineral scatter changes with reflected sky direction, never UVs or time.
+    // Direct light, contact shadows and the native clearcoat remain unmodified.
+    shader.fragmentShader = shader.fragmentShader.replace('#include <aomap_fragment>', `
+      #include <aomap_fragment>
+      vec3 opalReflection = transformDirectionByInverseViewMatrix(
+        reflect(-geometryViewDir, geometryNormal), viewMatrix);
+      float opalEdge = 1.0 - saturate(dot(geometryNormal, geometryViewDir));
+      float opalFresnel = opalEdge * opalEdge;
+      opalFresnel *= opalFresnel * opalEdge;
+      float opalShift = opalReflection.x + 0.15 * opalReflection.z;
+      vec3 opalTint = mix(vec3(0.72, 1.12, 1.14), vec3(1.14, 0.76, 1.18),
+        smoothstep(0.10, 0.65, -opalShift));
+      opalTint = mix(opalTint, vec3(1.18, 0.78, 1.03),
+        smoothstep(0.10, 0.65, opalShift));
+      reflectedLight.indirectDiffuse *= mix(vec3(1.0), opalTint, 0.45 + 0.45 * opalFresnel);
+      reflectedLight.indirectSpecular *= mix(vec3(1.0), opalTint, 0.65 + 0.25 * opalFresnel);
+    `)
+  }
+  material.customProgramCacheKey = () => 'soop-opal-reflection-v1'
+  material.needsUpdate = true
 }
 
 function jitter(geo, amount, rand, keep = () => false) {
@@ -164,6 +203,7 @@ function loadIslandGlb(target) {
       model.traverse((o) => {
         if (!o.isMesh) return
         const materials = Array.isArray(o.material) ? o.material : [o.material]
+        for (const material of materials) applyOpalReflection(material)
         const transparent = materials.some((material) => material.transparent)
         // Alpha crystals keep their transmitted appearance; only solid perimeter details cast shadows.
         o.castShadow = !transparent && /Island_(Ornamental_Ring|Vegetation)/.test(o.name)
