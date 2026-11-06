@@ -18,7 +18,7 @@ const ISLAND_GLB = `${import.meta.env.BASE_URL}models/island.glb`
 const ISLAND_RADIUS = 4
 const ISLAND_TOP_Y = 0.17
 
-// 카메라: 섬 전체를 보고, 회전하거나 확대해도 화면 밖으로 잘리지 않게 한다
+// 카메라: 기본은 섬 전체 보기, 필요한 경우 약 18% 확대 허용
 const CAMERA = { position: [0, 4.4, 10.5], target: [0, 0.1, 0], fov: 36, max: 17 }
 // 섬 가장자리와 아래 바위까지 들어오는 반지름(여백 포함)
 const FIT_RADIUS = 4.4
@@ -419,8 +419,8 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
       const halfVertical = THREE.MathUtils.degToRad(CAMERA.fov) / 2
       const halfHorizontal = Math.atan(Math.tan(halfVertical) * camera.aspect)
       const dist = Math.max(baseDist, FIT_RADIUS / Math.sin(Math.min(halfVertical, halfHorizontal)))
-      // 확대도 이 거리까지만 허용해 섬이 화면 밖으로 나가지 않게 한다.
-      controls.minDistance = dist
+      // 처음에는 전체를 보여 주고, 필요하면 약 18%까지 가까이 볼 수 있다.
+      controls.minDistance = dist * 0.85
       controls.maxDistance = Math.max(CAMERA.max, dist + 3)
       controls.target.copy(target)
       camera.position.copy(target).addScaledVector(viewDir, dist)

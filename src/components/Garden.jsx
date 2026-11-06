@@ -63,11 +63,12 @@ export default function Garden({ session, onSignOut, email, demo }) {
   const [sharePick, setSharePick] = useState(null) // { flower } 또는 { friend }
   const [visiting, setVisiting] = useState(null) // 놀러 간 친구
   // 플로팅 도구: 접어도 ^ 손잡이·상태 카드·작은 녹음 버튼은 남긴다.
-  // = 손잡이 28 + 간격 10 + 상태 카드 64 + 아래 여백 8
-  const SHEET_PEEK = 110
+  // 글자 크기·화면 너비에 따라 달라지는 접힌 카드 높이를 실제로 잰다.
+  const sheetPeekRef = useRef(110)
   const [sheetOpen, setSheetOpen] = useState(() => localStorage.getItem('sup.sheet') !== 'closed')
   const sheetRef = useRef(null)
   const homeRef = useRef(null)
+  const titleRef = useRef(null)
   const dragRef = useRef(null)
   useEffect(() => { localStorage.setItem('sup.sheet', sheetOpen ? 'open' : 'closed') }, [sheetOpen])
 
@@ -79,18 +80,29 @@ export default function Garden({ session, onSignOut, email, demo }) {
     if (!home || !sheet) return
     const measure = () => {
       // 플로팅 도구 아래 여백에는 기기 안전 영역과 정원 여백이 포함된다.
-      const tabH = parseFloat(getComputedStyle(sheet).bottom) || 0
+      const style = getComputedStyle(sheet)
+      const tabH = parseFloat(style.bottom) || 0
       const sheetH = sheet.offsetHeight
-      const top = 120 // .island의 top과 같아야 한다
-      const closedH = home.clientHeight - top - tabH - SHEET_PEEK + 8
-      const openH = home.clientHeight - top - tabH - sheetH + 15
+      const title = titleRef.current
+      const top = title ? title.offsetTop + title.offsetHeight + 12 : 120
+      const handleH = sheet.querySelector('.sheet-toolbar')?.offsetHeight || 28
+      const statusH = sheet.querySelector('.status')?.offsetHeight || 64
+      const gap = parseFloat(style.rowGap) || 0
+      const padding = parseFloat(style.paddingBottom) || 0
+      const peek = handleH + gap + statusH + padding
+      sheetPeekRef.current = peek
+      const closedH = Math.max(1, home.clientHeight - top - tabH - peek + padding)
+      const openH = Math.max(1, home.clientHeight - top - tabH - sheetH + padding)
+      home.style.setProperty('--island-top', `${top}px`)
       home.style.setProperty('--sheet-h', `${sheetH}px`)
-      home.style.setProperty('--sheet-peek', `${SHEET_PEEK}px`)
-      home.style.setProperty('--island-s', String(Math.min(1, Math.max(0.5, openH / closedH))))
+      home.style.setProperty('--sheet-peek', `${peek}px`)
+      home.style.setProperty('--mini-top', `${handleH + gap + (statusH - 48) / 2}px`)
+      home.style.setProperty('--island-s', String(Math.min(1, Math.max(0.12, openH / closedH))))
     }
     measure()
     const ro = new ResizeObserver(measure)
     ro.observe(home); ro.observe(sheet)
+    if (titleRef.current) ro.observe(titleRef.current)
     return () => ro.disconnect()
   }, [hasSheet])
   const meId = session.memberId
@@ -326,7 +338,7 @@ export default function Garden({ session, onSignOut, email, demo }) {
   // 손잡이를 끌면 카드·섬·안내 문구가 함께 손가락을 따라오고(--sheet-p: 0 열림 ~ 1 접힘),
   // 놓으면 가까운 쪽으로 부드럽게 붙는다. 빠르게 튕기면 짧게 끌어도 넘어간다. 살짝 누르면 토글
   const onHandleDown = (e) => {
-    dragRef.current = { y: e.clientY, dy: 0, t: performance.now(), v: 0, h: Math.max(1, sheetRef.current.offsetHeight - SHEET_PEEK) }
+    dragRef.current = { y: e.clientY, dy: 0, t: performance.now(), v: 0, h: Math.max(1, sheetRef.current.offsetHeight - sheetPeekRef.current) }
     e.currentTarget.setPointerCapture(e.pointerId)
     homeRef.current.classList.add('dragging')
   }
@@ -379,7 +391,7 @@ export default function Garden({ session, onSignOut, email, demo }) {
             onPickPair={setOpenPair}
           />
           </div>
-          <div className="home-title">
+          <div ref={titleRef} className="home-title">
             <span className="wordmark" aria-label="SUP">SUP</span>
             <h1><button className="garden-view-reset" onClick={() => setGardenViewReset((n) => n + 1)} aria-label={`${me?.nickname}의 정원 시점 초기화`}>{me?.nickname}의 정원</button></h1>
             {gardenFlowers.length >= GARDEN_NEAR_FULL && (
@@ -403,14 +415,8 @@ export default function Garden({ session, onSignOut, email, demo }) {
               </div>
             )}
           </div>
-          {gardenFlowers.length === 0 && data.pairs.length === 0 ? (
-            <div className="empty-garden">
-              <b>아직 핀 꽃이 없어요</b>
-              <small>친구가 소리를 보내면 여기에 꽃이 피어요</small>
-            </div>
-          ) : null}
-
           <section ref={sheetRef} className={`home-sheet ${sheetOpen ? '' : 'closed'}`} aria-label="정원 도구">
+            <div className="sheet-toolbar">
             <button
               type="button"
               className="sheet-handle"
@@ -425,6 +431,13 @@ export default function Garden({ session, onSignOut, email, demo }) {
             >
               <ChevronUp aria-hidden="true" />
             </button>
+            {gardenFlowers.length === 0 && data.pairs.length === 0 ? (
+              <div className="empty-garden-hint">
+                <b>아직 핀 꽃이 없어요</b>
+                <small>친구가 소리를 보내면 여기에 꽃이 피어요</small>
+              </div>
+            ) : <small className="garden-listen-hint">꽃·나무를 눌러 소리를 들어 보세요</small>}
+            </div>
             <button
               className="status"
               onClick={sheetOpen ? status.onClick : () => setSheetOpen(true)}
@@ -561,7 +574,7 @@ export default function Garden({ session, onSignOut, email, demo }) {
 function InboxList({ items, nameOf, onAnswer, busy }) {
   const [playingId, setPlayingId] = useState(null)
   return (
-    <div className="menu-inbox-body">
+    <div className={`menu-inbox-body${items.length === 0 ? ' is-empty' : ''}`}>
       {items.length === 0 ? (
         <div className="inbox-empty"><Bell /><p>새로 도착한 소리가 없어요.</p></div>
       ) : (
@@ -936,9 +949,11 @@ function Me({ me, email, onSignOut, code, onAdded, onSaveProfile }) {
     <div className="page me-page">
       <h1 className="page-title">나</h1>
       {/* 프로필(사진·닉네임), 내 코드·친구 맺기, 로그아웃. 설명은 도움말에 있다 */}
+      <div className="me-content">
       <Profile me={me} email={email} onSave={onSaveProfile} />
       <FriendCode code={code} onAdded={onAdded} />
       <button className="link logout" onClick={onSignOut}>로그아웃</button>
+      </div>
     </div>
   )
 }

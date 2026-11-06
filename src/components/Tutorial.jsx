@@ -63,11 +63,12 @@ export function HelpPage({ onTutorial }) {
       <h1 className="page-title">도움말</h1>
       <section className="help-purpose">
         <div className="help-bloom" aria-hidden="true"><Flower flower={SAMPLE} size={110} bloom={false} /></div>
+        <div className="help-message">
         <span className="help-brand">SUP</span>
         <h2>말하지 않아도 괜찮아,<br />우리의 하루는 소리로 피어나.</h2>
-        <p>하루 10초의 소리로<br />친구에게 나의 하루를 건네요.</p>
-        <p>목소리는 꽃으로, 주변의 소리는 나무로.<br />내 정원은 친구가 보내 준 하루로 채워져요.</p>
-        <small>점수도, 연속 기록도, 시드는 꽃도 없어요.<br />우리의 속도로 소리를 나눠요.</small>
+        <p>하루 10초, 친구에게 나의 하루를 건네요.<br />목소리는 꽃으로, 주변의 소리는 나무로 자라요.</p>
+        <small>내 정원은 친구가 보내 준 하루로 채워져요.</small>
+        </div>
       </section>
       <button className="tutorial-replay" onClick={onTutorial}>튜토리얼 다시 하기 <span aria-hidden="true">↗</span></button>
     </div>
