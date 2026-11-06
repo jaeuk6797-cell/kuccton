@@ -5,9 +5,10 @@ import Recorder from './Recorder.jsx'
 import { FlowerDetail, PairDetail } from './Details.jsx'
 import ShareSheet from './Share.jsx'
 import Visit from './Visit.jsx'
+import Chat from './Chat.jsx'
 import { displayName } from '../lib/tree.js'
 import { Bell, ChevronUp, Heart, Menu, Mic, Sprout, User, Users, Wave } from './Icons.jsx'
-import { addFriend, currentUser, deleteFlower, insertFlower, loadGarden, respondShare, setGardenPublic, shareFlowers, subscribeGarden, today, uploadAudio } from '../lib/db.js'
+import { addFriend, currentUser, deleteFlower, insertFlower, loadGarden, respondShare, shareFlowers, subscribeGarden, today, uploadAudio } from '../lib/db.js'
 
 // 받침에 따라 조사 고르기
 const hasBatchim = (w = '') => {
@@ -93,6 +94,7 @@ export default function Garden({ session, onSignOut, email, demo }) {
       if (!alive || !u) return
       unsub = subscribeGarden(session.gardenId, u.id, (kind, row) => {
         if (kind === 'share') showToast('새 소리가 도착했어요 · 받은 소리함에서 골라 주세요')
+        if (kind === 'message') showToast(`💬 새 메시지: ${String(row.body).slice(0, 30)}`)
         if (kind === 'answered' && row.status === 'accepted') showToast('친구가 내 소리를 정원에 심었어요')
         if (kind === 'friend') showToast('친구 목록이 바뀌었어요')
         refresh()
@@ -108,16 +110,6 @@ export default function Garden({ session, onSignOut, email, demo }) {
       if (accept) markFresh(item.id)
       showToast(accept ? `${displayName(item)}을 정원에 심었어요` : '받지 않았어요')
       setOpenFlower(null)
-      await refresh()
-    } catch (e) {
-      showToast(e.message || String(e))
-    }
-  }
-
-  async function togglePublic(next) {
-    try {
-      await setGardenPublic(next)
-      showToast(next ? '정원을 공개했어요. 친구들이 놀러 올 수 있어요' : '정원을 비공개로 바꿨어요')
       await refresh()
     } catch (e) {
       showToast(e.message || String(e))
@@ -348,8 +340,8 @@ export default function Garden({ session, onSignOut, email, demo }) {
       )}
 
       {tab === 'album' && <Album data={data} meId={meId} onOpen={setOpenFlower} onOpenPair={setOpenPair} flowerById={flowerById} />}
-      {tab === 'friends' && <Friends data={data} meId={meId} onAdded={refresh} onOpen={setOpenFlower} onShareTo={(friend) => setSharePick({ friend })} onVisit={setVisiting} />}
-      {tab === 'me' && <Me me={me} data={data} email={email} onSignOut={onSignOut} onTogglePublic={togglePublic} />}
+      {tab === 'friends' && <Friends data={data} meId={meId} onAdded={refresh} onOpen={setOpenFlower} onShareTo={(friend) => setSharePick({ friend })} onVisit={setVisiting} onAnswer={answer} />}
+      {tab === 'me' && <Me me={me} data={data} email={email} onSignOut={onSignOut} />}
 
       {/* 오른쪽 위 메뉴 (아래 탭바 대신). 어느 화면에서나 같은 자리에 있다 */}
       <button className="round-btn menu-btn" onClick={() => setMenuOpen((o) => !o)} aria-label="메뉴" aria-expanded={menuOpen}>
@@ -512,7 +504,9 @@ function Album({ data, meId, onOpen, onOpenPair, flowerById }) {
 
 // 친구: 친구 코드(= 정원 코드)로 친구를 맺고, 친구마다 내 소리를 골라 공유한다.
 // 친구가 공유한 소리는 내 정원 왼쪽에, 내 소리는 오른쪽에 핀다.
-function Friends({ data, meId, onAdded, onOpen, onShareTo, onVisit }) {
+function Friends({ data, meId, onAdded, onOpen, onShareTo, onVisit, onAnswer }) {
+  const [selectedId, setSelectedId] = useState(null) // 고른 친구 user_id
+  const [chatting, setChatting] = useState(false)
   const [copied, setCopied] = useState(false)
   const [code, setCode] = useState('')
   const [busy, setBusy] = useState(false)
@@ -542,6 +536,55 @@ https://kuccton.vercel.app`
   }
 
   const mineCount = (userId) => data.sentShares.filter((x) => x.to_user === userId).length
+  const selected = data.friends.find((x) => x.user_id === selectedId)
+
+  if (selected && chatting) {
+    return (
+      <Chat
+        friend={selected}
+        refreshKey={data}
+        onBack={() => setChatting(false)}
+        onOpenFlower={onOpen}
+        onAnswer={onAnswer}
+        onShare={() => onShareTo(selected)}
+      />
+    )
+  }
+  if (selected) {
+    const theirs = data.flowers.filter((f) => f.sender_id === selected.member_id).slice().reverse()
+    const since = new Date(selected.since)
+    return (
+      <div className="page friend-page">
+        <button className="link back-link" onClick={() => setSelectedId(null)}>← 친구 목록</button>
+        <div className="friend-hero">
+          <span className="av partner huge">{[...selected.nickname][0]}</span>
+          <h1 className="page-title">{selected.nickname}</h1>
+          <small className="muted">{since.getMonth() + 1}월 {since.getDate()}일부터 친구 · 받은 소리 {theirs.length}개 · 보낸 소리 {mineCount(selected.user_id)}개</small>
+        </div>
+        <div className="friend-menu">
+          <button onClick={() => setChatting(true)}><span>💬</span>대화하기</button>
+          <button onClick={() => onShareTo(selected)}><span>🎵</span>소리 공유하기</button>
+          <button onClick={() => onVisit(selected)}><span>🏡</span>정원 놀러 가기</button>
+        </div>
+        <h2 className="page-sub">{selected.nickname}에게 받은 소리</h2>
+        {theirs.length === 0 ? (
+          <p className="small muted">아직 {selected.nickname}에게 받아서 심은 소리가 없어요.</p>
+        ) : (
+          <ul className="sent-list">
+            {theirs.map((f) => (
+              <li key={f.id}>
+                <button onClick={() => onOpen(f)}>
+                  <Flower flower={f} size={34} stem={false} bloom={false} />
+                  <span>{displayName(f)}</span>
+                  <small>{formatDate(f.sent_date)}</small>
+                </button>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+    )
+  }
 
   return (
     <div className="page">
@@ -575,54 +618,30 @@ https://kuccton.vercel.app`
       ) : (
         <ul className="friend-list">
           {data.friends.map((fr) => {
-            const theirs = data.flowers.filter((f) => f.sender_id === fr.member_id).slice().reverse()
-            const since = new Date(fr.since)
+            const theirs = data.flowers.filter((f) => f.sender_id === fr.member_id).length
+            const waiting = data.inbox.filter((f) => f.from_user === fr.user_id).length
             return (
-              <li key={fr.user_id} className="card friend-card">
-                <div className="person">
+              <li key={fr.user_id}>
+                <button className="card friend-row" onClick={() => { setSelectedId(fr.user_id); setChatting(false) }}>
                   <span className="av partner big">{[...fr.nickname][0]}</span>
                   <div>
                     <b>{fr.nickname}</b>
-                    <small className="muted">{since.getMonth() + 1}월 {since.getDate()}일부터 친구 · 받은 소리 {theirs.length}개 · 공유한 소리 {mineCount(fr.user_id)}개</small>
+                    <small className="muted">받은 소리 {theirs}개 · 보낸 소리 {mineCount(fr.user_id)}개</small>
                   </div>
-                </div>
-                <div className="friend-actions">
-                  <button className="primary small-btn" onClick={() => onShareTo(fr)}>소리 공유하기</button>
-                  {fr.is_public ? (
-                    <button className="ghost small-btn" onClick={() => onVisit(fr)}>정원 놀러 가기</button>
-                  ) : (
-                    <span className="small muted">🔒 비공개 정원</span>
-                  )}
-                </div>
-                {theirs.length === 0 ? (
-                  <p className="small muted">아직 {fr.nickname}에게 받은 소리가 없어요.</p>
-                ) : (
-                  <>
-                    <ul className="sent-list">
-                      {theirs.slice(0, 6).map((f) => (
-                        <li key={f.id}>
-                          <button onClick={() => onOpen(f)}>
-                            <Flower flower={f} size={34} stem={false} bloom={false} />
-                            <span>{displayName(f)}</span>
-                            <small>{formatDate(f.sent_date)}</small>
-                          </button>
-                        </li>
-                      ))}
-                    </ul>
-                    {theirs.length > 6 && <p className="small muted">외 {theirs.length - 6}개</p>}
-                  </>
-                )}
+                  {waiting > 0 && <i className="count-badge">{waiting}</i>}
+                  <span className="chev">›</span>
+                </button>
               </li>
             )
           })}
         </ul>
       )}
-      <p className="small muted">친구가 보낸 소리는 받은 소리함에 도착하고, 심은 소리만 내 정원에 꽃(말소리)이나 나무(그 밖의 소리)로 자라요. 내가 보낸 소리는 친구 정원에 피어요. 같은 날 서로 보낸 소리를 둘 다 심으면 가운데에 우리의 꽃이 피어요. 친구가 정원을 공개하면 놀러 갈 수 있어요.</p>
+      <p className="small muted">친구가 보낸 소리는 받은 소리함에 도착하고, 심은 소리만 내 정원에 꽃(말소리)이나 나무(그 밖의 소리)로 자라요. 내가 보낸 소리는 친구 정원에 피어요. 같은 날 서로 보낸 소리를 둘 다 심으면 가운데에 우리의 꽃이 피어요. 친구 정원에는 언제든 놀러 가서 구경할 수 있어요(소리는 친구만 들을 수 있어요).</p>
     </div>
   )
 }
 
-function Me({ me, data, email, onSignOut, onTogglePublic }) {
+function Me({ me, data, email, onSignOut }) {
   return (
     <div className="page">
       <h1 className="page-title">나</h1>
@@ -630,15 +649,6 @@ function Me({ me, data, email, onSignOut, onTogglePublic }) {
         <span className="av me big">나</span>
         <div><b>{me?.nickname}</b><small className="muted">정원 코드 {data.garden.code}</small></div>
       </div>
-      <label className="card switch-row">
-        <div>
-          <b>정원 공개</b>
-          <small className="muted">{data.garden.is_public
-            ? '친구들이 내 정원에 놀러 와서 내가 심은 소리를 들을 수 있어요.'
-            : '지금은 비공개예요. 공개해도 친구에게 받은 소리는 보이지 않아요. 비공개여도 소리 공유는 그대로 돼요.'}</small>
-        </div>
-        <input type="checkbox" className="switch" checked={Boolean(data.garden.is_public)} onChange={(e) => onTogglePublic(e.target.checked)} />
-      </label>
       <div className="card account">
         <small className="muted">로그인한 계정</small>
         <b>{email}</b>

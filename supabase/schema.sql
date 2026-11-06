@@ -475,3 +475,66 @@ create policy "sounds: garden read" on storage.objects for select to authenticat
       )
     )
   );
+
+-- ───────── 대화하기 (migrations-007.sql과 같음) ─────────
+create table if not exists public.messages (
+  id uuid primary key default gen_random_uuid(),
+  from_user uuid not null default auth.uid(),
+  to_user uuid not null,
+  body text not null check (char_length(body) between 1 and 1000),
+  created_at timestamptz not null default now()
+);
+create index if not exists messages_pair_idx on public.messages (from_user, to_user, created_at);
+create index if not exists messages_to_idx on public.messages (to_user, created_at);
+alter table public.messages enable row level security;
+
+drop policy if exists "messages: mine read" on public.messages;
+create policy "messages: mine read" on public.messages for select to authenticated
+  using (auth.uid() in (from_user, to_user));
+
+drop policy if exists "messages: send to friend" on public.messages;
+create policy "messages: send to friend" on public.messages for insert to authenticated
+  with check (from_user = auth.uid() and to_user in (select public.my_friend_ids()));
+
+do $$
+begin
+  begin alter publication supabase_realtime add table public.messages; exception when duplicate_object then null; end;
+end $$;
+
+-- ───────── 놀러 가기: 친구면 누구나, 모양만 (migrations-008.sql과 같음) ─────────
+create or replace function public.visit_flowers(p_friend uuid)
+returns setof jsonb language sql stable security definer set search_path = public as $$
+  select (to_jsonb(f) - 'audio_path' - 'transcript')
+         || jsonb_build_object('sender_name', sm.nickname, 'shared_at', s.created_at)
+  from public.shares s
+  join public.flowers f on f.id = s.flower_id
+  left join public.members sm on sm.id = f.sender_id
+  where s.to_user = p_friend
+    and s.status = 'accepted'
+    and p_friend in (select public.my_friend_ids())
+  order by s.created_at
+$$;
+revoke all on function public.visit_flowers(uuid) from public, anon;
+grant execute on function public.visit_flowers(uuid) to authenticated;
+
+-- 공개 정원을 직접 읽던 권한은 없앤다 (방문은 위 함수로만, 소리 경로 없이)
+drop policy if exists "gardens: visit public" on public.gardens;
+drop policy if exists "members: visit public" on public.members;
+drop policy if exists "flowers: visit public" on public.flowers;
+
+-- 소리 파일은 내 정원 소리와 나에게 공유된 소리만 들을 수 있다 (놀러 간 정원의 소리는 제외)
+drop policy if exists "sounds: garden read" on storage.objects;
+create policy "sounds: garden read" on storage.objects for select to authenticated
+  using (
+    bucket_id = 'sounds' and (
+      (storage.foldername(name))[1] in (select g::text from public.my_garden_ids() as g)
+      or exists (
+        select 1 from public.flowers f
+        where f.audio_path = storage.objects.name
+          and (
+            f.garden_id in (select public.my_garden_ids())
+            or f.id in (select flower_id from public.shares where to_user = auth.uid())
+          )
+      )
+    )
+  );

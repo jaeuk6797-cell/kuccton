@@ -116,10 +116,44 @@ export async function respondShare(shareId, accept) {
   if (error) throw new Error(errorText(error))
 }
 
-/** 내 정원 공개/비공개 */
-export async function setGardenPublic(isPublic) {
-  const { error } = await supabase.rpc('set_garden_public', { p_public: isPublic })
-  if (error) throw new Error(errorText(error))
+// ───────── 친구와 대화 ─────────
+// 대화창 = 메시지 + 서로 주고받은 소리 공유를 시간순으로. 공유하면 대화에 자동으로 나온다.
+
+/** 친구와의 대화: [{ type: 'text', ... } | { type: 'sound', flower, status, ... }] (오래된 순) */
+export async function loadChat(friendUserId) {
+  const user = await currentUser()
+  const me = user.id
+  const pairOr = `and(from_user.eq.${me},to_user.eq.${friendUserId}),and(from_user.eq.${friendUserId},to_user.eq.${me})`
+  const [m, sh] = await Promise.all([
+    supabase.from('messages').select('*').or(pairOr).order('created_at'),
+    supabase.from('shares').select('id, flower_id, from_user, to_user, status, created_at, flower:flowers(*)').or(pairOr).order('created_at'),
+  ])
+  if (m.error) throw m.error
+  if (sh.error) throw sh.error
+  const items = [
+    ...m.data.map((x) => ({ type: 'text', id: `m-${x.id}`, mine: x.from_user === me, body: x.body, created_at: x.created_at })),
+    ...sh.data.filter((x) => x.flower).map((x) => ({
+      type: 'sound', id: `s-${x.id}`, mine: x.from_user === me, status: x.status, created_at: x.created_at,
+      flower: { ...x.flower, share_id: x.from_user === me ? undefined : x.id, from_user: x.from_user },
+    })),
+  ]
+  return items.sort((a, b) => a.created_at.localeCompare(b.created_at))
+}
+
+export async function sendMessage(toUser, body) {
+  const { error } = await supabase.from('messages').insert({ to_user: toUser, body })
+  if (error) throw error
+}
+
+/** 대화창이 열려 있는 동안: 새 메시지, 새 공유, 공유 응답이 오면 cb() */
+export function subscribeChat(userId, cb) {
+  const ch = supabase
+    .channel(`chat-${userId}-${Math.random().toString(36).slice(2, 7)}`)
+    .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages', filter: `to_user=eq.${userId}` }, cb)
+    .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'shares', filter: `to_user=eq.${userId}` }, cb)
+    .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'shares', filter: `from_user=eq.${userId}` }, cb)
+    .subscribe()
+  return () => supabase.removeChannel(ch)
 }
 
 /** 친구의 공개 정원에 놀러 가기: 친구가 직접 심은 소리만 */
@@ -129,7 +163,7 @@ export async function loadVisit(friend) {
   const { data, error } = await supabase.rpc('visit_flowers', { p_friend: friend.user_id })
   if (error) {
     if (error.code === 'PGRST202' || /visit_flowers/.test(error.message || '')) {
-      throw new Error('서버 준비가 아직 안 됐어요 (Supabase에서 migrations-006.sql 실행 필요)')
+      throw new Error('서버 준비가 아직 안 됐어요 (Supabase에서 migrations-006~008.sql 실행 필요)')
     }
     throw error
   }
@@ -238,6 +272,7 @@ export function subscribeGarden(gardenId, userId, onChange) {
     .on('postgres_changes', { event: 'DELETE', schema: 'public', table: 'flowers' }, () => onChange('delete'))
     .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'shares', filter: `to_user=eq.${userId}` }, (e) => onChange('share', e.new))
     .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'shares', filter: `from_user=eq.${userId}` }, (e) => onChange('answered', e.new))
+    .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages', filter: `to_user=eq.${userId}` }, (e) => onChange('message', e.new))
     .on('postgres_changes', { event: '*', schema: 'public', table: 'friendships' }, () => onChange('friend'))
     .subscribe()
   return () => supabase.removeChannel(ch)
