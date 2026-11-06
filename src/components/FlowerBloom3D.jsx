@@ -39,7 +39,8 @@ export default function FlowerBloom3D({ flower, colors, pair = false, size = 180
       camera.lookAt(0, 0.5, 0)
     }
     const warm = tone !== 'default'
-    scene.add(new THREE.HemisphereLight(warm ? '#f6dfd8' : '#e3eaff', warm ? '#94747f' : '#8f838c', 0.65))
+    const balanced = tone === 'balanced'
+    scene.add(new THREE.HemisphereLight(balanced ? '#f5edda' : warm ? '#f6dfd8' : '#e3eaff', balanced ? '#89917b' : warm ? '#94747f' : '#8f838c', 0.65))
     const sun = new THREE.DirectionalLight('#fff1dc', 1.55)
     sun.position.set(1.5, 3, 2)
     scene.add(sun)

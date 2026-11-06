@@ -1,0 +1,1019 @@
+{
+  "tolerance": 0.000001,
+  "pairs": [
+    {
+      "view": "garden",
+      "screenshots": [
+        "warm-garden.jpg",
+        "balanced-garden.jpg"
+      ],
+      "cameraDelta": 0,
+      "browser": "in-app",
+      "viewport": {
+        "width": 1280,
+        "height": 530,
+        "pixelRatio": 1.5
+      },
+      "metricScope": "Garden canvas",
+      "counts": {
+        "plants": 13,
+        "near": 2,
+        "far": 0,
+        "calls": 657,
+        "triangles": 88408,
+        "geometries": 99,
+        "growing": 0,
+        "opened": 13
+      },
+      "islandLoaded": true,
+      "drawCallDelta": 0,
+      "triangleDelta": 0,
+      "performance": {
+        "warm": {
+          "frame": {
+            "samples": 180,
+            "meanMs": 17.59,
+            "p95Ms": 25
+          },
+          "renderCPU": {
+            "samples": 180,
+            "meanMs": 3.38,
+            "p95Ms": 5.4
+          },
+          "flags": [],
+          "controlledBenchmark": false
+        },
+        "balanced": {
+          "frame": {
+            "samples": 180,
+            "meanMs": 16.76,
+            "p95Ms": 16.8
+          },
+          "renderCPU": {
+            "samples": 180,
+            "meanMs": 2.59,
+            "p95Ms": 3.4
+          },
+          "flags": [],
+          "controlledBenchmark": false
+        }
+      }
+    },
+    {
+      "view": "peonies",
+      "screenshots": [
+        "warm-peonies.jpg",
+        "balanced-peonies.jpg"
+      ],
+      "cameraDelta": 0,
+      "browser": "in-app",
+      "viewport": {
+        "width": 876,
+        "height": 637,
+        "pixelRatio": 1.5
+      },
+      "metricScope": "Garden canvas",
+      "counts": {
+        "plants": 13,
+        "near": 2,
+        "far": 0,
+        "calls": 657,
+        "triangles": 88408,
+        "geometries": 99,
+        "growing": 0,
+        "opened": 13
+      },
+      "islandLoaded": true,
+      "drawCallDelta": 0,
+      "triangleDelta": 0,
+      "performance": {
+        "warm": {
+          "frame": {
+            "samples": 114,
+            "meanMs": 33.84,
+            "p95Ms": 33.5
+          },
+          "renderCPU": {
+            "samples": 116,
+            "meanMs": 5.27,
+            "p95Ms": 17.1
+          },
+          "flags": [
+            "incomplete sampling window"
+          ],
+          "controlledBenchmark": false
+        },
+        "balanced": {
+          "frame": {
+            "samples": 84,
+            "meanMs": 30.36,
+            "p95Ms": 49.9
+          },
+          "renderCPU": {
+            "samples": 86,
+            "meanMs": 6.58,
+            "p95Ms": 20.3
+          },
+          "flags": [
+            "incomplete sampling window"
+          ],
+          "controlledBenchmark": false
+        }
+      }
+    },
+    {
+      "view": "rotated",
+      "screenshots": [
+        "warm-rotated.jpg",
+        "balanced-rotated.jpg"
+      ],
+      "cameraDelta": 0,
+      "browser": "in-app",
+      "viewport": {
+        "width": 876,
+        "height": 637,
+        "pixelRatio": 1.5
+      },
+      "metricScope": "Garden canvas",
+      "counts": {
+        "plants": 13,
+        "near": 2,
+        "far": 0,
+        "calls": 657,
+        "triangles": 88408,
+        "geometries": 99,
+        "growing": 0,
+        "opened": 13
+      },
+      "islandLoaded": true,
+      "drawCallDelta": 0,
+      "triangleDelta": 0,
+      "performance": {
+        "warm": {
+          "frame": {
+            "samples": 49,
+            "meanMs": 25.17,
+            "p95Ms": 50
+          },
+          "renderCPU": {
+            "samples": 51,
+            "meanMs": 7.92,
+            "p95Ms": 47.9
+          },
+          "flags": [
+            "incomplete sampling window"
+          ],
+          "controlledBenchmark": false
+        },
+        "balanced": {
+          "frame": {
+            "samples": 100,
+            "meanMs": 19.17,
+            "p95Ms": 16.8
+          },
+          "renderCPU": {
+            "samples": 102,
+            "meanMs": 5.16,
+            "p95Ms": 10.3
+          },
+          "flags": [
+            "incomplete sampling window",
+            "mean affected by long outliers"
+          ],
+          "controlledBenchmark": false
+        }
+      }
+    },
+    {
+      "view": "dense50",
+      "screenshots": [
+        "warm-dense50.jpg",
+        "balanced-dense50.jpg"
+      ],
+      "cameraDelta": 0,
+      "browser": "in-app",
+      "viewport": {
+        "width": 1280,
+        "height": 530,
+        "pixelRatio": 1.0000000447034836
+      },
+      "metricScope": "Garden canvas",
+      "counts": {
+        "plants": 50,
+        "near": 0,
+        "far": 12,
+        "calls": 2119,
+        "triangles": 213056,
+        "geometries": 255,
+        "growing": 0,
+        "opened": 50
+      },
+      "islandLoaded": true,
+      "drawCallDelta": 0,
+      "triangleDelta": 0,
+      "performance": {
+        "warm": {
+          "frame": {
+            "samples": 36,
+            "meanMs": 37.96,
+            "p95Ms": 83.3
+          },
+          "renderCPU": {
+            "samples": 38,
+            "meanMs": 20.53,
+            "p95Ms": 81.9
+          },
+          "flags": [
+            "incomplete sampling window"
+          ],
+          "controlledBenchmark": false
+        },
+        "balanced": {
+          "frame": {
+            "samples": 22,
+            "meanMs": 34.09,
+            "p95Ms": 83.3
+          },
+          "renderCPU": {
+            "samples": 24,
+            "meanMs": 25.81,
+            "p95Ms": 74.7
+          },
+          "flags": [
+            "incomplete sampling window"
+          ],
+          "controlledBenchmark": false
+        }
+      }
+    },
+    {
+      "view": "study-joy",
+      "screenshots": [
+        "warm-study-joy.jpg",
+        "balanced-study-joy.jpg"
+      ],
+      "cameraDelta": 0,
+      "browser": "in-app",
+      "viewport": {
+        "width": 1280,
+        "height": 530,
+        "pixelRatio": 1.0000000447034836
+      },
+      "clip": {
+        "height": 388.71429443359375,
+        "width": 640,
+        "x": 320,
+        "y": 285.8571472167969
+      },
+      "metricScope": "Garden canvas beneath the specimen overlay; close-up appearance checked visually and by flora tests",
+      "counts": {
+        "plants": 13,
+        "near": 2,
+        "far": 0,
+        "calls": 657,
+        "triangles": 88408,
+        "geometries": 99,
+        "growing": 0,
+        "opened": 13
+      },
+      "islandLoaded": true,
+      "drawCallDelta": 0,
+      "triangleDelta": 0,
+      "performance": {
+        "warm": {
+          "frame": {
+            "samples": 180,
+            "meanMs": 16.67,
+            "p95Ms": 16.8
+          },
+          "renderCPU": {
+            "samples": 180,
+            "meanMs": 2.93,
+            "p95Ms": 3.5
+          },
+          "flags": [],
+          "controlledBenchmark": false
+        },
+        "balanced": {
+          "frame": {
+            "samples": 180,
+            "meanMs": 17.22,
+            "p95Ms": 20.8
+          },
+          "renderCPU": {
+            "samples": 180,
+            "meanMs": 4.76,
+            "p95Ms": 15.5
+          },
+          "flags": [],
+          "controlledBenchmark": false
+        }
+      }
+    },
+    {
+      "view": "study-excited",
+      "screenshots": [
+        "warm-study-excited.jpg",
+        "balanced-study-excited.jpg"
+      ],
+      "cameraDelta": 0,
+      "browser": "in-app",
+      "viewport": {
+        "width": 1280,
+        "height": 530,
+        "pixelRatio": 1.0000000447034836
+      },
+      "clip": {
+        "height": 388.71429443359375,
+        "width": 640,
+        "x": 320,
+        "y": 285.8571472167969
+      },
+      "metricScope": "Garden canvas beneath the specimen overlay; close-up appearance checked visually and by flora tests",
+      "counts": {
+        "plants": 13,
+        "near": 2,
+        "far": 0,
+        "calls": 657,
+        "triangles": 88408,
+        "geometries": 99,
+        "growing": 0,
+        "opened": 13
+      },
+      "islandLoaded": true,
+      "drawCallDelta": 0,
+      "triangleDelta": 0,
+      "performance": {
+        "warm": {
+          "frame": {
+            "samples": 180,
+            "meanMs": 16.71,
+            "p95Ms": 16.8
+          },
+          "renderCPU": {
+            "samples": 180,
+            "meanMs": 2.85,
+            "p95Ms": 3.5
+          },
+          "flags": [],
+          "controlledBenchmark": false
+        },
+        "balanced": {
+          "frame": {
+            "samples": 180,
+            "meanMs": 16.67,
+            "p95Ms": 16.8
+          },
+          "renderCPU": {
+            "samples": 180,
+            "meanMs": 3.23,
+            "p95Ms": 5.3
+          },
+          "flags": [],
+          "controlledBenchmark": false
+        }
+      }
+    },
+    {
+      "view": "study-flutter",
+      "screenshots": [
+        "warm-study-flutter.jpg",
+        "balanced-study-flutter.jpg"
+      ],
+      "cameraDelta": 0,
+      "browser": "in-app",
+      "viewport": {
+        "width": 1280,
+        "height": 530,
+        "pixelRatio": 1.0000000447034836
+      },
+      "clip": {
+        "height": 388.71429443359375,
+        "width": 640,
+        "x": 320,
+        "y": 285.8571472167969
+      },
+      "metricScope": "Garden canvas beneath the specimen overlay; close-up appearance checked visually and by flora tests",
+      "counts": {
+        "plants": 13,
+        "near": 2,
+        "far": 0,
+        "calls": 657,
+        "triangles": 88408,
+        "geometries": 99,
+        "growing": 0,
+        "opened": 13
+      },
+      "islandLoaded": true,
+      "drawCallDelta": 0,
+      "triangleDelta": 0,
+      "performance": {
+        "warm": {
+          "frame": {
+            "samples": 180,
+            "meanMs": 16.67,
+            "p95Ms": 16.8
+          },
+          "renderCPU": {
+            "samples": 180,
+            "meanMs": 2.91,
+            "p95Ms": 3.4
+          },
+          "flags": [],
+          "controlledBenchmark": false
+        },
+        "balanced": {
+          "frame": {
+            "samples": 180,
+            "meanMs": 16.67,
+            "p95Ms": 16.8
+          },
+          "renderCPU": {
+            "samples": 180,
+            "meanMs": 2.92,
+            "p95Ms": 3.5
+          },
+          "flags": [],
+          "controlledBenchmark": false
+        }
+      }
+    },
+    {
+      "view": "study-cozy",
+      "screenshots": [
+        "warm-study-cozy.jpg",
+        "balanced-study-cozy.jpg"
+      ],
+      "cameraDelta": 0,
+      "browser": "in-app",
+      "viewport": {
+        "width": 1280,
+        "height": 530,
+        "pixelRatio": 1.0000000447034836
+      },
+      "clip": {
+        "height": 388.71429443359375,
+        "width": 640,
+        "x": 320,
+        "y": 285.8571472167969
+      },
+      "metricScope": "Garden canvas beneath the specimen overlay; close-up appearance checked visually and by flora tests",
+      "counts": {
+        "plants": 13,
+        "near": 2,
+        "far": 0,
+        "calls": 657,
+        "triangles": 88408,
+        "geometries": 99,
+        "growing": 0,
+        "opened": 13
+      },
+      "islandLoaded": true,
+      "drawCallDelta": 0,
+      "triangleDelta": 0,
+      "performance": {
+        "warm": {
+          "frame": {
+            "samples": 180,
+            "meanMs": 16.67,
+            "p95Ms": 16.8
+          },
+          "renderCPU": {
+            "samples": 180,
+            "meanMs": 2.89,
+            "p95Ms": 3.4
+          },
+          "flags": [],
+          "controlledBenchmark": false
+        },
+        "balanced": {
+          "frame": {
+            "samples": 180,
+            "meanMs": 17.04,
+            "p95Ms": 18.2
+          },
+          "renderCPU": {
+            "samples": 180,
+            "meanMs": 3.49,
+            "p95Ms": 4.3
+          },
+          "flags": [],
+          "controlledBenchmark": false
+        }
+      }
+    },
+    {
+      "view": "study-calm",
+      "screenshots": [
+        "warm-study-calm.jpg",
+        "balanced-study-calm.jpg"
+      ],
+      "cameraDelta": 0,
+      "browser": "in-app",
+      "viewport": {
+        "width": 1280,
+        "height": 530,
+        "pixelRatio": 1.0000000447034836
+      },
+      "clip": {
+        "height": 388.71429443359375,
+        "width": 640,
+        "x": 320,
+        "y": 285.8571472167969
+      },
+      "metricScope": "Garden canvas beneath the specimen overlay; close-up appearance checked visually and by flora tests",
+      "counts": {
+        "plants": 13,
+        "near": 2,
+        "far": 0,
+        "calls": 657,
+        "triangles": 88408,
+        "geometries": 99,
+        "growing": 0,
+        "opened": 13
+      },
+      "islandLoaded": true,
+      "drawCallDelta": 0,
+      "triangleDelta": 0,
+      "performance": {
+        "warm": {
+          "frame": {
+            "samples": 180,
+            "meanMs": 16.67,
+            "p95Ms": 16.8
+          },
+          "renderCPU": {
+            "samples": 180,
+            "meanMs": 2.8,
+            "p95Ms": 3.4
+          },
+          "flags": [],
+          "controlledBenchmark": false
+        },
+        "balanced": {
+          "frame": {
+            "samples": 180,
+            "meanMs": 16.67,
+            "p95Ms": 16.8
+          },
+          "renderCPU": {
+            "samples": 180,
+            "meanMs": 2.73,
+            "p95Ms": 3.3
+          },
+          "flags": [],
+          "controlledBenchmark": false
+        }
+      }
+    },
+    {
+      "view": "study-sad",
+      "screenshots": [
+        "warm-study-sad.jpg",
+        "balanced-study-sad.jpg"
+      ],
+      "cameraDelta": 0,
+      "browser": "in-app",
+      "viewport": {
+        "width": 1280,
+        "height": 530,
+        "pixelRatio": 1.0000000447034836
+      },
+      "clip": {
+        "height": 388.71429443359375,
+        "width": 640,
+        "x": 320,
+        "y": 285.8571472167969
+      },
+      "metricScope": "Garden canvas beneath the specimen overlay; close-up appearance checked visually and by flora tests",
+      "counts": {
+        "plants": 13,
+        "near": 2,
+        "far": 0,
+        "calls": 657,
+        "triangles": 88408,
+        "geometries": 99,
+        "growing": 0,
+        "opened": 13
+      },
+      "islandLoaded": true,
+      "drawCallDelta": 0,
+      "triangleDelta": 0,
+      "performance": {
+        "warm": {
+          "frame": {
+            "samples": 180,
+            "meanMs": 16.67,
+            "p95Ms": 16.8
+          },
+          "renderCPU": {
+            "samples": 180,
+            "meanMs": 2.9,
+            "p95Ms": 3.4
+          },
+          "flags": [],
+          "controlledBenchmark": false
+        },
+        "balanced": {
+          "frame": {
+            "samples": 180,
+            "meanMs": 16.67,
+            "p95Ms": 16.8
+          },
+          "renderCPU": {
+            "samples": 180,
+            "meanMs": 2.82,
+            "p95Ms": 3.4
+          },
+          "flags": [],
+          "controlledBenchmark": false
+        }
+      }
+    },
+    {
+      "view": "study-tense",
+      "screenshots": [
+        "warm-study-tense.jpg",
+        "balanced-study-tense.jpg"
+      ],
+      "cameraDelta": 0,
+      "browser": "in-app",
+      "viewport": {
+        "width": 1280,
+        "height": 530,
+        "pixelRatio": 1.0000000447034836
+      },
+      "clip": {
+        "height": 388.71429443359375,
+        "width": 640,
+        "x": 320,
+        "y": 285.8571472167969
+      },
+      "metricScope": "Garden canvas beneath the specimen overlay; close-up appearance checked visually and by flora tests",
+      "counts": {
+        "plants": 13,
+        "near": 2,
+        "far": 0,
+        "calls": 657,
+        "triangles": 88408,
+        "geometries": 99,
+        "growing": 0,
+        "opened": 13
+      },
+      "islandLoaded": true,
+      "drawCallDelta": 0,
+      "triangleDelta": 0,
+      "performance": {
+        "warm": {
+          "frame": {
+            "samples": 180,
+            "meanMs": 16.76,
+            "p95Ms": 16.8
+          },
+          "renderCPU": {
+            "samples": 180,
+            "meanMs": 2.82,
+            "p95Ms": 3.5
+          },
+          "flags": [],
+          "controlledBenchmark": false
+        },
+        "balanced": {
+          "frame": {
+            "samples": 180,
+            "meanMs": 20.46,
+            "p95Ms": 16.8
+          },
+          "renderCPU": {
+            "samples": 180,
+            "meanMs": 2.92,
+            "p95Ms": 3.5
+          },
+          "flags": [
+            "mean affected by long outliers"
+          ],
+          "controlledBenchmark": false
+        }
+      }
+    },
+    {
+      "view": "study-tree-round",
+      "screenshots": [
+        "warm-study-tree-round.jpg",
+        "balanced-study-tree-round.jpg"
+      ],
+      "cameraDelta": 0,
+      "browser": "in-app",
+      "viewport": {
+        "width": 1280,
+        "height": 530,
+        "pixelRatio": 1.0000000447034836
+      },
+      "clip": {
+        "height": 388.71429443359375,
+        "width": 640,
+        "x": 320,
+        "y": 285.8571472167969
+      },
+      "metricScope": "Garden canvas beneath the specimen overlay; close-up appearance checked visually and by flora tests",
+      "counts": {
+        "plants": 13,
+        "near": 2,
+        "far": 0,
+        "calls": 657,
+        "triangles": 88408,
+        "geometries": 99,
+        "growing": 0,
+        "opened": 13
+      },
+      "islandLoaded": true,
+      "drawCallDelta": 0,
+      "triangleDelta": 0,
+      "performance": {
+        "warm": {
+          "frame": {
+            "samples": 180,
+            "meanMs": 16.67,
+            "p95Ms": 16.7
+          },
+          "renderCPU": {
+            "samples": 180,
+            "meanMs": 2.78,
+            "p95Ms": 3.4
+          },
+          "flags": [],
+          "controlledBenchmark": false
+        },
+        "balanced": {
+          "frame": {
+            "samples": 180,
+            "meanMs": 17.69,
+            "p95Ms": 16.8
+          },
+          "renderCPU": {
+            "samples": 180,
+            "meanMs": 2.59,
+            "p95Ms": 3.4
+          },
+          "flags": [],
+          "controlledBenchmark": false
+        }
+      }
+    },
+    {
+      "view": "study-tree-pine",
+      "screenshots": [
+        "warm-study-tree-pine.jpg",
+        "balanced-study-tree-pine.jpg"
+      ],
+      "cameraDelta": 0,
+      "browser": "in-app",
+      "viewport": {
+        "width": 1280,
+        "height": 530,
+        "pixelRatio": 1.0000000447034836
+      },
+      "clip": {
+        "height": 388.71429443359375,
+        "width": 640,
+        "x": 320,
+        "y": 285.8571472167969
+      },
+      "metricScope": "Garden canvas beneath the specimen overlay; close-up appearance checked visually and by flora tests",
+      "counts": {
+        "plants": 13,
+        "near": 2,
+        "far": 0,
+        "calls": 657,
+        "triangles": 88408,
+        "geometries": 99,
+        "growing": 0,
+        "opened": 13
+      },
+      "islandLoaded": true,
+      "drawCallDelta": 0,
+      "triangleDelta": 0,
+      "performance": {
+        "warm": {
+          "frame": {
+            "samples": 180,
+            "meanMs": 16.67,
+            "p95Ms": 16.8
+          },
+          "renderCPU": {
+            "samples": 180,
+            "meanMs": 2.91,
+            "p95Ms": 3.5
+          },
+          "flags": [],
+          "controlledBenchmark": false
+        },
+        "balanced": {
+          "frame": {
+            "samples": 180,
+            "meanMs": 17.69,
+            "p95Ms": 16.8
+          },
+          "renderCPU": {
+            "samples": 180,
+            "meanMs": 2.84,
+            "p95Ms": 3.4
+          },
+          "flags": [],
+          "controlledBenchmark": false
+        }
+      }
+    },
+    {
+      "view": "study-tree-willow",
+      "screenshots": [
+        "warm-study-tree-willow.jpg",
+        "balanced-study-tree-willow.jpg"
+      ],
+      "cameraDelta": 0,
+      "browser": "in-app",
+      "viewport": {
+        "width": 1280,
+        "height": 530,
+        "pixelRatio": 1.0000000447034836
+      },
+      "clip": {
+        "height": 388.71429443359375,
+        "width": 640,
+        "x": 320,
+        "y": 285.8571472167969
+      },
+      "metricScope": "Garden canvas beneath the specimen overlay; close-up appearance checked visually and by flora tests",
+      "counts": {
+        "plants": 13,
+        "near": 2,
+        "far": 0,
+        "calls": 657,
+        "triangles": 88408,
+        "geometries": 99,
+        "growing": 0,
+        "opened": 13
+      },
+      "islandLoaded": true,
+      "drawCallDelta": 0,
+      "triangleDelta": 0,
+      "performance": {
+        "warm": {
+          "frame": {
+            "samples": 180,
+            "meanMs": 16.67,
+            "p95Ms": 16.8
+          },
+          "renderCPU": {
+            "samples": 180,
+            "meanMs": 2.9,
+            "p95Ms": 3.5
+          },
+          "flags": [],
+          "controlledBenchmark": false
+        },
+        "balanced": {
+          "frame": {
+            "samples": 180,
+            "meanMs": 16.67,
+            "p95Ms": 16.8
+          },
+          "renderCPU": {
+            "samples": 180,
+            "meanMs": 2.99,
+            "p95Ms": 3.5
+          },
+          "flags": [],
+          "controlledBenchmark": false
+        }
+      }
+    },
+    {
+      "view": "study-pair",
+      "screenshots": [
+        "warm-study-pair.jpg",
+        "balanced-study-pair.jpg"
+      ],
+      "cameraDelta": 0,
+      "browser": "in-app",
+      "viewport": {
+        "width": 1280,
+        "height": 530,
+        "pixelRatio": 1.0000000447034836
+      },
+      "clip": {
+        "height": 388.71429443359375,
+        "width": 640,
+        "x": 320,
+        "y": 285.8571472167969
+      },
+      "metricScope": "Garden canvas beneath the specimen overlay; close-up appearance checked visually and by flora tests",
+      "counts": {
+        "plants": 13,
+        "near": 2,
+        "far": 0,
+        "calls": 657,
+        "triangles": 88408,
+        "geometries": 99,
+        "growing": 0,
+        "opened": 13
+      },
+      "islandLoaded": true,
+      "drawCallDelta": 0,
+      "triangleDelta": 0,
+      "performance": {
+        "warm": {
+          "frame": {
+            "samples": 180,
+            "meanMs": 16.67,
+            "p95Ms": 16.7
+          },
+          "renderCPU": {
+            "samples": 180,
+            "meanMs": 2.84,
+            "p95Ms": 3.5
+          },
+          "flags": [],
+          "controlledBenchmark": false
+        },
+        "balanced": {
+          "frame": {
+            "samples": 180,
+            "meanMs": 16.67,
+            "p95Ms": 16.8
+          },
+          "renderCPU": {
+            "samples": 180,
+            "meanMs": 2.77,
+            "p95Ms": 3.4
+          },
+          "flags": [],
+          "controlledBenchmark": false
+        }
+      }
+    },
+    {
+      "view": "portrait50",
+      "screenshots": [
+        "warm-portrait50.jpg",
+        "balanced-portrait50.jpg"
+      ],
+      "cameraDelta": 0,
+      "browser": "in-app",
+      "viewport": {
+        "width": 390,
+        "height": 624,
+        "pixelRatio": 1.0000000447034836
+      },
+      "metricScope": "Garden canvas",
+      "counts": {
+        "plants": 50,
+        "near": 0,
+        "far": 12,
+        "calls": 2119,
+        "triangles": 213056,
+        "geometries": 255,
+        "growing": 0,
+        "opened": 50
+      },
+      "islandLoaded": true,
+      "drawCallDelta": 0,
+      "triangleDelta": 0,
+      "performance": {
+        "warm": {
+          "frame": {
+            "samples": 180,
+            "meanMs": 16.67,
+            "p95Ms": 16.8
+          },
+          "renderCPU": {
+            "samples": 180,
+            "meanMs": 6.73,
+            "p95Ms": 8.7
+          },
+          "flags": [],
+          "controlledBenchmark": false
+        },
+        "balanced": {
+          "frame": {
+            "samples": 8,
+            "meanMs": 43.76,
+            "p95Ms": 216.57
+          },
+          "renderCPU": {
+            "samples": 10,
+            "meanMs": 23.97,
+            "p95Ms": 77.6
+          },
+          "flags": [
+            "incomplete sampling window"
+          ],
+          "controlledBenchmark": false
+        }
+      }
+    }
+  ],
+  "unpairedCaptures": [],
+  "status": "passed",
+  "performanceNote": "Animation-frame and render-call CPU samples only; no GPU timer, focus telemetry, or controlled benchmark. No causal speedup/regression claim."
+}

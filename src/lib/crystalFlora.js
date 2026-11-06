@@ -20,13 +20,29 @@ const WARM_PALETTE = {
   stem: '#a78180', leaf: '#bc9b9c', stamen: '#ebc5a3',
   trunk: '#b58a7c', darkTrunk: '#946773',
 }
+const BALANCED_PALETTE = {
+  pearl: new THREE.Color('#fff3e5'),
+  aqua: new THREE.Color('#b5d9ce'),
+  lavender: new THREE.Color('#c6b5df'),
+  blush: new THREE.Color('#e8b2bf'),
+  champagne: new THREE.Color('#d8b58c'),
+  stem: '#719A78', leaf: '#8AB99A', darkGreen: '#64856D', stamen: '#e7c89e',
+  trunk: '#ad8b75', darkTrunk: '#876c5c',
+}
 
-export const getFloraPalette = (tone = 'warm') => tone === 'default' ? DEFAULT_PALETTE : WARM_PALETTE
+export const getFloraPalette = (tone = 'warm') => tone === 'default' ? DEFAULT_PALETTE
+  : tone === 'balanced' ? BALANCED_PALETTE : WARM_PALETTE
 
 // Remap presentation only: stored emotion colors and pair inputs remain unchanged.
 export function floraColor(color, tone = 'warm') {
   if (tone === 'default') return color.clone()
   const hsl = color.getHSL({}, THREE.SRGBColorSpace)
+  // Preserve the sound's hue and both contributors' pair colors. Only soften
+  // saturation and compress lightness into a readable cream-to-pastel range.
+  if (tone === 'balanced') {
+    return new THREE.Color().setHSL(hsl.h, Math.min(0.57, hsl.s * 0.78),
+      THREE.MathUtils.clamp(0.72 + (hsl.l - 0.58) * 0.35, 0.66, 0.83), THREE.SRGBColorSpace)
+  }
   const degrees = hsl.h * 360
   let hue = degrees
   if (degrees >= 75 && degrees < 190) hue = 330 - (degrees - 75) * 0.48

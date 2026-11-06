@@ -1,0 +1,1446 @@
+{
+  "balanced-garden": {
+    "plants": 13,
+    "near": 2,
+    "far": 0,
+    "calls": 657,
+    "triangles": 88408,
+    "geometries": 99,
+    "island": "loaded",
+    "growing": 0,
+    "opened": 13,
+    "camera": {
+      "position": [
+        0,
+        5.496125175623439,
+        13.176584731173508
+      ],
+      "target": [
+        0,
+        0.1,
+        0
+      ]
+    },
+    "viewport": {
+      "width": 1280,
+      "height": 530,
+      "pixelRatio": 1.5
+    },
+    "performance": {
+      "frame": {
+        "samples": 180,
+        "meanMs": 16.76,
+        "p95Ms": 16.8
+      },
+      "renderCPU": {
+        "samples": 180,
+        "meanMs": 2.59,
+        "p95Ms": 3.4
+      }
+    },
+    "browser": "in-app"
+  },
+  "warm-garden": {
+    "plants": 13,
+    "near": 2,
+    "far": 0,
+    "calls": 657,
+    "triangles": 88408,
+    "geometries": 99,
+    "island": "loaded",
+    "growing": 0,
+    "opened": 13,
+    "camera": {
+      "position": [
+        0,
+        5.496125175623439,
+        13.176584731173508
+      ],
+      "target": [
+        0,
+        0.1,
+        0
+      ]
+    },
+    "viewport": {
+      "width": 1280,
+      "height": 530,
+      "pixelRatio": 1.5
+    },
+    "performance": {
+      "frame": {
+        "samples": 180,
+        "meanMs": 17.59,
+        "p95Ms": 25
+      },
+      "renderCPU": {
+        "samples": 180,
+        "meanMs": 3.38,
+        "p95Ms": 5.4
+      }
+    },
+    "browser": "in-app"
+  },
+  "warm-peonies": {
+    "plants": 13,
+    "near": 2,
+    "far": 0,
+    "calls": 657,
+    "triangles": 88408,
+    "geometries": 99,
+    "island": "loaded",
+    "growing": 0,
+    "opened": 13,
+    "camera": {
+      "position": [
+        0,
+        5.496125175623439,
+        13.176584731173508
+      ],
+      "target": [
+        0,
+        0.1,
+        0
+      ]
+    },
+    "viewport": {
+      "width": 876,
+      "height": 637,
+      "pixelRatio": 1.5
+    },
+    "performance": {
+      "frame": {
+        "samples": 114,
+        "meanMs": 33.84,
+        "p95Ms": 33.5
+      },
+      "renderCPU": {
+        "samples": 116,
+        "meanMs": 5.27,
+        "p95Ms": 17.1
+      }
+    },
+    "browser": "in-app"
+  },
+  "balanced-peonies": {
+    "plants": 13,
+    "near": 2,
+    "far": 0,
+    "calls": 657,
+    "triangles": 88408,
+    "geometries": 99,
+    "island": "loaded",
+    "growing": 0,
+    "opened": 13,
+    "camera": {
+      "position": [
+        0,
+        5.496125175623439,
+        13.176584731173508
+      ],
+      "target": [
+        0,
+        0.1,
+        0
+      ]
+    },
+    "viewport": {
+      "width": 876,
+      "height": 637,
+      "pixelRatio": 1.5
+    },
+    "performance": {
+      "frame": {
+        "samples": 84,
+        "meanMs": 30.36,
+        "p95Ms": 49.9
+      },
+      "renderCPU": {
+        "samples": 86,
+        "meanMs": 6.58,
+        "p95Ms": 20.3
+      }
+    },
+    "browser": "in-app"
+  },
+  "warm-rotated": {
+    "plants": 13,
+    "near": 2,
+    "far": 0,
+    "calls": 657,
+    "triangles": 88408,
+    "geometries": 99,
+    "island": "loaded",
+    "growing": 0,
+    "opened": 13,
+    "camera": {
+      "position": [
+        10.660080975340813,
+        5.496125175623437,
+        -7.745002180565966
+      ],
+      "target": [
+        0,
+        0.1,
+        0
+      ]
+    },
+    "viewport": {
+      "width": 876,
+      "height": 637,
+      "pixelRatio": 1.5
+    },
+    "performance": {
+      "frame": {
+        "samples": 49,
+        "meanMs": 25.17,
+        "p95Ms": 50
+      },
+      "renderCPU": {
+        "samples": 51,
+        "meanMs": 7.92,
+        "p95Ms": 47.9
+      }
+    },
+    "browser": "in-app"
+  },
+  "balanced-rotated": {
+    "plants": 13,
+    "near": 2,
+    "far": 0,
+    "calls": 657,
+    "triangles": 88408,
+    "geometries": 99,
+    "island": "loaded",
+    "growing": 0,
+    "opened": 13,
+    "camera": {
+      "position": [
+        10.660080975340813,
+        5.496125175623437,
+        -7.745002180565966
+      ],
+      "target": [
+        0,
+        0.1,
+        0
+      ]
+    },
+    "viewport": {
+      "width": 876,
+      "height": 637,
+      "pixelRatio": 1.5
+    },
+    "performance": {
+      "frame": {
+        "samples": 100,
+        "meanMs": 19.17,
+        "p95Ms": 16.8
+      },
+      "renderCPU": {
+        "samples": 102,
+        "meanMs": 5.16,
+        "p95Ms": 10.3
+      }
+    },
+    "browser": "in-app"
+  },
+  "warm-dense50": {
+    "plants": 50,
+    "near": 0,
+    "far": 12,
+    "calls": 2119,
+    "triangles": 213056,
+    "geometries": 255,
+    "island": "loaded",
+    "growing": 0,
+    "opened": 50,
+    "camera": {
+      "position": [
+        0,
+        5.496125175623439,
+        13.176584731173508
+      ],
+      "target": [
+        0,
+        0.1,
+        0
+      ]
+    },
+    "viewport": {
+      "width": 1280,
+      "height": 530,
+      "pixelRatio": 1.0000000447034836
+    },
+    "performance": {
+      "frame": {
+        "samples": 36,
+        "meanMs": 37.96,
+        "p95Ms": 83.3
+      },
+      "renderCPU": {
+        "samples": 38,
+        "meanMs": 20.53,
+        "p95Ms": 81.9
+      }
+    },
+    "browser": "in-app"
+  },
+  "balanced-dense50": {
+    "plants": 50,
+    "near": 0,
+    "far": 12,
+    "calls": 2119,
+    "triangles": 213056,
+    "geometries": 255,
+    "island": "loaded",
+    "growing": 0,
+    "opened": 50,
+    "camera": {
+      "position": [
+        0,
+        5.496125175623439,
+        13.176584731173508
+      ],
+      "target": [
+        0,
+        0.1,
+        0
+      ]
+    },
+    "viewport": {
+      "width": 1280,
+      "height": 530,
+      "pixelRatio": 1.0000000447034836
+    },
+    "performance": {
+      "frame": {
+        "samples": 22,
+        "meanMs": 34.09,
+        "p95Ms": 83.3
+      },
+      "renderCPU": {
+        "samples": 24,
+        "meanMs": 25.81,
+        "p95Ms": 74.7
+      }
+    },
+    "browser": "in-app"
+  },
+  "balanced-study-cozy": {
+    "plants": 13,
+    "near": 2,
+    "far": 0,
+    "calls": 657,
+    "triangles": 88408,
+    "geometries": 99,
+    "island": "loaded",
+    "growing": 0,
+    "opened": 13,
+    "camera": {
+      "position": [
+        0,
+        5.496125175623439,
+        13.176584731173508
+      ],
+      "target": [
+        0,
+        0.1,
+        0
+      ]
+    },
+    "viewport": {
+      "width": 1280,
+      "height": 530,
+      "pixelRatio": 1.0000000447034836
+    },
+    "performance": {
+      "frame": {
+        "samples": 180,
+        "meanMs": 17.04,
+        "p95Ms": 18.2
+      },
+      "renderCPU": {
+        "samples": 180,
+        "meanMs": 3.49,
+        "p95Ms": 4.3
+      }
+    },
+    "browser": "in-app",
+    "clip": {
+      "height": 388.71429443359375,
+      "width": 640,
+      "x": 320,
+      "y": 285.8571472167969
+    }
+  },
+  "balanced-study-joy": {
+    "plants": 13,
+    "near": 2,
+    "far": 0,
+    "calls": 657,
+    "triangles": 88408,
+    "geometries": 99,
+    "island": "loaded",
+    "growing": 0,
+    "opened": 13,
+    "camera": {
+      "position": [
+        0,
+        5.496125175623439,
+        13.176584731173508
+      ],
+      "target": [
+        0,
+        0.1,
+        0
+      ]
+    },
+    "viewport": {
+      "width": 1280,
+      "height": 530,
+      "pixelRatio": 1.0000000447034836
+    },
+    "performance": {
+      "frame": {
+        "samples": 180,
+        "meanMs": 17.22,
+        "p95Ms": 20.8
+      },
+      "renderCPU": {
+        "samples": 180,
+        "meanMs": 4.76,
+        "p95Ms": 15.5
+      }
+    },
+    "browser": "in-app",
+    "clip": {
+      "height": 388.71429443359375,
+      "width": 640,
+      "x": 320,
+      "y": 285.8571472167969
+    }
+  },
+  "balanced-study-excited": {
+    "plants": 13,
+    "near": 2,
+    "far": 0,
+    "calls": 657,
+    "triangles": 88408,
+    "geometries": 99,
+    "island": "loaded",
+    "growing": 0,
+    "opened": 13,
+    "camera": {
+      "position": [
+        0,
+        5.496125175623439,
+        13.176584731173508
+      ],
+      "target": [
+        0,
+        0.1,
+        0
+      ]
+    },
+    "viewport": {
+      "width": 1280,
+      "height": 530,
+      "pixelRatio": 1.0000000447034836
+    },
+    "performance": {
+      "frame": {
+        "samples": 180,
+        "meanMs": 16.67,
+        "p95Ms": 16.8
+      },
+      "renderCPU": {
+        "samples": 180,
+        "meanMs": 3.23,
+        "p95Ms": 5.3
+      }
+    },
+    "browser": "in-app",
+    "clip": {
+      "height": 388.71429443359375,
+      "width": 640,
+      "x": 320,
+      "y": 285.8571472167969
+    }
+  },
+  "balanced-study-flutter": {
+    "plants": 13,
+    "near": 2,
+    "far": 0,
+    "calls": 657,
+    "triangles": 88408,
+    "geometries": 99,
+    "island": "loaded",
+    "growing": 0,
+    "opened": 13,
+    "camera": {
+      "position": [
+        0,
+        5.496125175623439,
+        13.176584731173508
+      ],
+      "target": [
+        0,
+        0.1,
+        0
+      ]
+    },
+    "viewport": {
+      "width": 1280,
+      "height": 530,
+      "pixelRatio": 1.0000000447034836
+    },
+    "performance": {
+      "frame": {
+        "samples": 180,
+        "meanMs": 16.67,
+        "p95Ms": 16.8
+      },
+      "renderCPU": {
+        "samples": 180,
+        "meanMs": 2.92,
+        "p95Ms": 3.5
+      }
+    },
+    "browser": "in-app",
+    "clip": {
+      "height": 388.71429443359375,
+      "width": 640,
+      "x": 320,
+      "y": 285.8571472167969
+    }
+  },
+  "balanced-study-calm": {
+    "plants": 13,
+    "near": 2,
+    "far": 0,
+    "calls": 657,
+    "triangles": 88408,
+    "geometries": 99,
+    "island": "loaded",
+    "growing": 0,
+    "opened": 13,
+    "camera": {
+      "position": [
+        0,
+        5.496125175623439,
+        13.176584731173508
+      ],
+      "target": [
+        0,
+        0.1,
+        0
+      ]
+    },
+    "viewport": {
+      "width": 1280,
+      "height": 530,
+      "pixelRatio": 1.0000000447034836
+    },
+    "performance": {
+      "frame": {
+        "samples": 180,
+        "meanMs": 16.67,
+        "p95Ms": 16.8
+      },
+      "renderCPU": {
+        "samples": 180,
+        "meanMs": 2.73,
+        "p95Ms": 3.3
+      }
+    },
+    "browser": "in-app",
+    "clip": {
+      "height": 388.71429443359375,
+      "width": 640,
+      "x": 320,
+      "y": 285.8571472167969
+    }
+  },
+  "balanced-study-sad": {
+    "plants": 13,
+    "near": 2,
+    "far": 0,
+    "calls": 657,
+    "triangles": 88408,
+    "geometries": 99,
+    "island": "loaded",
+    "growing": 0,
+    "opened": 13,
+    "camera": {
+      "position": [
+        0,
+        5.496125175623439,
+        13.176584731173508
+      ],
+      "target": [
+        0,
+        0.1,
+        0
+      ]
+    },
+    "viewport": {
+      "width": 1280,
+      "height": 530,
+      "pixelRatio": 1.0000000447034836
+    },
+    "performance": {
+      "frame": {
+        "samples": 180,
+        "meanMs": 16.67,
+        "p95Ms": 16.8
+      },
+      "renderCPU": {
+        "samples": 180,
+        "meanMs": 2.82,
+        "p95Ms": 3.4
+      }
+    },
+    "browser": "in-app",
+    "clip": {
+      "height": 388.71429443359375,
+      "width": 640,
+      "x": 320,
+      "y": 285.8571472167969
+    }
+  },
+  "balanced-study-tense": {
+    "plants": 13,
+    "near": 2,
+    "far": 0,
+    "calls": 657,
+    "triangles": 88408,
+    "geometries": 99,
+    "island": "loaded",
+    "growing": 0,
+    "opened": 13,
+    "camera": {
+      "position": [
+        0,
+        5.496125175623439,
+        13.176584731173508
+      ],
+      "target": [
+        0,
+        0.1,
+        0
+      ]
+    },
+    "viewport": {
+      "width": 1280,
+      "height": 530,
+      "pixelRatio": 1.0000000447034836
+    },
+    "performance": {
+      "frame": {
+        "samples": 180,
+        "meanMs": 20.46,
+        "p95Ms": 16.8
+      },
+      "renderCPU": {
+        "samples": 180,
+        "meanMs": 2.92,
+        "p95Ms": 3.5
+      }
+    },
+    "browser": "in-app",
+    "clip": {
+      "height": 388.71429443359375,
+      "width": 640,
+      "x": 320,
+      "y": 285.8571472167969
+    }
+  },
+  "balanced-study-tree-round": {
+    "plants": 13,
+    "near": 2,
+    "far": 0,
+    "calls": 657,
+    "triangles": 88408,
+    "geometries": 99,
+    "island": "loaded",
+    "growing": 0,
+    "opened": 13,
+    "camera": {
+      "position": [
+        0,
+        5.496125175623439,
+        13.176584731173508
+      ],
+      "target": [
+        0,
+        0.1,
+        0
+      ]
+    },
+    "viewport": {
+      "width": 1280,
+      "height": 530,
+      "pixelRatio": 1.0000000447034836
+    },
+    "performance": {
+      "frame": {
+        "samples": 180,
+        "meanMs": 17.69,
+        "p95Ms": 16.8
+      },
+      "renderCPU": {
+        "samples": 180,
+        "meanMs": 2.59,
+        "p95Ms": 3.4
+      }
+    },
+    "browser": "in-app",
+    "clip": {
+      "height": 388.71429443359375,
+      "width": 640,
+      "x": 320,
+      "y": 285.8571472167969
+    }
+  },
+  "balanced-study-tree-pine": {
+    "plants": 13,
+    "near": 2,
+    "far": 0,
+    "calls": 657,
+    "triangles": 88408,
+    "geometries": 99,
+    "island": "loaded",
+    "growing": 0,
+    "opened": 13,
+    "camera": {
+      "position": [
+        0,
+        5.496125175623439,
+        13.176584731173508
+      ],
+      "target": [
+        0,
+        0.1,
+        0
+      ]
+    },
+    "viewport": {
+      "width": 1280,
+      "height": 530,
+      "pixelRatio": 1.0000000447034836
+    },
+    "performance": {
+      "frame": {
+        "samples": 180,
+        "meanMs": 17.69,
+        "p95Ms": 16.8
+      },
+      "renderCPU": {
+        "samples": 180,
+        "meanMs": 2.84,
+        "p95Ms": 3.4
+      }
+    },
+    "browser": "in-app",
+    "clip": {
+      "height": 388.71429443359375,
+      "width": 640,
+      "x": 320,
+      "y": 285.8571472167969
+    }
+  },
+  "balanced-study-tree-willow": {
+    "plants": 13,
+    "near": 2,
+    "far": 0,
+    "calls": 657,
+    "triangles": 88408,
+    "geometries": 99,
+    "island": "loaded",
+    "growing": 0,
+    "opened": 13,
+    "camera": {
+      "position": [
+        0,
+        5.496125175623439,
+        13.176584731173508
+      ],
+      "target": [
+        0,
+        0.1,
+        0
+      ]
+    },
+    "viewport": {
+      "width": 1280,
+      "height": 530,
+      "pixelRatio": 1.0000000447034836
+    },
+    "performance": {
+      "frame": {
+        "samples": 180,
+        "meanMs": 16.67,
+        "p95Ms": 16.8
+      },
+      "renderCPU": {
+        "samples": 180,
+        "meanMs": 2.99,
+        "p95Ms": 3.5
+      }
+    },
+    "browser": "in-app",
+    "clip": {
+      "height": 388.71429443359375,
+      "width": 640,
+      "x": 320,
+      "y": 285.8571472167969
+    }
+  },
+  "balanced-study-pair": {
+    "plants": 13,
+    "near": 2,
+    "far": 0,
+    "calls": 657,
+    "triangles": 88408,
+    "geometries": 99,
+    "island": "loaded",
+    "growing": 0,
+    "opened": 13,
+    "camera": {
+      "position": [
+        0,
+        5.496125175623439,
+        13.176584731173508
+      ],
+      "target": [
+        0,
+        0.1,
+        0
+      ]
+    },
+    "viewport": {
+      "width": 1280,
+      "height": 530,
+      "pixelRatio": 1.0000000447034836
+    },
+    "performance": {
+      "frame": {
+        "samples": 180,
+        "meanMs": 16.67,
+        "p95Ms": 16.8
+      },
+      "renderCPU": {
+        "samples": 180,
+        "meanMs": 2.77,
+        "p95Ms": 3.4
+      }
+    },
+    "browser": "in-app",
+    "clip": {
+      "height": 388.71429443359375,
+      "width": 640,
+      "x": 320,
+      "y": 285.8571472167969
+    }
+  },
+  "warm-study-joy": {
+    "plants": 13,
+    "near": 2,
+    "far": 0,
+    "calls": 657,
+    "triangles": 88408,
+    "geometries": 99,
+    "island": "loaded",
+    "growing": 0,
+    "opened": 13,
+    "camera": {
+      "position": [
+        0,
+        5.496125175623439,
+        13.176584731173508
+      ],
+      "target": [
+        0,
+        0.1,
+        0
+      ]
+    },
+    "viewport": {
+      "width": 1280,
+      "height": 530,
+      "pixelRatio": 1.0000000447034836
+    },
+    "performance": {
+      "frame": {
+        "samples": 180,
+        "meanMs": 16.67,
+        "p95Ms": 16.8
+      },
+      "renderCPU": {
+        "samples": 180,
+        "meanMs": 2.93,
+        "p95Ms": 3.5
+      }
+    },
+    "browser": "in-app",
+    "clip": {
+      "height": 388.71429443359375,
+      "width": 640,
+      "x": 320,
+      "y": 285.8571472167969
+    }
+  },
+  "warm-study-excited": {
+    "plants": 13,
+    "near": 2,
+    "far": 0,
+    "calls": 657,
+    "triangles": 88408,
+    "geometries": 99,
+    "island": "loaded",
+    "growing": 0,
+    "opened": 13,
+    "camera": {
+      "position": [
+        0,
+        5.496125175623439,
+        13.176584731173508
+      ],
+      "target": [
+        0,
+        0.1,
+        0
+      ]
+    },
+    "viewport": {
+      "width": 1280,
+      "height": 530,
+      "pixelRatio": 1.0000000447034836
+    },
+    "performance": {
+      "frame": {
+        "samples": 180,
+        "meanMs": 16.71,
+        "p95Ms": 16.8
+      },
+      "renderCPU": {
+        "samples": 180,
+        "meanMs": 2.85,
+        "p95Ms": 3.5
+      }
+    },
+    "browser": "in-app",
+    "clip": {
+      "height": 388.71429443359375,
+      "width": 640,
+      "x": 320,
+      "y": 285.8571472167969
+    }
+  },
+  "warm-study-flutter": {
+    "plants": 13,
+    "near": 2,
+    "far": 0,
+    "calls": 657,
+    "triangles": 88408,
+    "geometries": 99,
+    "island": "loaded",
+    "growing": 0,
+    "opened": 13,
+    "camera": {
+      "position": [
+        0,
+        5.496125175623439,
+        13.176584731173508
+      ],
+      "target": [
+        0,
+        0.1,
+        0
+      ]
+    },
+    "viewport": {
+      "width": 1280,
+      "height": 530,
+      "pixelRatio": 1.0000000447034836
+    },
+    "performance": {
+      "frame": {
+        "samples": 180,
+        "meanMs": 16.67,
+        "p95Ms": 16.8
+      },
+      "renderCPU": {
+        "samples": 180,
+        "meanMs": 2.91,
+        "p95Ms": 3.4
+      }
+    },
+    "browser": "in-app",
+    "clip": {
+      "height": 388.71429443359375,
+      "width": 640,
+      "x": 320,
+      "y": 285.8571472167969
+    }
+  },
+  "warm-study-cozy": {
+    "plants": 13,
+    "near": 2,
+    "far": 0,
+    "calls": 657,
+    "triangles": 88408,
+    "geometries": 99,
+    "island": "loaded",
+    "growing": 0,
+    "opened": 13,
+    "camera": {
+      "position": [
+        0,
+        5.496125175623439,
+        13.176584731173508
+      ],
+      "target": [
+        0,
+        0.1,
+        0
+      ]
+    },
+    "viewport": {
+      "width": 1280,
+      "height": 530,
+      "pixelRatio": 1.0000000447034836
+    },
+    "performance": {
+      "frame": {
+        "samples": 180,
+        "meanMs": 16.67,
+        "p95Ms": 16.8
+      },
+      "renderCPU": {
+        "samples": 180,
+        "meanMs": 2.89,
+        "p95Ms": 3.4
+      }
+    },
+    "browser": "in-app",
+    "clip": {
+      "height": 388.71429443359375,
+      "width": 640,
+      "x": 320,
+      "y": 285.8571472167969
+    }
+  },
+  "warm-study-calm": {
+    "plants": 13,
+    "near": 2,
+    "far": 0,
+    "calls": 657,
+    "triangles": 88408,
+    "geometries": 99,
+    "island": "loaded",
+    "growing": 0,
+    "opened": 13,
+    "camera": {
+      "position": [
+        0,
+        5.496125175623439,
+        13.176584731173508
+      ],
+      "target": [
+        0,
+        0.1,
+        0
+      ]
+    },
+    "viewport": {
+      "width": 1280,
+      "height": 530,
+      "pixelRatio": 1.0000000447034836
+    },
+    "performance": {
+      "frame": {
+        "samples": 180,
+        "meanMs": 16.67,
+        "p95Ms": 16.8
+      },
+      "renderCPU": {
+        "samples": 180,
+        "meanMs": 2.8,
+        "p95Ms": 3.4
+      }
+    },
+    "browser": "in-app",
+    "clip": {
+      "height": 388.71429443359375,
+      "width": 640,
+      "x": 320,
+      "y": 285.8571472167969
+    }
+  },
+  "warm-study-sad": {
+    "plants": 13,
+    "near": 2,
+    "far": 0,
+    "calls": 657,
+    "triangles": 88408,
+    "geometries": 99,
+    "island": "loaded",
+    "growing": 0,
+    "opened": 13,
+    "camera": {
+      "position": [
+        0,
+        5.496125175623439,
+        13.176584731173508
+      ],
+      "target": [
+        0,
+        0.1,
+        0
+      ]
+    },
+    "viewport": {
+      "width": 1280,
+      "height": 530,
+      "pixelRatio": 1.0000000447034836
+    },
+    "performance": {
+      "frame": {
+        "samples": 180,
+        "meanMs": 16.67,
+        "p95Ms": 16.8
+      },
+      "renderCPU": {
+        "samples": 180,
+        "meanMs": 2.9,
+        "p95Ms": 3.4
+      }
+    },
+    "browser": "in-app",
+    "clip": {
+      "height": 388.71429443359375,
+      "width": 640,
+      "x": 320,
+      "y": 285.8571472167969
+    }
+  },
+  "warm-study-tense": {
+    "plants": 13,
+    "near": 2,
+    "far": 0,
+    "calls": 657,
+    "triangles": 88408,
+    "geometries": 99,
+    "island": "loaded",
+    "growing": 0,
+    "opened": 13,
+    "camera": {
+      "position": [
+        0,
+        5.496125175623439,
+        13.176584731173508
+      ],
+      "target": [
+        0,
+        0.1,
+        0
+      ]
+    },
+    "viewport": {
+      "width": 1280,
+      "height": 530,
+      "pixelRatio": 1.0000000447034836
+    },
+    "performance": {
+      "frame": {
+        "samples": 180,
+        "meanMs": 16.76,
+        "p95Ms": 16.8
+      },
+      "renderCPU": {
+        "samples": 180,
+        "meanMs": 2.82,
+        "p95Ms": 3.5
+      }
+    },
+    "browser": "in-app",
+    "clip": {
+      "height": 388.71429443359375,
+      "width": 640,
+      "x": 320,
+      "y": 285.8571472167969
+    }
+  },
+  "warm-study-tree-round": {
+    "plants": 13,
+    "near": 2,
+    "far": 0,
+    "calls": 657,
+    "triangles": 88408,
+    "geometries": 99,
+    "island": "loaded",
+    "growing": 0,
+    "opened": 13,
+    "camera": {
+      "position": [
+        0,
+        5.496125175623439,
+        13.176584731173508
+      ],
+      "target": [
+        0,
+        0.1,
+        0
+      ]
+    },
+    "viewport": {
+      "width": 1280,
+      "height": 530,
+      "pixelRatio": 1.0000000447034836
+    },
+    "performance": {
+      "frame": {
+        "samples": 180,
+        "meanMs": 16.67,
+        "p95Ms": 16.7
+      },
+      "renderCPU": {
+        "samples": 180,
+        "meanMs": 2.78,
+        "p95Ms": 3.4
+      }
+    },
+    "browser": "in-app",
+    "clip": {
+      "height": 388.71429443359375,
+      "width": 640,
+      "x": 320,
+      "y": 285.8571472167969
+    }
+  },
+  "warm-study-tree-pine": {
+    "plants": 13,
+    "near": 2,
+    "far": 0,
+    "calls": 657,
+    "triangles": 88408,
+    "geometries": 99,
+    "island": "loaded",
+    "growing": 0,
+    "opened": 13,
+    "camera": {
+      "position": [
+        0,
+        5.496125175623439,
+        13.176584731173508
+      ],
+      "target": [
+        0,
+        0.1,
+        0
+      ]
+    },
+    "viewport": {
+      "width": 1280,
+      "height": 530,
+      "pixelRatio": 1.0000000447034836
+    },
+    "performance": {
+      "frame": {
+        "samples": 180,
+        "meanMs": 16.67,
+        "p95Ms": 16.8
+      },
+      "renderCPU": {
+        "samples": 180,
+        "meanMs": 2.91,
+        "p95Ms": 3.5
+      }
+    },
+    "browser": "in-app",
+    "clip": {
+      "height": 388.71429443359375,
+      "width": 640,
+      "x": 320,
+      "y": 285.8571472167969
+    }
+  },
+  "warm-study-tree-willow": {
+    "plants": 13,
+    "near": 2,
+    "far": 0,
+    "calls": 657,
+    "triangles": 88408,
+    "geometries": 99,
+    "island": "loaded",
+    "growing": 0,
+    "opened": 13,
+    "camera": {
+      "position": [
+        0,
+        5.496125175623439,
+        13.176584731173508
+      ],
+      "target": [
+        0,
+        0.1,
+        0
+      ]
+    },
+    "viewport": {
+      "width": 1280,
+      "height": 530,
+      "pixelRatio": 1.0000000447034836
+    },
+    "performance": {
+      "frame": {
+        "samples": 180,
+        "meanMs": 16.67,
+        "p95Ms": 16.8
+      },
+      "renderCPU": {
+        "samples": 180,
+        "meanMs": 2.9,
+        "p95Ms": 3.5
+      }
+    },
+    "browser": "in-app",
+    "clip": {
+      "height": 388.71429443359375,
+      "width": 640,
+      "x": 320,
+      "y": 285.8571472167969
+    }
+  },
+  "warm-study-pair": {
+    "plants": 13,
+    "near": 2,
+    "far": 0,
+    "calls": 657,
+    "triangles": 88408,
+    "geometries": 99,
+    "island": "loaded",
+    "growing": 0,
+    "opened": 13,
+    "camera": {
+      "position": [
+        0,
+        5.496125175623439,
+        13.176584731173508
+      ],
+      "target": [
+        0,
+        0.1,
+        0
+      ]
+    },
+    "viewport": {
+      "width": 1280,
+      "height": 530,
+      "pixelRatio": 1.0000000447034836
+    },
+    "performance": {
+      "frame": {
+        "samples": 180,
+        "meanMs": 16.67,
+        "p95Ms": 16.7
+      },
+      "renderCPU": {
+        "samples": 180,
+        "meanMs": 2.84,
+        "p95Ms": 3.5
+      }
+    },
+    "browser": "in-app",
+    "clip": {
+      "height": 388.71429443359375,
+      "width": 640,
+      "x": 320,
+      "y": 285.8571472167969
+    }
+  },
+  "warm-portrait50": {
+    "plants": 50,
+    "near": 0,
+    "far": 12,
+    "calls": 2119,
+    "triangles": 213056,
+    "geometries": 255,
+    "island": "loaded",
+    "growing": 0,
+    "opened": 50,
+    "camera": {
+      "position": [
+        0,
+        8.478834570803286,
+        20.459944882194062
+      ],
+      "target": [
+        0,
+        0.1,
+        0
+      ]
+    },
+    "viewport": {
+      "width": 390,
+      "height": 624,
+      "pixelRatio": 1.0000000447034836
+    },
+    "performance": {
+      "frame": {
+        "samples": 180,
+        "meanMs": 16.67,
+        "p95Ms": 16.8
+      },
+      "renderCPU": {
+        "samples": 180,
+        "meanMs": 6.73,
+        "p95Ms": 8.7
+      }
+    },
+    "browser": "in-app"
+  },
+  "balanced-portrait50": {
+    "plants": 50,
+    "near": 0,
+    "far": 12,
+    "calls": 2119,
+    "triangles": 213056,
+    "geometries": 255,
+    "island": "loaded",
+    "growing": 0,
+    "opened": 50,
+    "camera": {
+      "position": [
+        0,
+        8.478834570803286,
+        20.459944882194062
+      ],
+      "target": [
+        0,
+        0.1,
+        0
+      ]
+    },
+    "viewport": {
+      "width": 390,
+      "height": 624,
+      "pixelRatio": 1.0000000447034836
+    },
+    "performance": {
+      "frame": {
+        "samples": 8,
+        "meanMs": 43.76,
+        "p95Ms": 216.57
+      },
+      "renderCPU": {
+        "samples": 10,
+        "meanMs": 23.97,
+        "p95Ms": 77.6
+      }
+    },
+    "browser": "in-app"
+  }
+}

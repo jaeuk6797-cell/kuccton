@@ -1,0 +1,297 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SUP — Balanced warm flora comparison</title>
+  <style>
+    :root { color-scheme: light; font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color: #33483a; background: #f6f3ec; }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; }
+    main { width: min(1560px, calc(100% - 48px)); margin: 0 auto; padding: 42px 0 30px; }
+    .eyebrow { margin: 0 0 10px; color: #6b7d63; font-size: 12px; font-weight: 750; letter-spacing: .12em; text-transform: uppercase; }
+    h1 { margin: 0; font-size: clamp(28px, 4vw, 44px); font-weight: 650; line-height: 1.12; letter-spacing: -.035em; }
+    .intro { max-width: 850px; margin: 15px 0 0; color: #6a7165; font-size: 15px; line-height: 1.65; }
+    .metadata { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; margin-top: 18px; font-size: 13px; }
+    .metadata span { color: #7b756b; }
+    .metadata a { color: #496653; text-underline-offset: 3px; }
+    .jump-nav { position: sticky; z-index: 2; top: 0; display: flex; flex-wrap: wrap; gap: 8px; margin: 28px 0 0; padding: 12px 0; background: #f6f3ecf5; border-top: 1px solid #dedfce; border-bottom: 1px solid #dedfce; }
+    .jump-nav a { padding: 8px 15px; border-radius: 999px; color: #496653; background: #e9eddf; font-size: 13px; font-weight: 650; text-decoration: none; }
+    .jump-nav a:hover { background: #dce5d5; }
+    .legend { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; padding: 19px 0 0; font-size: 14px; font-weight: 700; }
+    .dot { display: inline-block; width: 9px; height: 9px; margin-right: 8px; border-radius: 50%; }
+    .dot.warm { background: #bd8b91; }
+    .dot.balanced { background: #64876b; }
+    section { margin-top: 38px; scroll-margin-top: 80px; }
+    .section-heading { margin-bottom: 22px; }
+    h2 { margin: 0 0 7px; font-size: 25px; font-weight: 650; letter-spacing: -.02em; }
+    .section-heading p { margin: 0; color: #78806f; font-size: 14px; line-height: 1.6; }
+    .comparison { margin-top: 24px; scroll-margin-top: 80px; }
+    h3 { margin: 0 0 11px; font-size: 16px; font-weight: 650; }
+    .pair-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; align-items: start; }
+    figure { min-width: 0; margin: 0; overflow: hidden; border: 1px solid #dedfce; border-radius: 12px; background: #fffcf6; }
+    figure a { display: block; }
+    figure img { display: block; width: 100%; height: auto; }
+    .portrait img { max-height: 680px; object-fit: contain; object-position: center top; }
+    figcaption { padding: 12px 15px; color: #6a7165; font-size: 12px; line-height: 1.4; }
+    a:focus-visible { outline: 3px solid #6b8c63; outline-offset: 3px; }
+    footer { margin-top: 34px; padding-top: 18px; border-top: 1px solid #dedfce; color: #7b756b; font-size: 13px; line-height: 1.6; }
+    @media (max-width: 700px) {
+      main { width: calc(100% - 28px); padding-top: 28px; }
+      .pair-grid { grid-template-columns: 1fr; gap: 12px; }
+      .legend { display: none; }
+      .comparison { margin-top: 28px; }
+      figcaption { font-size: 13px; }
+      .jump-nav { gap: 6px; }
+      .jump-nav a { padding: 8px 12px; }
+    }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <p class="eyebrow">SUP / material &amp; palette study</p>
+      <h1>Balanced warm flora</h1>
+      <p class="intro">The preserved Warm palette beside Balanced warm flora. Comparisons use matched camera views and fixed animation time. Study specimens come from the app’s category and sound builders; the portrait preview uses 390 × 844 CSS pixels.</p>
+      <div class="metadata">
+        <span>Warm baseline · 536d2ac</span>
+        <a href="browser-comparison.json">Capture &amp; performance metadata</a>
+        <a href="validation.json">Material, geometry &amp; growth validation</a>
+      </div>
+    </header>
+    <nav class="jump-nav" aria-label="Comparison sections">
+      <a href="#garden">Garden</a>
+      <a href="#emotions">Emotion study</a>
+      <a href="#trees-pair">Trees &amp; pair</a>
+    </nav>
+    <div class="legend" aria-hidden="true">
+      <span><span class="dot warm"></span>Before · Warm</span>
+      <span><span class="dot balanced"></span>After · Balanced warm</span>
+    </div>
+
+    <section id="garden" aria-labelledby="garden-title">
+      <div class="section-heading"><h2 id="garden-title">Garden</h2><p>The same island views, from an open garden to a full planting.</p></div>
+      <article class="comparison" id="garden">
+        <h3>Default garden</h3>
+        <div class="pair-grid">
+        <figure>
+          <a href="warm-garden.jpg" target="_blank" rel="noopener" title="Open before · warm at full resolution"><img src="warm-garden.jpg" alt="Default garden — before · warm" loading="lazy" decoding="async"></a>
+          <figcaption><span class="dot warm" aria-hidden="true"></span>Before · Warm</figcaption>
+        </figure>
+        <figure>
+          <a href="balanced-garden.jpg" target="_blank" rel="noopener" title="Open after · balanced warm at full resolution"><img src="balanced-garden.jpg" alt="Default garden — after · balanced warm" loading="lazy" decoding="async"></a>
+          <figcaption><span class="dot balanced" aria-hidden="true"></span>After · Balanced warm</figcaption>
+        </figure>
+        </div>
+      </article>
+      <article class="comparison" id="peonies">
+        <h3>Compare peonies</h3>
+        <div class="pair-grid">
+        <figure>
+          <a href="warm-peonies.jpg" target="_blank" rel="noopener" title="Open before · warm at full resolution"><img src="warm-peonies.jpg" alt="Compare peonies — before · warm" loading="lazy" decoding="async"></a>
+          <figcaption><span class="dot warm" aria-hidden="true"></span>Before · Warm</figcaption>
+        </figure>
+        <figure>
+          <a href="balanced-peonies.jpg" target="_blank" rel="noopener" title="Open after · balanced warm at full resolution"><img src="balanced-peonies.jpg" alt="Compare peonies — after · balanced warm" loading="lazy" decoding="async"></a>
+          <figcaption><span class="dot balanced" aria-hidden="true"></span>After · Balanced warm</figcaption>
+        </figure>
+        </div>
+      </article>
+      <article class="comparison" id="rotated">
+        <h3>Rotated reflections</h3>
+        <div class="pair-grid">
+        <figure>
+          <a href="warm-rotated.jpg" target="_blank" rel="noopener" title="Open before · warm at full resolution"><img src="warm-rotated.jpg" alt="Rotated reflections — before · warm" loading="lazy" decoding="async"></a>
+          <figcaption><span class="dot warm" aria-hidden="true"></span>Before · Warm</figcaption>
+        </figure>
+        <figure>
+          <a href="balanced-rotated.jpg" target="_blank" rel="noopener" title="Open after · balanced warm at full resolution"><img src="balanced-rotated.jpg" alt="Rotated reflections — after · balanced warm" loading="lazy" decoding="async"></a>
+          <figcaption><span class="dot balanced" aria-hidden="true"></span>After · Balanced warm</figcaption>
+        </figure>
+        </div>
+      </article>
+      <article class="comparison" id="dense50">
+        <h3>50 plants · desktop</h3>
+        <div class="pair-grid">
+        <figure>
+          <a href="warm-dense50.jpg" target="_blank" rel="noopener" title="Open before · warm at full resolution"><img src="warm-dense50.jpg" alt="50 plants · desktop — before · warm" loading="lazy" decoding="async"></a>
+          <figcaption><span class="dot warm" aria-hidden="true"></span>Before · Warm</figcaption>
+        </figure>
+        <figure>
+          <a href="balanced-dense50.jpg" target="_blank" rel="noopener" title="Open after · balanced warm at full resolution"><img src="balanced-dense50.jpg" alt="50 plants · desktop — after · balanced warm" loading="lazy" decoding="async"></a>
+          <figcaption><span class="dot balanced" aria-hidden="true"></span>After · Balanced warm</figcaption>
+        </figure>
+        </div>
+      </article>
+      <article class="comparison portrait" id="portrait50">
+        <h3>50 plants · portrait</h3>
+        <div class="pair-grid">
+        <figure>
+          <a href="warm-portrait50.jpg" target="_blank" rel="noopener" title="Open before · warm at full resolution"><img src="warm-portrait50.jpg" alt="50 plants · portrait — before · warm" loading="lazy" decoding="async"></a>
+          <figcaption><span class="dot warm" aria-hidden="true"></span>Before · Warm</figcaption>
+        </figure>
+        <figure>
+          <a href="balanced-portrait50.jpg" target="_blank" rel="noopener" title="Open after · balanced warm at full resolution"><img src="balanced-portrait50.jpg" alt="50 plants · portrait — after · balanced warm" loading="lazy" decoding="async"></a>
+          <figcaption><span class="dot balanced" aria-hidden="true"></span>After · Balanced warm</figcaption>
+        </figure>
+        </div>
+      </article>
+    </section>
+
+    <section id="emotions" aria-labelledby="emotions-title">
+      <div class="section-heading"><h2 id="emotions-title">Emotion study</h2><p>Seven emotion categories built from the app’s source palette.</p></div>
+      <article class="comparison" id="study-joy">
+        <h3>Joy</h3>
+        <div class="pair-grid">
+        <figure>
+          <a href="warm-study-joy.jpg" target="_blank" rel="noopener" title="Open before · warm at full resolution"><img src="warm-study-joy.jpg" alt="Joy — before · warm" loading="lazy" decoding="async"></a>
+          <figcaption><span class="dot warm" aria-hidden="true"></span>Before · Warm</figcaption>
+        </figure>
+        <figure>
+          <a href="balanced-study-joy.jpg" target="_blank" rel="noopener" title="Open after · balanced warm at full resolution"><img src="balanced-study-joy.jpg" alt="Joy — after · balanced warm" loading="lazy" decoding="async"></a>
+          <figcaption><span class="dot balanced" aria-hidden="true"></span>After · Balanced warm</figcaption>
+        </figure>
+        </div>
+      </article>
+      <article class="comparison" id="study-excited">
+        <h3>Excited</h3>
+        <div class="pair-grid">
+        <figure>
+          <a href="warm-study-excited.jpg" target="_blank" rel="noopener" title="Open before · warm at full resolution"><img src="warm-study-excited.jpg" alt="Excited — before · warm" loading="lazy" decoding="async"></a>
+          <figcaption><span class="dot warm" aria-hidden="true"></span>Before · Warm</figcaption>
+        </figure>
+        <figure>
+          <a href="balanced-study-excited.jpg" target="_blank" rel="noopener" title="Open after · balanced warm at full resolution"><img src="balanced-study-excited.jpg" alt="Excited — after · balanced warm" loading="lazy" decoding="async"></a>
+          <figcaption><span class="dot balanced" aria-hidden="true"></span>After · Balanced warm</figcaption>
+        </figure>
+        </div>
+      </article>
+      <article class="comparison" id="study-flutter">
+        <h3>Flutter</h3>
+        <div class="pair-grid">
+        <figure>
+          <a href="warm-study-flutter.jpg" target="_blank" rel="noopener" title="Open before · warm at full resolution"><img src="warm-study-flutter.jpg" alt="Flutter — before · warm" loading="lazy" decoding="async"></a>
+          <figcaption><span class="dot warm" aria-hidden="true"></span>Before · Warm</figcaption>
+        </figure>
+        <figure>
+          <a href="balanced-study-flutter.jpg" target="_blank" rel="noopener" title="Open after · balanced warm at full resolution"><img src="balanced-study-flutter.jpg" alt="Flutter — after · balanced warm" loading="lazy" decoding="async"></a>
+          <figcaption><span class="dot balanced" aria-hidden="true"></span>After · Balanced warm</figcaption>
+        </figure>
+        </div>
+      </article>
+      <article class="comparison" id="study-cozy">
+        <h3>Cozy</h3>
+        <div class="pair-grid">
+        <figure>
+          <a href="warm-study-cozy.jpg" target="_blank" rel="noopener" title="Open before · warm at full resolution"><img src="warm-study-cozy.jpg" alt="Cozy — before · warm" loading="lazy" decoding="async"></a>
+          <figcaption><span class="dot warm" aria-hidden="true"></span>Before · Warm</figcaption>
+        </figure>
+        <figure>
+          <a href="balanced-study-cozy.jpg" target="_blank" rel="noopener" title="Open after · balanced warm at full resolution"><img src="balanced-study-cozy.jpg" alt="Cozy — after · balanced warm" loading="lazy" decoding="async"></a>
+          <figcaption><span class="dot balanced" aria-hidden="true"></span>After · Balanced warm</figcaption>
+        </figure>
+        </div>
+      </article>
+      <article class="comparison" id="study-calm">
+        <h3>Calm</h3>
+        <div class="pair-grid">
+        <figure>
+          <a href="warm-study-calm.jpg" target="_blank" rel="noopener" title="Open before · warm at full resolution"><img src="warm-study-calm.jpg" alt="Calm — before · warm" loading="lazy" decoding="async"></a>
+          <figcaption><span class="dot warm" aria-hidden="true"></span>Before · Warm</figcaption>
+        </figure>
+        <figure>
+          <a href="balanced-study-calm.jpg" target="_blank" rel="noopener" title="Open after · balanced warm at full resolution"><img src="balanced-study-calm.jpg" alt="Calm — after · balanced warm" loading="lazy" decoding="async"></a>
+          <figcaption><span class="dot balanced" aria-hidden="true"></span>After · Balanced warm</figcaption>
+        </figure>
+        </div>
+      </article>
+      <article class="comparison" id="study-sad">
+        <h3>Sad</h3>
+        <div class="pair-grid">
+        <figure>
+          <a href="warm-study-sad.jpg" target="_blank" rel="noopener" title="Open before · warm at full resolution"><img src="warm-study-sad.jpg" alt="Sad — before · warm" loading="lazy" decoding="async"></a>
+          <figcaption><span class="dot warm" aria-hidden="true"></span>Before · Warm</figcaption>
+        </figure>
+        <figure>
+          <a href="balanced-study-sad.jpg" target="_blank" rel="noopener" title="Open after · balanced warm at full resolution"><img src="balanced-study-sad.jpg" alt="Sad — after · balanced warm" loading="lazy" decoding="async"></a>
+          <figcaption><span class="dot balanced" aria-hidden="true"></span>After · Balanced warm</figcaption>
+        </figure>
+        </div>
+      </article>
+      <article class="comparison" id="study-tense">
+        <h3>Tense</h3>
+        <div class="pair-grid">
+        <figure>
+          <a href="warm-study-tense.jpg" target="_blank" rel="noopener" title="Open before · warm at full resolution"><img src="warm-study-tense.jpg" alt="Tense — before · warm" loading="lazy" decoding="async"></a>
+          <figcaption><span class="dot warm" aria-hidden="true"></span>Before · Warm</figcaption>
+        </figure>
+        <figure>
+          <a href="balanced-study-tense.jpg" target="_blank" rel="noopener" title="Open after · balanced warm at full resolution"><img src="balanced-study-tense.jpg" alt="Tense — after · balanced warm" loading="lazy" decoding="async"></a>
+          <figcaption><span class="dot balanced" aria-hidden="true"></span>After · Balanced warm</figcaption>
+        </figure>
+        </div>
+      </article>
+    </section>
+
+    <section id="trees-pair" aria-labelledby="trees-pair-title">
+      <div class="section-heading"><h2 id="trees-pair-title">Trees & pair</h2><p>The three sound-tree forms and a flower retaining both source colors.</p></div>
+      <article class="comparison" id="study-tree-round">
+        <h3>Round tree</h3>
+        <div class="pair-grid">
+        <figure>
+          <a href="warm-study-tree-round.jpg" target="_blank" rel="noopener" title="Open before · warm at full resolution"><img src="warm-study-tree-round.jpg" alt="Round tree — before · warm" loading="lazy" decoding="async"></a>
+          <figcaption><span class="dot warm" aria-hidden="true"></span>Before · Warm</figcaption>
+        </figure>
+        <figure>
+          <a href="balanced-study-tree-round.jpg" target="_blank" rel="noopener" title="Open after · balanced warm at full resolution"><img src="balanced-study-tree-round.jpg" alt="Round tree — after · balanced warm" loading="lazy" decoding="async"></a>
+          <figcaption><span class="dot balanced" aria-hidden="true"></span>After · Balanced warm</figcaption>
+        </figure>
+        </div>
+      </article>
+      <article class="comparison" id="study-tree-pine">
+        <h3>Pine tree</h3>
+        <div class="pair-grid">
+        <figure>
+          <a href="warm-study-tree-pine.jpg" target="_blank" rel="noopener" title="Open before · warm at full resolution"><img src="warm-study-tree-pine.jpg" alt="Pine tree — before · warm" loading="lazy" decoding="async"></a>
+          <figcaption><span class="dot warm" aria-hidden="true"></span>Before · Warm</figcaption>
+        </figure>
+        <figure>
+          <a href="balanced-study-tree-pine.jpg" target="_blank" rel="noopener" title="Open after · balanced warm at full resolution"><img src="balanced-study-tree-pine.jpg" alt="Pine tree — after · balanced warm" loading="lazy" decoding="async"></a>
+          <figcaption><span class="dot balanced" aria-hidden="true"></span>After · Balanced warm</figcaption>
+        </figure>
+        </div>
+      </article>
+      <article class="comparison" id="study-tree-willow">
+        <h3>Willow tree</h3>
+        <div class="pair-grid">
+        <figure>
+          <a href="warm-study-tree-willow.jpg" target="_blank" rel="noopener" title="Open before · warm at full resolution"><img src="warm-study-tree-willow.jpg" alt="Willow tree — before · warm" loading="lazy" decoding="async"></a>
+          <figcaption><span class="dot warm" aria-hidden="true"></span>Before · Warm</figcaption>
+        </figure>
+        <figure>
+          <a href="balanced-study-tree-willow.jpg" target="_blank" rel="noopener" title="Open after · balanced warm at full resolution"><img src="balanced-study-tree-willow.jpg" alt="Willow tree — after · balanced warm" loading="lazy" decoding="async"></a>
+          <figcaption><span class="dot balanced" aria-hidden="true"></span>After · Balanced warm</figcaption>
+        </figure>
+        </div>
+      </article>
+      <article class="comparison" id="study-pair">
+        <h3>Two-color pair · Cozy + Flutter</h3>
+        <div class="pair-grid">
+        <figure>
+          <a href="warm-study-pair.jpg" target="_blank" rel="noopener" title="Open before · warm at full resolution"><img src="warm-study-pair.jpg" alt="Two-color pair · Cozy + Flutter — before · warm" loading="lazy" decoding="async"></a>
+          <figcaption><span class="dot warm" aria-hidden="true"></span>Before · Warm</figcaption>
+        </figure>
+        <figure>
+          <a href="balanced-study-pair.jpg" target="_blank" rel="noopener" title="Open after · balanced warm at full resolution"><img src="balanced-study-pair.jpg" alt="Two-color pair · Cozy + Flutter — after · balanced warm" loading="lazy" decoding="async"></a>
+          <figcaption><span class="dot balanced" aria-hidden="true"></span>After · Balanced warm</figcaption>
+        </figure>
+        </div>
+      </article>
+    </section>
+
+    <footer>Open any image to inspect the full-resolution capture. The linked metadata and validation report accompany these comparisons.</footer>
+  </main>
+</body>
+</html>

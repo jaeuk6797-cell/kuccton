@@ -8,6 +8,7 @@
 :root {
   /* 색: 하늘(3D 섬 배경) · 종이 · 글자 · 강조(=내 꽃) · 상대 꽃 · 초록(자연) */
   --sky: linear-gradient(180deg, #ecd2df 0%, #f3d6d3 38%, #f8dfce 70%, #f8eddb 100%);
+  --sky-balanced: linear-gradient(180deg, #ece6de 0%, #f4e5d4 36%, #f7edda 68%, #dce7da 100%);
   --bg: #f6efe9;
   --paper: #fffcf8;
   --ink: #2e2f3a;

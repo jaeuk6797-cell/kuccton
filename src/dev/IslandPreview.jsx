@@ -2,7 +2,7 @@
 import { useCallback, useMemo, useRef, useState } from 'react'
 import Island3D from '../components/Island3D.jsx'
 import FlowerBloom3D from '../components/FlowerBloom3D.jsx'
-import { buildFlower, buildSoundFlower } from '../lib/flower.js'
+import { CATEGORIES, buildFlower, buildSoundFlower } from '../lib/flower.js'
 import { toFlowerRow, pairName } from '../lib/naming.js'
 import { displayName } from '../lib/tree.js'
 import './IslandPreview.css'
@@ -63,6 +63,23 @@ const DENSE = Array.from({ length: 50 - BASE.length }, (_, i) => i % 4 === 0
 const PAIRS = [PAIR]
 const EMPTY = []
 const isMixedFlower = flower => flower.id !== CONTROL_ID && MIXED_CATEGORIES.has(flower.category)
+const EMOTION_LABELS = { joy: 'Joy', excited: 'Excited', flutter: 'Flutter', cozy: 'Cozy', calm: 'Calm', sad: 'Sad', tense: 'Tense' }
+// Use the actual category colors from buildFlower; the pink hero override is not a palette fixture.
+const STUDY_FLOWERS = CATEGORIES.map(({ id }, i) => ({
+  id, label: EMOTION_LABELS[id], group: 'Emotion flowers',
+  flower: row(`study-${id}`, VOICE(id, PEONY.features), 100 + i),
+}))
+const STUDY_TREES = ['Round tree', 'Pine tree', 'Willow tree'].map((label, i) => ({
+  id: ['tree-round', 'tree-pine', 'tree-willow'][i], label, group: 'Sound trees',
+  flower: row(`study-tree-${i}`, SAMPLES[6 + i], 110 + i),
+}))
+const STUDY_PAIR = {
+  id: 'pair', label: 'Cozy + Flutter', group: 'Two-color pair', pair: true,
+  flower: { ...PAIR_B, petals: Math.min(8, Math.max(PAIR_A.petals, PAIR_B.petals) + 1) },
+  colors: [PAIR_A.color, PAIR_B.color],
+}
+const STUDY_SPECIMENS = [...STUDY_FLOWERS, ...STUDY_TREES, STUDY_PAIR]
+const STUDY_GROUPS = [STUDY_FLOWERS, STUDY_TREES, [STUDY_PAIR]]
 
 function updateQuery(values) {
   const url = new URL(location.href)
@@ -77,7 +94,7 @@ export default function IslandPreview() {
   const params = new URLSearchParams(location.search)
   const [mode, setMode] = useState(() => params.get('flora') === 'mixed' ? 'mixed' : 'original')
   const [dense, setDense] = useState(() => params.get('plants') === '50')
-  const [tone, setTone] = useState(() => params.get('tone') === 'default' ? 'default' : 'warm')
+  const [tone, setTone] = useState(() => ['default', 'warm', 'balanced'].includes(params.get('tone')) ? params.get('tone') : 'warm')
   const [islandOnly, setIslandOnly] = useState(() => params.get('islandOnly') === '1')
   const [angle, setAngle] = useState(() => params.get('angle') === 'rotated' ? 'rotated' : 'front')
   const [portrait, setPortrait] = useState(() => params.get('portrait') === '1')
@@ -86,12 +103,16 @@ export default function IslandPreview() {
   const [fresh, setFresh] = useState(null)
   const [picked, setPicked] = useState(null)
   const [compare, setCompare] = useState(() => params.get('compare') === '1')
+  const [study, setStudy] = useState(() => params.get('study') === 'flora')
+  const [specimen, setSpecimen] = useState(() => STUDY_SPECIMENS.find(item => item.id === params.get('specimen'))?.id || 'joy')
   const [reset, setReset] = useState(null)
   const [stats, setStats] = useState(null)
   const seq = useRef(0)
   const flowers = useMemo(() => [...BASE, ...(dense ? DENSE : []), ...extra], [dense, extra])
   const isBlenderFlower = mode === 'mixed' ? isMixedFlower : undefined
   const previewTime = still ? 6 : undefined
+  const selectedSpecimen = STUDY_SPECIMENS.find(item => item.id === specimen)
+  const studyBlender = mode === 'mixed' && selectedSpecimen.flower.category === 'cozy' && !selectedSpecimen.pair
 
   const setView = (nextMode, nextDense) => {
     updateQuery({ flora: nextMode, plants: nextDense ? '50' : null })
@@ -100,7 +121,8 @@ export default function IslandPreview() {
     if (picked?.id.startsWith('dense-')) setPicked(null)
   }
   const pick = useCallback(flower => {
-    updateQuery({ compare: null })
+    updateQuery({ compare: null, study: null, specimen: null })
+    setStudy(false)
     setCompare(false)
     setPicked(flower)
   }, [])
@@ -117,6 +139,13 @@ export default function IslandPreview() {
   }
   const close = () => { updateQuery({ compare: null }); setCompare(false); setPicked(null) }
   const chooseTone = next => { updateQuery({ tone: next }); setTone(next) }
+  const toggleStudy = () => {
+    updateQuery({ study: study ? null : 'flora', specimen: study ? null : specimen, compare: null })
+    setStudy(value => !value)
+    setCompare(false)
+    setPicked(null)
+  }
+  const chooseSpecimen = id => { updateQuery({ specimen: id }); setSpecimen(id) }
   const toggleIsland = () => {
     updateQuery({ islandOnly: !islandOnly ? '1' : null, compare: null })
     setIslandOnly(value => !value)
@@ -130,7 +159,7 @@ export default function IslandPreview() {
   }
 
   return (
-    <main className="flora-preview" data-mode={mode} data-tone={tone} data-portrait={portrait} data-still={still}>
+    <main className="flora-preview" data-mode={mode} data-tone={tone} data-portrait={portrait} data-still={still} data-study={study ? 'flora' : undefined}>
       <Island3D
         flowers={islandOnly ? EMPTY : flowers} pairs={islandOnly ? EMPTY : PAIRS} meId={ME} freshIds={fresh} highlightId={picked?.id}
         onPickFlower={pick} onPickPair={pick} resetViewKey={reset}
@@ -141,6 +170,7 @@ export default function IslandPreview() {
         <div className="flora-actions" aria-label="Tone comparison">
           <button aria-pressed={tone === 'default'} onClick={() => chooseTone('default')}>Original tone</button>
           <button aria-pressed={tone === 'warm'} onClick={() => chooseTone('warm')}>Warm tone</button>
+          <button aria-pressed={tone === 'balanced'} onClick={() => chooseTone('balanced')}>Balanced</button>
           <button aria-pressed={still} onClick={() => { updateQuery({ still: !still ? '1' : null }); setStill(value => !value) }}>Still frame</button>
         </div>
         <div className="flora-actions">
@@ -157,13 +187,34 @@ export default function IslandPreview() {
           }}>Rotated view</button>
           <button aria-pressed={portrait} onClick={() => { updateQuery({ portrait: !portrait ? '1' : null }); setPortrait(value => !value) }}>Portrait</button>
           <button onClick={resetView}>Reset view</button>
+          <button aria-pressed={study} onClick={toggleStudy}>Palette study</button>
         </div>
         {stats && <output className="flora-stats" data-stats={JSON.stringify(stats)}>
           {stats.plants} plants · {stats.near} near / {stats.far} far · {stats.calls.toLocaleString()} calls · {stats.triangles.toLocaleString()} triangles
         </output>}
       </header>
       <footer className="flora-inspector">
-        {(compare || picked) && <section className="flora-card" aria-label={compare ? 'Peony comparison' : 'Plant detail'} data-picked={picked?.id}>
+        {study && <section className="flora-card flora-study" aria-label="Palette study" data-study-specimen={specimen}>
+          <button className="flora-close" onClick={toggleStudy} aria-label="Close palette study">×</button>
+          <h2>Palette study</h2>
+          <div className="flora-study-body">
+            <nav className="flora-study-nav" aria-label="Study specimens">
+              {STUDY_GROUPS.map(group => <div className="flora-study-group" key={group[0].group}>
+                <h3>{group[0].group}</h3>
+                <div className="flora-actions">
+                  {group.map(item => <button key={item.id} aria-pressed={specimen === item.id} onClick={() => chooseSpecimen(item.id)}>{item.label}</button>)}
+                </div>
+              </div>)}
+            </nav>
+            <div className="flora-study-detail">
+              <FlowerBloom3D flower={selectedSpecimen.flower} colors={selectedSpecimen.colors} pair={selectedSpecimen.pair} size={270}
+                blender={studyBlender} closeUp={studyBlender} tone={tone} previewTime={previewTime} />
+              <strong>{selectedSpecimen.label}</strong>
+              <span>{selectedSpecimen.pair ? 'Two-color procedural flower' : selectedSpecimen.flower.category === 'sound' ? 'Crystal-flora tree' : studyBlender ? 'Blender crystal peony' : 'Procedural flower'}</span>
+            </div>
+          </div>
+        </section>}
+        {!study && (compare || picked) && <section className="flora-card" aria-label={compare ? 'Peony comparison' : 'Plant detail'} data-picked={picked?.id}>
           <button className="flora-close" onClick={close} aria-label="Close preview">×</button>
           {compare ? <div className="flora-comparison">
             <div><FlowerBloom3D flower={CONTROL} size={216} closeUp tone={tone} previewTime={previewTime} /><strong>Procedural peony</strong></div>
@@ -177,7 +228,7 @@ export default function IslandPreview() {
           </>}
         </section>}
         <div className="flora-actions">
-          <button onClick={() => { updateQuery({ compare: '1' }); setPicked(null); setCompare(true) }}>Compare peonies</button>
+          <button onClick={() => { updateQuery({ compare: '1', study: null, specimen: null }); setStudy(false); setPicked(null); setCompare(true) }}>Compare peonies</button>
           <button disabled={islandOnly} onClick={add}>Plant peony</button>
           <button disabled={!extra.length} onClick={remove}>Remove last</button>
         </div>

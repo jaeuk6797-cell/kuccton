@@ -54,10 +54,10 @@ export function useBlenderFlowerAssets(enabled) {
 function createVariant(source, tint, tone, opal) {
   const material = source.clone()
   if (opal) material.color.multiply(tint)
-  if (tone !== 'default' && source.name === '03 | Champagne crystal') {
+  if (tone !== 'default' && tone !== 'balanced' && source.name === '03 | Champagne crystal') {
     material.color.multiply(new THREE.Color('#ffe9df'))
   }
-  if (tone !== 'default' && source.name === '02 | Aqua mineral') {
+  if (tone !== 'default' && tone !== 'balanced' && source.name === '02 | Aqua mineral') {
     // Preserve the exported cuts and their tonal variation, warming only the baked color.
     const previousCompile = source.onBeforeCompile
     material.onBeforeCompile = function (shader, renderer) {
@@ -69,6 +69,60 @@ function createVariant(source, tint, tone, opal) {
       `)
     }
     material.customProgramCacheKey = () => 'sup-warm-flora-mineral-v1'
+  }
+  if (tone === 'balanced') {
+    if (opal) {
+      material.roughness = 0.29
+      material.metalness = 0.13
+      material.clearcoat = 0.25
+      const pearl = getFloraPalette(tone).pearl.clone()
+      const previousCompile = source.onBeforeCompile
+      material.onBeforeCompile = function (shader, renderer) {
+        previousCompile.call(this, shader, renderer)
+        shader.uniforms.balancedPetalPearl = { value: pearl }
+        shader.fragmentShader = shader.fragmentShader
+          .replace('#include <common>', '#include <common>\nuniform vec3 balancedPetalPearl;')
+          .replace('#include <color_fragment>', `
+            #include <color_fragment>
+            // The export paints pink into every bloom. Retain its cut shading,
+            // while the live material diffuse color supplies the flower's own hue.
+            #if defined(USE_COLOR) || defined(USE_COLOR_ALPHA)
+              float opalFacetValue = dot(vColor.rgb, vec3(0.2126, 0.7152, 0.0722));
+            #else
+              float opalFacetValue = 0.62;
+            #endif
+            float opalFacetShade = clamp(opalFacetValue / 0.62, 0.50, 1.22);
+            float opalPearlHighlight = smoothstep(0.65, 0.84, opalFacetValue) * 0.22;
+            diffuseColor.rgb = mix(diffuse, balancedPetalPearl, opalPearlHighlight) * opalFacetShade;
+          `)
+      }
+      material.customProgramCacheKey = () => 'sup-balanced-flora-opal-v1'
+    } else if (source.name === '03 | Champagne crystal') {
+      material.color.multiply(new THREE.Color('#fff0dc'))
+    } else if (source.name === '02 | Aqua mineral') {
+      const palette = getFloraPalette(tone)
+      const shadowGreen = new THREE.Color(palette.darkGreen)
+      const leafGreen = new THREE.Color(palette.leaf)
+      const previousCompile = source.onBeforeCompile
+      material.roughness = 0.43
+      material.metalness = 0.08
+      material.clearcoat = 0.18
+      material.iridescence = 0.08
+      material.onBeforeCompile = function (shader, renderer) {
+        previousCompile.call(this, shader, renderer)
+        shader.uniforms.balancedShadowGreen = { value: shadowGreen }
+        shader.uniforms.balancedLeafGreen = { value: leafGreen }
+        shader.fragmentShader = shader.fragmentShader
+          .replace('#include <common>', '#include <common>\nuniform vec3 balancedShadowGreen;\nuniform vec3 balancedLeafGreen;')
+          .replace('#include <color_fragment>', `
+            #include <color_fragment>
+            float mineralValue = dot(diffuseColor.rgb, vec3(0.2126, 0.7152, 0.0722));
+            diffuseColor.rgb = mix(balancedShadowGreen, balancedLeafGreen,
+              smoothstep(0.04, 0.55, mineralValue)) * (0.70 + 0.50 * mineralValue);
+          `)
+      }
+      material.customProgramCacheKey = () => 'sup-balanced-flora-green-v1'
+    }
   }
   return material
 }
@@ -96,7 +150,8 @@ export function buildBlenderFlower(flower, assets, { dimmed = false, detail = fa
   const scale = (0.55 + 0.25 * flowerParams(flower).size) / height
   const tint = tone === 'default'
     ? new THREE.Color('white').lerp(toColor(flower.color), 0.34)
-    : getFloraPalette(tone).pearl.clone().lerp(floraColor(toColor(flower.color), tone), 0.28)
+    : tone === 'balanced' ? floraColor(toColor(flower.color), tone)
+      : getFloraPalette(tone).pearl.clone().lerp(floraColor(toColor(flower.color), tone), 0.28)
   const materials = new Map()
   const release = []
 

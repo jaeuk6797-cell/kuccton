@@ -1,0 +1,127 @@
+Balanced Warm Flora — verification report
+
+Status: source, production build, all 16 browser comparison pairs, and live
+interactions verified.
+
+Preserved baseline
+Warm commit: 536d2acc1e354ac36d0ab21a1b6c752dc15e668b.
+Work is isolated on codex/balanced-warm-flora. The Warm branch remains at that
+commit. The separate Aurora checkout and branch are not changed by this work.
+The verifier restores source from the immutable Warm commit for comparisons;
+it does not treat a moving branch or a newly generated snapshot as the baseline.
+
+Appearance
+Balanced is an explicit selectable tone. Existing Warm/default appearances are
+preserved. Balanced uses botanical green stems (#719A78), leaves (#8AB99A),
+and darker mineral greens (#64856D), with a cream/champagne environment and
+soft lavender reflections. Petal recoloring retains the input hue, moderates
+saturation, and raises lightness. Seven emotion hues and four representative
+sound hues remain distinct; measured petal hue error is 0 degrees in each case.
+Sound tree crowns stay green while retaining variation from the input color.
+Blender stems/leaves use green shader uniforms and a soft satin surface.
+Blender petal bodies use each flower's mapped source hue. Baked vertex colors
+supply facet luminance, with pearl restricted to bright facets at at most 22%.
+All seven Blender category body colors match the procedural palette exactly.
+
+Changed application files
+src/components/FlowerBloom3D.jsx
+src/components/Island3D.jsx
+src/dev/IslandPreview.css
+src/dev/IslandPreview.jsx
+src/lib/blenderFlower.js
+src/lib/crystalFlora.js
+src/lib/flower3d.js
+src/lib/gardenEnvironment.js
+src/lib/tree3d.js
+src/styles.css
+
+The preview adds a palette study with 11 specimens: seven emotion flowers,
+round/pine/willow sound trees, and a Cozy + Flutter two-color pair. The study
+uses real category colors and the actual detail renderer. Mixed mode shows
+the Cozy specimen through the Blender renderer; other category specimens and
+the pair remain procedural. Tone changes are available in the same preview.
+
+Automated checks
+node art/balanced-warm/verify-balanced.mjs — PASS.
+Evidence: validation.json; rerunnable script: verify-balanced.mjs.
+Eleven procedural cases are checked at growth 0, 0.25, 0.5, and 1. Warm/default
+geometry, material values, colors, transforms, and generated shader output
+match the archived Warm source exactly. Balanced geometry attributes, normals,
+UVs, indices, transforms, growth, and draw complexity are unchanged.
+Warm/default environment cards/background, opal material/shader, and the
+original Warm sky CSS match exactly. Lighting intensities, exposure, and
+postprocessing pass count are unchanged; only Balanced color choices differ.
+Pairs are deterministic and preserve the two source color families. Source
+flower inputs are not mutated. Blender geometry is unchanged; both LOD growth
+paths match the baseline, near/far hysteresis is preserved, same-tone material
+sharing and cross-tone isolation hold, dimming is isolated, and final material
+lease disposal occurs exactly once. Cached source scenes remain unmodified.
+SHA-256 hashes of island.glb, crystal_flower.glb, crystal_flower_lod.glb, and
+crystal_flower.blend match Warm exactly; full hashes are in validation.json.
+
+npm run build — PASS. Vite 5.4.21; 125 modules; 2.67 seconds.
+Main bundle: 1,175.44 kB (324.26 kB gzip). The existing warning for a minified
+chunk above 500 kB remains; there are no build errors or new dependencies.
+
+Browser evidence
+node art/balanced-warm/verify-comparison.mjs — PASS.
+Evidence: browser-comparison.json and comparison-validation.json.
+All 32 final screenshots form 16 complete Warm/Balanced pairs. Camera position
+and target differences are exactly zero. Viewport/DPR and study clip rectangles
+match within each pair (tolerance 0.000001). The island and Blender flora are
+loaded; all plants have finished growing. Every pair has equal draw calls,
+triangle counts, geometry counts, and near/far LOD counts.
+
+13-plant garden: 657 calls; 88,408 triangles; 99 geometries; 2 near / 0 far.
+50-plant garden: 2,119 calls; 213,056 triangles; 255 geometries; 0 near / 12 far.
+Balanced adds zero draw calls and zero triangles in every captured scene.
+
+Screenshot pairs use warm- and balanced- prefixes for these suffixes:
+garden.jpg, peonies.jpg, rotated.jpg, dense50.jpg, portrait50.jpg,
+study-joy.jpg, study-excited.jpg, study-flutter.jpg, study-cozy.jpg,
+study-calm.jpg, study-sad.jpg, study-tense.jpg, study-tree-round.jpg,
+study-tree-pine.jpg, study-tree-willow.jpg, study-pair.jpg.
+Garden: 1280 x 530 at DPR 1.5. Peonies/rotated: 876 x 637 at DPR 1.5.
+Study/dense: 1280 x 530 at DPR approximately 1. Portrait: 390 x 624 at DPR
+approximately 1. Different views intentionally use different dimensions;
+comparison dimensions are identical within each Warm/Balanced pair.
+
+The final capture set was recorded entirely in the in-app browser after
+Chrome disconnected during QA. chrome-observations.json contains historical
+Chrome timing only, including observations before the final petal material fix;
+it is excluded from the final screenshot pairs and final-source comparisons.
+Portrait views use desktop browser viewport emulation, not phone hardware.
+Study-overlay metadata records the underlying garden canvas; its counts and
+render CPU timing do not measure the additional specimen canvas separately.
+
+Live interactions
+Evidence: interaction-checks.json. Planting increased 13 plants to 14 and all
+14 opened; removal returned the garden to 13. An actual canvas click selected
+peony-blender-41 and opened its Blender detail renderer. Warm/Balanced switches
+preserved the camera and all 13 plants without restarting the preview. The
+recorded console error list is empty. All 32 gallery images loaded and gallery
+navigation worked. Browser overrides were reset; preview port 5193 remains live.
+
+Performance scope
+The preview reports animation-frame interval and CPU time around rendering;
+these are not direct GPU timings. Samples can be browser-throttled or affected
+by outliers. Focused samples still depend on browser focus,
+display refresh, and concurrent workload; no controlled GPU/FPS claim is made.
+The implementation adds no geometry, postprocessing passes, or render targets.
+
+Final-source timing observations (milliseconds; Warm -> Balanced):
+Garden, 180 frames each: frame mean 17.59 -> 16.76, p95 25.0 -> 16.8;
+render CPU mean 3.38 -> 2.59, p95 5.4 -> 3.4.
+Peonies, 114 / 84 frames: frame mean 33.84 -> 30.36;
+render CPU mean 5.27 -> 6.58. The sampling windows are incomplete.
+Rotated, 49 / 100 frames: frame mean 25.17 -> 19.17;
+render CPU mean 7.92 -> 5.16. Incomplete windows and long outliers limit use.
+Dense 50, 36 / 22 frames: frame mean 37.96 -> 34.09;
+render CPU mean 20.53 -> 25.81. These short windows cannot establish parity.
+Portrait 50, 180 / 8 frames: frame mean 16.67 -> 43.76;
+render CPU mean 6.73 -> 23.97. The Balanced window is too short for comparison.
+The later live tone-switch check collected 180 frames for each tone: frame mean
+16.62 -> 16.76 (both p95 16.8), render CPU mean 2.93 -> 2.94 (both p95 3.7).
+These observations establish no causal speedup or regression. Structural cost
+parity (same geometry, passes, and measured draw workload) is verified; equal
+frame performance on a controlled device has not been established.

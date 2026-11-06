@@ -16,19 +16,23 @@ const CROWN_CUT = [[0, -1], [0.75, -0.69], [1, -0.22], [0.88, 0.44], [0, 1]]
 const DROP_CUT = [[0, -1], [1, -0.16], [0.82, 0.38], [0, 1]]
 
 function crystalCut(profile, baseColor, tone) {
-  const { aqua: AQUA, pearl: PEARL, lavender: LAVENDER, blush: BLUSH, champagne: CHAMPAGNE } = getFloraPalette(tone)
+  const palette = getFloraPalette(tone)
+  const balanced = tone === 'balanced'
+  const { aqua: AQUA, pearl: PEARL, lavender: LAVENDER, blush: BLUSH, champagne: CHAMPAGNE } = palette
   const sides = 6
   const geometry = new THREE.LatheGeometry(profile.map(([radius, y]) => new THREE.Vector2(radius, y)), sides).toNonIndexed()
   const positions = geometry.attributes.position
   const colors = []
   const facets = tone === 'default' ? [AQUA, PEARL, LAVENDER, BLUSH, AQUA, LAVENDER]
-    : [BLUSH, PEARL, LAVENDER, CHAMPAGNE, AQUA, BLUSH]
+    : balanced ? [new THREE.Color(palette.leaf), PEARL, AQUA, new THREE.Color(palette.leaf), new THREE.Color(palette.darkGreen), LAVENDER]
+      : [BLUSH, PEARL, LAVENDER, CHAMPAGNE, AQUA, BLUSH]
   const verticesPerSide = (profile.length - 1) * 6
   const tint = new THREE.Color()
   for (let i = 0; i < positions.count; i++) {
     const side = Math.floor(i / verticesPerSide)
     const y = positions.getY(i)
-    tint.copy(baseColor).lerp(facets[side], 0.42).lerp(PEARL, 0.20 + 0.15 * y)
+    tint.copy(baseColor).lerp(facets[side], balanced ? 0.24 : 0.42)
+      .lerp(PEARL, balanced ? 0.10 + 0.07 * y : 0.20 + 0.15 * y)
     colors.push(tint.r, tint.g, tint.b)
   }
   geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3))
@@ -47,6 +51,7 @@ function limb(a, b, r0, r1, mat) {
 
 export function buildTree3D(f, { tone = 'warm' } = {}) {
   const palette = getFloraPalette(tone)
+  const balanced = tone === 'balanced'
   const p = treeParams(f)
   const n = p.branches
   const len = (i) => p.lengths?.[i] ?? 1
@@ -56,8 +61,16 @@ export function buildTree3D(f, { tone = 'warm' } = {}) {
   const stem = new THREE.MeshStandardMaterial({
     color: p.dark ? palette.darkTrunk : palette.trunk, roughness: 0.46, metalness: 0.14, flatShading: true,
   })
-  const leafColor = floraColor(toColor(p.foliage), tone).lerp(tone === 'default' ? palette.aqua : palette.pearl, 0.34)
+  const leafColor = balanced ? toColor(p.foliage).lerp(new THREE.Color(palette.leaf), 0.50)
+    : floraColor(toColor(p.foliage), tone).lerp(tone === 'default' ? palette.aqua : palette.pearl, 0.34)
   const leaf = opalMaterial({ roughness: 0.31, flatShading: true })
+  if (balanced) {
+    stem.metalness = 0.07
+    leaf.roughness = 0.38
+    leaf.metalness = 0.06
+    leaf.clearcoat = 0.18
+    leaf.iridescence = 0.16
+  }
 
   const tree = new THREE.Group() // 땅에서 자라는 부분. 이 그룹만 키운다
   const g = new THREE.Group()

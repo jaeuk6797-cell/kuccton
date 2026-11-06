@@ -1,0 +1,954 @@
+{
+  "balanced-garden": {
+    "plants": 13,
+    "near": 2,
+    "far": 0,
+    "calls": 657,
+    "triangles": 88408,
+    "geometries": 99,
+    "island": "loaded",
+    "growing": 0,
+    "opened": 13,
+    "camera": {
+      "position": [
+        0,
+        5.496125175623439,
+        13.176584731173508
+      ],
+      "target": [
+        0,
+        0.1,
+        0
+      ]
+    },
+    "viewport": {
+      "width": 1646,
+      "height": 751,
+      "pixelRatio": 1.5
+    },
+    "performance": {
+      "frame": {
+        "samples": 17,
+        "meanMs": 736.26,
+        "p95Ms": 1016.8
+      },
+      "renderCPU": {
+        "samples": 19,
+        "meanMs": 32.84,
+        "p95Ms": 413.9
+      }
+    }
+  },
+  "warm-garden": {
+    "plants": 13,
+    "near": 2,
+    "far": 0,
+    "calls": 657,
+    "triangles": 88408,
+    "geometries": 99,
+    "island": "loaded",
+    "growing": 0,
+    "opened": 13,
+    "camera": {
+      "position": [
+        0,
+        5.496125175623439,
+        13.176584731173508
+      ],
+      "target": [
+        0,
+        0.1,
+        0
+      ]
+    },
+    "viewport": {
+      "width": 1646,
+      "height": 751,
+      "pixelRatio": 1.5
+    },
+    "performance": {
+      "frame": {
+        "samples": 9,
+        "meanMs": 612.02,
+        "p95Ms": 1991.6
+      },
+      "renderCPU": {
+        "samples": 11,
+        "meanMs": 65.31,
+        "p95Ms": 399
+      }
+    }
+  },
+  "warm-peonies": {
+    "plants": 13,
+    "near": 2,
+    "far": 0,
+    "calls": 657,
+    "triangles": 88408,
+    "geometries": 99,
+    "island": "loaded",
+    "growing": 0,
+    "opened": 13,
+    "camera": {
+      "position": [
+        0,
+        5.496125175623439,
+        13.176584731173508
+      ],
+      "target": [
+        0,
+        0.1,
+        0
+      ]
+    },
+    "viewport": {
+      "width": 1646,
+      "height": 695,
+      "pixelRatio": 1.5
+    },
+    "performance": {
+      "frame": {
+        "samples": 180,
+        "meanMs": 24.35,
+        "p95Ms": 16.8
+      },
+      "renderCPU": {
+        "samples": 180,
+        "meanMs": 1.94,
+        "p95Ms": 2.7
+      }
+    }
+  },
+  "balanced-peonies": {
+    "plants": 13,
+    "near": 2,
+    "far": 0,
+    "calls": 657,
+    "triangles": 88408,
+    "geometries": 99,
+    "island": "loaded",
+    "growing": 0,
+    "opened": 13,
+    "camera": {
+      "position": [
+        0,
+        5.496125175623439,
+        13.176584731173508
+      ],
+      "target": [
+        0,
+        0.1,
+        0
+      ]
+    },
+    "viewport": {
+      "width": 1646,
+      "height": 695,
+      "pixelRatio": 1.5
+    },
+    "performance": {
+      "frame": {
+        "samples": 180,
+        "meanMs": 16.67,
+        "p95Ms": 16.8
+      },
+      "renderCPU": {
+        "samples": 180,
+        "meanMs": 2,
+        "p95Ms": 2.5
+      }
+    }
+  },
+  "balanced-rotated": {
+    "plants": 13,
+    "near": 2,
+    "far": 0,
+    "calls": 657,
+    "triangles": 88408,
+    "geometries": 99,
+    "island": "loaded",
+    "growing": 0,
+    "opened": 13,
+    "camera": {
+      "position": [
+        10.660080975340813,
+        5.496125175623437,
+        -7.745002180565966
+      ],
+      "target": [
+        0,
+        0.1,
+        0
+      ]
+    },
+    "viewport": {
+      "width": 1646,
+      "height": 695,
+      "pixelRatio": 1.5
+    },
+    "performance": {
+      "frame": {
+        "samples": 180,
+        "meanMs": 16.67,
+        "p95Ms": 16.8
+      },
+      "renderCPU": {
+        "samples": 180,
+        "meanMs": 1.96,
+        "p95Ms": 2.5
+      }
+    }
+  },
+  "warm-rotated": {
+    "plants": 13,
+    "near": 2,
+    "far": 0,
+    "calls": 657,
+    "triangles": 88408,
+    "geometries": 99,
+    "island": "loaded",
+    "growing": 0,
+    "opened": 13,
+    "camera": {
+      "position": [
+        10.660080975340813,
+        5.496125175623437,
+        -7.745002180565966
+      ],
+      "target": [
+        0,
+        0.1,
+        0
+      ]
+    },
+    "viewport": {
+      "width": 1646,
+      "height": 695,
+      "pixelRatio": 1.5
+    },
+    "performance": {
+      "frame": {
+        "samples": 180,
+        "meanMs": 25,
+        "p95Ms": 33.4
+      },
+      "renderCPU": {
+        "samples": 180,
+        "meanMs": 5.4,
+        "p95Ms": 8.9
+      }
+    }
+  },
+  "warm-dense50": {
+    "plants": 50,
+    "near": 3,
+    "far": 9,
+    "calls": 2119,
+    "triangles": 220436,
+    "geometries": 260,
+    "island": "loaded",
+    "growing": 0,
+    "opened": 50,
+    "camera": {
+      "position": [
+        0,
+        5.496125175623439,
+        13.176584731173508
+      ],
+      "target": [
+        0,
+        0.1,
+        0
+      ]
+    },
+    "viewport": {
+      "width": 1646,
+      "height": 695,
+      "pixelRatio": 1.5
+    },
+    "performance": {
+      "frame": {
+        "samples": 180,
+        "meanMs": 18.94,
+        "p95Ms": 16.8
+      },
+      "renderCPU": {
+        "samples": 180,
+        "meanMs": 6.25,
+        "p95Ms": 10.6
+      }
+    }
+  },
+  "balanced-dense50": {
+    "plants": 50,
+    "near": 3,
+    "far": 9,
+    "calls": 2119,
+    "triangles": 220436,
+    "geometries": 260,
+    "island": "loaded",
+    "growing": 0,
+    "opened": 50,
+    "camera": {
+      "position": [
+        0,
+        5.496125175623439,
+        13.176584731173508
+      ],
+      "target": [
+        0,
+        0.1,
+        0
+      ]
+    },
+    "viewport": {
+      "width": 1646,
+      "height": 695,
+      "pixelRatio": 1.5
+    },
+    "performance": {
+      "frame": {
+        "samples": 10,
+        "meanMs": 407.5,
+        "p95Ms": 1016.7
+      },
+      "renderCPU": {
+        "samples": 12,
+        "meanMs": 98.54,
+        "p95Ms": 485.2
+      }
+    }
+  },
+  "warm-portrait50": {
+    "plants": 50,
+    "near": 0,
+    "far": 12,
+    "calls": 2119,
+    "triangles": 213056,
+    "geometries": 255,
+    "island": "loaded",
+    "growing": 0,
+    "opened": 50,
+    "camera": {
+      "position": [
+        0,
+        8.478834570803286,
+        20.459944882194062
+      ],
+      "target": [
+        0,
+        0.1,
+        0
+      ]
+    },
+    "viewport": {
+      "width": 390,
+      "height": 624,
+      "pixelRatio": 1.0000000447034836
+    },
+    "performance": {
+      "frame": {
+        "samples": 157,
+        "meanMs": 36.15,
+        "p95Ms": 50
+      },
+      "renderCPU": {
+        "samples": 159,
+        "meanMs": 14.83,
+        "p95Ms": 25
+      }
+    }
+  },
+  "balanced-portrait50": {
+    "plants": 50,
+    "near": 0,
+    "far": 12,
+    "calls": 2119,
+    "triangles": 213056,
+    "geometries": 255,
+    "island": "loaded",
+    "growing": 0,
+    "opened": 50,
+    "camera": {
+      "position": [
+        0,
+        8.478834570803286,
+        20.459944882194062
+      ],
+      "target": [
+        0,
+        0.1,
+        0
+      ]
+    },
+    "viewport": {
+      "width": 390,
+      "height": 624,
+      "pixelRatio": 1.0000000447034836
+    },
+    "performance": {
+      "frame": {
+        "samples": 146,
+        "meanMs": 28.88,
+        "p95Ms": 33.4
+      },
+      "renderCPU": {
+        "samples": 148,
+        "meanMs": 6.96,
+        "p95Ms": 13.6
+      }
+    }
+  },
+  "warm-study-joy": {
+    "plants": 13,
+    "near": 2,
+    "far": 0,
+    "calls": 657,
+    "triangles": 88408,
+    "geometries": 99,
+    "island": "loaded",
+    "growing": 0,
+    "opened": 13,
+    "camera": {
+      "position": [
+        0,
+        5.496125175623439,
+        13.176584731173508
+      ],
+      "target": [
+        0,
+        0.1,
+        0
+      ]
+    },
+    "viewport": {
+      "width": 1646,
+      "height": 695,
+      "pixelRatio": 1.5
+    },
+    "performance": {
+      "frame": {
+        "samples": 25,
+        "meanMs": 714.66,
+        "p95Ms": 1016.7
+      },
+      "renderCPU": {
+        "samples": 27,
+        "meanMs": 13.93,
+        "p95Ms": 72.6
+      }
+    },
+    "clip": {
+      "height": 388.71429443359375,
+      "width": 640,
+      "x": 503.1428833007813,
+      "y": 451.0000305175781
+    }
+  },
+  "warm-study-excited": {
+    "plants": 13,
+    "near": 2,
+    "far": 0,
+    "calls": 657,
+    "triangles": 88408,
+    "geometries": 99,
+    "island": "loaded",
+    "growing": 0,
+    "opened": 13,
+    "camera": {
+      "position": [
+        0,
+        5.496125175623439,
+        13.176584731173508
+      ],
+      "target": [
+        0,
+        0.1,
+        0
+      ]
+    },
+    "viewport": {
+      "width": 1646,
+      "height": 695,
+      "pixelRatio": 1.5
+    },
+    "performance": {
+      "frame": {
+        "samples": 180,
+        "meanMs": 16.67,
+        "p95Ms": 16.9
+      },
+      "renderCPU": {
+        "samples": 180,
+        "meanMs": 2.05,
+        "p95Ms": 2.7
+      }
+    },
+    "clip": {
+      "height": 388.71429443359375,
+      "width": 640,
+      "x": 503.1428833007813,
+      "y": 451.0000305175781
+    }
+  },
+  "warm-study-flutter": {
+    "plants": 13,
+    "near": 2,
+    "far": 0,
+    "calls": 657,
+    "triangles": 88408,
+    "geometries": 99,
+    "island": "loaded",
+    "growing": 0,
+    "opened": 13,
+    "camera": {
+      "position": [
+        0,
+        5.496125175623439,
+        13.176584731173508
+      ],
+      "target": [
+        0,
+        0.1,
+        0
+      ]
+    },
+    "viewport": {
+      "width": 1646,
+      "height": 695,
+      "pixelRatio": 1.5
+    },
+    "performance": {
+      "frame": {
+        "samples": 180,
+        "meanMs": 16.76,
+        "p95Ms": 16.9
+      },
+      "renderCPU": {
+        "samples": 180,
+        "meanMs": 1.98,
+        "p95Ms": 2.5
+      }
+    },
+    "clip": {
+      "height": 388.71429443359375,
+      "width": 640,
+      "x": 503.1428833007813,
+      "y": 451.0000305175781
+    }
+  },
+  "warm-study-cozy": {
+    "plants": 13,
+    "near": 2,
+    "far": 0,
+    "calls": 657,
+    "triangles": 88408,
+    "geometries": 99,
+    "island": "loaded",
+    "growing": 0,
+    "opened": 13,
+    "camera": {
+      "position": [
+        0,
+        5.496125175623439,
+        13.176584731173508
+      ],
+      "target": [
+        0,
+        0.1,
+        0
+      ]
+    },
+    "viewport": {
+      "width": 1646,
+      "height": 695,
+      "pixelRatio": 1.5
+    },
+    "performance": {
+      "frame": {
+        "samples": 180,
+        "meanMs": 16.85,
+        "p95Ms": 16.9
+      },
+      "renderCPU": {
+        "samples": 180,
+        "meanMs": 1.95,
+        "p95Ms": 2.5
+      }
+    },
+    "clip": {
+      "height": 388.71429443359375,
+      "width": 640,
+      "x": 503.1428833007813,
+      "y": 451.0000305175781
+    }
+  },
+  "warm-study-calm": {
+    "plants": 13,
+    "near": 2,
+    "far": 0,
+    "calls": 657,
+    "triangles": 88408,
+    "geometries": 99,
+    "island": "loaded",
+    "growing": 0,
+    "opened": 13,
+    "camera": {
+      "position": [
+        0,
+        5.496125175623439,
+        13.176584731173508
+      ],
+      "target": [
+        0,
+        0.1,
+        0
+      ]
+    },
+    "viewport": {
+      "width": 1646,
+      "height": 695,
+      "pixelRatio": 1.5
+    },
+    "performance": {
+      "frame": {
+        "samples": 180,
+        "meanMs": 16.76,
+        "p95Ms": 16.9
+      },
+      "renderCPU": {
+        "samples": 180,
+        "meanMs": 1.91,
+        "p95Ms": 2.4
+      }
+    },
+    "clip": {
+      "height": 388.71429443359375,
+      "width": 640,
+      "x": 503.1428833007813,
+      "y": 451.0000305175781
+    }
+  },
+  "warm-study-sad": {
+    "plants": 13,
+    "near": 2,
+    "far": 0,
+    "calls": 657,
+    "triangles": 88408,
+    "geometries": 99,
+    "island": "loaded",
+    "growing": 0,
+    "opened": 13,
+    "camera": {
+      "position": [
+        0,
+        5.496125175623439,
+        13.176584731173508
+      ],
+      "target": [
+        0,
+        0.1,
+        0
+      ]
+    },
+    "viewport": {
+      "width": 1646,
+      "height": 695,
+      "pixelRatio": 1.5
+    },
+    "performance": {
+      "frame": {
+        "samples": 180,
+        "meanMs": 16.85,
+        "p95Ms": 16.9
+      },
+      "renderCPU": {
+        "samples": 180,
+        "meanMs": 1.93,
+        "p95Ms": 2.5
+      }
+    },
+    "clip": {
+      "height": 388.71429443359375,
+      "width": 640,
+      "x": 503.1428833007813,
+      "y": 451.0000305175781
+    }
+  },
+  "warm-study-tense": {
+    "plants": 13,
+    "near": 2,
+    "far": 0,
+    "calls": 657,
+    "triangles": 88408,
+    "geometries": 99,
+    "island": "loaded",
+    "growing": 0,
+    "opened": 13,
+    "camera": {
+      "position": [
+        0,
+        5.496125175623439,
+        13.176584731173508
+      ],
+      "target": [
+        0,
+        0.1,
+        0
+      ]
+    },
+    "viewport": {
+      "width": 1646,
+      "height": 695,
+      "pixelRatio": 1.5
+    },
+    "performance": {
+      "frame": {
+        "samples": 180,
+        "meanMs": 16.95,
+        "p95Ms": 16.9
+      },
+      "renderCPU": {
+        "samples": 180,
+        "meanMs": 1.95,
+        "p95Ms": 2.6
+      }
+    },
+    "clip": {
+      "height": 388.71429443359375,
+      "width": 640,
+      "x": 503.1428833007813,
+      "y": 451.0000305175781
+    }
+  },
+  "warm-study-tree-round": {
+    "plants": 13,
+    "near": 2,
+    "far": 0,
+    "calls": 657,
+    "triangles": 88408,
+    "geometries": 99,
+    "island": "loaded",
+    "growing": 0,
+    "opened": 13,
+    "camera": {
+      "position": [
+        0,
+        5.496125175623439,
+        13.176584731173508
+      ],
+      "target": [
+        0,
+        0.1,
+        0
+      ]
+    },
+    "viewport": {
+      "width": 1646,
+      "height": 695,
+      "pixelRatio": 1.5
+    },
+    "performance": {
+      "frame": {
+        "samples": 180,
+        "meanMs": 17.41,
+        "p95Ms": 16.9
+      },
+      "renderCPU": {
+        "samples": 180,
+        "meanMs": 1.93,
+        "p95Ms": 2.5
+      }
+    },
+    "clip": {
+      "height": 388.71429443359375,
+      "width": 640,
+      "x": 503.1428833007813,
+      "y": 451.0000305175781
+    }
+  },
+  "warm-study-tree-pine": {
+    "plants": 13,
+    "near": 2,
+    "far": 0,
+    "calls": 657,
+    "triangles": 88408,
+    "geometries": 99,
+    "island": "loaded",
+    "growing": 0,
+    "opened": 13,
+    "camera": {
+      "position": [
+        0,
+        5.496125175623439,
+        13.176584731173508
+      ],
+      "target": [
+        0,
+        0.1,
+        0
+      ]
+    },
+    "viewport": {
+      "width": 1646,
+      "height": 695,
+      "pixelRatio": 1.5
+    },
+    "performance": {
+      "frame": {
+        "samples": 180,
+        "meanMs": 17.31,
+        "p95Ms": 16.9
+      },
+      "renderCPU": {
+        "samples": 180,
+        "meanMs": 1.95,
+        "p95Ms": 2.6
+      }
+    },
+    "clip": {
+      "height": 388.71429443359375,
+      "width": 640,
+      "x": 503.1428833007813,
+      "y": 451.0000305175781
+    }
+  },
+  "warm-study-tree-willow": {
+    "plants": 13,
+    "near": 2,
+    "far": 0,
+    "calls": 657,
+    "triangles": 88408,
+    "geometries": 99,
+    "island": "loaded",
+    "growing": 0,
+    "opened": 13,
+    "camera": {
+      "position": [
+        0,
+        5.496125175623439,
+        13.176584731173508
+      ],
+      "target": [
+        0,
+        0.1,
+        0
+      ]
+    },
+    "viewport": {
+      "width": 1646,
+      "height": 695,
+      "pixelRatio": 1.5
+    },
+    "performance": {
+      "frame": {
+        "samples": 180,
+        "meanMs": 17.31,
+        "p95Ms": 16.8
+      },
+      "renderCPU": {
+        "samples": 180,
+        "meanMs": 1.9,
+        "p95Ms": 2.5
+      }
+    },
+    "clip": {
+      "height": 388.71429443359375,
+      "width": 640,
+      "x": 503.1428833007813,
+      "y": 451.0000305175781
+    }
+  },
+  "warm-study-pair": {
+    "plants": 13,
+    "near": 2,
+    "far": 0,
+    "calls": 657,
+    "triangles": 88408,
+    "geometries": 99,
+    "island": "loaded",
+    "growing": 0,
+    "opened": 13,
+    "camera": {
+      "position": [
+        0,
+        5.496125175623439,
+        13.176584731173508
+      ],
+      "target": [
+        0,
+        0.1,
+        0
+      ]
+    },
+    "viewport": {
+      "width": 1646,
+      "height": 695,
+      "pixelRatio": 1.5
+    },
+    "performance": {
+      "frame": {
+        "samples": 180,
+        "meanMs": 16.85,
+        "p95Ms": 16.8
+      },
+      "renderCPU": {
+        "samples": 180,
+        "meanMs": 1.93,
+        "p95Ms": 2.6
+      }
+    },
+    "clip": {
+      "height": 388.71429443359375,
+      "width": 640,
+      "x": 503.1428833007813,
+      "y": 451.0000305175781
+    }
+  },
+  "balanced-study-joy": {
+    "plants": 13,
+    "near": 2,
+    "far": 0,
+    "calls": 657,
+    "triangles": 88408,
+    "geometries": 99,
+    "island": "loaded",
+    "growing": 0,
+    "opened": 13,
+    "camera": {
+      "position": [
+        0,
+        5.496125175623439,
+        13.176584731173508
+      ],
+      "target": [
+        0,
+        0.1,
+        0
+      ]
+    },
+    "viewport": {
+      "width": 1646,
+      "height": 695,
+      "pixelRatio": 1.5
+    },
+    "performance": {
+      "frame": {
+        "samples": 180,
+        "meanMs": 139.63,
+        "p95Ms": 1016.6
+      },
+      "renderCPU": {
+        "samples": 180,
+        "meanMs": 11.51,
+        "p95Ms": 19.6
+      }
+    },
+    "clip": {
+      "height": 388.71429443359375,
+      "width": 640,
+      "x": 503.1428833007813,
+      "y": 451.0000305175781
+    }
+  }
+}

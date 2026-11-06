@@ -1,0 +1,514 @@
+{
+  "baseline": "536d2acc1e354ac36d0ab21a1b6c752dc15e668b",
+  "cases": [
+    {
+      "name": "joy",
+      "meshes": 27,
+      "triangles": 2168,
+      "geometries": 5,
+      "materials": 5,
+      "warmAndDefaultExact": true,
+      "balancedGeometryAndGrowthUnchanged": true
+    },
+    {
+      "name": "excited",
+      "meshes": 21,
+      "triangles": 2120,
+      "geometries": 6,
+      "materials": 5,
+      "warmAndDefaultExact": true,
+      "balancedGeometryAndGrowthUnchanged": true
+    },
+    {
+      "name": "flutter",
+      "meshes": 21,
+      "triangles": 2120,
+      "geometries": 6,
+      "materials": 5,
+      "warmAndDefaultExact": true,
+      "balancedGeometryAndGrowthUnchanged": true
+    },
+    {
+      "name": "cozy",
+      "meshes": 33,
+      "triangles": 3848,
+      "geometries": 8,
+      "materials": 5,
+      "warmAndDefaultExact": true,
+      "balancedGeometryAndGrowthUnchanged": true
+    },
+    {
+      "name": "calm",
+      "meshes": 27,
+      "triangles": 2984,
+      "geometries": 7,
+      "materials": 5,
+      "warmAndDefaultExact": true,
+      "balancedGeometryAndGrowthUnchanged": true
+    },
+    {
+      "name": "sad",
+      "meshes": 15,
+      "triangles": 1256,
+      "geometries": 5,
+      "materials": 5,
+      "warmAndDefaultExact": true,
+      "balancedGeometryAndGrowthUnchanged": true
+    },
+    {
+      "name": "tense",
+      "meshes": 39,
+      "triangles": 3896,
+      "geometries": 6,
+      "materials": 5,
+      "warmAndDefaultExact": true,
+      "balancedGeometryAndGrowthUnchanged": true
+    },
+    {
+      "name": "pair",
+      "meshes": 27,
+      "triangles": 2984,
+      "geometries": 10,
+      "materials": 5,
+      "warmAndDefaultExact": true,
+      "balancedGeometryAndGrowthUnchanged": true
+    },
+    {
+      "name": "round",
+      "meshes": 14,
+      "triangles": 508,
+      "geometries": 8,
+      "materials": 2,
+      "warmAndDefaultExact": true,
+      "balancedGeometryAndGrowthUnchanged": true
+    },
+    {
+      "name": "pine",
+      "meshes": 7,
+      "triangles": 316,
+      "geometries": 2,
+      "materials": 2,
+      "warmAndDefaultExact": true,
+      "balancedGeometryAndGrowthUnchanged": true
+    },
+    {
+      "name": "willow",
+      "meshes": 26,
+      "triangles": 1204,
+      "geometries": 9,
+      "materials": 2,
+      "warmAndDefaultExact": true,
+      "balancedGeometryAndGrowthUnchanged": true
+    }
+  ],
+  "colors": {
+    "categories": [
+      {
+        "category": "joy",
+        "inputHue": 48,
+        "hex": "#d9cc96",
+        "hue": 48,
+        "saturation": 0.468,
+        "lightness": 0.72,
+        "hueError": 0
+      },
+      {
+        "category": "excited",
+        "inputHue": 28,
+        "hex": "#d9b596",
+        "hue": 28,
+        "saturation": 0.468,
+        "lightness": 0.72,
+        "hueError": 0
+      },
+      {
+        "category": "flutter",
+        "inputHue": 335,
+        "hex": "#d996b2",
+        "hue": 335,
+        "saturation": 0.468,
+        "lightness": 0.72,
+        "hueError": 0
+      },
+      {
+        "category": "cozy",
+        "inputHue": 140,
+        "hex": "#96d9ac",
+        "hue": 140,
+        "saturation": 0.468,
+        "lightness": 0.72,
+        "hueError": 0
+      },
+      {
+        "category": "calm",
+        "inputHue": 175,
+        "hex": "#96d9d3",
+        "hue": 175,
+        "saturation": 0.468,
+        "lightness": 0.72,
+        "hueError": 0
+      },
+      {
+        "category": "sad",
+        "inputHue": 225,
+        "hex": "#96a7d9",
+        "hue": 225,
+        "saturation": 0.468,
+        "lightness": 0.72,
+        "hueError": 0
+      },
+      {
+        "category": "tense",
+        "inputHue": 270,
+        "hex": "#b896d9",
+        "hue": 270,
+        "saturation": 0.468,
+        "lightness": 0.72,
+        "hueError": 0
+      }
+    ],
+    "sounds": [
+      {
+        "inputHue": 25,
+        "hex": "#ddb496",
+        "hue": 25,
+        "saturation": 0.507,
+        "lightness": 0.727
+      },
+      {
+        "inputHue": 100,
+        "hex": "#aedd96",
+        "hue": 100,
+        "saturation": 0.507,
+        "lightness": 0.727
+      },
+      {
+        "inputHue": 180,
+        "hex": "#96dddd",
+        "hue": 180,
+        "saturation": 0.507,
+        "lightness": 0.727
+      },
+      {
+        "inputHue": 245,
+        "hex": "#9c96dd",
+        "hue": 245,
+        "saturation": 0.507,
+        "lightness": 0.727
+      }
+    ],
+    "botanical": [
+      {
+        "category": "joy",
+        "stem": {
+          "hex": "#719a78",
+          "hue": 130.24,
+          "saturation": 0.169,
+          "lightness": 0.524
+        },
+        "leaf": {
+          "hex": "#8fb196",
+          "hue": 132.58,
+          "saturation": 0.176,
+          "lightness": 0.628
+        }
+      },
+      {
+        "category": "excited",
+        "stem": {
+          "hex": "#719a78",
+          "hue": 130.24,
+          "saturation": 0.169,
+          "lightness": 0.524
+        },
+        "leaf": {
+          "hex": "#8fb196",
+          "hue": 132.58,
+          "saturation": 0.176,
+          "lightness": 0.628
+        }
+      },
+      {
+        "category": "flutter",
+        "stem": {
+          "hex": "#719a78",
+          "hue": 130.24,
+          "saturation": 0.169,
+          "lightness": 0.524
+        },
+        "leaf": {
+          "hex": "#8fb196",
+          "hue": 132.58,
+          "saturation": 0.176,
+          "lightness": 0.628
+        }
+      },
+      {
+        "category": "cozy",
+        "stem": {
+          "hex": "#719a78",
+          "hue": 130.24,
+          "saturation": 0.169,
+          "lightness": 0.524
+        },
+        "leaf": {
+          "hex": "#8fb196",
+          "hue": 132.58,
+          "saturation": 0.176,
+          "lightness": 0.628
+        }
+      },
+      {
+        "category": "calm",
+        "stem": {
+          "hex": "#719a78",
+          "hue": 130.24,
+          "saturation": 0.169,
+          "lightness": 0.524
+        },
+        "leaf": {
+          "hex": "#8fb196",
+          "hue": 132.58,
+          "saturation": 0.176,
+          "lightness": 0.628
+        }
+      },
+      {
+        "category": "sad",
+        "stem": {
+          "hex": "#719a78",
+          "hue": 130.24,
+          "saturation": 0.169,
+          "lightness": 0.524
+        },
+        "leaf": {
+          "hex": "#8fb196",
+          "hue": 132.58,
+          "saturation": 0.176,
+          "lightness": 0.628
+        }
+      },
+      {
+        "category": "tense",
+        "stem": {
+          "hex": "#719a78",
+          "hue": 130.24,
+          "saturation": 0.169,
+          "lightness": 0.524
+        },
+        "leaf": {
+          "hex": "#8fb196",
+          "hue": 132.58,
+          "saturation": 0.176,
+          "lightness": 0.628
+        }
+      }
+    ],
+    "pair": {
+      "deterministic": true,
+      "distinctPetalColorArrays": 6
+    },
+    "trees": [
+      {
+        "kind": "round",
+        "crowns": [
+          {
+            "hex": "#95c3a3",
+            "hue": 138.06,
+            "saturation": 0.281,
+            "lightness": 0.675
+          }
+        ]
+      },
+      {
+        "kind": "pine",
+        "crowns": [
+          {
+            "hex": "#94c3a2",
+            "hue": 138.34,
+            "saturation": 0.283,
+            "lightness": 0.673
+          }
+        ]
+      },
+      {
+        "kind": "willow",
+        "crowns": [
+          {
+            "hex": "#95c3a3",
+            "hue": 138.06,
+            "saturation": 0.281,
+            "lightness": 0.675
+          },
+          {
+            "hex": "#97c4a4",
+            "hue": 137.23,
+            "saturation": 0.278,
+            "lightness": 0.681
+          }
+        ]
+      }
+    ],
+    "soundTrees": [
+      {
+        "inputHue": 25,
+        "crown": {
+          "hex": "#aec398",
+          "hue": 89.02,
+          "saturation": 0.268,
+          "lightness": 0.681
+        }
+      },
+      {
+        "inputHue": 100,
+        "crown": {
+          "hex": "#9ac398",
+          "hue": 117.13,
+          "saturation": 0.268,
+          "lightness": 0.681
+        }
+      },
+      {
+        "inputHue": 180,
+        "crown": {
+          "hex": "#95c3a1",
+          "hue": 136.17,
+          "saturation": 0.281,
+          "lightness": 0.675
+        }
+      },
+      {
+        "inputHue": 245,
+        "crown": {
+          "hex": "#95c3b5",
+          "hue": 161.51,
+          "saturation": 0.281,
+          "lightness": 0.675
+        }
+      }
+    ]
+  },
+  "blender": {
+    "warmAndDefaultAppearanceExact": true,
+    "balancedGeometryUnchanged": true,
+    "lodSequence": [
+      "near",
+      "near",
+      "far",
+      "far",
+      "near"
+    ],
+    "materialSharingAndToneIsolation": true,
+    "lastLeaseDisposal": true,
+    "cachedSourceUnmodified": true,
+    "dimmingIsolated": true,
+    "bothLODGrowthStagesPreserved": true,
+    "botanicalMineralUniforms": {
+      "balancedShadowGreen": {
+        "hex": "#64856d",
+        "hue": 136.36,
+        "saturation": 0.142,
+        "lightness": 0.457
+      },
+      "balancedLeafGreen": {
+        "hex": "#8ab99a",
+        "hue": 140.43,
+        "saturation": 0.251,
+        "lightness": 0.633
+      }
+    },
+    "sourceHuePetalBodies": [
+      {
+        "category": "joy",
+        "hex": "#d9cc96",
+        "hue": 48,
+        "saturation": 0.468,
+        "lightness": 0.72
+      },
+      {
+        "category": "excited",
+        "hex": "#d9b596",
+        "hue": 28,
+        "saturation": 0.468,
+        "lightness": 0.72
+      },
+      {
+        "category": "flutter",
+        "hex": "#d996b2",
+        "hue": 335,
+        "saturation": 0.468,
+        "lightness": 0.72
+      },
+      {
+        "category": "cozy",
+        "hex": "#96d9ac",
+        "hue": 140,
+        "saturation": 0.468,
+        "lightness": 0.72
+      },
+      {
+        "category": "calm",
+        "hex": "#96d9d3",
+        "hue": 175,
+        "saturation": 0.468,
+        "lightness": 0.72
+      },
+      {
+        "category": "sad",
+        "hex": "#96a7d9",
+        "hue": 225,
+        "saturation": 0.468,
+        "lightness": 0.72
+      },
+      {
+        "category": "tense",
+        "hex": "#b896d9",
+        "hue": 270,
+        "saturation": 0.468,
+        "lightness": 0.72
+      }
+    ],
+    "boundedPearlHighlights": true,
+    "petalOpacityPreserved": true
+  },
+  "environment": {
+    "warm": {
+      "cardsAndBackgroundExact": true,
+      "opalMaterialAndShaderExact": true
+    },
+    "default": {
+      "cardsAndBackgroundExact": true,
+      "opalMaterialAndShaderExact": true
+    },
+    "warmSkyExact": true
+  },
+  "protectedAssets": [
+    {
+      "file": "public/models/island.glb",
+      "sha256": "52ed6300962c469a0bd3e6eee9452bd9d6578d14de5b1df3004967ecfa20c083",
+      "unchanged": true
+    },
+    {
+      "file": "public/models/flora/crystal_flower.glb",
+      "sha256": "63da14f5909379e86624a40485506ba6c0e308146117cdd3abe4ebb05f2ddd56",
+      "unchanged": true
+    },
+    {
+      "file": "public/models/flora/crystal_flower_lod.glb",
+      "sha256": "54b20b8acd64a610bb1a97e4af341e47e5169bcb13c267392cb663d97b8ef6ee",
+      "unchanged": true
+    },
+    {
+      "file": "art/flora/crystal_flower.blend",
+      "sha256": "fe5d7216ba2689e5409349ff379aa2c1461ee58cd3607fb46ae0d20f45c677c2",
+      "unchanged": true
+    }
+  ],
+  "branches": {
+    "working": "codex/balanced-warm-flora",
+    "warm": "536d2acc1e354ac36d0ab21a1b6c752dc15e668b",
+    "observedAurora": "ba260e204165efa2830b10d824cf76b8c58805e1",
+    "note": "Aurora may advance in a separate authorized chat; this verifier never updates any ref."
+  },
+  "status": "passed"
+}

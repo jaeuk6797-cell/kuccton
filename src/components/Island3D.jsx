@@ -72,6 +72,7 @@ function applyOpalReflection(material, tone) {
   // Native thin-film shading added measured cost without a visible gain over this angular scatter.
   material.iridescence = 0
   const warm = tone !== 'default'
+  const balanced = tone === 'balanced'
   const previousCompile = material.onBeforeCompile
   material.onBeforeCompile = function (shader, renderer) {
     previousCompile.call(this, shader, renderer)
@@ -88,9 +89,9 @@ function applyOpalReflection(material, tone) {
         1.0 - opalReflection.z,
         1.0 + 0.8660254 * opalReflection.x + 0.5 * opalReflection.z,
         1.0 - 0.8660254 * opalReflection.x + 0.5 * opalReflection.z) / 3.0;
-      vec3 opalTint = opalWeights.x * vec3(${warm ? '1.02, 1.03, 1.10' : '0.72, 1.12, 1.14'})
-        + opalWeights.y * vec3(${warm ? '1.26, 0.78, 0.96' : '1.18, 0.78, 1.03'})
-        + opalWeights.z * vec3(${warm ? '1.02, 0.86, 1.24' : '1.14, 0.76, 1.18'});
+      vec3 opalTint = opalWeights.x * vec3(${balanced ? '0.96, 1.12, 1.02' : warm ? '1.02, 1.03, 1.10' : '0.72, 1.12, 1.14'})
+        + opalWeights.y * vec3(${balanced ? '1.14, 1.03, 0.88' : warm ? '1.26, 0.78, 0.96' : '1.18, 0.78, 1.03'})
+        + opalWeights.z * vec3(${balanced ? '1.04, 0.99, 1.13' : warm ? '1.02, 0.86, 1.24' : '1.14, 0.76, 1.18'});
       // A quiet pearl body persists while reflected color strengthens toward grazing views.
       reflectedLight.indirectDiffuse *= mix(vec3(${warm ? '1.06, 1.0, 0.97' : '0.92, 1.02, 1.04'}), opalTint,
         0.55 + 0.20 * opalGrazing);
@@ -341,7 +342,8 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
     camera.position.set(...CAMERA.position)
 
     const warm = tone !== 'default'
-    scene.add(new THREE.HemisphereLight(warm ? '#f6dfd8' : '#ccd9f3', warm ? '#94747f' : '#6c7d88', warm ? 0.46 : 0.38))
+    const balanced = tone === 'balanced'
+    scene.add(new THREE.HemisphereLight(balanced ? '#f5edda' : warm ? '#f6dfd8' : '#ccd9f3', balanced ? '#89917b' : warm ? '#94747f' : '#6c7d88', warm ? 0.46 : 0.38))
     const sun = new THREE.DirectionalLight(warm ? '#fff1dc' : '#fff1e8', 1.5)
     sun.position.set(5, 8, 5)
     sun.castShadow = true
@@ -352,7 +354,7 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
     sun.shadow.normalBias = 0.025
     sun.shadow.bias = -0.0001
     scene.add(sun)
-    const fill = new THREE.DirectionalLight(warm ? '#dcb8d3' : '#a8dce4', warm ? 0.52 : 0.65)
+    const fill = new THREE.DirectionalLight(balanced ? '#d8e2c6' : warm ? '#dcb8d3' : '#a8dce4', warm ? 0.52 : 0.65)
     fill.position.set(-4, -1, 3)
     scene.add(fill)
 

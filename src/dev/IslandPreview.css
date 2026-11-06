@@ -6,6 +6,7 @@
 .flora-preview[data-tone="default"] {
   background: linear-gradient(180deg, #f7d6e6, #d9ccf5 52%, #bfe8e3);
 }
+.flora-preview[data-tone="balanced"] { background: var(--sky-balanced, var(--sky)); }
 .flora-preview[data-portrait="true"] {
   width: min(390px, 100%);
   height: 844px;
@@ -41,6 +42,7 @@
 }
 .flora-actions button[aria-pressed="true"] { background: #58456f; color: white; }
 .flora-preview[data-tone="warm"] .flora-actions button[aria-pressed="true"] { background: #855d6b; }
+.flora-preview[data-tone="balanced"] .flora-actions button[aria-pressed="true"] { background: #496653; }
 .flora-stats { font-size: 12px; font-variant-numeric: tabular-nums; }
 .flora-card {
   position: relative;
@@ -54,6 +56,21 @@
 .flora-comparison { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
 .flora-comparison .bloom3d, .flora-comparison canvas { max-width: 100%; height: auto !important; }
 .flora-close { position: absolute; z-index: 1; top: 0; right: 3px; font-size: 22px; }
+.flora-study { width: min(640px, 100%); max-width: 100%; max-height: calc(100dvh - 190px); overflow-y: auto; padding: 16px; }
+.flora-study h2 { margin: 0 18px 12px; font-size: 17px; }
+.flora-study-body { display: grid; grid-template-columns: minmax(0, 1fr) 270px; gap: 18px; align-items: center; }
+.flora-study-nav { display: grid; gap: 15px; text-align: left; }
+.flora-study-group h3 { margin: 0 0 7px; font-size: 12px; font-weight: 600; color: #766a77; }
+.flora-study-group .flora-actions { justify-content: flex-start; }
+.flora-study-group .flora-actions button { padding: 6px 10px; font-size: 12px; }
+.flora-study-detail { display: grid; justify-items: center; gap: 4px; }
+.flora-study-detail > span { font-size: 12px; color: #766a77; }
+.flora-preview[data-portrait="true"] .flora-study-body { grid-template-columns: 1fr; gap: 10px; }
+.flora-preview[data-portrait="true"] .flora-study-nav { gap: 9px; }
+@media (max-width: 600px) {
+  .flora-study-body { grid-template-columns: 1fr; gap: 10px; }
+  .flora-study-nav { gap: 9px; }
+}
 @media (max-width: 480px) {
   .flora-preview .island { top: 172px; }
   .flora-actions { gap: 4px; }
