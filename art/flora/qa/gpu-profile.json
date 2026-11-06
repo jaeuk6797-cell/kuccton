@@ -1,0 +1,164 @@
+{
+  "workload": "Both versions receive all source flowers so pair models render identically (baseline Garden prop corrected only in intercepted test response).",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "deviceScaleFactor": 2,
+  "rendererPixelRatio": 1.5,
+  "warmupFrames": 120,
+  "results": [
+    {
+      "label": "before",
+      "timerQuerySupported": true,
+      "gpu": {
+        "samples": 180,
+        "medianMs": 9.034791,
+        "p95Ms": 14.20302
+      },
+      "cpuSubmission": {
+        "samples": 180,
+        "medianMs": 9.899999976158142,
+        "p95Ms": 14.5
+      },
+      "renderer": "ANGLE (Intel, Intel(R) Arc(TM) 140V GPU (16GB) (0x000064A0) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "disjoint": 0,
+      "metrics": {
+        "frame": 658,
+        "calls": 1743,
+        "triangles": 196568,
+        "points": 140,
+        "lines": 0,
+        "memory": {
+          "geometries": 486,
+          "textures": 7
+        }
+      },
+      "canvas": {
+        "width": 585,
+        "height": 981
+      },
+      "camera": [
+        0,
+        8.866060774349346,
+        21.40549723969026
+      ],
+      "plants": 52,
+      "errors": []
+    },
+    {
+      "label": "after",
+      "timerQuerySupported": true,
+      "gpu": {
+        "samples": 180,
+        "medianMs": 8.435416,
+        "p95Ms": 14.370312
+      },
+      "cpuSubmission": {
+        "samples": 180,
+        "medianMs": 8,
+        "p95Ms": 11.199999988079071
+      },
+      "renderer": "ANGLE (Intel, Intel(R) Arc(TM) 140V GPU (16GB) (0x000064A0) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "disjoint": 0,
+      "metrics": {
+        "frame": 660,
+        "calls": 1743,
+        "triangles": 157128,
+        "points": 140,
+        "lines": 0,
+        "memory": {
+          "geometries": 306,
+          "textures": 7
+        }
+      },
+      "canvas": {
+        "width": 585,
+        "height": 981
+      },
+      "camera": [
+        0,
+        8.866060774349346,
+        21.40549723969026
+      ],
+      "plants": 52,
+      "errors": []
+    },
+    {
+      "label": "before",
+      "timerQuerySupported": true,
+      "gpu": {
+        "samples": 180,
+        "medianMs": 9.203802,
+        "p95Ms": 14.249895
+      },
+      "cpuSubmission": {
+        "samples": 180,
+        "medianMs": 8.199999988079071,
+        "p95Ms": 12
+      },
+      "renderer": "ANGLE (Intel, Intel(R) Arc(TM) 140V GPU (16GB) (0x000064A0) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "disjoint": 0,
+      "metrics": {
+        "frame": 660,
+        "calls": 1743,
+        "triangles": 196568,
+        "points": 140,
+        "lines": 0,
+        "memory": {
+          "geometries": 486,
+          "textures": 7
+        }
+      },
+      "canvas": {
+        "width": 585,
+        "height": 981
+      },
+      "camera": [
+        0,
+        8.866060774349346,
+        21.40549723969026
+      ],
+      "plants": 52,
+      "errors": []
+    },
+    {
+      "label": "after",
+      "timerQuerySupported": true,
+      "gpu": {
+        "samples": 180,
+        "medianMs": 8.664583,
+        "p95Ms": 14.068906
+      },
+      "cpuSubmission": {
+        "samples": 180,
+        "medianMs": 8.299999952316284,
+        "p95Ms": 12.200000047683716
+      },
+      "renderer": "ANGLE (Intel, Intel(R) Arc(TM) 140V GPU (16GB) (0x000064A0) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "disjoint": 0,
+      "metrics": {
+        "frame": 660,
+        "calls": 1743,
+        "triangles": 157128,
+        "points": 140,
+        "lines": 0,
+        "memory": {
+          "geometries": 306,
+          "textures": 7
+        }
+      },
+      "canvas": {
+        "width": 585,
+        "height": 981
+      },
+      "camera": [
+        0,
+        8.866060774349346,
+        21.40549723969026
+      ],
+      "plants": 52,
+      "errors": []
+    }
+  ]
+}

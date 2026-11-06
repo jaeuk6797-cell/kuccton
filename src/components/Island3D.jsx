@@ -9,6 +9,7 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
 import { buildFlower3D, disposeFlower3D } from '../lib/flower3d.js'
 import { buildTree3D } from '../lib/tree3d.js'
+import { createGardenEnvironment } from '../lib/gardenEnvironment.js'
 import { isTree } from '../lib/tree.js'
 import { playbackLevel } from '../lib/audio.js'
 
@@ -61,43 +62,6 @@ function disposeMeshes(root) {
     }
   })
   for (const resource of resources) resource.dispose()
-}
-
-function createGardenEnvironment(renderer) {
-  // Capture broad pastel sky reflections once; only the filtered cubemap is sampled each frame.
-  const studio = new THREE.Scene()
-  studio.background = new THREE.Color('#c5d3e6')
-  const geometry = new THREE.PlaneGeometry(1, 1, 12, 12)
-  const position = geometry.attributes.position
-  const colors = []
-  for (let i = 0; i < position.count; i++) {
-    const radiusSquared = 4 * (position.getX(i) ** 2 + position.getY(i) ** 2)
-    colors.push(1, 1, 1, Math.max(0, 1 - radiusSquared) ** 2)
-  }
-  geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 4))
-  // Rear sky bands cross the ground's reflected horizon as the camera orbits.
-  for (const [position, size, color, intensity] of [
-    [[1.3, 1.25, -6.2], [5.2, 2.2], '#f5c8df', 7.875],
-    [[3.8, 2.5, -5.6], [4.4, 1.8], '#b9e7f0', 8.75],
-    [[-3.8, 2.5, -5.6], [4.4, 1.8], '#c6b7ec', 8.75],
-    [[-0.8, 2.6, -6.2], [3.6, 1.2], '#fff2ed', 14],
-  ]) {
-    const material = new THREE.MeshBasicMaterial({
-      color: new THREE.Color(color).multiplyScalar(intensity), toneMapped: false,
-      vertexColors: true, transparent: true, depthWrite: false,
-    })
-    const panel = new THREE.Mesh(geometry, material)
-    panel.position.set(...position)
-    panel.scale.set(size[0], size[1], 1)
-    panel.lookAt(0, 0, 0)
-    studio.add(panel)
-  }
-  const generator = new THREE.PMREMGenerator(renderer)
-  // Card falloff supplies softness; preserve enough contrast for a moving polished highlight.
-  const environment = generator.fromScene(studio, 0.03, 0.1, 30, { size: 256 })
-  generator.dispose()
-  disposeMeshes(studio)
-  return environment
 }
 
 function applyOpalReflection(material) {
@@ -286,22 +250,21 @@ function placeFlowers(items) {
 // flowers: 우리의 꽃을 만들 때 찾을 수 있도록 내 꽃까지 전부 받는다. 섬에는 받은 꽃(meId가 아닌 꽃)과 우리의 꽃만 핀다.
 // visibleIds: 쉼표로 이은 id 목록(친구별 보기). 위치는 항상 전체 기준으로 정하고 여기 없는 것만 숨겨서,
 //             친구를 바꿔 봐도 꽃 자리가 움직이지 않는다. 없으면 모두 보인다.
-// 친구별 보기: 고른 친구의 꽃만 또렷하게, 나머지는 색을 빼고 반투명하게 (재질은 복사해서 바꾼다)
+// 친구별 보기: 고른 친구의 꽃만 또렷하게, 나머지는 색을 빼고 반투명하게
 const DIM_GREY = new THREE.Color('#c9c4d6')
 function dimObject(obj) {
+  const materials = new Set()
   obj.traverse((o) => {
-    if (!o.isMesh || !o.material) return
-    const dim = (m) => {
-      const c = m.clone()
-      c.transparent = true
-      c.opacity = 0.22
-      if (c.color) c.color.lerp(DIM_GREY, 0.55)
-      if (c.emissive) c.emissive.multiplyScalar(0.2)
-      return c
-    }
-    o.material = Array.isArray(o.material) ? o.material.map(dim) : dim(o.material)
+    if (!o.isMesh) return
+    materials.add(o.material)
     o.castShadow = false
   })
+  // Each plant owns its materials. All petals or facets on that plant can stay on the same material.
+  for (const material of materials) {
+    material.transparent = true
+    material.opacity = 0.22
+    material.color.lerp(DIM_GREY, 0.55)
+  }
 }
 
 export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, visibleIds, onPickFlower, onPickPair, resetViewKey }) {
