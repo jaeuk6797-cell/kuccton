@@ -1,18 +1,11 @@
 import { useEffect, useRef, useState } from 'react'
 import { useSpeechRecognition } from './useSpeechRecognition.js'
 import { analyzeEmotion, emotionEnabled } from './emotion.js'
+import { extractFeatures } from './soundFeatures.js'
+import { CATEGORIES, VOICE_IDS, buildFlower } from './flower.js'
+import Flower from './Flower.jsx'
 
 const MAX_SECONDS = 10
-
-const CATEGORIES = [
-  { id: 'rain', label: '비' },
-  { id: 'water', label: '물' },
-  { id: 'wind', label: '바람' },
-  { id: 'animal', label: '동물' },
-  { id: 'life', label: '생활음' },
-  { id: 'laugh', label: '웃음' },
-  { id: 'voice', label: '사람 목소리' },
-]
 
 export default function App() {
   const stt = useSpeechRecognition()
@@ -25,17 +18,30 @@ export default function App() {
   const [emotion, setEmotion] = useState(null)
   const [emotionError, setEmotionError] = useState(null)
   const [analyzing, setAnalyzing] = useState(false)
+  const [features, setFeatures] = useState(null)
   const recorderRef = useRef(null)
   const chunksRef = useRef([])
   const timerRef = useRef(null)
 
   useEffect(() => () => clearInterval(timerRef.current), [])
 
+  useEffect(() => {
+    setFeatures(null)
+    if (!blob) return
+    let cancelled = false
+    extractFeatures(blob)
+      .then((f) => !cancelled && setFeatures(f))
+      .catch(() => {})
+    return () => {
+      cancelled = true
+    }
+  }, [blob])
+
   // 사람 목소리를 골랐을 때만 녹음을 감정 분석 서버로 보낸다.
   useEffect(() => {
     setEmotion(null)
     setEmotionError(null)
-    if (category !== 'voice' || !blob || !emotionEnabled) return
+    if (!VOICE_IDS.includes(category) || !blob || !emotionEnabled) return
     let cancelled = false
     setAnalyzing(true)
     analyzeEmotion(blob)
@@ -89,6 +95,7 @@ export default function App() {
     setRecording(false)
   }
 
+  const flower = features && category ? buildFlower(category, features) : null
   const flowerWord = stt.transcript + (stt.interim ? ` ${stt.interim}` : '')
 
   return (
@@ -121,7 +128,7 @@ export default function App() {
             ))}
           </div>
 
-          {category === 'voice' && (
+          {VOICE_IDS.includes(category) && (
             <div style={{ marginTop: 12 }}>
               {!emotionEnabled && <p>감정 분석 서버 주소(VITE_EMOTION_API_URL)가 설정되지 않았어요.</p>}
               {analyzing && <p>목소리의 감정을 읽는 중…</p>}
@@ -131,6 +138,14 @@ export default function App() {
                   감정: <b>{emotion.emotion}</b> (강도 {emotion.intensity.toFixed(2)})
                 </p>
               )}
+            </div>
+          )}
+
+          {flower && (
+            <div style={{ marginTop: 16, textAlign: 'center' }}>
+              <Flower flower={flower} />
+              <h3 style={{ margin: 0 }}>{flower.name}</h3>
+              <p style={{ margin: '4px 0' }}>{flower.reason}</p>
             </div>
           )}
         </section>
