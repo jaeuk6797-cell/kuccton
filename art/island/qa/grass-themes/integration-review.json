@@ -1,0 +1,26 @@
+{
+  "createdUtc": "2026-11-06T20:28:12.8091845Z",
+  "scope": "Read-only integration lifecycle review; no source edits or browser launch",
+  "coordinatedWorktree": "C:/Users/kuson/projects/kuccthon-sound",
+  "module": {
+    "path": "C:/Users/kuson/projects/kuccthon-sound/src/lib/islandGrass.js",
+    "sha256NormalizedLF": "6799c6b17418255dbeb466bc6b45a696988cd659a1a3beb0b698a81f3ab6f8bb",
+    "expectedSHA256": "6799c6b17418255dbeb466bc6b45a696988cd659a1a3beb0b698a81f3ab6f8bb",
+    "matches": true
+  },
+  "integrationSource": {
+    "path": "C:/Users/kuson/projects/kuccthon-sound/src/components/Island3D.jsx",
+    "sha256NormalizedLF": "4a8dd60be618fdaff358282da9af2a364421116540274dab2090e2ce60421364"
+  },
+  "findings": [
+    "Cache keys are bounded to modern (balanced/aurora) and archive (warm/default).",
+    "Same-variant reparent moves the grass mesh out of the old model before disposeMeshes visits it.",
+    "Cross-variant switching detaches the previous grass mesh before disposing the previous model.",
+    "Completed staging is empty after the model is committed, so later cancellation cannot dispose live cached grass.",
+    "Stale or cancelled loader requests dispose their own model and do not mutate the live cache.",
+    "updatePlants converts plant positions into the creation frame; reparent updates the current model reference while retaining local instance geometry.",
+    "Final renderer unmount explicitly disposes every cached controller, clears the cache, then disposes the scene and renderer."
+  ],
+  "actionableBugs": [],
+  "runtimeEvidence": "Not independently rerun here. The integration owner is capturing frozen-source four-theme checks, including one batch and per-variant UUID/buffer reuse."
+}

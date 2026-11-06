@@ -1,0 +1,79 @@
+SOOP theme-specific grass
+
+Shared module: e24cc39 (codex/theme-grass), based on the approved half-size grass
+at 6da2b6f. Integration target: codex/garden-theme-selector. Historical Aurora,
+Warm and Balanced visual branches are preserved; no merge into main.
+
+Theme appearances:
+  balanced: natural sage roots, soft mint blades, gentle yellow-green tips.
+  warm: muted sage/dusty green, softer contrast and a restrained warm-white tint.
+  aurora: mint and turquoise-green, restrained cool cyan reflection.
+  default: neutral soft green with a subtle cool mint bias.
+All palettes remain botanical green, opaque and matte. No glow, alpha cards,
+new shader variants, grass animation or theme-dependent silhouette changes.
+
+createIslandGrass accepts {theme} and the integration's {tone} alias. An explicit
+theme takes precedence; absent, unknown, null and prototype-name inputs fall back
+to balanced. setTheme changes the existing 10-vertex color buffer and material
+uniforms in place. It preserves mesh, geometry, material, index/vertex buffers,
+instance matrices/colors, clump count, placement and plant-stem cropping.
+
+reparent(nextModel) reuses the same resources on another copy of the SAME GLB
+variant. The caller must detach/reparent grass before disposing the old island.
+Two bounded placement layouts cover the modern and archived asset variants;
+the archived model retains hoop supports and needs their exclusion. The new
+targeted foot exclusion reduces intersecting triangles from 66 to zero without
+moving any grass on the modern island. No per-theme grass models are required.
+
+Each visible grass layer remains 1,000 clumps x 6 triangles = 6,000 triangles,
+one opaque main draw and zero shadow draws. It receives existing flower shadows
+and remains excluded from picking. Static island totals including grass:
+  Balanced / Aurora modern island: 14,099 + 6,000 = 20,099 triangles.
+  Warm / Original archived island: 16,607 + 6,000 = 22,607 triangles.
+Both remain below the 25,000-triangle maximum.
+
+Focused module checks pass: all four palettes and effective botanical colors,
+unknown-ID fallback, resource identity across cycles and transformed same-asset
+reparenting, unchanged approved geometry/modern placement, stem cropping and
+restoration, archived support exclusion, no material recompile flag, valid target
+guards, and cleanup. See verify-grass-themes.mjs and module-results.json.
+
+The editable Blender source remains a Balanced preview. Its geometry, positions,
+colors and material are exactly unchanged; only preview source-hash and theme
+metadata were synchronized. The source preview remains excluded from the GLB.
+No island GLB was modified for this color-only theme pass.
+
+Production build passes. The existing large-bundle warning remains. The shared
+module adds no per-frame grass work or additional visible grass draw calls.
+
+The integrated module's LF-normalized hash exactly matches the frozen source.
+Read-only integration review confirms bounded modern/archive caches, detachment
+before old island disposal, safe staging cancellation, and explicit disposal of
+both cached controllers on final renderer teardown. See integration-review.json.
+
+All four actual production Garden captures pass visual inspection at matching
+camera pose and frozen time 6, with 12 received plants and two pair flowers.
+Grass remains green in Warm, restrained turquoise in Aurora, soft sage/mint in
+Balanced and neutral cool green in Original. Flowers stay visually dominant;
+pond, outer rim and crystal formations remain clear. Screenshots were produced by
+the coordinated integration chat at art/garden-themes/{theme}-garden.png and
+copied unchanged here. See comparison.html.
+
+Coordinated live-browser validation passes for all four themes: 1,000 clumps,
+6,000 grass triangles, one visible grass draw, matching theme IDs, and identical
+mesh/geometry/instance-buffer identities when returning to each asset variant.
+Three resource cycles, real-canvas Blender flower picking, four dense desktop
+views and four dense mobile views pass with zero renderer errors. Failed-load
+recovery and six overlapping theme requests also pass. Runtime evidence comes
+from the integration's browser-results.json and retry-results.json; this source
+branch's legacy preview is not the four-theme integration target.
+
+The integration's desktop Intel Arc 140V run sampled approximately 16.67 ms frame
+intervals for all four themes. With 50 received plants plus two pair flowers:
+  Balanced: 2,134 renderer calls; 168,100 pass-expanded renderer triangles.
+  Warm:     2,138 renderer calls; 173,116 pass-expanded renderer triangles.
+  Aurora:   2,140 renderer calls; 168,108 pass-expanded renderer triangles.
+  Original: 2,138 renderer calls; 173,116 pass-expanded renderer triangles.
+These whole-garden statistics include the existing render/shadow work and are
+separate from unique static island triangles. Physical mobile GPU, thermal and
+battery measurements remain untested; viewport emulation is not a phone benchmark.

@@ -1,0 +1,700 @@
+{
+  "createdUTC": "2026-11-06T20:36:00.505Z",
+  "scope": "Read-only summary of the coordinated integration owner’s final browser and retry evidence. No duplicate browser or performance run was launched by this reviewer.",
+  "sources": {
+    "browser": {
+      "path": "C:\\Users\\kuson\\projects\\kuccthon-sound\\art\\garden-themes\\browser-results.json",
+      "bytes": 170466,
+      "sha256": "b6e5abbe1138a7be1d83f32d192888b1b9002ec063e1d06a146a158955f07764",
+      "modifiedUTC": "2026-11-06T20:30:45.885Z"
+    },
+    "retry": {
+      "path": "C:\\Users\\kuson\\projects\\kuccthon-sound\\art\\garden-themes\\retry-results.json",
+      "bytes": 53825,
+      "sha256": "cab883a5e235db48d09eff5dd6e7f18d21af8d4701de91e8309874dcfac134db",
+      "modifiedUTC": "2026-11-06T20:28:19.606Z"
+    },
+    "productionSupplemental": {
+      "path": "C:\\Users\\kuson\\projects\\kuccthon-sound\\art\\garden-themes\\production-results.json",
+      "bytes": 4358,
+      "sha256": "34b780459876d484a3aeab28231a33d337e392a0870146c04fea08f0f4678774",
+      "modifiedUTC": "2026-11-06T20:33:41.913Z"
+    },
+    "moduleReview": "integration-review.json"
+  },
+  "browser": {
+    "passed": true,
+    "browser": "Chrome headless, native GPU",
+    "version": "157.0.8103.38",
+    "renderer": "ANGLE (Intel, Intel(R) Arc(TM) 140V GPU (16GB) (0x000064A0) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+    "desktopViewport": {
+      "width": 1280,
+      "height": 900
+    },
+    "errors": []
+  },
+  "grassChecks": {
+    "allEightSnapshotsHaveOneDraw1000Clumps6000Triangles": true,
+    "allThemesMatchRequestedPalette": true,
+    "cacheSizeNeverExceedsTwo": true,
+    "cacheReuse": {
+      "14": {
+        "modern": [
+          {
+            "meshUUID": "037c0150-7945-4b47-a6ec-bcf5ef50e270",
+            "geometryUUID": "5350443c-e377-4212-b1bb-17f3dd2a8dd4",
+            "instanceBufferId": 1
+          },
+          {
+            "meshUUID": "037c0150-7945-4b47-a6ec-bcf5ef50e270",
+            "geometryUUID": "5350443c-e377-4212-b1bb-17f3dd2a8dd4",
+            "instanceBufferId": 1
+          }
+        ],
+        "archive": [
+          {
+            "meshUUID": "1c22d192-8389-43a1-9153-911fa3bada3b",
+            "geometryUUID": "99727ce1-652c-4c9e-a6e0-98ebe41f7541",
+            "instanceBufferId": 2
+          },
+          {
+            "meshUUID": "1c22d192-8389-43a1-9153-911fa3bada3b",
+            "geometryUUID": "99727ce1-652c-4c9e-a6e0-98ebe41f7541",
+            "instanceBufferId": 2
+          }
+        ],
+        "modernIdentical": true,
+        "archiveIdentical": true,
+        "note": "IDs are compared within one scene session; dense navigation creates a fresh renderer and new UUIDs."
+      },
+      "52": {
+        "modern": [
+          {
+            "meshUUID": "8a591423-659b-4458-b512-b08261f86775",
+            "geometryUUID": "425d7720-a84a-4f80-ae05-c4be5ef29b6a",
+            "instanceBufferId": 1
+          },
+          {
+            "meshUUID": "8a591423-659b-4458-b512-b08261f86775",
+            "geometryUUID": "425d7720-a84a-4f80-ae05-c4be5ef29b6a",
+            "instanceBufferId": 1
+          }
+        ],
+        "archive": [
+          {
+            "meshUUID": "b3d11484-b182-482a-882c-ce90becddf0e",
+            "geometryUUID": "9e8d5677-87c9-4d21-9d52-6298814de9b3",
+            "instanceBufferId": 2
+          },
+          {
+            "meshUUID": "b3d11484-b182-482a-882c-ce90becddf0e",
+            "geometryUUID": "9e8d5677-87c9-4d21-9d52-6298814de9b3",
+            "instanceBufferId": 2
+          }
+        ],
+        "modernIdentical": true,
+        "archiveIdentical": true,
+        "note": "IDs are compared within one scene session; dense navigation creates a fresh renderer and new UUIDs."
+      }
+    },
+    "sameCamera": {
+      "14": true,
+      "52": true
+    },
+    "samePlantStates": {
+      "14": true,
+      "52": true
+    },
+    "resourceCycles": [
+      {
+        "balanced": {
+          "geometries": 124,
+          "textures": 7,
+          "programs": 18
+        },
+        "warm": {
+          "geometries": 126,
+          "textures": 7,
+          "programs": 17
+        },
+        "aurora": {
+          "geometries": 125,
+          "textures": 9,
+          "programs": 25
+        },
+        "default": {
+          "geometries": 126,
+          "textures": 7,
+          "programs": 16
+        }
+      },
+      {
+        "balanced": {
+          "geometries": 124,
+          "textures": 7,
+          "programs": 18
+        },
+        "warm": {
+          "geometries": 126,
+          "textures": 7,
+          "programs": 17
+        },
+        "aurora": {
+          "geometries": 125,
+          "textures": 9,
+          "programs": 25
+        },
+        "default": {
+          "geometries": 126,
+          "textures": 7,
+          "programs": 16
+        }
+      },
+      {
+        "balanced": {
+          "geometries": 124,
+          "textures": 7,
+          "programs": 18
+        },
+        "warm": {
+          "geometries": 126,
+          "textures": 7,
+          "programs": 17
+        },
+        "aurora": {
+          "geometries": 125,
+          "textures": 9,
+          "programs": 25
+        },
+        "default": {
+          "geometries": 126,
+          "textures": 7,
+          "programs": 16
+        }
+      }
+    ],
+    "resourceCyclesIdentical": true
+  },
+  "samples": {
+    "balanced-14": {
+      "tone": "balanced",
+      "requestedTone": "balanced",
+      "themeStatus": "loaded",
+      "plants": 14,
+      "island": "loaded",
+      "islandChildren": 1,
+      "islandGeometry": {
+        "assetTriangles": 14099,
+        "grassTriangles": 6000,
+        "grassClumps": 1000,
+        "grassDrawCalls": 1,
+        "grassTheme": "balanced",
+        "grassMeshUUID": "037c0150-7945-4b47-a6ec-bcf5ef50e270",
+        "grassGeometryUUID": "5350443c-e377-4212-b1bb-17f3dd2a8dd4",
+        "grassInstanceBufferId": 1,
+        "grassCacheSize": 2
+      },
+      "totalStaticTriangles": 20099,
+      "renderCalls": 624,
+      "passExpandedTriangles": 75624,
+      "resources": {
+        "geometries": 119,
+        "textures": 7,
+        "programs": 17
+      },
+      "camera": {
+        "position": [
+          0,
+          9.137507550611275,
+          22.06833239102752
+        ],
+        "target": [
+          0,
+          0.1,
+          0
+        ]
+      },
+      "viewport": {
+        "width": 520,
+        "height": 900,
+        "pixelRatio": 1
+      }
+    },
+    "warm-14": {
+      "tone": "warm",
+      "requestedTone": "warm",
+      "themeStatus": "loaded",
+      "plants": 14,
+      "island": "loaded",
+      "islandChildren": 1,
+      "islandGeometry": {
+        "assetTriangles": 16607,
+        "grassTriangles": 6000,
+        "grassClumps": 1000,
+        "grassDrawCalls": 1,
+        "grassTheme": "warm",
+        "grassMeshUUID": "1c22d192-8389-43a1-9153-911fa3bada3b",
+        "grassGeometryUUID": "99727ce1-652c-4c9e-a6e0-98ebe41f7541",
+        "grassInstanceBufferId": 2,
+        "grassCacheSize": 2
+      },
+      "totalStaticTriangles": 22607,
+      "renderCalls": 628,
+      "passExpandedTriangles": 80640,
+      "resources": {
+        "geometries": 121,
+        "textures": 7,
+        "programs": 16
+      },
+      "camera": {
+        "position": [
+          0,
+          9.137507550611275,
+          22.06833239102752
+        ],
+        "target": [
+          0,
+          0.1,
+          0
+        ]
+      },
+      "viewport": {
+        "width": 520,
+        "height": 900,
+        "pixelRatio": 1
+      }
+    },
+    "aurora-14": {
+      "tone": "aurora",
+      "requestedTone": "aurora",
+      "themeStatus": "loaded",
+      "plants": 14,
+      "island": "loaded",
+      "islandChildren": 1,
+      "islandGeometry": {
+        "assetTriangles": 14099,
+        "grassTriangles": 6000,
+        "grassClumps": 1000,
+        "grassDrawCalls": 1,
+        "grassTheme": "aurora",
+        "grassMeshUUID": "037c0150-7945-4b47-a6ec-bcf5ef50e270",
+        "grassGeometryUUID": "5350443c-e377-4212-b1bb-17f3dd2a8dd4",
+        "grassInstanceBufferId": 1,
+        "grassCacheSize": 2
+      },
+      "totalStaticTriangles": 20099,
+      "renderCalls": 630,
+      "passExpandedTriangles": 75632,
+      "resources": {
+        "geometries": 120,
+        "textures": 9,
+        "programs": 23
+      },
+      "camera": {
+        "position": [
+          0,
+          9.137507550611275,
+          22.06833239102752
+        ],
+        "target": [
+          0,
+          0.1,
+          0
+        ]
+      },
+      "viewport": {
+        "width": 520,
+        "height": 900,
+        "pixelRatio": 1
+      }
+    },
+    "default-14": {
+      "tone": "default",
+      "requestedTone": "default",
+      "themeStatus": "loaded",
+      "plants": 14,
+      "island": "loaded",
+      "islandChildren": 1,
+      "islandGeometry": {
+        "assetTriangles": 16607,
+        "grassTriangles": 6000,
+        "grassClumps": 1000,
+        "grassDrawCalls": 1,
+        "grassTheme": "default",
+        "grassMeshUUID": "1c22d192-8389-43a1-9153-911fa3bada3b",
+        "grassGeometryUUID": "99727ce1-652c-4c9e-a6e0-98ebe41f7541",
+        "grassInstanceBufferId": 2,
+        "grassCacheSize": 2
+      },
+      "totalStaticTriangles": 22607,
+      "renderCalls": 628,
+      "passExpandedTriangles": 80640,
+      "resources": {
+        "geometries": 121,
+        "textures": 7,
+        "programs": 16
+      },
+      "camera": {
+        "position": [
+          0,
+          9.137507550611275,
+          22.06833239102752
+        ],
+        "target": [
+          0,
+          0.1,
+          0
+        ]
+      },
+      "viewport": {
+        "width": 520,
+        "height": 900,
+        "pixelRatio": 1
+      }
+    },
+    "balanced-52": {
+      "tone": "balanced",
+      "requestedTone": "balanced",
+      "themeStatus": "loaded",
+      "plants": 52,
+      "island": "loaded",
+      "islandChildren": 1,
+      "islandGeometry": {
+        "assetTriangles": 14099,
+        "grassTriangles": 6000,
+        "grassClumps": 1000,
+        "grassDrawCalls": 1,
+        "grassTheme": "balanced",
+        "grassMeshUUID": "8a591423-659b-4458-b512-b08261f86775",
+        "grassGeometryUUID": "425d7720-a84a-4f80-ae05-c4be5ef29b6a",
+        "grassInstanceBufferId": 1,
+        "grassCacheSize": 1
+      },
+      "totalStaticTriangles": 20099,
+      "renderCalls": 2134,
+      "passExpandedTriangles": 168100,
+      "resources": {
+        "geometries": 360,
+        "textures": 7,
+        "programs": 18
+      },
+      "camera": {
+        "position": [
+          0,
+          9.137507550611275,
+          22.06833239102752
+        ],
+        "target": [
+          0,
+          0.1,
+          0
+        ]
+      },
+      "viewport": {
+        "width": 520,
+        "height": 900,
+        "pixelRatio": 1
+      }
+    },
+    "warm-52": {
+      "tone": "warm",
+      "requestedTone": "warm",
+      "themeStatus": "loaded",
+      "plants": 52,
+      "island": "loaded",
+      "islandChildren": 1,
+      "islandGeometry": {
+        "assetTriangles": 16607,
+        "grassTriangles": 6000,
+        "grassClumps": 1000,
+        "grassDrawCalls": 1,
+        "grassTheme": "warm",
+        "grassMeshUUID": "b3d11484-b182-482a-882c-ce90becddf0e",
+        "grassGeometryUUID": "9e8d5677-87c9-4d21-9d52-6298814de9b3",
+        "grassInstanceBufferId": 2,
+        "grassCacheSize": 2
+      },
+      "totalStaticTriangles": 22607,
+      "renderCalls": 2138,
+      "passExpandedTriangles": 173116,
+      "resources": {
+        "geometries": 363,
+        "textures": 7,
+        "programs": 17
+      },
+      "camera": {
+        "position": [
+          0,
+          9.137507550611275,
+          22.06833239102752
+        ],
+        "target": [
+          0,
+          0.1,
+          0
+        ]
+      },
+      "viewport": {
+        "width": 520,
+        "height": 900,
+        "pixelRatio": 1
+      }
+    },
+    "aurora-52": {
+      "tone": "aurora",
+      "requestedTone": "aurora",
+      "themeStatus": "loaded",
+      "plants": 52,
+      "island": "loaded",
+      "islandChildren": 1,
+      "islandGeometry": {
+        "assetTriangles": 14099,
+        "grassTriangles": 6000,
+        "grassClumps": 1000,
+        "grassDrawCalls": 1,
+        "grassTheme": "aurora",
+        "grassMeshUUID": "8a591423-659b-4458-b512-b08261f86775",
+        "grassGeometryUUID": "425d7720-a84a-4f80-ae05-c4be5ef29b6a",
+        "grassInstanceBufferId": 1,
+        "grassCacheSize": 2
+      },
+      "totalStaticTriangles": 20099,
+      "renderCalls": 2140,
+      "passExpandedTriangles": 168108,
+      "resources": {
+        "geometries": 362,
+        "textures": 9,
+        "programs": 23
+      },
+      "camera": {
+        "position": [
+          0,
+          9.137507550611275,
+          22.06833239102752
+        ],
+        "target": [
+          0,
+          0.1,
+          0
+        ]
+      },
+      "viewport": {
+        "width": 520,
+        "height": 900,
+        "pixelRatio": 1
+      }
+    },
+    "default-52": {
+      "tone": "default",
+      "requestedTone": "default",
+      "themeStatus": "loaded",
+      "plants": 52,
+      "island": "loaded",
+      "islandChildren": 1,
+      "islandGeometry": {
+        "assetTriangles": 16607,
+        "grassTriangles": 6000,
+        "grassClumps": 1000,
+        "grassDrawCalls": 1,
+        "grassTheme": "default",
+        "grassMeshUUID": "b3d11484-b182-482a-882c-ce90becddf0e",
+        "grassGeometryUUID": "9e8d5677-87c9-4d21-9d52-6298814de9b3",
+        "grassInstanceBufferId": 2,
+        "grassCacheSize": 2
+      },
+      "totalStaticTriangles": 22607,
+      "renderCalls": 2138,
+      "passExpandedTriangles": 173116,
+      "resources": {
+        "geometries": 363,
+        "textures": 7,
+        "programs": 16
+      },
+      "camera": {
+        "position": [
+          0,
+          9.137507550611275,
+          22.06833239102752
+        ],
+        "target": [
+          0,
+          0.1,
+          0
+        ]
+      },
+      "viewport": {
+        "width": 520,
+        "height": 900,
+        "pixelRatio": 1
+      }
+    }
+  },
+  "interactionEvidence": {
+    "recordedChecks": [
+      "Fresh actual Garden defaults to Balanced Warm",
+      "Real pointer orbit and camera position survive Me navigation and a theme switch",
+      "All four themes render trees, procedural flowers, Blender peonies and pairs at identical camera/time; same canvas and plant state",
+      "All four botanical grass palettes use one visible instanced draw; two bounded layouts retain geometry and instance buffers across themes",
+      "Blender far and near LOD work before and after a theme switch",
+      "Delayed GLB switch retains the complete previous scene until the new island is ready",
+      "Twelve repeated switches converge to identical geometry, texture and shader-program counts",
+      "Real canvas raycast opens the selected Blender flower detail",
+      "Planting from the inbox and growth completion survive a theme switch without resetting birth time",
+      "Dense actual Garden with 50 received plants plus two pair flowers works in all four themes",
+      "Mobile selector has an explicit selected state and no horizontal overflow",
+      "Blocked storage keeps the app functional and makes the in-memory preference explicit"
+    ],
+    "desktopPicking": {
+      "recordedCheck": "Real canvas raycast opens the selected Blender flower detail",
+      "screenshot": {
+        "path": "C:\\Users\\kuson\\projects\\kuccthon-sound\\art\\garden-themes\\balanced-blender-detail.png",
+        "bytes": 19241,
+        "sha256": "19bbfff880475f91d5d64c8470bb33ae02741ed8a47f134cddeb29ea8313e086",
+        "modifiedUTC": "2026-11-06T20:30:17.534Z"
+      },
+      "pickedPlantId": "Not explicitly stored in this result file"
+    },
+    "mobile": {
+      "recordedCheck": "Mobile selector has an explicit selected state and no horizontal overflow",
+      "screenshots": [
+        {
+          "theme": "balanced",
+          "path": "C:\\Users\\kuson\\projects\\kuccthon-sound\\art\\garden-themes\\balanced-mobile50.png",
+          "bytes": 134288,
+          "sha256": "5345ee7b264154a07335a86629c32766d44e3abc0d4f6dfad55b4776b946ad93",
+          "modifiedUTC": "2026-11-06T20:30:41.676Z",
+          "pixelDimensions": {
+            "width": 390,
+            "height": 844
+          }
+        },
+        {
+          "theme": "warm",
+          "path": "C:\\Users\\kuson\\projects\\kuccthon-sound\\art\\garden-themes\\warm-mobile50.png",
+          "bytes": 137248,
+          "sha256": "b29fdc59ecb13d117f397fe41f346ed45fb08c5a9030e781f338f7c6102d308b",
+          "modifiedUTC": "2026-11-06T20:30:42.504Z",
+          "pixelDimensions": {
+            "width": 390,
+            "height": 844
+          }
+        },
+        {
+          "theme": "aurora",
+          "path": "C:\\Users\\kuson\\projects\\kuccthon-sound\\art\\garden-themes\\aurora-mobile50.png",
+          "bytes": 359824,
+          "sha256": "42f08ab0f8c7b543e2be4d61d9aee2190b76a51598da3d3f1d2cdff072073608",
+          "modifiedUTC": "2026-11-06T20:30:43.339Z",
+          "pixelDimensions": {
+            "width": 390,
+            "height": 844
+          }
+        },
+        {
+          "theme": "default",
+          "path": "C:\\Users\\kuson\\projects\\kuccthon-sound\\art\\garden-themes\\default-mobile50.png",
+          "bytes": 140389,
+          "sha256": "f6c5192298c8d5ff0c8ce19b8225314ca7419d28c1d541c1c7b1041d3c3d1c9d",
+          "modifiedUTC": "2026-11-06T20:30:44.340Z",
+          "pixelDimensions": {
+            "width": 390,
+            "height": 844
+          }
+        }
+      ],
+      "note": "Four theme-specific dense mobile images are recorded. The dense fixture contains 50 received plants plus two pair flowers (52 rendered plant objects). A separate mobile canvas-picking assertion is not recorded."
+    },
+    "unmount": {
+      "runtimeDisposalAssertionRecorded": false,
+      "sourceAudit": "integration-review.json verifies that final unmount disposes both cached controllers before scene/renderer cleanup; this is a source review, not a recorded runtime disposal assertion."
+    }
+  },
+  "retryEvidence": {
+    "passed": true,
+    "started": "2026-11-06T20:28:02.664Z",
+    "finished": "2026-11-06T20:28:19.553Z",
+    "checks": [
+      "An injected archived GLB failure retains the complete Balanced garden, camera, plants and growth state; Me shows retry",
+      "Retry successfully applies Warm and returning to Garden preserves the original canvas, camera and plant state",
+      "Six overlapping theme requests settle on the final Aurora choice without an empty island, stale commit or canvas/camera replacement",
+      "Only the intentionally injected network failure occurred; no runtime, shader or unexpected resource errors"
+    ],
+    "expectedNetworkErrors": [
+      {
+        "event": "requestfailed",
+        "url": "http://127.0.0.1:5199/models/island.glb",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "event": "console",
+        "text": "Failed to load resource: net::ERR_FAILED",
+        "url": "http://127.0.0.1:5199/models/island.glb"
+      }
+    ],
+    "runtimeErrors": [],
+    "shaderWarnings": [],
+    "unexpectedRequestFailures": []
+  },
+  "productionSupplemental": {
+    "passed": true,
+    "testMode": "Production Vite build, actual App/auth/Garden/detail code; locally mocked Supabase and synthetic WAV audio",
+    "started": "2026-11-06T20:31:44.797Z",
+    "finished": "2026-11-06T20:33:41.898Z",
+    "checks": [
+      {
+        "name": "Fresh authenticated user receives Balanced Warm on its first painted garden",
+        "passed": true,
+        "milliseconds": 3587
+      },
+      {
+        "name": "All four themes switch through Me immediately, with the same island canvas and no garden writes",
+        "passed": true,
+        "milliseconds": 37975
+      },
+      {
+        "name": "Refresh restores the chosen theme without a temporary Balanced frame",
+        "passed": true,
+        "milliseconds": 2891
+      },
+      {
+        "name": "Browser process restart retains the user preference on the same device",
+        "passed": true,
+        "milliseconds": 48359
+      },
+      {
+        "name": "Logout/login isolates authenticated user IDs and does not consume the demo preference",
+        "passed": true,
+        "milliseconds": 3024
+      },
+      {
+        "name": "Corrupted stored theme restores Balanced Warm before first paint",
+        "passed": true,
+        "milliseconds": 1482
+      },
+      {
+        "name": "Profile nickname editing and friend navigation remain available",
+        "passed": true,
+        "milliseconds": 1410
+      },
+      {
+        "name": "Open detail, audio and its playback position survive an external same-user theme update",
+        "passed": true,
+        "milliseconds": 4979
+      },
+      {
+        "name": "Mobile Me layout has four selectable themes without horizontal overflow",
+        "passed": true,
+        "milliseconds": 1724
+      }
+    ],
+    "consoleErrors": [],
+    "pageErrors": [],
+    "note": "This refreshed final result supersedes the earlier failed 20:22:45 UTC snapshot observed during review. Production code was tested with locally mocked Supabase and synthetic audio, as declared by the owner."
+  },
+  "limitations": [
+    "Desktop native Intel Arc WebGL evidence and mobile viewport screenshots are not physical Android/iPhone measurements.",
+    "Raw render-call and triangle totals include dynamic plants, shadow passes, and postprocessing; grass is separately 6,000 triangles and one visible draw.",
+    "No empty-island screenshots are present in the owner’s shared final garden artifact inventory; copied four-theme garden views are matched mixed scenes.",
+    "Mobile picking and runtime final-unmount disposal must not be claimed from these result files."
+  ]
+}

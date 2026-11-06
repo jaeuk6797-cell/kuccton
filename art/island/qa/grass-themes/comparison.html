@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SOOP grass across four themes</title>
+<style>
+body{margin:0;background:#17252b;color:#edf5f0;font:16px/1.5 system-ui,sans-serif}main{max-width:1500px;margin:auto;padding:32px}h1{font-size:28px}p{max-width:90ch;color:#c9d9d4}.themes{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}figure{margin:0}h2{font-size:18px;margin-bottom:4px}figcaption p{font-size:14px;margin-top:0}img{width:100%;display:block;border-radius:12px}a{color:#b4e1cd}@media(max-width:900px){.themes{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:480px){main{padding:16px}.themes{grid-template-columns:1fr}}
+</style>
+<main>
+<h1>One grass system, four botanical palettes</h1>
+<p>Actual production Garden captures from the coordinated theme-selector integration, using the same camera and frozen time. All themes keep the approved small blades, 1,000 clumps, 6,000 grass triangles and one visible grass draw call. Shape and planting positions do not change with the palette.</p>
+<p><a href="report.txt">Validation report</a></p>
+<div class="themes">
+<figure><figcaption><h2>Balanced Warm</h2><p>Sage and mint with soft yellow-green tips.</p></figcaption><a href="balanced.png"><img src="balanced.png" alt="Balanced Warm garden with natural sage and mint grass"></a></figure>
+<figure><figcaption><h2>Warm Opal</h2><p>Dusty green with a restrained warm tint.</p></figcaption><a href="warm.png"><img src="warm.png" alt="Warm Opal garden with botanical green grass"></a></figure>
+<figure><figcaption><h2>Aurora Crystal</h2><p>Mint and turquoise-green with cool highlights.</p></figcaption><a href="aurora.png"><img src="aurora.png" alt="Aurora Crystal garden with restrained cool green grass"></a></figure>
+<figure><figcaption><h2>Original Opal</h2><p>Neutral soft green with a cool mint bias.</p></figcaption><a href="default.png"><img src="default.png" alt="Original Opal garden with cool neutral grass"></a></figure>
+</div>
+<p>Warm and Original retain their archived island geometry, including the upright ring. Balanced and Aurora use the centered modern island. These are two bounded placement layouts sharing the same blade design and implementation, with cached mesh resources reused between themes.</p>
+</main>
+</html>

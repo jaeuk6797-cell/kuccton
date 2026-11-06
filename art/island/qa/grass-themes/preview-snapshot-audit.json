@@ -1,0 +1,82 @@
+{
+  "passed": true,
+  "baselineRef": "e24cc39",
+  "checks": {
+    "explicitBalancedTheme": true,
+    "finalModuleHash": true,
+    "glbHashUnchanged": true,
+    "geometryPositionsExact": true,
+    "geometryNormalsExact": true,
+    "geometryIndicesExact": true,
+    "geometryColorsExact": true,
+    "instanceMatricesExact": true,
+    "instanceColorsExact": true,
+    "materialExact": true,
+    "meshMatrixExact": true,
+    "allMetricsExact": true,
+    "onlyMetadataChanges": true,
+    "previewBudgetUnchanged": true
+  },
+  "baseline": {
+    "sha256": "815ecb53cb3022d3fe31418cbc4a1ce2b16c1c8fc2ed2ac1a7584b6b544df1df",
+    "bytes": 528738,
+    "moduleSha256": "86d75bd0ee9154670dabe2d1ab15f88b67493b1a8c00245dea243e313c721cef"
+  },
+  "current": {
+    "sha256": "e382f0b6f59acd74c357ada3e9e57588ea294f1eb52b78c20413f7671f9887a9",
+    "bytes": 528761,
+    "theme": "balanced",
+    "source": {
+      "modulePath": "src/lib/islandGrass.js",
+      "moduleSha256": "6799c6b17418255dbeb466bc6b45a696988cd659a1a3beb0b698a81f3ab6f8bb",
+      "moduleHashNormalization": "UTF-8 text with CRLF/CR normalized to LF",
+      "glbPath": "public/models/island.glb",
+      "glbSha256": "098828b961f252083722c4dda5f7839895febf7b58ebd68c3a77fcf87dd63594",
+      "threeRevision": "187"
+    }
+  },
+  "differences": [
+    {
+      "path": "/source/moduleSha256",
+      "before": "86d75bd0ee9154670dabe2d1ab15f88b67493b1a8c00245dea243e313c721cef",
+      "after": "6799c6b17418255dbeb466bc6b45a696988cd659a1a3beb0b698a81f3ab6f8bb"
+    },
+    {
+      "path": "/theme",
+      "after": "balanced"
+    }
+  ],
+  "metrics": {
+    "verticesPerInstance": 10,
+    "trianglesPerInstance": 6,
+    "grassTriangles": 6000,
+    "assetTriangles": 14099,
+    "totalRuntimeTriangles": 20099,
+    "minRuntimeHeight": 0.0750022891703271,
+    "maxRuntimeHeight": 0.11998891901378379,
+    "gltfSceneLocalBounds": {
+      "min": [
+        -3.8052278090522056,
+        -0.007011889295574947,
+        -3.787234458026618
+      ],
+      "max": [
+        3.9416739886697427,
+        0.17487264003563352,
+        3.700368315558617
+      ]
+    },
+    "runtimeBounds": {
+      "min": [
+        -3.8380136130850864,
+        0.16292769633769566,
+        -3.8198652315303896
+      ],
+      "max": [
+        3.975635411596014,
+        0.3463793409204746,
+        3.7322506512639277
+      ]
+    }
+  }
+}

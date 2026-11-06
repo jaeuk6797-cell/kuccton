@@ -2,10 +2,11 @@
   "schemaVersion": 1,
   "previewOnly": true,
   "excludeFromGltf": true,
+  "theme": "balanced",
   "plantLayout": "empty; runtime crop around planted flowers/trees is not baked",
   "source": {
     "modulePath": "src/lib/islandGrass.js",
-    "moduleSha256": "86d75bd0ee9154670dabe2d1ab15f88b67493b1a8c00245dea243e313c721cef",
+    "moduleSha256": "6799c6b17418255dbeb466bc6b45a696988cd659a1a3beb0b698a81f3ab6f8bb",
     "moduleHashNormalization": "UTF-8 text with CRLF/CR normalized to LF",
     "glbPath": "public/models/island.glb",
     "glbSha256": "098828b961f252083722c4dda5f7839895febf7b58ebd68c3a77fcf87dd63594",

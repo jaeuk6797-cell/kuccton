@@ -11,6 +11,7 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 const moduleUrl = new URL('../../src/lib/islandGrass.js', import.meta.url)
 const glbUrl = new URL('../../public/models/island.glb', import.meta.url)
 const outputUrl = new URL('./grass-preview.json', import.meta.url)
+const previewTheme = 'balanced'
 const hash = bytes => crypto.createHash('sha256').update(bytes).digest('hex')
 const moduleHash = bytes => hash(bytes.toString('utf8').replace(/\r\n?/g, '\n'))
 const [moduleBytes, glbBytes] = await Promise.all([readFile(moduleUrl), readFile(glbUrl)])
@@ -54,8 +55,11 @@ let assetTriangles = 0
 model.traverse(object => {
   if (object.isMesh) assetTriangles += (object.geometry.index?.count ?? object.geometry.attributes.position.count) / 3
 })
-const grass = createIslandGrass(model)
+// Keep the editable Blender preview on the approved balanced default palette,
+// independent of whichever theme the application currently displays.
+const grass = createIslandGrass(model, { theme: previewTheme })
 assert.ok(grass, 'The GLB must contain the named planting surface')
+assert.equal(grass.theme, previewTheme)
 grass.updatePlants([])
 const { mesh } = grass
 model.updateMatrixWorld(true)
@@ -88,6 +92,7 @@ const payload = {
   schemaVersion: 1,
   previewOnly: true,
   excludeFromGltf: true,
+  theme: grass.theme,
   plantLayout: 'empty; runtime crop around planted flowers/trees is not baked',
   source: {
     modulePath: 'src/lib/islandGrass.js', moduleSha256,
@@ -142,4 +147,4 @@ assert.equal(hash(latestGlb), glbSha256, 'GLB changed during preview generation;
 await writeFile(outputUrl, JSON.stringify(payload, null, 2) + '\n')
 grass.dispose()
 console.log(JSON.stringify({ output: fileURLToPath(outputUrl), moduleSha256, glbSha256,
-  count: payload.count, ...payload.metrics, previewOnly: true, excludeFromGltf: true }, null, 2))
+  theme: payload.theme, count: payload.count, ...payload.metrics, previewOnly: true, excludeFromGltf: true }, null, 2))

@@ -1,0 +1,67 @@
+{
+  "status": "passed",
+  "sourceCommit": "e24cc39",
+  "sourceSha256Lf": "6799c6b17418255dbeb466bc6b45a696988cd659a1a3beb0b698a81f3ab6f8bb",
+  "testedSourceSha256Lf": "11d21ec42dfbaaaf12552d6f930a5d46a99a9c553c40c9e1e19a0b25d119942c",
+  "postTestChange": "Lifecycle JSDoc only; final source hash was independently verified after that comment change.",
+  "provenance": "Retained passing verify-grass-themes.mjs output and assertions; no test rerun or timing estimates.",
+  "clumps": 1000,
+  "trianglesPerClump": 6,
+  "triangles": 6000,
+  "geometryCount": 1,
+  "materialCount": 1,
+  "themes": {
+    "balanced": {
+      "effectivePalette": ["#67976d", "#91bd92", "#b8d9ac"],
+      "roughness": 1,
+      "envMapIntensity": 0.12
+    },
+    "warm": {
+      "effectivePalette": ["#758860", "#a1b27e", "#c3cb96"],
+      "roughness": 0.98,
+      "envMapIntensity": 0.1
+    },
+    "aurora": {
+      "effectivePalette": ["#3d7c72", "#6ab2a1", "#9ed2c5"],
+      "roughness": 0.96,
+      "envMapIntensity": 0.16
+    },
+    "default": {
+      "effectivePalette": ["#648c7e", "#8cb6a5", "#b3d0be"],
+      "roughness": 1,
+      "envMapIntensity": 0.1
+    }
+  },
+  "resourceIdentityPreserved": [
+    "mesh UUID across same-asset reparenting",
+    "geometry and material objects",
+    "position, color and index buffers",
+    "instance matrix and instance color buffers"
+  ],
+  "materialRecompileFlagChanged": false,
+  "approvedModernGeometryAndPlacementUnchanged": true,
+  "reparent": {
+    "sameAssetVariantContract": true,
+    "transformedCloneClearancePassed": true,
+    "croppedMatricesPreservedAcrossThemes": true,
+    "emptyPlantRestoreExact": true,
+    "invalidSelfAndDisposedTargetsRejected": true
+  },
+  "archivedHoopFeet": {
+    "measurement": "Grass triangle intersections with exported hoop-foot bounds",
+    "beforeExclusion": 66,
+    "afterExclusion": 0
+  },
+  "checks": [
+    "approved modern geometry and placement unchanged",
+    "all resources and buffers reused",
+    "four distinct green palettes",
+    "no material recompile flag",
+    "balanced fallback including constructor, __proto__, null and undefined",
+    "tone alias and theme precedence",
+    "stem cropping preserved",
+    "reparented buffers and transformed clearance",
+    "archived surface, pond and hoop feet",
+    "idempotent disposal"
+  ]
+}
