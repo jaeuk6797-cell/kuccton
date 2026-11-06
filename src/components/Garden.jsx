@@ -1,10 +1,10 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import Flower from './Flower.jsx'
 import Island3D from './Island3D.jsx'
 import Recorder from './Recorder.jsx'
 import { FlowerDetail, PairDetail } from './Details.jsx'
-import { Bell, Disc, Heart, Mic, Sprout, User, Users, Wave } from './Icons.jsx'
-import { deleteFlower, ensurePairs, insertFlower, loadGarden, subscribeGarden, today, uploadAudio } from '../lib/db.js'
+import { Bell, Heart, Mic, Sprout, User, Users, Wave } from './Icons.jsx'
+import { deleteFlower, ensurePairs, insertFlower, loadGarden, myFriends, subscribeGarden, today, uploadAudio } from '../lib/db.js'
 
 // 받침에 따라 조사 고르기
 const hasBatchim = (w = '') => {
@@ -17,7 +17,7 @@ const timeOfDay = (iso) => {
   return h < 5 ? '새벽' : h < 11 ? '아침' : h < 17 ? '낮' : h < 21 ? '저녁' : '밤'
 }
 
-export default function Garden({ session, onLeave, onSignOut, email }) {
+export default function Garden({ session, onLeave, onOpenGarden, onSignOut, email }) {
   const [data, setData] = useState(null)
   const [error, setError] = useState('')
   const [tab, setTab] = useState('garden')
@@ -28,7 +28,26 @@ export default function Garden({ session, onLeave, onSignOut, email }) {
   const [toast, setToast] = useState('')
   const [fresh, setFresh] = useState(() => new Set())
   const [highlight, setHighlight] = useState(null)
+  const [sheetOpen, setSheetOpen] = useState(false) // 아래 시트: 접힘 = 녹음 버튼만, 펼침 = 상태·오늘의 위로
+  const [hintOn, setHintOn] = useState(true) // 처음 몇 초만 보여 주는 조작 안내
   const meId = session.memberId
+
+  useEffect(() => {
+    const t = setTimeout(() => setHintOn(false), 4500)
+    return () => clearTimeout(t)
+  }, [])
+
+  // 시트 손잡이: 위로 끌면 펼치고 아래로 끌면 접는다. 짧게 누르면 토글
+  const dragY = useRef(null)
+  const onGripDown = (e) => { dragY.current = e.clientY }
+  const onGripUp = (e) => {
+    if (dragY.current == null) return
+    const dy = e.clientY - dragY.current
+    dragY.current = null
+    if (dy < -24) setSheetOpen(true)
+    else if (dy > 24) setSheetOpen(false)
+    else setSheetOpen((o) => !o)
+  }
 
   const refresh = useCallback(async () => {
     try {
@@ -126,15 +145,17 @@ export default function Garden({ session, onLeave, onSignOut, email }) {
 
       {tab === 'garden' && (
         <>
-          <Island3D
-            flowers={data.flowers}
-            pairs={data.pairs}
-            meId={meId}
-            freshIds={fresh}
-            highlightId={highlight}
-            onPickFlower={setOpenFlower}
-            onPickPair={setOpenPair}
-          />
+          <div className="island-wrap" onPointerDown={() => setHintOn(false)}>
+            <Island3D
+              flowers={data.flowers}
+              pairs={data.pairs}
+              meId={meId}
+              freshIds={fresh}
+              highlightId={highlight}
+              onPickFlower={setOpenFlower}
+              onPickPair={setOpenPair}
+            />
+          </div>
           <header className="home-head">
             <div className="brand"><Sprout /> 소리숲</div>
             <button className="round-btn" onClick={() => setShowBell(true)} aria-label="알림">
@@ -150,33 +171,52 @@ export default function Garden({ session, onLeave, onSignOut, email }) {
               <span>우리의 꽃 {data.pairs.length}송이</span>
             </div>
           </div>
-          <div className="hint">꽃을 누르면 그날의 소리가 들려요 · 드래그로 둘러보기</div>
 
-          <section className="home-sheet">
-            <div className="grip" />
-            <button className="status" onClick={status.onClick} disabled={!status.onClick}>
-              <div className="avatars">
-                <span className="av partner">{partner ? [...pName][0] : '?'}</span>
-                <span className="av me">나</span>
-              </div>
-              <div className="status-text">
-                <b>{status.title}</b>
-                <small>{status.sub}</small>
-              </div>
+          {data.flowers.length === 0 ? (
+            <div className="empty-garden">
+              <b>아직 핀 꽃이 없어요</b>
+              <small>{partner ? '지금 들리는 소리를 처음으로 남겨 보세요' : '혼자서도 먼저 소리를 심어 둘 수 있어요'}</small>
+            </div>
+          ) : (
+            <div className={`hint ${hintOn ? '' : 'off'}`}>꽃을 누르면 그날의 소리가 들려요 · 드래그로 둘러보기</div>
+          )}
+
+          {sheetOpen && <div className="sheet-dim" onClick={() => setSheetOpen(false)} />}
+          <section className={`home-sheet ${sheetOpen ? 'open' : ''}`}>
+            <button
+              className="sheet-handle"
+              onPointerDown={onGripDown}
+              onPointerUp={onGripUp}
+              aria-expanded={sheetOpen}
+              aria-label={sheetOpen ? '정원 소식 접기' : '정원 소식 펼치기'}
+            >
+              <span className="grip" />
+              {!sheetOpen && <span className="peek">{status.title}</span>}
             </button>
-            <button className="record-cta" onClick={() => setRecording(true)}>
+            {sheetOpen && (
+              <button className="status" onClick={status.onClick} disabled={!status.onClick}>
+                <div className="avatars">
+                  <span className="av partner">{partner ? [...pName][0] : '?'}</span>
+                  <span className="av me">나</span>
+                </div>
+                <div className="status-text">
+                  <b>{status.title}</b>
+                  <small>{status.sub}</small>
+                </div>
+              </button>
+            )}
+            <button className="record-cta" onClick={() => { setSheetOpen(false); setRecording(true) }}>
               <Mic /> 오늘의 소리 녹음하기 · 10초
             </button>
-            <div className="sub-actions">
-              <button onClick={comfort}><Heart /> 오늘의 위로</button>
-              <button onClick={() => setTab('album')}><Disc /> 이번 주 소리 앨범</button>
-            </div>
+            {sheetOpen && (
+              <button className="comfort-btn" onClick={comfort}><Heart /> 오늘의 위로 · 받은 소리 하나 다시 듣기</button>
+            )}
           </section>
         </>
       )}
 
       {tab === 'album' && <Album data={data} meId={meId} onOpen={setOpenFlower} onOpenPair={setOpenPair} flowerById={flowerById} />}
-      {tab === 'friends' && <Friends data={data} partner={partner} me={me} />}
+      {tab === 'friends' && <Friends current={session} onOpen={onOpenGarden} onNew={onLeave} />}
       {tab === 'me' && <Me me={me} data={data} email={email} onLeave={onLeave} onSignOut={onSignOut} />}
 
       <nav className="tabbar">
@@ -279,33 +319,62 @@ function Album({ data, meId, onOpen, onOpenPair, flowerById }) {
   )
 }
 
-function Friends({ data, partner, me }) {
-  const [copied, setCopied] = useState(false)
-  const copy = async () => {
-    try { await navigator.clipboard.writeText(data.garden.code); setCopied(true); setTimeout(() => setCopied(false), 2000) } catch {}
+// 친구 목록: 친구마다 둘만의 정원이 하나씩 있다. 누르면 그 친구와의 정원으로 간다.
+function Friends({ current, onOpen, onNew }) {
+  const [list, setList] = useState(null)
+  const [error, setError] = useState('')
+  const [copied, setCopied] = useState('')
+  useEffect(() => {
+    myFriends().then(setList).catch((e) => setError(e.message || String(e)))
+  }, [])
+  const copy = async (code) => {
+    try { await navigator.clipboard.writeText(code); setCopied(code); setTimeout(() => setCopied(''), 2000) } catch {}
   }
+  const friends = list?.filter((g) => g.friend) ?? []
+  const waiting = list?.filter((g) => !g.friend) ?? []
+
   return (
     <div className="page">
-      <h1 className="page-title">함께 가꾸는 사람</h1>
-      <div className="card person">
-        <span className="av partner big">{partner ? [...partner.nickname][0] : '?'}</span>
-        <div>
-          <b>{partner ? partner.nickname : '아직 혼자예요'}</b>
-          <small className="muted">{partner ? `${data.flowers.filter((f) => f.sender_id === partner.id).length}송이를 보냈어요` : '정원 코드를 알려 주면 함께할 수 있어요'}</small>
-        </div>
-      </div>
-      <div className="card person">
-        <span className="av me big">나</span>
-        <div>
-          <b>{me?.nickname}</b>
-          <small className="muted">{data.flowers.filter((f) => f.sender_id === me?.id).length}송이를 보냈어요</small>
-        </div>
-      </div>
-      <div className="card code-card">
-        <small className="muted">정원 코드</small>
-        <div className="big-code">{data.garden.code}</div>
-        <button className="ghost" onClick={copy}>{copied ? '복사했어요' : '코드 복사'}</button>
-      </div>
+      <h1 className="page-title">친구</h1>
+      {error && <p className="error">{error}</p>}
+      {!list && !error && <p className="muted">불러오는 중…</p>}
+      {list && friends.length === 0 && <p className="muted">아직 함께하는 친구가 없어요. 정원 코드를 알려 주면 친구가 들어올 수 있어요.</p>}
+
+      {friends.length > 0 && (
+        <ul className="friend-list">
+          {friends.map((g) => {
+            const here = g.gardenId === current.gardenId
+            return (
+              <li key={g.gardenId}>
+                <button className={`card person ${here ? 'here' : ''}`} onClick={() => !here && onOpen({ gardenId: g.gardenId, memberId: g.memberId, code: g.code })}>
+                  <span className="av partner big">{[...g.friend.nickname][0]}</span>
+                  <div>
+                    <b>{g.friend.nickname}</b>
+                    <small className="muted">{here ? '지금 보고 있는 정원' : '눌러서 둘만의 정원으로 가기'}</small>
+                  </div>
+                </button>
+              </li>
+            )
+          })}
+        </ul>
+      )}
+
+      {waiting.length > 0 && (
+        <>
+          <h2 className="page-sub">초대를 기다리는 정원</h2>
+          {waiting.map((g) => (
+            <div key={g.gardenId} className="card invite">
+              <div>
+                <small className="muted">정원 코드</small>
+                <div className="big-code">{g.code}</div>
+              </div>
+              <button className="ghost" onClick={() => copy(g.code)}>{copied === g.code ? '복사했어요' : '코드 복사'}</button>
+            </div>
+          ))}
+        </>
+      )}
+
+      <button className="ghost wide" onClick={onNew}>새 친구와 정원 만들기 · 코드로 들어가기</button>
     </div>
   )
 }

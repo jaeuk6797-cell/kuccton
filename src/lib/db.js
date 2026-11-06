@@ -77,6 +77,38 @@ export async function myLatestGarden() {
   return { gardenId: data[0].garden_id, memberId: data[0].id, code: data[0].gardens?.code }
 }
 
+/**
+ * 친구 목록: 내가 들어가 있는 모든 정원과 그 정원의 상대 (정원 하나 = 두 사람)
+ * 반환: [{ gardenId, memberId, code, since, friend: { nickname } | null }]  최근 정원부터
+ */
+export async function myFriends() {
+  const user = await currentUser()
+  if (!user) return []
+  const { data: mine, error } = await supabase
+    .from('members')
+    .select('id, garden_id, gardens(code, created_at)')
+    .eq('user_id', user.id)
+    .order('created_at', { ascending: false })
+  if (error) throw error
+  if (!mine?.length) return []
+  const { data: others, error: e2 } = await supabase
+    .from('members')
+    .select('garden_id, nickname')
+    .in('garden_id', mine.map((m) => m.garden_id))
+    .neq('user_id', user.id)
+  if (e2) throw e2
+  return mine.map((m) => {
+    const o = others.find((x) => x.garden_id === m.garden_id)
+    return {
+      gardenId: m.garden_id,
+      memberId: m.id,
+      code: m.gardens?.code,
+      since: m.gardens?.created_at,
+      friend: o ? { nickname: o.nickname } : null,
+    }
+  })
+}
+
 export async function createGarden(nickname) {
   const { data, error } = await supabase.rpc('create_garden', { p_nickname: nickname })
   if (error) throw new Error(errorText(error))

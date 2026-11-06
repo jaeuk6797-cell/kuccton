@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import Flower from './Flower.jsx'
+import FlowerBloom3D from './FlowerBloom3D.jsx'
 import { pickMimeType, audioCtx } from '../lib/audio.js'
 import { extractFeatures } from '../lib/soundFeatures.js'
 import { CATEGORIES, buildFlower, buildSoundFlower, voiceCategory } from '../lib/flower.js'
@@ -222,7 +222,7 @@ export default function Recorder({ onClose, onSend }) {
 
         {(step === 'preview' || step === 'sending') && flower && (
           <div className="center-col">
-            <Flower flower={row} size={140} />
+            <FlowerBloom3D flower={row} size={180} />
             <h2 className="flower-name">{flower.name}</h2>
             <p className="reason">{flower.reason}</p>
             {kind === 'voice' && (

@@ -46,6 +46,7 @@ export default function App() {
       key={garden.gardenId}
       session={garden}
       onLeave={() => setChoosing(true)}
+      onOpenGarden={setGarden}
       onSignOut={signOut}
       email={user.email}
     />

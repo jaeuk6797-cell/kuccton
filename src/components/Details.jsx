@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import Flower from './Flower.jsx'
+import FlowerBloom3D from './FlowerBloom3D.jsx'
 import { audioUrl } from '../lib/db.js'
 import { audioCtx, peaks, playStereo, setPlaybackLevelSource, toMono } from '../lib/audio.js'
 
@@ -35,7 +35,7 @@ export function FlowerDetail({ flower, sender, mine, onClose, onDelete }) {
     <div className="sheet-backdrop" onClick={onClose}>
       <div className="sheet center-col" onClick={(e) => e.stopPropagation()}>
         <button className="close" onClick={onClose} aria-label="닫기">×</button>
-        <Flower flower={flower} size={130} />
+        <FlowerBloom3D flower={flower} size={160} />
         <h2 className="flower-name">{flower.name}</h2>
         <p className="reason">{flower.reason}</p>
         {flower.transcript && <p className="hanamal-view">꽃말: “{flower.transcript}”</p>}
@@ -109,7 +109,7 @@ export function PairDetail({ pair, flowerA, flowerB, meId, members, onClose }) {
       <div className="sheet center-col" onClick={(e) => e.stopPropagation()}>
         <button className="close" onClick={onClose} aria-label="닫기">×</button>
         <div className="pair-badge">우리의 꽃 · {pair.sent_date}</div>
-        <Flower flower={look} colors={colors} size={150} glow />
+        <FlowerBloom3D flower={look} colors={colors} pair size={170} />
         <h2 className="flower-name">{pair.name}</h2>
         <p className="muted small">{partnerFlower.name} + {myFlower.name}</p>
         <div className="stereo">
