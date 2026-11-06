@@ -10,6 +10,7 @@ import PageHeading from './PageHeading.jsx'
 import Tutorial, { HelpPage } from './Tutorial.jsx'
 import PushSettings from './PushSettings.jsx'
 import SoundPlayer from './SoundPlayer.jsx'
+import AlbumPeriodPicker from './AlbumPeriodPicker.jsx'
 import { displayName } from '../lib/tree.js'
 import { ArrowLeft, Bell, Check, Heart, Help, Menu, Mic, Pencil, Pin, Sprout, User, Users, Wave } from './Icons.jsx'
 import { FRIEND_LIMIT, GARDEN_LIMIT, addFriend, archiveShares, audioUrl, currentUser, deleteFlower, deleteReceivedSound, derivePairs, insertFlower, loadGarden, respondShare, shareFlowers, subscribeGarden, today, updateProfile, uploadAudio } from '../lib/db.js'
@@ -50,6 +51,10 @@ export default function Garden({ session, onSignOut, email, demo, initialTab = '
     try { localStorage.setItem(pinKey, JSON.stringify(valid)) } catch { /* 저장할 수 없어도 이번 화면에서는 유지한다. */ }
   }, [data, pinnedIds, pinKey])
   function togglePin(id) {
+    if (!(pinnedIds || []).includes(id) && (pinnedIds || []).length >= 3) {
+      showToast('친구는 3명까지만 상단에 고정할 수 있어요.')
+      return
+    }
     setPinnedIds((previous) => {
       const ids = previous || []
       return ids.includes(id) ? ids.filter((value) => value !== id) : ids.length < 3 ? [...ids, id] : ids
@@ -423,7 +428,7 @@ export default function Garden({ session, onSignOut, email, demo, initialTab = '
         </>
       )}
 
-      {tutorialOpen && <Tutorial onDone={finishTutorial} />}
+      {tutorialOpen && <Tutorial demo={Boolean(demo)} onDone={finishTutorial} />}
       {toast && <div key={toastKey} className="toast" role="status" aria-live="polite">{toast}</div>}
       {recording && <Recorder onClose={() => setRecording(false)} onSend={handleSend} friends={data.friends} />}
       {openFlower && (
@@ -557,7 +562,6 @@ function FriendPicker({ friends, counts, viewing, pinnedIds, onTogglePin, onPick
           <span>모든 꽃 보기</span>
           {viewing === 'all' && <Check className="picker-all-check" width={18} height={18} aria-hidden="true" />}
         </button>
-        <small className="picker-pin-count">상단 고정 {pinnedIds.length}/3</small>
         <ul className="list">
           {friends.map((m) => {
             const pinned = pinnedIds.includes(m.user_id)
@@ -569,7 +573,7 @@ function FriendPicker({ friends, counts, viewing, pinnedIds, onTogglePin, onPick
                   <span className="picker-friend-count">{counts[m.id] || 0}<small>개</small></span>
                 </button>
                 <button className="friend-pin" aria-label={`${m.nickname} 상단 고정${pinned ? ' 해제' : ''}`} aria-pressed={pinned}
-                  disabled={!pinned && pinnedIds.length >= 3} onClick={() => onTogglePin(m.user_id)}>
+                  onClick={() => onTogglePin(m.user_id)}>
                   <Pin aria-hidden="true" />
                 </button>
               </li>
@@ -607,7 +611,10 @@ function Album({ data, meId, onOpen, onOpenPair, flowerById }) {
 
   const renderDay = (r) => (
     <div key={r.date} className="album-day">
-      <time className="album-date" dateTime={r.date}>{formatDate(r.date)}</time>
+      <div className="album-date-line">
+        <time className="album-date" dateTime={r.date}>{formatDate(r.date)}</time>
+        <small>{r.list.length + r.pairs.filter((pair) => flowerById[pair.flower_a_id] && flowerById[pair.flower_b_id]).length}</small>
+      </div>
       <div className="album-flowers">
         {r.pairs.filter((p) => flowerById[p.flower_a_id] && flowerById[p.flower_b_id]).map((p) => (
           <button key={p.id} className="album-item pair" onClick={() => onOpenPair(p)}>
@@ -631,14 +638,12 @@ function Album({ data, meId, onOpen, onOpenPair, flowerById }) {
       {/* 받은 소리를 날짜별로 (오늘 · 어제 · 11월 5일 …). 주 단위로 나누지 않는다 */}
       <PageHeading>앨범</PageHeading>
       {rows.length > 0 && <div className="album-period" role="group" aria-label="앨범 기간 선택">
-        <select aria-label="앨범 연도" value={selectedYear} onChange={(e) => { setYear(e.target.value); setMonth('all') }}>
-          <option value="all">전체 연도</option>
-          {years.map((value) => <option key={value} value={value}>{value}년</option>)}
-        </select>
-        <select aria-label="앨범 월" value={selectedMonth} disabled={selectedYear === 'all'} onChange={(e) => setMonth(e.target.value)}>
-          <option value="all">전체 월</option>
-          {months.map((value) => <option key={value} value={value}>{Number(value)}월</option>)}
-        </select>
+        <AlbumPeriodPicker label="앨범 연도" value={selectedYear}
+          options={[{ value: 'all', label: '전체 연도' }, ...years.map((value) => ({ value, label: `${value}년` }))]}
+          onChange={(value) => { setYear(value); setMonth('all') }} />
+        <AlbumPeriodPicker label="앨범 월" value={selectedMonth} disabled={selectedYear === 'all'}
+          options={[{ value: 'all', label: '전체 월' }, ...months.map((value) => ({ value, label: `${Number(value)}월` }))]}
+          onChange={setMonth} />
       </div>}
       <div ref={scrollRef} className="page-scroll" aria-label="앨범 목록">
       {rows.length === 0 && (
