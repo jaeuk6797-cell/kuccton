@@ -37,6 +37,7 @@ export default function App() {
     <Garden
       key={garden.gardenId}
       session={garden}
+      onMoved={setGarden}
       onSignOut={signOut}
       email={user.email}
     />

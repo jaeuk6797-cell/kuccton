@@ -14,6 +14,7 @@ function envelopeLevel(el, flower) {
   }
 }
 import { categoryLabel } from '../lib/naming.js'
+import { displayName, noun } from '../lib/tree.js'
 
 // S5 꽃 상세
 export function FlowerDetail({ flower, sender, mine, onClose, onDelete }) {
@@ -36,11 +37,11 @@ export function FlowerDetail({ flower, sender, mine, onClose, onDelete }) {
       <div className="sheet center-col" onClick={(e) => e.stopPropagation()}>
         <button className="close" onClick={onClose} aria-label="닫기">×</button>
         <FlowerBloom3D flower={flower} size={160} />
-        <h2 className="flower-name">{flower.name}</h2>
+        <h2 className="flower-name">{displayName(flower)}</h2>
         <p className="reason">{flower.reason}</p>
         {flower.transcript && <p className="hanamal-view">꽃말: “{flower.transcript}”</p>}
         <p className="muted small">
-          {mine ? '내가 보낸 꽃' : `${sender?.nickname || '상대'}가 보낸 꽃`} · {flower.sent_date} · {categoryLabel(flower.category)}
+          {mine ? `내가 보낸 ${noun(flower)}` : `${sender?.nickname || '상대'}가 보낸 ${noun(flower)}`} · {flower.sent_date} · {categoryLabel(flower.category)}
         </p>
         {url ? <audio
           ref={audioRef} src={url} controls className="preview-audio"
@@ -111,7 +112,7 @@ export function PairDetail({ pair, flowerA, flowerB, meId, members, onClose }) {
         <div className="pair-badge">우리의 꽃 · {pair.sent_date}</div>
         <FlowerBloom3D flower={look} colors={colors} pair size={170} />
         <h2 className="flower-name">{pair.name}</h2>
-        <p className="muted small">{partnerFlower.name} + {myFlower.name}</p>
+        <p className="muted small">{displayName(partnerFlower)} + {displayName(myFlower)}</p>
         <div className="stereo">
           <Wave label={`왼쪽 · ${nick(partnerFlower.sender_id) || '상대'}`} buffer={buffers?.[0]} duration={buffers && Math.max(buffers[0].duration, buffers[1].duration)} progress={progress} color={partnerFlower.color} />
           <Wave label={`오른쪽 · ${nick(myFlower.sender_id) || '나'}`} buffer={buffers?.[1]} duration={buffers && Math.max(buffers[0].duration, buffers[1].duration)} progress={progress} color={myFlower.color} />

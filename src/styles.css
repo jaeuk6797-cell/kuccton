@@ -312,3 +312,6 @@ h1, h2 { margin: 0; }
 .page-title { padding-right: 56px; }
 /* 로고 줄 높이를 메뉴 버튼(44px)과 맞춰 가운데 정렬 */
 .home-head { min-height: calc(62px + env(safe-area-inset-top)); padding-right: 76px; }
+.join-friend { display: flex; flex-direction: column; gap: 10px; }
+.join-friend input { padding: 12px 14px; border-radius: 12px; border: 1.5px solid var(--line); background: var(--paper); color: var(--ink); }
+.join-friend p { margin: 0; }

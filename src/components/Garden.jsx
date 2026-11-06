@@ -3,8 +3,9 @@ import Flower from './Flower.jsx'
 import Island3D from './Island3D.jsx'
 import Recorder from './Recorder.jsx'
 import { FlowerDetail, PairDetail } from './Details.jsx'
+import { displayName, grewText } from '../lib/tree.js'
 import { Bell, Heart, Menu, Mic, Sprout, User, Users, Wave } from './Icons.jsx'
-import { deleteFlower, ensurePairs, insertFlower, loadGarden, subscribeGarden, today, uploadAudio } from '../lib/db.js'
+import { joinFriendGarden, deleteFlower, ensurePairs, insertFlower, loadGarden, subscribeGarden, today, uploadAudio } from '../lib/db.js'
 
 // 받침에 따라 조사 고르기
 const hasBatchim = (w = '') => {
@@ -17,7 +18,7 @@ const timeOfDay = (iso) => {
   return h < 5 ? '새벽' : h < 11 ? '아침' : h < 17 ? '낮' : h < 21 ? '저녁' : '밤'
 }
 
-export default function Garden({ session, onSignOut, email }) {
+export default function Garden({ session, onSignOut, email, onMoved }) {
   const [data, setData] = useState(null)
   const [error, setError] = useState('')
   const [tab, setTab] = useState('garden')
@@ -80,7 +81,7 @@ export default function Garden({ session, onSignOut, email }) {
   useEffect(() => {
     refresh()
     return subscribeGarden(session.gardenId, (kind, row) => {
-      if (kind === 'flower' && row.sender_id !== meId) { markFresh(row.id); showToast(`${row.name}이 피었어요`) }
+      if (kind === 'flower' && row.sender_id !== meId) { markFresh(row.id); showToast(grewText(row)) }
       if (kind === 'pair') { markFresh(row.id); showToast(`우리의 꽃 ‘${row.name}’이 피었어요`) }
       refresh()
     })
@@ -222,7 +223,7 @@ export default function Garden({ session, onSignOut, email }) {
               <small>{partner ? '지금 들리는 소리를 처음으로 남겨 보세요' : '혼자서도 먼저 소리를 심어 둘 수 있어요'}</small>
             </div>
           ) : (
-            <div className={`hint ${hintOn ? '' : 'off'}`}>꽃을 누르면 그날의 소리가 들려요 · 드래그로 둘러보기</div>
+            <div className={`hint ${hintOn ? '' : 'off'}`}>꽃이나 나무를 누르면 그날의 소리가 들려요 · 드래그로 둘러보기</div>
           )}
 
           <section ref={sheetRef} className={`home-sheet ${sheetOpen ? '' : 'closed'}`}>
@@ -263,7 +264,7 @@ export default function Garden({ session, onSignOut, email }) {
       )}
 
       {tab === 'album' && <Album data={data} meId={meId} onOpen={setOpenFlower} onOpenPair={setOpenPair} flowerById={flowerById} />}
-      {tab === 'friends' && <Friends data={data} partner={partner} />}
+      {tab === 'friends' && <Friends data={data} partner={partner} meId={meId} onMoved={onMoved} />}
       {tab === 'me' && <Me me={me} data={data} email={email} onSignOut={onSignOut} />}
 
       {/* 오른쪽 위 메뉴 (아래 탭바 대신). 어느 화면에서나 같은 자리에 있다 */}
@@ -326,7 +327,7 @@ export default function Garden({ session, onSignOut, email }) {
                 <li key={f.id}>
                   <button onClick={() => { setShowBell(false); setOpenFlower(f) }}>
                     <Flower flower={f} size={40} stem={false} bloom={false} />
-                    <div><b>{f.name}</b><small>{formatDate(f.sent_date)} {timeOfDay(f.created_at)}</small></div>
+                    <div><b>{displayName(f)}</b><small>{formatDate(f.sent_date)} {timeOfDay(f.created_at)}</small></div>
                   </button>
                 </li>
               ))}
@@ -362,7 +363,7 @@ function Album({ data, meId, onOpen, onOpenPair, flowerById }) {
         {r.list.map((f) => (
           <button key={f.id} className="album-item" onClick={() => onOpen(f)}>
             <Flower flower={f} size={46} stem={false} />
-            <b>{f.name}</b>
+            <b>{displayName(f)}</b>
             <small>{f.sender_id === meId ? '내가 보냄' : '받음'}</small>
           </button>
         ))}
@@ -389,13 +390,38 @@ function Album({ data, meId, onOpen, onOpenPair, flowerById }) {
 
 // 친구 목록: 한 사람당 정원은 하나, 정원 하나에 두 사람 → 친구는 내 정원을 함께 가꾸는 사람.
 // 친구가 보낸 소리는 내 정원 왼쪽에, 내가 보낸 소리는 오른쪽에 꽃으로 핀다.
-function Friends({ data, partner }) {
+function Friends({ data, partner, meId, onMoved }) {
   const [copied, setCopied] = useState(false)
-  const copy = async () => {
-    try { await navigator.clipboard.writeText(data.garden.code); setCopied(true); setTimeout(() => setCopied(false), 2000) } catch {}
+  const [code, setCode] = useState('')
+  const [confirm, setConfirm] = useState(false)
+  const [busy, setBusy] = useState(false)
+  const [error, setError] = useState('')
+  const myCode = data.garden.code
+
+  const share = async () => {
+    const text = `소리숲에서 같이 정원 가꿔요! 정원 코드: ${myCode}
+https://kuccton.vercel.app`
+    try {
+      if (navigator.share) { await navigator.share({ title: '소리숲 정원 코드', text }); return }
+    } catch { return } // 공유 창을 닫은 경우
+    try { await navigator.clipboard.writeText(myCode); setCopied(true); setTimeout(() => setCopied(false), 2000) } catch {}
   }
   const sentBy = (id) => data.flowers.filter((f) => f.sender_id === id).length
   const since = new Date(partner?.created_at || data.garden.created_at)
+  const mine = sentBy(meId)
+
+  async function join() {
+    if (code === myCode) { setError('내 정원 코드예요. 친구의 코드를 넣어 주세요.'); return }
+    if (!confirm) { setConfirm(true); setError(''); return }
+    setBusy(true); setError('')
+    try {
+      const g = await joinFriendGarden(code)
+      onMoved?.(g)
+    } catch (e) {
+      setError(e.message || String(e))
+      setConfirm(false)
+    } finally { setBusy(false) }
+  }
 
   return (
     <div className="page">
@@ -406,23 +432,45 @@ function Friends({ data, partner }) {
             <span className="av partner big">{[...partner.nickname][0]}</span>
             <div>
               <b>{partner.nickname}</b>
-              <small className="muted">{since.getMonth() + 1}월 {since.getDate()}일부터 함께 · 보낸 소리 {sentBy(partner.id)}송이 · 우리의 꽃 {data.pairs.length}송이</small>
+              <small className="muted">{since.getMonth() + 1}월 {since.getDate()}일부터 함께 · 보낸 소리 {sentBy(partner.id)}개 · 우리의 꽃 {data.pairs.length}송이</small>
             </div>
           </li>
         </ul>
       ) : (
         <>
-          <p className="muted">아직 함께하는 친구가 없어요. 정원 코드를 알려 주면 친구가 들어와 소리를 보낼 수 있어요.</p>
+          <p className="muted">아직 함께하는 친구가 없어요. 내 코드를 보내거나, 친구에게 받은 코드를 넣어 주세요.</p>
           <div className="card invite">
             <div>
               <small className="muted">내 정원 코드</small>
-              <div className="big-code">{data.garden.code}</div>
+              <div className="big-code">{myCode}</div>
             </div>
-            <button className="ghost" onClick={copy}>{copied ? '복사했어요' : '코드 복사'}</button>
+            <button className="ghost" onClick={share}>{copied ? '복사했어요' : '코드 보내기'}</button>
+          </div>
+
+          <div className="card join-friend">
+            <b>친구 코드로 함께하기</b>
+            <input
+              value={code}
+              inputMode="numeric"
+              maxLength={6}
+              onChange={(e) => { setCode(e.target.value.replace(/\D/g, '')); setConfirm(false); setError('') }}
+              placeholder="친구 정원 코드 6자리"
+              className="code-input"
+            />
+            {confirm && (
+              <p className="small notice">
+                친구 정원으로 옮겨 갈까요? {mine > 0 ? `내가 보낸 소리 ${mine}개도 함께 옮겨지고, ` : ''}지금 혼자 가꾸던 이 정원은 사라져요.
+              </p>
+            )}
+            <button className="primary" disabled={busy || code.length !== 6} onClick={join}>
+              {busy ? '옮기는 중…' : confirm ? '네, 친구 정원으로 갈게요' : '친구 정원으로 가기'}
+            </button>
+            {confirm && !busy && <button className="link" onClick={() => setConfirm(false)}>취소</button>}
+            {error && <p className="error">{error}</p>}
           </div>
         </>
       )}
-      <p className="small muted">친구가 보낸 소리는 정원 왼쪽, 내가 보낸 소리는 오른쪽에 꽃으로 피어요. 같은 날 둘 다 보내면 가운데에 우리의 꽃이 피어요.</p>
+      <p className="small muted">친구가 보낸 소리는 정원 왼쪽, 내가 보낸 소리는 오른쪽에 꽃(말소리)이나 나무(그 밖의 소리)로 자라요. 같은 날 둘 다 보내면 가운데에 우리의 꽃이 피어요.</p>
     </div>
   )
 }
@@ -441,7 +489,7 @@ function Me({ me, data, email, onSignOut }) {
         <p className="small muted">다른 기기에서도 이 계정으로 로그인하면 이 정원이 열려요.</p>
       </div>
       <div className="card">
-        <p className="small">녹음은 우리 두 사람만 들을 수 있어요. 내가 보낸 꽃은 꽃을 눌러 언제든 지울 수 있어요.</p>
+        <p className="small">녹음은 우리 두 사람만 들을 수 있어요. 내가 보낸 소리는 꽃이나 나무를 눌러 언제든 지울 수 있어요.</p>
       </div>
       <button className="ghost wide" onClick={onSignOut}>로그아웃</button>
     </div>

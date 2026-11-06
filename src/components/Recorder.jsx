@@ -184,7 +184,7 @@ export default function Recorder({ onClose, onSend }) {
         {(step === 'idle' || step === 'recording') && (
           <>
             <h2 className="sheet-title">오늘의 소리</h2>
-            <p className="muted">지금 들리는 소리를 10초 담아 보세요.<br />말소리는 감정 꽃으로, 그 밖의 소리는 소리 꽃으로 피어요.</p>
+            <p className="muted">지금 들리는 소리를 10초 담아 보세요.<br />말소리는 감정 꽃으로 피고, 그 밖의 소리는 소리 나무로 자라요.</p>
             <canvas ref={canvasRef} className="wave" width="600" height="140" />
             <div className="timer">
               {step === 'recording' ? `${left.toFixed(1)}초 남음` : '누르면 바로 녹음돼요 · 최대 10초'}

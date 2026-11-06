@@ -14,6 +14,7 @@ const errorText = (e) => {
   const m = e?.message || String(e)
   if (m.includes('GARDEN_NOT_FOUND')) return '그 코드의 정원을 찾지 못했어요.'
   if (m.includes('GARDEN_FULL')) return '이미 두 사람이 가꾸는 정원이에요.'
+  if (m.includes('ALREADY_PAIRED')) return '이미 다른 친구와 함께 가꾸는 정원이 있어요.'
   if (m.includes('NOT_AUTHENTICATED')) return '먼저 로그인해 주세요.'
   return m
 }
@@ -81,6 +82,13 @@ export async function createGarden(nickname) {
   const { data, error } = await supabase.rpc('create_garden', { p_nickname: nickname })
   if (error) throw new Error(errorText(error))
   return data
+}
+
+/** 친구 코드로 친구 정원에 들어간다. 혼자 가꾸던 정원이 있으면 내 꽃·나무를 함께 옮긴다 */
+export async function joinFriendGarden(code) {
+  const { data, error } = await supabase.rpc('join_friend_garden', { p_code: code })
+  if (error) throw new Error(errorText(error))
+  return { gardenId: data.garden_id, memberId: data.member_id, code: data.code, moved: data.moved }
 }
 
 export async function joinGarden(code, nickname) {
