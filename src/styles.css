@@ -263,3 +263,15 @@ h1, h2 { margin: 0; }
 .home-sheet.closed .mini-rec { opacity: 1; pointer-events: auto; transform: scale(1); }
 .home-sheet.closed .status { padding-right: 56px; }
 .home-sheet.closed .status-text small { display: none; }
+
+/* 사물 소리 나무: 땅에서 자라 오른다 */
+.tree.bloom .crown {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: tree-grow 0.9s cubic-bezier(0.2, 0.8, 0.3, 1.2) both;
+}
+.tree.glow { filter: drop-shadow(0 0 6px rgba(255, 240, 180, 0.7)); }
+@keyframes tree-grow {
+  from { transform: scale(0.1); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}

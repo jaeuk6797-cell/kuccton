@@ -1,3 +1,6 @@
+import Tree from './Tree.jsx'
+import { isTree } from '../lib/tree.js'
+
 // 파라미터로 꽃잎을 만드는 SVG 꽃 (PRD 4.4)
 // 양성모음: 작고 둥근 꽃잎·파스텔 / 음성모음: 크고 넓은 꽃잎·진한 톤 / 경음·격음: 끝이 뾰족 / onset → 꽃잎 수
 // lengths: 꽃잎별 길이 배율 = 시간에 따른 소리 크기(파형 윤곽). 앞 꽃잎이 소리의 처음, 뒤 꽃잎이 끝
@@ -7,6 +10,8 @@ function petalPath(len, w, pointed) {
 }
 
 export default function Flower({ flower, colors, size = 96, stem = true, bloom = true, glow = false, mine }) {
+  // 사물 소리는 꽃 대신 나무 (우리의 꽃처럼 colors가 있으면 꽃 그대로)
+  if (isTree(flower) && !colors) return <Tree flower={flower} size={size} stem={stem} bloom={bloom} glow={glow} />
   const petals = flower.petals || 5
   const yang = flower.vowel !== 'E'
   const pointed = flower.consonant === '경' || flower.consonant === '격'

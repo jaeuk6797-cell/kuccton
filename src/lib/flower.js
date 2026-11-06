@@ -96,7 +96,7 @@ const SOUND_WORDS = {
   multi: [['토독토독', '투둑투둑'], ['또각또각', '뚜벅뚜벅'], ['타닥타닥', '쿠당쿠당']],
 }
 // 소리가 길게 이어질 때: [작고 맑음, 작고 낮음, 크고 맑음, 크고 낮음]
-const SUSTAINED_WORDS = ['살랑', '사분사분', '쏴아', '웅웅']
+export const SUSTAINED_WORDS = ['살랑', '사분사분', '쏴아', '웅웅']
 
 const RHYTHM_TEXT = { single: '한 번 울려서', base: '두세 번 울려서', multi: '여러 번 울려서' }
 
@@ -137,7 +137,7 @@ export function buildSoundFlower(f) {
 
   const hue = hueFromCentroid(f.centroid)
   return {
-    name: `${word}꽃`,
+    name: `${word}나무`, // 사물 소리는 꽃이 아니라 나무로 자란다 (tree.js)
     word,
     reason,
     petals,
