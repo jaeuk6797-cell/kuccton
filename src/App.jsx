@@ -93,11 +93,7 @@ function AuthScreen() {
   return (
     <div className="screen entry center-col">
       <Hero />
-      <div className="auth-tabs">
-        <button className={mode === 'login' ? 'on' : ''} onClick={() => switchMode('login')}>로그인</button>
-        <button className={mode === 'signup' ? 'on' : ''} onClick={() => switchMode('signup')}>가입하기</button>
-      </div>
-      <form className="auth-form" onSubmit={submit}>
+      <form className="auth-form" aria-label={mode === 'login' ? '로그인' : '회원가입'} onSubmit={submit}>
         <label className="field">
           이메일
           <input type="email" autoComplete="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="name@example.com" />
@@ -122,6 +118,9 @@ function AuthScreen() {
           {busy ? '잠시만요…' : mode === 'login' ? '로그인' : '가입하고 시작하기'}
         </button>
       </form>
+      <button className="auth-switch" disabled={busy} onClick={() => switchMode(mode === 'login' ? 'signup' : 'login')}>
+        {mode === 'login' ? '회원가입' : '로그인으로 돌아가기'}
+      </button>
       {notice && <p className="notice">{notice}</p>}
       {error && <p className="error">{error}</p>}
     </div>

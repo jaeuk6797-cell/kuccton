@@ -256,9 +256,8 @@ h1, h2 { margin: 0; }
 .account { display: flex; flex-direction: column; gap: 8px; }
 .account p { margin: 0; }
 .account input { padding: 12px 14px; border-radius: 12px; border: 1.5px solid var(--line); background: var(--paper); font-size: 1rem; color: var(--ink); }
-.auth-tabs { display: grid; grid-template-columns: 1fr 1fr; width: 100%; background: rgba(255,255,255,.6); border-radius: 999px; padding: 4px; }
-.auth-tabs button { padding: 10px; border-radius: 999px; font-weight: 600; color: var(--muted); }
-.auth-tabs button.on { background: white; color: var(--ink); box-shadow: 0 1px 4px rgba(0,0,0,.08); }
+.auth-form > button[type="submit"] { margin-top: 14px; }
+.auth-switch { padding: 8px 16px; color: var(--muted); font-size: .78rem; text-decoration: underline; text-underline-offset: 3px; }
 
 /* 아이폰 홈 화면 앱: 상태 표시줄 아래로 내용이 겹치지 않게 */
 .screen { padding-top: calc(20px + env(safe-area-inset-top)); padding-bottom: max(20px, env(safe-area-inset-bottom)); }
