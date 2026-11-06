@@ -11,6 +11,7 @@ import { buildFlower3D, disposeFlower3D } from '../lib/flower3d.js'
 import { buildBlenderFlower, useBlenderFlowerAssets } from '../lib/blenderFlower.js'
 import { applyWarmIslandMaterial, applyWarmIslandPaint, applyAuroraIslandMaterial, applyAuroraIslandPaint } from '../lib/islandTone.js'
 import { createAuroraAtmosphere } from '../lib/auroraAtmosphere.js'
+import { createBalancedMotes } from '../lib/balancedMotes.js'
 import { AuroraGlowPass } from '../lib/AuroraGlowPass.js'
 import { createAuroraSparkleMaterial } from '../lib/auroraSparkles.js'
 import { applyAuroraGroundGrain } from '../lib/auroraGround.js'
@@ -372,7 +373,8 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
     const composer = new EffectComposer(renderer)
     composer.addPass(new RenderPass(scene, camera))
     composer.addPass(new OutputPass())
-    let glow = null, environment = null, atmosphere = null
+    let glow = null, environment = null, atmosphere = null, balancedMotes = null
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)')
     const floating = new THREE.Group()
     const islandGroup = new THREE.Group()
     islandGroup.add(buildIsland(normalizeTone(tone)))
@@ -508,6 +510,12 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
       rim.visible = aurora
       if (atmosphere) { scene.remove(atmosphere); disposeMeshes(atmosphere); atmosphere = null }
       if (aurora) { atmosphere = createAuroraAtmosphere(); scene.add(atmosphere) }
+      if (balanced && !balancedMotes) {
+        balancedMotes = createBalancedMotes(rng(91), renderer.getPixelRatio())
+        scene.add(balancedMotes)
+      }
+      if (balancedMotes) balancedMotes.visible = balanced
+      sparkles.visible = !balanced
       sparkles.material.dispose()
       sparkles.material = aurora ? createAuroraSparkleMaterial(SPARKLE.size)
         : new THREE.PointsMaterial({ color: '#ffffff', size: SPARKLE.size, transparent: true, opacity: 0.8 })
@@ -588,6 +596,7 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
         tone: st.tone, requestedTone: st.requestedTone, themeStatus: st.themeStatus, themeSwitches: st.themeSwitches,
         plants: plants.length, near: plants.filter(f => f.userData.lod === 'near').length, far: plants.filter(f => f.userData.lod === 'far').length,
         calls: renderer.info.render.calls, triangles: renderer.info.render.triangles,
+        balancedMotes: balancedMotes?.visible ? { count: balancedMotes.geometry.attributes.position.count, time: balancedMotes.material.uniforms.uTime.value, buffer: balancedMotes.geometry.uuid } : null,
         geometries: renderer.info.memory.geometries, textures: renderer.info.memory.textures, programs: renderer.info.programs?.length ?? 0,
         island: islandGroup.userData.assetStatus, islandChildren: islandGroup.children.length,
         islandGeometry: {
@@ -647,16 +656,19 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
         timings.lastFrame = frameTime
       }
       floating.position.y = Math.sin(t * 0.6) * 0.08
-      level += (playbackLevel() - level) * 0.15
-      const sparkleMat = sparkles.material, aurora = st.tone === 'aurora'
-      sparkleMat.size = SPARKLE.size * (aurora ? 1.6 : 1) * (1 + level * SPARKLE.sizeBoost)
-      if (aurora) sparkleMat.userData.time.value = t
-      sparkleMat.opacity = 0.8 + level * 0.2
-      sparkleMat.color.copy(SPARKLE_IDLE).lerp(SPARKLE_PLAY, Math.min(1, level * 1.5))
-      const rise = frozenTime == null && propsRef.current.previewTime == null ? SPARKLE.speed * (1 + level * SPARKLE.speedBoost) : 0
-      const p = pGeo.attributes.position
-      for (let i = 0; i < N; i++) { const y = p.getY(i) + rise; p.setY(i, y > 6 ? -1 : y) }
-      p.needsUpdate = true
+      if (balancedMotes?.visible) balancedMotes.material.uniforms.uTime.value = reducedMotion.matches ? 6 : t
+      if (sparkles.visible) {
+        level += (playbackLevel() - level) * 0.15
+        const sparkleMat = sparkles.material, aurora = st.tone === 'aurora'
+        sparkleMat.size = SPARKLE.size * (aurora ? 1.6 : 1) * (1 + level * SPARKLE.sizeBoost)
+        if (aurora) sparkleMat.userData.time.value = t
+        sparkleMat.opacity = 0.8 + level * 0.2
+        sparkleMat.color.copy(SPARKLE_IDLE).lerp(SPARKLE_PLAY, Math.min(1, level * 1.5))
+        const rise = frozenTime == null && propsRef.current.previewTime == null ? SPARKLE.speed * (1 + level * SPARKLE.speedBoost) : 0
+        const p = pGeo.attributes.position
+        for (let i = 0; i < N; i++) { const y = p.getY(i) + rise; p.setY(i, y > 6 ? -1 : y) }
+        p.needsUpdate = true
+      }
       controls.update()
       atmosphere?.userData.tick(t, camera)
       for (const f of flowerLayer.children) {

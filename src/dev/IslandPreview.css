@@ -6,7 +6,7 @@
 .flora-preview[data-tone="default"] {
   background: linear-gradient(180deg, #f7d6e6, #d9ccf5 52%, #bfe8e3);
 }
-.flora-preview[data-tone="balanced"] { background: linear-gradient(180deg, #ece6de 0%, #f4e5d4 36%, #f7edda 68%, #dce7da 100%); }
+.flora-preview[data-tone="balanced"] { background: var(--sky-balanced); }
 .flora-preview[data-tone="aurora"] {
   background:
     radial-gradient(ellipse at 16% 10%, #e35aa733, transparent 58%),
