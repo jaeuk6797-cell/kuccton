@@ -1,7 +1,7 @@
-# GitHub Pages 배포 (Vercel 배포 한도에 걸렸을 때의 예비 사이트)
+# GitHub Pages 예비 사이트 (Vercel 배포 한도에 걸렸을 때)
 #   https://jaeuk6797-cell.github.io/kuccton/
-# 저장소 Settings > Pages > Source 를 "GitHub Actions"로, Settings > Secrets and variables > Actions 에
-# VITE_SUPABASE_URL, VITE_SUPABASE_ANON_KEY, VITE_EMOTION_API_URL 을 넣어야 한다.
+# 빌드 결과를 gh-pages 브랜치에 올리고, 저장소 Settings > Pages 의 Source 는 "Deploy from a branch: gh-pages / (root)".
+# Settings > Secrets and variables > Actions 에 VITE_SUPABASE_URL, VITE_SUPABASE_ANON_KEY, VITE_EMOTION_API_URL 이 필요하다.
 name: Deploy to GitHub Pages
 
 on:
@@ -18,9 +18,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
-  pages: write
-  id-token: write
+  contents: write
 
 concurrency:
   group: pages
@@ -29,9 +27,6 @@ concurrency:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -45,8 +40,13 @@ jobs:
           VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
           VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
           VITE_EMOTION_API_URL: ${{ secrets.VITE_EMOTION_API_URL }}
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: dist
-      - id: deployment
-        uses: actions/deploy-pages@v4
+      - name: Publish dist to gh-pages
+        run: |
+          touch dist/.nojekyll
+          cd dist
+          git init -q
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -q -m "Deploy ${GITHUB_SHA}"
+          git push -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" HEAD:refs/heads/gh-pages
