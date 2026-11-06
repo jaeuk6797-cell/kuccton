@@ -179,7 +179,7 @@ h1, h2 { margin: 0; }
 .cloud.c3 { width: 140px; height: 50px; top: 12%; right: 10%; opacity: .6; animation-duration: 70s; }
 @keyframes drift { to { transform: translateX(60px); } }
 
-.island { position: absolute; left: 0; right: 0; top: 140px; bottom: calc(var(--tab) + 70px); touch-action: none; transform-origin: 50% 0; transform: scale(calc(1 - (1 - var(--sheet-p)) * (1 - var(--island-s, 1)))); will-change: transform; }
+.island { position: absolute; left: 0; right: 0; top: 120px; bottom: calc(var(--tab) + 70px); touch-action: none; transform-origin: 50% 0; transform: scale(calc(1 - (1 - var(--sheet-p)) * (1 - var(--island-s, 1)))); will-change: transform; }
 .island canvas { display: block; width: 100%; height: 100%; }
 
 .home-head { position: absolute; top: 0; left: 0; right: 0; display: flex; justify-content: space-between; align-items: center; padding: calc(18px + env(safe-area-inset-top)) 20px 0; z-index: 2; }
@@ -187,7 +187,7 @@ h1, h2 { margin: 0; }
 .brand svg { color: var(--green); }
 .round-btn { width: 44px; height: 44px; border-radius: 50%; background: rgba(255,255,255,.88); display: grid; place-items: center; position: relative; box-shadow: 0 2px 10px rgba(40,60,70,.12); }
 .badge { position: absolute; top: 9px; right: 10px; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); }
-.home-title { position: absolute; top: calc(74px + env(safe-area-inset-top)); left: 20px; right: 20px; z-index: 2; pointer-events: none; }
+.home-title { position: absolute; top: calc(16px + env(safe-area-inset-top)); left: 20px; right: 76px; z-index: 2; pointer-events: none; }
 .home-title h1 { font-size: 1.75rem; color: var(--ink); letter-spacing: -0.02em; }
 .chips { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
 .chips span { background: rgba(255,255,255,.88); border-radius: 999px; padding: 6px 12px; font-size: 0.82rem; color: #2f3a2c; box-shadow: 0 1px 4px rgba(0,0,0,.05); }
@@ -331,3 +331,6 @@ h1, h2 { margin: 0; }
 .sent-list button:active { background: #f3eef2; }
 .sent-list span { flex: 1; font-size: 0.92rem; }
 .sent-list small { color: var(--muted); font-size: 0.78rem; }
+
+/* 로고 대신 제목 위에 은은한 SUP 표시 (소리숲 글자 줄은 제목과 겹쳐서 뺐다) */
+.wordmark { display: block; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.32em; color: var(--ink); opacity: 0.35; margin-bottom: 2px; }

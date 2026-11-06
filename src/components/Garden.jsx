@@ -54,7 +54,7 @@ export default function Garden({ session, onSignOut, email, onMoved }) {
       // 아래 탭바를 없앴으므로 카드 아래 여백은 기기 안전 영역(아이폰 홈 바)만큼
       const tabH = parseFloat(getComputedStyle(sheet).bottom) || 0
       const sheetH = sheet.offsetHeight
-      const top = 140
+      const top = 120 // .island의 top과 같아야 한다
       const closedH = home.clientHeight - top - tabH - SHEET_PEEK + 8
       const openH = home.clientHeight - top - tabH - sheetH + 15
       home.style.setProperty('--sheet-h', `${sheetH}px`)
@@ -217,10 +217,8 @@ export default function Garden({ session, onSignOut, email, onMoved }) {
             onPickPair={setOpenPair}
           />
           </div>
-          <header className="home-head">
-            <div className="brand"><Sprout /> 소리숲</div>
-          </header>
           <div className="home-title">
+            <span className="wordmark" aria-label="SUP 소리숲">SUP</span>
             <h1>{partner ? `${josa(pName, '과', '와')} 나의 정원` : `${me?.nickname}의 정원`}</h1>
             {friends.length > 0 && (
               <div className="view-pills" role="tablist" aria-label="누구의 꽃을 볼까요">
