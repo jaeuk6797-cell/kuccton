@@ -17,7 +17,7 @@ const timeOfDay = (iso) => {
   return h < 5 ? '새벽' : h < 11 ? '아침' : h < 17 ? '낮' : h < 21 ? '저녁' : '밤'
 }
 
-export default function Garden({ session, onLeave }) {
+export default function Garden({ session, onLeave, onSignOut, email }) {
   const [data, setData] = useState(null)
   const [error, setError] = useState('')
   const [tab, setTab] = useState('garden')
@@ -177,7 +177,7 @@ export default function Garden({ session, onLeave }) {
 
       {tab === 'album' && <Album data={data} meId={meId} onOpen={setOpenFlower} onOpenPair={setOpenPair} flowerById={flowerById} />}
       {tab === 'friends' && <Friends data={data} partner={partner} me={me} />}
-      {tab === 'me' && <Me me={me} data={data} onLeave={onLeave} />}
+      {tab === 'me' && <Me me={me} data={data} email={email} onLeave={onLeave} onSignOut={onSignOut} />}
 
       <nav className="tabbar">
         {[
@@ -310,7 +310,7 @@ function Friends({ data, partner, me }) {
   )
 }
 
-function Me({ me, data, onLeave }) {
+function Me({ me, data, email, onLeave, onSignOut }) {
   return (
     <div className="page">
       <h1 className="page-title">나</h1>
@@ -318,10 +318,16 @@ function Me({ me, data, onLeave }) {
         <span className="av me big">나</span>
         <div><b>{me?.nickname}</b><small className="muted">정원 코드 {data.garden.code}</small></div>
       </div>
+      <div className="card account">
+        <small className="muted">로그인한 계정</small>
+        <b>{email}</b>
+        <p className="small muted">다른 기기에서도 이 계정으로 로그인하면 이 정원이 열려요.</p>
+      </div>
       <div className="card">
         <p className="small">녹음은 우리 두 사람만 들을 수 있어요. 내가 보낸 꽃은 꽃을 눌러 언제든 지울 수 있어요.</p>
       </div>
-      <button className="ghost wide" onClick={onLeave}>이 기기에서 정원 나가기</button>
+      <button className="ghost wide" onClick={onLeave}>다른 정원 열기</button>
+      <button className="ghost wide" onClick={onSignOut}>로그아웃</button>
     </div>
   )
 }

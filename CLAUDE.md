@@ -17,14 +17,14 @@ KUCC 동아리 해커톤(주제: 소리, 4인 팀) 출품작. 응답과 주석�
 - **다른 소리**: YAMNet 분류를 **쓰지 않는다**. 크기·밝기·세기·리듬·파형만으로 의성어(톡/토독/타닥 …)를 고른다.
 - 음상 규칙: 크고 낮은 소리 = 음성모음, 어택 강함 = 뾰족한 꽃잎, onset 수 = 꽃잎 수(3~8), 파형 윤곽 = 꽃잎별 길이.
 - **우리의 꽃**: 같은 날 두 사람이 모두 보내면 각자 그날 첫 꽃끼리 합성 꽃이 핀다(첫 두 음절씩 이어 붙임). 누르면 상대 소리는 왼쪽, 내 소리는 오른쪽 귀로 동시 재생.
-- 점수·연속 기록·시들기 없음. 연결은 회원가입 없이 **6자리 정원 코드, 2명**.
+- 점수·연속 기록·시들기 없음. **이메일+비밀번호 로그인 필수**(익명 로그인 없음). 로그인 후 **6자리 정원 코드**로 2명이 연결되고, 다른 기기에서 로그인하면 계정의 최근 정원이 열린다.
 - 화면 이름은 "소리숲", 영문·패키지명은 SUP (`com.sup.app`).
 
 ## 3. 기술 스택
 
 - React 18 + Vite 5 (모바일 웹) → **Capacitor 8**로 Android/iOS 앱
 - three.js (R3F 아님): `src/components/Island3D.jsx`
-- Supabase: 익명 로그인, Postgres + RLS, 비공개 Storage(`sounds`), Realtime
+- Supabase: 이메일 로그인, Postgres + RLS, 비공개 Storage(`sounds`), Realtime
 - 감정 분석: Python FastAPI + HuBERT (`server/`), 앱은 `VITE_EMOTION_API_URL`로 호출
 - STT: 브라우저는 Web Speech API(녹음과 동시), 앱은 `@capacitor-community/speech-recognition`(미리보기에서 '말로 적기')
 
@@ -38,7 +38,7 @@ KUCC 동아리 해커톤(주제: 소리, 4인 팀) 출품작. 응답과 주석�
 | `src/lib/naming.js` | `pairName()`, `toFlowerRow()`(꽃 객체 → DB 행), `categoryLabel()` |
 | `src/lib/audio.js` | 녹음 포맷, 파형 피크, 스테레오 재생 |
 | `src/lib/stt.js` | 꽃말 STT (웹/앱 분기) |
-| `src/lib/db.js` | Supabase: 정원 만들기/입장, 업로드, signed URL, 우리의 꽃 생성, 실시간 구독 |
+| `src/lib/db.js` | Supabase: 로그인·가입, 내 정원 찾기, 정원 만들기/입장, 업로드, signed URL, 우리의 꽃 생성, 실시간 구독 |
 | `src/components/Garden.jsx` | 홈(섬, 하단 카드, 탭: 정원·앨범·친구·나), 오늘의 위로 |
 | `src/components/Island3D.jsx` | 떠 있는 섬과 꽃. 상대 꽃 왼쪽, 내 꽃 오른쪽, 우리의 꽃 가운데 |
 | `src/components/Recorder.jsx` | 녹음 → 분석 → 미리보기 → 보내기 |
@@ -59,4 +59,5 @@ KUCC 동아리 해커톤(주제: 소리, 4인 팀) 출품작. 응답과 주석�
 
 - 감정 분석 서버가 꺼져 있으면 목소리 꽃은 감정을 직접 골라야 한다. 시연 전 서버 상태를 꼭 확인할 것.
 - iOS는 Mac + Xcode + CocoaPods 필요(음성 인식 플러그인이 SPM 미지원).
-- 같은 브라우저 안에서는 익명 계정이 공유되므로 두 사람 테스트는 다른 브라우저/시크릿 창으로.
+- Supabase의 Confirm email이 켜져 있으면 가입 후 메일 확인 전까지 로그인이 안 된다. 해커톤 동안은 꺼 둘 것.
+- 두 사람 테스트는 계정 두 개로 다른 브라우저/시크릿 창에서.
