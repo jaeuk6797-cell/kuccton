@@ -70,3 +70,10 @@ npm run dev:phone    # 같은 와이파이의 폰에서 https://<PC IP>:5173
 같은 날 두 사람이 모두 보내면 **우리의 꽃**이 피고, 누르면 상대 소리는 왼쪽·내 소리는 오른쪽 귀로 동시에 들립니다.
 
 자세한 구조는 [CLAUDE.md](CLAUDE.md)를 보세요.
+
+## 6. 글꼴 출처
+
+| 글꼴 | 쓰는 곳 | 출처 · 라이선스 |
+|---|---|---|
+| **교보 손글씨 2024 박서우** | 꽃말 (`public/fonts/KyoboHandwriting2024psw.ttf`) | © 교보문고 · 제작 윤디자인. 제10회 교보손글씨대회 으뜸상 수상자 박서우 님의 손글씨. 개인·기업 무료 사용 가능(웹 포함). 파일 수정·변환·재판매 금지. [교보문고 손글씨 폰트](https://store.kyobobook.co.kr/handwriting/font) |
+| **Pretendard** | 그 밖의 모든 글자 | © Kil Hyung-jin · [SIL Open Font License 1.1](https://github.com/orioncactus/pretendard/blob/main/LICENSE) · jsDelivr CDN으로 불러옴 |
