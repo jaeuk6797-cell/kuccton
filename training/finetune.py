@@ -30,44 +30,74 @@ EN2KO = {"happy": "행복", "angry": "분노", "disgust": "혐오", "fear": "공
 LABEL2ID = {name: i for i, name in enumerate(LABELS)}
 
 
+def read_rows(path: Path):
+    for enc in ("utf-8-sig", "cp949", "utf-8"):
+        try:
+            return list(csv.reader(path.open(encoding=enc)))
+        except UnicodeDecodeError:
+            continue
+    return []
+
+
 def find_labels(root: Path):
-    """annotation csv에서 {발화 id: 라벨}을 모은다. 라벨 열은 값이 감정 이름으로만 이뤄진 열을 자동으로 찾는다."""
-    labels, used_cols = {}, Counter()
-    for path in root.rglob("*.csv"):
-        for enc in ("utf-8-sig", "cp949", "utf-8"):
-            try:
-                rows = list(csv.reader(path.open(encoding=enc)))
-                break
-            except UnicodeDecodeError:
-                rows = []
-        if len(rows) < 2:
+    """annotation csv에서 {발화 id: 라벨}을 모은다.
+
+    KEMDy는 헤더가 두 줄이다: 윗줄 'Segment ID', 'Total Evaluation', 'Eval01F' … / 아랫줄 'Emotion', 'Valence', 'Arousal'.
+    평가자별 Emotion 열이 여러 개라서, 다수결 결과인 'Total Evaluation'의 'Emotion' 열만 쓴다.
+    표가 한 줄 헤더면 값이 감정 이름으로만 된 열을 자동으로 찾는다. 동률('happy;surprise')은 건너뛴다.
+    """
+    labels, how, ties = {}, Counter(), 0
+    for path in sorted(root.rglob("*.csv")):
+        rows = read_rows(path)
+        if len(rows) < 3:
             continue
-        header, body = rows[0], rows[1:]
-        id_col = next((i for i, h in enumerate(header) if re.search(r"segment|id|file", h, re.I)), 0)
-        best = None
-        for c, name in enumerate(header):
-            vals = [r[c].strip().lower() for r in body if len(r) > c and r[c].strip()]
-            if vals and all(v in EN2KO for v in vals) and (best is None or len(set(vals)) > best[1]):
-                best = (c, len(set(vals)))
-        if best is None:
-            continue
-        used_cols[header[best[0]]] += 1
+        top, sub = rows[0], rows[1]
+        filled, cur = [], ""
+        for h in top:  # 윗줄 이름을 오른쪽 빈 칸으로 이어 붙인다
+            cur = h.strip() or cur
+            filled.append(cur)
+        id_col = next((i for i, h in enumerate(top) if "segment" in h.lower()), None)
+        lab_col = next((i for i, (t, sb) in enumerate(zip(filled, sub)) if t.lower().startswith("total") and sb.strip().lower() == "emotion"), None)
+        body = rows[2:]
+        if id_col is None or lab_col is None:  # 한 줄 헤더 표
+            body = rows[1:]
+            id_col = next((i for i, h in enumerate(top) if re.search(r"segment|id|file", h, re.I)), 0)
+            best = None
+            for c, name in enumerate(top):
+                vals = [r[c].strip().lower() for r in body if len(r) > c and r[c].strip()]
+                if vals and all(v.split(";")[0] in EN2KO for v in vals) and (best is None or len(set(vals)) > best[1]):
+                    best = (c, len(set(vals)))
+            if best is None:
+                continue
+            lab_col = best[0]
+            how["한 줄 헤더: " + top[lab_col]] += 1
+        else:
+            how["두 줄 헤더: Total Evaluation/Emotion"] += 1
         for r in body:
-            if len(r) > max(id_col, best[0]):
-                lab = r[best[0]].strip().lower()
-                if lab in EN2KO:
-                    labels[r[id_col].strip()] = EN2KO[lab]
-    return labels, used_cols
+            if len(r) <= max(id_col, lab_col):
+                continue
+            lab = r[lab_col].strip().lower()
+            if ";" in lab:
+                ties += 1
+            elif lab in EN2KO:
+                labels[r[id_col].strip()] = EN2KO[lab]
+    return labels, how, ties
+
+
+def group_of(wav: Path):
+    """(데이터셋, 세션 번호). KEMDy19와 KEMDy20이 둘 다 Session01~04라서 데이터셋 이름을 같이 쓴다."""
+    ds = next((p for p in wav.parts if p.upper().startswith("KEMDY")), "")
+    m = re.search(r"Sess(?:ion)?\s*0*(\d+)", wav.name, re.I) or re.search(r"Sess(?:ion)?\s*0*(\d+)", str(wav), re.I)
+    return ds.upper(), int(m.group(1)) if m else -1
 
 
 def collect(root: Path):
-    labels, cols = find_labels(root)
+    labels, how, ties = find_labels(root)
     items = []
-    for wav in root.rglob("*.wav"):
+    for wav in sorted(root.rglob("*.wav")):
         if wav.stem in labels:
-            m = re.search(r"Sess(?:ion)?\s*0*(\d+)", str(wav), re.I)
-            items.append((wav, LABEL2ID[labels[wav.stem]], int(m.group(1)) if m else -1))
-    return items, cols
+            items.append((wav, LABEL2ID[labels[wav.stem]], group_of(wav)))
+    return items, how, ties
 
 
 class Clips(Dataset):
@@ -124,27 +154,34 @@ def main():
     ap.add_argument("--lr", type=float, default=1e-5)
     ap.add_argument("--unfreeze", type=int, default=4, help="뒤쪽 인코더 층을 몇 개 풀지 (0이면 분류 헤드만)")
     ap.add_argument("--max-sec", type=float, default=8.0)
-    ap.add_argument("--val-sessions", type=int, default=4, help="번호가 가장 큰 세션 몇 개를 검증용으로 뗄지(화자 누수 방지)")
+    ap.add_argument("--val-sessions", type=int, default=1, help="데이터셋마다 번호가 가장 큰 세션 몇 개를 검증용으로 뗄지(화자 누수 방지)")
     ap.add_argument("--max-steps", type=int, default=0, help="디버그용: 이 스텝 수에서 멈춤")
+    ap.add_argument("--val-limit", type=int, default=0, help="디버그용: 검증 발화를 이 개수만 무작위로 쓴다")
     ap.add_argument("--seed", type=int, default=0)
     a = ap.parse_args()
 
     random.seed(a.seed)
     torch.manual_seed(a.seed)
-    items, cols = collect(Path(a.data))
+    items, how, ties = collect(Path(a.data))
     counts = Counter(LABELS[y] for _, y, _ in items)
-    print(f"라벨이 붙은 발화 {len(items)}개 / 사용한 라벨 열: {dict(cols)}")
+    print(f"라벨이 붙은 발화 {len(items)}개 / 라벨 읽은 방식: {dict(how)} / 동률이라 건너뜀: {ties}개")
     print("라벨별:", dict(counts))
     if len(items) < 50:
         sys.exit("라벨이 붙은 wav를 거의 못 찾았어요. --data 경로와 annotation csv 구조를 확인해 주세요.")
     if a.inspect:
         return
 
-    sessions = sorted({s for _, _, s in items})
-    val_s = set(sessions[-a.val_sessions:]) if len(sessions) > a.val_sessions else set()
-    train = [it for it in items if it[2] not in val_s]
-    val = [it for it in items if it[2] in val_s] or train[-max(1, len(train) // 10):]
-    print(f"학습 {len(train)} / 검증 {len(val)} (검증 세션: {sorted(val_s)})")
+    # 데이터셋마다 번호가 가장 큰 세션 --val-sessions개를 검증용으로 뗀다(세션이 다르면 화자도 다르다)
+    by_ds = {}
+    for _, _, (ds, sess) in items:
+        by_ds.setdefault(ds, set()).add(sess)
+    val_groups = {(ds, s) for ds, ss in by_ds.items() if len(ss) > a.val_sessions for s in sorted(ss)[-a.val_sessions:]}
+    train = [it for it in items if it[2] not in val_groups]
+    val = [it for it in items if it[2] in val_groups] or train[-max(1, len(train) // 10):]
+    if a.val_limit:
+        val = random.sample(val, min(a.val_limit, len(val)))
+    print(f"학습 {len(train)} / 검증 {len(val)} (검증 세션: {sorted(val_groups)})")
+    print("검증 라벨별:", dict(Counter(LABELS[y] for _, y, _ in val)))
 
     device = "cuda" if torch.cuda.is_available() else "cpu"
     print("device:", device)
