@@ -334,3 +334,5 @@ h1, h2 { margin: 0; }
 
 /* 로고 대신 제목 위에 은은한 SUP 표시 (소리숲 글자 줄은 제목과 겹쳐서 뺐다) */
 .wordmark { display: block; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.32em; color: var(--ink); opacity: 0.35; margin-bottom: 2px; }
+/* 친구 코드 입력칸: 숫자 코드용 넓은 자간이 한글 안내 문구까지 벌려 놓지 않게 */
+.join-friend .code-input::placeholder { letter-spacing: normal; font-size: 0.95rem; }
