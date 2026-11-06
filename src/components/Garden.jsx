@@ -26,7 +26,8 @@ export default function Garden({ session, onSignOut, email, onMoved }) {
   const [openFlower, setOpenFlower] = useState(null)
   const [openPair, setOpenPair] = useState(null)
   const [showBell, setShowBell] = useState(false)
-  const [menuOpen, setMenuOpen] = useState(false) // 오른쪽 위 메뉴: 정원·앨범·친구·나·받은 소리
+  const [menuOpen, setMenuOpen] = useState(false)
+  const [viewFriend, setViewFriend] = useState('all') // 정원에서 볼 꽃: 'all' 또는 친구 member id // 오른쪽 위 메뉴: 정원·앨범·친구·나·받은 소리
   const [toast, setToast] = useState('')
   const [fresh, setFresh] = useState(() => new Set())
   const [highlight, setHighlight] = useState(null)
@@ -53,7 +54,7 @@ export default function Garden({ session, onSignOut, email, onMoved }) {
       // 아래 탭바를 없앴으므로 카드 아래 여백은 기기 안전 영역(아이폰 홈 바)만큼
       const tabH = parseFloat(getComputedStyle(sheet).bottom) || 0
       const sheetH = sheet.offsetHeight
-      const top = 140
+      const top = 120 // .island의 top과 같아야 한다
       const closedH = home.clientHeight - top - tabH - SHEET_PEEK + 8
       const openH = home.clientHeight - top - tabH - sheetH + 15
       home.style.setProperty('--sheet-h', `${sheetH}px`)
@@ -157,6 +158,14 @@ export default function Garden({ session, onSignOut, email, onMoved }) {
   else status = { title: '오늘은 아직 조용해요', sub: '지금 들리는 소리를 먼저 건네 볼까요?' }
 
   const receivedCount = data.flowers.filter((f) => f.sender_id !== meId).length
+  // 친구별 보기: 친구가 몇 명이든 같은 방식 (지금 DB는 정원당 2명이라 친구는 1명)
+  const friends = data.members.filter((m) => m.id !== meId)
+  const sentCount = (id) => data.flowers.filter((f) => f.sender_id === id).length
+  const viewing = friends.some((m) => m.id === viewFriend) ? viewFriend : 'all'
+  const shownFlowers = viewing === 'all' ? data.flowers : data.flowers.filter((f) => f.sender_id === viewing)
+  const shownPairs = viewing === 'all' ? data.pairs : data.pairs.filter((p) =>
+    flowerById[p.flower_a_id]?.sender_id === viewing || flowerById[p.flower_b_id]?.sender_id === viewing)
+  const showFriend = (id) => { setViewFriend(id); setTab('garden') }
   const received = data.flowers.filter((f) => f.sender_id !== meId).slice(-8).reverse()
 
   // 손잡이를 끌면 카드·섬·안내 문구가 함께 손가락을 따라오고(--sheet-p: 0 열림 ~ 1 접힘),
@@ -199,8 +208,8 @@ export default function Garden({ session, onSignOut, email, onMoved }) {
         <>
           <div className="island-touch" onPointerDown={() => setHintOn(false)}>
           <Island3D
-            flowers={data.flowers}
-            pairs={data.pairs}
+            flowers={shownFlowers}
+            pairs={shownPairs}
             meId={meId}
             freshIds={fresh}
             highlightId={highlight}
@@ -208,14 +217,21 @@ export default function Garden({ session, onSignOut, email, onMoved }) {
             onPickPair={setOpenPair}
           />
           </div>
-          <header className="home-head">
-            <div className="brand"><Sprout /> 소리숲</div>
-          </header>
           <div className="home-title">
+            <span className="wordmark" aria-label="SUP 소리숲">SUP</span>
             <h1>{partner ? `${josa(pName, '과', '와')} 나의 정원` : `${me?.nickname}의 정원`}</h1>
-            <div className="chips">
-              <span>받은 소리 {receivedCount}개</span>
-            </div>
+            {friends.length > 0 && (
+              <div className="view-pills" role="tablist" aria-label="누구의 꽃을 볼까요">
+                <button role="tab" aria-selected={viewing === 'all'} className={viewing === 'all' ? 'on' : ''} onClick={() => setViewFriend('all')}>
+                  전체 <b>{receivedCount}</b>
+                </button>
+                {friends.map((m) => (
+                  <button key={m.id} role="tab" aria-selected={viewing === m.id} className={viewing === m.id ? 'on' : ''} onClick={() => setViewFriend(m.id)}>
+                    {m.nickname} <b>{sentCount(m.id)}</b>
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
           {data.flowers.length === 0 ? (
             <div className="empty-garden">
@@ -264,7 +280,7 @@ export default function Garden({ session, onSignOut, email, onMoved }) {
       )}
 
       {tab === 'album' && <Album data={data} meId={meId} onOpen={setOpenFlower} onOpenPair={setOpenPair} flowerById={flowerById} />}
-      {tab === 'friends' && <Friends data={data} partner={partner} meId={meId} onMoved={onMoved} />}
+      {tab === 'friends' && <Friends data={data} partner={partner} meId={meId} onMoved={onMoved} onOpen={setOpenFlower} onShowInGarden={showFriend} />}
       {tab === 'me' && <Me me={me} data={data} email={email} onSignOut={onSignOut} />}
 
       {/* 오른쪽 위 메뉴 (아래 탭바 대신). 어느 화면에서나 같은 자리에 있다 */}
@@ -390,7 +406,7 @@ function Album({ data, meId, onOpen, onOpenPair, flowerById }) {
 
 // 친구 목록: 한 사람당 정원은 하나, 정원 하나에 두 사람 → 친구는 내 정원을 함께 가꾸는 사람.
 // 친구가 보낸 소리는 내 정원 왼쪽에, 내가 보낸 소리는 오른쪽에 꽃으로 핀다.
-function Friends({ data, partner, meId, onMoved }) {
+function Friends({ data, partner, meId, onMoved, onOpen, onShowInGarden }) {
   const [copied, setCopied] = useState(false)
   const [code, setCode] = useState('')
   const [confirm, setConfirm] = useState(false)
@@ -428,13 +444,41 @@ https://kuccton.vercel.app`
       <h1 className="page-title">친구</h1>
       {partner ? (
         <ul className="friend-list">
-          <li className="card person">
-            <span className="av partner big">{[...partner.nickname][0]}</span>
-            <div>
-              <b>{partner.nickname}</b>
-              <small className="muted">{since.getMonth() + 1}월 {since.getDate()}일부터 함께 · 보낸 소리 {sentBy(partner.id)}개 · 우리의 꽃 {data.pairs.length}송이</small>
-            </div>
-          </li>
+          {/* 친구가 몇 명이든 같은 모양: 친구마다 카드 하나 + 그 친구가 보낸 소리 */}
+          {data.members.filter((m) => m.id !== meId).map((m) => {
+            const theirs = data.flowers.filter((f) => f.sender_id === m.id).slice().reverse()
+            const joined = new Date(m.created_at || since)
+            return (
+              <li key={m.id} className="card friend-card">
+                <div className="person">
+                  <span className="av partner big">{[...m.nickname][0]}</span>
+                  <div>
+                    <b>{m.nickname}</b>
+                    <small className="muted">{joined.getMonth() + 1}월 {joined.getDate()}일부터 함께 · 받은 소리 {theirs.length}개</small>
+                  </div>
+                </div>
+                {theirs.length === 0 ? (
+                  <p className="small muted">아직 {m.nickname}에게 받은 소리가 없어요.</p>
+                ) : (
+                  <>
+                    <ul className="sent-list">
+                      {theirs.slice(0, 6).map((f) => (
+                        <li key={f.id}>
+                          <button onClick={() => onOpen(f)}>
+                            <Flower flower={f} size={34} stem={false} bloom={false} />
+                            <span>{displayName(f)}</span>
+                            <small>{formatDate(f.sent_date)}</small>
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                    {theirs.length > 6 && <p className="small muted">외 {theirs.length - 6}개</p>}
+                    <button className="ghost small-btn" onClick={() => onShowInGarden(m.id)}>정원에서 {m.nickname}의 꽃만 보기</button>
+                  </>
+                )}
+              </li>
+            )
+          })}
         </ul>
       ) : (
         <>
