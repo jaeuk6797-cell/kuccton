@@ -18,12 +18,14 @@ const ISLAND_RADIUS = 4
 const ISLAND_TOP_Y = 0.17
 
 // 빛 번짐: 햇빛(2.2)을 받은 꽃잎·나무는 넘지 못하고 꽃 중심·꽃술만 넘도록 문턱을 높게 둔다
-const BLOOM = { strength: 0.6, radius: 0, threshold: 2.6 }
+const BLOOM = { strength: 0.35, radius: 0, threshold: 2.6 }
 // 넓게 퍼지는 큰 블러 단계를 끄면 꽃 주변만 은은하게 빛나고 캔버스 전체에 뿌연 막이 생기지 않는다
-const BLOOM_FACTORS = [1.0, 0.7, 0.3, 0.0, 0.0]
+const BLOOM_FACTORS = [1.0, 0.5, 0.15, 0.0, 0.0]
 
 // 카메라: 꽃이 모여 있는 섬 가운데(반지름 약 2)를 가깝게 본다
-const CAMERA = { position: [0, 4.4, 10.5], target: [0, 0.1, 0], min: 6, max: 17 }
+const CAMERA = { position: [0, 4.4, 10.5], target: [0, 0.1, 0], fov: 36, min: 6, max: 17 }
+// 화면이 좁으면(폰 세로) 이 반지름(섬 + 나무)이 가로로 다 들어오도록 카메라를 뒤로 뺀다
+const FIT_RADIUS = 4.4
 
 // 빛 알갱이: 소리를 재생하면 음량에 맞춰 커지고 빨라지고 따뜻한 색이 된다
 const SPARKLE = { size: 0.06, speed: 0.004, sizeBoost: 4, speedBoost: 8 }
@@ -284,13 +286,21 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
     el.addEventListener('pointerdown', onDown)
     el.addEventListener('pointerup', onUp)
 
+    const target = new THREE.Vector3(...CAMERA.target)
+    const viewDir = new THREE.Vector3(...CAMERA.position).sub(target)
+    const baseDist = viewDir.length()
+    viewDir.normalize()
     const resize = () => {
       const { clientWidth: w, clientHeight: h } = wrap
       renderer.setSize(w, h)
       composer.setSize(w, h)
       camera.aspect = w / h
-      // 화면이 좁을수록 조금 더 멀리
-      camera.fov = w / h < 0.75 ? 50 : 34 // 세로 화면(폰)은 섬 양옆이 잘리지 않게 넓게
+      // 화면이 좁을수록 카메라를 뒤로 빼서 섬 양옆이 잘리지 않게 한다 (화각은 그대로 → 왜곡 없음)
+      camera.fov = CAMERA.fov
+      const halfH = Math.atan(Math.tan(THREE.MathUtils.degToRad(CAMERA.fov) / 2) * camera.aspect)
+      const dist = Math.max(baseDist, FIT_RADIUS / Math.sin(halfH))
+      camera.position.copy(target).addScaledVector(viewDir, dist)
+      controls.maxDistance = Math.max(CAMERA.max, dist + 3)
       camera.updateProjectionMatrix()
     }
     const ro = new ResizeObserver(resize)
