@@ -1,22 +1,55 @@
 import { useEffect, useRef, useState } from 'react'
 import { useSpeechRecognition } from './useSpeechRecognition.js'
+import { analyzeEmotion, emotionEnabled } from './emotion.js'
 
 const MAX_SECONDS = 10
+
+const CATEGORIES = [
+  { id: 'rain', label: '비' },
+  { id: 'water', label: '물' },
+  { id: 'wind', label: '바람' },
+  { id: 'animal', label: '동물' },
+  { id: 'life', label: '생활음' },
+  { id: 'laugh', label: '웃음' },
+  { id: 'voice', label: '사람 목소리' },
+]
 
 export default function App() {
   const stt = useSpeechRecognition()
   const [recording, setRecording] = useState(false)
   const [left, setLeft] = useState(MAX_SECONDS)
+  const [blob, setBlob] = useState(null)
   const [audioUrl, setAudioUrl] = useState(null)
   const [micError, setMicError] = useState(null)
+  const [category, setCategory] = useState('')
+  const [emotion, setEmotion] = useState(null)
+  const [emotionError, setEmotionError] = useState(null)
+  const [analyzing, setAnalyzing] = useState(false)
   const recorderRef = useRef(null)
   const chunksRef = useRef([])
   const timerRef = useRef(null)
 
   useEffect(() => () => clearInterval(timerRef.current), [])
 
+  // 사람 목소리를 골랐을 때만 녹음을 감정 분석 서버로 보낸다.
+  useEffect(() => {
+    setEmotion(null)
+    setEmotionError(null)
+    if (category !== 'voice' || !blob || !emotionEnabled) return
+    let cancelled = false
+    setAnalyzing(true)
+    analyzeEmotion(blob)
+      .then((r) => !cancelled && setEmotion(r))
+      .catch((e) => !cancelled && setEmotionError(e.message))
+      .finally(() => !cancelled && setAnalyzing(false))
+    return () => {
+      cancelled = true
+    }
+  }, [category, blob])
+
   async function startRecording() {
     setMicError(null)
+    setBlob(null)
     setAudioUrl(null)
     let stream
     try {
@@ -31,7 +64,9 @@ export default function App() {
     recorder.ondataavailable = (e) => chunksRef.current.push(e.data)
     recorder.onstop = () => {
       stream.getTracks().forEach((t) => t.stop())
-      setAudioUrl(URL.createObjectURL(new Blob(chunksRef.current, { type: recorder.mimeType })))
+      const recorded = new Blob(chunksRef.current, { type: recorder.mimeType })
+      setBlob(recorded)
+      setAudioUrl(URL.createObjectURL(recorded))
     }
     recorderRef.current = recorder
     recorder.start()
@@ -69,6 +104,36 @@ export default function App() {
         <div style={{ marginTop: 16 }}>
           <audio src={audioUrl} controls />
         </div>
+      )}
+
+      {blob && (
+        <section style={{ marginTop: 24 }}>
+          <h2>어떤 소리인가요?</h2>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+            {CATEGORIES.map((c) => (
+              <button
+                key={c.id}
+                onClick={() => setCategory(c.id)}
+                style={{ fontWeight: category === c.id ? 'bold' : 'normal' }}
+              >
+                {c.label}
+              </button>
+            ))}
+          </div>
+
+          {category === 'voice' && (
+            <div style={{ marginTop: 12 }}>
+              {!emotionEnabled && <p>감정 분석 서버 주소(VITE_EMOTION_API_URL)가 설정되지 않았어요.</p>}
+              {analyzing && <p>목소리의 감정을 읽는 중…</p>}
+              {emotionError && <p style={{ color: 'crimson' }}>{emotionError}</p>}
+              {emotion && (
+                <p>
+                  감정: <b>{emotion.emotion}</b> (강도 {emotion.intensity.toFixed(2)})
+                </p>
+              )}
+            </div>
+          )}
+        </section>
       )}
 
       <section style={{ marginTop: 24 }}>
