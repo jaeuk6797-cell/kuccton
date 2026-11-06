@@ -1,7 +1,7 @@
 // 개발용: 실제 홈(Garden) 화면을 가짜 데이터로 보기. Supabase 계정·녹음 없이 화면만 확인한다.
 //   npm run dev → /?view=home            꽃이 있는 정원 (친구 1명, 오늘 우리의 꽃까지)
 //                 /?view=home&flowers=0  꽃이 하나도 없는 정원
-//                 /?view=home&friends=3  친구 3명 (여러 친구 테스트, 최대 6명)
+//                 /?view=home&friends=3  친구 3명 (여러 친구 테스트, 최대 10명)
 // 꽃 데이터는 실제 앱과 같은 규칙(flower.js → naming.js toFlowerRow)으로 만든다.
 import Garden from '../components/Garden.jsx'
 import { buildFlower, buildSoundFlower } from '../lib/flower.js'
@@ -21,6 +21,10 @@ const MORE_FRIENDS = [
   { member: 'm-doy', user: 'u-doy', name: '도윤' },
   { member: 'm-seo', user: 'u-seo', name: '서연' },
   { member: 'm-jih', user: 'u-jih', name: '지호' },
+  { member: 'm-sua', user: 'u-sua', name: '수아' },
+  { member: 'm-jun', user: 'u-jun', name: '준서' },
+  { member: 'm-yun', user: 'u-yun', name: '윤아' },
+  { member: 'm-haj', user: 'u-haj', name: '하준' },
 ]
 
 const VOICE = (category, f, transcript) => ({ kind: 'voice', category, f, transcript })
