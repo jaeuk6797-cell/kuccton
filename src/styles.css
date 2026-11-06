@@ -10,10 +10,10 @@
   --sky: linear-gradient(180deg, #b7c8e8 0%, #d8d2ee 38%, #f0dcd8 70%, #f7e9df 100%);
   --sky-bottom: #f7e9df;
   --sky-balanced: linear-gradient(180deg, #ece6de 0%, #f4e5d4 36%, #f7edda 68%, #dce7da 100%);
-  --safe-top: env(safe-area-inset-top, 0px);
-  --safe-bottom: env(safe-area-inset-bottom, 0px);
-  --safe-left: env(safe-area-inset-left, 0px);
-  --safe-right: env(safe-area-inset-right, 0px);
+  --safe-top: var(--safe-area-inset-top, env(safe-area-inset-top, 0px));
+  --safe-bottom: var(--safe-area-inset-bottom, env(safe-area-inset-bottom, 0px));
+  --safe-left: var(--safe-area-inset-left, env(safe-area-inset-left, 0px));
+  --safe-right: var(--safe-area-inset-right, env(safe-area-inset-right, 0px));
   --bg: #f6efe9;
   --paper: #fffcf8;
   --ink: #2e2f3a;
@@ -26,7 +26,7 @@
   --sans: 'Pretendard Variable', 'Pretendard', 'Apple SD Gothic Neo', 'Noto Sans KR', system-ui, sans-serif;
   --serif: var(--sans); /* 제목도 Pretendard로 통일 (예전 Gowun Batang 자리) */
   --hand: 'Kyobo Handwriting 2024 psw', var(--sans);
-  --tab: env(safe-area-inset-bottom); /* 아래 탭바를 없애고 메뉴로 옮겼다. 남는 건 아이폰 홈 바 여백뿐 */
+  --tab: var(--safe-bottom); /* 아래 탭바를 없애고 메뉴로 옮겼다. 남는 건 아이폰 홈 바 여백뿐 */
   --mine: #e9846b;
   --theirs: #7b96e3;
   --line: #e6dfe0;
@@ -118,7 +118,7 @@ h1, h2 { margin: 0; }
 .pair-btn .label { font-weight: 700; }
 
 .dock {
-  position: fixed; left: 0; right: 0; bottom: 0; padding: 14px 0 max(14px, env(safe-area-inset-bottom));
+  position: fixed; left: 0; right: 0; bottom: 0; padding: 14px 0 max(14px, var(--safe-bottom));
   display: flex; flex-direction: column; align-items: center; gap: 4px;
   background: linear-gradient(to top, var(--bg) 70%, transparent);
 }
@@ -209,7 +209,7 @@ h1, h2 { margin: 0; }
 .island { pointer-events: auto; position: absolute; inset: 0; touch-action: none; }
 .island canvas { display: block; width: 100%; height: 100%; }
 
-.home-head { position: absolute; top: 0; left: 0; right: 0; display: flex; justify-content: space-between; align-items: center; padding: calc(18px + env(safe-area-inset-top)) 20px 0; z-index: 2; }
+.home-head { position: absolute; top: 0; left: 0; right: 0; display: flex; justify-content: space-between; align-items: center; padding: calc(18px + var(--safe-top)) 20px 0; z-index: 2; }
 .brand { display: flex; align-items: center; gap: 8px; font-family: var(--serif); font-weight: 700; font-size: 1.15rem; color: var(--ink); }
 .brand svg { color: var(--green); }
 .round-btn { width: 44px; height: 44px; border-radius: 50%; background: rgba(255,255,255,.88); display: grid; place-items: center; position: relative; box-shadow: 0 2px 10px rgba(40,60,70,.12); }
@@ -221,7 +221,7 @@ h1, h2 { margin: 0; }
 .chips span { background: rgba(255,255,255,.88); border-radius: 999px; padding: 6px 12px; font-size: 0.82rem; color: #2f3a2c; box-shadow: 0 1px 4px rgba(0,0,0,.05); }
 /* 안내는 도구 위 왼쪽에, 도구 사이의 빈 공간은 정원 조작에 사용한다. */
 
-.home-sheet { position: absolute; left: max(16px, env(safe-area-inset-left)); right: max(16px, env(safe-area-inset-right)); bottom: max(12px, var(--safe-bottom)); padding: 0; z-index: 3; display: flex; flex-direction: column; gap: 10px; background: transparent; pointer-events: auto; }
+.home-sheet { position: absolute; left: max(16px, var(--safe-left)); right: max(16px, var(--safe-right)); bottom: max(12px, var(--safe-bottom)); padding: 0; z-index: 3; display: flex; flex-direction: column; gap: 10px; background: transparent; pointer-events: auto; }
 .home-sheet button { pointer-events: auto; }
 .home-sheet button:focus-visible { outline: 3px solid var(--green-d); outline-offset: 3px; }
 .av { width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center; font-weight: 700; font-size: 0.9rem; border: 2px solid white; }
@@ -270,7 +270,7 @@ h1, h2 { margin: 0; }
 .auth-switch { padding: 8px 16px; color: var(--muted); font-size: .78rem; text-decoration: underline; text-underline-offset: 3px; }
 
 /* 아이폰 홈 화면 앱: 상태 표시줄 아래로 내용이 겹치지 않게 */
-.screen { padding-top: calc(20px + env(safe-area-inset-top)); padding-bottom: max(20px, env(safe-area-inset-bottom)); }
+.screen { padding-top: calc(20px + var(--safe-top)); padding-bottom: max(20px, var(--safe-bottom)); }
 
 /* 접으면 손잡이·짧은 안내·오른쪽 녹음 버튼만 남긴다. */
 
@@ -334,6 +334,12 @@ h1, h2 { margin: 0; }
 .inbox-back:hover { background: #f3eef2; }
 .inbox-count { display: grid; place-items: center; min-width: 23px; height: 23px; padding: 0 6px; background: #f3e7e1; color: var(--accent-d); border-radius: 50px; font-size: .75rem; font-weight: 700; }
 .menu-inbox-body { flex: 0 1 auto; min-height: 0; max-height: var(--inbox-list-max-height, 346px); overflow-y: auto; overscroll-behavior: contain; padding: 10px 6px 6px; }
+.menu-inbox-body { scrollbar-width: thin; scrollbar-color: transparent transparent; }
+.menu-inbox-body.is-scrolling { scrollbar-color: rgba(110, 105, 125, .4) transparent; }
+.menu-inbox-body::-webkit-scrollbar { width: 4px; }
+.menu-inbox-body::-webkit-scrollbar-track { background: transparent; }
+.menu-inbox-body::-webkit-scrollbar-thumb { background: transparent; border-radius: 4px; transition: background .2s; }
+.menu-inbox-body.is-scrolling::-webkit-scrollbar-thumb { background: rgba(110, 105, 125, .4); }
 .menu-inbox-body.is-empty { flex: 1; display: flex; align-items: center; justify-content: center; }
 .menu-inbox-body.is-empty .inbox-empty { min-height: 0; }
 .menu-inbox-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
@@ -343,7 +349,7 @@ h1, h2 { margin: 0; }
 .menu-inbox-item > span { min-width: 0; }
 .menu-inbox-item b { display: block; font-size: .9rem; overflow-wrap: anywhere; }
 .menu-inbox-item small { display: block; margin-top: 3px; color: var(--muted); font-size: .73rem; }
-.menu-inbox-list .inbox-actions { justify-content: flex-end; margin-top: 10px; }
+.menu-inbox-list .inbox-actions { justify-content: flex-end; margin-top: 10px; margin-right: 6px; }
 .menu-inbox-list .preview-audio { height: 36px; }
 .inbox-empty { min-height: 180px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; color: var(--muted); font-size: .88rem; text-align: center; }
 .inbox-empty p { margin: 0; }
@@ -352,7 +358,7 @@ h1, h2 { margin: 0; }
 /* 탭 페이지 제목이 메뉴 버튼과 겹치지 않게 */
 .page-title { padding-right: 56px; }
 /* 로고 줄 높이를 메뉴 버튼(44px)과 맞춰 가운데 정렬 */
-.home-head { min-height: calc(62px + env(safe-area-inset-top)); padding-right: 76px; }
+.home-head { min-height: calc(62px + var(--safe-top)); padding-right: 76px; }
 .join-friend { display: flex; flex-direction: column; gap: 10px; }
 .join-friend input { padding: 12px 14px; border-radius: 12px; border: 1.5px solid var(--line); background: var(--paper); color: var(--ink); }
 .join-friend p { margin: 0; }
@@ -414,7 +420,7 @@ h1, h2 { margin: 0; }
 /* 친구 정원 방문 */
 .visit { z-index: 30; }
 .visit-sub { margin: 6px 0 0; color: var(--muted); font-size: 0.85rem; }
-.visit-back { position: absolute; left: 50%; transform: translateX(-50%); bottom: max(20px, calc(env(safe-area-inset-bottom) + 4px)); background: rgba(255,255,255,.92); z-index: 5; }
+.visit-back { position: absolute; left: 50%; transform: translateX(-50%); bottom: max(20px, calc(var(--safe-bottom) + 4px)); background: rgba(255,255,255,.92); z-index: 5; }
 
 /* 하단에는 안내와 두 개의 이름 있는 버튼을 항상 표시한다. */
 .garden-guidance { display: flex; align-items: center; justify-content: center; min-height: 20px; }
@@ -486,7 +492,7 @@ h1, h2 { margin: 0; }
 .sound-card .play { color: var(--accent); }
 .sound-actions { display: flex; gap: 6px; }
 .sound-status { color: var(--muted); font-size: 0.75rem; padding-left: 4px; }
-.chat-input { display: flex; gap: 8px; padding: 10px 0 max(12px, env(safe-area-inset-bottom)); }
+.chat-input { display: flex; gap: 8px; padding: 10px 0 max(12px, var(--safe-bottom)); }
 .chat-input input { flex: 1; min-width: 0; padding: 12px 16px; border-radius: 999px; border: 1.5px solid var(--line); background: white; font-size: 1rem; }
 .chat-input .primary { padding: 10px 18px; }
 
@@ -683,7 +689,7 @@ h1, h2 { margin: 0; }
 
 /* 아이폰 하단 여백: 앨범·친구·나 화면은 화면 끝까지 쓰고, 마지막 내용 아래에 홈 바 높이만큼만 남긴다
    (예전: 화면 아래를 홈 바만큼 비우고 그 안에 30px을 또 둬서 아이폰에서 64px이 비었다) */
-.page { bottom: 0; padding-bottom: max(30px, calc(env(safe-area-inset-bottom) + 12px)); }
+.page { bottom: 0; padding-bottom: max(30px, calc(var(--safe-bottom) + 12px)); }
 
 /* 제목과 메뉴는 고정하고 목록 영역만 스크롤한다. */
 .fixed-heading-page { overflow: hidden; }
@@ -810,4 +816,20 @@ h1, h2 { margin: 0; }
 .album-date-line .album-date { margin-bottom: 0; }
 .album-date-line > small { color: var(--muted); font-size: .72rem; font-weight: 400; font-variant-numeric: tabular-nums; }
 
-.album-period-total { flex: 1; min-width: 0; margin-left: auto; color: var(--muted); font-size: .72rem; line-height: 1.5; text-align: right; word-break: keep-all; overflow-wrap: anywhere; }
+.album-period-total { flex: 1; min-width: 0; margin-left: auto; padding-right: 8px; color: var(--muted); font-size: .72rem; line-height: 1.5; text-align: right; word-break: keep-all; overflow-wrap: anywhere; }
+
+.friend-profile-actions { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 10px; }
+.friend-profile-actions .friend-visit { margin-top: 0; }
+.friend-remove { display: inline-flex; align-items: center; justify-content: center; gap: 7px; min-height: 44px; padding: 9px 14px; border: 1px solid var(--line); border-radius: 12px; color: var(--muted); font-size: .82rem; font-weight: 500; }
+.friend-remove:active { color: #b45149; background: #fbeee9; }
+.friend-remove-confirm { width: 100%; max-width: 340px; margin-top: 10px; padding: 14px 10px; border-top: 1px solid var(--line); }
+.friend-remove-confirm p { margin: 0 0 12px; font-size: .82rem; line-height: 1.7; overflow-wrap: anywhere; }
+.friend-remove-confirm .row { justify-content: center; }
+.friend-remove-confirm .error { margin: 12px 0 0; }
+
+.friend-flower-choice { border: 0; margin: 0 0 16px; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; text-align: left; }
+.friend-flower-choice legend { margin-bottom: 10px; font-size: .82rem; }
+.friend-flower-choice label { flex: 1; display: flex; align-items: center; gap: 6px; min-height: 44px; padding: 8px; border: 1px solid var(--line); border-radius: 12px; font-size: .78rem; cursor: pointer; white-space: nowrap; }
+.friend-flower-choice label:has(input:checked) { border-color: var(--accent); background: rgba(211,104,76,.07); }
+.friend-flower-choice input { width: 15px; height: 15px; margin: 0; accent-color: var(--accent); flex-shrink: 0; }
+.friend-flower-choice small { width: 100%; color: var(--muted); font-size: .72rem; line-height: 1.6; }

@@ -17,3 +17,20 @@ export function receivedSoundCollections(receivedHistory) {
     })),
   }
 }
+
+// 친구 삭제 시 선택한 소리를 이 기기의 화면에서만 숨긴다. 원본 데이터는 수정하지 않는다.
+export function hideReceivedSounds(data, hidden) {
+  if (!data || (!hidden.shares.length && !hidden.pairs.length)) return data
+  const shareIds = new Set(hidden.shares)
+  const pairIds = new Set(hidden.pairs)
+  const flowerIds = new Set(data.receivedHistory.filter((flower) => shareIds.has(flower.share_id)).map((flower) => flower.id))
+  return {
+    ...data,
+    receivedHistory: data.receivedHistory.filter((flower) => !shareIds.has(flower.share_id)),
+    receivedShares: data.receivedShares.filter((share) => !shareIds.has(share.id)),
+    inbox: data.inbox.filter((flower) => !shareIds.has(flower.share_id)),
+    archived: (data.archived || []).filter((flower) => !shareIds.has(flower.share_id)),
+    flowers: data.flowers.filter((flower) => !flowerIds.has(flower.id)),
+    pairs: data.pairs.filter((pair) => !pairIds.has(pair.id) && !flowerIds.has(pair.flower_a_id) && !flowerIds.has(pair.flower_b_id)),
+  }
+}

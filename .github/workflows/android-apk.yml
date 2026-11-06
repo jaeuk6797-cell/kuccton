@@ -1,7 +1,7 @@
 # Android APK 자동 빌드
 # android/ 또는 앱 설정이 바뀌면 APK를 만들어 고정 링크에 올린다.
 #   https://github.com/jaeuk6797-cell/kuccton/releases/download/android-latest/sup.apk
-# 화면·기능 같은 웹 코드는 앱이 Vercel 배포본을 불러오므로 다시 설치할 필요가 없다.
+# 화면·기능 같은 웹 코드는 앱이 GitHub Pages 배포본을 불러오므로 다시 설치할 필요가 없다.
 name: Android APK
 
 on:
@@ -41,7 +41,7 @@ jobs:
       - name: 의존성 설치
         run: npm ci
 
-      # 앱은 Vercel 배포본을 불러오지만, 혹시 모를 오프라인 대비로 웹 빌드도 넣어 둔다
+      # 앱은 GitHub Pages 배포본을 불러오지만, 혹시 모를 오프라인 대비로 웹 빌드도 넣어 둔다
       - name: 웹 빌드
         run: npm run build
         env:
