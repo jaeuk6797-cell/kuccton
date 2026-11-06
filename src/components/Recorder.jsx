@@ -16,18 +16,12 @@ const MAX_SEC = 10
 //  - 다른 소리: 분류하지 않고 크기·밝기·세기·리듬·파형으로 바로 꽃을 만든다.
 //  - 앱(Capacitor)은 녹음 중 받아쓰기를 못 해서 소리 꽃이 되고, 꽃말은 미리보기에서 '말로 적기'로 붙일 수 있다.
 // 녹음한 소리는 내 정원에 심지 않는다. 미리보기에서 받을 친구(여러 명)를 골라 보내면 그 친구들 정원에 핀다.
-// 받침에 따라 을/를
-const objectJosa = (w = '') => {
-  const c = w.charCodeAt(w.length - 1)
-  return c >= 0xac00 && c <= 0xd7a3 && (c - 0xac00) % 28 !== 0 ? '을' : '를'
-}
 
 export default function Recorder({ onClose, onSend, friends = [] }) {
   const [kind, setKind] = useState('') // 녹음 뒤 자동으로 정함: 'voice' | 'other'
   const [step, setStep] = useState('idle') // idle | recording | analyzing | choose | preview | sending
   const [left, setLeft] = useState(MAX_SEC)
   const [blob, setBlob] = useState(null)
-  const [blobUrl, setBlobUrl] = useState(null)
   const [features, setFeatures] = useState(null)
   const [emotion, setEmotion] = useState(null)
   const [emotionError, setEmotionError] = useState('')
@@ -44,10 +38,8 @@ export default function Recorder({ onClose, onSend, friends = [] }) {
   const rafRef = useRef(0)
   const timerRef = useRef(0)
   const sttRef = useRef(null)
-  const audioRef = useRef(null)
 
   useEffect(() => () => cleanup(), [])
-  useEffect(() => () => blobUrl && URL.revokeObjectURL(blobUrl), [blobUrl])
 
   function cleanup() {
     cancelAnimationFrame(rafRef.current)
@@ -75,9 +67,7 @@ export default function Recorder({ onClose, onSend, friends = [] }) {
       cleanup()
       const b = new Blob(chunks, { type: rec.mimeType || mimeType || 'audio/webm' })
       setBlob(b)
-      setBlobUrl(URL.createObjectURL(b))
       analyze(b)
-      setTimeout(() => audioRef.current?.play().catch(() => {}), 50) // 미리 듣기 자동 재생
     }
     recRef.current = rec
     rec.start()
@@ -234,16 +224,6 @@ export default function Recorder({ onClose, onSend, friends = [] }) {
             <FlowerBloom3D flower={row} size={180} />
             <h2 className="flower-name">{flower.name}</h2>
             <p className="reason">{flower.reason}</p>
-            {kind === 'voice' && (
-              <>
-                {emotion && (
-                  <p className="muted small">
-                    읽은 감정: {emotion.emotion} · 강도 {Number(emotion.intensity).toFixed(2)}
-                  </p>
-                )}
-                <button className="link" onClick={() => setStep('choose')}>다른 마음이었어요</button>
-              </>
-            )}
             {/* 꽃말: 말소리면 받아 적은 문장. 앱에서는 소리 꽃에도 '말로 적기'로 꽃말을 붙일 수 있다 */}
             {(kind === 'voice' || canDictate) && (
               <>
@@ -274,7 +254,6 @@ export default function Recorder({ onClose, onSend, friends = [] }) {
         {(step === 'sendto' || step === 'sending') && flower && (
           <div className="send-step">
             <h2 className="sheet-title">누구에게 공유할까요?</h2>
-            <p className="muted small">‘{flower.name}’{objectJosa(flower.name)} 받은 친구가 받을지 고르고, 받으면 친구 정원에 피어요.</p>
             {friends.length === 0 ? (
               <p className="small muted">아직 친구가 없어요. 메뉴 → 나에서 친구 코드로 친구를 맺으면 공유할 수 있어요.</p>
             ) : (
@@ -308,9 +287,6 @@ export default function Recorder({ onClose, onSend, friends = [] }) {
           </div>
         )}
 
-        {blobUrl && step !== 'idle' && step !== 'recording' && (
-          <audio ref={audioRef} src={blobUrl} controls className="preview-audio" />
-        )}
         {error && <p className="error">{error}</p>}
       </div>
     </div>

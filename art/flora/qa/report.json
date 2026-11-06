@@ -1,0 +1,102 @@
+{
+  "branch": "codex/crystal-flora",
+  "baseCommit": "6336fc7",
+  "scope": "Procedural Three.js crystal flora matching the existing Blender island asset",
+  "sourceFiles": [
+    "src/lib/flower3d.js",
+    "src/lib/tree3d.js",
+    "src/lib/crystalFlora.js",
+    "src/lib/gardenEnvironment.js",
+    "src/components/FlowerBloom3D.jsx",
+    "src/components/Island3D.jsx",
+    "src/components/Garden.jsx"
+  ],
+  "flowers": [
+    "Preserved all seven emotion silhouettes, waveform lengths, growth rotations, droop, shiver, scale and alternating pair colors.",
+    "Added a shallow mineral keel, beveled pearl margins and lavender-tinted inner petals with fewer longitudinal segments.",
+    "Shared opaque MeshPhysicalMaterial with roughness 0.34, metalness 0.07, clearcoat 0.22, iridescence 0.22 and zero transmission.",
+    "Faceted, non-emissive center and champagne octahedral stamens. Pair colors subtly blend at the base while remaining distinct at the tips.",
+    "Detail preview uses the garden sky reflection rig at 64-pixel PMREM resolution and neutral tone mapping."
+  ],
+  "trees": [
+    "Rose-brown mineral trunks and branches. Opal foliage shares the flower material family with roughness 0.31.",
+    "Round trees retain clustered crowns, pine retains narrowing tiers with beveled mineral edges, willow retains drooping branches with small elongated crystal leaves.",
+    "Shared cut geometries within each tree. Existing sound-derived kind, size, branch count and lengths remain intact."
+  ],
+  "otherFixes": [
+    "Garden now passes all source rows to Island3D so pair flowers can resolve both partners. The renderer already excludes ordinary own-source flowers.",
+    "Detail shape key includes emotion category.",
+    "Shared resources dispose once and friend dimming reuses each plant-owned material."
+  ],
+  "verification": {
+    "build": "npm run build passed, Vite 5.4.21, 122 modules. Existing chunk-size warning remains.",
+    "static": "git diff --check passed",
+    "runtimeCases": "292 cases covering seven emotions, legacy rows, vowels/consonants, three tree kinds and pairs. Finite attributes, matching growth/headY, opaque materials and one disposal per shared resource.",
+    "browser": "Chrome on Windows with Intel Arc 140V via ANGLE D3D11. Zero page/shader errors in screenshot scenarios.",
+    "views": [
+      "Normal garden",
+      "Flowers only",
+      "Trees only",
+      "Mixed with pair",
+      "Seven-emotion and tree close-ups",
+      "Actual flower/tree/pair detail sheets",
+      "390x844 portrait",
+      "Pointer-drag orbit",
+      "Friend filtering",
+      "50 received sounds plus two pairs"
+    ],
+    "interactions": "Flower/tree/pair raycast selection and detail growth passed.",
+    "gpu": "Two runs per version, 120 warmup frames and 180 GPU timer samples each. Same 52 plants, 585x981 render resolution. Baseline gets the pair input correction through test interception.",
+    "drawCalls": {
+      "before": 1743,
+      "after": 1743
+    },
+    "triangles": {
+      "before": 196568,
+      "after": 157128,
+      "reductionPercent": 20.1
+    },
+    "gpuMedianMs": {
+      "before": [
+        9.03,
+        9.2
+      ],
+      "after": [
+        8.44,
+        8.66
+      ]
+    },
+    "gpuP95Ms": {
+      "before": [
+        14.2,
+        14.25
+      ],
+      "after": [
+        14.37,
+        14.07
+      ]
+    },
+    "geometryAllocations": {
+      "before": 486,
+      "after": 306
+    },
+    "textures": {
+      "before": 7,
+      "after": 7
+    }
+  },
+  "screenshotNotes": [
+    "before-* uses the original main source and island asset. after-* uses the updated source.",
+    "flowers, trees, mixed, orbit and details use deterministic fixtures rendering real Island3D / FlowerBloom3D components.",
+    "home, mobile, dense, filtered and individual detail sheets use the actual Garden HomeDemo route.",
+    "Before pair detail receives the same input-only correction used in GPU profiling. See interaction-checks.json.",
+    "Render clocks and automatic orbit were held for repeatable screenshots. Orbit image uses pointer dragging."
+  ],
+  "limitations": [
+    "Physical iOS/Android GPU, touch hardware and battery cost remain unverified.",
+    "Authenticated backend operations and live audio playback were outside these demo-data visual checks.",
+    "Existing 2D SVG album thumbnails and archived R3F renderer were reviewed but remain outside this 3D material pass.",
+    "Pine bevels increase triangles from 156 to 412 at eight branches. Other flora and the full matched garden reduce geometry.",
+    "Existing large JavaScript chunk warning remains."
+  ]
+}

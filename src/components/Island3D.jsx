@@ -9,6 +9,7 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
 import { buildFlower3D, disposeFlower3D } from '../lib/flower3d.js'
 import { buildTree3D } from '../lib/tree3d.js'
+import { createGardenEnvironment } from '../lib/gardenEnvironment.js'
 import { isTree } from '../lib/tree.js'
 import { playbackLevel } from '../lib/audio.js'
 
@@ -18,7 +19,7 @@ const ISLAND_GLB = `${import.meta.env.BASE_URL}models/island.glb`
 const ISLAND_RADIUS = 4
 const ISLAND_TOP_Y = 0.17
 
-// 카메라: 섬 전체를 보고, 회전하거나 확대해도 화면 밖으로 잘리지 않게 한다
+// 카메라: 기본은 섬 전체 보기, 필요한 경우 약 18% 확대 허용
 const CAMERA = { position: [0, 4.4, 10.5], target: [0, 0.1, 0], fov: 36, max: 17 }
 // 섬 가장자리와 아래 바위까지 들어오는 반지름(여백 포함)
 const FIT_RADIUS = 4.4
@@ -61,48 +62,6 @@ function disposeMeshes(root) {
     }
   })
   for (const resource of resources) resource.dispose()
-}
-
-function createGardenEnvironment(renderer) {
-  // Capture broad pastel sky reflections once; only the filtered cubemap is sampled each frame.
-  const studio = new THREE.Scene()
-  studio.background = new THREE.Color('#c5d3e6')
-  const geometry = new THREE.PlaneGeometry(1, 1, 12, 12)
-  const position = geometry.attributes.position
-  const colors = []
-  for (let i = 0; i < position.count; i++) {
-    const radiusSquared = 4 * (position.getX(i) ** 2 + position.getY(i) ** 2)
-    colors.push(1, 1, 1, Math.max(0, 1 - radiusSquared) ** 2)
-  }
-  geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 4))
-  // Overlapping sky bands cover the full orbit; the smaller warm key adds a moving glint.
-  for (const [position, size, color, intensity] of [
-    [[3.8, 2, -5.6], [12, 3.8], '#b9e7f0', 8.75],
-    [[-3.8, 2, -5.6], [12, 3.8], '#c6b7ec', 8.75],
-    [[-0.8, 2.6, -6.2], [3.6, 1.2], '#fff2ed', 14],
-    [[1.3, 1.7, -6.2], [6, 3], '#f5c8df', 7],
-    [[6.4, 2, 0], [12, 3.8], '#ecd5ee', 7.5],
-    [[-6.4, 2, 0], [12, 3.8], '#bfe9e8', 7.5],
-    [[4.5, 1.9, 4.5], [7, 2.5], '#cdd4f3', 6.5],
-    [[-4.5, 1.9, 4.5], [7, 2.5], '#eed0e2', 6.5],
-    [[0, 2, 6.4], [8, 2.6], '#e3def5', 9],
-  ]) {
-    const material = new THREE.MeshBasicMaterial({
-      color: new THREE.Color(color).multiplyScalar(intensity), toneMapped: false,
-      vertexColors: true, transparent: true, depthWrite: false,
-    })
-    const panel = new THREE.Mesh(geometry, material)
-    panel.position.set(...position)
-    panel.scale.set(size[0], size[1], 1)
-    panel.lookAt(0, 0, 0)
-    studio.add(panel)
-  }
-  const generator = new THREE.PMREMGenerator(renderer)
-  // Card falloff supplies softness; preserve enough contrast for a moving polished highlight.
-  const environment = generator.fromScene(studio, 0.03, 0.1, 30, { size: 256 })
-  generator.dispose()
-  disposeMeshes(studio)
-  return environment
 }
 
 function applyOpalReflection(material) {
@@ -304,22 +263,21 @@ function placeFlowers(items) {
 // flowers: 우리의 꽃을 만들 때 찾을 수 있도록 내 꽃까지 전부 받는다. 섬에는 받은 꽃(meId가 아닌 꽃)과 우리의 꽃만 핀다.
 // visibleIds: 쉼표로 이은 id 목록(친구별 보기). 위치는 항상 전체 기준으로 정하고 여기 없는 것만 숨겨서,
 //             친구를 바꿔 봐도 꽃 자리가 움직이지 않는다. 없으면 모두 보인다.
-// 친구별 보기: 고른 친구의 꽃만 또렷하게, 나머지는 색을 빼고 반투명하게 (재질은 복사해서 바꾼다)
+// 친구별 보기: 고른 친구의 꽃만 또렷하게, 나머지는 색을 빼고 반투명하게
 const DIM_GREY = new THREE.Color('#c9c4d6')
 function dimObject(obj) {
+  const materials = new Set()
   obj.traverse((o) => {
-    if (!o.isMesh || !o.material) return
-    const dim = (m) => {
-      const c = m.clone()
-      c.transparent = true
-      c.opacity = 0.22
-      if (c.color) c.color.lerp(DIM_GREY, 0.55)
-      if (c.emissive) c.emissive.multiplyScalar(0.2)
-      return c
-    }
-    o.material = Array.isArray(o.material) ? o.material.map(dim) : dim(o.material)
+    if (!o.isMesh) return
+    materials.add(o.material)
     o.castShadow = false
   })
+  // Each plant owns its materials. All petals or facets on that plant can stay on the same material.
+  for (const material of materials) {
+    material.transparent = true
+    material.opacity = 0.22
+    material.color.lerp(DIM_GREY, 0.55)
+  }
 }
 
 export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, visibleIds, onPickFlower, onPickPair, resetViewKey }) {
@@ -437,8 +395,8 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
       const halfVertical = THREE.MathUtils.degToRad(CAMERA.fov) / 2
       const halfHorizontal = Math.atan(Math.tan(halfVertical) * camera.aspect)
       const dist = Math.max(baseDist, FIT_RADIUS / Math.sin(Math.min(halfVertical, halfHorizontal)))
-      // 확대도 이 거리까지만 허용해 섬이 화면 밖으로 나가지 않게 한다.
-      controls.minDistance = dist
+      // 처음에는 전체를 보여 주고, 필요하면 약 18%까지 가까이 볼 수 있다.
+      controls.minDistance = dist * 0.85
       controls.maxDistance = Math.max(CAMERA.max, dist + 3)
       controls.target.copy(target)
       camera.position.copy(target).addScaledVector(viewDir, dist)
