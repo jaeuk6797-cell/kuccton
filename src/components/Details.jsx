@@ -46,7 +46,8 @@ export function FlowerDetail({ flower, bloom = true, sender, mine, sharedWith = 
           {mine ? `내가 보낸 ${noun(flower)}` : `${sender?.nickname || '상대'}가 보낸 ${noun(flower)}`} · {flower.sent_date}
         </p>
         {url ? <audio
-          ref={audioRef} src={url} controls className="preview-audio"
+          ref={audioRef} src={url} controls controlsList="nodownload" className="preview-audio"
+          onContextMenu={(e) => e.preventDefault()}
           onPlay={(e) => setPlaybackLevelSource(envelopeLevel(e.currentTarget, flower))}
           onPause={() => setPlaybackLevelSource(null)}
           onEnded={() => setPlaybackLevelSource(null)}

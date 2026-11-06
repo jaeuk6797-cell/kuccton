@@ -499,7 +499,7 @@ function InboxAudio({ flower }) {
     return () => { active = false }
   }, [flower.audio_path])
   return error ? <p className="small muted" role="status">{error}</p>
-    : url ? <audio src={url} controls autoPlay className="preview-audio" aria-label={`${displayName(flower)} 듣기`} onError={() => setError('소리를 재생하지 못했어요. 다시 눌러 주세요.')} />
+    : url ? <audio src={url} controls controlsList="nodownload" onContextMenu={(e) => e.preventDefault()} autoPlay className="preview-audio" aria-label={`${displayName(flower)} 듣기`} onError={() => setError('소리를 재생하지 못했어요. 다시 눌러 주세요.')} />
       : <p className="small muted" role="status">소리를 불러오는 중…</p>
 }
 

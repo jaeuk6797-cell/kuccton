@@ -41,6 +41,10 @@
 html { background: var(--sky-bottom); height: 100%; overflow: hidden; overscroll-behavior: none; }
 body { position: fixed; inset: 0; width: 100%; margin: 0; height: 100%; overflow: hidden; overscroll-behavior: none; background: var(--sky); }
 #root { height: 100%; overflow: hidden; }
+/* 일반 글자의 길게 누르기·드래그 선택은 막고, 입력칸 편집은 유지한다. */
+body { -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
+input, textarea, [contenteditable="true"] { -webkit-user-select: text; user-select: text; -webkit-touch-callout: default; }
+img, svg { -webkit-user-drag: none; }
 h1, .flower-name, .sheet-title, .page-title { font-family: var(--serif); font-weight: 700; }
 button { font: inherit; color: inherit; cursor: pointer; border: 0; background: none; }
 button:disabled { opacity: 0.5; cursor: default; }
