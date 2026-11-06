@@ -5,8 +5,16 @@ import '@fontsource/gowun-batang/korean-400.css'
 import '@fontsource/gowun-batang/korean-700.css'
 import './styles.css'
 
+// 개발 서버에서만: ?view=island → Supabase 없이 3D 정원 확인 (배포 빌드에는 포함되지 않음)
+const devView = import.meta.env.DEV && new URLSearchParams(location.search).get('view')
+const Root = devView === 'island'
+  ? React.lazy(() => import('./dev/IslandPreview.jsx'))
+  : App
+
 createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <App />
+    <React.Suspense fallback={null}>
+      <Root />
+    </React.Suspense>
   </React.StrictMode>,
 )
