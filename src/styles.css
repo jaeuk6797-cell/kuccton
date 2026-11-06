@@ -165,7 +165,7 @@ h1, h2 { margin: 0; }
 .cloud.c3 { width: 140px; height: 50px; top: 12%; right: 10%; opacity: .6; animation-duration: 70s; }
 @keyframes drift { to { transform: translateX(60px); } }
 
-.island { position: absolute; left: 0; right: 0; top: 140px; bottom: calc(var(--tab) + 215px); touch-action: none; }
+.island { position: absolute; left: 0; right: 0; top: 140px; bottom: calc(var(--tab) + 215px); touch-action: none; transition: bottom .35s cubic-bezier(.2,.8,.2,1); }
 .island canvas { display: block; width: 100%; height: 100%; }
 
 .home-head { position: absolute; top: 0; left: 0; right: 0; display: flex; justify-content: space-between; align-items: center; padding: calc(18px + env(safe-area-inset-top)) 20px 0; z-index: 2; }
@@ -177,9 +177,9 @@ h1, h2 { margin: 0; }
 .home-title h1 { font-size: 1.75rem; color: #1f2b22; letter-spacing: -0.01em; }
 .chips { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
 .chips span { background: rgba(255,255,255,.88); border-radius: 999px; padding: 6px 12px; font-size: 0.82rem; color: #2f3a2c; box-shadow: 0 1px 4px rgba(0,0,0,.05); }
-.hint { position: absolute; left: 50%; transform: translateX(-50%); bottom: calc(var(--tab) + 246px); background: rgba(40,48,40,.55); color: white; font-size: 0.78rem; padding: 7px 14px; border-radius: 999px; white-space: nowrap; z-index: 2; pointer-events: none; backdrop-filter: blur(6px); }
+.hint { position: absolute; left: 50%; transform: translateX(-50%); bottom: calc(var(--tab) + 246px); transition: bottom .35s cubic-bezier(.2,.8,.2,1); background: rgba(40,48,40,.55); color: white; font-size: 0.78rem; padding: 7px 14px; border-radius: 999px; white-space: nowrap; z-index: 2; pointer-events: none; backdrop-filter: blur(6px); }
 
-.home-sheet { position: absolute; left: 0; right: 0; bottom: var(--tab); background: #fff; border-radius: 26px 26px 0 0; padding: 10px 20px 16px; z-index: 3; box-shadow: 0 -8px 30px rgba(60,50,40,.12); display: flex; flex-direction: column; gap: 14px; }
+.home-sheet { position: absolute; left: 0; right: 0; bottom: var(--tab); background: #fff; border-radius: 26px 26px 0 0; padding: 10px 20px 16px; z-index: 3; box-shadow: 0 -8px 30px rgba(60,50,40,.12); display: flex; flex-direction: column; gap: 14px; transition: transform .35s cubic-bezier(.2,.8,.2,1); }
 .grip { width: 40px; height: 4px; border-radius: 4px; background: #e2ddd5; margin: 0 auto 2px; }
 .status { display: flex; align-items: center; gap: 12px; text-align: left; width: 100%; }
 .status:disabled { opacity: 1; cursor: default; }
@@ -243,3 +243,13 @@ h1, h2 { margin: 0; }
 
 /* 아이폰 홈 화면 앱: 상태 표시줄 아래로 내용이 겹치지 않게 */
 .screen { padding-top: calc(20px + env(safe-area-inset-top)); padding-bottom: calc(20px + env(safe-area-inset-bottom)); }
+
+/* 녹음 카드 접기: 손잡이와 오늘 상태 한 줄만 남기고 정원을 크게 */
+.sheet-handle { margin: -10px -20px -6px; padding: 10px 0 8px; cursor: grab; touch-action: none; }
+.home-sheet.closed { transform: translateY(calc(100% - 78px)); }
+.home.sheet-closed .island { bottom: calc(var(--tab) + 70px); }
+.home.sheet-closed .hint { bottom: calc(var(--tab) + 94px); }
+.mini-rec { position: absolute; top: 22px; right: 18px; width: 44px; height: 44px; border-radius: 50%; background: var(--accent); color: white; display: grid; place-items: center; box-shadow: 0 4px 12px rgba(196,87,58,.35); opacity: 0; pointer-events: none; transform: scale(.8); transition: opacity .25s, transform .25s; }
+.home-sheet.closed .mini-rec { opacity: 1; pointer-events: auto; transform: scale(1); }
+.home-sheet.closed .status { padding-right: 56px; }
+.home-sheet.closed .status-text small { display: none; }

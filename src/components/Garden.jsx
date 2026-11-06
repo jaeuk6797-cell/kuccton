@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import Flower from './Flower.jsx'
 import Island3D from './Island3D.jsx'
 import Recorder from './Recorder.jsx'
@@ -28,6 +28,11 @@ export default function Garden({ session, onSignOut, email }) {
   const [toast, setToast] = useState('')
   const [fresh, setFresh] = useState(() => new Set())
   const [highlight, setHighlight] = useState(null)
+  // 녹음 카드: 아래로 끌어내리면 접혀서 정원을 크게 본다 (접힌 상태는 기기에 기억)
+  const [sheetOpen, setSheetOpen] = useState(() => localStorage.getItem('sup.sheet') !== 'closed')
+  const sheetRef = useRef(null)
+  const dragRef = useRef(null)
+  useEffect(() => { localStorage.setItem('sup.sheet', sheetOpen ? 'open' : 'closed') }, [sheetOpen])
   const meId = session.memberId
 
   const refresh = useCallback(async () => {
@@ -122,8 +127,35 @@ export default function Garden({ session, onSignOut, email }) {
 
   const received = data.flowers.filter((f) => f.sender_id !== meId).slice(-8).reverse()
 
+  // 손잡이를 끌면 카드가 손가락을 따라오고, 놓으면 열림/접힘으로 붙는다. 살짝 누르면 토글
+  const SHEET_PEEK = 78
+  const onHandleDown = (e) => {
+    const el = sheetRef.current
+    dragRef.current = { y: e.clientY, dy: 0, h: el.offsetHeight }
+    e.currentTarget.setPointerCapture(e.pointerId)
+    el.style.transition = 'none'
+  }
+  const onHandleMove = (e) => {
+    const d = dragRef.current
+    if (!d) return
+    d.dy = e.clientY - d.y
+    const closedY = d.h - SHEET_PEEK
+    const y = Math.min(closedY, Math.max(0, (sheetOpen ? 0 : closedY) + d.dy))
+    sheetRef.current.style.transform = `translateY(${y}px)`
+  }
+  const onHandleUp = () => {
+    const d = dragRef.current
+    dragRef.current = null
+    const el = sheetRef.current
+    if (el) { el.style.transition = ''; el.style.transform = '' }
+    if (!d) return
+    if (Math.abs(d.dy) < 6) setSheetOpen((o) => !o)
+    else if (d.dy > 40) setSheetOpen(false)
+    else if (d.dy < -40) setSheetOpen(true)
+  }
+
   return (
-    <div className="home">
+    <div className={`home ${sheetOpen ? '' : 'sheet-closed'}`}>
       <div className="sky">
         <div className="cloud c1" /><div className="cloud c2" /><div className="cloud c3" />
       </div>
@@ -156,9 +188,23 @@ export default function Garden({ session, onSignOut, email }) {
           </div>
           <div className="hint">꽃을 누르면 그날의 소리가 들려요 · 드래그로 둘러보기</div>
 
-          <section className="home-sheet">
-            <div className="grip" />
-            <button className="status" onClick={status.onClick} disabled={!status.onClick}>
+          <section ref={sheetRef} className={`home-sheet ${sheetOpen ? '' : 'closed'}`}>
+            <div
+              className="sheet-handle"
+              onPointerDown={onHandleDown}
+              onPointerMove={onHandleMove}
+              onPointerUp={onHandleUp}
+              onPointerCancel={onHandleUp}
+              role="button"
+              aria-label={sheetOpen ? '녹음 카드 접기' : '녹음 카드 펼치기'}
+            >
+              <div className="grip" />
+            </div>
+            <button
+              className="status"
+              onClick={sheetOpen ? status.onClick : () => setSheetOpen(true)}
+              disabled={sheetOpen && !status.onClick}
+            >
               <div className="avatars">
                 <span className="av partner">{partner ? [...pName][0] : '?'}</span>
                 <span className="av me">나</span>
@@ -167,6 +213,9 @@ export default function Garden({ session, onSignOut, email }) {
                 <b>{status.title}</b>
                 <small>{status.sub}</small>
               </div>
+            </button>
+            <button className="mini-rec" onClick={() => setRecording(true)} aria-label="오늘의 소리 녹음하기" tabIndex={sheetOpen ? -1 : 0}>
+              <Mic />
             </button>
             <button className="record-cta" onClick={() => setRecording(true)}>
               <Mic /> 오늘의 소리 녹음하기 · 10초
