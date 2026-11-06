@@ -7,7 +7,7 @@ import ShareSheet from './Share.jsx'
 import Visit from './Visit.jsx'
 import Chat from './Chat.jsx'
 import { displayName } from '../lib/tree.js'
-import { Bell, ChevronUp, Heart, Menu, Mic, Sprout, User, Users, Wave } from './Icons.jsx'
+import { Bell, ChevronUp, Heart, Help, Menu, Mic, Sprout, User, Users, Wave } from './Icons.jsx'
 import { addFriend, currentUser, deleteFlower, insertFlower, loadGarden, respondShare, shareFlowers, subscribeGarden, today, uploadAudio } from '../lib/db.js'
 
 // 받침에 따라 조사 고르기
@@ -45,11 +45,6 @@ export default function Garden({ session, onSignOut, email, demo }) {
   const homeRef = useRef(null)
   const dragRef = useRef(null)
   useEffect(() => { localStorage.setItem('sup.sheet', sheetOpen ? 'open' : 'closed') }, [sheetOpen])
-  const [hintOn, setHintOn] = useState(true) // 처음 몇 초만 보여 주는 조작 안내
-  useEffect(() => {
-    const t = setTimeout(() => setHintOn(false), 4500)
-    return () => clearTimeout(t)
-  }, [])
 
   // 카드 높이와 '열렸을 때 섬 축소 비율'을 CSS 변수로 둔다. 섬은 캔버스 크기를 바꾸지 않고
   // CSS transform으로만 줄었다 커져서(3D를 다시 그리지 않음) 접고 펼 때 끊기지 않는다.
@@ -260,7 +255,7 @@ export default function Garden({ session, onSignOut, email, demo }) {
 
       {tab === 'garden' && (
         <>
-          <div className="island-touch" onPointerDown={() => setHintOn(false)}>
+          <div className="island-touch">
           <Island3D
             flowers={data.flowers}
             pairs={data.pairs}
@@ -293,9 +288,7 @@ export default function Garden({ session, onSignOut, email, demo }) {
               <b>아직 핀 꽃이 없어요</b>
               <small>친구가 소리를 보내면 여기에 꽃이 피어요</small>
             </div>
-          ) : (
-            <div className={`hint ${hintOn ? '' : 'off'}`}>꽃이나 나무를 누르면 그날의 소리가 들려요 · 드래그로 둘러보기</div>
-          )}
+          ) : null}
 
           <section ref={sheetRef} className={`home-sheet ${sheetOpen ? '' : 'closed'}`} aria-label="정원 도구">
             <button
@@ -342,6 +335,7 @@ export default function Garden({ session, onSignOut, email, demo }) {
       {tab === 'album' && <Album data={data} meId={meId} onOpen={setOpenFlower} onOpenPair={setOpenPair} flowerById={flowerById} />}
       {tab === 'friends' && <Friends data={data} meId={meId} onAdded={refresh} onOpen={setOpenFlower} onShareTo={(friend) => setSharePick({ friend })} onVisit={setVisiting} onAnswer={answer} />}
       {tab === 'me' && <Me me={me} data={data} email={email} onSignOut={onSignOut} />}
+      {tab === 'help' && <HelpPage />}
 
       {/* 오른쪽 위 메뉴 (아래 탭바 대신). 어느 화면에서나 같은 자리에 있다 */}
       <button className="round-btn menu-btn" onClick={() => setMenuOpen((o) => !o)} aria-label="메뉴" aria-expanded={menuOpen}>
@@ -366,6 +360,9 @@ export default function Garden({ session, onSignOut, email, demo }) {
             <button onClick={() => { setShowBell(true); setMenuOpen(false) }}>
               <Bell /> <span>받은 소리함{data.inbox.length > 0 ? ` ${data.inbox.length}` : ''}</span>
               {data.inbox.length > 0 && <i className="dot-new" />}
+            </button>
+            <button className={tab === 'help' ? 'on' : ''} onClick={() => { setTab('help'); setMenuOpen(false) }}>
+              <Help /> <span>도움말</span>
             </button>
           </nav>
         </>
@@ -636,7 +633,6 @@ https://kuccton.vercel.app`
           })}
         </ul>
       )}
-      <p className="small muted">친구가 보낸 소리는 받은 소리함에 도착하고, 심은 소리만 내 정원에 꽃(말소리)이나 나무(그 밖의 소리)로 자라요. 내가 보낸 소리는 친구 정원에 피어요. 같은 날 서로 보낸 소리를 둘 다 심으면 가운데에 우리의 꽃이 피어요. 친구 정원에는 언제든 놀러 가서 구경할 수 있어요(소리는 친구만 들을 수 있어요).</p>
     </div>
   )
 }
@@ -658,6 +654,34 @@ function Me({ me, data, email, onSignOut }) {
         <p className="small">녹음은 내가 공유한 친구만 들을 수 있어요. 내 소리는 꽃이나 나무를 눌러 언제든 지울 수 있어요.</p>
       </div>
       <button className="ghost wide" onClick={onSignOut}>로그아웃</button>
+    </div>
+  )
+}
+
+// 도움말: 화면 곳곳에 흩어져 있던 설명을 한곳에 (메뉴 → 도움말)
+const HELP = [
+  ['소리숲은', '하루 10초의 소리를 친구에게 보내면, 그 소리가 의성어 이름을 가진 꽃이나 나무가 되어 친구 정원에 자라요. 내 정원은 친구들이 보내 준 소리로 채워져요.'],
+  ['오늘의 소리 보내기', '아래 ‘오늘의 소리 녹음’을 누르면 바로 10초 동안 녹음돼요. 미리보기에서 꽃을 확인하고, 받을 친구를 골라(여러 명 가능) 보내면 돼요. 내가 보낸 소리는 내 정원이 아니라 친구 정원에 피어요.'],
+  ['꽃과 나무', '말소리는 감정에 따라 일곱 가지 꽃(해바라기·별·튤립·작약·연꽃·초롱꽃·엉겅퀴 모양)으로, 그 밖의 소리는 나무로 자라요. 소리가 크면 꽃이 크고, 여러 번 울리면 꽃잎이 많아지고, 소리의 흐름에 따라 꽃잎 길이가 달라져요.'],
+  ['꽃 이름', '소리를 듣고 한국어 의성어로 이름을 지어요. 작고 맑은 소리는 ‘토독’처럼 밝은 모음, 크고 낮은 소리는 ‘투둑’처럼 어두운 모음, 세게 시작하면 ‘톡·탁’처럼 센 소리, 여러 번 울리면 ‘토독토독’처럼 되풀이돼요.'],
+  ['받은 소리함', '친구가 보낸 소리는 먼저 받은 소리함(메뉴)에 도착해요. 들어 보고 ‘심기’를 누르면 내 정원에 자라고, ‘괜찮아요’를 누르면 받지 않아요.'],
+  ['내 정원 보기', '꽃이나 나무를 누르면 그날의 소리가 들려요. 손가락으로 끌면 섬을 둘러볼 수 있어요. 위쪽 친구 이름을 누르면 그 친구가 보낸 꽃만 보여요. 아래 ^ 표시로 도구를 접고 펼 수 있어요.'],
+  ['우리의 꽃', '같은 날 나와 친구가 서로 소리를 보내고 둘 다 심으면, 두 소리가 만나 정원 가운데에 우리의 꽃이 피어요. 누르면 친구 소리는 왼쪽 귀, 내 소리는 오른쪽 귀로 함께 들려요. 이어폰으로 들어 보세요.'],
+  ['친구', '내 친구 코드를 알려 주거나 친구 코드를 넣으면 친구가 돼요. 친구 정원에는 놀러 가서 구경할 수 있어요(소리는 그 친구만 들을 수 있어요).'],
+  ['오늘의 위로', '받은 소리 중 하나를 골라 다시 들려줘요. 힘든 날 눌러 보세요.'],
+  ['내 소리는', '보낸 사람과 받은 사람만 들을 수 있어요. 점수나 연속 기록, 시드는 꽃은 없어요.'],
+]
+
+function HelpPage() {
+  return (
+    <div className="page help-page">
+      <h1 className="page-title">도움말</h1>
+      {HELP.map(([title, body]) => (
+        <section key={title} className="help-item">
+          <h2>{title}</h2>
+          <p>{body}</p>
+        </section>
+      ))}
     </div>
   )
 }
