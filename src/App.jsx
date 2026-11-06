@@ -4,6 +4,7 @@ import { analyzeEmotion, emotionEnabled } from './emotion.js'
 import { extractFeatures } from './soundFeatures.js'
 import { CATEGORIES, VOICE_IDS, buildFlower } from './flower.js'
 import Flower from './Flower.jsx'
+import Waveform from './Waveform.jsx'
 
 const MAX_SECONDS = 10
 
@@ -19,6 +20,7 @@ export default function App() {
   const [emotionError, setEmotionError] = useState(null)
   const [analyzing, setAnalyzing] = useState(false)
   const [features, setFeatures] = useState(null)
+  const [liveStream, setLiveStream] = useState(null)
   const recorderRef = useRef(null)
   const chunksRef = useRef([])
   const timerRef = useRef(null)
@@ -69,6 +71,7 @@ export default function App() {
     const recorder = new MediaRecorder(stream)
     recorder.ondataavailable = (e) => chunksRef.current.push(e.data)
     recorder.onstop = () => {
+      setLiveStream(null)
       stream.getTracks().forEach((t) => t.stop())
       const recorded = new Blob(chunksRef.current, { type: recorder.mimeType })
       setBlob(recorded)
@@ -76,6 +79,7 @@ export default function App() {
     }
     recorderRef.current = recorder
     recorder.start()
+    setLiveStream(stream)
     stt.start()
 
     setRecording(true)
@@ -106,6 +110,10 @@ export default function App() {
         {recording ? `■ 멈추기 (${left}초)` : '● 10초 녹음'}
       </button>
       {micError && <p style={{ color: 'crimson' }}>{micError}</p>}
+
+      <div style={{ marginTop: 16, display: recording ? 'block' : 'none' }}>
+        <Waveform stream={liveStream} />
+      </div>
 
       {audioUrl && (
         <div style={{ marginTop: 16 }}>
