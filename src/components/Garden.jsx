@@ -213,6 +213,8 @@ export default function Garden({ session, onSignOut, email, demo }) {
   const shownFlowers = viewing === 'all' ? gardenFlowers : gardenFlowers.filter((f) => f.sender_id === viewing)
   const shownPairs = viewing === 'all' ? data.pairs : data.pairs.filter((p) =>
     flowerById[p.flower_a_id]?.sender_id === viewing || flowerById[p.flower_b_id]?.sender_id === viewing)
+  // 친구별 보기: 섬에 보일 꽃 id (전체면 null → 모두). 문자열이라 값이 같으면 섬을 다시 만들지 않는다
+  const visibleKey = viewing === 'all' ? null : [...shownFlowers.map((f) => f.id), ...shownPairs.map((p) => p.id)].join(',')
   const received = data.flowers.filter((f) => f.sender_id !== meId).slice(-8).reverse()
 
   // 손잡이를 끌면 카드·섬·안내 문구가 함께 손가락을 따라오고(--sheet-p: 0 열림 ~ 1 접힘),
@@ -260,8 +262,9 @@ export default function Garden({ session, onSignOut, email, demo }) {
         <>
           <div className="island-touch" onPointerDown={() => setHintOn(false)}>
           <Island3D
-            flowers={shownFlowers}
-            pairs={shownPairs}
+            flowers={data.flowers}
+            pairs={data.pairs}
+            visibleIds={visibleKey}
             meId={meId}
             freshIds={fresh}
             highlightId={highlight}

@@ -203,7 +203,10 @@ function placeFlowers(items) {
   })
 }
 
-export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, onPickFlower, onPickPair }) {
+// flowers: 우리의 꽃을 만들 때 찾을 수 있도록 내 꽃까지 전부 받는다. 섬에는 받은 꽃(meId가 아닌 꽃)과 우리의 꽃만 핀다.
+// visibleIds: 쉼표로 이은 id 목록(친구별 보기). 위치는 항상 전체 기준으로 정하고 여기 없는 것만 숨겨서,
+//             친구를 바꿔 봐도 꽃 자리가 움직이지 않는다. 없으면 모두 보인다.
+export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, visibleIds, onPickFlower, onPickPair }) {
   const wrapRef = useRef(null)
   const stateRef = useRef(null)
   const cbRef = useRef({})
@@ -401,11 +404,17 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
       pairedIds.add(a.id); pairedIds.add(b.id)
       items.push({ key: p.id, side: 0, kind: 'pair', data: p, a, b })
     }
-    for (const f of flowers) items.push({ key: f.id, side: f.sender_id === meId ? 1 : -1, kind: 'flower', data: f })
-    const pos = placeFlowers(items)
+    // 내 꽃은 내 정원에 피지 않는다(우리의 꽃 재료로만 쓴다). 받은 꽃은 id로 정해진 쪽에 고르게
+    for (const f of flowers) {
+      if (f.sender_id === meId) continue
+      items.push({ key: f.id, side: hash(f.id) % 2 ? 1 : -1, kind: 'flower', data: f })
+    }
+    const pos = placeFlowers(items) // 항상 전체 기준 → 친구별로 숨겨도 자리 고정
+    const visible = visibleIds == null ? null : new Set(visibleIds ? visibleIds.split(',') : [])
     const now = clock.getElapsedTime()
 
     items.forEach((it, i) => {
+      if (visible && !visible.has(it.key)) return
       const obj = it.kind === 'pair'
         ? buildFlower3D({ ...it.b, petals: Math.min(8, Math.max(it.a.petals, it.b.petals) + 1) }, [it.a.color, it.b.color], { pair: true })
         : isTree(it.data) ? buildTree3D(it.data) : buildFlower3D(it.data, [it.data.color])
@@ -424,7 +433,7 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
       flowerLayer.add(obj)
     })
     st.first = false
-  }, [flowers, pairs, meId, freshIds, highlightId])
+  }, [flowers, pairs, meId, freshIds, highlightId, visibleIds])
 
   return <div ref={wrapRef} className="island" />
 }
