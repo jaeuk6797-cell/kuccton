@@ -9,7 +9,8 @@
   /* 색: 하늘(3D 섬 배경) · 종이 · 글자 · 강조(=내 꽃) · 상대 꽃 · 초록(자연) */
   --sky: linear-gradient(180deg, #b7c8e8 0%, #d8d2ee 38%, #f0dcd8 70%, #f7e9df 100%);
   --sky-bottom: #f7e9df;
-  --sky-balanced: linear-gradient(180deg, #ece6de 0%, #f4e5d4 36%, #f7edda 68%, #dce7da 100%);
+  --sky-balanced: radial-gradient(ellipse at 92% 78%, #d1e7ef9c, transparent 57%),
+    linear-gradient(180deg, #eee7df 0%, #f5e5d8 33%, #eee3eb 58%, #e1eaf1 81%, #dcebe9 100%);
   --safe-top: var(--safe-area-inset-top, env(safe-area-inset-top, 0px));
   --safe-bottom: var(--safe-area-inset-bottom, env(safe-area-inset-bottom, 0px));
   --safe-left: var(--safe-area-inset-left, env(safe-area-inset-left, 0px));
