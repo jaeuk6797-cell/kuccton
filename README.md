@@ -47,6 +47,7 @@ npm run dev:phone    # 같은 와이파이의 폰에서 https://<PC IP>:5173
   https://github.com/jaeuk6797-cell/kuccton/releases/download/android-latest/sup.apk
   `android/`나 앱 설정이 바뀌면 GitHub Actions가 자동으로 다시 빌드합니다(Actions 탭에서 수동 실행도 가능). 화면·기능은 앱이 배포본을 불러오므로 다시 설치할 필요가 없습니다.
 - **iPhone / Android 공통**: https://kuccton.vercel.app 을 열고 '홈 화면에 추가'해도 같은 앱처럼 쓸 수 있습니다.
+- **예비 사이트(Vercel 배포 한도에 걸렸을 때)**: https://jaeuk6797-cell.github.io/kuccton/ — `main`의 웹 코드가 바뀌면 GitHub Actions가 `gh-pages` 브랜치로 다시 올립니다. 앱이 보는 주소는 아니고, Supabase 로그인 허용 주소에 이 주소가 들어 있어야 로그인됩니다.
 
 ## 5. 앱 직접 빌드 (Capacitor)
 
