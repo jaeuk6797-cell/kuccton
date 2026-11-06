@@ -1,0 +1,2415 @@
+{
+  "stage": "Phase B and final combined asset",
+  "baselineCommit": "44ce1cc",
+  "asset": {
+    "path": "public/models/island.glb",
+    "sha256": "67276ab06dbe18b066ad75ab24a3c2ce47654c94ad768af7bdbaaeb69fec2ce4",
+    "bytes": 1355428,
+    "triangles": 18779,
+    "vertices": 17469,
+    "meshPrimitives": 22,
+    "materials": 11
+  },
+  "baseline": {
+    "sha256": "5e9338276dc51a560cf6c49589e439fdc4fde9ced51fe913e7ef1f33b6fe3f80",
+    "bytes": 1577764,
+    "triangles": 24443
+  },
+  "phaseA": {
+    "sha256": "befeccde59a96d3f0da142b161100cb36077620864cc09fe6a75d72ca1a35adc",
+    "bytes": 1577764,
+    "triangles": 24443,
+    "validation": "color-phase-a-validation.json"
+  },
+  "reduction": {
+    "triangles": 5664,
+    "trianglePercent": 23.172278361903203,
+    "bytes": 222336,
+    "bytePercent": 14.091841365375304,
+    "targetTriangles": [
+      18000,
+      20000
+    ],
+    "withinTarget": true
+  },
+  "phaseBIsolation": {
+    "unchangedComponents": 20,
+    "changedComponents": [
+      "Island_Accents | Scattered opal gravel",
+      "Island_Vegetation | Ferns and bent grasses"
+    ],
+    "materialParametersEqualToPhaseA": true,
+    "unchangedComponentsRetainExactVertexColors": true,
+    "comparison": [
+      {
+        "name": "Island_Accents | Luminous filament tips",
+        "beforeTriangles": 1260,
+        "afterTriangles": 1260,
+        "positionsExact": true,
+        "indicesExact": true,
+        "normalsExact": true,
+        "geometryUnchanged": true,
+        "colorsExact": true
+      },
+      {
+        "name": "Island_Accents | Scattered opal gravel",
+        "beforeTriangles": 3264,
+        "afterTriangles": 1152,
+        "positionsExact": false,
+        "indicesExact": false,
+        "normalsExact": false,
+        "geometryUnchanged": false,
+        "colorsExact": false
+      },
+      {
+        "name": "Island_Crystal_Underside | Asymmetric mineral keel",
+        "beforeTriangles": 1089,
+        "afterTriangles": 1089,
+        "positionsExact": true,
+        "indicesExact": false,
+        "normalsExact": true,
+        "geometryUnchanged": true,
+        "colorsExact": true
+      },
+      {
+        "name": "Island_Metal_Rim | Champagne upper seam",
+        "beforeTriangles": 1024,
+        "afterTriangles": 1024,
+        "positionsExact": true,
+        "indicesExact": true,
+        "normalsExact": true,
+        "geometryUnchanged": true,
+        "colorsExact": true
+      },
+      {
+        "name": "Island_Metal_Rim | Contour-following rose-gold seam",
+        "beforeTriangles": 1536,
+        "afterTriangles": 1536,
+        "positionsExact": true,
+        "indicesExact": true,
+        "normalsExact": true,
+        "geometryUnchanged": true,
+        "colorsExact": true
+      },
+      {
+        "name": "Island_Ornamental_Ring | Fine golden resonator",
+        "beforeTriangles": 2348,
+        "afterTriangles": 2348,
+        "positionsExact": true,
+        "indicesExact": true,
+        "normalsExact": true,
+        "geometryUnchanged": true,
+        "colorsExact": true
+      },
+      {
+        "name": "Island_Ornamental_Ring | Opal feet",
+        "beforeTriangles": 160,
+        "afterTriangles": 160,
+        "positionsExact": true,
+        "indicesExact": true,
+        "normalsExact": true,
+        "geometryUnchanged": true,
+        "colorsExact": true
+      },
+      {
+        "name": "Island_Peripheral_Crystals | Cluster 1 facet family 1",
+        "beforeTriangles": 68,
+        "afterTriangles": 68,
+        "positionsExact": true,
+        "indicesExact": true,
+        "normalsExact": true,
+        "geometryUnchanged": true,
+        "colorsExact": true
+      },
+      {
+        "name": "Island_Peripheral_Crystals | Cluster 1 facet family 2",
+        "beforeTriangles": 68,
+        "afterTriangles": 68,
+        "positionsExact": true,
+        "indicesExact": true,
+        "normalsExact": true,
+        "geometryUnchanged": true,
+        "colorsExact": true
+      },
+      {
+        "name": "Island_Peripheral_Crystals | Cluster 1 facet family 3",
+        "beforeTriangles": 34,
+        "afterTriangles": 34,
+        "positionsExact": true,
+        "indicesExact": true,
+        "normalsExact": true,
+        "geometryUnchanged": true,
+        "colorsExact": true
+      },
+      {
+        "name": "Island_Peripheral_Crystals | Cluster 2 facet family 1",
+        "beforeTriangles": 68,
+        "afterTriangles": 68,
+        "positionsExact": true,
+        "indicesExact": true,
+        "normalsExact": true,
+        "geometryUnchanged": true,
+        "colorsExact": true
+      },
+      {
+        "name": "Island_Peripheral_Crystals | Cluster 2 facet family 2",
+        "beforeTriangles": 34,
+        "afterTriangles": 34,
+        "positionsExact": true,
+        "indicesExact": true,
+        "normalsExact": true,
+        "geometryUnchanged": true,
+        "colorsExact": true
+      },
+      {
+        "name": "Island_Peripheral_Crystals | Cluster 2 facet family 3",
+        "beforeTriangles": 34,
+        "afterTriangles": 34,
+        "positionsExact": true,
+        "indicesExact": true,
+        "normalsExact": true,
+        "geometryUnchanged": true,
+        "colorsExact": true
+      },
+      {
+        "name": "Island_Peripheral_Crystals | Cluster 3 facet family 1",
+        "beforeTriangles": 34,
+        "afterTriangles": 34,
+        "positionsExact": true,
+        "indicesExact": true,
+        "normalsExact": true,
+        "geometryUnchanged": true,
+        "colorsExact": true
+      },
+      {
+        "name": "Island_Peripheral_Crystals | Cluster 3 facet family 2",
+        "beforeTriangles": 34,
+        "afterTriangles": 34,
+        "positionsExact": true,
+        "indicesExact": true,
+        "normalsExact": true,
+        "geometryUnchanged": true,
+        "colorsExact": true
+      },
+      {
+        "name": "Island_Peripheral_Crystals | Cluster 3 facet family 3",
+        "beforeTriangles": 34,
+        "afterTriangles": 34,
+        "positionsExact": true,
+        "indicesExact": true,
+        "normalsExact": true,
+        "geometryUnchanged": true,
+        "colorsExact": true
+      },
+      {
+        "name": "Island_Peripheral_Crystals | Polished facet edges",
+        "beforeTriangles": 1152,
+        "afterTriangles": 1152,
+        "positionsExact": true,
+        "indicesExact": true,
+        "normalsExact": true,
+        "geometryUnchanged": true,
+        "colorsExact": true
+      },
+      {
+        "name": "Island_Pond | Quiet silver ripples",
+        "beforeTriangles": 408,
+        "afterTriangles": 408,
+        "positionsExact": true,
+        "indicesExact": true,
+        "normalsExact": true,
+        "geometryUnchanged": true,
+        "colorsExact": true
+      },
+      {
+        "name": "Island_Pond | Recessed mineral basin",
+        "beforeTriangles": 576,
+        "afterTriangles": 576,
+        "positionsExact": true,
+        "indicesExact": true,
+        "normalsExact": true,
+        "geometryUnchanged": true,
+        "colorsExact": true
+      },
+      {
+        "name": "Island_Pond | Single aqua water sheet",
+        "beforeTriangles": 62,
+        "afterTriangles": 62,
+        "positionsExact": true,
+        "indicesExact": true,
+        "normalsExact": true,
+        "geometryUnchanged": true,
+        "colorsExact": true
+      },
+      {
+        "name": "Island_Surface | Opalescent planting clearing",
+        "beforeTriangles": 2672,
+        "afterTriangles": 2672,
+        "positionsExact": true,
+        "indicesExact": true,
+        "normalsExact": true,
+        "geometryUnchanged": true,
+        "colorsExact": true
+      },
+      {
+        "name": "Island_Vegetation | Ferns and bent grasses",
+        "beforeTriangles": 8484,
+        "afterTriangles": 4932,
+        "positionsExact": false,
+        "indicesExact": false,
+        "normalsExact": false,
+        "geometryUnchanged": false,
+        "colorsExact": false
+      }
+    ],
+    "preservation": {
+      "leaves": {
+        "count": 240,
+        "triangles": 2880,
+        "vertices": 2640,
+        "method": "The generator appends all 240 leaf patches before stem and grass geometry. Compared those exact leading position, index, normal and color blocks.",
+        "positionsExact": true,
+        "indicesExact": true,
+        "normalsExact": true,
+        "colorsExact": true
+      },
+      "gravel": {
+        "beforePieces": 96,
+        "afterPieces": 96,
+        "uniquelyMatchedPieces": 96,
+        "minSharedShoulderTipPoints": 7,
+        "maxSharedShoulderTipPoints": 7,
+        "unchangedUpperTrianglesPerPiece": 6,
+        "beforeTrianglesPerPiece": [
+          34
+        ],
+        "afterTrianglesPerPiece": [
+          12
+        ],
+        "quantization": 0.000001,
+        "note": "Matched pieces by unchanged shoulder-ring and tip positions; top triangles match position, linear color, normal and winding. Baseline 44ce1cc vegetation/gravel are identical to Phase A."
+      }
+    }
+  },
+  "geometrySignatures": {
+    "quantizationUnits": 0.000001,
+    "sha256": "e360e49bf30be4f640a93b7dbc6c34cd49866e0dd6c5306a57a5a0efcb8f3f78",
+    "components": [
+      {
+        "name": "Island_Accents | Luminous filament tips",
+        "primitiveIndex": 0,
+        "triangles": 1260,
+        "vertices": 756,
+        "uniquePositions": 756,
+        "edges": 1890,
+        "boundaryEdges": 0,
+        "nonmanifoldEdges": 0,
+        "positionAccessorSHA256": "d961e9f0fe33b158c13aa42deef0415da3ce2980c0ad1f80125419be3b4068f9",
+        "indexAccessorSHA256": "7ae2902b30b6a4cb55cc7452349c7f92b73d23a88aa2cc5c18001c8fa3207225",
+        "normalAccessorSHA256": "cc2d01769a19a2b6c6b9754f6752ab45dfcfe0818df3b32733da91bbc4bcc7c7",
+        "canonicalPositionsSHA256": "472b9600c4cfbeb308a015c1b553eb7ce54cb3f4bd1620ebde185dc5a8e119a7",
+        "canonicalOrientedTrianglesSHA256": "b10760c4d1bb52a5209671eb3af19d92c45ee108acbbfde7d605a9872ff4d88e",
+        "canonicalTopologySHA256": "b5e8625422ea37fb17a4df35a7613ac7a7d2919705d5ca3a4bfc09e4c97d5fd3",
+        "nodeTransform": {
+          "matrix": null,
+          "translation": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "bounds": {
+          "min": [
+            -3.5419750213623047,
+            0.07111593335866928,
+            -3.659031629562378
+          ],
+          "max": [
+            3.607966184616089,
+            0.3112964332103729,
+            3.4923276901245117
+          ]
+        },
+        "material": "SUP Warm luminous filaments"
+      },
+      {
+        "name": "Island_Accents | Scattered opal gravel",
+        "primitiveIndex": 0,
+        "triangles": 1152,
+        "vertices": 3456,
+        "uniquePositions": 768,
+        "edges": 1728,
+        "boundaryEdges": 0,
+        "nonmanifoldEdges": 0,
+        "positionAccessorSHA256": "619c9c7e3ff52b18f46eaee04bcf92379cca715cd1c581baa997c6b9709ad94a",
+        "indexAccessorSHA256": "87cd4cba44e6fa6814d12e8a2a58595a80ee84247b781c64f24aad6a3ba317c3",
+        "normalAccessorSHA256": "6ef5b8984c9936585b3cc359c30160e41c0ec7b20712e00236c5def36f50e24b",
+        "canonicalPositionsSHA256": "980dcb1d98fb62bb0c1f90a3efa1e5f0abb422843a70368df0ff3f9d4ffc731d",
+        "canonicalOrientedTrianglesSHA256": "134bab2bba510f02896f974bfcb386d19f4a62c57cb8b7e3ca0387b44a70ac3d",
+        "canonicalTopologySHA256": "7e53e462279f8873f76124fd4476e4f50f1debe99f238fc018f31467f71f8fae",
+        "nodeTransform": {
+          "matrix": null,
+          "translation": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "bounds": {
+          "min": [
+            -3.543649196624756,
+            -0.056071504950523376,
+            -3.6607682704925537
+          ],
+          "max": [
+            3.708854913711548,
+            0.10341421514749527,
+            3.510329484939575
+          ]
+        },
+        "material": "SUP Layered turquoise mineral"
+      },
+      {
+        "name": "Island_Crystal_Underside | Asymmetric mineral keel",
+        "primitiveIndex": 0,
+        "triangles": 1089,
+        "vertices": 3267,
+        "uniquePositions": 585,
+        "edges": 1673,
+        "boundaryEdges": 79,
+        "nonmanifoldEdges": 0,
+        "positionAccessorSHA256": "c5ce7e7dc06651873c398a4f4d4e4d7f9a45f1fa2c7a2c06f1755382147aa946",
+        "indexAccessorSHA256": "cf192b1ac2e9c620836e26fb52567826abd7b2f76a12464aceca26b4aa6ea3a2",
+        "normalAccessorSHA256": "34e406b72b079cbf3023a7f4d571ea12962ecbfdc5baccfdabb5579202268409",
+        "canonicalPositionsSHA256": "e1833cf43d21288b5efd38c25855f7eb7824209ad761e6993a16dd4bf09fec41",
+        "canonicalOrientedTrianglesSHA256": "2b2e0631ff509c2d3f14ef8e80b885504ed70367dfbb7adcad561933e41b3a1e",
+        "canonicalTopologySHA256": "7e7b07f28e0f847142e687efa63b97c073449f898d8f0f65851419d778aa6b63",
+        "nodeTransform": {
+          "matrix": null,
+          "translation": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "bounds": {
+          "min": [
+            -3.878024101257324,
+            -2.859999895095825,
+            -3.8321361541748047
+          ],
+          "max": [
+            3.9583873748779297,
+            -0.021210383623838425,
+            3.760780096054077
+          ]
+        },
+        "material": "SUP Layered turquoise mineral"
+      },
+      {
+        "name": "Island_Metal_Rim | Champagne upper seam",
+        "primitiveIndex": 0,
+        "triangles": 1024,
+        "vertices": 512,
+        "uniquePositions": 512,
+        "edges": 1536,
+        "boundaryEdges": 0,
+        "nonmanifoldEdges": 0,
+        "positionAccessorSHA256": "d80adce4928112b08d836267acbc96c4e85763c09f899c293cd8882c34141643",
+        "indexAccessorSHA256": "22e33efbddb752bf6dd3074fbfb68b301b3aa3407c2ca1bb535511e600e8bbc7",
+        "normalAccessorSHA256": "5552cdb839df83b023ec36039babf6a98ab79dc0fcd966f121e7a9b2a789eb49",
+        "canonicalPositionsSHA256": "2e0bed3572fa12123453f8371adc60deecf62d7555595f1200ae88b7a49140d6",
+        "canonicalOrientedTrianglesSHA256": "0e1ce7d3a74dd338f6318009f04f5dfffaf65eb43536a0f600cdc10f992529bd",
+        "canonicalTopologySHA256": "eb138a0b0814ddbde820d05f6ff6a37a1601de6e0e2da98f0db2229544fa8706",
+        "nodeTransform": {
+          "matrix": null,
+          "translation": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "bounds": {
+          "min": [
+            -3.904919385910034,
+            0.017249738797545433,
+            -3.858903646469116
+          ],
+          "max": [
+            3.985159397125244,
+            0.06440245360136032,
+            3.7875478267669678
+          ]
+        },
+        "material": "SUP Champagne gold"
+      },
+      {
+        "name": "Island_Metal_Rim | Contour-following rose-gold seam",
+        "primitiveIndex": 0,
+        "triangles": 1536,
+        "vertices": 768,
+        "uniquePositions": 768,
+        "edges": 2304,
+        "boundaryEdges": 0,
+        "nonmanifoldEdges": 0,
+        "positionAccessorSHA256": "e005c012849e58b06ec35ce44610591171e6fe47e78f44945eddf5785e5bedd1",
+        "indexAccessorSHA256": "afea311c7973a2994bdaed5d6cddf2e6cb18d02451c63931afb80bfe48c859d8",
+        "normalAccessorSHA256": "6b6a99d132c11a3a62dcff9323b9fa5574eb5c3290e0a9ca7c3477a58d6e4f99",
+        "canonicalPositionsSHA256": "ceb054e72bbb26ebec9c8475f960dafbd1973540af904828246e79c76c635894",
+        "canonicalOrientedTrianglesSHA256": "2b45c64986a872200f373e76ca6b1edae347be22d6702f7b9877b72a58f21758",
+        "canonicalTopologySHA256": "f15c7f046c02ef251999885d5a92b8f23620f28ce6b8232779e916add6133916",
+        "nodeTransform": {
+          "matrix": null,
+          "translation": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "bounds": {
+          "min": [
+            -3.925792932510376,
+            -0.11659105867147446,
+            -3.8796164989471436
+          ],
+          "max": [
+            4.005867958068848,
+            0.0573025681078434,
+            3.808260440826416
+          ]
+        },
+        "material": "SUP Brushed rose gold"
+      },
+      {
+        "name": "Island_Ornamental_Ring | Fine golden resonator",
+        "primitiveIndex": 0,
+        "triangles": 2348,
+        "vertices": 1186,
+        "uniquePositions": 1186,
+        "edges": 3522,
+        "boundaryEdges": 0,
+        "nonmanifoldEdges": 0,
+        "positionAccessorSHA256": "4af9524b6a1d983c68e634e08b48b501cde55e3c74be06571eb7a58166df1b9f",
+        "indexAccessorSHA256": "7309642d41b150f13d1f9df4fd383cb240504aa583fd0253f02407010f2cf0d5",
+        "normalAccessorSHA256": "80717c7c5a8c6d45c43af9451ec312122e2307aac5699793aa2be642d042732d",
+        "canonicalPositionsSHA256": "9be6a284001c0bc1f6531ecbf6c6520e960b113c4ad941a0590d3dcb57ae9eda",
+        "canonicalOrientedTrianglesSHA256": "9c725946e27e9cc3bca86e898995c3f3ab70462fbc012225767c76d77378f844",
+        "canonicalTopologySHA256": "4bb1c7d6cb55e31af681aa4ac0f3f7ba826b493e41cb26e007bbb072d92e0c80",
+        "nodeTransform": {
+          "matrix": null,
+          "translation": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "bounds": {
+          "min": [
+            -1.5890783071517944,
+            -0.009999990463256836,
+            -3.072999954223633
+          ],
+          "max": [
+            0.21948008239269257,
+            1.7728016376495361,
+            -3.006999969482422
+          ]
+        },
+        "material": "SUP Champagne gold"
+      },
+      {
+        "name": "Island_Ornamental_Ring | Opal feet",
+        "primitiveIndex": 0,
+        "triangles": 160,
+        "vertices": 84,
+        "uniquePositions": 84,
+        "edges": 240,
+        "boundaryEdges": 0,
+        "nonmanifoldEdges": 0,
+        "positionAccessorSHA256": "c2fcb31049a4a55c4b6a4916d8e2f8f8fc19ad827c092d94f7359abf8a646169",
+        "indexAccessorSHA256": "7db2d4036152166c52c3e7d268d01474d0a999e9015947dafdc0a127045b18dd",
+        "normalAccessorSHA256": "0e1040394249e85e3bdb25eceddfb05cb08c92de30a9f513831481ec7ae3ad7c",
+        "canonicalPositionsSHA256": "2b806b359a37250003a28e8e2fb6b1a4eaf8ba775b293ac0a4b0b5ba615a5e9e",
+        "canonicalOrientedTrianglesSHA256": "94b6b0f5c283200257a029bb0e2cb57cd09ef416ccce85cd7e5c1d17ae65898b",
+        "canonicalTopologySHA256": "240c1866b7f0be272d402cef080922184733c3129a45e7fd8a3d1993002eb44c",
+        "nodeTransform": {
+          "matrix": null,
+          "translation": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "bounds": {
+          "min": [
+            -1.149181604385376,
+            -0.0504516139626503,
+            -3.1796422004699707
+          ],
+          "max": [
+            -0.25807690620422363,
+            0.10045937448740005,
+            -2.896763563156128
+          ]
+        },
+        "material": "SUP Layered turquoise mineral"
+      },
+      {
+        "name": "Island_Peripheral_Crystals | Cluster 1 facet family 1",
+        "primitiveIndex": 0,
+        "triangles": 68,
+        "vertices": 144,
+        "uniquePositions": 38,
+        "edges": 102,
+        "boundaryEdges": 0,
+        "nonmanifoldEdges": 0,
+        "positionAccessorSHA256": "185063e5f60d0d68d147ffe465a5cc1d1463c4835796c669414f372ec92a9b93",
+        "indexAccessorSHA256": "a4755d32e1109ffe8f60f7c860a50752d0a630a972ac40b32a9de115b6c463ec",
+        "normalAccessorSHA256": "a420d4325fc99775bf76fdfc4f2d5d2807195042b37ad4ef51d34d068ef72aba",
+        "canonicalPositionsSHA256": "cd04f8bbac4e5d6791284b3049996b70495e7cea24ee793f05f61ec14d468758",
+        "canonicalOrientedTrianglesSHA256": "a2f8e2c47d8cbde91fd383676fa764dfa9040bcf5fde7dc0b2ba7a475b2983e9",
+        "canonicalTopologySHA256": "9b50fe29af09ddf7c43ae20adcdf35725e467e5bae63833d74968572a0d23dfe",
+        "nodeTransform": {
+          "matrix": null,
+          "translation": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "bounds": {
+          "min": [
+            -3.0023036003112793,
+            -0.04541908577084541,
+            -1.1338518857955933
+          ],
+          "max": [
+            -2.563218832015991,
+            1.3876912593841553,
+            -0.31134989857673645
+          ]
+        },
+        "material": "SUP Lavender quartz"
+      },
+      {
+        "name": "Island_Peripheral_Crystals | Cluster 1 facet family 2",
+        "primitiveIndex": 0,
+        "triangles": 68,
+        "vertices": 144,
+        "uniquePositions": 38,
+        "edges": 102,
+        "boundaryEdges": 0,
+        "nonmanifoldEdges": 0,
+        "positionAccessorSHA256": "7061d20a497152c4cdf47eb4a56713e815a2c56147c44a3034a3d50ea546828a",
+        "indexAccessorSHA256": "a4755d32e1109ffe8f60f7c860a50752d0a630a972ac40b32a9de115b6c463ec",
+        "normalAccessorSHA256": "8dc0c3d284a7e0d89d69a6f5e5b8e134de48f0ac988089c39a01953cf4885cc4",
+        "canonicalPositionsSHA256": "b1a1df4d39bd542891ffd345bbd2b91e30756dfc1415de40d4ce1bd25baf4459",
+        "canonicalOrientedTrianglesSHA256": "4489c0c0e4c8213c340de61d926c983266bd7a9a7c5ad7bf34c8a70844b590e2",
+        "canonicalTopologySHA256": "c44f9bab291a61d53cd761427ed6f68a708bf6d5aaf89ae2235ba54363a93b95",
+        "nodeTransform": {
+          "matrix": null,
+          "translation": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "bounds": {
+          "min": [
+            -3.3682315349578857,
+            -0.0670432522892952,
+            -1.115022897720337
+          ],
+          "max": [
+            -2.173940658569336,
+            0.8493976593017578,
+            -0.5798811912536621
+          ]
+        },
+        "material": "SUP Cyan quartz"
+      },
+      {
+        "name": "Island_Peripheral_Crystals | Cluster 1 facet family 3",
+        "primitiveIndex": 0,
+        "triangles": 34,
+        "vertices": 72,
+        "uniquePositions": 19,
+        "edges": 51,
+        "boundaryEdges": 0,
+        "nonmanifoldEdges": 0,
+        "positionAccessorSHA256": "f87a1ba5b897b0aa3925f410dbec3f4d9d50cce4dc16047d936d9f8e51daa619",
+        "indexAccessorSHA256": "b21d4e05ba0b31d571ac7def1ea720f5af28cd3e4b948915c2b6b83b9df3484f",
+        "normalAccessorSHA256": "48e6b486be4d7a83f5ebf5104515b1b167647bea2d83ce0fea6ca29ea8fafd5c",
+        "canonicalPositionsSHA256": "c4366b29785e02b9e394a338a780ed38d70abcf3a428ce35c23949180aaed021",
+        "canonicalOrientedTrianglesSHA256": "e3412a80202cdbff1abe541d9421c7f1ba9f817efe5d87c0c8d340cd1e776447",
+        "canonicalTopologySHA256": "d6c83755f407dd7ecda770f17c4d6dd4d667a988b0c45dedc319bb966fe5c13e",
+        "nodeTransform": {
+          "matrix": null,
+          "translation": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "bounds": {
+          "min": [
+            -3.406660318374634,
+            -0.03028452768921852,
+            -1.1681547164916992
+          ],
+          "max": [
+            -2.9685564041137695,
+            1.0264900922775269,
+            -0.9237017631530762
+          ]
+        },
+        "material": "SUP Pink opal"
+      },
+      {
+        "name": "Island_Peripheral_Crystals | Cluster 2 facet family 1",
+        "primitiveIndex": 0,
+        "triangles": 68,
+        "vertices": 144,
+        "uniquePositions": 38,
+        "edges": 102,
+        "boundaryEdges": 0,
+        "nonmanifoldEdges": 0,
+        "positionAccessorSHA256": "9417d94ca8a5e126fc38a169231b5cfb411302c40d680bef26ab362f1245f66f",
+        "indexAccessorSHA256": "a4755d32e1109ffe8f60f7c860a50752d0a630a972ac40b32a9de115b6c463ec",
+        "normalAccessorSHA256": "735bc547e88792bba11a9b8f90ba6e770d78af1b9a390a008d0aef0c95ad1a7a",
+        "canonicalPositionsSHA256": "0d1032d9965d2c0a3c3c1494fadb913d20a2507c5d30634ac7acae36e091bea7",
+        "canonicalOrientedTrianglesSHA256": "c2f6821002c6dd59e4c904a7c079db2c16a1e0467fb7d4f38c56744ef9f870a8",
+        "canonicalTopologySHA256": "180d3b00a038a4295fb67db898bd03a22cd8771907328f20438cb26d89c8e352",
+        "nodeTransform": {
+          "matrix": null,
+          "translation": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "bounds": {
+          "min": [
+            2.2039706707000732,
+            -0.03636540472507477,
+            -2.6539039611816406
+          ],
+          "max": [
+            2.5500857830047607,
+            1.1301751136779785,
+            -1.958937406539917
+          ]
+        },
+        "material": "SUP Lavender quartz"
+      },
+      {
+        "name": "Island_Peripheral_Crystals | Cluster 2 facet family 2",
+        "primitiveIndex": 0,
+        "triangles": 34,
+        "vertices": 72,
+        "uniquePositions": 19,
+        "edges": 51,
+        "boundaryEdges": 0,
+        "nonmanifoldEdges": 0,
+        "positionAccessorSHA256": "feef3e5936a883cc42da46b0773d1648eb86df05673915e8af187c10a9256261",
+        "indexAccessorSHA256": "b21d4e05ba0b31d571ac7def1ea720f5af28cd3e4b948915c2b6b83b9df3484f",
+        "normalAccessorSHA256": "5192d0a184c795315fd8e03fb64a2df1c6bd1901b0f7c32ac67d9a1ae0830449",
+        "canonicalPositionsSHA256": "6828139e192d7f56f0086e334901297fdb05ec2f89757bcfe5f507fe4c05eb50",
+        "canonicalOrientedTrianglesSHA256": "873c87ddb57bb0343ab182ea2ec70fccb49981013b223996a44729be44c34938",
+        "canonicalTopologySHA256": "f868cbe14c412691cbbc6bd0c2e702d585b6f304e35a38c8b2669080ea992323",
+        "nodeTransform": {
+          "matrix": null,
+          "translation": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "bounds": {
+          "min": [
+            2.539184093475342,
+            -0.0360596626996994,
+            -2.0534799098968506
+          ],
+          "max": [
+            2.903510093688965,
+            0.7212752103805542,
+            -1.7038655281066895
+          ]
+        },
+        "material": "SUP Cyan quartz"
+      },
+      {
+        "name": "Island_Peripheral_Crystals | Cluster 2 facet family 3",
+        "primitiveIndex": 0,
+        "triangles": 34,
+        "vertices": 72,
+        "uniquePositions": 19,
+        "edges": 51,
+        "boundaryEdges": 0,
+        "nonmanifoldEdges": 0,
+        "positionAccessorSHA256": "4bc42e11eb4dafdbeae30f18403bedb4237eeed21c37c5e4b5cad2b17f69c5b6",
+        "indexAccessorSHA256": "b21d4e05ba0b31d571ac7def1ea720f5af28cd3e4b948915c2b6b83b9df3484f",
+        "normalAccessorSHA256": "5ebc325bf11c49a7873ab4723f9880718855e9b9220306db77ca94c2e85b402b",
+        "canonicalPositionsSHA256": "068b956cdc64e84eca7f882022f234ffce4004bb9041b6f5a4751268fba46a01",
+        "canonicalOrientedTrianglesSHA256": "c9f0fa33ed164c6f37df43b6768933584ad47d9a4755caa3b3c3da54b7723089",
+        "canonicalTopologySHA256": "50fdd033afeddc51abd073321b2d21211a1d85d4f4253063a51a26901296a04a",
+        "nodeTransform": {
+          "matrix": null,
+          "translation": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "bounds": {
+          "min": [
+            1.8250336647033691,
+            -0.05322536081075668,
+            -2.5055630207061768
+          ],
+          "max": [
+            2.191720485687256,
+            0.8148888349533081,
+            -2.2320199012756348
+          ]
+        },
+        "material": "SUP Pink opal"
+      },
+      {
+        "name": "Island_Peripheral_Crystals | Cluster 3 facet family 1",
+        "primitiveIndex": 0,
+        "triangles": 34,
+        "vertices": 72,
+        "uniquePositions": 19,
+        "edges": 51,
+        "boundaryEdges": 0,
+        "nonmanifoldEdges": 0,
+        "positionAccessorSHA256": "af1613bed96bfa4fc73b3031dcc5f3f7ac95fbc8c9b3a5f40600dc8cf5bb8350",
+        "indexAccessorSHA256": "b21d4e05ba0b31d571ac7def1ea720f5af28cd3e4b948915c2b6b83b9df3484f",
+        "normalAccessorSHA256": "28b64cde5a519813774118ced64560e0580f502e3495cbd3fe98df3f593d75e4",
+        "canonicalPositionsSHA256": "0e4d1be44f6cc1aca0e453a969086bff675fcfdb8da43a82f303d34331ead1c5",
+        "canonicalOrientedTrianglesSHA256": "99a7a74937758ebbcd2530b57521d9b5261b696c50fb39946ac65d58041e2c52",
+        "canonicalTopologySHA256": "40c9bbea621c07ee03a7ca033ea4ccd148f03ab1c9eb1b28e9622610b20bdf20",
+        "nodeTransform": {
+          "matrix": null,
+          "translation": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "bounds": {
+          "min": [
+            0.5014309883117676,
+            -0.038481973111629486,
+            -3.389341354370117
+          ],
+          "max": [
+            0.8750604391098022,
+            1.3465176820755005,
+            -2.9862771034240723
+          ]
+        },
+        "material": "SUP Lavender quartz"
+      },
+      {
+        "name": "Island_Peripheral_Crystals | Cluster 3 facet family 2",
+        "primitiveIndex": 0,
+        "triangles": 34,
+        "vertices": 72,
+        "uniquePositions": 19,
+        "edges": 51,
+        "boundaryEdges": 0,
+        "nonmanifoldEdges": 0,
+        "positionAccessorSHA256": "c037eb6b706d80b517e746f6dc52b211b3e6fa0e523377cd877757b5cf8f09a0",
+        "indexAccessorSHA256": "b21d4e05ba0b31d571ac7def1ea720f5af28cd3e4b948915c2b6b83b9df3484f",
+        "normalAccessorSHA256": "7cb0fdd1f6544ed517206039d5efff6450d338e44a23bb78d2cf6ac2de3fc227",
+        "canonicalPositionsSHA256": "dbfd290ba6754f18e26d2680ec2cb6b73a32a3a95eb91f1b78d37d31d7618455",
+        "canonicalOrientedTrianglesSHA256": "7712ce8e9d607484167ef41ac71b2c4e8a6fc7e7c4cbacf0d3198a24592962d9",
+        "canonicalTopologySHA256": "f703737afb6e7d8a386ff622d39d66db8a9f177de366805993307ece4583cb13",
+        "nodeTransform": {
+          "matrix": null,
+          "translation": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "bounds": {
+          "min": [
+            0.7979412078857422,
+            -0.04089199751615524,
+            -3.3473639488220215
+          ],
+          "max": [
+            1.1911157369613647,
+            0.9003996253013611,
+            -3.0821874141693115
+          ]
+        },
+        "material": "SUP Cyan quartz"
+      },
+      {
+        "name": "Island_Peripheral_Crystals | Cluster 3 facet family 3",
+        "primitiveIndex": 0,
+        "triangles": 34,
+        "vertices": 72,
+        "uniquePositions": 19,
+        "edges": 51,
+        "boundaryEdges": 0,
+        "nonmanifoldEdges": 0,
+        "positionAccessorSHA256": "693002994958ea2046f6b9282fc22cfe0c1a58cb48ac575335293758fd109915",
+        "indexAccessorSHA256": "b21d4e05ba0b31d571ac7def1ea720f5af28cd3e4b948915c2b6b83b9df3484f",
+        "normalAccessorSHA256": "cafc919b501689d274fd0f5f7143dc748f2fec8f916cf6715fa3548ac76e6d11",
+        "canonicalPositionsSHA256": "5b8864df5e68e0a1781ef2189ee826ca62d90b677f9f3ffde975f8695620ca7e",
+        "canonicalOrientedTrianglesSHA256": "7ff22ff46199bbbde75b955c0464d0e3c61254c73a80ceb9c52311e3843a5a66",
+        "canonicalTopologySHA256": "fbbadd0a15e9446c79a59cad43c6c4f6cf7cf8882978703b179735153f102eff",
+        "nodeTransform": {
+          "matrix": null,
+          "translation": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "bounds": {
+          "min": [
+            0.1737409234046936,
+            -0.03550957143306732,
+            -3.422929525375366
+          ],
+          "max": [
+            0.4936278164386749,
+            0.755212128162384,
+            -3.1712636947631836
+          ]
+        },
+        "material": "SUP Pink opal"
+      },
+      {
+        "name": "Island_Peripheral_Crystals | Polished facet edges",
+        "primitiveIndex": 0,
+        "triangles": 1152,
+        "vertices": 720,
+        "uniquePositions": 720,
+        "edges": 1728,
+        "boundaryEdges": 0,
+        "nonmanifoldEdges": 0,
+        "positionAccessorSHA256": "a5aabefad3c0082ac71d28b66146fe61fc0103f7fff169cc5ce160ddd8498ac1",
+        "indexAccessorSHA256": "9ca965c4d65476fd8fe3617b8e9c3224f8d2a0d55e7250675bd2c679ec84432c",
+        "normalAccessorSHA256": "f346db3b1d03ad7eb8010387df56cf094ec60861b2dba70b78be3de9dd12d4ad",
+        "canonicalPositionsSHA256": "4c835d81e8042ae05c2b2dc1e22c2e7801dcc20434278712fefc733d17d79428",
+        "canonicalOrientedTrianglesSHA256": "6d0103f1dd00978ec931e24f7332a79c06e901034b343ccd9e0f5be4cb9e9df0",
+        "canonicalTopologySHA256": "dac9b36e454b673cbb0e7f746798035480d61c81e7a02de60bf37b828adb0d05",
+        "nodeTransform": {
+          "matrix": null,
+          "translation": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "bounds": {
+          "min": [
+            -3.4094412326812744,
+            0.00271132355555892,
+            -3.425729513168335
+          ],
+          "max": [
+            2.9061498641967773,
+            1.389304518699646,
+            -0.3085535764694214
+          ]
+        },
+        "material": "SUP Pearl water highlights"
+      },
+      {
+        "name": "Island_Pond | Quiet silver ripples",
+        "primitiveIndex": 0,
+        "triangles": 408,
+        "vertices": 208,
+        "uniquePositions": 208,
+        "edges": 612,
+        "boundaryEdges": 0,
+        "nonmanifoldEdges": 0,
+        "positionAccessorSHA256": "8c015b3cfe1fcba607f0377bc84eab31fda0954c78c2f6d2359c093289860fff",
+        "indexAccessorSHA256": "c1513b80bc7d0d2357c90aac92419354bf583d06d534bb9d952aee287c52dfd6",
+        "normalAccessorSHA256": "542e6da64b8164685bcea6be66162764ec92ee12ef4ff4ed931d6584bcf182c6",
+        "canonicalPositionsSHA256": "7803063543e82ba758a63b04ea42cb5eaf38d5761b70724d43b9a851aa71bf20",
+        "canonicalOrientedTrianglesSHA256": "4a0e01aab306546b819afd9bba11d62fa3f1d695c408a7515a06df5c80ce3555",
+        "canonicalTopologySHA256": "351a0652be7c01b54d1c26dca2edc9ccd3df28f211f38e004c6acf22112d124b",
+        "nodeTransform": {
+          "matrix": null,
+          "translation": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "bounds": {
+          "min": [
+            2.9926445484161377,
+            -0.04700000211596489,
+            0.7742460370063782
+          ],
+          "max": [
+            3.3050692081451416,
+            -0.039000000804662704,
+            0.8812230825424194
+          ]
+        },
+        "material": "SUP Pearl water highlights"
+      },
+      {
+        "name": "Island_Pond | Recessed mineral basin",
+        "primitiveIndex": 0,
+        "triangles": 576,
+        "vertices": 321,
+        "uniquePositions": 321,
+        "edges": 896,
+        "boundaryEdges": 64,
+        "nonmanifoldEdges": 0,
+        "positionAccessorSHA256": "a5c0d99a3cfff3535fc7d73980f5901737e48446f6d9c74e30782887b854d4f4",
+        "indexAccessorSHA256": "f90c7466b0ef900eac1aae32874be5fd1d5c59ac9944d2f5e0651c857830a4f0",
+        "normalAccessorSHA256": "2efbcc9f10995fd3d43e6f7067522ca1de170bda44614c6108d5ad6b075b61e0",
+        "canonicalPositionsSHA256": "d4dc15bc80479ed7915c7593d83bdf6880221a94c866a91ec8dca78313969909",
+        "canonicalOrientedTrianglesSHA256": "9368ce02f29e8ca024ecae0cd5b11d1787fe4bb3e8f148e4eaae2f5a57f66881",
+        "canonicalTopologySHA256": "ee0cac8bf905c5e38b7337117fded545611638b6776607696c13a8c2caee501d",
+        "nodeTransform": {
+          "matrix": null,
+          "translation": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "bounds": {
+          "min": [
+            2.3625664710998535,
+            -0.11999999731779099,
+            0.4041246473789215
+          ],
+          "max": [
+            3.5879335403442383,
+            0.035364780575037,
+            1.345055103302002
+          ]
+        },
+        "material": "SUP Opalescent ground"
+      },
+      {
+        "name": "Island_Pond | Single aqua water sheet",
+        "primitiveIndex": 0,
+        "triangles": 62,
+        "vertices": 64,
+        "uniquePositions": 64,
+        "edges": 125,
+        "boundaryEdges": 64,
+        "nonmanifoldEdges": 0,
+        "positionAccessorSHA256": "32f740773898fdf06b1488792c89d14705a3d82ce1d22eef834f1ef640c81860",
+        "indexAccessorSHA256": "cff7d260e62f966a4548c24aca6ac28fac84f54293a6519df86de4976edce7ed",
+        "normalAccessorSHA256": "9dde864264dda57a4063e4eecd7598b5c02c79a48139f142dc41f727815f8689",
+        "canonicalPositionsSHA256": "25280875d94849706fb19d27cf8eb95f6318dbe7276a26b4b5a8d6be9f82df89",
+        "canonicalOrientedTrianglesSHA256": "b023caa558928d8143c35b2c41077d4460b6c057c31118680134d7a14979d673",
+        "canonicalTopologySHA256": "dba0be2b8a48f9a5ab2ce5905a2289afe9a1a7055a7c19a212c55338b0773b5b",
+        "nodeTransform": {
+          "matrix": null,
+          "translation": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "bounds": {
+          "min": [
+            2.450407028198242,
+            -0.04500000178813934,
+            0.4721471965312958
+          ],
+          "max": [
+            3.504222869873047,
+            -0.04500000178813934,
+            1.281347393989563
+          ]
+        },
+        "material": "SUP Still aqua water"
+      },
+      {
+        "name": "Island_Surface | Opalescent planting clearing",
+        "primitiveIndex": 0,
+        "triangles": 2672,
+        "vertices": 1423,
+        "uniquePositions": 1423,
+        "edges": 4095,
+        "boundaryEdges": 174,
+        "nonmanifoldEdges": 0,
+        "positionAccessorSHA256": "1bfa26beb2c6fab68eecf420d9d8e1bf44ed9a7bf6a8e41b593df602922303b2",
+        "indexAccessorSHA256": "3b834bc321a0e89ed1e64423524f2500d07e86ef37f34a0f8462d55fb8fd054d",
+        "normalAccessorSHA256": "1900a53ee818ab454e92ec6747016df4079a1f7d322168ef7a75586ed29e1f43",
+        "canonicalPositionsSHA256": "e350067ea07367e1d08effd0664f765c1fbdbb3b472af8f9f1d59153880a70fe",
+        "canonicalOrientedTrianglesSHA256": "95b88d3a4949a99d5b7af90bb8694c557a831999aa4e201377148060cda6213f",
+        "canonicalTopologySHA256": "792c294c178e1061acbc6b5e99e57f559b5985243b8845d9694dc22526aea380",
+        "nodeTransform": {
+          "matrix": null,
+          "translation": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "bounds": {
+          "min": [
+            -3.894942283630371,
+            0,
+            -3.848952054977417
+          ],
+          "max": [
+            3.975203275680542,
+            0.05068972706794739,
+            3.7775959968566895
+          ]
+        },
+        "material": "SUP Opalescent ground"
+      },
+      {
+        "name": "Island_Vegetation | Ferns and bent grasses",
+        "primitiveIndex": 0,
+        "triangles": 4932,
+        "vertices": 3840,
+        "uniquePositions": 3720,
+        "edges": 8358,
+        "boundaryEdges": 1920,
+        "nonmanifoldEdges": 0,
+        "positionAccessorSHA256": "3971182b39eaca21f4fe80950820ba28776aa50f4c91c32be4703a27defe275d",
+        "indexAccessorSHA256": "ff7a7c2816ece644574086ba49263e6778aadf4060c55371affef740c3c29f20",
+        "normalAccessorSHA256": "b1edebb519d699c36ad0e496499dc61afee4f5ffbab2157d6c134a465c18aeb0",
+        "canonicalPositionsSHA256": "9f64a5bdbbd380f06b711d05b208d94f821e74d2050f97adc6d5bc6fb87d93eb",
+        "canonicalOrientedTrianglesSHA256": "e68a0908899e456efb7d16e641a42c4fa44847b75f69dda97a8c6a4131f7a8bd",
+        "canonicalTopologySHA256": "9d03835095c388366b2cd6e8b53f7efa11b751358c01cbdfcbcf834f5527f27c",
+        "nodeTransform": {
+          "matrix": null,
+          "translation": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "bounds": {
+          "min": [
+            -3.5420010089874268,
+            0.012964582070708275,
+            -3.659058094024658
+          ],
+          "max": [
+            3.607992172241211,
+            0.5463674664497375,
+            3.4923534393310547
+          ]
+        },
+        "material": "SUP Iridescent foliage"
+      }
+    ]
+  },
+  "colorStatistics": [
+    {
+      "name": "Island_Crystal_Underside | Asymmetric mineral keel",
+      "vertexColor": {
+        "storage": 5126,
+        "type": "VEC3",
+        "normalized": false,
+        "meanLinear": [
+          0.24466684450377446,
+          0.46446930360531347,
+          0.5822926424751597
+        ],
+        "meanSRGB": [
+          0.5318026863173516,
+          0.7114512733914442,
+          0.7871601146811174
+        ],
+        "ranges": [
+          [
+            0.12149368971586227,
+            0.356626033782959
+          ],
+          [
+            0.3284018337726593,
+            0.5518362522125244
+          ],
+          [
+            0.5031817555427551,
+            0.6275263428688049
+          ]
+        ],
+        "linearLuminance": {
+          "min": 0.3492658300042152,
+          "max": 0.48206278872489927,
+          "mean": 0.4262461458667292
+        },
+        "sha256": "f88a20f3308e810da21c7357426466abba0725ee56e721e391732a1a620b9423"
+      }
+    },
+    {
+      "name": "Island_Surface | Opalescent planting clearing",
+      "vertexColor": {
+        "storage": 5126,
+        "type": "VEC3",
+        "normalized": false,
+        "meanLinear": [
+          0.4081369545035855,
+          0.47294622020912436,
+          0.6374805441475718
+        ],
+        "meanSRGB": [
+          0.6712535351772811,
+          0.7172490081634785,
+          0.8195413510120305
+        ],
+        "ranges": [
+          [
+            0.27021828293800354,
+            0.572706401348114
+          ],
+          [
+            0.32852452993392944,
+            0.6074114441871643
+          ],
+          [
+            0.5697862505912781,
+            0.7081427574157715
+          ]
+        ],
+        "linearLuminance": {
+          "min": 0.37187594430446624,
+          "max": 0.558184161055088,
+          "mean": 0.47104714850848234
+        },
+        "sha256": "35a1d4f7afe422b6a8d6bb0fab99ffb7a03b8366bb1f1e4ac332485d9b335a80"
+      }
+    }
+  ],
+  "validation": {
+    "triangles": 18779,
+    "vertices": 17469,
+    "primitives": 22,
+    "degenerates": 0,
+    "windingConflicts": 0,
+    "invalidNormals": 0,
+    "materials": 11,
+    "meshes": [
+      {
+        "name": "Island_Accents | Luminous filament tips",
+        "triangles": 1260,
+        "vertices": 756,
+        "material": "SUP Warm luminous filaments",
+        "degenerate": 0,
+        "winding": 0
+      },
+      {
+        "name": "Island_Accents | Scattered opal gravel",
+        "triangles": 1152,
+        "vertices": 3456,
+        "material": "SUP Layered turquoise mineral",
+        "degenerate": 0,
+        "winding": 0,
+        "vertexColorType": "VEC3",
+        "colorRanges": [
+          [
+            0.09084171056747437,
+            0.7872841358184814
+          ],
+          [
+            0.14702726900577545,
+            0.7752273082733154
+          ],
+          [
+            0.4564110338687897,
+            0.8225607872009277
+          ]
+        ]
+      },
+      {
+        "name": "Island_Crystal_Underside | Asymmetric mineral keel",
+        "triangles": 1089,
+        "vertices": 3267,
+        "material": "SUP Layered turquoise mineral",
+        "degenerate": 0,
+        "winding": 0,
+        "vertexColorType": "VEC3",
+        "colorRanges": [
+          [
+            0.12149368971586227,
+            0.356626033782959
+          ],
+          [
+            0.3284018337726593,
+            0.5518362522125244
+          ],
+          [
+            0.5031817555427551,
+            0.6275263428688049
+          ]
+        ],
+        "connectedComponents": 1,
+        "boundaryEdges": 79,
+        "nonManifoldEdges": 0
+      },
+      {
+        "name": "Island_Metal_Rim | Champagne upper seam",
+        "triangles": 1024,
+        "vertices": 512,
+        "material": "SUP Champagne gold",
+        "degenerate": 0,
+        "winding": 0
+      },
+      {
+        "name": "Island_Metal_Rim | Contour-following rose-gold seam",
+        "triangles": 1536,
+        "vertices": 768,
+        "material": "SUP Brushed rose gold",
+        "degenerate": 0,
+        "winding": 0,
+        "vertexColorType": "VEC3",
+        "colorRanges": [
+          [
+            0.5598949790000916,
+            0.852898895740509
+          ],
+          [
+            0.2796745002269745,
+            0.5550696849822998
+          ],
+          [
+            0.32713407278060913,
+            0.40965354442596436
+          ]
+        ]
+      },
+      {
+        "name": "Island_Ornamental_Ring | Fine golden resonator",
+        "triangles": 2348,
+        "vertices": 1186,
+        "material": "SUP Champagne gold",
+        "degenerate": 0,
+        "winding": 0
+      },
+      {
+        "name": "Island_Ornamental_Ring | Opal feet",
+        "triangles": 160,
+        "vertices": 84,
+        "material": "SUP Layered turquoise mineral",
+        "degenerate": 0,
+        "winding": 0,
+        "vertexColorType": "VEC3",
+        "colorRanges": [
+          [
+            0.2191840559244156,
+            0.2525985836982727
+          ],
+          [
+            0.41938289999961853,
+            0.46944713592529297
+          ],
+          [
+            0.5702316761016846,
+            0.5914979577064514
+          ]
+        ]
+      },
+      {
+        "name": "Island_Peripheral_Crystals | Cluster 1 facet family 1",
+        "triangles": 68,
+        "vertices": 144,
+        "material": "SUP Lavender quartz",
+        "degenerate": 0,
+        "winding": 0,
+        "vertexColorType": "VEC4",
+        "colorRanges": [
+          [
+            0.0908369573510338,
+            0.579095140001526
+          ],
+          [
+            0.08720531013962005,
+            0.615533684290837
+          ],
+          [
+            0.39856565194171056,
+            0.7139391165026322
+          ],
+          [
+            0.3940947585259785,
+            0.7699855039291982
+          ]
+        ]
+      },
+      {
+        "name": "Island_Peripheral_Crystals | Cluster 1 facet family 2",
+        "triangles": 68,
+        "vertices": 144,
+        "material": "SUP Cyan quartz",
+        "degenerate": 0,
+        "winding": 0,
+        "vertexColorType": "VEC4",
+        "colorRanges": [
+          [
+            0.06004425116350042,
+            0.5515373464560922
+          ],
+          [
+            0.2158541237506676,
+            0.7772182803082323
+          ],
+          [
+            0.4421759365224689,
+            0.8186923018234531
+          ],
+          [
+            0.390249485008011,
+            0.7696192874036775
+          ]
+        ]
+      },
+      {
+        "name": "Island_Peripheral_Crystals | Cluster 1 facet family 3",
+        "triangles": 34,
+        "vertices": 72,
+        "material": "SUP Pink opal",
+        "degenerate": 0,
+        "winding": 0,
+        "vertexColorType": "VEC4",
+        "colorRanges": [
+          [
+            0.18782330052643625,
+            0.7836423285267414
+          ],
+          [
+            0.1748531319142443,
+            0.7459220263981079
+          ],
+          [
+            0.5228656443121996,
+            0.8252994583047226
+          ],
+          [
+            0.40035095750362404,
+            0.7627679865720607
+          ]
+        ]
+      },
+      {
+        "name": "Island_Peripheral_Crystals | Cluster 2 facet family 1",
+        "triangles": 68,
+        "vertices": 144,
+        "material": "SUP Lavender quartz",
+        "degenerate": 0,
+        "winding": 0,
+        "vertexColorType": "VEC4",
+        "colorRanges": [
+          [
+            0.0908369573510338,
+            0.6025482566567483
+          ],
+          [
+            0.08438239108873122,
+            0.629907682917525
+          ],
+          [
+            0.39674982833600364,
+            0.7242694743266956
+          ],
+          [
+            0.3903105210955978,
+            0.7697261005569543
+          ]
+        ]
+      },
+      {
+        "name": "Island_Peripheral_Crystals | Cluster 2 facet family 2",
+        "triangles": 34,
+        "vertices": 72,
+        "material": "SUP Cyan quartz",
+        "degenerate": 0,
+        "winding": 0,
+        "vertexColorType": "VEC4",
+        "colorRanges": [
+          [
+            0.05612268253604944,
+            0.5048294804303044
+          ],
+          [
+            0.2158541237506676,
+            0.7539177538719768
+          ],
+          [
+            0.4950942244602121,
+            0.7998931868467232
+          ],
+          [
+            0.39987792782482645,
+            0.7632867933165484
+          ]
+        ]
+      },
+      {
+        "name": "Island_Peripheral_Crystals | Cluster 2 facet family 3",
+        "triangles": 34,
+        "vertices": 72,
+        "material": "SUP Pink opal",
+        "degenerate": 0,
+        "winding": 0,
+        "vertexColorType": "VEC4",
+        "colorRanges": [
+          [
+            0.18782330052643625,
+            0.7862516212710765
+          ],
+          [
+            0.2527962157625696,
+            0.7167925535973144
+          ],
+          [
+            0.5654535744258793,
+            0.8076142519264515
+          ],
+          [
+            0.3944151979858091,
+            0.7700007629510949
+          ]
+        ]
+      },
+      {
+        "name": "Island_Peripheral_Crystals | Cluster 3 facet family 1",
+        "triangles": 34,
+        "vertices": 72,
+        "material": "SUP Lavender quartz",
+        "degenerate": 0,
+        "winding": 0,
+        "vertexColorType": "VEC4",
+        "colorRanges": [
+          [
+            0.0933852140077821,
+            0.6142824444953079
+          ],
+          [
+            0.08438239108873122,
+            0.5787441824979019
+          ],
+          [
+            0.39674982833600364,
+            0.6875257495994507
+          ],
+          [
+            0.39942015716792556,
+            0.7637903410391393
+          ]
+        ]
+      },
+      {
+        "name": "Island_Peripheral_Crystals | Cluster 3 facet family 2",
+        "triangles": 34,
+        "vertices": 72,
+        "material": "SUP Cyan quartz",
+        "degenerate": 0,
+        "winding": 0,
+        "vertexColorType": "VEC4",
+        "colorRanges": [
+          [
+            0.05612268253604944,
+            0.5370870527199206
+          ],
+          [
+            0.21940947585259785,
+            0.7700160219729916
+          ],
+          [
+            0.439658197909514,
+            0.8128786144808118
+          ],
+          [
+            0.3947356374456397,
+            0.7700007629510949
+          ]
+        ]
+      },
+      {
+        "name": "Island_Peripheral_Crystals | Cluster 3 facet family 3",
+        "triangles": 34,
+        "vertices": 72,
+        "material": "SUP Pink opal",
+        "degenerate": 0,
+        "winding": 0,
+        "vertexColorType": "VEC4",
+        "colorRanges": [
+          [
+            0.19172961013199055,
+            0.7872892347600519
+          ],
+          [
+            0.1714351110093843,
+            0.7367971313038835
+          ],
+          [
+            0.520988784618906,
+            0.8197604333562218
+          ],
+          [
+            0.39038681620508126,
+            0.7658960860608836
+          ]
+        ]
+      },
+      {
+        "name": "Island_Peripheral_Crystals | Polished facet edges",
+        "triangles": 1152,
+        "vertices": 720,
+        "material": "SUP Pearl water highlights",
+        "degenerate": 0,
+        "winding": 0
+      },
+      {
+        "name": "Island_Pond | Quiet silver ripples",
+        "triangles": 408,
+        "vertices": 208,
+        "material": "SUP Pearl water highlights",
+        "degenerate": 0,
+        "winding": 0
+      },
+      {
+        "name": "Island_Pond | Recessed mineral basin",
+        "triangles": 576,
+        "vertices": 321,
+        "material": "SUP Opalescent ground",
+        "degenerate": 0,
+        "winding": 0,
+        "vertexColorType": "VEC3",
+        "colorRanges": [
+          [
+            0.18461354076862335,
+            0.5114511251449585
+          ],
+          [
+            0.3915846347808838,
+            0.6513181328773499
+          ],
+          [
+            0.5271627902984619,
+            0.6294475197792053
+          ]
+        ]
+      },
+      {
+        "name": "Island_Pond | Single aqua water sheet",
+        "triangles": 62,
+        "vertices": 64,
+        "material": "SUP Still aqua water",
+        "degenerate": 0,
+        "winding": 0
+      },
+      {
+        "name": "Island_Surface | Opalescent planting clearing",
+        "triangles": 2672,
+        "vertices": 1423,
+        "material": "SUP Opalescent ground",
+        "degenerate": 0,
+        "winding": 0,
+        "vertexColorType": "VEC3",
+        "colorRanges": [
+          [
+            0.27021828293800354,
+            0.572706401348114
+          ],
+          [
+            0.32852452993392944,
+            0.6074114441871643
+          ],
+          [
+            0.5697862505912781,
+            0.7081427574157715
+          ]
+        ]
+      },
+      {
+        "name": "Island_Vegetation | Ferns and bent grasses",
+        "triangles": 4932,
+        "vertices": 3840,
+        "material": "SUP Iridescent foliage",
+        "degenerate": 0,
+        "winding": 0,
+        "vertexColorType": "VEC3",
+        "colorRanges": [
+          [
+            0.16202937066555023,
+            0.3967552185058594
+          ],
+          [
+            0.2622506618499756,
+            0.5540345311164856
+          ],
+          [
+            0.3967552185058594,
+            0.545806884765625
+          ]
+        ]
+      }
+    ],
+    "transparent": [
+      {
+        "name": "SUP Lavender quartz",
+        "alpha": 1,
+        "doubleSided": false,
+        "roughness": 0.054999999701976776,
+        "extensions": {
+          "KHR_materials_clearcoat": {
+            "clearcoatFactor": 0.11999999731779099,
+            "clearcoatRoughnessFactor": 0.10000000149011612
+          },
+          "KHR_materials_specular": {
+            "specularColorFactor": [
+              0.5647115111351013,
+              0.48514994978904724,
+              0.7835378050804138
+            ]
+          },
+          "KHR_materials_iridescence": {
+            "iridescenceFactor": 0.3199999928474426,
+            "iridescenceThicknessMaximum": 320
+          },
+          "KHR_materials_ior": {
+            "ior": 1.4600000381469727
+          }
+        }
+      },
+      {
+        "name": "SUP Cyan quartz",
+        "alpha": 1,
+        "doubleSided": false,
+        "roughness": 0.06700000166893005,
+        "extensions": {
+          "KHR_materials_clearcoat": {
+            "clearcoatFactor": 0.11999999731779099,
+            "clearcoatRoughnessFactor": 0.10000000149011612
+          },
+          "KHR_materials_specular": {
+            "specularColorFactor": [
+              0.37123769521713257,
+              0.6938717365264893,
+              0.7758222222328186
+            ]
+          },
+          "KHR_materials_iridescence": {
+            "iridescenceFactor": 0.3199999928474426,
+            "iridescenceThicknessMaximum": 365
+          },
+          "KHR_materials_ior": {
+            "ior": 1.4600000381469727
+          }
+        }
+      },
+      {
+        "name": "SUP Pink opal",
+        "alpha": 1,
+        "doubleSided": false,
+        "roughness": 0.07900000363588333,
+        "extensions": {
+          "KHR_materials_clearcoat": {
+            "clearcoatFactor": 0.11999999731779099,
+            "clearcoatRoughnessFactor": 0.10000000149011612
+          },
+          "KHR_materials_specular": {
+            "specularColorFactor": [
+              0.7605245113372803,
+              0.4793201684951782,
+              0.7011018991470337
+            ]
+          },
+          "KHR_materials_iridescence": {
+            "iridescenceFactor": 0.3199999928474426,
+            "iridescenceThicknessMaximum": 410
+          },
+          "KHR_materials_ior": {
+            "ior": 1.4600000381469727
+          }
+        }
+      },
+      {
+        "name": "SUP Still aqua water",
+        "alpha": 0.6399999856948853,
+        "doubleSided": false,
+        "roughness": 0.18000000715255737
+      }
+    ],
+    "textures": [
+      {
+        "name": "SUP Mineral micrograin 512",
+        "mimeType": "image/png",
+        "bytes": 624332,
+        "size": [
+          512,
+          512
+        ]
+      }
+    ],
+    "path": "public/models/island.glb",
+    "bytes": 1355428,
+    "sha256": "67276ab06dbe18b066ad75ab24a3c2ce47654c94ad768af7bdbaaeb69fec2ce4",
+    "bounds": {
+      "min": [
+        -3.925792932510376,
+        -2.859999895095825,
+        -3.8796164989471436
+      ],
+      "max": [
+        4.005867958068848,
+        1.7728016376495361,
+        3.808260440826416
+      ],
+      "size": [
+        7.931660890579224,
+        4.632801532745361,
+        7.68787693977356
+      ],
+      "scale": 1.0086159898114082
+    },
+    "clearance": {
+      "samples": 1653,
+      "misses": 0,
+      "maxHeightDeviation": 0.000007371055700033935,
+      "minDecorationRadius": 2.3637836310105285,
+      "decorationsWithinClearance": [],
+      "minDecorationTriangleRadius": 2.3637836310105285,
+      "triangleIntrusions": []
+    },
+    "scenes": [
+      {
+        "name": "SOOP_Island",
+        "nodes": [
+          22
+        ]
+      }
+    ],
+    "cameras": [],
+    "animations": [],
+    "extensionsUsed": [
+      "KHR_materials_clearcoat",
+      "KHR_materials_emissive_strength",
+      "KHR_materials_specular",
+      "KHR_materials_ior",
+      "KHR_materials_iridescence"
+    ]
+  },
+  "sourceBlend": {
+    "path": "C:\\Users\\kuson\\.codex\\worktrees\\soop-island\\kuccthon-sound\\art\\island\\island.blend",
+    "bytes": 1164970,
+    "sha256": "82161bd9ec3fcd16a0ba73761015de51b83339c6170c7e960476a29ae7f479fe",
+    "scenes": [
+      "SOOP_Island"
+    ],
+    "collections": [
+      "SUP_Floating_Island",
+      "SUP_Preview_Rig | excluded from GLB"
+    ],
+    "rootNames": [
+      "SUP_Island_Root"
+    ],
+    "assetMeshCount": 22,
+    "assetTriangles": 18779,
+    "meshTriangles": {
+      "Island_Surface | Opalescent planting clearing": 2672,
+      "Island_Metal_Rim | Contour-following rose-gold seam": 1536,
+      "Island_Metal_Rim | Champagne upper seam": 1024,
+      "Island_Crystal_Underside | Asymmetric mineral keel": 1089,
+      "Island_Peripheral_Crystals | Cluster 1 facet family 1": 68,
+      "Island_Peripheral_Crystals | Cluster 1 facet family 2": 68,
+      "Island_Peripheral_Crystals | Cluster 1 facet family 3": 34,
+      "Island_Peripheral_Crystals | Cluster 2 facet family 1": 68,
+      "Island_Peripheral_Crystals | Cluster 2 facet family 2": 34,
+      "Island_Peripheral_Crystals | Cluster 2 facet family 3": 34,
+      "Island_Peripheral_Crystals | Cluster 3 facet family 1": 34,
+      "Island_Peripheral_Crystals | Cluster 3 facet family 2": 34,
+      "Island_Peripheral_Crystals | Cluster 3 facet family 3": 34,
+      "Island_Peripheral_Crystals | Polished facet edges": 1152,
+      "Island_Ornamental_Ring | Fine golden resonator": 2348,
+      "Island_Ornamental_Ring | Opal feet": 160,
+      "Island_Vegetation | Ferns and bent grasses": 4932,
+      "Island_Accents | Scattered opal gravel": 1152,
+      "Island_Accents | Luminous filament tips": 1260,
+      "Island_Pond | Recessed mineral basin": 576,
+      "Island_Pond | Single aqua water sheet": 62,
+      "Island_Pond | Quiet silver ripples": 408
+    },
+    "sceneCameraCount": 1,
+    "sceneLightCount": 4,
+    "previewMeshNames": [
+      "SUP Preview sky backdrop"
+    ],
+    "assetParented": true,
+    "unitScale": 1,
+    "materials": {
+      "SUP Opalescent ground": {
+        "roughness": 0.38999998569488525,
+        "metalness": 0.03500000014901161,
+        "coat": 0,
+        "transmission": 0,
+        "baseLinked": true
+      },
+      "SUP Brushed rose gold": {
+        "roughness": 0.25999999046325684,
+        "metalness": 0.6000000238418579,
+        "coat": 0,
+        "transmission": 0,
+        "baseLinked": true
+      },
+      "SUP Champagne gold": {
+        "roughness": 0.23999999463558197,
+        "metalness": 0.550000011920929,
+        "coat": 0,
+        "transmission": 0,
+        "baseLinked": false
+      },
+      "SUP Layered turquoise mineral": {
+        "roughness": 0.3199999928474426,
+        "metalness": 0.11999999731779099,
+        "coat": 0.2199999988079071,
+        "transmission": 0,
+        "baseLinked": true
+      },
+      "SUP Lavender quartz": {
+        "roughness": 0.054999999701976776,
+        "metalness": 0.03999999910593033,
+        "coat": 0.11999999731779099,
+        "transmission": 0,
+        "baseLinked": true
+      },
+      "SUP Cyan quartz": {
+        "roughness": 0.06700000166893005,
+        "metalness": 0.03999999910593033,
+        "coat": 0.11999999731779099,
+        "transmission": 0,
+        "baseLinked": true
+      },
+      "SUP Pink opal": {
+        "roughness": 0.07900000363588333,
+        "metalness": 0.03999999910593033,
+        "coat": 0.11999999731779099,
+        "transmission": 0,
+        "baseLinked": true
+      },
+      "SUP Pearl water highlights": {
+        "roughness": 0.2199999988079071,
+        "metalness": 0.11999999731779099,
+        "coat": 0,
+        "transmission": 0,
+        "baseLinked": false
+      },
+      "SUP Iridescent foliage": {
+        "roughness": 0.38999998569488525,
+        "metalness": 0.07999999821186066,
+        "coat": 0,
+        "transmission": 0,
+        "baseLinked": true
+      },
+      "SUP Warm luminous filaments": {
+        "roughness": 0.3199999928474426,
+        "metalness": 0,
+        "coat": 0,
+        "transmission": 0,
+        "baseLinked": false
+      },
+      "SUP Still aqua water": {
+        "roughness": 0.18000000715255737,
+        "metalness": 0.07999999821186066,
+        "coat": 0,
+        "transmission": 0,
+        "baseLinked": false
+      }
+    },
+    "images": [
+      {
+        "name": "SUP Mineral micrograin 512",
+        "colorSpace": "Non-Color",
+        "size": [
+          512,
+          512
+        ]
+      }
+    ],
+    "method": "Opened saved .blend in background Blender 5.2.3 LTS with automatic script execution disabled; inspected without saving before browser benchmarking."
+  },
+  "threeLoaderColorCheck": {
+    "workingColorSpace": "srgb-linear",
+    "maximumColorNumericDifference": 0,
+    "components": [
+      {
+        "name": "Island_Accents_|_Scattered_opal_gravel",
+        "colorItemSize": 3,
+        "maximumColorNumericDifference": 0
+      },
+      {
+        "name": "Island_Crystal_Underside_|_Asymmetric_mineral_keel",
+        "colorItemSize": 3,
+        "maximumColorNumericDifference": 0
+      },
+      {
+        "name": "Island_Metal_Rim_|_Contour-following_rose-gold_seam",
+        "colorItemSize": 3,
+        "maximumColorNumericDifference": 0
+      },
+      {
+        "name": "Island_Ornamental_Ring_|_Opal_feet",
+        "colorItemSize": 3,
+        "maximumColorNumericDifference": 0
+      },
+      {
+        "name": "Island_Peripheral_Crystals_|_Cluster_1_facet_family_1",
+        "colorItemSize": 4,
+        "maximumColorNumericDifference": 0
+      },
+      {
+        "name": "Island_Peripheral_Crystals_|_Cluster_1_facet_family_2",
+        "colorItemSize": 4,
+        "maximumColorNumericDifference": 0
+      },
+      {
+        "name": "Island_Peripheral_Crystals_|_Cluster_1_facet_family_3",
+        "colorItemSize": 4,
+        "maximumColorNumericDifference": 0
+      },
+      {
+        "name": "Island_Peripheral_Crystals_|_Cluster_2_facet_family_1",
+        "colorItemSize": 4,
+        "maximumColorNumericDifference": 0
+      },
+      {
+        "name": "Island_Peripheral_Crystals_|_Cluster_2_facet_family_2",
+        "colorItemSize": 4,
+        "maximumColorNumericDifference": 0
+      },
+      {
+        "name": "Island_Peripheral_Crystals_|_Cluster_2_facet_family_3",
+        "colorItemSize": 4,
+        "maximumColorNumericDifference": 0
+      },
+      {
+        "name": "Island_Peripheral_Crystals_|_Cluster_3_facet_family_1",
+        "colorItemSize": 4,
+        "maximumColorNumericDifference": 0
+      },
+      {
+        "name": "Island_Peripheral_Crystals_|_Cluster_3_facet_family_2",
+        "colorItemSize": 4,
+        "maximumColorNumericDifference": 0
+      },
+      {
+        "name": "Island_Peripheral_Crystals_|_Cluster_3_facet_family_3",
+        "colorItemSize": 4,
+        "maximumColorNumericDifference": 0
+      },
+      {
+        "name": "Island_Pond_|_Recessed_mineral_basin",
+        "colorItemSize": 3,
+        "maximumColorNumericDifference": 0
+      },
+      {
+        "name": "Island_Surface_|_Opalescent_planting_clearing",
+        "colorItemSize": 3,
+        "maximumColorNumericDifference": 0
+      },
+      {
+        "name": "Island_Vegetation_|_Ferns_and_bent_grasses",
+        "colorItemSize": 3,
+        "maximumColorNumericDifference": 0
+      }
+    ],
+    "normalTextures": [
+      {
+        "material": "SUP Opalescent ground",
+        "colorSpace": "",
+        "normalScale": [
+          0.1599999964237213,
+          -0.1599999964237213
+        ]
+      }
+    ],
+    "materials": [
+      {
+        "name": "SUP Warm luminous filaments",
+        "type": "MeshStandardMaterial",
+        "color": [
+          0.9646862745285034,
+          0.7758222222328186,
+          0.40724021196365356
+        ],
+        "vertexColors": false
+      },
+      {
+        "name": "SUP Layered turquoise mineral",
+        "type": "MeshPhysicalMaterial",
+        "color": [
+          1,
+          1,
+          1
+        ],
+        "vertexColors": true
+      },
+      {
+        "name": "SUP Champagne gold",
+        "type": "MeshStandardMaterial",
+        "color": [
+          0.7912979125976562,
+          0.5394794940948486,
+          0.31854677200317383
+        ],
+        "vertexColors": false
+      },
+      {
+        "name": "SUP Brushed rose gold",
+        "type": "MeshStandardMaterial",
+        "color": [
+          1,
+          1,
+          1
+        ],
+        "vertexColors": true
+      },
+      {
+        "name": "SUP Lavender quartz",
+        "type": "MeshPhysicalMaterial",
+        "color": [
+          1,
+          1,
+          1
+        ],
+        "vertexColors": true
+      },
+      {
+        "name": "SUP Cyan quartz",
+        "type": "MeshPhysicalMaterial",
+        "color": [
+          1,
+          1,
+          1
+        ],
+        "vertexColors": true
+      },
+      {
+        "name": "SUP Pink opal",
+        "type": "MeshPhysicalMaterial",
+        "color": [
+          1,
+          1,
+          1
+        ],
+        "vertexColors": true
+      },
+      {
+        "name": "SUP Pearl water highlights",
+        "type": "MeshStandardMaterial",
+        "color": [
+          0.7681511640548706,
+          0.838798999786377,
+          0.8307698965072632
+        ],
+        "vertexColors": false
+      },
+      {
+        "name": "SUP Opalescent ground",
+        "type": "MeshStandardMaterial",
+        "color": [
+          1,
+          1,
+          1
+        ],
+        "vertexColors": true
+      },
+      {
+        "name": "SUP Still aqua water",
+        "type": "MeshStandardMaterial",
+        "color": [
+          0.47353148460388184,
+          0.7758222222328186,
+          0.7912979125976562
+        ],
+        "vertexColors": false
+      },
+      {
+        "name": "SUP Iridescent foliage",
+        "type": "MeshStandardMaterial",
+        "color": [
+          1,
+          1,
+          1
+        ],
+        "vertexColors": true
+      }
+    ]
+  },
+  "orientation": {
+    "sourceUpAxis": "Z",
+    "gltfUpAxis": "Y",
+    "topCenterOrigin": [
+      0,
+      0,
+      0
+    ],
+    "runtimeDiameter": 8,
+    "loaderScale": 1.0086159898114082,
+    "runtimeGroundY": 0.17,
+    "clearRadius": 2.3,
+    "nearestDecorationRadius": 2.3637836310105285
+  },
+  "exportExclusions": {
+    "cameras": 0,
+    "lights": 0,
+    "previewBackdrop": true,
+    "animations": 0
+  },
+  "limitations": [
+    "Geometry checks use numerical data; rendered material quality and timing are recorded by matched browser QA.",
+    "Node GLTFLoader check stubs bitmap decode; its color-space and numeric attribute checks are exact, while browser QA covers actual texture rendering.",
+    "The underside has 79 open edges at its concealed upper rim join; it is one connected shell with no nonmanifold edges."
+  ]
+}

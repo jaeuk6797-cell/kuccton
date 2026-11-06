@@ -66,7 +66,7 @@ function disposeMeshes(root) {
 function createGardenEnvironment(renderer) {
   // Capture broad pastel sky reflections once; only the filtered cubemap is sampled each frame.
   const studio = new THREE.Scene()
-  studio.background = new THREE.Color('#69788b')
+  studio.background = new THREE.Color('#c5d3e6')
   const geometry = new THREE.PlaneGeometry(1, 1)
   for (const [position, size, color, intensity] of [
     [[-3, 4, 5], [6.5, 5.5], '#f5c8df', 1.7],
@@ -219,7 +219,7 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5)) // 빛 번짐 후처리 비용 때문에 1.5로 제한
     // OutputPass applies this display transform once, after the linear scene render.
     renderer.outputColorSpace = THREE.SRGBColorSpace
-    renderer.toneMapping = THREE.ACESFilmicToneMapping
+    renderer.toneMapping = THREE.NeutralToneMapping
     renderer.toneMappingExposure = 1
     renderer.shadowMap.enabled = true
     renderer.shadowMap.type = THREE.PCFShadowMap

@@ -1,0 +1,2005 @@
+{
+  "time": "2026-11-06T15:29:15.110Z",
+  "baselineCommit": "44ce1cc",
+  "sequence": [
+    "before",
+    "phase-a",
+    "after",
+    "after",
+    "phase-a",
+    "before"
+  ],
+  "comparisons": [
+    {
+      "index": 0,
+      "variant": "before",
+      "desktop": {
+        "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "canvas": [
+          780,
+          819
+        ],
+        "dpr": 1.5,
+        "toneMapping": 4,
+        "exposure": 1,
+        "outputColorSpace": "srgb",
+        "environmentIntensity": 0.55,
+        "passes": [
+          {
+            "name": "RenderPass",
+            "enabled": true
+          },
+          {
+            "name": "OutputPass",
+            "enabled": true
+          }
+        ],
+        "objects": [
+          {
+            "name": "타닥콩닥꽃",
+            "kind": "pair",
+            "position": [
+              -0.1207308704033494,
+              0,
+              0.7314516861923039
+            ]
+          },
+          {
+            "name": "살랑웅성꽃",
+            "kind": "pair",
+            "position": [
+              0.46300302911549807,
+              0,
+              1.4312063782475888
+            ]
+          },
+          {
+            "name": "타닥나무",
+            "kind": "flower",
+            "position": [
+              1.590052193030715,
+              0,
+              0.7971922869328409
+            ]
+          },
+          {
+            "name": "콩닥콩닥꽃",
+            "kind": "flower",
+            "position": [
+              -1.2092976868152618,
+              0,
+              1.773951774276793
+            ]
+          },
+          {
+            "name": "킥킥꽃",
+            "kind": "flower",
+            "position": [
+              -1.1430694490671158,
+              0,
+              0.3071280900854617
+            ]
+          },
+          {
+            "name": "살랑나무",
+            "kind": "flower",
+            "position": [
+              0.6343889150768518,
+              0,
+              0.26643168800510464
+            ]
+          },
+          {
+            "name": "웅성웅성꽃",
+            "kind": "flower",
+            "position": [
+              -0.45644662976264955,
+              0,
+              1.6461383739020674
+            ]
+          },
+          {
+            "name": "타닥타닥나무",
+            "kind": "flower",
+            "position": [
+              1.3820205345749856,
+              0,
+              -0.004869504412636161
+            ]
+          },
+          {
+            "name": "뚜벅나무",
+            "kind": "flower",
+            "position": [
+              -1.3477231968194248,
+              0,
+              -0.779242406366393
+            ]
+          }
+        ],
+        "island": [
+          "SOOP_Island"
+        ],
+        "memory": {
+          "geometries": 92,
+          "textures": 7
+        },
+        "programs": 11,
+        "glb": [
+          {
+            "size": 1577764,
+            "duration": 85.69999998807907,
+            "response": 200
+          }
+        ],
+        "rayTimer": true
+      },
+      "materials": [
+        {
+          "name": "SUP Warm luminous filaments",
+          "type": "MeshStandardMaterial",
+          "transparent": false,
+          "opacity": 1,
+          "roughness": 0.3199999928474426,
+          "metalness": 0,
+          "clearcoat": 0,
+          "iridescence": 0,
+          "transmission": 0,
+          "vertexColors": false
+        },
+        {
+          "name": "SUP Layered turquoise mineral",
+          "type": "MeshPhysicalMaterial",
+          "transparent": false,
+          "opacity": 1,
+          "roughness": 0.3199999928474426,
+          "metalness": 0.11999999731779099,
+          "clearcoat": 0.2199999988079071,
+          "iridescence": 0.3199999928474426,
+          "transmission": 0,
+          "vertexColors": true
+        },
+        {
+          "name": "SUP Champagne gold",
+          "type": "MeshStandardMaterial",
+          "transparent": false,
+          "opacity": 1,
+          "roughness": 0.23999999463558197,
+          "metalness": 0.550000011920929,
+          "clearcoat": 0,
+          "iridescence": 0,
+          "transmission": 0,
+          "vertexColors": false
+        },
+        {
+          "name": "SUP Brushed rose gold",
+          "type": "MeshStandardMaterial",
+          "transparent": false,
+          "opacity": 1,
+          "roughness": 0.25999999046325684,
+          "metalness": 0.6000000238418579,
+          "clearcoat": 0,
+          "iridescence": 0,
+          "transmission": 0,
+          "vertexColors": true
+        },
+        {
+          "name": "SUP Lavender quartz",
+          "type": "MeshPhysicalMaterial",
+          "transparent": true,
+          "opacity": 1,
+          "roughness": 0.054999999701976776,
+          "metalness": 0.03999999910593033,
+          "clearcoat": 0.11999999731779099,
+          "iridescence": 0.3199999928474426,
+          "transmission": 0,
+          "vertexColors": true
+        },
+        {
+          "name": "SUP Cyan quartz",
+          "type": "MeshPhysicalMaterial",
+          "transparent": true,
+          "opacity": 1,
+          "roughness": 0.06700000166893005,
+          "metalness": 0.03999999910593033,
+          "clearcoat": 0.11999999731779099,
+          "iridescence": 0.3199999928474426,
+          "transmission": 0,
+          "vertexColors": true
+        },
+        {
+          "name": "SUP Pink opal",
+          "type": "MeshPhysicalMaterial",
+          "transparent": true,
+          "opacity": 1,
+          "roughness": 0.07900000363588333,
+          "metalness": 0.03999999910593033,
+          "clearcoat": 0.11999999731779099,
+          "iridescence": 0.3199999928474426,
+          "transmission": 0,
+          "vertexColors": true
+        },
+        {
+          "name": "SUP Pearl water highlights",
+          "type": "MeshStandardMaterial",
+          "transparent": false,
+          "opacity": 1,
+          "roughness": 0.2199999988079071,
+          "metalness": 0.11999999731779099,
+          "clearcoat": 0,
+          "iridescence": 0,
+          "transmission": 0,
+          "vertexColors": false
+        },
+        {
+          "name": "SUP Opalescent ground",
+          "type": "MeshStandardMaterial",
+          "transparent": false,
+          "opacity": 1,
+          "roughness": 0.38999998569488525,
+          "metalness": 0.03500000014901161,
+          "clearcoat": 0,
+          "iridescence": 0,
+          "transmission": 0,
+          "vertexColors": true
+        },
+        {
+          "name": "SUP Still aqua water",
+          "type": "MeshStandardMaterial",
+          "transparent": true,
+          "opacity": 0.6399999856948853,
+          "roughness": 0.18000000715255737,
+          "metalness": 0.07999999821186066,
+          "clearcoat": 0,
+          "iridescence": 0,
+          "transmission": 0,
+          "vertexColors": false
+        },
+        {
+          "name": "SUP Iridescent foliage",
+          "type": "MeshStandardMaterial",
+          "transparent": false,
+          "opacity": 1,
+          "roughness": 0.38999998569488525,
+          "metalness": 0.07999999821186066,
+          "clearcoat": 0,
+          "iridescence": 0,
+          "transmission": 0,
+          "vertexColors": true
+        }
+      ],
+      "measurements": [
+        {
+          "name": "before-flowers",
+          "samples": 60,
+          "submitMs": {
+            "mean": 1.9966666638851165,
+            "median": 2.099999964237213,
+            "p95": 2.5,
+            "min": 1.100000023841858,
+            "max": 2.699999988079071
+          },
+          "intervalMs": {
+            "mean": 50.68813559362444,
+            "median": 51.10000002384186,
+            "p95": 95.69999998807907,
+            "min": 3.899999976158142,
+            "max": 105
+          },
+          "calls": {
+            "mean": 405,
+            "median": 405,
+            "p95": 405,
+            "min": 405,
+            "max": 405
+          },
+          "triangles": {
+            "mean": 81332,
+            "median": 81332,
+            "p95": 81332,
+            "min": 81332,
+            "max": 81332
+          }
+        },
+        {
+          "name": "before-island-only",
+          "samples": 60,
+          "submitMs": {
+            "mean": 0.7166666607062022,
+            "median": 0.699999988079071,
+            "p95": 1,
+            "min": 0.3999999761581421,
+            "max": 1.100000023841858
+          },
+          "intervalMs": {
+            "mean": 35.64915254156468,
+            "median": 35.10000002384186,
+            "p95": 38.60000002384186,
+            "min": 11,
+            "max": 68.30000001192093
+          },
+          "calls": {
+            "mean": 26,
+            "median": 26,
+            "p95": 26,
+            "min": 26,
+            "max": 26
+          },
+          "triangles": {
+            "mean": 35436,
+            "median": 35436,
+            "p95": 35436,
+            "min": 35436,
+            "max": 35436
+          }
+        }
+      ]
+    },
+    {
+      "index": 1,
+      "variant": "phase-a",
+      "desktop": {
+        "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "canvas": [
+          780,
+          819
+        ],
+        "dpr": 1.5,
+        "toneMapping": 7,
+        "exposure": 1,
+        "outputColorSpace": "srgb",
+        "environmentIntensity": 0.55,
+        "passes": [
+          {
+            "name": "RenderPass",
+            "enabled": true
+          },
+          {
+            "name": "OutputPass",
+            "enabled": true
+          }
+        ],
+        "objects": [
+          {
+            "name": "타닥콩닥꽃",
+            "kind": "pair",
+            "position": [
+              -0.1207308704033494,
+              0,
+              0.7314516861923039
+            ]
+          },
+          {
+            "name": "살랑웅성꽃",
+            "kind": "pair",
+            "position": [
+              0.46300302911549807,
+              0,
+              1.4312063782475888
+            ]
+          },
+          {
+            "name": "타닥나무",
+            "kind": "flower",
+            "position": [
+              1.590052193030715,
+              0,
+              0.7971922869328409
+            ]
+          },
+          {
+            "name": "콩닥콩닥꽃",
+            "kind": "flower",
+            "position": [
+              -1.2092976868152618,
+              0,
+              1.773951774276793
+            ]
+          },
+          {
+            "name": "킥킥꽃",
+            "kind": "flower",
+            "position": [
+              -1.1430694490671158,
+              0,
+              0.3071280900854617
+            ]
+          },
+          {
+            "name": "살랑나무",
+            "kind": "flower",
+            "position": [
+              0.6343889150768518,
+              0,
+              0.26643168800510464
+            ]
+          },
+          {
+            "name": "웅성웅성꽃",
+            "kind": "flower",
+            "position": [
+              -0.45644662976264955,
+              0,
+              1.6461383739020674
+            ]
+          },
+          {
+            "name": "타닥타닥나무",
+            "kind": "flower",
+            "position": [
+              1.3820205345749856,
+              0,
+              -0.004869504412636161
+            ]
+          },
+          {
+            "name": "뚜벅나무",
+            "kind": "flower",
+            "position": [
+              -1.3477231968194248,
+              0,
+              -0.779242406366393
+            ]
+          }
+        ],
+        "island": [
+          "SOOP_Island"
+        ],
+        "memory": {
+          "geometries": 92,
+          "textures": 7
+        },
+        "programs": 11,
+        "glb": [
+          {
+            "size": 1577764,
+            "duration": 57.299999952316284,
+            "response": 200
+          }
+        ],
+        "rayTimer": true
+      },
+      "materials": [
+        {
+          "name": "SUP Warm luminous filaments",
+          "type": "MeshStandardMaterial",
+          "transparent": false,
+          "opacity": 1,
+          "roughness": 0.3199999928474426,
+          "metalness": 0,
+          "clearcoat": 0,
+          "iridescence": 0,
+          "transmission": 0,
+          "vertexColors": false
+        },
+        {
+          "name": "SUP Layered turquoise mineral",
+          "type": "MeshPhysicalMaterial",
+          "transparent": false,
+          "opacity": 1,
+          "roughness": 0.3199999928474426,
+          "metalness": 0.11999999731779099,
+          "clearcoat": 0.2199999988079071,
+          "iridescence": 0.3199999928474426,
+          "transmission": 0,
+          "vertexColors": true
+        },
+        {
+          "name": "SUP Champagne gold",
+          "type": "MeshStandardMaterial",
+          "transparent": false,
+          "opacity": 1,
+          "roughness": 0.23999999463558197,
+          "metalness": 0.550000011920929,
+          "clearcoat": 0,
+          "iridescence": 0,
+          "transmission": 0,
+          "vertexColors": false
+        },
+        {
+          "name": "SUP Brushed rose gold",
+          "type": "MeshStandardMaterial",
+          "transparent": false,
+          "opacity": 1,
+          "roughness": 0.25999999046325684,
+          "metalness": 0.6000000238418579,
+          "clearcoat": 0,
+          "iridescence": 0,
+          "transmission": 0,
+          "vertexColors": true
+        },
+        {
+          "name": "SUP Lavender quartz",
+          "type": "MeshPhysicalMaterial",
+          "transparent": true,
+          "opacity": 1,
+          "roughness": 0.054999999701976776,
+          "metalness": 0.03999999910593033,
+          "clearcoat": 0.11999999731779099,
+          "iridescence": 0.3199999928474426,
+          "transmission": 0,
+          "vertexColors": true
+        },
+        {
+          "name": "SUP Cyan quartz",
+          "type": "MeshPhysicalMaterial",
+          "transparent": true,
+          "opacity": 1,
+          "roughness": 0.06700000166893005,
+          "metalness": 0.03999999910593033,
+          "clearcoat": 0.11999999731779099,
+          "iridescence": 0.3199999928474426,
+          "transmission": 0,
+          "vertexColors": true
+        },
+        {
+          "name": "SUP Pink opal",
+          "type": "MeshPhysicalMaterial",
+          "transparent": true,
+          "opacity": 1,
+          "roughness": 0.07900000363588333,
+          "metalness": 0.03999999910593033,
+          "clearcoat": 0.11999999731779099,
+          "iridescence": 0.3199999928474426,
+          "transmission": 0,
+          "vertexColors": true
+        },
+        {
+          "name": "SUP Pearl water highlights",
+          "type": "MeshStandardMaterial",
+          "transparent": false,
+          "opacity": 1,
+          "roughness": 0.2199999988079071,
+          "metalness": 0.11999999731779099,
+          "clearcoat": 0,
+          "iridescence": 0,
+          "transmission": 0,
+          "vertexColors": false
+        },
+        {
+          "name": "SUP Opalescent ground",
+          "type": "MeshStandardMaterial",
+          "transparent": false,
+          "opacity": 1,
+          "roughness": 0.38999998569488525,
+          "metalness": 0.03500000014901161,
+          "clearcoat": 0,
+          "iridescence": 0,
+          "transmission": 0,
+          "vertexColors": true
+        },
+        {
+          "name": "SUP Still aqua water",
+          "type": "MeshStandardMaterial",
+          "transparent": true,
+          "opacity": 0.6399999856948853,
+          "roughness": 0.18000000715255737,
+          "metalness": 0.07999999821186066,
+          "clearcoat": 0,
+          "iridescence": 0,
+          "transmission": 0,
+          "vertexColors": false
+        },
+        {
+          "name": "SUP Iridescent foliage",
+          "type": "MeshStandardMaterial",
+          "transparent": false,
+          "opacity": 1,
+          "roughness": 0.38999998569488525,
+          "metalness": 0.07999999821186066,
+          "clearcoat": 0,
+          "iridescence": 0,
+          "transmission": 0,
+          "vertexColors": true
+        }
+      ],
+      "measurements": [
+        {
+          "name": "phase-a-flowers",
+          "samples": 60,
+          "submitMs": {
+            "mean": 9.473333328962326,
+            "median": 9.599999964237213,
+            "p95": 16,
+            "min": 1.199999988079071,
+            "max": 83.69999998807907
+          },
+          "intervalMs": {
+            "mean": 86.55423728793355,
+            "median": 91,
+            "p95": 104.30000001192093,
+            "min": 2.300000011920929,
+            "max": 197.4000000357628
+          },
+          "calls": {
+            "mean": 405,
+            "median": 405,
+            "p95": 405,
+            "min": 405,
+            "max": 405
+          },
+          "triangles": {
+            "mean": 81332,
+            "median": 81332,
+            "p95": 81332,
+            "min": 81332,
+            "max": 81332
+          }
+        },
+        {
+          "name": "phase-a-island-only",
+          "samples": 60,
+          "submitMs": {
+            "mean": 0.9349999954303105,
+            "median": 0.800000011920929,
+            "p95": 3.300000011920929,
+            "min": 0.5,
+            "max": 3.899999976158142
+          },
+          "intervalMs": {
+            "mean": 61.227118643663694,
+            "median": 61.19999998807907,
+            "p95": 64.5,
+            "min": 58.30000001192093,
+            "max": 65.80000001192093
+          },
+          "calls": {
+            "mean": 26,
+            "median": 26,
+            "p95": 26,
+            "min": 26,
+            "max": 26
+          },
+          "triangles": {
+            "mean": 35436,
+            "median": 35436,
+            "p95": 35436,
+            "min": 35436,
+            "max": 35436
+          }
+        }
+      ]
+    },
+    {
+      "index": 2,
+      "variant": "after",
+      "desktop": {
+        "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "canvas": [
+          780,
+          819
+        ],
+        "dpr": 1.5,
+        "toneMapping": 7,
+        "exposure": 1,
+        "outputColorSpace": "srgb",
+        "environmentIntensity": 0.55,
+        "passes": [
+          {
+            "name": "RenderPass",
+            "enabled": true
+          },
+          {
+            "name": "OutputPass",
+            "enabled": true
+          }
+        ],
+        "objects": [
+          {
+            "name": "타닥콩닥꽃",
+            "kind": "pair",
+            "position": [
+              -0.1207308704033494,
+              0,
+              0.7314516861923039
+            ]
+          },
+          {
+            "name": "살랑웅성꽃",
+            "kind": "pair",
+            "position": [
+              0.46300302911549807,
+              0,
+              1.4312063782475888
+            ]
+          },
+          {
+            "name": "타닥나무",
+            "kind": "flower",
+            "position": [
+              1.590052193030715,
+              0,
+              0.7971922869328409
+            ]
+          },
+          {
+            "name": "콩닥콩닥꽃",
+            "kind": "flower",
+            "position": [
+              -1.2092976868152618,
+              0,
+              1.773951774276793
+            ]
+          },
+          {
+            "name": "킥킥꽃",
+            "kind": "flower",
+            "position": [
+              -1.1430694490671158,
+              0,
+              0.3071280900854617
+            ]
+          },
+          {
+            "name": "살랑나무",
+            "kind": "flower",
+            "position": [
+              0.6343889150768518,
+              0,
+              0.26643168800510464
+            ]
+          },
+          {
+            "name": "웅성웅성꽃",
+            "kind": "flower",
+            "position": [
+              -0.45644662976264955,
+              0,
+              1.6461383739020674
+            ]
+          },
+          {
+            "name": "타닥타닥나무",
+            "kind": "flower",
+            "position": [
+              1.3820205345749856,
+              0,
+              -0.004869504412636161
+            ]
+          },
+          {
+            "name": "뚜벅나무",
+            "kind": "flower",
+            "position": [
+              -1.3477231968194248,
+              0,
+              -0.779242406366393
+            ]
+          }
+        ],
+        "island": [
+          "SOOP_Island"
+        ],
+        "memory": {
+          "geometries": 92,
+          "textures": 7
+        },
+        "programs": 11,
+        "glb": [
+          {
+            "size": 1355428,
+            "duration": 2117.899999976158,
+            "response": 200
+          }
+        ],
+        "rayTimer": true
+      },
+      "materials": [
+        {
+          "name": "SUP Warm luminous filaments",
+          "type": "MeshStandardMaterial",
+          "transparent": false,
+          "opacity": 1,
+          "roughness": 0.3199999928474426,
+          "metalness": 0,
+          "clearcoat": 0,
+          "iridescence": 0,
+          "transmission": 0,
+          "vertexColors": false
+        },
+        {
+          "name": "SUP Layered turquoise mineral",
+          "type": "MeshPhysicalMaterial",
+          "transparent": false,
+          "opacity": 1,
+          "roughness": 0.3199999928474426,
+          "metalness": 0.11999999731779099,
+          "clearcoat": 0.2199999988079071,
+          "iridescence": 0.3199999928474426,
+          "transmission": 0,
+          "vertexColors": true
+        },
+        {
+          "name": "SUP Champagne gold",
+          "type": "MeshStandardMaterial",
+          "transparent": false,
+          "opacity": 1,
+          "roughness": 0.23999999463558197,
+          "metalness": 0.550000011920929,
+          "clearcoat": 0,
+          "iridescence": 0,
+          "transmission": 0,
+          "vertexColors": false
+        },
+        {
+          "name": "SUP Brushed rose gold",
+          "type": "MeshStandardMaterial",
+          "transparent": false,
+          "opacity": 1,
+          "roughness": 0.25999999046325684,
+          "metalness": 0.6000000238418579,
+          "clearcoat": 0,
+          "iridescence": 0,
+          "transmission": 0,
+          "vertexColors": true
+        },
+        {
+          "name": "SUP Lavender quartz",
+          "type": "MeshPhysicalMaterial",
+          "transparent": true,
+          "opacity": 1,
+          "roughness": 0.054999999701976776,
+          "metalness": 0.03999999910593033,
+          "clearcoat": 0.11999999731779099,
+          "iridescence": 0.3199999928474426,
+          "transmission": 0,
+          "vertexColors": true
+        },
+        {
+          "name": "SUP Cyan quartz",
+          "type": "MeshPhysicalMaterial",
+          "transparent": true,
+          "opacity": 1,
+          "roughness": 0.06700000166893005,
+          "metalness": 0.03999999910593033,
+          "clearcoat": 0.11999999731779099,
+          "iridescence": 0.3199999928474426,
+          "transmission": 0,
+          "vertexColors": true
+        },
+        {
+          "name": "SUP Pink opal",
+          "type": "MeshPhysicalMaterial",
+          "transparent": true,
+          "opacity": 1,
+          "roughness": 0.07900000363588333,
+          "metalness": 0.03999999910593033,
+          "clearcoat": 0.11999999731779099,
+          "iridescence": 0.3199999928474426,
+          "transmission": 0,
+          "vertexColors": true
+        },
+        {
+          "name": "SUP Pearl water highlights",
+          "type": "MeshStandardMaterial",
+          "transparent": false,
+          "opacity": 1,
+          "roughness": 0.2199999988079071,
+          "metalness": 0.11999999731779099,
+          "clearcoat": 0,
+          "iridescence": 0,
+          "transmission": 0,
+          "vertexColors": false
+        },
+        {
+          "name": "SUP Opalescent ground",
+          "type": "MeshStandardMaterial",
+          "transparent": false,
+          "opacity": 1,
+          "roughness": 0.38999998569488525,
+          "metalness": 0.03500000014901161,
+          "clearcoat": 0,
+          "iridescence": 0,
+          "transmission": 0,
+          "vertexColors": true
+        },
+        {
+          "name": "SUP Still aqua water",
+          "type": "MeshStandardMaterial",
+          "transparent": true,
+          "opacity": 0.6399999856948853,
+          "roughness": 0.18000000715255737,
+          "metalness": 0.07999999821186066,
+          "clearcoat": 0,
+          "iridescence": 0,
+          "transmission": 0,
+          "vertexColors": false
+        },
+        {
+          "name": "SUP Iridescent foliage",
+          "type": "MeshStandardMaterial",
+          "transparent": false,
+          "opacity": 1,
+          "roughness": 0.38999998569488525,
+          "metalness": 0.07999999821186066,
+          "clearcoat": 0,
+          "iridescence": 0,
+          "transmission": 0,
+          "vertexColors": true
+        }
+      ],
+      "measurements": [
+        {
+          "name": "after-flowers",
+          "samples": 60,
+          "submitMs": {
+            "mean": 9.029999999205272,
+            "median": 9.199999988079071,
+            "p95": 10.099999964237213,
+            "min": 2.300000011920929,
+            "max": 16.400000035762787
+          },
+          "intervalMs": {
+            "mean": 88.61016949152543,
+            "median": 88.19999998807907,
+            "p95": 107.20000004768372,
+            "min": 12,
+            "max": 205
+          },
+          "calls": {
+            "mean": 405,
+            "median": 405,
+            "p95": 405,
+            "min": 405,
+            "max": 405
+          },
+          "triangles": {
+            "mean": 72116,
+            "median": 72116,
+            "p95": 72116,
+            "min": 72116,
+            "max": 72116
+          }
+        },
+        {
+          "name": "after-island-only",
+          "samples": 60,
+          "submitMs": {
+            "mean": 0.8583333323399226,
+            "median": 0.7999999523162842,
+            "p95": 1.300000011920929,
+            "min": 0.5,
+            "max": 4.200000047683716
+          },
+          "intervalMs": {
+            "mean": 60.14576271125826,
+            "median": 59.69999998807907,
+            "p95": 66.20000004768372,
+            "min": 8.099999964237213,
+            "max": 112.69999998807907
+          },
+          "calls": {
+            "mean": 26,
+            "median": 26,
+            "p95": 26,
+            "min": 26,
+            "max": 26
+          },
+          "triangles": {
+            "mean": 26220,
+            "median": 26220,
+            "p95": 26220,
+            "min": 26220,
+            "max": 26220
+          }
+        }
+      ]
+    },
+    {
+      "index": 3,
+      "variant": "after",
+      "desktop": {
+        "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "canvas": [
+          780,
+          819
+        ],
+        "dpr": 1.5,
+        "toneMapping": 7,
+        "exposure": 1,
+        "outputColorSpace": "srgb",
+        "environmentIntensity": 0.55,
+        "passes": [
+          {
+            "name": "RenderPass",
+            "enabled": true
+          },
+          {
+            "name": "OutputPass",
+            "enabled": true
+          }
+        ],
+        "objects": [
+          {
+            "name": "타닥콩닥꽃",
+            "kind": "pair",
+            "position": [
+              -0.1207308704033494,
+              0,
+              0.7314516861923039
+            ]
+          },
+          {
+            "name": "살랑웅성꽃",
+            "kind": "pair",
+            "position": [
+              0.46300302911549807,
+              0,
+              1.4312063782475888
+            ]
+          },
+          {
+            "name": "타닥나무",
+            "kind": "flower",
+            "position": [
+              1.590052193030715,
+              0,
+              0.7971922869328409
+            ]
+          },
+          {
+            "name": "콩닥콩닥꽃",
+            "kind": "flower",
+            "position": [
+              -1.2092976868152618,
+              0,
+              1.773951774276793
+            ]
+          },
+          {
+            "name": "킥킥꽃",
+            "kind": "flower",
+            "position": [
+              -1.1430694490671158,
+              0,
+              0.3071280900854617
+            ]
+          },
+          {
+            "name": "살랑나무",
+            "kind": "flower",
+            "position": [
+              0.6343889150768518,
+              0,
+              0.26643168800510464
+            ]
+          },
+          {
+            "name": "웅성웅성꽃",
+            "kind": "flower",
+            "position": [
+              -0.45644662976264955,
+              0,
+              1.6461383739020674
+            ]
+          },
+          {
+            "name": "타닥타닥나무",
+            "kind": "flower",
+            "position": [
+              1.3820205345749856,
+              0,
+              -0.004869504412636161
+            ]
+          },
+          {
+            "name": "뚜벅나무",
+            "kind": "flower",
+            "position": [
+              -1.3477231968194248,
+              0,
+              -0.779242406366393
+            ]
+          }
+        ],
+        "island": [
+          "SOOP_Island"
+        ],
+        "memory": {
+          "geometries": 92,
+          "textures": 7
+        },
+        "programs": 11,
+        "glb": [
+          {
+            "size": 1355428,
+            "duration": 95.30000001192093,
+            "response": 200
+          }
+        ],
+        "rayTimer": true
+      },
+      "materials": [
+        {
+          "name": "SUP Warm luminous filaments",
+          "type": "MeshStandardMaterial",
+          "transparent": false,
+          "opacity": 1,
+          "roughness": 0.3199999928474426,
+          "metalness": 0,
+          "clearcoat": 0,
+          "iridescence": 0,
+          "transmission": 0,
+          "vertexColors": false
+        },
+        {
+          "name": "SUP Layered turquoise mineral",
+          "type": "MeshPhysicalMaterial",
+          "transparent": false,
+          "opacity": 1,
+          "roughness": 0.3199999928474426,
+          "metalness": 0.11999999731779099,
+          "clearcoat": 0.2199999988079071,
+          "iridescence": 0.3199999928474426,
+          "transmission": 0,
+          "vertexColors": true
+        },
+        {
+          "name": "SUP Champagne gold",
+          "type": "MeshStandardMaterial",
+          "transparent": false,
+          "opacity": 1,
+          "roughness": 0.23999999463558197,
+          "metalness": 0.550000011920929,
+          "clearcoat": 0,
+          "iridescence": 0,
+          "transmission": 0,
+          "vertexColors": false
+        },
+        {
+          "name": "SUP Brushed rose gold",
+          "type": "MeshStandardMaterial",
+          "transparent": false,
+          "opacity": 1,
+          "roughness": 0.25999999046325684,
+          "metalness": 0.6000000238418579,
+          "clearcoat": 0,
+          "iridescence": 0,
+          "transmission": 0,
+          "vertexColors": true
+        },
+        {
+          "name": "SUP Lavender quartz",
+          "type": "MeshPhysicalMaterial",
+          "transparent": true,
+          "opacity": 1,
+          "roughness": 0.054999999701976776,
+          "metalness": 0.03999999910593033,
+          "clearcoat": 0.11999999731779099,
+          "iridescence": 0.3199999928474426,
+          "transmission": 0,
+          "vertexColors": true
+        },
+        {
+          "name": "SUP Cyan quartz",
+          "type": "MeshPhysicalMaterial",
+          "transparent": true,
+          "opacity": 1,
+          "roughness": 0.06700000166893005,
+          "metalness": 0.03999999910593033,
+          "clearcoat": 0.11999999731779099,
+          "iridescence": 0.3199999928474426,
+          "transmission": 0,
+          "vertexColors": true
+        },
+        {
+          "name": "SUP Pink opal",
+          "type": "MeshPhysicalMaterial",
+          "transparent": true,
+          "opacity": 1,
+          "roughness": 0.07900000363588333,
+          "metalness": 0.03999999910593033,
+          "clearcoat": 0.11999999731779099,
+          "iridescence": 0.3199999928474426,
+          "transmission": 0,
+          "vertexColors": true
+        },
+        {
+          "name": "SUP Pearl water highlights",
+          "type": "MeshStandardMaterial",
+          "transparent": false,
+          "opacity": 1,
+          "roughness": 0.2199999988079071,
+          "metalness": 0.11999999731779099,
+          "clearcoat": 0,
+          "iridescence": 0,
+          "transmission": 0,
+          "vertexColors": false
+        },
+        {
+          "name": "SUP Opalescent ground",
+          "type": "MeshStandardMaterial",
+          "transparent": false,
+          "opacity": 1,
+          "roughness": 0.38999998569488525,
+          "metalness": 0.03500000014901161,
+          "clearcoat": 0,
+          "iridescence": 0,
+          "transmission": 0,
+          "vertexColors": true
+        },
+        {
+          "name": "SUP Still aqua water",
+          "type": "MeshStandardMaterial",
+          "transparent": true,
+          "opacity": 0.6399999856948853,
+          "roughness": 0.18000000715255737,
+          "metalness": 0.07999999821186066,
+          "clearcoat": 0,
+          "iridescence": 0,
+          "transmission": 0,
+          "vertexColors": false
+        },
+        {
+          "name": "SUP Iridescent foliage",
+          "type": "MeshStandardMaterial",
+          "transparent": false,
+          "opacity": 1,
+          "roughness": 0.38999998569488525,
+          "metalness": 0.07999999821186066,
+          "clearcoat": 0,
+          "iridescence": 0,
+          "transmission": 0,
+          "vertexColors": true
+        }
+      ],
+      "measurements": [
+        {
+          "name": "after-flowers",
+          "samples": 60,
+          "submitMs": {
+            "mean": 2.096666669845581,
+            "median": 2.199999988079071,
+            "p95": 2.699999988079071,
+            "min": 1,
+            "max": 3
+          },
+          "intervalMs": {
+            "mean": 50.54406779701427,
+            "median": 50.5,
+            "p95": 91.89999997615814,
+            "min": 5.300000011920929,
+            "max": 102.30000001192093
+          },
+          "calls": {
+            "mean": 405,
+            "median": 405,
+            "p95": 405,
+            "min": 405,
+            "max": 405
+          },
+          "triangles": {
+            "mean": 72116,
+            "median": 72116,
+            "p95": 72116,
+            "min": 72116,
+            "max": 72116
+          }
+        },
+        {
+          "name": "after-island-only",
+          "samples": 60,
+          "submitMs": {
+            "mean": 0.6850000053644181,
+            "median": 0.699999988079071,
+            "p95": 1,
+            "min": 0.30000001192092896,
+            "max": 1.0999999642372131
+          },
+          "intervalMs": {
+            "mean": 34.59322033898305,
+            "median": 33.69999998807907,
+            "p95": 60.5,
+            "min": 3.899999976158142,
+            "max": 61.89999997615814
+          },
+          "calls": {
+            "mean": 26,
+            "median": 26,
+            "p95": 26,
+            "min": 26,
+            "max": 26
+          },
+          "triangles": {
+            "mean": 26220,
+            "median": 26220,
+            "p95": 26220,
+            "min": 26220,
+            "max": 26220
+          }
+        }
+      ]
+    },
+    {
+      "index": 4,
+      "variant": "phase-a",
+      "desktop": {
+        "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "canvas": [
+          780,
+          819
+        ],
+        "dpr": 1.5,
+        "toneMapping": 7,
+        "exposure": 1,
+        "outputColorSpace": "srgb",
+        "environmentIntensity": 0.55,
+        "passes": [
+          {
+            "name": "RenderPass",
+            "enabled": true
+          },
+          {
+            "name": "OutputPass",
+            "enabled": true
+          }
+        ],
+        "objects": [
+          {
+            "name": "타닥콩닥꽃",
+            "kind": "pair",
+            "position": [
+              -0.1207308704033494,
+              0,
+              0.7314516861923039
+            ]
+          },
+          {
+            "name": "살랑웅성꽃",
+            "kind": "pair",
+            "position": [
+              0.46300302911549807,
+              0,
+              1.4312063782475888
+            ]
+          },
+          {
+            "name": "타닥나무",
+            "kind": "flower",
+            "position": [
+              1.590052193030715,
+              0,
+              0.7971922869328409
+            ]
+          },
+          {
+            "name": "콩닥콩닥꽃",
+            "kind": "flower",
+            "position": [
+              -1.2092976868152618,
+              0,
+              1.773951774276793
+            ]
+          },
+          {
+            "name": "킥킥꽃",
+            "kind": "flower",
+            "position": [
+              -1.1430694490671158,
+              0,
+              0.3071280900854617
+            ]
+          },
+          {
+            "name": "살랑나무",
+            "kind": "flower",
+            "position": [
+              0.6343889150768518,
+              0,
+              0.26643168800510464
+            ]
+          },
+          {
+            "name": "웅성웅성꽃",
+            "kind": "flower",
+            "position": [
+              -0.45644662976264955,
+              0,
+              1.6461383739020674
+            ]
+          },
+          {
+            "name": "타닥타닥나무",
+            "kind": "flower",
+            "position": [
+              1.3820205345749856,
+              0,
+              -0.004869504412636161
+            ]
+          },
+          {
+            "name": "뚜벅나무",
+            "kind": "flower",
+            "position": [
+              -1.3477231968194248,
+              0,
+              -0.779242406366393
+            ]
+          }
+        ],
+        "island": [
+          "SOOP_Island"
+        ],
+        "memory": {
+          "geometries": 92,
+          "textures": 7
+        },
+        "programs": 11,
+        "glb": [
+          {
+            "size": 1577764,
+            "duration": 197.0999999642372,
+            "response": 200
+          }
+        ],
+        "rayTimer": true
+      },
+      "materials": [
+        {
+          "name": "SUP Warm luminous filaments",
+          "type": "MeshStandardMaterial",
+          "transparent": false,
+          "opacity": 1,
+          "roughness": 0.3199999928474426,
+          "metalness": 0,
+          "clearcoat": 0,
+          "iridescence": 0,
+          "transmission": 0,
+          "vertexColors": false
+        },
+        {
+          "name": "SUP Layered turquoise mineral",
+          "type": "MeshPhysicalMaterial",
+          "transparent": false,
+          "opacity": 1,
+          "roughness": 0.3199999928474426,
+          "metalness": 0.11999999731779099,
+          "clearcoat": 0.2199999988079071,
+          "iridescence": 0.3199999928474426,
+          "transmission": 0,
+          "vertexColors": true
+        },
+        {
+          "name": "SUP Champagne gold",
+          "type": "MeshStandardMaterial",
+          "transparent": false,
+          "opacity": 1,
+          "roughness": 0.23999999463558197,
+          "metalness": 0.550000011920929,
+          "clearcoat": 0,
+          "iridescence": 0,
+          "transmission": 0,
+          "vertexColors": false
+        },
+        {
+          "name": "SUP Brushed rose gold",
+          "type": "MeshStandardMaterial",
+          "transparent": false,
+          "opacity": 1,
+          "roughness": 0.25999999046325684,
+          "metalness": 0.6000000238418579,
+          "clearcoat": 0,
+          "iridescence": 0,
+          "transmission": 0,
+          "vertexColors": true
+        },
+        {
+          "name": "SUP Lavender quartz",
+          "type": "MeshPhysicalMaterial",
+          "transparent": true,
+          "opacity": 1,
+          "roughness": 0.054999999701976776,
+          "metalness": 0.03999999910593033,
+          "clearcoat": 0.11999999731779099,
+          "iridescence": 0.3199999928474426,
+          "transmission": 0,
+          "vertexColors": true
+        },
+        {
+          "name": "SUP Cyan quartz",
+          "type": "MeshPhysicalMaterial",
+          "transparent": true,
+          "opacity": 1,
+          "roughness": 0.06700000166893005,
+          "metalness": 0.03999999910593033,
+          "clearcoat": 0.11999999731779099,
+          "iridescence": 0.3199999928474426,
+          "transmission": 0,
+          "vertexColors": true
+        },
+        {
+          "name": "SUP Pink opal",
+          "type": "MeshPhysicalMaterial",
+          "transparent": true,
+          "opacity": 1,
+          "roughness": 0.07900000363588333,
+          "metalness": 0.03999999910593033,
+          "clearcoat": 0.11999999731779099,
+          "iridescence": 0.3199999928474426,
+          "transmission": 0,
+          "vertexColors": true
+        },
+        {
+          "name": "SUP Pearl water highlights",
+          "type": "MeshStandardMaterial",
+          "transparent": false,
+          "opacity": 1,
+          "roughness": 0.2199999988079071,
+          "metalness": 0.11999999731779099,
+          "clearcoat": 0,
+          "iridescence": 0,
+          "transmission": 0,
+          "vertexColors": false
+        },
+        {
+          "name": "SUP Opalescent ground",
+          "type": "MeshStandardMaterial",
+          "transparent": false,
+          "opacity": 1,
+          "roughness": 0.38999998569488525,
+          "metalness": 0.03500000014901161,
+          "clearcoat": 0,
+          "iridescence": 0,
+          "transmission": 0,
+          "vertexColors": true
+        },
+        {
+          "name": "SUP Still aqua water",
+          "type": "MeshStandardMaterial",
+          "transparent": true,
+          "opacity": 0.6399999856948853,
+          "roughness": 0.18000000715255737,
+          "metalness": 0.07999999821186066,
+          "clearcoat": 0,
+          "iridescence": 0,
+          "transmission": 0,
+          "vertexColors": false
+        },
+        {
+          "name": "SUP Iridescent foliage",
+          "type": "MeshStandardMaterial",
+          "transparent": false,
+          "opacity": 1,
+          "roughness": 0.38999998569488525,
+          "metalness": 0.07999999821186066,
+          "clearcoat": 0,
+          "iridescence": 0,
+          "transmission": 0,
+          "vertexColors": true
+        }
+      ],
+      "measurements": [
+        {
+          "name": "phase-a-flowers",
+          "samples": 60,
+          "submitMs": {
+            "mean": 9.361666668454806,
+            "median": 9.800000011920929,
+            "p95": 12.400000035762787,
+            "min": 1.9000000357627869,
+            "max": 43
+          },
+          "intervalMs": {
+            "mean": 91.92881355952409,
+            "median": 91.90000003576279,
+            "p95": 101.5,
+            "min": 15,
+            "max": 182.80000001192093
+          },
+          "calls": {
+            "mean": 405,
+            "median": 405,
+            "p95": 405,
+            "min": 405,
+            "max": 405
+          },
+          "triangles": {
+            "mean": 81332,
+            "median": 81332,
+            "p95": 81332,
+            "min": 81332,
+            "max": 81332
+          }
+        },
+        {
+          "name": "phase-a-island-only",
+          "samples": 60,
+          "submitMs": {
+            "mean": 0.8216666668653488,
+            "median": 0.800000011920929,
+            "p95": 1,
+            "min": 0.5,
+            "max": 1.5999999642372131
+          },
+          "intervalMs": {
+            "mean": 61.78305084725558,
+            "median": 61.69999998807907,
+            "p95": 64,
+            "min": 58.80000001192093,
+            "max": 64.5
+          },
+          "calls": {
+            "mean": 26,
+            "median": 26,
+            "p95": 26,
+            "min": 26,
+            "max": 26
+          },
+          "triangles": {
+            "mean": 35436,
+            "median": 35436,
+            "p95": 35436,
+            "min": 35436,
+            "max": 35436
+          }
+        }
+      ]
+    },
+    {
+      "index": 5,
+      "variant": "before",
+      "desktop": {
+        "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "canvas": [
+          780,
+          819
+        ],
+        "dpr": 1.5,
+        "toneMapping": 4,
+        "exposure": 1,
+        "outputColorSpace": "srgb",
+        "environmentIntensity": 0.55,
+        "passes": [
+          {
+            "name": "RenderPass",
+            "enabled": true
+          },
+          {
+            "name": "OutputPass",
+            "enabled": true
+          }
+        ],
+        "objects": [
+          {
+            "name": "타닥콩닥꽃",
+            "kind": "pair",
+            "position": [
+              -0.1207308704033494,
+              0,
+              0.7314516861923039
+            ]
+          },
+          {
+            "name": "살랑웅성꽃",
+            "kind": "pair",
+            "position": [
+              0.46300302911549807,
+              0,
+              1.4312063782475888
+            ]
+          },
+          {
+            "name": "타닥나무",
+            "kind": "flower",
+            "position": [
+              1.590052193030715,
+              0,
+              0.7971922869328409
+            ]
+          },
+          {
+            "name": "콩닥콩닥꽃",
+            "kind": "flower",
+            "position": [
+              -1.2092976868152618,
+              0,
+              1.773951774276793
+            ]
+          },
+          {
+            "name": "킥킥꽃",
+            "kind": "flower",
+            "position": [
+              -1.1430694490671158,
+              0,
+              0.3071280900854617
+            ]
+          },
+          {
+            "name": "살랑나무",
+            "kind": "flower",
+            "position": [
+              0.6343889150768518,
+              0,
+              0.26643168800510464
+            ]
+          },
+          {
+            "name": "웅성웅성꽃",
+            "kind": "flower",
+            "position": [
+              -0.45644662976264955,
+              0,
+              1.6461383739020674
+            ]
+          },
+          {
+            "name": "타닥타닥나무",
+            "kind": "flower",
+            "position": [
+              1.3820205345749856,
+              0,
+              -0.004869504412636161
+            ]
+          },
+          {
+            "name": "뚜벅나무",
+            "kind": "flower",
+            "position": [
+              -1.3477231968194248,
+              0,
+              -0.779242406366393
+            ]
+          }
+        ],
+        "island": [
+          "SOOP_Island"
+        ],
+        "memory": {
+          "geometries": 92,
+          "textures": 7
+        },
+        "programs": 11,
+        "glb": [
+          {
+            "size": 1577764,
+            "duration": 254.9000000357628,
+            "response": 200
+          }
+        ],
+        "rayTimer": true
+      },
+      "materials": [
+        {
+          "name": "SUP Warm luminous filaments",
+          "type": "MeshStandardMaterial",
+          "transparent": false,
+          "opacity": 1,
+          "roughness": 0.3199999928474426,
+          "metalness": 0,
+          "clearcoat": 0,
+          "iridescence": 0,
+          "transmission": 0,
+          "vertexColors": false
+        },
+        {
+          "name": "SUP Layered turquoise mineral",
+          "type": "MeshPhysicalMaterial",
+          "transparent": false,
+          "opacity": 1,
+          "roughness": 0.3199999928474426,
+          "metalness": 0.11999999731779099,
+          "clearcoat": 0.2199999988079071,
+          "iridescence": 0.3199999928474426,
+          "transmission": 0,
+          "vertexColors": true
+        },
+        {
+          "name": "SUP Champagne gold",
+          "type": "MeshStandardMaterial",
+          "transparent": false,
+          "opacity": 1,
+          "roughness": 0.23999999463558197,
+          "metalness": 0.550000011920929,
+          "clearcoat": 0,
+          "iridescence": 0,
+          "transmission": 0,
+          "vertexColors": false
+        },
+        {
+          "name": "SUP Brushed rose gold",
+          "type": "MeshStandardMaterial",
+          "transparent": false,
+          "opacity": 1,
+          "roughness": 0.25999999046325684,
+          "metalness": 0.6000000238418579,
+          "clearcoat": 0,
+          "iridescence": 0,
+          "transmission": 0,
+          "vertexColors": true
+        },
+        {
+          "name": "SUP Lavender quartz",
+          "type": "MeshPhysicalMaterial",
+          "transparent": true,
+          "opacity": 1,
+          "roughness": 0.054999999701976776,
+          "metalness": 0.03999999910593033,
+          "clearcoat": 0.11999999731779099,
+          "iridescence": 0.3199999928474426,
+          "transmission": 0,
+          "vertexColors": true
+        },
+        {
+          "name": "SUP Cyan quartz",
+          "type": "MeshPhysicalMaterial",
+          "transparent": true,
+          "opacity": 1,
+          "roughness": 0.06700000166893005,
+          "metalness": 0.03999999910593033,
+          "clearcoat": 0.11999999731779099,
+          "iridescence": 0.3199999928474426,
+          "transmission": 0,
+          "vertexColors": true
+        },
+        {
+          "name": "SUP Pink opal",
+          "type": "MeshPhysicalMaterial",
+          "transparent": true,
+          "opacity": 1,
+          "roughness": 0.07900000363588333,
+          "metalness": 0.03999999910593033,
+          "clearcoat": 0.11999999731779099,
+          "iridescence": 0.3199999928474426,
+          "transmission": 0,
+          "vertexColors": true
+        },
+        {
+          "name": "SUP Pearl water highlights",
+          "type": "MeshStandardMaterial",
+          "transparent": false,
+          "opacity": 1,
+          "roughness": 0.2199999988079071,
+          "metalness": 0.11999999731779099,
+          "clearcoat": 0,
+          "iridescence": 0,
+          "transmission": 0,
+          "vertexColors": false
+        },
+        {
+          "name": "SUP Opalescent ground",
+          "type": "MeshStandardMaterial",
+          "transparent": false,
+          "opacity": 1,
+          "roughness": 0.38999998569488525,
+          "metalness": 0.03500000014901161,
+          "clearcoat": 0,
+          "iridescence": 0,
+          "transmission": 0,
+          "vertexColors": true
+        },
+        {
+          "name": "SUP Still aqua water",
+          "type": "MeshStandardMaterial",
+          "transparent": true,
+          "opacity": 0.6399999856948853,
+          "roughness": 0.18000000715255737,
+          "metalness": 0.07999999821186066,
+          "clearcoat": 0,
+          "iridescence": 0,
+          "transmission": 0,
+          "vertexColors": false
+        },
+        {
+          "name": "SUP Iridescent foliage",
+          "type": "MeshStandardMaterial",
+          "transparent": false,
+          "opacity": 1,
+          "roughness": 0.38999998569488525,
+          "metalness": 0.07999999821186066,
+          "clearcoat": 0,
+          "iridescence": 0,
+          "transmission": 0,
+          "vertexColors": true
+        }
+      ],
+      "measurements": [
+        {
+          "name": "before-flowers",
+          "samples": 60,
+          "submitMs": {
+            "mean": 4.714999993642171,
+            "median": 2.400000035762787,
+            "p95": 10.199999988079071,
+            "min": 1.0999999642372131,
+            "max": 11.199999988079071
+          },
+          "intervalMs": {
+            "mean": 66.50338983030643,
+            "median": 54.69999998807907,
+            "p95": 96.19999998807907,
+            "min": 6.5,
+            "max": 111.39999997615814
+          },
+          "calls": {
+            "mean": 405,
+            "median": 405,
+            "p95": 405,
+            "min": 405,
+            "max": 405
+          },
+          "triangles": {
+            "mean": 81332,
+            "median": 81332,
+            "p95": 81332,
+            "min": 81332,
+            "max": 81332
+          }
+        },
+        {
+          "name": "before-island-only",
+          "samples": 60,
+          "submitMs": {
+            "mean": 1.084999997417132,
+            "median": 0.8999999761581421,
+            "p95": 3.199999988079071,
+            "min": 0.5,
+            "max": 4.300000011920929
+          },
+          "intervalMs": {
+            "mean": 61.88135593220339,
+            "median": 61.799999952316284,
+            "p95": 66.59999996423721,
+            "min": 15.300000011920929,
+            "max": 120
+          },
+          "calls": {
+            "mean": 26,
+            "median": 26,
+            "p95": 26,
+            "min": 26,
+            "max": 26
+          },
+          "triangles": {
+            "mean": 35436,
+            "median": 35436,
+            "p95": 35436,
+            "min": 35436,
+            "max": 35436
+          }
+        }
+      ]
+    }
+  ],
+  "logs": [
+    "THREE.Clock: This module has been deprecated. Please use THREE.Timer instead."
+  ],
+  "responses": [
+    {
+      "status": 200,
+      "type": "model/gltf-binary",
+      "url": "http://127.0.0.1:5173/models/island.glb"
+    },
+    {
+      "status": 200,
+      "type": "model/gltf-binary",
+      "url": "http://127.0.0.1:5173/models/island.glb"
+    },
+    {
+      "status": 200,
+      "type": "model/gltf-binary",
+      "url": "http://127.0.0.1:5173/models/island.glb"
+    },
+    {
+      "status": 200,
+      "type": "model/gltf-binary",
+      "url": "http://127.0.0.1:5173/models/island.glb"
+    },
+    {
+      "status": 200,
+      "type": "model/gltf-binary",
+      "url": "http://127.0.0.1:5173/models/island.glb"
+    },
+    {
+      "status": 200,
+      "type": "model/gltf-binary",
+      "url": "http://127.0.0.1:5173/models/island.glb"
+    },
+    {
+      "status": 200,
+      "type": "model/gltf-binary",
+      "url": "http://127.0.0.1:5173/models/island.glb"
+    }
+  ],
+  "failures": []
+}

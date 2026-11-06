@@ -1,0 +1,380 @@
+{
+  "baselineCommit": "44ce1cc",
+  "baselineSha256": "5e9338276dc51a560cf6c49589e439fdc4fde9ced51fe913e7ef1f33b6fe3f80",
+  "findings": [
+    "All vertex-painted materials export baseColorFactor [1,1,1,1]; linked Tint replaces the Blender Base Color socket default. No unintended second tint multiplication was found.",
+    "Generator rgb() converts authored hex sRGB values to linear once. FLOAT_COLOR attributes receive values through .color; direct vertex-color links feed Principled Base Color.",
+    "Installed Three.js GLTFLoader reads base factors in LinearSRGBColorSpace and passes COLOR_0 accessors through unchanged. Numeric inspection found zero difference across all 16 colored primitives.",
+    "The only asset texture is the 512x512 tangent-space normal map. Blender labels it Non-Color; GLTFLoader leaves it in NoColorSpace. No base-color texture exists.",
+    "Three.js working space is linear-sRGB. The composer uses half-float linear targets; the OutputPass applies the selected tone mapping and sRGB output conversion once. No double conversion was found.",
+    "Baseline underside does not receive shadow maps. Its darkness is therefore attributable to authored albedo and illumination/reflection direction rather than shadow-map occlusion.",
+    "Low authored mineral albedo and the gray-blue environment base plausibly explain the dark appearance. Their exact visual shares cannot be separated by color statistics alone; matched browser lighting/material probes are the causal comparison."
+  ],
+  "baselineEnvironment": {
+    "backgroundSRGB": "#69788b",
+    "backgroundLinearRGB": [
+      0.14126329114027164,
+      0.18782077230067787,
+      0.2581828529215958
+    ],
+    "backgroundLinearLuminance": 0.1830027940268058,
+    "environmentIntensity": 0.55,
+    "hemisphereIntensity": 0.38,
+    "mainDirectionalIntensity": 1.5,
+    "coolFillIntensity": 0.65,
+    "toneMapping": "ACES",
+    "exposure": 1
+  },
+  "baselineVertexColorStatistics": [
+    {
+      "name": "Island_Crystal_Underside | Asymmetric mineral keel",
+      "meanLinearRGB": [
+        0.10694276182112669,
+        0.2651902435020748,
+        0.3824584749557208
+      ],
+      "meanSRGB": [
+        0.3606542331290619,
+        0.5518314800053827,
+        0.6518532297278393
+      ],
+      "linearLuminance": {
+        "min": 0.15384394274279475,
+        "max": 0.29674476103186603,
+        "mean": 0.2400135952076588
+      },
+      "statisticsWeighting": "Arithmetic mean over exported vertices; not image luminance and not area-weighted."
+    },
+    {
+      "name": "Island_Surface | Opalescent planting clearing",
+      "meanLinearRGB": [
+        0.16405367955450265,
+        0.3026842010205511,
+        0.4376092915667335
+      ],
+      "meanSRGB": [
+        0.44177906163389674,
+        0.5862069043130564,
+        0.6926617835012511
+      ],
+      "linearLuminance": {
+        "min": 0.21711250694990158,
+        "max": 0.3446519922584295,
+        "mean": 0.2829529436943034
+      },
+      "statisticsWeighting": "Arithmetic mean over exported vertices; not image luminance and not area-weighted."
+    }
+  ],
+  "baselinePBR": [
+    {
+      "name": "SUP Layered turquoise mineral",
+      "baseColorFactor": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "roughness": 0.3199999928474426,
+      "metalness": 0.11999999731779099,
+      "baseColorTexture": null,
+      "normalTexture": null,
+      "extensions": {
+        "KHR_materials_clearcoat": {
+          "clearcoatFactor": 0.2199999988079071,
+          "clearcoatRoughnessFactor": 0.23999999463558197
+        },
+        "KHR_materials_iridescence": {
+          "iridescenceFactor": 0.3199999928474426,
+          "iridescenceThicknessMaximum": 360
+        }
+      },
+      "alphaMode": "OPAQUE"
+    },
+    {
+      "name": "SUP Champagne gold",
+      "baseColorFactor": [
+        0.7912979125976562,
+        0.5394794940948486,
+        0.31854677200317383,
+        1
+      ],
+      "roughness": 0.23999999463558197,
+      "metalness": 0.550000011920929,
+      "baseColorTexture": null,
+      "normalTexture": null,
+      "extensions": {},
+      "alphaMode": "OPAQUE"
+    },
+    {
+      "name": "SUP Brushed rose gold",
+      "baseColorFactor": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "roughness": 0.25999999046325684,
+      "metalness": 0.6000000238418579,
+      "baseColorTexture": null,
+      "normalTexture": null,
+      "extensions": {},
+      "alphaMode": "OPAQUE"
+    },
+    {
+      "name": "SUP Opalescent ground",
+      "baseColorFactor": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "roughness": 0.38999998569488525,
+      "metalness": 0.03500000014901161,
+      "baseColorTexture": null,
+      "normalTexture": {
+        "index": 0,
+        "scale": 0.1599999964237213
+      },
+      "extensions": {},
+      "alphaMode": "OPAQUE"
+    }
+  ],
+  "loaderNumericCheck": {
+    "workingColorSpace": "srgb-linear",
+    "maximumColorNumericDifference": 0,
+    "components": [
+      {
+        "name": "Island_Accents_|_Scattered_opal_gravel",
+        "colorItemSize": 3,
+        "maximumColorNumericDifference": 0
+      },
+      {
+        "name": "Island_Crystal_Underside_|_Asymmetric_mineral_keel",
+        "colorItemSize": 3,
+        "maximumColorNumericDifference": 0
+      },
+      {
+        "name": "Island_Metal_Rim_|_Contour-following_rose-gold_seam",
+        "colorItemSize": 3,
+        "maximumColorNumericDifference": 0
+      },
+      {
+        "name": "Island_Ornamental_Ring_|_Opal_feet",
+        "colorItemSize": 3,
+        "maximumColorNumericDifference": 0
+      },
+      {
+        "name": "Island_Peripheral_Crystals_|_Cluster_1_facet_family_1",
+        "colorItemSize": 4,
+        "maximumColorNumericDifference": 0
+      },
+      {
+        "name": "Island_Peripheral_Crystals_|_Cluster_1_facet_family_2",
+        "colorItemSize": 4,
+        "maximumColorNumericDifference": 0
+      },
+      {
+        "name": "Island_Peripheral_Crystals_|_Cluster_1_facet_family_3",
+        "colorItemSize": 4,
+        "maximumColorNumericDifference": 0
+      },
+      {
+        "name": "Island_Peripheral_Crystals_|_Cluster_2_facet_family_1",
+        "colorItemSize": 4,
+        "maximumColorNumericDifference": 0
+      },
+      {
+        "name": "Island_Peripheral_Crystals_|_Cluster_2_facet_family_2",
+        "colorItemSize": 4,
+        "maximumColorNumericDifference": 0
+      },
+      {
+        "name": "Island_Peripheral_Crystals_|_Cluster_2_facet_family_3",
+        "colorItemSize": 4,
+        "maximumColorNumericDifference": 0
+      },
+      {
+        "name": "Island_Peripheral_Crystals_|_Cluster_3_facet_family_1",
+        "colorItemSize": 4,
+        "maximumColorNumericDifference": 0
+      },
+      {
+        "name": "Island_Peripheral_Crystals_|_Cluster_3_facet_family_2",
+        "colorItemSize": 4,
+        "maximumColorNumericDifference": 0
+      },
+      {
+        "name": "Island_Peripheral_Crystals_|_Cluster_3_facet_family_3",
+        "colorItemSize": 4,
+        "maximumColorNumericDifference": 0
+      },
+      {
+        "name": "Island_Pond_|_Recessed_mineral_basin",
+        "colorItemSize": 3,
+        "maximumColorNumericDifference": 0
+      },
+      {
+        "name": "Island_Surface_|_Opalescent_planting_clearing",
+        "colorItemSize": 3,
+        "maximumColorNumericDifference": 0
+      },
+      {
+        "name": "Island_Vegetation_|_Ferns_and_bent_grasses",
+        "colorItemSize": 3,
+        "maximumColorNumericDifference": 0
+      }
+    ],
+    "normalTextures": [
+      {
+        "material": "SUP Opalescent ground",
+        "colorSpace": "",
+        "normalScale": [
+          0.1599999964237213,
+          -0.1599999964237213
+        ]
+      }
+    ],
+    "materials": [
+      {
+        "name": "SUP Warm luminous filaments",
+        "type": "MeshStandardMaterial",
+        "color": [
+          0.9646862745285034,
+          0.7758222222328186,
+          0.40724021196365356
+        ],
+        "vertexColors": false
+      },
+      {
+        "name": "SUP Layered turquoise mineral",
+        "type": "MeshPhysicalMaterial",
+        "color": [
+          1,
+          1,
+          1
+        ],
+        "vertexColors": true
+      },
+      {
+        "name": "SUP Champagne gold",
+        "type": "MeshStandardMaterial",
+        "color": [
+          0.7912979125976562,
+          0.5394794940948486,
+          0.31854677200317383
+        ],
+        "vertexColors": false
+      },
+      {
+        "name": "SUP Brushed rose gold",
+        "type": "MeshStandardMaterial",
+        "color": [
+          1,
+          1,
+          1
+        ],
+        "vertexColors": true
+      },
+      {
+        "name": "SUP Lavender quartz",
+        "type": "MeshPhysicalMaterial",
+        "color": [
+          1,
+          1,
+          1
+        ],
+        "vertexColors": true
+      },
+      {
+        "name": "SUP Cyan quartz",
+        "type": "MeshPhysicalMaterial",
+        "color": [
+          1,
+          1,
+          1
+        ],
+        "vertexColors": true
+      },
+      {
+        "name": "SUP Pink opal",
+        "type": "MeshPhysicalMaterial",
+        "color": [
+          1,
+          1,
+          1
+        ],
+        "vertexColors": true
+      },
+      {
+        "name": "SUP Pearl water highlights",
+        "type": "MeshStandardMaterial",
+        "color": [
+          0.7681511640548706,
+          0.838798999786377,
+          0.8307698965072632
+        ],
+        "vertexColors": false
+      },
+      {
+        "name": "SUP Opalescent ground",
+        "type": "MeshStandardMaterial",
+        "color": [
+          1,
+          1,
+          1
+        ],
+        "vertexColors": true
+      },
+      {
+        "name": "SUP Still aqua water",
+        "type": "MeshStandardMaterial",
+        "color": [
+          0.47353148460388184,
+          0.7758222222328186,
+          0.7912979125976562
+        ],
+        "vertexColors": false
+      },
+      {
+        "name": "SUP Iridescent foliage",
+        "type": "MeshStandardMaterial",
+        "color": [
+          1,
+          1,
+          1
+        ],
+        "vertexColors": true
+      }
+    ]
+  },
+  "sourceEvidence": {
+    "generator": "art/island/generate_island.py at baseline 44ce1cc",
+    "sourceBlendSha256": "55ca157e68f1c4d8115d62b2f6a95d10e671c4c57b6ef510ccb8e44f8e7b0d1b",
+    "generatorLines": {
+      "rgb": 20,
+      "principledBaseColorLink": 51,
+      "floatVertexColorWrite": 138,
+      "normalNonColor": 102,
+      "mineralPalette": 233
+    },
+    "runtimeFiles": [
+      "src/components/Island3D.jsx",
+      "src/lib/flower3d.js"
+    ],
+    "installedPrimaryImplementation": [
+      "node_modules/three/examples/jsm/loaders/GLTFLoader.js:3710",
+      "node_modules/three/examples/jsm/loaders/GLTFLoader.js:3774",
+      "node_modules/three/examples/jsm/loaders/GLTFLoader.js:4973",
+      "node_modules/three/src/math/ColorManagement.js:22",
+      "node_modules/three/src/renderers/shaders/ShaderChunk/color_fragment.glsl.js:4",
+      "node_modules/three/src/renderers/WebGLRenderer.js:2415",
+      "node_modules/three/examples/jsm/postprocessing/OutputPass.js:93",
+      "node_modules/three/src/extras/PMREMGenerator.js:478"
+    ]
+  },
+  "scopeNotes": [
+    "Node loader check stubs bitmap decode; actual texture rendering is assessed in browser QA.",
+    "Live Blender read-only inspection during Phase A confirms FLOAT_COLOR Point/Corner attributes, direct Vertex Color-to-Base Color links and a Non-Color normal image. It is not presented as an untouched baseline snapshot.",
+    "The dynamic flower system already constructs linear Three.Color values before writing vertex attributes; no flower color conversion changes are required."
+  ]
+}
