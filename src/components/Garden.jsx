@@ -742,7 +742,6 @@ function Friends({ data, onOpen, onVisit, onGoMe }) {
           <button className="friend-visit" onClick={() => onVisit(selected)} aria-label={`${selected.nickname}의 정원 보기`}>
             <Sprout width={17} height={17} aria-hidden="true" />
             <span>정원 보기</span>
-            <span className="friend-visit-arrow" aria-hidden="true">↗</span>
           </button>
         </div>
 
