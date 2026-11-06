@@ -3,8 +3,8 @@ import Flower from './Flower.jsx'
 import Island3D from './Island3D.jsx'
 import Recorder from './Recorder.jsx'
 import { FlowerDetail, PairDetail } from './Details.jsx'
-import { displayName, grewText, isTree } from '../lib/tree.js'
-import { Bell, Heart, Mic, Sprout, User, Users, Wave } from './Icons.jsx'
+import { displayName, grewText } from '../lib/tree.js'
+import { Bell, Heart, Menu, Mic, Sprout, User, Users, Wave } from './Icons.jsx'
 import { joinFriendGarden, deleteFlower, ensurePairs, insertFlower, loadGarden, subscribeGarden, today, uploadAudio } from '../lib/db.js'
 
 // 받침에 따라 조사 고르기
@@ -26,6 +26,7 @@ export default function Garden({ session, onSignOut, email, onMoved }) {
   const [openFlower, setOpenFlower] = useState(null)
   const [openPair, setOpenPair] = useState(null)
   const [showBell, setShowBell] = useState(false)
+  const [menuOpen, setMenuOpen] = useState(false) // 오른쪽 위 메뉴: 정원·앨범·친구·나·받은 소리
   const [toast, setToast] = useState('')
   const [fresh, setFresh] = useState(() => new Set())
   const [highlight, setHighlight] = useState(null)
@@ -49,7 +50,8 @@ export default function Garden({ session, onSignOut, email, onMoved }) {
     const home = homeRef.current, sheet = sheetRef.current
     if (!home || !sheet) return
     const measure = () => {
-      const tabH = home.querySelector('.tabbar')?.offsetHeight ?? 64
+      // 아래 탭바를 없앴으므로 카드 아래 여백은 기기 안전 영역(아이폰 홈 바)만큼
+      const tabH = parseFloat(getComputedStyle(sheet).bottom) || 0
       const sheetH = sheet.offsetHeight
       const top = 140
       const closedH = home.clientHeight - top - tabH - SHEET_PEEK + 8
@@ -128,8 +130,7 @@ export default function Garden({ session, onSignOut, email, onMoved }) {
     const todayMine = data.flowers.find((f) => f.sender_id === meId && f.sent_date === t)
     const todayTheirs = data.flowers.find((f) => f.sender_id !== meId && f.sent_date === t)
     const todayPair = data.pairs.find((p) => p.sent_date === t)
-    const days = Math.floor((Date.now() - new Date(data.garden.created_at).getTime()) / 86400000) + 1
-    return { me, partner, todayMine, todayTheirs, todayPair, days }
+    return { me, partner, todayMine, todayTheirs, todayPair }
   }, [data, meId])
 
   if (error) return (
@@ -143,18 +144,19 @@ export default function Garden({ session, onSignOut, email, onMoved }) {
   )
   if (!data) return <div className="home loading center-col"><div className="seed" /><p>정원으로 가는 중…</p></div>
 
-  const { me, partner, todayMine, todayTheirs, todayPair, days } = derived
+  const { me, partner, todayMine, todayTheirs, todayPair } = derived
   const pName = partner?.nickname
   const flowerById = Object.fromEntries(data.flowers.map((f) => [f.id, f]))
 
   let status
   // 정원 코드는 홈에 띄우지 않고 친구 탭에서만 보여 준다
-  if (!partner) status = { title: '아직 혼자 가꾸는 정원이에요', sub: '친구 탭에서 정원 코드를 알려 줄 수 있어요', onClick: () => setTab('friends') }
+  if (!partner) status = { title: '아직 혼자 가꾸는 정원이에요', sub: '메뉴 → 친구에서 정원 코드를 알려 줄 수 있어요', onClick: () => setTab('friends') }
   else if (todayPair) status = { title: `오늘 ‘${todayPair.name}’이 피었어요`, sub: '눌러서 두 소리를 함께 들어 보세요', onClick: () => setOpenPair(todayPair) }
   else if (todayTheirs && !todayMine) status = { title: `${josa(pName, '이', '가')} ${timeOfDay(todayTheirs.created_at)} 소리를 보냈어요`, sub: '나도 보내면 두 소리가 만나 우리의 꽃이 피어요' }
   else if (todayMine && !todayTheirs) status = { title: '오늘의 소리를 보냈어요', sub: `${pName}의 소리를 기다리고 있어요` }
   else status = { title: '오늘은 아직 조용해요', sub: '지금 들리는 소리를 먼저 건네 볼까요?' }
 
+  const receivedCount = data.flowers.filter((f) => f.sender_id !== meId).length
   const received = data.flowers.filter((f) => f.sender_id !== meId).slice(-8).reverse()
 
   // 손잡이를 끌면 카드·섬·안내 문구가 함께 손가락을 따라오고(--sheet-p: 0 열림 ~ 1 접힘),
@@ -208,18 +210,11 @@ export default function Garden({ session, onSignOut, email, onMoved }) {
           </div>
           <header className="home-head">
             <div className="brand"><Sprout /> 소리숲</div>
-            <button className="round-btn" onClick={() => setShowBell(true)} aria-label="알림">
-              <Bell />
-              {received.some((f) => fresh.has(f.id)) && <i className="badge" />}
-            </button>
           </header>
           <div className="home-title">
             <h1>{partner ? `${josa(pName, '과', '와')} 나의 정원` : `${me?.nickname}의 정원`}</h1>
             <div className="chips">
-              <span>함께 {days}일째</span>
-              <span>꽃 {data.flowers.filter((f) => !isTree(f)).length}송이</span>
-              {data.flowers.some(isTree) && <span>나무 {data.flowers.filter(isTree).length}그루</span>}
-              <span>우리의 꽃 {data.pairs.length}송이</span>
+              <span>받은 소리 {receivedCount}개</span>
             </div>
           </div>
           {data.flowers.length === 0 ? (
@@ -263,7 +258,7 @@ export default function Garden({ session, onSignOut, email, onMoved }) {
             <button className="record-cta" onClick={() => setRecording(true)}>
               <Mic /> 오늘의 소리 녹음하기 · 10초
             </button>
-            <button className="comfort-btn" onClick={comfort}><Heart /> 오늘의 위로 · 받은 소리 하나 다시 듣기</button>
+            <button className="comfort-btn" onClick={comfort}><Heart /> 오늘의 위로</button>
           </section>
         </>
       )}
@@ -272,18 +267,33 @@ export default function Garden({ session, onSignOut, email, onMoved }) {
       {tab === 'friends' && <Friends data={data} partner={partner} meId={meId} onMoved={onMoved} />}
       {tab === 'me' && <Me me={me} data={data} email={email} onSignOut={onSignOut} />}
 
-      <nav className="tabbar">
-        {[
-          ['garden', Sprout, '정원'],
-          ['album', Wave, '앨범'],
-          ['friends', Users, '친구'],
-          ['me', User, '나'],
-        ].map(([id, Icon, label]) => (
-          <button key={id} className={tab === id ? 'on' : ''} onClick={() => setTab(id)}>
-            <Icon /> <span>{label}</span>
-          </button>
-        ))}
-      </nav>
+      {/* 오른쪽 위 메뉴 (아래 탭바 대신). 어느 화면에서나 같은 자리에 있다 */}
+      <button className="round-btn menu-btn" onClick={() => setMenuOpen((o) => !o)} aria-label="메뉴" aria-expanded={menuOpen}>
+        <Menu />
+        {received.some((f) => fresh.has(f.id)) && <i className="badge" />}
+      </button>
+      {menuOpen && (
+        <>
+          <div className="menu-backdrop" onClick={() => setMenuOpen(false)} />
+          <nav className="menu" aria-label="메뉴">
+            {[
+              ['garden', Sprout, '정원'],
+              ['album', Wave, '앨범'],
+              ['friends', Users, '친구'],
+              ['me', User, '나'],
+            ].map(([id, Icon, label]) => (
+              <button key={id} className={tab === id ? 'on' : ''} onClick={() => { setTab(id); setMenuOpen(false) }}>
+                <Icon /> <span>{label}</span>
+              </button>
+            ))}
+            <hr />
+            <button onClick={() => { setShowBell(true); setMenuOpen(false) }}>
+              <Bell /> <span>받은 소리</span>
+              {received.some((f) => fresh.has(f.id)) && <i className="dot-new" />}
+            </button>
+          </nav>
+        </>
+      )}
 
       {toast && <div className="toast">{toast}</div>}
       {recording && <Recorder onClose={() => setRecording(false)} onSend={handleSend} />}
