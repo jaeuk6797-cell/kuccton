@@ -1,0 +1,163 @@
+SUP — Omnidirectional holographic opal shading
+2026-11-07 (Asia/Seoul)
+
+Scope and comparison baseline
+
+Only src/components/Island3D.jsx production code changes, within
+createGardenEnvironment and applyOpalReflection. The task began at c06bdde,
+a pre-existing merge from main. Both rendering functions were identical to
+the requested f57cc0d baseline. All merged camera, flower placement, animation,
+interaction and UI changes are preserved. Before/after captures use this same
+current application and mock content; they do not substitute the older app.
+
+The model is completely unchanged: 16,607 triangles, 11 materials, 730,580 bytes.
+No Blender calls, asset regeneration or embedded-material edits were performed.
+GLB SHA-256, before and after:
+52ed6300962c469a0bd3e6eee9452bd9d6578d14de5b1df3004967ecfa20c083
+
+The .blend, generator, flower/tree source and all other protected files are
+byte-identical to task start. Exact-text and normalized-AST comparisons prove
+Island3D.jsx is unchanged outside the two rendering functions. See
+protected-assets.json for hashes and detailed preservation evidence.
+
+Diagnosis
+
+The previous four bright reflection cards all occupied the negative-Z sky.
+Front views reflected those cards, while side/rear rays sampled the nearly
+uniform environment background. The material retained hue but lost the
+reflection contrast that makes it read as polished opal. This was not a tone
+mapping or color-space bug.
+
+The old tint also collapsed direction to reflection.x + .15*reflection.z.
+Its two smoothstep ramps saturated across broad side arcs, reducing dynamic
+color separation. The fifth-power grazing term was only about .092 at the
+default 22.3-degree elevation. Existing diffuse/specular tint floors were already
+.45/.65, so lack of a floor alone did not explain the problem.
+
+Shader refinement
+
+Three continuous circular weights blend aqua, pink and lavender. For a unit
+reflected direction each weight is nonnegative, and their sum is one. There
+is no angle wrapping, threshold plateau, fixed spatial gradient, screen-space
+overlay or time animation. Existing normal-map orientation affects the reflected
+direction without modifying normal or texture data.
+
+A quiet milky-aqua pearl multiplier persists in indirect diffuse lighting.
+A squared grazing-angle term broadens the additional reflected-color response.
+The native PBR Fresnel, direct lighting, contact shadows and clearcoat paths
+remain untouched. Alpha remains 1, transmission 0 and ground emission 0. The
+existing application choice to disable redundant native ground thin-film
+iridescence remains in place; the GLB's native PBR fallback is unchanged.
+
+The reachable high camera angle also needs an upper-view specular response.
+Four localized cardinal lobes are reduced algebraically to a single scalar
+expression and a twelfth power using four multiplies. The response is gated
+above approximately 27 degrees of reflected elevation and fully active near
+51 degrees. It multiplies existing indirect specular light, with no emission
+or changes to diffuse/direct lighting or clearcoat. The maximum gain is 32;
+ordinary front and low viewing directions remain outside its gate. This is a
+stylized material response, not a new scene light or realtime reflection.
+
+The scalar form matched the four-vector formula across 10,000 unit directions.
+Compared with baseline, the hook uses one fewer smoothstep and two fewer mix
+calls, plus bounded scalar polynomial arithmetic for the upper response. It
+adds no fragment texture lookup, trigonometric or pow call, loop, texture,
+uniform animation, full-screen pass or runtime geometry. The shader cache key
+advances to soop-opal-reflection-v3.
+
+A broad upper-sky fill was tested and discarded: it softened flower shadows
+without producing enough localized reflection contrast. The final environment
+retains the nine accepted horizon cards; the upper response affects only the
+shared ground/basin material.
+
+Environment refinement
+
+Nine soft elliptical cards now cover the full horizontal orbit. A narrower
+warm-white key keeps a moving highlight; colored side/front/rear bands preserve
+pastel reflection contrast. The low pink band covers the lower camera angle.
+Four diagonal/side bands use 12 x 3.8 dimensions so their soft falloffs overlap
+around the previously weak 60/300-degree directions.
+
+These cards are temporary capture geometry, disposed after the single startup
+PMREM capture. The 256 environment resolution, .03 blur and retained texture
+allocation remain unchanged. The increase from 4 to 9 cards adds startup capture
+work and fill; it does not add draws or geometry to ordinary frames. Existing
+resource cleanup disposes their shared geometry and materials once.
+
+Neutral Tone Mapping, exposure 1, environment intensity .55, direct lights,
+shadow settings, clearcoat and visible sky are unchanged. There is no Bloom,
+refraction pass, per-frame environment capture or camera-following light.
+
+Visual protocol
+
+Required front, left 90, right 90, rear 180 and low 12-degree views use a constant
+14.88-unit camera-target distance, fixed lighting/exposure and matched viewport.
+Both empty and flower-populated screenshots are retained. The final full orbit
+checks between-card transitions, not just the cardinal views. Static model bob
+is frozen for clearer reflection comparison in the orbit evidence.
+
+All five final views retain pearly color and highlights. The previous 60/300
+reflection gaps are resolved without raising peak card radiance. Flower color,
+petal shape and contact shadows remain readable. Ground opacity is unchanged;
+there are no new shader or asset-loading errors.
+
+Production build: npm run build passed. The existing large-bundle warning
+remains. Whitespace and protected-code checks pass. Browser performance and
+final orbit evidence are recorded below and in the adjacent QA JSON files.
+
+Final visual evidence and limits
+
+The final horizontal orbit contains 48 actual rendered frames over 3.84 seconds,
+including the former 60/300-degree weak intervals. All 240 sampled ground points
+remain opaque (alpha 255); the peak sampled RGB value is 248/255. Adjacent center
+samples change by at most 14.22/255 per 7.5-degree step. Visual inspection found
+no abrupt seam, unstable shimmer or distracting transition.
+
+Additional checks cover mid elevations, the reachable 58.5-degree upper bound,
+and a high 45-degree azimuth crossover. High-angle front/rear center samples
+are [199,225,249] and [206,219,249]. These views retain a soft pearlescent sheen;
+they do not show the sharper glints of the normal/low views. High-angle flowers
+and their contact shadows remain readable. No sampled clipping or opacity
+failure was found. Pixel sampling is not a claim that every scene pixel was
+measured.
+
+before-after-five-views.png: combined matched comparison.
+baseline/: original front/left90/right90/rear180/low-angle, with/without flowers.
+final/: final equivalent views plus high-angle evidence.
+final/opal-360-orbit.webp: 48-frame lossless actual app orbit, 780 x 737.
+protected-assets.json: source scope, unchanged hashes and shader review.
+performance-comparison.json and paired/: controlled timing evidence.
+
+Final performance comparison
+
+Same Chromium ANGLE SwiftShader context, viewport, six-object mock scene,
+fixed camera and source replay. Order: baseline -> final -> final -> baseline.
+Values below are means of block medians; build/image encoding did not overlap.
+
+Scene                      Baseline ms        Final ms        Difference
+With existing flowers            54.70           56.15            +2.65%
+Island only                      39.65           38.10            -3.91%
+
+The small mixed difference is consistent with software-renderer variation;
+it does not demonstrate a mobile GPU speedup or regression. Draw calls remain
+353 with flowers and 26 island-only. The current merged scene contributes 327
+dynamic-content calls. Geometry allocations 68, textures 7 and programs 11 are
+unchanged. There are no new runtime passes or environment captures.
+
+No shader compilation or asset-loading failures appeared. The existing
+THREE.Clock deprecation warning remains. Production build passed, with the
+existing large-bundle warning. The larger startup card capture has extra
+initialization work; its cost was not separately benchmarked on mobile hardware.
+
+Remaining limitations
+
+Physical Android/iOS GPU performance and display fidelity remain unmeasured.
+Upper-angle sheen is deliberately soft; this revision does not promise equally
+sharp reflections at every angle. The angular color/scatter and upper specular
+response are stylized material approximations, not spectral opal simulation.
+The environment is static and does not reflect live flowers. The GLB itself
+is unchanged, so external viewers retain its existing native PBR fallback.
+Future Three.js upgrades should recheck the shader-chunk integration.
+
+Final production-source SHA-256:
+8d4976362c793e507933d330d974c15a7940e4890717b2a13ad21cba41ad8de1

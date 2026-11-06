@@ -1,0 +1,367 @@
+{
+  "requestedRenderingBaseline": "f57cc0d",
+  "preservationBaseline": "c06bdde369264d418ea4adf45c6f11d7e59383ec",
+  "baselineExplanation": "The task began after a pre-existing main merge. The two rendering functions were identical to f57cc0d. Flower3d/tree.js merge changes are preserved against c06bdde; GLB, blend and generator match both commits.",
+  "checkedAtUTC": "2026-11-06T18:00:17.657Z",
+  "allProtectedFilesUnchanged": true,
+  "files": [
+    {
+      "path": "public/models/island.glb",
+      "bytes": 730580,
+      "taskStartSHA256": "52ed6300962c469a0bd3e6eee9452bd9d6578d14de5b1df3004967ecfa20c083",
+      "finalSHA256": "52ed6300962c469a0bd3e6eee9452bd9d6578d14de5b1df3004967ecfa20c083",
+      "unchanged": true,
+      "requestedF57BlobSHA256": "52ed6300962c469a0bd3e6eee9452bd9d6578d14de5b1df3004967ecfa20c083",
+      "preexistingMergeDifferenceFromF57": false
+    },
+    {
+      "path": "art/island/island.blend",
+      "bytes": 526370,
+      "taskStartSHA256": "1783733fac4f07a75aaec14947f074ba17791eb3abd45ab0d0da996983e3ec63",
+      "finalSHA256": "1783733fac4f07a75aaec14947f074ba17791eb3abd45ab0d0da996983e3ec63",
+      "unchanged": true,
+      "requestedF57BlobSHA256": "1783733fac4f07a75aaec14947f074ba17791eb3abd45ab0d0da996983e3ec63",
+      "preexistingMergeDifferenceFromF57": false
+    },
+    {
+      "path": "art/island/generate_island.py",
+      "bytes": 37897,
+      "taskStartSHA256": "73ef99e069603c8e00c338d155d2865125a25f3a27212695545bffa3f9bc3e46",
+      "finalSHA256": "73ef99e069603c8e00c338d155d2865125a25f3a27212695545bffa3f9bc3e46",
+      "unchanged": true,
+      "requestedF57BlobSHA256": "73ef99e069603c8e00c338d155d2865125a25f3a27212695545bffa3f9bc3e46",
+      "preexistingMergeDifferenceFromF57": false
+    },
+    {
+      "path": "src/lib/flower3d.js",
+      "bytes": 10103,
+      "taskStartSHA256": "7f3e41b7ed25ee2c8244f801049daebe93969820e3b5e2bc063617924f3f4efd",
+      "finalSHA256": "7f3e41b7ed25ee2c8244f801049daebe93969820e3b5e2bc063617924f3f4efd",
+      "unchanged": true,
+      "requestedF57BlobSHA256": "cb4058f6f71aff87d62e201a8dbde05d930129e764dfd216deee2897133430be",
+      "preexistingMergeDifferenceFromF57": true
+    },
+    {
+      "path": "src/lib/tree3d.js",
+      "bytes": 4554,
+      "taskStartSHA256": "66006db9e64223972926f86e28f6ee1922fef94c87b72dbe914e0f9a1426902a",
+      "finalSHA256": "66006db9e64223972926f86e28f6ee1922fef94c87b72dbe914e0f9a1426902a",
+      "unchanged": true,
+      "requestedF57BlobSHA256": "66006db9e64223972926f86e28f6ee1922fef94c87b72dbe914e0f9a1426902a",
+      "preexistingMergeDifferenceFromF57": false
+    },
+    {
+      "path": "src/lib/tree.js",
+      "bytes": 2201,
+      "taskStartSHA256": "f1f39c5c89a8d205f03b9f56427c42958c09f876407fac10c6e6418075984bee",
+      "finalSHA256": "f1f39c5c89a8d205f03b9f56427c42958c09f876407fac10c6e6418075984bee",
+      "unchanged": true,
+      "requestedF57BlobSHA256": "b5d12b306e4f835185bd887c380caf652cc4db9dcd293d753b8b956ad5d17566",
+      "preexistingMergeDifferenceFromF57": true
+    }
+  ],
+  "asset": {
+    "triangles": 16607,
+    "primitives": 22,
+    "materials": 11,
+    "bytes": 730580,
+    "sha256": "52ed6300962c469a0bd3e6eee9452bd9d6578d14de5b1df3004967ecfa20c083",
+    "geometryMaterialsAndTexturesByteIdentical": true,
+    "noBlenderCalls": true
+  },
+  "sourceScope": {
+    "changedTrackedPaths": [
+      "src/components/Island3D.jsx"
+    ],
+    "allowedFunctions": [
+      "createGardenEnvironment",
+      "applyOpalReflection"
+    ],
+    "outsideFunctionsExactTextUnchanged": true,
+    "outsideFunctionsAstUnchanged": true,
+    "protectedTextSHA256": "0c0bb9d01acd643f62a4ac462cfba51a24146a316f54ebb3898def6fa41f7dd9",
+    "protectedAstSHA256": "990f767fa76581b32cf2fde786eb42fdaffc1a498106af3dc7e4ccf529970b41",
+    "reviewedIsland3DSHA256": "8d4976362c793e507933d330d974c15a7940e4890717b2a13ad21cba41ad8de1",
+    "functionSHA256": {
+      "createGardenEnvironment": "556bc46ca8225b8601bba4798d6e6af80fb9b8eb2a40f369e9fc7985bd826094",
+      "applyOpalReflection": "460f08a67399c61e1853e952b5e59091d6ed50cc16fe160be4ba71e4e3b3cbaa"
+    },
+    "notes": "Outside-function comparisons preserve the merged camera/layout, loading, interactions, flower/tree logic and UI. AST comparison excludes location/comment metadata; exact text comparison also passes."
+  },
+  "shaderReview": {
+    "status": "No current-version compatibility, opacity or scope defect found. Circular tint remains continuous; the added upper specular response is mathematically bounded.",
+    "threeVersion": "0.187.0",
+    "weights": {
+      "formula": "(1-z, 1+0.8660254*x+0.5*z, 1-0.8660254*x+0.5*z)/3",
+      "reflectionInvariant": "The existing inverse-view direction helper normalizes the reflected direction.",
+      "sum": 1,
+      "range": [
+        0,
+        0.6666666666666666
+      ],
+      "proof": "For unit reflection, each horizontal dot is bounded by one; 0.8660254^2+0.5^2 is slightly below one. Terms cancel in the sum. Weights are continuous polynomial expressions with no azimuth wrap or angular thresholds."
+    },
+    "grazing": {
+      "formula": "(1-clamp(dot(normal,view),0,1))^2",
+      "range": [
+        0,
+        1
+      ],
+      "diffuseMixWeight": [
+        0.55,
+        0.75
+      ],
+      "specularMixWeight": [
+        0.7,
+        0.95
+      ]
+    },
+    "conservativeRgbMultiplierBounds": {
+      "indirectDiffuse": [
+        [
+          0.77,
+          1.115
+        ],
+        [
+          0.825,
+          1.095
+        ],
+        [
+          1.0325,
+          1.145
+        ]
+      ],
+      "indirectSpecular": [
+        [
+          0.734,
+          37.472
+        ],
+        [
+          0.772,
+          35.648
+        ],
+        [
+          1.021,
+          37.472
+        ]
+      ],
+      "indirectSpecularTintOnly": [
+        [
+          0.734,
+          1.171
+        ],
+        [
+          0.772,
+          1.114
+        ],
+        [
+          1.021,
+          1.171
+        ]
+      ],
+      "note": "Final indirect-specular bounds include the [1,32] upper-response gain. These are conservative independent-factor envelopes, not measured output pixel values."
+    },
+    "unchangedPaths": [
+      "Alpha/opacity",
+      "Transmission",
+      "Direct diffuse/specular light",
+      "Native clearcoat",
+      "Contact-shadow implementation",
+      "Tone mapping and color management"
+    ],
+    "runtimeNativeIridescenceZero": "Pre-existing runtime choice retained; GLB native iridescence remains byte-identical.",
+    "scope": "Only the shared ground/basin material receives the guarded hook. Previous compile callback and custom cache-key isolation are preserved.",
+    "appOnly": true,
+    "portability": "The angular tint is runtime JavaScript/GLSL; it is not written into the GLB. Existing standalone PBR fallback is unchanged.",
+    "continuityLimit": "Shader continuity follows analytically. Perceived all-angle sheen, environment seams, clipping and orbit stability are assessed in browser visual QA.",
+    "upperSpecularResponse": {
+      "formula": "U=smoothstep(.45,.78,r.y); L=max(0,.8*r.y+.6*max(abs(r.x),abs(r.z))); gain=1+31*U*L^12",
+      "equivalentDirections": [
+        [
+          0.6,
+          0.8,
+          0
+        ],
+        [
+          -0.6,
+          0.8,
+          0
+        ],
+        [
+          0,
+          0.8,
+          0.6
+        ],
+        [
+          0,
+          0.8,
+          -0.6
+        ]
+      ],
+      "proof": "Each cardinal-upper direction has unit length. For unit reflected r, all dot products are <=1. The scalar expression is the nonnegative maximum of those four dots. Raising a nonnegative maximum to power12 is exactly the maximum of the four nonnegative power12 lobes.",
+      "lobeRange": [
+        0,
+        1
+      ],
+      "gainRange": [
+        1,
+        32
+      ],
+      "reflectionElevationTransitionDegrees": [
+        26.743683950403007,
+        51.26057540214435
+      ],
+      "maximumLobeElevationDegrees": 53.13010235415598,
+      "zenithGain": 3.130303778816001,
+      "continuity": "The value is continuous around the full orbit. Max/abs switches can have derivative kinks at equal-cardinal directions, but no value jumps or angular wrap.",
+      "scalarOperationCounts": {
+        "multiplicationsForPower12": 4,
+        "additionalAffineAndGainMultiplications": 4,
+        "absCalls": 2,
+        "maxCalls": 2,
+        "smoothstepCalls": 1,
+        "rgbMultiply": 1
+      },
+      "appearance": "Selected to provide a soft upper sheen, not a sharp mirror glint. Perceived softness and highlight clipping remain visual QA criteria.",
+      "scope": "Multiplies existing indirect specular only; diffuse illumination, direct lighting, clearcoat, opacity and emission are unchanged by this upper-response block."
+    }
+  },
+  "complexity": {
+    "beforeHookCalls": {
+      "reflect": 1,
+      "transformDirectionByInverseViewMatrix": 1,
+      "dot": 1,
+      "smoothstep": 2,
+      "mix": 4,
+      "pow": 0,
+      "normalize": 0,
+      "sin": 0,
+      "cos": 0,
+      "atan": 0,
+      "sqrt": 0,
+      "texture": 0,
+      "texture2D": 0,
+      "textureCube": 0,
+      "abs": 0,
+      "max": 0
+    },
+    "afterHookCalls": {
+      "reflect": 1,
+      "transformDirectionByInverseViewMatrix": 1,
+      "dot": 1,
+      "smoothstep": 1,
+      "mix": 2,
+      "pow": 0,
+      "normalize": 0,
+      "sin": 0,
+      "cos": 0,
+      "atan": 0,
+      "sqrt": 0,
+      "texture": 0,
+      "texture2D": 0,
+      "textureCube": 0,
+      "abs": 2,
+      "max": 2
+    },
+    "interpretation": "Relative to baseline, two smoothsteps become one and four mixes become two. Fifth-power grazing becomes a square; circular tint adds simple multiply/add arithmetic. The new upper lobe uses four multiplies for power12 plus affine/final-gain arithmetic, 2 abs and 2 max. No extra trigonometry, pow calls, texture fetches, per-frame JavaScript callbacks, draws or fullscreen passes are introduced. Source operation counts are not GPU instructions or timing measurements.",
+    "composerPassesBefore": 2,
+    "composerPassesAfter": 2,
+    "pmremStartupCaptureSitesBefore": 1,
+    "pmremStartupCaptureSitesAfter": 1,
+    "environmentCapture": {
+      "cardsBefore": 4,
+      "cardsAfter": 9,
+      "sharedPlaneSegments": [
+        12,
+        12
+      ],
+      "transientTriangleInstancesBefore": 1152,
+      "transientTriangleInstancesAfter": 2592,
+      "captureResolutionUnchanged": 256,
+      "blurUnchanged": 0.03,
+      "additionalStartupCost": "Five extra temporary cards increase one-time PMREM scene capture work. They are disposed after capture; they add no per-frame island geometry or runtime draws.",
+      "runtimeFilteredEnvironmentCount": 1,
+      "coverageRevision": {
+        "changedCardDimensions": [
+          {
+            "position": [
+              3.8,
+              2,
+              -5.6
+            ],
+            "before": [
+              6.4,
+              2.6
+            ],
+            "after": [
+              12,
+              3.8
+            ]
+          },
+          {
+            "position": [
+              -3.8,
+              2,
+              -5.6
+            ],
+            "before": [
+              6.4,
+              2.6
+            ],
+            "after": [
+              12,
+              3.8
+            ]
+          },
+          {
+            "position": [
+              6.4,
+              2,
+              0
+            ],
+            "before": [
+              8,
+              2.6
+            ],
+            "after": [
+              12,
+              3.8
+            ]
+          },
+          {
+            "position": [
+              -6.4,
+              2,
+              0
+            ],
+            "before": [
+              8,
+              2.6
+            ],
+            "after": [
+              12,
+              3.8
+            ]
+          }
+        ],
+        "notes": "The four broadened 12 x 3.8 cards and all nine horizon cards remain selected; no canopy cards are present. This was the earlier coverage-only revision. The final shader additionally contains the bounded upper specular response described above.",
+        "coverageReviewSourceSHA256": "1483439a9808ed79d822a880dea823f22f0578d58c0a384de97b9250c2788356",
+        "coverageRevisionChangedOnlyCardSizes": true,
+        "shaderUnchangedDuringCoverageRevision": true
+      },
+      "canopyCards": 0,
+      "unchangedFromAcceptedNineCardCoverageVersion": true
+    },
+    "performanceLimit": "Final frame-time and actual render-call measurements are recorded separately by browser QA; no physical mobile GPU performance claim is made here."
+  },
+  "verification": {
+    "onlyIsland3DSourceChanged": true,
+    "noProtectedAssetWrites": true,
+    "noNewPasses": true,
+    "oneStartupEnvironmentCapture": true,
+    "cardCountVerified": true,
+    "shaderHelperCompatibility": "Current Three.js physical shader exposes aomap_fragment, geometryNormal, geometryViewDir and transformDirectionByInverseViewMatrix in the expected order.",
+    "upperResponseBounded": true,
+    "environmentUnchangedFromAcceptedCoverage": true
+  }
+}

@@ -80,18 +80,31 @@ function applyOpalReflection(material) {
       vec3 opalReflection = transformDirectionByInverseViewMatrix(
         reflect(-geometryViewDir, geometryNormal), viewMatrix);
       float opalEdge = 1.0 - saturate(dot(geometryNormal, geometryViewDir));
-      float opalFresnel = opalEdge * opalEdge;
-      opalFresnel *= opalFresnel * opalEdge;
-      float opalShift = opalReflection.x + 0.15 * opalReflection.z;
-      vec3 opalTint = mix(vec3(0.72, 1.12, 1.14), vec3(1.14, 0.76, 1.18),
-        smoothstep(0.10, 0.65, -opalShift));
-      opalTint = mix(opalTint, vec3(1.18, 0.78, 1.03),
-        smoothstep(0.10, 0.65, opalShift));
-      reflectedLight.indirectDiffuse *= mix(vec3(1.0), opalTint, 0.45 + 0.45 * opalFresnel);
-      reflectedLight.indirectSpecular *= mix(vec3(1.0), opalTint, 0.65 + 0.25 * opalFresnel);
+      float opalGrazing = opalEdge * opalEdge;
+      // These nonnegative circular weights sum to one without angular seams or hue plateaus.
+      vec3 opalWeights = vec3(
+        1.0 - opalReflection.z,
+        1.0 + 0.8660254 * opalReflection.x + 0.5 * opalReflection.z,
+        1.0 - 0.8660254 * opalReflection.x + 0.5 * opalReflection.z) / 3.0;
+      vec3 opalTint = opalWeights.x * vec3(0.72, 1.12, 1.14)
+        + opalWeights.y * vec3(1.18, 0.78, 1.03)
+        + opalWeights.z * vec3(1.14, 0.76, 1.18);
+      // A quiet pearl body persists while reflected color strengthens toward grazing views.
+      reflectedLight.indirectDiffuse *= mix(vec3(0.92, 1.02, 1.04), opalTint,
+        0.55 + 0.20 * opalGrazing);
+      reflectedLight.indirectSpecular *= mix(vec3(1.0), opalTint, 0.70 + 0.25 * opalGrazing);
+      // Upper viewing directions retain a polished response without brightening diffuse light.
+      float opalUpperView = smoothstep(0.45, 0.78, opalReflection.y);
+      // Exact maximum of four cardinal upper lobes, evaluated with scalar arithmetic.
+      float opalUpperLobe = max(0.0, 0.8 * opalReflection.y
+        + 0.6 * max(abs(opalReflection.x), abs(opalReflection.z)));
+      float opalUpperLobe2 = opalUpperLobe * opalUpperLobe;
+      float opalUpperLobe4 = opalUpperLobe2 * opalUpperLobe2;
+      float opalUpperHighlight = opalUpperLobe4 * opalUpperLobe4 * opalUpperLobe4;
+      reflectedLight.indirectSpecular *= 1.0 + 31.0 * opalUpperView * opalUpperHighlight;
     `)
   }
-  material.customProgramCacheKey = () => 'soop-opal-reflection-v1'
+  material.customProgramCacheKey = () => 'soop-opal-reflection-v3'
   material.needsUpdate = true
 }
 

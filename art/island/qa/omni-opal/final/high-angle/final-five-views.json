@@ -1,0 +1,1034 @@
+{
+  "tag": "final",
+  "time": "2026-11-06T17:52:37.891Z",
+  "info": {
+    "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+    "canvas": [
+      780,
+      945
+    ],
+    "dpr": 1.5,
+    "toneMapping": 7,
+    "exposure": 1,
+    "outputColorSpace": "srgb",
+    "environmentIntensity": 0.55,
+    "passes": [
+      {
+        "name": "RenderPass",
+        "enabled": true
+      },
+      {
+        "name": "OutputPass",
+        "enabled": true
+      }
+    ],
+    "objects": [
+      {
+        "name": "타닥콩닥꽃",
+        "kind": "pair",
+        "position": [
+          -0.04545222379267216,
+          0,
+          1.0916847019089277
+        ]
+      },
+      {
+        "name": "살랑웅성꽃",
+        "kind": "pair",
+        "position": [
+          0.6810314719565213,
+          0,
+          1.1298412594018394
+        ]
+      },
+      {
+        "name": "콩닥콩닥꽃",
+        "kind": "flower",
+        "position": [
+          1.3002295877225698,
+          0,
+          -2.265058398862534
+        ]
+      },
+      {
+        "name": "킥킥꽃",
+        "kind": "flower",
+        "position": [
+          -0.34281339319422843,
+          0,
+          2.86717117708779
+        ]
+      },
+      {
+        "name": "웅성웅성꽃",
+        "kind": "flower",
+        "position": [
+          -2.309150559017435,
+          0,
+          0.570571514708264
+        ]
+      },
+      {
+        "name": "뚜벅나무",
+        "kind": "flower",
+        "position": [
+          -0.37201368623413145,
+          0,
+          -0.591439107354073
+        ]
+      }
+    ],
+    "island": [
+      "SOOP_Island"
+    ],
+    "memory": {
+      "geometries": 68,
+      "textures": 7
+    },
+    "programs": 11,
+    "glb": [
+      {
+        "size": 730580,
+        "duration": 5.5,
+        "response": 200
+      }
+    ],
+    "rayTimer": true
+  },
+  "views": [
+    {
+      "label": "front",
+      "position": [
+        0,
+        5.7407245920921275,
+        13.77386237603891
+      ],
+      "target": [
+        0,
+        0.1,
+        0
+      ],
+      "distance": 14.884121024699212,
+      "samples": [
+        {
+          "world": [
+            0,
+            0.17,
+            0
+          ],
+          "framebufferPixel": [
+            390,
+            478
+          ],
+          "meanRGBA": [
+            216,
+            231,
+            246,
+            255
+          ]
+        },
+        {
+          "world": [
+            -1.1,
+            0.17,
+            0.1
+          ],
+          "framebufferPixel": [
+            295,
+            475
+          ],
+          "meanRGBA": [
+            221,
+            233,
+            248,
+            255
+          ]
+        },
+        {
+          "world": [
+            0.9,
+            0.17,
+            0.5
+          ],
+          "framebufferPixel": [
+            469,
+            462
+          ],
+          "meanRGBA": [
+            207,
+            226.78,
+            244,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            -1
+          ],
+          "framebufferPixel": [
+            390,
+            509
+          ],
+          "meanRGBA": [
+            216.78,
+            229.67,
+            247,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            1.25
+          ],
+          "framebufferPixel": [
+            390,
+            435
+          ],
+          "meanRGBA": [
+            211.67,
+            230,
+            245,
+            255
+          ]
+        }
+      ]
+    },
+    {
+      "label": "low-angle",
+      "position": [
+        0,
+        3.1945827685813737,
+        14.558867269341128
+      ],
+      "target": [
+        0,
+        0.1,
+        0
+      ],
+      "distance": 14.884121024699212,
+      "samples": [
+        {
+          "world": [
+            0,
+            0.17,
+            0
+          ],
+          "framebufferPixel": [
+            390,
+            478
+          ],
+          "meanRGBA": [
+            218,
+            224,
+            249,
+            255
+          ]
+        },
+        {
+          "world": [
+            -1.1,
+            0.17,
+            0.1
+          ],
+          "framebufferPixel": [
+            295,
+            477
+          ],
+          "meanRGBA": [
+            213,
+            218,
+            248,
+            255
+          ]
+        },
+        {
+          "world": [
+            0.9,
+            0.17,
+            0.5
+          ],
+          "framebufferPixel": [
+            469,
+            469
+          ],
+          "meanRGBA": [
+            219.56,
+            228,
+            249,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            -1
+          ],
+          "framebufferPixel": [
+            390,
+            495
+          ],
+          "meanRGBA": [
+            218,
+            223,
+            248.33,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            1.25
+          ],
+          "framebufferPixel": [
+            390,
+            455
+          ],
+          "meanRGBA": [
+            217,
+            223.67,
+            249,
+            255
+          ]
+        }
+      ]
+    },
+    {
+      "label": "mid-front",
+      "position": [
+        0,
+        9.667328575751569,
+        11.40189820168118
+      ],
+      "target": [
+        0,
+        0.1,
+        0
+      ],
+      "distance": 14.884121024699212,
+      "samples": [
+        {
+          "world": [
+            0,
+            0.17,
+            0
+          ],
+          "framebufferPixel": [
+            390,
+            477
+          ],
+          "meanRGBA": [
+            194,
+            224,
+            246,
+            255
+          ]
+        },
+        {
+          "world": [
+            -1.1,
+            0.17,
+            0.1
+          ],
+          "framebufferPixel": [
+            295,
+            472
+          ],
+          "meanRGBA": [
+            194,
+            223,
+            246,
+            255
+          ]
+        },
+        {
+          "world": [
+            0.9,
+            0.17,
+            0.5
+          ],
+          "framebufferPixel": [
+            469,
+            449
+          ],
+          "meanRGBA": [
+            193.44,
+            224,
+            246,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            -1
+          ],
+          "framebufferPixel": [
+            390,
+            530
+          ],
+          "meanRGBA": [
+            191.11,
+            222.67,
+            244,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            1.25
+          ],
+          "framebufferPixel": [
+            390,
+            404
+          ],
+          "meanRGBA": [
+            195,
+            224,
+            247,
+            255
+          ]
+        }
+      ]
+    },
+    {
+      "label": "mid-rear",
+      "position": [
+        0,
+        9.667328575751569,
+        -11.40189820168118
+      ],
+      "target": [
+        0,
+        0.1,
+        0
+      ],
+      "distance": 14.884121024699212,
+      "samples": [
+        {
+          "world": [
+            0,
+            0.17,
+            0
+          ],
+          "framebufferPixel": [
+            390,
+            477
+          ],
+          "meanRGBA": [
+            203,
+            215,
+            245,
+            255
+          ]
+        },
+        {
+          "world": [
+            -1.1,
+            0.17,
+            0.1
+          ],
+          "framebufferPixel": [
+            484,
+            483
+          ],
+          "meanRGBA": [
+            202,
+            214,
+            245,
+            255
+          ]
+        },
+        {
+          "world": [
+            0.9,
+            0.17,
+            0.5
+          ],
+          "framebufferPixel": [
+            314,
+            504
+          ],
+          "meanRGBA": [
+            201.89,
+            214,
+            244.67,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            -1
+          ],
+          "framebufferPixel": [
+            390,
+            420
+          ],
+          "meanRGBA": [
+            204,
+            216,
+            247,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            1.25
+          ],
+          "framebufferPixel": [
+            390,
+            542
+          ],
+          "meanRGBA": [
+            201,
+            213,
+            244,
+            255
+          ]
+        }
+      ]
+    },
+    {
+      "label": "high-front",
+      "position": [
+        0,
+        12.789078162857535,
+        7.779739973468595
+      ],
+      "target": [
+        0,
+        0.1,
+        0
+      ],
+      "distance": 14.884121024699212,
+      "samples": [
+        {
+          "world": [
+            0,
+            0.17,
+            0
+          ],
+          "framebufferPixel": [
+            390,
+            476
+          ],
+          "meanRGBA": [
+            199,
+            225,
+            249,
+            255
+          ]
+        },
+        {
+          "world": [
+            -1.1,
+            0.17,
+            0.1
+          ],
+          "framebufferPixel": [
+            295,
+            468
+          ],
+          "meanRGBA": [
+            199,
+            224,
+            249,
+            255
+          ]
+        },
+        {
+          "world": [
+            0.9,
+            0.17,
+            0.5
+          ],
+          "framebufferPixel": [
+            469,
+            438
+          ],
+          "meanRGBA": [
+            199,
+            225,
+            248,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            -1
+          ],
+          "framebufferPixel": [
+            390,
+            547
+          ],
+          "meanRGBA": [
+            199,
+            225,
+            249,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            1.25
+          ],
+          "framebufferPixel": [
+            390,
+            381
+          ],
+          "meanRGBA": [
+            198,
+            224,
+            248,
+            255
+          ]
+        }
+      ]
+    },
+    {
+      "label": "high-rear",
+      "position": [
+        0,
+        12.789078162857535,
+        -7.779739973468595
+      ],
+      "target": [
+        0,
+        0.1,
+        0
+      ],
+      "distance": 14.884121024699212,
+      "samples": [
+        {
+          "world": [
+            0,
+            0.17,
+            0
+          ],
+          "framebufferPixel": [
+            390,
+            476
+          ],
+          "meanRGBA": [
+            206,
+            219,
+            249,
+            255
+          ]
+        },
+        {
+          "world": [
+            -1.1,
+            0.17,
+            0.1
+          ],
+          "framebufferPixel": [
+            484,
+            483
+          ],
+          "meanRGBA": [
+            206,
+            219,
+            249,
+            255
+          ]
+        },
+        {
+          "world": [
+            0.9,
+            0.17,
+            0.5
+          ],
+          "framebufferPixel": [
+            314,
+            512
+          ],
+          "meanRGBA": [
+            206,
+            219,
+            248.89,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            -1
+          ],
+          "framebufferPixel": [
+            390,
+            400
+          ],
+          "meanRGBA": [
+            205,
+            219,
+            248,
+            255
+          ]
+        },
+        {
+          "world": [
+            0,
+            0.17,
+            1.25
+          ],
+          "framebufferPixel": [
+            390,
+            564
+          ],
+          "meanRGBA": [
+            207,
+            219,
+            249,
+            255
+          ]
+        }
+      ]
+    }
+  ],
+  "logs": [
+    "THREE.Clock: This module has been deprecated. Please use THREE.Timer instead."
+  ],
+  "failures": [],
+  "responses": [
+    {
+      "status": 200,
+      "type": "model/gltf-binary",
+      "url": "http://127.0.0.1:5173/models/island.glb"
+    }
+  ],
+  "method": "Five views at identical camera-target distance; low angle changes elevation to 12 degrees. Same lighting, exposure, DPR, target and frozen bob. Flowers hidden only for empty-ground screenshots and pixel samples.",
+  "rendererSourceSHA256": "8d4976362c793e507933d330d974c15a7940e4890717b2a13ad21cba41ad8de1",
+  "auxiliary": {
+    "tag": "upper",
+    "time": "2026-11-06T17:53:59.543Z",
+    "info": {
+      "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "canvas": [
+        780,
+        945
+      ],
+      "dpr": 1.5,
+      "toneMapping": 7,
+      "exposure": 1,
+      "outputColorSpace": "srgb",
+      "environmentIntensity": 0.55,
+      "passes": [
+        {
+          "name": "RenderPass",
+          "enabled": true
+        },
+        {
+          "name": "OutputPass",
+          "enabled": true
+        }
+      ],
+      "objects": [
+        {
+          "name": "타닥콩닥꽃",
+          "kind": "pair",
+          "position": [
+            -0.04545222379267216,
+            0,
+            1.0916847019089277
+          ]
+        },
+        {
+          "name": "살랑웅성꽃",
+          "kind": "pair",
+          "position": [
+            0.6810314719565213,
+            0,
+            1.1298412594018394
+          ]
+        },
+        {
+          "name": "콩닥콩닥꽃",
+          "kind": "flower",
+          "position": [
+            1.3002295877225698,
+            0,
+            -2.265058398862534
+          ]
+        },
+        {
+          "name": "킥킥꽃",
+          "kind": "flower",
+          "position": [
+            -0.34281339319422843,
+            0,
+            2.86717117708779
+          ]
+        },
+        {
+          "name": "웅성웅성꽃",
+          "kind": "flower",
+          "position": [
+            -2.309150559017435,
+            0,
+            0.570571514708264
+          ]
+        },
+        {
+          "name": "뚜벅나무",
+          "kind": "flower",
+          "position": [
+            -0.37201368623413145,
+            0,
+            -0.591439107354073
+          ]
+        }
+      ],
+      "island": [
+        "SOOP_Island"
+      ],
+      "memory": {
+        "geometries": 68,
+        "textures": 7
+      },
+      "programs": 11,
+      "glb": [
+        {
+          "size": 730580,
+          "duration": 6.5,
+          "response": 200
+        }
+      ],
+      "rayTimer": true
+    },
+    "views": [
+      {
+        "label": "high-front",
+        "position": [
+          0,
+          12.789078162857535,
+          7.779739973468595
+        ],
+        "target": [
+          0,
+          0.1,
+          0
+        ],
+        "distance": 14.884121024699212,
+        "samples": [
+          {
+            "world": [
+              0,
+              0.17,
+              0
+            ],
+            "framebufferPixel": [
+              390,
+              476
+            ],
+            "meanRGBA": [
+              199,
+              225,
+              249,
+              255
+            ]
+          },
+          {
+            "world": [
+              -1.1,
+              0.17,
+              0.1
+            ],
+            "framebufferPixel": [
+              295,
+              468
+            ],
+            "meanRGBA": [
+              199,
+              224,
+              249,
+              255
+            ]
+          },
+          {
+            "world": [
+              0.9,
+              0.17,
+              0.5
+            ],
+            "framebufferPixel": [
+              469,
+              438
+            ],
+            "meanRGBA": [
+              198.89,
+              225,
+              248,
+              255
+            ]
+          },
+          {
+            "world": [
+              0,
+              0.17,
+              -1
+            ],
+            "framebufferPixel": [
+              390,
+              547
+            ],
+            "meanRGBA": [
+              199,
+              225,
+              249,
+              255
+            ]
+          },
+          {
+            "world": [
+              0,
+              0.17,
+              1.25
+            ],
+            "framebufferPixel": [
+              390,
+              381
+            ],
+            "meanRGBA": [
+              198,
+              224,
+              248,
+              255
+            ]
+          }
+        ]
+      },
+      {
+        "label": "high-diagonal",
+        "position": [
+          5.501106891107694,
+          12.789078162857535,
+          5.501106891107694
+        ],
+        "target": [
+          0,
+          0.1,
+          0
+        ],
+        "distance": 14.884121024699212,
+        "samples": [
+          {
+            "world": [
+              0,
+              0.17,
+              0
+            ],
+            "framebufferPixel": [
+              390,
+              476
+            ],
+            "meanRGBA": [
+              190,
+              219,
+              243,
+              255
+            ]
+          },
+          {
+            "world": [
+              -1.1,
+              0.17,
+              0.1
+            ],
+            "framebufferPixel": [
+              319,
+              526
+            ],
+            "meanRGBA": [
+              191,
+              219,
+              244,
+              255
+            ]
+          },
+          {
+            "world": [
+              0.9,
+              0.17,
+              0.5
+            ],
+            "framebufferPixel": [
+              415,
+              401
+            ],
+            "meanRGBA": [
+              191,
+              219,
+              244,
+              255
+            ]
+          },
+          {
+            "world": [
+              0,
+              0.17,
+              -1
+            ],
+            "framebufferPixel": [
+              449,
+              526
+            ],
+            "meanRGBA": [
+              190,
+              219,
+              243,
+              255
+            ]
+          },
+          {
+            "world": [
+              0,
+              0.17,
+              1.25
+            ],
+            "framebufferPixel": [
+              312,
+              409
+            ],
+            "meanRGBA": [
+              192,
+              219,
+              244,
+              255
+            ]
+          }
+        ]
+      }
+    ],
+    "logs": [
+      "THREE.Clock: This module has been deprecated. Please use THREE.Timer instead."
+    ],
+    "failures": [],
+    "responses": [
+      {
+        "status": 200,
+        "type": "model/gltf-binary",
+        "url": "http://127.0.0.1:5173/models/island.glb"
+      }
+    ],
+    "method": "Five views at identical camera-target distance; low angle changes elevation to 12 degrees. Same lighting, exposure, DPR, target and frozen bob. Flowers hidden only for empty-ground screenshots and pixel samples."
+  },
+  "assessment": "Soft pearlescent upper sheen; less glossy than horizon-card views. Flowers and contact shadows remain readable; no visible diagonal crease."
+}
