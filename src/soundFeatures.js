@@ -95,5 +95,17 @@ export async function extractFeatures(blob) {
     }
   }
 
-  return { rms, centroid, attack, onsets, duration: buf.duration }
+  // 소리가 얼마나 이어졌는지: 최대 크기의 25%를 넘는 프레임 비율
+  const sustain = env.filter((v) => v >= 0.25 * peak).length / Math.max(env.length, 1)
+
+  // 시간에 따른 소리 크기(파형 윤곽): 8구간 평균을 최대값 1로 맞춘다
+  const BINS = 8
+  const envelope = Array.from({ length: BINS }, (_, b) => {
+    const from = Math.floor((b * env.length) / BINS)
+    const to = Math.max(from + 1, Math.floor(((b + 1) * env.length) / BINS))
+    const part = env.slice(from, to)
+    return part.reduce((acc, v) => acc + v, 0) / Math.max(part.length, 1) / peak
+  })
+
+  return { rms, centroid, attack, onsets, sustain, envelope, duration: buf.duration }
 }
