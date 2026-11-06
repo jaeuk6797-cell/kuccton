@@ -21,7 +21,7 @@ export default function Visit({ friend, onClose }) {
   const blooms = (flowers?.length ?? 0) - trees
 
   return (
-    <div className="home sheet-closed visit">
+    <div className="home visit">
       <div className="sky">
         <div className="cloud c1" /><div className="cloud c2" /><div className="cloud c3" />
       </div>

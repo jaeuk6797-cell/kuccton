@@ -287,7 +287,7 @@ export async function loadGarden(gardenId) {
 }
 
 export async function uploadAudio(gardenId, blob) {
-  const ext = blob.type.includes('mp4') || blob.type.includes('aac') ? 'm4a' : 'webm'
+  const ext = blob.type.includes('wav') ? 'wav' : blob.type.includes('mp4') || blob.type.includes('aac') ? 'm4a' : 'webm'
   const path = `${gardenId}/${crypto.randomUUID()}.${ext}`
   const { error } = await supabase.storage.from(BUCKET).upload(path, blob, { contentType: blob.type || 'audio/webm' })
   if (error) throw error
@@ -314,6 +314,15 @@ export async function deleteFlower(flower) {
   const { error } = await supabase.from('flowers').delete().eq('id', flower.id)
   if (error) throw error
   await supabase.storage.from(BUCKET).remove([flower.audio_path])
+}
+
+// 받은 항목만 삭제한다. 보낸 사람의 원본 꽃과 소리 파일은 건드리지 않는다.
+export async function deleteReceivedSound(shareId) {
+  const user = await currentUser()
+  if (!user) throw new Error('먼저 로그인해 주세요.')
+  const { data, error } = await supabase.from('shares').delete().eq('id', shareId).eq('to_user', user.id).select('id')
+  if (error) throw error
+  if (!data?.length) throw new Error('삭제하지 못했어요. 서버에 migrations-012.sql이 적용되어 있는지 확인해 주세요.')
 }
 
 export function subscribeGarden(gardenId, userId, onChange) {

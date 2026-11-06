@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import FlowerBloom3D from './FlowerBloom3D.jsx'
+import { Sprout, Trash } from './Icons.jsx'
 import { audioUrl } from '../lib/db.js'
 import { audioCtx, peaks, playStereo, setPlaybackLevelSource, toMono } from '../lib/audio.js'
 
@@ -13,13 +14,15 @@ function envelopeLevel(el, flower) {
     return (env[i] - 0.5) * 2 * (0.6 + 0.4 * Math.abs(Math.sin(el.currentTime * 9)))
   }
 }
-import { displayName, noun } from '../lib/tree.js'
+import { displayName, isTree, noun } from '../lib/tree.js'
 
 // S5 꽃 상세
-export function FlowerDetail({ flower, sender, mine, sharedWith = [], onShare, onAccept, onDecline, answerBusy, onClose, onDelete }) {
+export function FlowerDetail({ flower, sender, mine, sharedWith = [], onShare, onAccept, onDecline, onGardenToggle, onDeleteReceived, answerBusy, onClose, onDelete }) {
   const [url, setUrl] = useState(null)
   const [confirm, setConfirm] = useState(false)
   const audioRef = useRef(null)
+  const flowerWord = flower.transcript?.trim() || (isTree(flower) ? flower.root : '')
+  const planted = flower.share_status === 'accepted'
 
   // 닫히면 정원 빛 알갱이 반응도 멈춘다
   useEffect(() => () => setPlaybackLevelSource(null), [])
@@ -38,7 +41,7 @@ export function FlowerDetail({ flower, sender, mine, sharedWith = [], onShare, o
         <FlowerBloom3D flower={flower} size={160} />
         <h2 className="flower-name">{displayName(flower)}</h2>
         <p className="reason">{flower.reason}</p>
-        {flower.transcript && <p className="hanamal-view">꽃말: “{flower.transcript}”</p>}
+        {flowerWord && <p className="hanamal-view">{flowerWord}</p>}
         <p className="muted small">
           {mine ? `내가 보낸 ${noun(flower)}` : `${sender?.nickname || '상대'}가 보낸 ${noun(flower)}`} · {flower.sent_date}
         </p>
@@ -54,21 +57,31 @@ export function FlowerDetail({ flower, sender, mine, sharedWith = [], onShare, o
             <button className="primary" disabled={answerBusy} onClick={onAccept}>{answerBusy ? '심는 중…' : '정원에 심기'}</button>
           </div>
         )}
+        {onGardenToggle && !confirm && (
+          <div className="album-detail-actions">
+            <button className={`${planted ? 'ghost' : 'primary'} album-garden-action`} disabled={answerBusy} onClick={onGardenToggle}>
+              <Sprout width={18} height={18} aria-hidden="true" />
+              {answerBusy ? '처리 중…' : planted ? '정원에서 빼기' : '정원에 심기'}
+            </button>
+            <button className="album-delete" disabled={answerBusy} onClick={() => setConfirm(true)} aria-label="앨범에서 삭제"><Trash width={17} height={17} aria-hidden="true" />삭제</button>
+          </div>
+        )}
         {mine && onShare && (
           <>
             <button className="primary" onClick={onShare}>친구에게 공유</button>
             {sharedWith.length > 0 && <p className="muted small">공유한 친구 · {sharedWith.join(', ')}</p>}
           </>
         )}
-        {mine && (
+        {(mine || onDeleteReceived) && (
           confirm ? (
-            <div className="row">
-              <button className="ghost" onClick={() => setConfirm(false)}>취소</button>
-              <button className="danger" onClick={() => onDelete(flower)}>정말 지우기</button>
+            <div className="album-delete-confirm">
+              {onDeleteReceived && <p className="small muted">내 앨범과 정원에서 삭제할까요?<br />친구의 원본 소리는 남아 있어요.</p>}
+              <div className="row">
+              <button className="ghost" disabled={answerBusy} onClick={() => setConfirm(false)}>취소</button>
+              <button className="danger" disabled={answerBusy} onClick={() => onDeleteReceived ? onDeleteReceived() : onDelete(flower)}>{answerBusy ? '삭제 중…' : '정말 삭제'}</button>
+              </div>
             </div>
-          ) : (
-            <button className="link danger-text" onClick={() => setConfirm(true)}>이 소리 지우기</button>
-          )
+          ) : mine ? <button className="link danger-text" onClick={() => setConfirm(true)}>이 소리 지우기</button> : null
         )}
       </div>
     </div>

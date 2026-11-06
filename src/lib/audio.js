@@ -1,7 +1,16 @@
 // 녹음 포맷, 디코딩, 파형, 스테레오 재생
 // 음향 특징 추출은 soundFeatures.js에 있다.
 
+import { recordingGain, pcmWave } from './audioLevel.js'
+
 let sharedCtx
+
+export async function normalizeRecording(blob) {
+  const buffer = await audioCtx().decodeAudioData(await blob.arrayBuffer())
+  const channels = Array.from({ length: buffer.numberOfChannels }, (_, i) => buffer.getChannelData(i))
+  const gain = recordingGain(channels)
+  return gain > 1.05 ? pcmWave(channels, buffer.sampleRate, gain) : blob
+}
 
 // ── 재생 음량 (정원의 빛 알갱이가 반응) ─────────────────────────────
 // 지금 재생 중인 소리가 음량(0~1)을 알려 주는 함수를 등록한다. 재생이 끝나면 null.
@@ -45,7 +54,7 @@ export function peaks(samples, count = 120) {
   return out.map((v) => v / max)
 }
 
-// 우리의 꽃: 상대는 왼쪽(-0.8), 나는 오른쪽(+0.8)으로 동시에 재생
+// 우리의 꽃: 상대는 왼쪽(-1), 나는 오른쪽(+1)으로 동시에 재생
 export function playStereo(leftBuffer, rightBuffer, onEnd) {
   const ctx = audioCtx()
   const nodes = []
@@ -63,7 +72,7 @@ export function playStereo(leftBuffer, rightBuffer, onEnd) {
   }
   setPlaybackLevelSource(level)
   const release = () => { if (levelSource === level) setPlaybackLevelSource(null) }
-  for (const [buf, pan] of [[leftBuffer, -0.8], [rightBuffer, 0.8]]) {
+  for (const [buf, pan] of [[leftBuffer, -1], [rightBuffer, 1]]) {
     const src = ctx.createBufferSource()
     src.buffer = buf
     const p = ctx.createStereoPanner()

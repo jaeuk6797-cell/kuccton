@@ -9,8 +9,8 @@ import Avatar from './Avatar.jsx'
 import PageHeading from './PageHeading.jsx'
 import Tutorial, { HelpPage } from './Tutorial.jsx'
 import { displayName } from '../lib/tree.js'
-import { ArrowLeft, Bell, ChevronUp, Heart, Help, Menu, Mic, Pencil, Sprout, User, Users, Wave } from './Icons.jsx'
-import { GARDEN_LIMIT, GARDEN_NEAR_FULL, addFriend, archiveShares, audioUrl, currentUser, deleteFlower, derivePairs, insertFlower, loadGarden, respondShare, shareFlowers, subscribeGarden, today, updateProfile, uploadAudio } from '../lib/db.js'
+import { ArrowLeft, Bell, Check, Heart, Help, Menu, Mic, Pencil, Sprout, User, Users, Wave } from './Icons.jsx'
+import { GARDEN_LIMIT, addFriend, archiveShares, audioUrl, currentUser, deleteFlower, deleteReceivedSound, derivePairs, insertFlower, loadGarden, respondShare, shareFlowers, subscribeGarden, today, updateProfile, uploadAudio } from '../lib/db.js'
 import { newestReceivedFirst, receivedSoundCollections } from '../lib/receivedSounds.js'
 
 // 받침에 따라 조사 고르기
@@ -32,7 +32,6 @@ export default function Garden({ session, onSignOut, email, demo }) {
   const [menuOpen, setMenuOpen] = useState(false)
   const [tutorialOpen, setTutorialOpen] = useState(false)
   const tutorialPromptedRef = useRef(false)
-  const [cleanupOpen, setCleanupOpen] = useState(false) // 정원 정리하기 창
   const [friendPicker, setFriendPicker] = useState(false) // '+N' 친구 고르기 창
   const menuButtonRef = useRef(null)
   const inboxBackRef = useRef(null)
@@ -52,6 +51,8 @@ export default function Garden({ session, onSignOut, email, demo }) {
   }, [menuOpen, showBell])
   const [viewFriend, setViewFriend] = useState('all') // 정원에서 볼 꽃: 'all' 또는 친구 member id // 오른쪽 위 메뉴: 정원·앨범·친구·나·받은 소리
   const [toast, setToast] = useState('')
+  const toastTimerRef = useRef(null)
+  useEffect(() => () => clearTimeout(toastTimerRef.current), [])
   const [answerBusy, setAnswerBusy] = useState(false)
   const answeringRef = useRef(false)
   const [gardenViewReset, setGardenViewReset] = useState(0)
@@ -59,17 +60,11 @@ export default function Garden({ session, onSignOut, email, demo }) {
   const [highlight, setHighlight] = useState(null)
   const [sharePick, setSharePick] = useState(null) // { flower } 또는 { friend }
   const [visiting, setVisiting] = useState(null) // 놀러 간 친구
-  // 접힌 상태에는 손잡이·안내·작은 위로/녹음 버튼만 남긴다.
-  const sheetPeekRef = useRef(56)
-  const [sheetOpen, setSheetOpen] = useState(() => localStorage.getItem('sup.sheet') !== 'closed')
   const sheetRef = useRef(null)
   const homeRef = useRef(null)
   const titleRef = useRef(null)
-  const dragRef = useRef(null)
-  useEffect(() => { localStorage.setItem('sup.sheet', sheetOpen ? 'open' : 'closed') }, [sheetOpen])
 
-  // 카드 높이와 '열렸을 때 섬 축소 비율'을 CSS 변수로 둔다. 섬은 캔버스 크기를 바꾸지 않고
-  // CSS transform으로만 줄었다 커져서(3D를 다시 그리지 않음) 접고 펼 때 끊기지 않는다.
+  // 제목과 하단 버튼의 실제 높이 사이에 정원을 맞춘다.
   const hasSheet = Boolean(data) && tab === 'garden'
   useLayoutEffect(() => {
     const home = homeRef.current, sheet = sheetRef.current
@@ -81,17 +76,8 @@ export default function Garden({ session, onSignOut, email, demo }) {
       const sheetH = sheet.offsetHeight
       const title = titleRef.current
       const top = title ? title.offsetTop + title.offsetHeight + 12 : 120
-      const handleH = sheet.querySelector('.sheet-toolbar')?.offsetHeight || 28
-      const padding = parseFloat(style.paddingBottom) || 0
-      const peek = Math.max(48, handleH) + padding
-      sheetPeekRef.current = peek
-      const closedH = Math.max(1, home.clientHeight - top - tabH - peek + padding)
-      const openH = Math.max(1, home.clientHeight - top - tabH - sheetH + padding)
       home.style.setProperty('--island-top', `${top}px`)
-      home.style.setProperty('--sheet-h', `${sheetH}px`)
-      home.style.setProperty('--sheet-peek', `${peek}px`)
-      home.style.setProperty('--mini-top', `${Math.max(0, (handleH - 48) / 2)}px`)
-      home.style.setProperty('--island-s', String(Math.min(1, Math.max(0.12, openH / closedH))))
+      home.style.setProperty('--island-bottom', `${tabH + sheetH + 12}px`)
     }
     measure()
     const ro = new ResizeObserver(measure)
@@ -159,8 +145,9 @@ export default function Garden({ session, onSignOut, email, demo }) {
 
   function updateDemoReceived(shareIds, status) {
     setData((d) => {
-      const collections = receivedSoundCollections(d.receivedHistory.map((f) => shareIds.includes(f.share_id)
-        ? { ...f, share_status: status } : f))
+      const history = status === null ? d.receivedHistory.filter((f) => !shareIds.includes(f.share_id))
+        : d.receivedHistory.map((f) => shareIds.includes(f.share_id) ? { ...f, share_status: status } : f)
+      const collections = receivedSoundCollections(history)
       const { receivedFlowers, ...received } = collections
       const flowers = [...d.flowers.filter((f) => f.sender_id === meId), ...receivedFlowers]
       const byId = Object.fromEntries(flowers.map((f) => [f.id, f]))
@@ -173,8 +160,8 @@ export default function Garden({ session, onSignOut, email, demo }) {
     // 정원이 가득 찼으면 심기 전에 스스로 정리하게 한다 (DB에서도 막는다)
     const planted = data.flowers.filter((f) => f.sender_id !== meId).length
     if (accept && planted >= GARDEN_LIMIT) {
-      showToast(`정원이 가득 찼어요(${GARDEN_LIMIT}송이) · 정리한 뒤에 심어 주세요`)
-      setOpenFlower(null); closeMenu(); setCleanupOpen(true)
+      showToast(`정원에는 ${GARDEN_LIMIT}개까지 심을 수 있어요. 앨범에서 정리한 뒤 다시 심어 주세요.`)
+      closeMenu()
       return
     }
     if (answeringRef.current) return
@@ -188,11 +175,7 @@ export default function Garden({ session, onSignOut, email, demo }) {
         await refresh()
       }
       if (accept) markFresh(item.id)
-      const after = planted + 1
-      showToast(!accept ? '받지 않았어요'
-        : after >= GARDEN_LIMIT ? `정원이 가득 찼어요(${after}/${GARDEN_LIMIT}) · 정리해야 새 소리를 심을 수 있어요`
-        : after >= GARDEN_NEAR_FULL ? `정원이 거의 찼어요(${after}/${GARDEN_LIMIT}) · 정리해 두면 좋아요`
-        : `${josa(displayName(item), '을', '를')} 정원에 심었어요`)
+      showToast(accept ? `${josa(displayName(item), '을', '를')} 정원에 심었어요` : '받지 않았어요')
       setOpenFlower(null)
     } catch (e) {
       showToast(e.message || String(e))
@@ -202,23 +185,31 @@ export default function Garden({ session, onSignOut, email, demo }) {
     }
   }
 
-  // 정원 정리: 고른 소리를 정원에서 뺀다 (앨범에는 남는다)
-  async function cleanup(shareIds) {
-    try {
-      const n = demo ? shareIds.length : await archiveShares(shareIds)
-      if (demo) updateDemoReceived(shareIds, 'archived')
-      showToast(`${n}송이를 정원에서 뺐어요 · 앨범에는 남아 있어요`)
-      setCleanupOpen(false); setOpenFlower(null)
-      if (!demo) await refresh()
-    } catch (e) {
-      showToast(e.message || String(e))
-    }
-  }
-
   async function handleShare(flowerIds, userIds) {
     await shareFlowers(flowerIds, userIds)
     showToast('소리를 공유했어요')
     await refresh()
+  }
+
+  async function albumAction(item, remove) {
+    if (answeringRef.current) return
+    answeringRef.current = true
+    setAnswerBusy(true)
+    try {
+      if (demo) updateDemoReceived([item.share_id], remove ? null : 'archived')
+      else {
+        if (remove) await deleteReceivedSound(item.share_id)
+        else await archiveShares([item.share_id])
+        await refresh()
+      }
+      setOpenFlower(null)
+      showToast(remove ? '앨범에서 삭제했어요' : '정원에서 뺐어요')
+    } catch (e) {
+      showToast(e.message || String(e))
+    } finally {
+      answeringRef.current = false
+      setAnswerBusy(false)
+    }
   }
 
   function markFresh(id) {
@@ -226,8 +217,9 @@ export default function Garden({ session, onSignOut, email, demo }) {
     setTimeout(() => setFresh((s) => { const n = new Set(s); n.delete(id); return n }), 5000)
   }
   function showToast(t) {
+    clearTimeout(toastTimerRef.current)
     setToast(t)
-    setTimeout(() => setToast(''), 3500)
+    toastTimerRef.current = setTimeout(() => setToast(''), 2000)
   }
   function openInbox() { setShowBell(true); setMenuOpen(true) }
   function closeMenu() { setMenuOpen(false); setShowBell(false) }
@@ -302,43 +294,8 @@ export default function Garden({ session, onSignOut, email, demo }) {
   // 친구별 보기: 섬에 보일 꽃 id (전체면 null → 모두). 문자열이라 값이 같으면 섬을 다시 만들지 않는다
   const visibleKey = viewing === 'all' ? null : [...shownFlowers.map((f) => f.id), ...shownPairs.map((p) => p.id)].join(',')
 
-  // 손잡이를 끌면 카드·섬·안내 문구가 함께 손가락을 따라오고(--sheet-p: 0 열림 ~ 1 접힘),
-  // 놓으면 가까운 쪽으로 부드럽게 붙는다. 빠르게 튕기면 짧게 끌어도 넘어간다. 살짝 누르면 토글
-  const onHandleDown = (e) => {
-    dragRef.current = { y: e.clientY, dy: 0, t: performance.now(), v: 0, h: Math.max(1, sheetRef.current.offsetHeight - sheetPeekRef.current) }
-    e.currentTarget.setPointerCapture(e.pointerId)
-    homeRef.current.classList.add('dragging')
-  }
-  const onHandleMove = (e) => {
-    const d = dragRef.current
-    if (!d) return
-    const now = performance.now()
-    const dy = e.clientY - d.y
-    d.v = (dy - d.dy) / Math.max(1, now - d.t) // px/ms
-    d.dy = dy; d.t = now
-    const p = Math.min(1, Math.max(0, (sheetOpen ? 0 : 1) + dy / d.h))
-    homeRef.current.style.setProperty('--sheet-p', p.toFixed(4))
-  }
-  const onHandleUp = () => {
-    const d = dragRef.current
-    dragRef.current = null
-    const home = homeRef.current
-    if (!home || !d) return
-    home.classList.remove('dragging')
-    home.style.removeProperty('--sheet-p') // 클래스 값(0/1)으로 전환 애니메이션
-    const p = (sheetOpen ? 0 : 1) + d.dy / d.h
-    if (Math.abs(d.dy) < 6) setSheetOpen((o) => !o)
-    else if (Math.abs(d.v) > 0.5) setSheetOpen(d.v < 0)
-    else setSheetOpen(p < 0.5)
-  }
-  const onHandleCancel = () => {
-    dragRef.current = null
-    homeRef.current?.classList.remove('dragging')
-    homeRef.current?.style.removeProperty('--sheet-p')
-  }
-
   return (
-    <div ref={homeRef} className={`home ${sheetOpen ? '' : 'sheet-closed'}`}>
+    <div ref={homeRef} className="home">
       <div className="sky">
         <div className="cloud c1" /><div className="cloud c2" /><div className="cloud c3" />
       </div>
@@ -361,11 +318,6 @@ export default function Garden({ session, onSignOut, email, demo }) {
           <div ref={titleRef} className="home-title">
             <span className="wordmark" aria-label="SUP">SUP</span>
             <h1><button className="garden-view-reset" onClick={() => setGardenViewReset((n) => n + 1)} aria-label={`${me?.nickname}의 정원 시점 초기화`}>{me?.nickname}의 정원</button></h1>
-            {gardenFlowers.length >= GARDEN_NEAR_FULL && (
-              <button className={`capacity-banner ${gardenFlowers.length >= GARDEN_LIMIT ? 'full' : ''}`} onClick={() => setCleanupOpen(true)}>
-                {gardenFlowers.length >= GARDEN_LIMIT ? '정원이 가득 찼어요' : '정원이 거의 찼어요'} · {gardenFlowers.length}/{GARDEN_LIMIT} · <b>정리하기</b>
-              </button>
-            )}
             {friends.length > 0 && (
               <div className="view-pills" role="tablist" aria-label="누구의 꽃을 볼까요">
                 <button role="tab" aria-selected={viewing === 'all'} className={viewing === 'all' ? 'on' : ''} onClick={() => setViewFriend('all')}>
@@ -382,22 +334,8 @@ export default function Garden({ session, onSignOut, email, demo }) {
               </div>
             )}
           </div>
-          <section ref={sheetRef} className={`home-sheet ${sheetOpen ? '' : 'closed'}`} aria-label="정원 도구">
-            <div className="sheet-toolbar">
-            <button
-              type="button"
-              className="sheet-handle"
-              onPointerDown={onHandleDown}
-              onPointerMove={onHandleMove}
-              onPointerUp={onHandleUp}
-              onPointerCancel={onHandleCancel}
-              onClick={(e) => { if (e.detail === 0) setSheetOpen((o) => !o) }}
-              aria-expanded={sheetOpen}
-              aria-controls="garden-actions"
-              aria-label={sheetOpen ? '정원 도구 접기' : '정원 도구 펼치기'}
-            >
-              <ChevronUp aria-hidden="true" />
-            </button>
+          <section ref={sheetRef} className="home-sheet" aria-label="정원 도구">
+            <div className="garden-guidance">
             {gardenFlowers.length === 0 && data.pairs.length === 0 ? (
               <div className="empty-garden-hint">
                 <b>아직 핀 꽃이 없어요</b>
@@ -405,16 +343,10 @@ export default function Garden({ session, onSignOut, email, demo }) {
               </div>
             ) : <small className="garden-listen-hint">꽃·나무를 눌러 소리를 들어 보세요</small>}
             </div>
-            <button className="mini-comfort" onClick={comfort} aria-label="오늘의 위로" tabIndex={sheetOpen ? -1 : 0} aria-hidden={sheetOpen}>
-              <Heart />
-            </button>
-            <button className="mini-rec" onClick={() => setRecording(true)} aria-label="오늘의 소리 녹음하기" tabIndex={sheetOpen ? -1 : 0} aria-hidden={sheetOpen}>
-              <Mic />
-            </button>
-            <div id="garden-actions" className="garden-actions" inert={sheetOpen ? undefined : ''} aria-hidden={!sheetOpen}>
+            <div className="garden-actions">
               <button className="comfort-btn" onClick={comfort}><Heart /> 오늘의 위로</button>
-              <button className="record-cta" onClick={() => setRecording(true)} aria-label="오늘의 소리 녹음하기 · 최대 10초">
-                <Mic /> 오늘의 소리 녹음 <small>10초</small>
+              <button className="record-cta" onClick={() => setRecording(true)} aria-label="오늘의 소리 녹음하기">
+                <Mic /> 오늘의 소리 <small>10초</small>
               </button>
             </div>
           </section>
@@ -480,8 +412,10 @@ export default function Garden({ session, onSignOut, email, demo }) {
           mine={openFlower.sender_id === meId}
           sharedWith={data.sentShares.filter((x) => x.flower_id === openFlower.id).map((x) => `${nameOf(x.to_user)}${x.status === 'pending' ? '(고르는 중)' : x.status === 'declined' ? '(안 받음)' : ''}`)}
           onShare={tab === 'friends' ? undefined : () => setSharePick({ flower: openFlower })}
-          onAccept={openFlower.share_id && openFlower.share_status !== 'accepted' ? () => answer(openFlower, true) : undefined}
-          onDecline={openFlower.share_id && openFlower.share_status === 'pending' ? () => answer(openFlower, false) : undefined}
+          onAccept={tab !== 'album' && openFlower.share_id && openFlower.share_status !== 'accepted' ? () => answer(openFlower, true) : undefined}
+          onDecline={tab !== 'album' && openFlower.share_id && openFlower.share_status === 'pending' ? () => answer(openFlower, false) : undefined}
+          onGardenToggle={tab === 'album' && openFlower.share_id ? () => openFlower.share_status === 'accepted' ? albumAction(openFlower, false) : answer(openFlower, true) : undefined}
+          onDeleteReceived={tab === 'album' && openFlower.share_id ? () => albumAction(openFlower, true) : undefined}
           answerBusy={answerBusy}
           onClose={() => setOpenFlower(null)}
           onDelete={handleDelete}
@@ -507,9 +441,6 @@ export default function Garden({ session, onSignOut, email, demo }) {
           onSubmit={handleShare}
           onClose={() => setSharePick(null)}
         />
-      )}
-      {cleanupOpen && (
-        <Cleanup flowers={gardenFlowers} members={data.members} onSubmit={cleanup} onClose={() => setCleanupOpen(false)} />
       )}
       {friendPicker && (
         <FriendPicker
@@ -596,50 +527,15 @@ function FriendPicker({ friends, counts, viewing, onPick, onClose }) {
   )
 }
 
-// 정원 정리하기: 오래된 소리부터 보여 주고, 여러 개 골라 정원에서 뺀다
-function Cleanup({ flowers, members, onSubmit, onClose }) {
-  const [picked, setPicked] = useState(() => new Set())
-  const [busy, setBusy] = useState(false)
-  const list = [...flowers].sort((a, b) => String(a.shared_at || a.created_at).localeCompare(String(b.shared_at || b.created_at)))
-  const toggle = (id) => setPicked((s) => { const n = new Set(s); n.has(id) ? n.delete(id) : n.add(id); return n })
-  const full = flowers.length >= GARDEN_LIMIT
-  async function submit() {
-    setBusy(true)
-    try { await onSubmit([...picked]) } finally { setBusy(false) }
-  }
-  return (
-    <div className="sheet-backdrop" onClick={onClose}>
-      <div className="sheet share-sheet cleanup" onClick={(e) => e.stopPropagation()}>
-        <button className="close" onClick={onClose} aria-label="닫기">×</button>
-        <h2 className="sheet-title">정원 정리하기</h2>
-        <p className={`small ${full ? 'error' : 'muted'}`}>
-          지금 {flowers.length}/{GARDEN_LIMIT}송이{full ? ' · 가득 차서 새 소리를 심을 수 없어요' : ''}. 정원에서 뺀 소리는 지워지지 않고 앨범에 남아요.
-        </p>
-        <button className="link select-all" onClick={() => setPicked(new Set(list.slice(0, 10).map((f) => f.planted_share_id)))}>오래된 10송이 고르기</button>
-        <ul className="pick-grid">
-          {list.map((f) => (
-            <li key={f.id}>
-              <button className={picked.has(f.planted_share_id) ? 'on' : ''} onClick={() => toggle(f.planted_share_id)}>
-                <Flower flower={f} size={44} stem={false} bloom={false} />
-                <b>{displayName(f)}</b>
-                <small>{members.find((m) => m.id === f.sender_id)?.nickname || '친구'} · {formatDate(f.sent_date)}</small>
-              </button>
-            </li>
-          ))}
-        </ul>
-        <button className="primary wide" disabled={busy || picked.size === 0} onClick={submit}>
-          {busy ? '정리하는 중…' : picked.size ? `${picked.size}송이 정원에서 빼기` : '뺄 소리를 골라 주세요'}
-        </button>
-      </div>
-    </div>
-  )
+function AlbumArtwork({ flower, colors, planted }) {
+  return <span className="album-art"><Flower flower={flower} colors={colors} size={48} stem={false} />{planted && <span className="album-planted" aria-label="정원에 심은 소리"><Check width={14} height={14} strokeWidth={2.4} aria-hidden="true" /></span>}</span>
 }
 
 function Album({ data, meId, onOpen, onOpenPair, flowerById }) {
   const rows = useMemo(() => {
     const byDate = {}
     // 앨범에는 친구에게 받은 소리만 (내가 보낸 소리는 친구 정원에 있다). 우리의 꽃은 함께 둔다
-    for (const f of [...data.flowers.filter((x) => x.sender_id !== meId), ...(data.archived || [])]) (byDate[f.sent_date] ||= { date: f.sent_date, list: [], pairs: [] }).list.push(f)
+    for (const f of data.receivedHistory) (byDate[f.sent_date] ||= { date: f.sent_date, list: [], pairs: [] }).list.push(f)
     for (const p of data.pairs) (byDate[p.sent_date] ||= { date: p.sent_date, list: [], pairs: [] }).pairs.push(p)
     return Object.values(byDate).sort((a, b) => b.date.localeCompare(a.date))
   }, [data, meId])
@@ -650,15 +546,15 @@ function Album({ data, meId, onOpen, onOpenPair, flowerById }) {
       <div className="album-flowers">
         {r.pairs.filter((p) => flowerById[p.flower_a_id] && flowerById[p.flower_b_id]).map((p) => (
           <button key={p.id} className="album-item pair" onClick={() => onOpenPair(p)}>
-            <Flower flower={flowerById[p.flower_b_id]} colors={[flowerById[p.flower_a_id].color, flowerById[p.flower_b_id].color]} size={48} stem={false} />
+            <AlbumArtwork flower={flowerById[p.flower_b_id]} colors={[flowerById[p.flower_a_id].color, flowerById[p.flower_b_id].color]} planted />
             <b>{p.name}</b><small>우리의 꽃</small>
           </button>
         ))}
         {r.list.map((f) => (
           <button key={f.id} className="album-item" onClick={() => onOpen(f)}>
-            <Flower flower={f} size={48} stem={false} />
+            <AlbumArtwork flower={f} planted={f.share_status === 'accepted'} />
             <b>{displayName(f)}</b>
-            <small>{data.members.find((m) => m.id === f.sender_id)?.nickname || '친구'}{f.archived ? ' · 정리함' : ''}</small>
+            <small>{data.members.find((m) => m.id === f.sender_id)?.nickname || '친구'}</small>
           </button>
         ))}
       </div>
@@ -666,13 +562,15 @@ function Album({ data, meId, onOpen, onOpenPair, flowerById }) {
   )
 
   return (
-    <div className="page">
+    <div className="page fixed-heading-page">
       {/* 받은 소리를 날짜별로 (오늘 · 어제 · 11월 5일 …). 주 단위로 나누지 않는다 */}
       <PageHeading>앨범</PageHeading>
+      <div className="page-scroll" aria-label="앨범 목록">
       {rows.length === 0 && (
         <p className="album-empty">아직 받은 소리가 없어요</p>
       )}
       {rows.map((r) => <Day key={r.date} r={r} />)}
+      </div>
     </div>
   )
 }
@@ -700,8 +598,9 @@ function Friends({ data, onOpen, onVisit, onGoMe }) {
     const since = new Date(selected.since)
     const day = (iso) => formatDate(new Date(iso).toLocaleDateString('sv-SE'))
     return (
-      <div className="page friend-page">
+      <div className="page friend-page fixed-heading-page">
         <PageHeading>친구</PageHeading>
+        <div className="page-scroll" aria-label="친구 소리 내역">
         <button className="back-link" onClick={() => setSelectedId(null)} aria-label="친구 목록으로 돌아가기"><ArrowLeft aria-hidden="true" /></button>
         {/* 정원 방문은 프로필 아래 버튼에서만 시작한다. */}
         <div className="friend-hero">
@@ -730,13 +629,15 @@ function Friends({ data, onOpen, onVisit, onGoMe }) {
             ))}
           </ul>
         )}
+        </div>
       </div>
     )
   }
 
   return (
-    <div className="page">
+    <div className="page fixed-heading-page">
       <PageHeading>친구</PageHeading>
+      <div className="page-scroll" aria-label="친구 목록">
 
       {data.friends.length === 0 ? (
         <div className="friends-empty">
@@ -766,6 +667,7 @@ function Friends({ data, onOpen, onVisit, onGoMe }) {
           })}
         </ul>
       )}
+      </div>
     </div>
   )
 }

@@ -3,6 +3,12 @@ const base = { width: 22, height: 22, viewBox: '0 0 24 24', fill: 'none', stroke
 export const Pencil = (p) => (
   <svg {...base} {...p}><path d="m15 5 4 4M4 20l4.5-1 12-12a2.8 2.8 0 0 0-4-4l-12 12Z" /></svg>
 )
+export const Check = (p) => (
+  <svg {...base} {...p}><path d="m5 12 4 4 10-10" /></svg>
+)
+export const Trash = (p) => (
+  <svg {...base} {...p}><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13M10 10v7M14 10v7" /></svg>
+)
 
 export const Sprout = (p) => (
   <svg {...base} {...p}><path d="M12 21v-9" /><path d="M12 12c0-4-3-6-7-6 0 4 3 6 7 6Z" /><path d="M12 10c0-3.5 2.5-5.5 6-5.5 0 3.5-2.5 5.5-6 5.5Z" /></svg>

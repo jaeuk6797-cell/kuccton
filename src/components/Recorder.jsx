@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import FlowerBloom3D from './FlowerBloom3D.jsx'
-import { pickMimeType, audioCtx } from '../lib/audio.js'
+import { pickMimeType, audioCtx, normalizeRecording } from '../lib/audio.js'
 import { extractFeatures } from '../lib/soundFeatures.js'
 import { CATEGORIES, buildFlower, buildSoundFlower, voiceCategory } from '../lib/flower.js'
 import { analyzeEmotion, emotionEnabled } from '../lib/emotion.js'
@@ -168,7 +168,8 @@ export default function Recorder({ onClose, onSend, friends = [] }) {
   async function send() {
     setStep('sending')
     try {
-      await onSend({ blob, ...row }, [...sendTo])
+      const audibleBlob = await normalizeRecording(blob)
+      await onSend({ blob: audibleBlob, ...row }, [...sendTo])
     } catch (e) {
       console.error(e)
       setError(`보내지 못했어요: ${e.message || e}`)

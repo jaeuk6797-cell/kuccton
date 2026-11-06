@@ -188,7 +188,7 @@ h1, h2 { margin: 0; }
 .cloud.c3 { width: 140px; height: 50px; top: 12%; right: 10%; opacity: .6; animation-duration: 70s; }
 @keyframes drift { to { transform: translateX(60px); } }
 
-.island { position: absolute; left: 0; right: 0; top: var(--island-top, calc(var(--safe-top) + 142px)); bottom: calc(max(16px, var(--tab)) + 54px); touch-action: none; transform-origin: 50% 0; transform: scale(calc(1 - (1 - var(--sheet-p)) * (1 - var(--island-s, 1)))); will-change: transform; }
+.island { position: absolute; left: 0; right: 0; top: var(--island-top, calc(var(--safe-top) + 142px)); bottom: var(--island-bottom, calc(max(16px, var(--tab)) + 54px)); touch-action: none; }
 .island canvas { display: block; width: 100%; height: 100%; }
 
 .home-head { position: absolute; top: 0; left: 0; right: 0; display: flex; justify-content: space-between; align-items: center; padding: calc(18px + env(safe-area-inset-top)) 20px 0; z-index: 2; }
@@ -202,16 +202,14 @@ h1, h2 { margin: 0; }
 .chips { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
 .chips span { background: rgba(255,255,255,.88); border-radius: 999px; padding: 6px 12px; font-size: 0.82rem; color: #2f3a2c; box-shadow: 0 1px 4px rgba(0,0,0,.05); }
 /* 안내는 도구 위 왼쪽에, 도구 사이의 빈 공간은 정원 조작에 사용한다. */
-.hint { position: absolute; left: 20px; right: 36px; bottom: calc(max(16px, var(--tab)) + 12px + var(--sheet-peek, 56px) + (1 - var(--sheet-p)) * (var(--sheet-h, 102px) - var(--sheet-peek, 56px))); width: fit-content; max-width: calc(100% - 56px); background: rgba(46,47,58,.65); color: white; font-size: 0.75rem; line-height: 1.5; padding: 7px 12px; border-radius: 14px; z-index: 2; pointer-events: none; backdrop-filter: blur(6px); }
 
-.home-sheet { position: absolute; left: max(16px, env(safe-area-inset-left)); right: max(16px, env(safe-area-inset-right)); bottom: max(16px, var(--tab)); padding: 0 0 8px; z-index: 3; display: flex; flex-direction: column; gap: 10px; background: transparent; pointer-events: none; transform: translateY(calc(var(--sheet-p) * (var(--sheet-h, 102px) - var(--sheet-peek, 56px)))); will-change: transform; }
+.home-sheet { position: absolute; left: max(16px, env(safe-area-inset-left)); right: max(16px, env(safe-area-inset-right)); bottom: max(16px, var(--tab)); padding: 0 0 8px; z-index: 3; display: flex; flex-direction: column; gap: 10px; background: transparent; pointer-events: none; }
 .home-sheet button { pointer-events: auto; }
 .home-sheet button:focus-visible { outline: 3px solid var(--green-d); outline-offset: 3px; }
 .av { width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center; font-weight: 700; font-size: 0.9rem; border: 2px solid white; }
 .av.partner { background: #dfe6f8; color: #4f67a8; }
 .av.me { background: #fbe4dd; color: #b5523d; margin-left: -12px; }
 .av.big { width: 52px; height: 52px; font-size: 1.1rem; margin: 0; }
-.garden-actions[inert] { visibility: hidden; }
 .record-cta:active { background: var(--accent-d); transform: scale(.98); }
 
 
@@ -256,13 +254,8 @@ h1, h2 { margin: 0; }
 .screen { padding-top: calc(20px + env(safe-area-inset-top)); padding-bottom: max(20px, env(safe-area-inset-bottom)); }
 
 /* 접으면 손잡이·짧은 안내·오른쪽 녹음 버튼만 남긴다. */
-.home-sheet.closed .mini-rec, .home-sheet.closed .mini-comfort { visibility: visible; }
 
 /* 접힘 정도(0 열림 ~ 1 접힘) 하나로 카드·섬·안내·마이크가 같이 움직인다 */
-@property --sheet-p { syntax: '<number>'; inherits: true; initial-value: 0; }
-.home { --sheet-p: 0; transition: --sheet-p .42s cubic-bezier(.22, .9, .25, 1); }
-.home.sheet-closed { --sheet-p: 1; }
-.home.dragging { transition: none; }
 
 /* 사물 소리 나무: 땅에서 자라 오른다 */
 .tree.bloom .crown {
@@ -276,10 +269,8 @@ h1, h2 { margin: 0; }
 }
 
 /* 안내 문구: 처음 몇 초 뒤 사라짐 */
-.hint { transition: opacity .6s; }
-.hint.off { opacity: 0; }
 /* 꽃이 하나도 없을 때 (안내 문구 자리에) */
-.empty-garden { position: absolute; left: 20px; right: 36px; bottom: calc(max(16px, var(--tab)) + 12px + var(--sheet-peek, 56px) + (1 - var(--sheet-p)) * (var(--sheet-h, 102px) - var(--sheet-peek, 56px))); display: flex; flex-direction: column; align-items: flex-start; gap: 3px; padding: 8px 2px; z-index: 2; pointer-events: none; text-shadow: 0 1px 8px rgba(255,252,248,.9); }
+.empty-garden { position: absolute; left: 20px; right: 20px; bottom: calc(max(20px, var(--safe-bottom)) + 72px); display: flex; flex-direction: column; align-items: flex-end; gap: 3px; padding: 8px 2px; z-index: 2; pointer-events: none; text-align: right; }
 .empty-garden b { font-size: 0.9rem; }
 .empty-garden small { color: #64616e; font-size: 0.78rem; line-height: 1.5; overflow-wrap: anywhere; }
 /* 위로는 왼쪽의 가벼운 보조 버튼, 녹음은 오른쪽의 주 행동. */
@@ -288,7 +279,6 @@ h1, h2 { margin: 0; }
 @media (max-height: 600px) {
   .home-sheet { bottom: max(8px, var(--tab)); gap: 6px; }
   .record-cta, .comfort-btn { min-height: 50px; }
-  .hint, .empty-garden { bottom: calc(max(8px, var(--tab)) + 12px + var(--sheet-peek, 56px) + (1 - var(--sheet-p)) * (var(--sheet-h, 102px) - var(--sheet-peek, 56px))); }
   .home-title h1 { font-size: 1.2rem; }
   .view-pills { margin-top: 6px; }
 }
@@ -407,33 +397,23 @@ h1, h2 { margin: 0; }
 .visit-sub { margin: 6px 0 0; color: var(--muted); font-size: 0.85rem; }
 .visit-back { position: absolute; left: 50%; transform: translateX(-50%); bottom: max(20px, calc(env(safe-area-inset-bottom) + 4px)); background: rgba(255,255,255,.92); z-index: 5; }
 
-/* ── 아래 정원 도구 (떠 있는 카드) ──
-   위: 왼쪽 손잡이 + 오른쪽 안내 / 아래: 오늘의 위로 + 오늘의 소리 녹음 */
-.sheet-handle { align-self: center; display: grid; place-items: center; width: 44px; height: 28px; border-radius: 999px; background: rgba(255,252,248,.7); color: #625b68; cursor: grab; touch-action: none; user-select: none; backdrop-filter: blur(8px); box-shadow: 0 2px 8px rgba(60,50,80,.08); }
-.sheet-toolbar { display: flex; align-items: center; justify-content: flex-start; gap: 8px; min-height: 28px; }
-.sheet-toolbar .sheet-handle { flex-shrink: 0; }
-.home-sheet.closed .sheet-toolbar { min-height: 48px; padding-right: 116px; }
+/* 하단에는 안내와 두 개의 이름 있는 버튼을 항상 표시한다. */
+.garden-guidance { display: flex; align-items: center; justify-content: center; min-height: 20px; }
 .empty-garden-hint { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; text-align: left; pointer-events: none; }
 .empty-garden-hint b { font-size: .72rem; line-height: 1.5; font-weight: 600; }
 .empty-garden-hint small { color: #716c79; font-size: .64rem; line-height: 1.5; }
-.garden-listen-hint { color: #716c79; font-size: .68rem; line-height: 1.5; text-align: left; }
-.sheet-handle:active { cursor: grabbing; }
-.sheet-handle svg { width: 20px; height: 20px; transition: transform .3s; }
-.home-sheet:not(.closed) .sheet-handle svg { transform: rotate(180deg); }
-.garden-actions { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.7fr); align-items: stretch; gap: 10px; opacity: calc(1 - var(--sheet-p)); }
+.garden-listen-hint { color: #716c79; font-size: .68rem; line-height: 1.5; text-align: center; }
+.garden-actions { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); align-items: stretch; gap: 10px; }
 .garden-actions > button { min-width: 0; }
-.comfort-btn { flex: 1; display: flex; align-items: center; justify-content: center; gap: 6px; min-height: 56px; padding: 0 12px; border: 1px solid rgba(255,255,255,.65); border-radius: 18px; font-size: 0.9rem; background: rgba(255,252,248,.78); backdrop-filter: blur(10px); white-space: nowrap; }
+.comfort-btn { flex: 1; display: flex; align-items: center; justify-content: center; gap: 6px; min-height: 48px; padding: 0 12px; border: 1px solid rgba(255,255,255,.65); border-radius: 18px; font-size: 0.9rem; background: rgba(255,252,248,.78); backdrop-filter: blur(10px); white-space: nowrap; }
 .comfort-btn svg { width: 18px; height: 18px; flex-shrink: 0; color: var(--accent); }
-.record-cta { flex: 1.7; display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 56px; padding: 0 16px; border-radius: 18px; background: var(--accent); color: white; font-size: 1rem; font-weight: 700; white-space: nowrap; box-shadow: 0 6px 18px rgba(170,78,56,.22); }
+.record-cta { flex: 1.7; display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 48px; padding: 0 16px; border-radius: 18px; background: var(--accent); color: white; font-size: .9rem; font-weight: 700; white-space: nowrap; box-shadow: 0 6px 18px rgba(170,78,56,.22); }
 .record-cta svg { width: 22px; height: 22px; flex-shrink: 0; }
-.record-cta small { font-size: 0.78rem; font-weight: 500; opacity: .85; }
+.record-cta small { font-size: .65rem; font-weight: 500; opacity: .85; }
 .record-cta:active { background: var(--accent-d); transform: scale(.98); }
 /* 접힌 도구는 한 줄: 손잡이·안내 오른쪽에 작은 녹음 버튼. */
-.mini-rec { position: absolute; top: var(--mini-top, 46px); right: 0; width: 48px; height: 48px; border-radius: 50%; background: var(--accent); color: white; display: grid; place-items: center; box-shadow: 0 4px 12px rgba(196,87,58,.25); opacity: var(--sheet-p); transform: scale(calc(.8 + .2 * var(--sheet-p))); visibility: hidden; }
-.mini-comfort { position: absolute; top: var(--mini-top, 0px); right: 58px; width: 48px; height: 48px; border-radius: 50%; display: grid; place-items: center; color: var(--accent); background: rgba(255,252,248,.88); border: 1px solid rgba(255,255,255,.7); box-shadow: 0 4px 12px rgba(90,70,80,.08); opacity: var(--sheet-p); visibility: hidden; }
 
 /* ^ 손잡이는 배경 없이 표시만 */
-.sheet-handle { background: none; box-shadow: none; backdrop-filter: none; color: #4f4a58; }
 /* '아직 핀 꽃이 없어요'는 오른쪽에 (왼쪽 상태 카드·안내와 겹치지 않게) */
 .empty-garden { left: 36px; right: 20px; align-items: flex-end; text-align: right; }
 
@@ -561,6 +541,15 @@ h1, h2 { margin: 0; }
 /* 앨범: 꽃·나무·우리의 꽃 모두 같은 48×48 칸에 → 그림과 이름 줄이 나란히 맞는다 */
 .album-item { justify-content: flex-start; gap: 4px; }
 .album-item > svg { width: 48px; height: 48px; flex-shrink: 0; }
+.album-art { position: relative; display: block; width: 48px; height: 48px; flex-shrink: 0; }
+.album-art > svg { display: block; width: 48px; height: 48px; }
+.album-planted { position: absolute; top: -1px; right: -2px; display: block; width: 14px; height: 14px; color: white; filter: drop-shadow(0 1px 2px rgba(46,47,58,.5)) drop-shadow(0 0 1px rgba(46,47,58,.25)); }
+.album-detail-actions { width: 100%; max-width: 360px; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 10px; border-top: 1px solid var(--line); padding-top: 16px; margin-top: 8px; }
+.album-garden-action { display: flex; align-items: center; justify-content: center; gap: 7px; min-width: 0; min-height: 48px; border-radius: 14px; padding: 10px 12px; font-size: .9rem; }
+.album-delete { display: flex; align-items: center; justify-content: center; gap: 6px; min-height: 48px; padding: 10px 14px; border: 1px solid var(--line); border-radius: 14px; color: var(--muted); font-size: .82rem; }
+.album-delete:active { color: #b45149; background: #fbeee9; }
+.album-delete-confirm { width: 100%; border-top: 1px solid var(--line); padding-top: 14px; }
+.album-delete-confirm p { margin: 0 0 12px; line-height: 1.6; }
 
 /* 친구 페이지: 이름 가운데 정렬, 정원 방문은 별도의 작은 버튼으로. */
 .friend-hero { width: 100%; padding: 6px 0 2px; border-radius: 20px; }
@@ -611,10 +600,6 @@ h1, h2 { margin: 0; }
 .friend-picker .list button.on { background: #fbeee9; }
 
 /* 정원 50송이 알림 */
-.capacity-banner { margin-top: 8px; pointer-events: auto; align-self: flex-start; display: inline-block; padding: 6px 12px; border-radius: 999px; background: #fff4d9; color: #8a5a00; font-size: 0.8rem; box-shadow: 0 1px 4px rgba(0,0,0,.08); }
-.capacity-banner.full { background: #fde3dc; color: var(--accent-d); }
-.capacity-banner b { text-decoration: underline; }
-.cleanup .select-all { align-self: flex-end; }
 .photo-menu {
   position: absolute; top: calc(100% + 6px); left: 50%; transform: translateX(-50%); z-index: 5;
   display: flex; flex-direction: column; min-width: 128px; padding: 6px;
@@ -671,7 +656,6 @@ h1, h2 { margin: 0; }
   .view-pills { margin-top: 4px; }
   .view-pills button { font-size: .75rem; padding: 5px 8px; }
   .home-sheet { gap: 4px; }
-  .sheet-handle { height: 22px; }
   .record-cta, .comfort-btn { min-height: 44px; }
 }
 
@@ -679,9 +663,14 @@ h1, h2 { margin: 0; }
   .record-cta { font-size: 0.9rem; gap: 6px; padding: 0 10px; }
   .comfort-btn { font-size: 0.75rem; gap: 4px; padding: 0 8px; }
 }
-@media (max-width: 340px) { .record-cta small { display: none; } }
 @media (max-height: 640px) { .me-content { gap: 14px; padding-bottom: 32px; } }
 
 /* 아이폰 하단 여백: 앨범·친구·나 화면은 화면 끝까지 쓰고, 마지막 내용 아래에 홈 바 높이만큼만 남긴다
    (예전: 화면 아래를 홈 바만큼 비우고 그 안에 30px을 또 둬서 아이폰에서 64px이 비었다) */
 .page { bottom: 0; padding-bottom: max(30px, calc(env(safe-area-inset-bottom) + 12px)); }
+
+/* 제목과 메뉴는 고정하고 목록 영역만 스크롤한다. */
+.fixed-heading-page { overflow: hidden; }
+.page-scroll { position: relative; flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior-y: contain; display: flex; flex-direction: column; gap: 12px; }
+.page-scroll > * { flex-shrink: 0; }
+.page-scroll > .friends-empty { flex: 1; }
