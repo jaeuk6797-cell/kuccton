@@ -67,7 +67,7 @@ ${rows(52)}
 
 ## Comparison against preserved implementations
 
-The separate 50-plant mixed-flora comparison uses identical generated sound records, camera position/target, 36° field of view, viewport and frozen time. Exact source renderers/assets were extracted into ignored local directories from Balanced \`bbc538b\` and Aurora \`2af54a7\`. Warm and Original paths in the Balanced snapshot match \`536d2ac\`, independently verified by the source-equivalence tests. See [raw baseline data](baseline-performance.json).
+The separate 50-plant mixed-flora comparison uses identical generated sound records, camera position/target, 36° field of view, viewport, frozen time and Blender near/far LOD counts. The source camera first approaches the plants to align the LOD hysteresis state before returning to the comparison pose. Exact source renderers/assets were extracted into ignored local directories from Balanced \`bbc538b\` and Aurora \`2af54a7\`. Warm and Original paths in the Balanced snapshot match \`536d2ac\`, independently verified by the source-equivalence tests. See [raw baseline data](baseline-performance.json).
 
 | Theme | Source → integrated draw calls | Source → integrated triangles | Draw delta | Triangle delta | CPU mean delta, ms |
 | --- | ---: | ---: | ---: | ---: | ---: |

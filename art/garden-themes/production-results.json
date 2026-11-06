@@ -1,0 +1,89 @@
+{
+  "started": "2026-11-06T20:48:05.094Z",
+  "testMode": "Production Vite build, actual App/auth/Garden/detail code; locally mocked Supabase and synthetic WAV audio",
+  "checks": [
+    {
+      "name": "Fresh authenticated user receives Balanced Warm on its first painted garden",
+      "passed": true,
+      "milliseconds": 826
+    },
+    {
+      "name": "All four themes switch through Me immediately, with the same island canvas and no garden writes",
+      "passed": true,
+      "milliseconds": 15167
+    },
+    {
+      "name": "Refresh restores the chosen theme without a temporary Balanced frame",
+      "passed": true,
+      "milliseconds": 734
+    },
+    {
+      "name": "Browser process restart retains the user preference on the same device",
+      "passed": true,
+      "milliseconds": 39583
+    },
+    {
+      "name": "Logout/login isolates authenticated user IDs and does not consume the demo preference",
+      "passed": true,
+      "milliseconds": 1544
+    },
+    {
+      "name": "Corrupted stored theme restores Balanced Warm before first paint",
+      "passed": true,
+      "milliseconds": 446
+    },
+    {
+      "name": "Profile nickname editing and friend navigation remain available",
+      "passed": true,
+      "milliseconds": 403
+    },
+    {
+      "name": "Open detail, audio and its playback position survive an external same-user theme update",
+      "passed": true,
+      "milliseconds": 1972
+    },
+    {
+      "name": "Mobile Me layout has four selectable themes without horizontal overflow",
+      "passed": true,
+      "milliseconds": 688
+    }
+  ],
+  "screenshots": [
+    "production-balanced.png",
+    "production-warm.png",
+    "production-aurora.png",
+    "production-default.png",
+    "production-mobile-me.png"
+  ],
+  "consoleErrors": [],
+  "pageErrors": [],
+  "unexpectedRequests": [],
+  "mutations": [
+    {
+      "operation": "update_profile",
+      "body": {
+        "p_nickname": "Theme Edited",
+        "p_avatar_url": null
+      }
+    }
+  ],
+  "build": {
+    "passed": true,
+    "output": "vite v5.4.21 building for production...\ntransforming...\n✓ 141 modules transformed.\nrendering chunks...\ncomputing gzip size...\n.qa-production/index.html                                 1.22 kB │ gzip:   0.64 kB\n.qa-production/assets/draco_wasm_wrapper-fZCQGLGb.js     58.46 kB\n.qa-production/assets/draco_wasm_wrapper-DxJM36Ib.js     58.76 kB\n.qa-production/assets/draco_decoder-Z1_iN-Ht.wasm       192.42 kB\n.qa-production/assets/draco_decoder-C32yEggz.wasm       285.75 kB\n.qa-production/assets/draco_decoder-fzg4nYZr.js         719.41 kB\n.qa-production/assets/IslandPreview-By6qbVvt.css          3.49 kB │ gzip:   1.17 kB\n.qa-production/assets/index-BjnPoQVB.css                 49.12 kB │ gzip:  10.85 kB\n.qa-production/assets/web-Ci497S2A.js                     0.80 kB │ gzip:   0.24 kB\n.qa-production/assets/EmotionFlowers-A4BqQdJK.js          1.07 kB │ gzip:   0.65 kB\n.qa-production/assets/HomeDemo-EUdO8fgq.js                5.87 kB │ gzip:   2.48 kB\n.qa-production/assets/IslandPreview-B_A7UiF9.js           8.75 kB │ gzip:   3.40 kB\n.qa-production/assets/index-DUEZ-enD.js               1,222.03 kB │ gzip: 340.13 kB\n✓ built in 4.57s\n\n(!) Some chunks are larger than 500 kB after minification. Consider:\n- Using dynamic import() to code-split the application\n- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks\n- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.\n"
+  },
+  "browser": {
+    "channel": "chrome",
+    "version": "157.0.8103.38",
+    "rendering": "headless native WebGL",
+    "viewport": "1280x900",
+    "glRenderer": "ANGLE (Intel, Intel(R) Arc(TM) 140V GPU (16GB) (0x000064A0) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+  },
+  "passed": true,
+  "limitations": [
+    "Supabase, authentication, profile RPC responses and audio storage are local fixtures; no live account or database was changed.",
+    "Dense-garden performance is reported by the separate renderer verification.",
+    "The external Pretendard font stylesheet is stubbed for offline reproducibility; screenshots use the application font fallback.",
+    "Push notifications are not tested; service workers are blocked to isolate local fixtures."
+  ],
+  "finished": "2026-11-06T20:49:13.734Z"
+}

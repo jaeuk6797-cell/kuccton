@@ -67,7 +67,7 @@ try {
     await mkdir('art/garden-themes', { recursive: true })
     await writeFile('art/garden-themes/baseline-performance.json', JSON.stringify({
       measuredAt: new Date().toISOString(),
-      methodology: 'Serial headless Chrome, 1280x900, DPR 1, mixed 50-plant preview, fixed t=6, exact same camera/target and 36-degree FOV, 180-sample rolling windows after warm-up. Source visual modules/assets extracted from bbc538b and 2af54a7. Current-main flower.js/soundFeatures.js/naming.js/tree.js used by both sides to generate identical stored sound fixtures; no visual settings changed except camera alignment. Source test handle only exposes camera. Wall-clock timings can vary under concurrent system load; draw and triangle differences are deterministic.',
+      methodology: 'Serial headless Chrome, 1280x900, DPR 1, mixed 50-plant preview, fixed t=6, exact same camera/target and 36-degree FOV, matched Blender near/far LOD counts, 180-sample rolling windows after warm-up. Source camera approaches plants before returning to the comparison pose to align LOD hysteresis. Source visual modules/assets extracted from bbc538b and 2af54a7. Current-main flower.js/soundFeatures.js/naming.js/tree.js used by both sides to generate identical stored sound fixtures; no visual settings changed except camera alignment. Source test handle exposes scene diagnostics. Wall-clock timings can vary under concurrent system load; draw and triangle differences are deterministic.',
       sources: { balanced: 'bbc538b', warm: '536d2ac (identical warm path in bbc538b)', default: '536d2ac (identical default path in bbc538b)', aurora: '2af54a7' },
       cases, errors,
     }, null, 2))
