@@ -8,11 +8,9 @@ const FACET_TINTS = {
 }
 
 // Recolor the imported paint once. Positions, normals, UVs and facet alpha stay intact.
-export function applyWarmIslandPaint(mesh) {
-  const colors = mesh.geometry.attributes.color
-  const tint = FACET_TINTS[mesh.material.name]
-  if (!colors || !tint || mesh.geometry.userData.warmPaint) return
-  mesh.geometry.userData.warmPaint = true
+export function applyWarmIslandPaint(colors, materialName) {
+  const tint = FACET_TINTS[materialName]
+  if (!tint) return
   const target = new THREE.Color(tint[0])
   const targetBrightness = Math.max(target.r, target.g, target.b)
   const scaledTarget = new THREE.Color()
@@ -23,7 +21,6 @@ export function applyWarmIslandPaint(mesh) {
     color.lerp(scaledTarget.copy(target).multiplyScalar(brightness / targetBrightness), tint[1])
     colors.setXYZ(i, color.r, color.g, color.b)
   }
-  colors.needsUpdate = true
 }
 
 export function applyWarmIslandMaterial(material) {
@@ -64,13 +61,10 @@ const AURORA_FACETS = {
 }
 
 // The underside's existing colored seams receive light; the mineral body stays dark.
-export function applyAuroraIslandPaint(mesh) {
-  const colors = mesh.geometry.attributes.color
-  if (!colors || mesh.geometry.userData.auroraPaint) return
-  mesh.geometry.userData.auroraPaint = true
+export function applyAuroraIslandPaint(colors, materialName) {
   const color = new THREE.Color()
-  const tint = AURORA_FACETS[mesh.material.name]
-  const mineral = mesh.material.name === 'SUP Layered turquoise mineral'
+  const tint = AURORA_FACETS[materialName]
+  const mineral = materialName === 'SUP Layered turquoise mineral'
   if (!tint && !mineral) return
   const target = new THREE.Color(tint?.[0] || '#23778e')
   const peak = Math.max(target.r, target.g, target.b)
@@ -88,7 +82,6 @@ export function applyAuroraIslandPaint(mesh) {
     }
     colors.setXYZ(i, color.r, color.g, color.b)
   }
-  colors.needsUpdate = true
 }
 
 export function applyAuroraIslandMaterial(material) {

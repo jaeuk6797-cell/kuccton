@@ -1,0 +1,842 @@
+{
+  "started": "2026-11-06T21:38:54.452Z",
+  "browser": "Chrome headless",
+  "checks": [
+    "An injected canonical GLB failure leaves the planted fallback visible and Me offers retry",
+    "Six choices during retry share one in-flight GLB. The last choice applies with the original canvas, camera and plants",
+    "Only the intentionally injected network failure occurred; no runtime, shader or unexpected resource errors"
+  ],
+  "expectedNetworkErrors": [
+    {
+      "event": "requestfailed",
+      "url": "http://127.0.0.1:5199/models/island-modern.glb",
+      "error": "net::ERR_FAILED"
+    },
+    {
+      "event": "console",
+      "text": "Failed to load resource: net::ERR_FAILED",
+      "url": "http://127.0.0.1:5199/models/island-modern.glb"
+    }
+  ],
+  "runtimeErrors": [],
+  "shaderWarnings": [],
+  "unexpectedRequestFailures": [],
+  "islandRequests": [
+    "http://127.0.0.1:5199/models/island-modern.glb",
+    "http://127.0.0.1:5199/models/island-modern.glb"
+  ],
+  "initial": {
+    "tone": "balanced",
+    "requestedTone": "balanced",
+    "themeStatus": "error",
+    "themeSwitches": 0,
+    "plants": 14,
+    "near": 1,
+    "far": 0,
+    "calls": 686,
+    "triangles": 51809,
+    "balancedMotes": {
+      "count": 72,
+      "time": 12,
+      "buffer": "5c1c380d-da58-43dd-8b74-92e6114b8a5a"
+    },
+    "geometries": 196,
+    "textures": 6,
+    "programs": 11,
+    "island": "fallback",
+    "islandChildren": 1,
+    "islandGeometry": {
+      "modelUUID": null,
+      "assetTriangles": 0,
+      "grassTriangles": 0,
+      "grassClumps": 0,
+      "grassDrawCalls": 0,
+      "grassTheme": null,
+      "grassMeshUUID": null,
+      "grassGeometryUUID": null,
+      "grassInstanceBufferId": null,
+      "grassMatrixVersion": null
+    },
+    "growing": 0,
+    "opened": 14,
+    "camera": {
+      "position": [
+        3.8000000000000016,
+        4.900000000000002,
+        12.200000000000006
+      ],
+      "target": [
+        0,
+        0.1,
+        0
+      ]
+    },
+    "viewport": {
+      "width": 520,
+      "height": 900,
+      "pixelRatio": 1
+    },
+    "plantStates": [
+      {
+        "id": "pair-u-jae-2026-11-07",
+        "kind": "pair",
+        "tree": false,
+        "blender": false,
+        "lod": null,
+        "position": [
+          -0.04545222379267216,
+          0,
+          1.0916847019089277
+        ],
+        "scale": [
+          2.407132259408634,
+          2.407132259408634,
+          2.407132259408634
+        ],
+        "bornAt": 0.020399999976158142,
+        "opened": true,
+        "highlighted": false,
+        "screen": {
+          "x": 220.08498131030356,
+          "y": 328.18057241644163
+        }
+      },
+      {
+        "id": "pair-u-min-2026-11-07",
+        "kind": "pair",
+        "tree": false,
+        "blender": false,
+        "lod": null,
+        "position": [
+          0.6810314719565213,
+          0,
+          1.1298412594018394
+        ],
+        "scale": [
+          2.407132259408634,
+          2.407132259408634,
+          2.407132259408634
+        ],
+        "bornAt": 0.08039999997615814,
+        "opened": true,
+        "highlighted": false,
+        "screen": {
+          "x": 299.1154564113983,
+          "y": 335.6967741102208
+        }
+      },
+      {
+        "id": "demo-21",
+        "kind": "flower",
+        "tree": false,
+        "blender": false,
+        "lod": null,
+        "position": [
+          -0.941548967063427,
+          0,
+          -0.5964016442795229
+        ],
+        "scale": [
+          1.6664761795905927,
+          1.6664761795905927,
+          1.6664761795905927
+        ],
+        "bornAt": 0.14039999997615815,
+        "opened": true,
+        "highlighted": false,
+        "screen": {
+          "x": 184.70238107204202,
+          "y": 338.5866477057727
+        }
+      },
+      {
+        "id": "demo-22",
+        "kind": "flower",
+        "tree": true,
+        "blender": false,
+        "lod": null,
+        "position": [
+          0.34553291888907556,
+          0,
+          2.816516006455264
+        ],
+        "scale": [
+          1.4350211546474547,
+          1.4350211546474547,
+          1.4350211546474547
+        ],
+        "bornAt": 0.20039999997615815,
+        "opened": true,
+        "highlighted": false,
+        "screen": {
+          "x": 199.20134284227407,
+          "y": 368.77622895009614
+        }
+      },
+      {
+        "id": "demo-24",
+        "kind": "flower",
+        "tree": false,
+        "blender": false,
+        "lod": null,
+        "position": [
+          0.33294613603502515,
+          0,
+          1.7122922039645558
+        ],
+        "scale": [
+          1.6664761795905927,
+          1.6664761795905927,
+          1.6664761795905927
+        ],
+        "bornAt": 0.32039999997615815,
+        "opened": true,
+        "highlighted": false,
+        "screen": {
+          "x": 230.67916059810403,
+          "y": 401.6062168784733
+        }
+      },
+      {
+        "id": "demo-25",
+        "kind": "flower",
+        "tree": false,
+        "blender": false,
+        "lod": null,
+        "position": [
+          -0.01613745907321572,
+          0,
+          2.2431335491884283
+        ],
+        "scale": [
+          1.6664761795905927,
+          1.6664761795905927,
+          1.6664761795905927
+        ],
+        "bornAt": 0.38039999997615814,
+        "opened": true,
+        "highlighted": false,
+        "screen": {
+          "x": 173.2738209273805,
+          "y": 434.7337477176074
+        }
+      },
+      {
+        "id": "demo-26",
+        "kind": "flower",
+        "tree": true,
+        "blender": false,
+        "lod": null,
+        "position": [
+          0.9674795072525739,
+          0,
+          0.5413254183673245
+        ],
+        "scale": [
+          1.4350211546474547,
+          1.4350211546474547,
+          1.4350211546474547
+        ],
+        "bornAt": 0.44039999997615814,
+        "opened": true,
+        "highlighted": false,
+        "screen": {
+          "x": 351.06089640433976,
+          "y": 353.36255976562506
+        }
+      },
+      {
+        "id": "demo-29",
+        "kind": "flower",
+        "tree": false,
+        "blender": false,
+        "lod": null,
+        "position": [
+          -1.6083270015008746,
+          0,
+          -1.7102944008129484
+        ],
+        "scale": [
+          1.6664761795905927,
+          1.6664761795905927,
+          1.6664761795905927
+        ],
+        "bornAt": 0.5003999999761581,
+        "opened": true,
+        "highlighted": false,
+        "screen": {
+          "x": 170.7160252079179,
+          "y": 305.06596882806156
+        }
+      },
+      {
+        "id": "demo-30",
+        "kind": "flower",
+        "tree": true,
+        "blender": false,
+        "lod": null,
+        "position": [
+          1.6220897298865022,
+          0,
+          1.6710500583666212
+        ],
+        "scale": [
+          1.4350211546474547,
+          1.4350211546474547,
+          1.4350211546474547
+        ],
+        "bornAt": 0.5603999999761582,
+        "opened": true,
+        "highlighted": false,
+        "screen": {
+          "x": 387.14975433662556,
+          "y": 396.8331956849098
+        }
+      },
+      {
+        "id": "demo-31",
+        "kind": "flower",
+        "tree": true,
+        "blender": false,
+        "lod": null,
+        "position": [
+          2.0217337204422803,
+          0,
+          1.1656968714302296
+        ],
+        "scale": [
+          1.4350211546474547,
+          1.4350211546474547,
+          1.4350211546474547
+        ],
+        "bornAt": 0.6203999999761581,
+        "opened": true,
+        "highlighted": false,
+        "screen": {
+          "x": 442.2899189524498,
+          "y": 380.60292797837525
+        }
+      },
+      {
+        "id": "demo-32",
+        "kind": "flower",
+        "tree": false,
+        "blender": false,
+        "lod": null,
+        "position": [
+          1.6180859430134298,
+          0,
+          2.902121149708024
+        ],
+        "scale": [
+          1.6664761795905927,
+          1.6664761795905927,
+          1.6664761795905927
+        ],
+        "bornAt": 0.6803999999761581,
+        "opened": true,
+        "highlighted": false,
+        "screen": {
+          "x": 358.5623176974433,
+          "y": 483.47107671422714
+        }
+      },
+      {
+        "id": "demo-33",
+        "kind": "flower",
+        "tree": true,
+        "blender": false,
+        "lod": null,
+        "position": [
+          1.28235069623217,
+          0,
+          2.2607204174913247
+        ],
+        "scale": [
+          1.4350211546474547,
+          1.4350211546474547,
+          1.4350211546474547
+        ],
+        "bornAt": 0.7403999999761581,
+        "opened": true,
+        "highlighted": false,
+        "screen": {
+          "x": 339.43322380776993,
+          "y": 370.8063719296033
+        }
+      },
+      {
+        "id": "demo-34",
+        "kind": "flower",
+        "tree": true,
+        "blender": false,
+        "lod": null,
+        "position": [
+          0.6769868751615287,
+          0,
+          -1.106266941037577
+        ],
+        "scale": [
+          1.4350211546474547,
+          1.4350211546474547,
+          1.4350211546474547
+        ],
+        "bornAt": 0.8003999999761582,
+        "opened": true,
+        "highlighted": false,
+        "screen": {
+          "x": 349.9483795036893,
+          "y": 270.0470154392525
+        }
+      },
+      {
+        "id": "demo-23",
+        "kind": "flower",
+        "tree": false,
+        "blender": true,
+        "lod": "near",
+        "position": [
+          -2.334606511546299,
+          0,
+          -1.6801491810715592
+        ],
+        "scale": [
+          1.6664761795905927,
+          1.6664761795905927,
+          1.6664761795905927
+        ],
+        "bornAt": 0.26039999997615815,
+        "opened": true,
+        "highlighted": false,
+        "screen": {
+          "x": 108.3642358743352,
+          "y": 323.24798978743036
+        }
+      }
+    ],
+    "performance": {
+      "frame": {
+        "samples": 0,
+        "meanMs": 0,
+        "p95Ms": 0
+      },
+      "renderCPU": {
+        "samples": 0,
+        "meanMs": 0,
+        "p95Ms": 0
+      },
+      "gpu": {
+        "available": true,
+        "samples": 0,
+        "meanMs": 0,
+        "p95Ms": 0
+      }
+    }
+  },
+  "afterRapidSwitches": {
+    "tone": "aurora",
+    "requestedTone": "aurora",
+    "themeStatus": "loaded",
+    "themeSwitches": 1,
+    "plants": 14,
+    "near": 1,
+    "far": 0,
+    "calls": 628,
+    "triangles": 75190,
+    "balancedMotes": null,
+    "geometries": 118,
+    "textures": 9,
+    "programs": 23,
+    "island": "loaded",
+    "islandChildren": 1,
+    "islandGeometry": {
+      "modelUUID": "eaf99870-721b-4a0a-b1cb-da905897d4ad",
+      "assetTriangles": 14099,
+      "grassTriangles": 6000,
+      "grassClumps": 1000,
+      "grassDrawCalls": 1,
+      "grassTheme": "aurora",
+      "grassMeshUUID": "ba179e36-d64c-48c8-9d4b-26e497d9e487",
+      "grassGeometryUUID": "b275a0d1-8583-4339-8c36-708169f06e88",
+      "grassInstanceBufferId": 1756,
+      "grassMatrixVersion": 1
+    },
+    "growing": 0,
+    "opened": 14,
+    "camera": {
+      "position": [
+        3.8000000000000016,
+        4.900000000000002,
+        12.200000000000006
+      ],
+      "target": [
+        0,
+        0.1,
+        0
+      ]
+    },
+    "viewport": {
+      "width": 520,
+      "height": 900,
+      "pixelRatio": 1
+    },
+    "plantStates": [
+      {
+        "id": "pair-u-jae-2026-11-07",
+        "kind": "pair",
+        "tree": false,
+        "blender": false,
+        "lod": null,
+        "position": [
+          -0.04545222379267216,
+          0,
+          1.0916847019089277
+        ],
+        "scale": [
+          2.407132259408634,
+          2.407132259408634,
+          2.407132259408634
+        ],
+        "bornAt": 0.020399999976158142,
+        "opened": true,
+        "highlighted": false,
+        "screen": {
+          "x": 220.08498131030356,
+          "y": 328.18057241644163
+        }
+      },
+      {
+        "id": "pair-u-min-2026-11-07",
+        "kind": "pair",
+        "tree": false,
+        "blender": false,
+        "lod": null,
+        "position": [
+          0.6810314719565213,
+          0,
+          1.1298412594018394
+        ],
+        "scale": [
+          2.407132259408634,
+          2.407132259408634,
+          2.407132259408634
+        ],
+        "bornAt": 0.08039999997615814,
+        "opened": true,
+        "highlighted": false,
+        "screen": {
+          "x": 299.1154564113983,
+          "y": 335.6967741102208
+        }
+      },
+      {
+        "id": "demo-21",
+        "kind": "flower",
+        "tree": false,
+        "blender": false,
+        "lod": null,
+        "position": [
+          -0.941548967063427,
+          0,
+          -0.5964016442795229
+        ],
+        "scale": [
+          1.6664761795905927,
+          1.6664761795905927,
+          1.6664761795905927
+        ],
+        "bornAt": 0.14039999997615815,
+        "opened": true,
+        "highlighted": false,
+        "screen": {
+          "x": 184.70238107204202,
+          "y": 338.5866477057727
+        }
+      },
+      {
+        "id": "demo-22",
+        "kind": "flower",
+        "tree": true,
+        "blender": false,
+        "lod": null,
+        "position": [
+          0.34553291888907556,
+          0,
+          2.816516006455264
+        ],
+        "scale": [
+          1.4350211546474547,
+          1.4350211546474547,
+          1.4350211546474547
+        ],
+        "bornAt": 0.20039999997615815,
+        "opened": true,
+        "highlighted": false,
+        "screen": {
+          "x": 199.20134284227407,
+          "y": 368.77622895009614
+        }
+      },
+      {
+        "id": "demo-23",
+        "kind": "flower",
+        "tree": false,
+        "blender": true,
+        "lod": "near",
+        "position": [
+          -2.334606511546299,
+          0,
+          -1.6801491810715592
+        ],
+        "scale": [
+          1.6664761795905927,
+          1.6664761795905927,
+          1.6664761795905927
+        ],
+        "bornAt": 0.26039999997615815,
+        "opened": true,
+        "highlighted": false,
+        "screen": {
+          "x": 108.3642358743352,
+          "y": 323.24798978743036
+        }
+      },
+      {
+        "id": "demo-24",
+        "kind": "flower",
+        "tree": false,
+        "blender": false,
+        "lod": null,
+        "position": [
+          0.33294613603502515,
+          0,
+          1.7122922039645558
+        ],
+        "scale": [
+          1.6664761795905927,
+          1.6664761795905927,
+          1.6664761795905927
+        ],
+        "bornAt": 0.32039999997615815,
+        "opened": true,
+        "highlighted": false,
+        "screen": {
+          "x": 230.67916059810403,
+          "y": 401.6062168784733
+        }
+      },
+      {
+        "id": "demo-25",
+        "kind": "flower",
+        "tree": false,
+        "blender": false,
+        "lod": null,
+        "position": [
+          -0.01613745907321572,
+          0,
+          2.2431335491884283
+        ],
+        "scale": [
+          1.6664761795905927,
+          1.6664761795905927,
+          1.6664761795905927
+        ],
+        "bornAt": 0.38039999997615814,
+        "opened": true,
+        "highlighted": false,
+        "screen": {
+          "x": 173.2738209273805,
+          "y": 434.7337477176074
+        }
+      },
+      {
+        "id": "demo-26",
+        "kind": "flower",
+        "tree": true,
+        "blender": false,
+        "lod": null,
+        "position": [
+          0.9674795072525739,
+          0,
+          0.5413254183673245
+        ],
+        "scale": [
+          1.4350211546474547,
+          1.4350211546474547,
+          1.4350211546474547
+        ],
+        "bornAt": 0.44039999997615814,
+        "opened": true,
+        "highlighted": false,
+        "screen": {
+          "x": 351.06089640433976,
+          "y": 353.36255976562506
+        }
+      },
+      {
+        "id": "demo-29",
+        "kind": "flower",
+        "tree": false,
+        "blender": false,
+        "lod": null,
+        "position": [
+          -1.6083270015008746,
+          0,
+          -1.7102944008129484
+        ],
+        "scale": [
+          1.6664761795905927,
+          1.6664761795905927,
+          1.6664761795905927
+        ],
+        "bornAt": 0.5003999999761581,
+        "opened": true,
+        "highlighted": false,
+        "screen": {
+          "x": 170.7160252079179,
+          "y": 305.06596882806156
+        }
+      },
+      {
+        "id": "demo-30",
+        "kind": "flower",
+        "tree": true,
+        "blender": false,
+        "lod": null,
+        "position": [
+          1.6220897298865022,
+          0,
+          1.6710500583666212
+        ],
+        "scale": [
+          1.4350211546474547,
+          1.4350211546474547,
+          1.4350211546474547
+        ],
+        "bornAt": 0.5603999999761582,
+        "opened": true,
+        "highlighted": false,
+        "screen": {
+          "x": 387.14975433662556,
+          "y": 396.8331956849098
+        }
+      },
+      {
+        "id": "demo-31",
+        "kind": "flower",
+        "tree": true,
+        "blender": false,
+        "lod": null,
+        "position": [
+          2.0217337204422803,
+          0,
+          1.1656968714302296
+        ],
+        "scale": [
+          1.4350211546474547,
+          1.4350211546474547,
+          1.4350211546474547
+        ],
+        "bornAt": 0.6203999999761581,
+        "opened": true,
+        "highlighted": false,
+        "screen": {
+          "x": 442.2899189524498,
+          "y": 380.60292797837525
+        }
+      },
+      {
+        "id": "demo-32",
+        "kind": "flower",
+        "tree": false,
+        "blender": false,
+        "lod": null,
+        "position": [
+          1.6180859430134298,
+          0,
+          2.902121149708024
+        ],
+        "scale": [
+          1.6664761795905927,
+          1.6664761795905927,
+          1.6664761795905927
+        ],
+        "bornAt": 0.6803999999761581,
+        "opened": true,
+        "highlighted": false,
+        "screen": {
+          "x": 358.5623176974433,
+          "y": 483.47107671422714
+        }
+      },
+      {
+        "id": "demo-33",
+        "kind": "flower",
+        "tree": true,
+        "blender": false,
+        "lod": null,
+        "position": [
+          1.28235069623217,
+          0,
+          2.2607204174913247
+        ],
+        "scale": [
+          1.4350211546474547,
+          1.4350211546474547,
+          1.4350211546474547
+        ],
+        "bornAt": 0.7403999999761581,
+        "opened": true,
+        "highlighted": false,
+        "screen": {
+          "x": 339.43322380776993,
+          "y": 370.8063719296033
+        }
+      },
+      {
+        "id": "demo-34",
+        "kind": "flower",
+        "tree": true,
+        "blender": false,
+        "lod": null,
+        "position": [
+          0.6769868751615287,
+          0,
+          -1.106266941037577
+        ],
+        "scale": [
+          1.4350211546474547,
+          1.4350211546474547,
+          1.4350211546474547
+        ],
+        "bornAt": 0.8003999999761582,
+        "opened": true,
+        "highlighted": false,
+        "screen": {
+          "x": 349.9483795036893,
+          "y": 270.0470154392525
+        }
+      }
+    ],
+    "performance": {
+      "frame": {
+        "samples": 0,
+        "meanMs": 0,
+        "p95Ms": 0
+      },
+      "renderCPU": {
+        "samples": 1,
+        "meanMs": 3748.8,
+        "p95Ms": 3748.8
+      },
+      "gpu": {
+        "available": true,
+        "samples": 0,
+        "meanMs": 0,
+        "p95Ms": 0
+      }
+    }
+  },
+  "passed": true,
+  "finished": "2026-11-06T21:39:04.983Z"
+}

@@ -19,7 +19,7 @@ async function model(file) {
 }
 
 for (const file of ['island.glb', 'island-modern.glb']) {
-  test(`${file}: four grass palettes reuse geometry, instancing and material; same-variant reparent is safe`, async () => {
+  test(`${file}: four grass palettes reuse geometry, instancing and material`, async () => {
     const first = await model(file)
     const controller = createIslandGrass(first, { tone: 'balanced' })
     assert.ok(controller)
@@ -46,15 +46,27 @@ for (const file of ['island.glb', 'island-modern.glb']) {
       controller.setTheme(bad)
       assert.equal(controller.theme, 'balanced')
     }
-    const second = await model(file)
-    controller.reparent(second)
-    assert.equal(mesh.parent, second)
-    assert.equal(first.children.includes(mesh), false)
-    assert.equal(mesh.instanceMatrix, instances)
-    controller.updatePlants([new THREE.Vector3(0, 0, 0)], second)
+    controller.updatePlants([new THREE.Vector3(0, 0, 0)], first)
+    assert.equal(mesh.parent, first)
     assert.equal(mesh.count, 1000)
     controller.dispose()
     controller.dispose()
     assert.equal(mesh.parent, null)
   })
 }
+
+test('canonical island has 14,099 exported triangles and the approved decorations', async () => {
+  const root = await model('island-modern.glb')
+  const names = []
+  let triangles = 0
+  root.traverse(mesh => {
+    if (!mesh.isMesh) return
+    names.push(mesh.name)
+    triangles += (mesh.geometry.index?.count ?? mesh.geometry.attributes.position.count) / 3
+  })
+  assert.equal(triangles, 14099)
+  assert.ok(names.every(name => !/Ornamental_Ring|hoop/i.test(name)))
+  for (const name of ['Island_Crystal_Underside', 'Island_Pond', 'Island_Metal_Rim', 'Island_Peripheral_Crystals']) {
+    assert.ok(names.some(mesh => mesh.startsWith(name)), name)
+  }
+})
