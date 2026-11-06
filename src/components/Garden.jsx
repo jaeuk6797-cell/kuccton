@@ -510,9 +510,13 @@ function FriendPicker({ friends, counts, viewing, onPick, onClose }) {
       <div className="sheet friend-picker" onClick={(e) => e.stopPropagation()}>
         <button className="close" onClick={onClose} aria-label="닫기">×</button>
         <h2 className="sheet-title">누구의 꽃을 볼까요?</h2>
+        <button className={`picker-all${viewing === 'all' ? ' on' : ''}`} aria-pressed={viewing === 'all'} onClick={() => onPick('all')}>
+          <span className="picker-all-icon"><Sprout width={20} height={20} aria-hidden="true" /></span>
+          <span>모든 꽃 보기</span>
+          {viewing === 'all' && <Check className="picker-all-check" width={18} height={18} aria-hidden="true" />}
+        </button>
         <input className="picker-search" value={q} onChange={(e) => setQ(e.target.value)} placeholder="친구 이름 찾기" autoFocus />
         <ul className="list">
-          <li><button className={viewing === 'all' ? 'on' : ''} onClick={() => onPick('all')}><b>전체</b><small>모든 친구의 꽃</small></button></li>
           {shown.map((m) => (
             <li key={m.id}>
               <button className={viewing === m.id ? 'on' : ''} onClick={() => onPick(m.id)}>
