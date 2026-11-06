@@ -9,7 +9,7 @@ Balanced Warm is SUP's default personal garden appearance. Me → **정원 테�
 | `aurora` | Aurora Crystal | Modern island with Aurora atmosphere and glow |
 | `default` | Original Opal | Archived cool opal island |
 
-The integration started from `origin/main` at `05c7efd` and incorporated the newer main through `f8cfac4` before delivery, including its album period picker, totals, friend pinning and notification tutorial. It reconciles the visual changes from Balanced `bbc538b`, Warm `536d2ac`, and Aurora `2af54a7`. Main remains authoritative for audio, sound analysis, authentication, profiles, sharing, notifications, mobile framing, and the four-times camera zoom limit. These unrelated systems were not replaced with older branch files.
+The integration started from `origin/main` at `05c7efd` and incorporated the newer main through `f8cfac4` before its initial delivery, including its album period picker, totals, friend pinning and notification tutorial. The subsequent conflict resolution incorporates main through `10f4a7a`, retaining friend removal with optional local flower hiding, inbox scrollbar changes, and Android system-bar insets alongside the theme provider and selector. It reconciles the visual changes from Balanced `bbc538b`, Warm `536d2ac`, and Aurora `2af54a7`. Main remains authoritative for audio, sound analysis, authentication, profiles, sharing, notifications, mobile framing, and the four-times camera zoom limit. These unrelated systems were not replaced with older branch files.
 
 The four sets of procedural flower, tree, Blender, reflection, and lighting values come from those source implementations. Automated tests compare their actual geometry buffers, transforms, material properties, shader modifications, and growth poses. The archived `public/models/island.glb` remains byte-for-byte intact. `island-modern.glb` is the exact modern asset from `2af54a7`; crystal flower near/far assets are also preserved.
 
@@ -49,9 +49,12 @@ npm run dev -- --host 127.0.0.1 --port 5199 --strictPort
 npm run test:themes:browser
 node scripts/gardenTheme.retry.mjs
 npm run test:themes:production
+node scripts/gardenTheme.merge.browser.mjs
 ```
 
 The production test creates an ignored `.qa-production` build using a test-only API URL and intercepts Supabase traffic locally. It exercises actual App authentication, Garden, Me, flower and pair details, synthetic audio playback, profile editing and friend navigation. It does not modify a live account or database.
+
+The focused merge regression uses the actual Garden demo to verify both friend-removal choices, theme and hiding persistence, pin cleanup, and live Android CSS inset updates through rotation. Its report is written to ignored `.qa-browser/merge-results.json`. After incorporating main `10f4a7a`, all 31 Node tests, five focused browser checks, and the production build passed, with no browser runtime or shader errors. Native Android hardware remains outside this browser check.
 
 To reproduce the historical performance comparison, run `node scripts/prepareGardenThemeBaselines.mjs`, serve `.qa-browser/baseline-balanced` on port 5205 and `.qa-browser/baseline-aurora` on port 5206 with Vite, then run `node scripts/gardenTheme.baselines.mjs` while the integration server is on 5199. The preparation script copies current sound-generation inputs into both isolated source checkouts so only visual rendering differs. It never checks out or edits historical branches. `node scripts/reportGardenThemes.mjs` generates the comparison gallery and report only when all browser result files pass.
 
