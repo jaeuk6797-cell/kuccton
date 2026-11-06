@@ -18,6 +18,7 @@ const errorText = (e) => {
   if (m.includes('SELF_FRIEND')) return '내 코드예요. 친구의 코드를 넣어 주세요.'
   if (m.includes('SHARE_NOT_FOUND')) return '이미 처리한 소리예요.'
   if (m.includes('NOT_AUTHENTICATED')) return '먼저 로그인해 주세요.'
+  if (m.includes('BAD_NICKNAME')) return '닉네임은 1~12자로 적어 주세요.'
   return m
 }
 
@@ -199,6 +200,41 @@ function derivePairs(friends, sent, received, flowerById) {
   return pairs.sort((a, b) => a.sent_date.localeCompare(b.sent_date))
 }
 
+// ───────── 프로필 (닉네임·사진, migrations-009) ─────────
+
+const AVATARS = 'avatars'
+
+/** 사진을 가운데 정사각형으로 잘라 256px JPEG로 줄인다 (용량을 작게) */
+async function squareJpeg(file, size = 256) {
+  const bmp = await createImageBitmap(file)
+  const s = Math.min(bmp.width, bmp.height)
+  const canvas = document.createElement('canvas')
+  canvas.width = canvas.height = size
+  canvas.getContext('2d').drawImage(bmp, (bmp.width - s) / 2, (bmp.height - s) / 2, s, s, 0, 0, size, size)
+  bmp.close?.()
+  return new Promise((res, rej) => canvas.toBlob((b) => (b ? res(b) : rej(new Error('사진을 읽지 못했어요.'))), 'image/jpeg', 0.85))
+}
+
+/** 닉네임과 프로필 사진 바꾸기. photo: File(새 사진) | null(그대로) | 'remove'(지우기) */
+export async function updateProfile(nickname, photo = null) {
+  const user = await currentUser()
+  if (!user) throw new Error('먼저 로그인해 주세요.')
+  let avatarUrl = null
+  if (photo === 'remove') avatarUrl = ''
+  else if (photo) {
+    const blob = await squareJpeg(photo)
+    const path = `${user.id}/${Date.now()}.jpg`
+    const { error } = await supabase.storage.from(AVATARS).upload(path, blob, { contentType: 'image/jpeg' })
+    if (error) throw new Error(/bucket/i.test(error.message) ? '프로필 사진 저장소가 아직 없어요 (Supabase에서 migrations-009.sql 실행 필요).' : error.message)
+    avatarUrl = supabase.storage.from(AVATARS).getPublicUrl(path).data.publicUrl
+  }
+  const { error } = await supabase.rpc('update_profile', { p_nickname: nickname, p_avatar_url: avatarUrl })
+  if (error) {
+    if (/update_profile|function/i.test(error.message) && !/BAD_NICKNAME/.test(error.message)) throw new Error('프로필 기능이 아직 서버에 없어요 (Supabase에서 migrations-009.sql 실행 필요).')
+    throw new Error(errorText(error))
+  }
+}
+
 export async function loadGarden(gardenId) {
   const user = await currentUser()
   const [g, m, f, fr, sent, recv] = await Promise.all([
@@ -221,7 +257,7 @@ export async function loadGarden(gardenId) {
   const flowers = [...own, ...receivedFlowers]
   const flowerById = Object.fromEntries(flowers.map((x) => [x.id, x]))
   // 친구도 members 모양으로 넣어 두면 화면에서 보낸 사람 이름을 같은 방식으로 찾을 수 있다
-  const friendMembers = friends.map((x) => ({ id: x.member_id, user_id: x.user_id, nickname: x.nickname, created_at: x.since, friend: true }))
+  const friendMembers = friends.map((x) => ({ id: x.member_id, user_id: x.user_id, nickname: x.nickname, avatar_url: x.avatar_url, created_at: x.since, friend: true }))
   const members = [...m.data, ...friendMembers.filter((x) => !m.data.some((y) => y.id === x.id))]
   const received = recv.data.filter((s) => s.status === 'accepted').map(({ flower, ...s }) => s)
   return {
