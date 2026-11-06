@@ -1,4 +1,4 @@
-# SUP (소리숲) — Product Requirements Document
+# SUP — Product Requirements Document
 
 **Date:** November 6, 2026  
 **Author:** @Yeojung
@@ -275,9 +275,9 @@ The MVP comprises the **seven P0 features, F1–F7**.
 ### Open Questions
 
 - [x] ~~Confirm whether the hackathon lasts 6 or 12 hours.~~ *(Marked complete in the source; the confirmed duration is not specified.)*
-- [x] Service name decided: **SUP (소리숲)**.
+- [x] Service name decided: **SUP**.
 - [ ] Secure demonstration devices (**two Android phones or a laptop**).
 
 ---
 
-*End of translated PRD. Original: “소리숲(SOOP) PRD,” 9 pages, November 6, 2026.*
+*End of translated PRD. Original: Korean PRD, 9 pages, November 6, 2026.*
