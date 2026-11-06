@@ -2,7 +2,8 @@ import { useEffect, useRef, useState } from 'react'
 import { useSpeechRecognition } from './useSpeechRecognition.js'
 import { analyzeEmotion, emotionEnabled } from './emotion.js'
 import { extractFeatures } from './soundFeatures.js'
-import { categoriesFor, buildFlower } from './flower.js'
+import { CATEGORIES, categoriesFor, buildFlower } from './flower.js'
+import { CONFIDENT_SCORE, classifySound, preloadClassifier } from './classify.js'
 import Flower from './Flower.jsx'
 import Waveform from './Waveform.jsx'
 
@@ -22,6 +23,9 @@ export default function App() {
   const [analyzing, setAnalyzing] = useState(false)
   const [features, setFeatures] = useState(null)
   const [liveStream, setLiveStream] = useState(null)
+  const [classifying, setClassifying] = useState(false)
+  const [suggestion, setSuggestion] = useState(null) // { id, score, voiceLikely }
+  const [classifyError, setClassifyError] = useState(null)
   const recorderRef = useRef(null)
   const chunksRef = useRef([])
   const timerRef = useRef(null)
@@ -45,6 +49,34 @@ export default function App() {
     setCategory(kind === 'voice' ? 'speech' : '')
   }, [kind])
 
+  // 다른 소리를 골랐으면 어떤 소리인지 판별해 카테고리를 미리 골라 둔다. 확신이 낮으면 직접 고르게 한다.
+  useEffect(() => {
+    if (kind === 'other') preloadClassifier()
+  }, [kind])
+
+  useEffect(() => {
+    setSuggestion(null)
+    setClassifyError(null)
+    if (kind !== 'other' || !blob) return
+    let cancelled = false
+    setClassifying(true)
+    classifySound(blob)
+      .then((ranked) => {
+        if (cancelled) return
+        const allowed = new Set(categoriesFor('other').map((c) => c.id))
+        allowed.delete('other')
+        const best = ranked.find((r) => allowed.has(r.id))
+        const voiceLikely = !allowed.has(ranked[0].id) && ranked[0].score >= CONFIDENT_SCORE
+        setSuggestion({ ...best, voiceLikely })
+        if (best.score >= CONFIDENT_SCORE) setCategory(best.id)
+      })
+      .catch(() => !cancelled && setClassifyError('소리를 분류하지 못했어요. 직접 골라 주세요.'))
+      .finally(() => !cancelled && setClassifying(false))
+    return () => {
+      cancelled = true
+    }
+  }, [kind, blob])
+
   // 사람 목소리를 골랐을 때만 녹음을 감정 분석 서버로 보낸다.
   useEffect(() => {
     setEmotion(null)
@@ -65,6 +97,7 @@ export default function App() {
     setMicError(null)
     setBlob(null)
     setAudioUrl(null)
+    setCategory(kind === 'voice' ? 'speech' : '')
     let stream
     try {
       stream = await navigator.mediaDevices.getUserMedia({ audio: true })
@@ -154,6 +187,22 @@ export default function App() {
       {blob && (
         <section style={{ marginTop: 24 }}>
           <h2>{kind === 'voice' ? '어떤 목소리인가요?' : '어떤 소리인가요?'}</h2>
+          {kind === 'other' && (
+            <div style={{ margin: '0 0 8px' }}>
+              {classifying && <p>어떤 소리인지 듣는 중… (처음엔 모델을 받느라 몇 초 걸려요)</p>}
+              {classifyError && <p style={{ color: 'crimson' }}>{classifyError}</p>}
+              {suggestion && suggestion.score >= CONFIDENT_SCORE && (
+                <p>
+                  <b>{CATEGORIES.find((c) => c.id === suggestion.id)?.label}</b> 소리 같아요 (확신{' '}
+                  {Math.round(suggestion.score * 100)}%). 아니면 아래에서 직접 골라 주세요.
+                </p>
+              )}
+              {suggestion && suggestion.score < CONFIDENT_SCORE && <p>잘 모르겠어요. 직접 골라 주세요.</p>}
+              {suggestion?.voiceLikely && (
+                <p>사람 소리가 섞여 있어요. 위에서 '사람 목소리'를 고르면 감정도 읽어 줘요.</p>
+              )}
+            </div>
+          )}
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
             {categoriesFor(kind).map((c) => (
               <button
