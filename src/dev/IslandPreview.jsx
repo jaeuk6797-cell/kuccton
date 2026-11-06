@@ -2,6 +2,7 @@
 // 실제 앱과 같은 naming.js 규칙으로 가짜 flowers / pair_flowers 행을 만들어 Island3D에 넣는다.
 import { useMemo, useState } from 'react'
 import Island3D from '../components/Island3D.jsx'
+import FlowerBloom3D from '../components/FlowerBloom3D.jsx'
 import { buildFlower, buildSoundFlower } from '../lib/flower.js'
 import { toFlowerRow, pairName } from '../lib/naming.js'
 
@@ -76,6 +77,7 @@ export default function IslandPreview() {
       <div style={{ position: 'absolute', left: 16, right: 16, bottom: 16, display: 'flex', flexDirection: 'column', gap: 8, alignItems: 'center' }}>
         {picked && (
           <div style={{ background: 'rgba(255,255,255,.88)', borderRadius: 14, padding: '10px 14px', maxWidth: 420, width: '100%', fontSize: 14 }}>
+            {picked.color && <FlowerBloom3D flower={picked} size={120} />}
             <strong>{picked.name}</strong>
             {picked.reason && <div>{picked.reason}</div>}
             {picked.transcript && <div>꽃말: “{picked.transcript}”</div>}

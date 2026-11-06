@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import Flower from './Flower.jsx'
+import FlowerBloom3D from './FlowerBloom3D.jsx'
 import { pickMimeType, audioCtx } from '../lib/audio.js'
 import { extractFeatures } from '../lib/soundFeatures.js'
 import { CATEGORIES, buildFlower, buildSoundFlower, voiceCategory } from '../lib/flower.js'
@@ -10,11 +10,12 @@ import { startLiveTranscript, canDictate, dictateOnce } from '../lib/stt.js'
 const MAX_SEC = 10
 
 // S3 녹음 → S4 꽃 미리보기
-// 녹음 전에 '사람 목소리 / 다른 소리'를 고른다.
-//  - 목소리: 감정 분석 서버 결과로 감정 꽃을 고르고, STT 문장을 꽃말로 붙인다. 서버가 안 되면 감정을 직접 고른다.
+// 녹음 버튼은 하나. 녹음하는 동안 받아쓰기를 함께 돌려서, 말이 들렸으면 목소리 꽃, 아니면 소리 꽃으로 스스로 정한다.
+//  - 목소리: 감정 분석 서버 결과로 감정 꽃을 고르고, 받아 적은 문장을 꽃말로 붙인다. 서버가 안 되면 감정을 직접 고른다.
 //  - 다른 소리: 분류하지 않고 크기·밝기·세기·리듬·파형으로 바로 꽃을 만든다.
+//  - 앱(Capacitor)은 녹음 중 받아쓰기를 못 해서 소리 꽃이 되고, 꽃말은 미리보기에서 '말로 적기'로 붙일 수 있다.
 export default function Recorder({ onClose, onSend }) {
-  const [kind, setKind] = useState('') // 'voice' | 'other'
+  const [kind, setKind] = useState('') // 녹음 뒤 자동으로 정함: 'voice' | 'other'
   const [step, setStep] = useState('idle') // idle | recording | analyzing | choose | preview | sending
   const [left, setLeft] = useState(MAX_SEC)
   const [blob, setBlob] = useState(null)
@@ -47,7 +48,7 @@ export default function Recorder({ onClose, onSend }) {
 
   async function start() {
     setError(''); setEmotionError('')
-    setBlob(null); setFeatures(null); setEmotion(null); setCategory(''); setTranscript('')
+    setBlob(null); setFeatures(null); setEmotion(null); setCategory(''); setTranscript(''); setKind('')
     let stream
     try {
       stream = await navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: false, noiseSuppression: false, autoGainControl: false } })
@@ -70,7 +71,7 @@ export default function Recorder({ onClose, onSend }) {
     }
     recRef.current = rec
     rec.start()
-    sttRef.current = kind === 'voice' ? startLiveTranscript() : null
+    sttRef.current = startLiveTranscript() // 말이 들리는지 알아보려고 항상 같이 돌린다 (브라우저만)
     drawLive(stream)
     const t0 = Date.now()
     setLeft(MAX_SEC)
@@ -101,7 +102,7 @@ export default function Recorder({ onClose, onSend }) {
         an.getByteTimeDomainData(data)
         g.clearRect(0, 0, w, h)
         g.lineWidth = 3
-        g.strokeStyle = '#c4573a'
+        g.strokeStyle = '#d9694f'
         g.beginPath()
         for (let i = 0; i < data.length; i += 8) {
           const x = (i / data.length) * w
@@ -120,9 +121,14 @@ export default function Recorder({ onClose, onSend }) {
     try {
       const f = await extractFeatures(b)
       setFeatures(f)
-      if (kind === 'other') { setStep('preview'); return }
+      // 받아쓰기의 마지막 결과가 들어올 시간을 조금 준 뒤, 글자가 2자 이상 들렸으면 목소리로 본다
+      await new Promise((r) => setTimeout(r, 700))
+      const heard = (sttRef.current?.text || '').trim()
+      const isVoice = heard.replace(/[^가-힣a-zA-Z0-9]/g, '').length >= 2
+      setKind(isVoice ? 'voice' : 'other')
+      if (!isVoice) { setStep('preview'); return }
 
-      setTimeout(() => setTranscript((t) => t || sttRef.current?.text || ''), 600)
+      setTranscript(heard)
       if (!emotionEnabled) {
         setEmotionError('감정 분석 서버 주소(VITE_EMOTION_API_URL)가 설정되지 않았어요.')
         setStep('choose')
@@ -157,7 +163,7 @@ export default function Recorder({ onClose, onSend }) {
   let flower = null
   if (features && kind === 'other') flower = buildSoundFlower(features)
   else if (features && kind === 'voice' && category) flower = buildFlower(category, features, emotion?.intensity)
-  const row = flower && toFlowerRow({ flower, features, kind, category, transcript: kind === 'voice' ? transcript.trim() : null })
+  const row = flower && toFlowerRow({ flower, features, kind, category, transcript: transcript.trim() || null })
 
   async function send() {
     setStep('sending')
@@ -178,20 +184,13 @@ export default function Recorder({ onClose, onSend }) {
         {(step === 'idle' || step === 'recording') && (
           <>
             <h2 className="sheet-title">오늘의 소리</h2>
-            <p className="muted">어떤 소리를 남길까요?</p>
-            <div className="kind-toggle">
-              {[['voice', '사람 목소리'], ['other', '다른 소리']].map(([id, label]) => (
-                <button key={id} className={kind === id ? 'on' : ''} onClick={() => setKind(id)} disabled={step === 'recording'}>
-                  {label}
-                </button>
-              ))}
-            </div>
+            <p className="muted">지금 들리는 소리를 10초 담아 보세요.<br />말소리는 감정 꽃으로, 그 밖의 소리는 소리 꽃으로 피어요.</p>
             <canvas ref={canvasRef} className="wave" width="600" height="140" />
             <div className="timer">
-              {step === 'recording' ? `${left.toFixed(1)}초 남음` : kind ? '최대 10초' : '먼저 소리 종류를 골라 주세요'}
+              {step === 'recording' ? `${left.toFixed(1)}초 남음` : '누르면 바로 녹음돼요 · 최대 10초'}
             </div>
             {step === 'idle' ? (
-              <button className="rec-btn" onClick={start} disabled={!kind} aria-label="녹음 시작"><span /></button>
+              <button className="rec-btn" onClick={start} aria-label="녹음 시작"><span /></button>
             ) : (
               <button className="rec-btn recording" onClick={stop} aria-label="녹음 멈추기"><span /></button>
             )}
@@ -201,7 +200,7 @@ export default function Recorder({ onClose, onSend }) {
         {step === 'analyzing' && (
           <div className="center-col">
             <div className="seed" />
-            <p>{kind === 'voice' ? '목소리의 감정을 읽고 있어요…' : '소리의 모양을 살피고 있어요…'}</p>
+            <p>{kind === 'voice' ? '목소리의 감정을 읽고 있어요…' : '어떤 소리인지 살피고 있어요…'}</p>
           </div>
         )}
 
@@ -222,7 +221,7 @@ export default function Recorder({ onClose, onSend }) {
 
         {(step === 'preview' || step === 'sending') && flower && (
           <div className="center-col">
-            <Flower flower={row} size={140} />
+            <FlowerBloom3D flower={row} size={180} />
             <h2 className="flower-name">{flower.name}</h2>
             <p className="reason">{flower.reason}</p>
             {kind === 'voice' && (
@@ -233,6 +232,11 @@ export default function Recorder({ onClose, onSend }) {
                   </p>
                 )}
                 <button className="link" onClick={() => setStep('choose')}>다른 마음이었어요</button>
+              </>
+            )}
+            {/* 꽃말: 말소리면 받아 적은 문장. 앱에서는 소리 꽃에도 '말로 적기'로 꽃말을 붙일 수 있다 */}
+            {(kind === 'voice' || canDictate) && (
+              <>
                 <label className="hanamal">
                   꽃말
                   <textarea

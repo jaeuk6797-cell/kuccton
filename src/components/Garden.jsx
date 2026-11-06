@@ -3,7 +3,7 @@ import Flower from './Flower.jsx'
 import Island3D from './Island3D.jsx'
 import Recorder from './Recorder.jsx'
 import { FlowerDetail, PairDetail } from './Details.jsx'
-import { Bell, Disc, Heart, Mic, Sprout, User, Users, Wave } from './Icons.jsx'
+import { Bell, Heart, Mic, Sprout, User, Users, Wave } from './Icons.jsx'
 import { deleteFlower, ensurePairs, insertFlower, loadGarden, subscribeGarden, today, uploadAudio } from '../lib/db.js'
 
 // 받침에 따라 조사 고르기
@@ -35,6 +35,11 @@ export default function Garden({ session, onSignOut, email }) {
   const homeRef = useRef(null)
   const dragRef = useRef(null)
   useEffect(() => { localStorage.setItem('sup.sheet', sheetOpen ? 'open' : 'closed') }, [sheetOpen])
+  const [hintOn, setHintOn] = useState(true) // 처음 몇 초만 보여 주는 조작 안내
+  useEffect(() => {
+    const t = setTimeout(() => setHintOn(false), 4500)
+    return () => clearTimeout(t)
+  }, [])
 
   // 카드 높이와 '열렸을 때 섬 축소 비율'을 CSS 변수로 둔다. 섬은 캔버스 크기를 바꾸지 않고
   // CSS transform으로만 줄었다 커져서(3D를 다시 그리지 않음) 접고 펼 때 끊기지 않는다.
@@ -142,7 +147,8 @@ export default function Garden({ session, onSignOut, email }) {
   const flowerById = Object.fromEntries(data.flowers.map((f) => [f.id, f]))
 
   let status
-  if (!partner) status = { title: `정원 코드 ${data.garden.code}`, sub: '이 코드를 소중한 사람에게 알려 주세요' }
+  // 정원 코드는 홈에 띄우지 않고 친구 탭에서만 보여 준다
+  if (!partner) status = { title: '아직 혼자 가꾸는 정원이에요', sub: '친구 탭에서 정원 코드를 알려 줄 수 있어요', onClick: () => setTab('friends') }
   else if (todayPair) status = { title: `오늘 ‘${todayPair.name}’이 피었어요`, sub: '눌러서 두 소리를 함께 들어 보세요', onClick: () => setOpenPair(todayPair) }
   else if (todayTheirs && !todayMine) status = { title: `${josa(pName, '이', '가')} ${timeOfDay(todayTheirs.created_at)} 소리를 보냈어요`, sub: '나도 보내면 두 소리가 만나 우리의 꽃이 피어요' }
   else if (todayMine && !todayTheirs) status = { title: '오늘의 소리를 보냈어요', sub: `${pName}의 소리를 기다리고 있어요` }
@@ -188,6 +194,7 @@ export default function Garden({ session, onSignOut, email }) {
 
       {tab === 'garden' && (
         <>
+          <div className="island-touch" onPointerDown={() => setHintOn(false)}>
           <Island3D
             flowers={data.flowers}
             pairs={data.pairs}
@@ -197,6 +204,7 @@ export default function Garden({ session, onSignOut, email }) {
             onPickFlower={setOpenFlower}
             onPickPair={setOpenPair}
           />
+          </div>
           <header className="home-head">
             <div className="brand"><Sprout /> 소리숲</div>
             <button className="round-btn" onClick={() => setShowBell(true)} aria-label="알림">
@@ -212,7 +220,14 @@ export default function Garden({ session, onSignOut, email }) {
               <span>우리의 꽃 {data.pairs.length}송이</span>
             </div>
           </div>
-          <div className="hint">꽃을 누르면 그날의 소리가 들려요 · 드래그로 둘러보기</div>
+          {data.flowers.length === 0 ? (
+            <div className="empty-garden">
+              <b>아직 핀 꽃이 없어요</b>
+              <small>{partner ? '지금 들리는 소리를 처음으로 남겨 보세요' : '혼자서도 먼저 소리를 심어 둘 수 있어요'}</small>
+            </div>
+          ) : (
+            <div className={`hint ${hintOn ? '' : 'off'}`}>꽃을 누르면 그날의 소리가 들려요 · 드래그로 둘러보기</div>
+          )}
 
           <section ref={sheetRef} className={`home-sheet ${sheetOpen ? '' : 'closed'}`}>
             <div
@@ -246,16 +261,13 @@ export default function Garden({ session, onSignOut, email }) {
             <button className="record-cta" onClick={() => setRecording(true)}>
               <Mic /> 오늘의 소리 녹음하기 · 10초
             </button>
-            <div className="sub-actions">
-              <button onClick={comfort}><Heart /> 오늘의 위로</button>
-              <button onClick={() => setTab('album')}><Disc /> 이번 주 소리 앨범</button>
-            </div>
+            <button className="comfort-btn" onClick={comfort}><Heart /> 오늘의 위로 · 받은 소리 하나 다시 듣기</button>
           </section>
         </>
       )}
 
       {tab === 'album' && <Album data={data} meId={meId} onOpen={setOpenFlower} onOpenPair={setOpenPair} flowerById={flowerById} />}
-      {tab === 'friends' && <Friends data={data} partner={partner} me={me} />}
+      {tab === 'friends' && <Friends data={data} partner={partner} />}
       {tab === 'me' && <Me me={me} data={data} email={email} onSignOut={onSignOut} />}
 
       <nav className="tabbar">
@@ -350,7 +362,13 @@ function Album({ data, meId, onOpen, onOpenPair, flowerById }) {
   return (
     <div className="page">
       <h1 className="page-title">이번 주 소리 앨범</h1>
-      {week.length === 0 && <p className="muted">이번 주에는 아직 핀 꽃이 없어요.</p>}
+      {week.length === 0 && (
+        <div className="card album-empty">
+          <Flower flower={{ color: 'hsl(250 40% 80%)', petals: 5, vowel: 'Y', consonant: '평', rms: 0.04 }} size={64} stem={false} />
+          <b>이번 주에는 아직 핀 꽃이 없어요</b>
+          <small className="muted">소리를 보내거나 받으면 날짜별로 여기에 모여요</small>
+        </div>
+      )}
       {week.map((r) => <Day key={r.date} r={r} />)}
       {older.length > 0 && <h2 className="page-sub">지난 소리</h2>}
       {older.map((r) => <Day key={r.date} r={r} />)}
@@ -358,33 +376,42 @@ function Album({ data, meId, onOpen, onOpenPair, flowerById }) {
   )
 }
 
-function Friends({ data, partner, me }) {
+// 친구 목록: 한 사람당 정원은 하나, 정원 하나에 두 사람 → 친구는 내 정원을 함께 가꾸는 사람.
+// 친구가 보낸 소리는 내 정원 왼쪽에, 내가 보낸 소리는 오른쪽에 꽃으로 핀다.
+function Friends({ data, partner }) {
   const [copied, setCopied] = useState(false)
   const copy = async () => {
     try { await navigator.clipboard.writeText(data.garden.code); setCopied(true); setTimeout(() => setCopied(false), 2000) } catch {}
   }
+  const sentBy = (id) => data.flowers.filter((f) => f.sender_id === id).length
+  const since = new Date(partner?.created_at || data.garden.created_at)
+
   return (
     <div className="page">
-      <h1 className="page-title">함께 가꾸는 사람</h1>
-      <div className="card person">
-        <span className="av partner big">{partner ? [...partner.nickname][0] : '?'}</span>
-        <div>
-          <b>{partner ? partner.nickname : '아직 혼자예요'}</b>
-          <small className="muted">{partner ? `${data.flowers.filter((f) => f.sender_id === partner.id).length}송이를 보냈어요` : '정원 코드를 알려 주면 함께할 수 있어요'}</small>
-        </div>
-      </div>
-      <div className="card person">
-        <span className="av me big">나</span>
-        <div>
-          <b>{me?.nickname}</b>
-          <small className="muted">{data.flowers.filter((f) => f.sender_id === me?.id).length}송이를 보냈어요</small>
-        </div>
-      </div>
-      <div className="card code-card">
-        <small className="muted">정원 코드</small>
-        <div className="big-code">{data.garden.code}</div>
-        <button className="ghost" onClick={copy}>{copied ? '복사했어요' : '코드 복사'}</button>
-      </div>
+      <h1 className="page-title">친구</h1>
+      {partner ? (
+        <ul className="friend-list">
+          <li className="card person">
+            <span className="av partner big">{[...partner.nickname][0]}</span>
+            <div>
+              <b>{partner.nickname}</b>
+              <small className="muted">{since.getMonth() + 1}월 {since.getDate()}일부터 함께 · 보낸 소리 {sentBy(partner.id)}송이 · 우리의 꽃 {data.pairs.length}송이</small>
+            </div>
+          </li>
+        </ul>
+      ) : (
+        <>
+          <p className="muted">아직 함께하는 친구가 없어요. 정원 코드를 알려 주면 친구가 들어와 소리를 보낼 수 있어요.</p>
+          <div className="card invite">
+            <div>
+              <small className="muted">내 정원 코드</small>
+              <div className="big-code">{data.garden.code}</div>
+            </div>
+            <button className="ghost" onClick={copy}>{copied ? '복사했어요' : '코드 복사'}</button>
+          </div>
+        </>
+      )}
+      <p className="small muted">친구가 보낸 소리는 정원 왼쪽, 내가 보낸 소리는 오른쪽에 꽃으로 피어요. 같은 날 둘 다 보내면 가운데에 우리의 꽃이 피어요.</p>
     </div>
   )
 }
