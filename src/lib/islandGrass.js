@@ -6,6 +6,12 @@ const MAX_HEIGHT = 0.12
 const EDGE_CLEARANCE = 0.09
 const STEM_CLEARANCE = 0.065
 const UP = new THREE.Vector3(0, 1, 0)
+const GRASS_THEMES = {
+  balanced: { colors: [0x67976d, 0x91bd92, 0xb8d9ac], tint: 0xffffff, roughness: 1, environment: 0.12 },
+  warm: { colors: [0x758b65, 0xa1b685, 0xc3cf9e], tint: 0xfffaf3, roughness: 0.98, environment: 0.10 },
+  aurora: { colors: [0x427e72, 0x72b4a1, 0xaad5c5], tint: 0xeefcff, roughness: 0.96, environment: 0.16 },
+  default: { colors: [0x678e7e, 0x91b8a5, 0xb9d2be], tint: 0xf7fcff, roughness: 1, environment: 0.10 },
+}
 
 function randomGenerator(seed) {
   let state = seed >>> 0
@@ -17,9 +23,6 @@ function randomGenerator(seed) {
 
 function tuftGeometry() {
   const positions = [], colors = [], indices = []
-  const root = new THREE.Color('#67976d')
-  const middle = new THREE.Color('#91bd92')
-  const tip = new THREE.Color('#b8d9ac')
   // Two tapered ribbons bend through a middle row: three triangles per blade.
   // Narrow, separated roots and unequal angles avoid a repeated folded-V silhouette.
   for (let blade = 0; blade < 2; blade++) {
@@ -39,8 +42,7 @@ function tuftGeometry() {
     vertices.forEach(([x, y, z], i) => {
       positions.push(x * Math.cos(angle) - z * Math.sin(angle), y,
         x * Math.sin(angle) + z * Math.cos(angle))
-      const color = i < 2 ? root : i === 4 ? tip : middle
-      colors.push(color.r, color.g, color.b)
+      colors.push(1, 1, 1)
     })
     indices.push(start, start + 1, start + 2,
       start + 1, start + 3, start + 2, start + 2, start + 3, start + 4)
@@ -117,7 +119,7 @@ function triangleHitsBox(a, b, c, box) {
 }
 
 // Test the six real projected triangles, not a large disc around the root.
-function footprintFits(points, indices, boundaries, crystals, plants) {
+function footprintFits(points, indices, boundaries, obstacles, plants) {
   for (let i = 0; i < indices.length; i += 3) {
     const a = points[indices[i]], b = points[indices[i + 1]], c = points[indices[i + 2]]
     const minX = Math.min(a.x, b.x, c.x), maxX = Math.max(a.x, b.x, c.x)
@@ -130,7 +132,7 @@ function footprintFits(points, indices, boundaries, crystals, plants) {
         || segmentsDistanceSquared(b, c, edge.a, edge.b) < EDGE_CLEARANCE ** 2
         || segmentsDistanceSquared(c, a, edge.a, edge.b) < EDGE_CLEARANCE ** 2) return false
     }
-    if (crystals.some(box => triangleHitsBox(a, b, c, box))) return false
+    if (obstacles.some(box => triangleHitsBox(a, b, c, box))) return false
     for (const plant of plants) {
       if (plant.x < minX - STEM_CLEARANCE || plant.x > maxX + STEM_CLEARANCE
         || plant.z < minZ - STEM_CLEARANCE || plant.z > maxZ + STEM_CLEARANCE) continue
@@ -146,19 +148,22 @@ function footprintFits(points, indices, boundaries, crystals, plants) {
 /**
  * Add grass to an already scaled/positioned GLB. Returns null if its named surface is absent.
  * updatePlants accepts positions in `space` coordinates (e.g. plant.position, flowerLayer).
- * Dispose explicitly before replacing the model, or let the scene's mesh cleanup own it.
+ * setTheme recolors the same resources; unknown themes fall back to balanced.
+ * reparent accepts only another copy of the same GLB variant with identical local coordinates.
+ * Before disposing an old model, detach/reparent this mesh or dispose the controller.
  */
-export function createIslandGrass(model, { count = MAX_CLUMPS, seed = 27439 } = {}) {
+export function createIslandGrass(model, { count = MAX_CLUMPS, seed = 27439, theme, tone } = {}) {
   count = Math.min(MAX_CLUMPS, Math.max(0, Math.floor(count)))
   if (!count) return null
   model.updateWorldMatrix(true, true)
-  const surfaces = [], crystalBoxes = []
+  const surfaces = [], obstacleBoxes = []
   model.traverse(object => {
     if (!object.isMesh) return
     if (/^Island_Surface/.test(object.name)) surfaces.push(object)
     // The polished edge mesh spans every cluster; use individual facet families instead.
-    if (/^Island_Peripheral_Crystals.*Cluster/.test(object.name)) {
-      crystalBoxes.push(new THREE.Box3().setFromObject(object).expandByScalar(0.05))
+    if (/^Island_Peripheral_Crystals.*Cluster/.test(object.name)
+      || /^Island_Ornamental_Ring.*feet/i.test(object.name)) {
+      obstacleBoxes.push(new THREE.Box3().setFromObject(object).expandByScalar(0.05))
     }
   })
   if (!surfaces.length) return null
@@ -179,7 +184,7 @@ export function createIslandGrass(model, { count = MAX_CLUMPS, seed = 27439 } = 
         trialMatrix.compose(record.position, rotation,
           dimensions.set(horizontal, record.height * heightFraction, horizontal))
         for (let i = 0; i < projected.length; i++) projected[i].fromBufferAttribute(vertices, i).applyMatrix4(trialMatrix)
-        if (footprintFits(projected, indices, boundaries, crystalBoxes, plants)) {
+        if (footprintFits(projected, indices, boundaries, obstacleBoxes, plants)) {
           return { world: trialMatrix.clone(), horizontal, angle }
         }
       }
@@ -212,7 +217,7 @@ export function createIslandGrass(model, { count = MAX_CLUMPS, seed = 27439 } = 
   for (const [x, z] of candidates) {
     if (baseMatrices.length >= count) break
     if (boundaries.some(edge => edgeDistanceSquared(x, z, edge) < (EDGE_CLEARANCE + 0.025) ** 2)) continue
-    if (crystalBoxes.some(box => x >= box.min.x && x <= box.max.x && z >= box.min.z && z <= box.max.z)) continue
+    if (obstacleBoxes.some(box => x >= box.min.x && x <= box.max.x && z >= box.min.z && z <= box.max.z)) continue
     ray.ray.origin.set(x, bounds.max.y + 1, z)
     hits.length = 0
     ray.intersectObjects(surfaces, false, hits)
@@ -257,9 +262,42 @@ export function createIslandGrass(model, { count = MAX_CLUMPS, seed = 27439 } = 
   model.add(mesh)
 
   const matrix = new THREE.Matrix4(), plantTransform = new THREE.Matrix4()
+  const color = new THREE.Color()
+  const vertexColors = geometry.attributes.color
+  vertexColors.setUsage(THREE.DynamicDrawUsage)
   let disposed = false
+  let resolvedTheme
+  function setTheme(requested) {
+    if (disposed) return resolvedTheme
+    const next = typeof requested === 'string' && Object.hasOwn(GRASS_THEMES, requested) ? requested : 'balanced'
+    if (next === resolvedTheme) return resolvedTheme
+    const palette = GRASS_THEMES[next]
+    for (let i = 0; i < vertexColors.count; i++) {
+      const vertex = i % 5
+      color.setHex(palette.colors[vertex < 2 ? 0 : vertex === 4 ? 2 : 1])
+      vertexColors.setXYZ(i, color.r, color.g, color.b)
+    }
+    vertexColors.needsUpdate = true
+    material.color.setHex(palette.tint)
+    material.roughness = palette.roughness
+    material.envMapIntensity = palette.environment
+    mesh.userData.grassTheme = next
+    resolvedTheme = next
+    return next
+  }
+  setTheme(theme === undefined ? tone : theme)
   return {
     mesh,
+    get theme() { return resolvedTheme },
+    setTheme,
+    reparent(nextModel) {
+      if (disposed) throw new Error('Cannot reparent disposed island grass')
+      if (!nextModel?.isObject3D || nextModel === mesh) throw new TypeError('Grass requires a valid island Object3D')
+      model = nextModel
+      model.add(mesh)
+      model.updateWorldMatrix(true, true)
+      return mesh
+    },
     updatePlants(positions, space = model) {
       if (disposed) return
       model.updateWorldMatrix(true, false)
