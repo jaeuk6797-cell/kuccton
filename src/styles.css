@@ -333,6 +333,12 @@ h1, h2 { margin: 0; }
 .inbox-back:hover { background: #f3eef2; }
 .inbox-count { display: grid; place-items: center; min-width: 23px; height: 23px; padding: 0 6px; background: #f3e7e1; color: var(--accent-d); border-radius: 50px; font-size: .75rem; font-weight: 700; }
 .menu-inbox-body { flex: 0 1 auto; min-height: 0; max-height: var(--inbox-list-max-height, 346px); overflow-y: auto; overscroll-behavior: contain; padding: 10px 6px 6px; }
+.menu-inbox-body { scrollbar-width: thin; scrollbar-color: transparent transparent; }
+.menu-inbox-body.is-scrolling { scrollbar-color: rgba(110, 105, 125, .4) transparent; }
+.menu-inbox-body::-webkit-scrollbar { width: 4px; }
+.menu-inbox-body::-webkit-scrollbar-track { background: transparent; }
+.menu-inbox-body::-webkit-scrollbar-thumb { background: transparent; border-radius: 4px; transition: background .2s; }
+.menu-inbox-body.is-scrolling::-webkit-scrollbar-thumb { background: rgba(110, 105, 125, .4); }
 .menu-inbox-body.is-empty { flex: 1; display: flex; align-items: center; justify-content: center; }
 .menu-inbox-body.is-empty .inbox-empty { min-height: 0; }
 .menu-inbox-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
@@ -767,4 +773,4 @@ h1, h2 { margin: 0; }
 .album-date-line .album-date { margin-bottom: 0; }
 .album-date-line > small { color: var(--muted); font-size: .72rem; font-weight: 400; font-variant-numeric: tabular-nums; }
 
-.album-period-total { flex: 1; min-width: 0; margin-left: auto; color: var(--muted); font-size: .72rem; line-height: 1.5; text-align: right; word-break: keep-all; overflow-wrap: anywhere; }
+.album-period-total { flex: 1; min-width: 0; margin-left: auto; padding-right: 8px; color: var(--muted); font-size: .72rem; line-height: 1.5; text-align: right; word-break: keep-all; overflow-wrap: anywhere; }

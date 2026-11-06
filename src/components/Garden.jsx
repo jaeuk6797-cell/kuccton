@@ -490,6 +490,14 @@ export default function Garden({ session, onSignOut, email, demo, initialTab = '
 function InboxList({ items, nameOf, onAnswer, busy }) {
   const [playingId, setPlayingId] = useState(null)
   const bodyRef = useRef(null)
+  const scrollTimerRef = useRef(null)
+  const [scrolling, setScrolling] = useState(false)
+  useEffect(() => () => clearTimeout(scrollTimerRef.current), [])
+  const handleScroll = () => {
+    setScrolling(true)
+    clearTimeout(scrollTimerRef.current)
+    scrollTimerRef.current = setTimeout(() => setScrolling(false), 800)
+  }
   useLayoutEffect(() => {
     const body = bodyRef.current
     if (!body || !items.length) return
@@ -510,7 +518,7 @@ function InboxList({ items, nameOf, onAnswer, busy }) {
     return () => observer.disconnect()
   }, [items])
   return (
-    <div ref={bodyRef} className={`menu-inbox-body${items.length === 0 ? ' is-empty' : ''}`}>
+    <div ref={bodyRef} onScroll={handleScroll} className={`menu-inbox-body${items.length === 0 ? ' is-empty' : ''}${scrolling ? ' is-scrolling' : ''}`}>
       {items.length === 0 ? (
         <div className="inbox-empty"><Bell /><p>새로 도착한 소리가 없어요.</p></div>
       ) : (
@@ -608,6 +616,8 @@ function Album({ data, meId, onOpen, onOpenPair, flowerById }) {
     && (selectedMonth === 'all' || row.date.slice(5, 7) === selectedMonth))
   const dayCount = (row) => row.list.length + row.pairs.filter((pair) => flowerById[pair.flower_a_id] && flowerById[pair.flower_b_id]).length
   const periodTotal = filtered.reduce((sum, row) => sum + dayCount(row), 0)
+  const periodLabel = selectedYear === 'all' ? '전체 기간'
+    : selectedMonth === 'all' ? `${selectedYear}년 전체` : `${selectedYear}년 ${Number(selectedMonth)}월`
   const scrollRef = useRef(null)
   useLayoutEffect(() => { if (scrollRef.current) scrollRef.current.scrollTop = 0 }, [selectedYear, selectedMonth])
 
@@ -646,7 +656,7 @@ function Album({ data, meId, onOpen, onOpenPair, flowerById }) {
         <AlbumPeriodPicker label="앨범 월" value={selectedMonth} disabled={selectedYear === 'all'}
           options={[{ value: 'all', label: '전체 월' }, ...months.map((value) => ({ value, label: `${Number(value)}월` }))]}
           onChange={setMonth} />
-        <small className="album-period-total" aria-live="polite">총 꽃나무는 {periodTotal.toLocaleString('ko-KR')}개예요</small>
+        <small className="album-period-total" aria-live="polite">{periodLabel}의 소리는 {periodTotal.toLocaleString('ko-KR')}개예요</small>
       </div>}
       <div ref={scrollRef} className="page-scroll" aria-label="앨범 목록">
       {rows.length === 0 && (
