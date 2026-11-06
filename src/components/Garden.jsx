@@ -197,12 +197,18 @@ export default function Garden({ session, onSignOut, email, demo }) {
   const nameOf = (userId) => data.friends.find((x) => x.user_id === userId)?.nickname || '친구'
   const flowerById = Object.fromEntries(data.flowers.map((f) => [f.id, f]))
 
+  // who: 상태 카드 아바타에 보여 줄 친구 (소식의 주인공). 친구가 여러 명이어도 맞는 사람이 보이게
+  const todaySentTo = [...new Set(data.sentShares.filter((x) => new Date(x.created_at).toLocaleDateString('sv-SE') === today()).map((x) => x.to_user))]
   let status
   if (data.friends.length === 0) status = { title: '아직 친구가 없어요', sub: '친구 코드로 친구를 맺으면 소리를 주고받을 수 있어요', onClick: () => setTab('friends') }
-  else if (data.inbox.length) status = { title: `${josa(nameOf(data.inbox[data.inbox.length - 1].from_user), '이', '가')} 소리를 보냈어요`, sub: `받은 소리함에서 정원에 심을지 골라 주세요 · ${data.inbox.length}개`, onClick: () => setShowBell(true) }
-  else if (todayPair) status = { title: `오늘 ‘${todayPair.name}’이 피었어요`, sub: '눌러서 두 소리를 함께 들어 보세요', onClick: () => setOpenPair(todayPair) }
-  else if (todayTheirs) status = { title: `${josa(nameOf(todayRecv.from_user), '이', '가')} ${timeOfDay(todayRecv.created_at)} 소리를 보냈어요`, sub: '나도 오늘의 소리를 보내면 우리의 꽃이 피어요', onClick: () => setOpenFlower(todayTheirs) }
-  else if (todayShared) status = { title: '오늘의 소리를 보냈어요', sub: `${nameOf(todayShared.to_user)}의 소리를 기다리고 있어요` }
+  else if (data.inbox.length) {
+    const last = data.inbox[data.inbox.length - 1]
+    const senders = new Set(data.inbox.map((x) => x.from_user)).size
+    status = { who: nameOf(last.from_user), title: senders > 1 ? `친구 ${senders}명이 소리를 보냈어요` : `${josa(nameOf(last.from_user), '이', '가')} 소리를 보냈어요`, sub: `받은 소리함에서 정원에 심을지 골라 주세요 · ${data.inbox.length}개`, onClick: () => setShowBell(true) }
+  }
+  else if (todayPair) status = { who: nameOf(todayPair.friend), title: `오늘 ‘${todayPair.name}’이 피었어요`, sub: '눌러서 두 소리를 함께 들어 보세요', onClick: () => setOpenPair(todayPair) }
+  else if (todayTheirs) status = { who: nameOf(todayRecv.from_user), title: `${josa(nameOf(todayRecv.from_user), '이', '가')} ${timeOfDay(todayRecv.created_at)} 소리를 보냈어요`, sub: '나도 오늘의 소리를 보내면 우리의 꽃이 피어요', onClick: () => setOpenFlower(todayTheirs) }
+  else if (todayShared) status = { who: nameOf(todayShared.to_user), title: todaySentTo.length > 1 ? `오늘의 소리를 ${todaySentTo.length}명에게 보냈어요` : '오늘의 소리를 보냈어요', sub: todaySentTo.length > 1 ? '친구들이 소리를 보내면 우리의 꽃이 피어요' : `${nameOf(todayShared.to_user)}의 소리를 기다리고 있어요` }
   else status = { title: '오늘은 아직 조용해요', sub: '오늘의 소리를 친구에게 보내 보세요' }
 
   const receivedCount = data.flowers.filter((f) => f.sender_id !== meId).length
@@ -318,7 +324,7 @@ export default function Garden({ session, onSignOut, email, demo }) {
               disabled={sheetOpen && !status.onClick}
             >
               <span className="avatars" aria-hidden="true">
-                <span className="av partner">{partner ? [...partner.nickname][0] : '?'}</span>
+                <span className="av partner">{status.who ? [...status.who][0] : partner ? [...partner.nickname][0] : '?'}</span>
                 <span className="av me">나</span>
               </span>
               <span className="status-text">
