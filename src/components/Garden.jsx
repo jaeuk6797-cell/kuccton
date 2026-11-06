@@ -31,8 +31,8 @@ export default function Garden({ session, onSignOut, email, onMoved }) {
   const [toast, setToast] = useState('')
   const [fresh, setFresh] = useState(() => new Set())
   const [highlight, setHighlight] = useState(null)
-  // 녹음 카드: 아래로 끌어내리면 접혀서 정원을 크게 본다 (접힌 상태는 기기에 기억)
-  const SHEET_PEEK = 78
+  // 플로팅 도구: 접어도 손잡이·상태·작은 녹음 버튼은 남긴다.
+  const SHEET_PEEK = 128
   const [sheetOpen, setSheetOpen] = useState(() => localStorage.getItem('sup.sheet') !== 'closed')
   const sheetRef = useRef(null)
   const homeRef = useRef(null)
@@ -51,13 +51,14 @@ export default function Garden({ session, onSignOut, email, onMoved }) {
     const home = homeRef.current, sheet = sheetRef.current
     if (!home || !sheet) return
     const measure = () => {
-      // 아래 탭바를 없앴으므로 카드 아래 여백은 기기 안전 영역(아이폰 홈 바)만큼
+      // 플로팅 도구 아래 여백에는 기기 안전 영역과 정원 여백이 포함된다.
       const tabH = parseFloat(getComputedStyle(sheet).bottom) || 0
       const sheetH = sheet.offsetHeight
       const top = 120 // .island의 top과 같아야 한다
       const closedH = home.clientHeight - top - tabH - SHEET_PEEK + 8
       const openH = home.clientHeight - top - tabH - sheetH + 15
       home.style.setProperty('--sheet-h', `${sheetH}px`)
+      home.style.setProperty('--sheet-peek', `${SHEET_PEEK}px`)
       home.style.setProperty('--island-s', String(Math.min(1, Math.max(0.5, openH / closedH))))
     }
     measure()
@@ -171,7 +172,7 @@ export default function Garden({ session, onSignOut, email, onMoved }) {
   // 손잡이를 끌면 카드·섬·안내 문구가 함께 손가락을 따라오고(--sheet-p: 0 열림 ~ 1 접힘),
   // 놓으면 가까운 쪽으로 부드럽게 붙는다. 빠르게 튕기면 짧게 끌어도 넘어간다. 살짝 누르면 토글
   const onHandleDown = (e) => {
-    dragRef.current = { y: e.clientY, dy: 0, t: performance.now(), v: 0, h: sheetRef.current.offsetHeight - SHEET_PEEK }
+    dragRef.current = { y: e.clientY, dy: 0, t: performance.now(), v: 0, h: Math.max(1, sheetRef.current.offsetHeight - SHEET_PEEK) }
     e.currentTarget.setPointerCapture(e.pointerId)
     homeRef.current.classList.add('dragging')
   }
@@ -196,6 +197,11 @@ export default function Garden({ session, onSignOut, email, onMoved }) {
     if (Math.abs(d.dy) < 6) setSheetOpen((o) => !o)
     else if (Math.abs(d.v) > 0.5) setSheetOpen(d.v < 0)
     else setSheetOpen(p < 0.5)
+  }
+  const onHandleCancel = () => {
+    dragRef.current = null
+    homeRef.current?.classList.remove('dragging')
+    homeRef.current?.style.removeProperty('--sheet-p')
   }
 
   return (
@@ -242,39 +248,46 @@ export default function Garden({ session, onSignOut, email, onMoved }) {
             <div className={`hint ${hintOn ? '' : 'off'}`}>꽃이나 나무를 누르면 그날의 소리가 들려요 · 드래그로 둘러보기</div>
           )}
 
-          <section ref={sheetRef} className={`home-sheet ${sheetOpen ? '' : 'closed'}`}>
-            <div
+          <section ref={sheetRef} className={`home-sheet ${sheetOpen ? '' : 'closed'}`} aria-label="정원 도구">
+            <button
+              type="button"
               className="sheet-handle"
               onPointerDown={onHandleDown}
               onPointerMove={onHandleMove}
               onPointerUp={onHandleUp}
-              onPointerCancel={onHandleUp}
-              role="button"
-              aria-label={sheetOpen ? '녹음 카드 접기' : '녹음 카드 펼치기'}
+              onPointerCancel={onHandleCancel}
+              onClick={(e) => { if (e.detail === 0) setSheetOpen((o) => !o) }}
+              aria-expanded={sheetOpen}
+              aria-controls="garden-actions"
+              aria-label={sheetOpen ? '정원 도구 접기' : '정원 도구 펼치기'}
             >
-              <div className="grip" />
-            </div>
+              <span className="grip" aria-hidden="true" />
+              <span>{sheetOpen ? '정원 넓게 보기' : '도구 펼치기'}</span>
+            </button>
             <button
               className="status"
               onClick={sheetOpen ? status.onClick : () => setSheetOpen(true)}
               disabled={sheetOpen && !status.onClick}
             >
-              <div className="avatars">
+              <span className="avatars" aria-hidden="true">
                 <span className="av partner">{partner ? [...pName][0] : '?'}</span>
                 <span className="av me">나</span>
-              </div>
-              <div className="status-text">
+              </span>
+              <span className="status-text">
                 <b>{status.title}</b>
                 <small>{status.sub}</small>
-              </div>
+              </span>
             </button>
-            <button className="mini-rec" onClick={() => setRecording(true)} aria-label="오늘의 소리 녹음하기" tabIndex={sheetOpen ? -1 : 0}>
+            <button className="mini-rec" onClick={() => setRecording(true)} aria-label="오늘의 소리 녹음하기" tabIndex={sheetOpen ? -1 : 0} aria-hidden={sheetOpen}>
               <Mic />
             </button>
-            <button className="record-cta" onClick={() => setRecording(true)}>
-              <Mic /> 오늘의 소리 녹음하기 · 10초
-            </button>
-            <button className="comfort-btn" onClick={comfort}><Heart /> 오늘의 위로</button>
+            <div id="garden-actions" className="garden-actions" inert={sheetOpen ? undefined : ''} aria-hidden={!sheetOpen}>
+              <button className="comfort-btn" onClick={comfort}><Heart /> 오늘의 위로</button>
+              <button className="record-cta" onClick={() => setRecording(true)} aria-label="오늘의 소리 녹음하기 · 최대 10초">
+                <Mic />
+                <span>오늘의 소리<small>녹음하기 · 10초</small></span>
+              </button>
+            </div>
           </section>
         </>
       )}
