@@ -6,7 +6,8 @@ function pickMime() {
   return types.find((t) => window.MediaRecorder && MediaRecorder.isTypeSupported(t)) || ''
 }
 
-export async function startRecording({ onTick } = {}) {
+// stt: false면 음성 인식을 켜지 않는다(사물 소리). stream은 실시간 파형 표시에 쓴다.
+export async function startRecording({ onTick, stt: useStt = true } = {}) {
   const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
   const mimeType = pickMime()
   const rec = new MediaRecorder(stream, mimeType ? { mimeType } : undefined)
@@ -17,7 +18,7 @@ export async function startRecording({ onTick } = {}) {
   let transcript = ''
   const SR = window.SpeechRecognition || window.webkitSpeechRecognition
   let stt = null
-  if (SR) {
+  if (SR && useStt) {
     stt = new SR()
     stt.lang = 'ko-KR'
     stt.interimResults = false
@@ -55,5 +56,5 @@ export async function startRecording({ onTick } = {}) {
   }
 
   rec.start()
-  return { stop, done }
+  return { stop, done, stream }
 }
