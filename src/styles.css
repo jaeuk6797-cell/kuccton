@@ -256,6 +256,8 @@ h1, h2 { margin: 0; }
 .account { display: flex; flex-direction: column; gap: 8px; }
 .account p { margin: 0; }
 .account input { padding: 12px 14px; border-radius: 12px; border: 1.5px solid var(--line); background: var(--paper); font-size: 1rem; color: var(--ink); }
+.auth-form .field > span { padding-left: 16px; }
+.auth-form .field input { width: 100%; min-width: 0; }
 .auth-form > button[type="submit"] { margin-top: 14px; }
 .auth-switch { padding: 8px 16px; color: var(--muted); font-size: .78rem; text-decoration: underline; text-underline-offset: 3px; }
 

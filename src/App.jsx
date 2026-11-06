@@ -95,11 +95,11 @@ function AuthScreen() {
       <Hero />
       <form className="auth-form" aria-label={mode === 'login' ? '로그인' : '회원가입'} onSubmit={submit}>
         <label className="field">
-          이메일
+          <span>이메일</span>
           <input type="email" autoComplete="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="name@example.com" />
         </label>
         <label className="field">
-          비밀번호
+          <span>비밀번호</span>
           <input
             type="password"
             autoComplete={mode === 'login' ? 'current-password' : 'new-password'}
@@ -110,7 +110,7 @@ function AuthScreen() {
         </label>
         {mode === 'signup' && (
           <label className="field">
-            비밀번호 확인
+            <span>비밀번호 확인</span>
             <input type="password" autoComplete="new-password" value={password2} onChange={(e) => setPassword2(e.target.value)} />
           </label>
         )}
