@@ -9,19 +9,20 @@ export function installViewport(win = window, doc = document) {
     if (viewport && Math.abs(viewport.scale - 1) > 0.01) return
     const layoutHeight = Math.max(win.innerHeight || 0, doc.documentElement.clientHeight || 0)
     const visibleHeight = viewport?.height || layoutHeight
-    const standalone = win.navigator?.standalone || win.matchMedia?.('(display-mode: standalone)').matches
     const editing = doc.activeElement?.matches('input, textarea, [contenteditable="true"]')
     const keyboardOpen = editing && layoutHeight - visibleHeight > 100
-    // 홈 화면 앱은 키보드가 없으면 전체 높이를 쓴다. visualViewport의 남은
-    // 오프셋·축소 높이를 따라가면 화면 전체가 밀리거나 하단이 비어 보일 수 있다.
-    const height = standalone && !keyboardOpen ? layoutHeight : visibleHeight
+    if (!Number.isFinite(visibleHeight) || visibleHeight <= 0) return
+    // 키보드가 없으면 CSS의 네 변 고정으로 화면을 채운다.
+    // iOS 홈 화면의 innerHeight·visualViewport 수치를 앱 전체 높이로 쓰지 않는다.
+    const height = keyboardOpen ? `${visibleHeight}px` : '100dvh'
     const top = keyboardOpen ? viewport?.offsetTop || 0 : 0
-    if (!Number.isFinite(height) || height <= 0) return
     const next = `${height}:${top}`
     if (last === next) return
     last = next
-    doc.documentElement.style.setProperty('--viewport-height', `${height}px`)
+    doc.documentElement.style.setProperty('--viewport-height', height)
     doc.documentElement.style.setProperty('--viewport-top', `${top}px`)
+    doc.documentElement.style.setProperty('--viewport-bottom', keyboardOpen ? 'auto' : '0px')
+    doc.documentElement.style.setProperty('--viewport-frame-height', keyboardOpen ? height : 'auto')
   }
   const schedule = () => { if (!frame) frame = win.requestAnimationFrame(measure) }
   const onVisible = () => { if (doc.visibilityState === 'visible') schedule() }
@@ -44,5 +45,7 @@ export function installViewport(win = window, doc = document) {
     doc.removeEventListener('focusout', schedule)
     doc.documentElement.style.removeProperty('--viewport-height')
     doc.documentElement.style.removeProperty('--viewport-top')
+    doc.documentElement.style.removeProperty('--viewport-bottom')
+    doc.documentElement.style.removeProperty('--viewport-frame-height')
   }
 }
