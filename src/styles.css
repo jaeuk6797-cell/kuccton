@@ -471,3 +471,10 @@ h1, h2 { margin: 0; }
 .chat-input .primary { padding: 10px 18px; }
 
 .visit-lock { margin: 4px 0 0; padding: 8px 14px; border-radius: 999px; background: #f1ede7; color: #6d6458; font-size: 0.85rem; }
+
+/* 도움말: 배경 상자 없이 제목 + 본문, 얇은 선으로 나눔 */
+.help-item { padding: 4px 0 14px; border-bottom: 1px solid rgba(46,47,58,.1); }
+.help-item h2 { font-size: 1rem; margin: 0 0 6px; color: var(--ink); }
+.help-item p { margin: 0; font-size: 0.9rem; line-height: 1.65; color: #4f4c5a; word-break: keep-all; }
+/* 메뉴 버튼의 새 소식 점: 아이콘과 겹치지 않게 버튼 오른쪽 위 테두리에, 흰 테두리로 또렷하게 */
+.menu-btn .badge { top: 1px; right: 1px; width: 11px; height: 11px; border: 2px solid #fff; box-sizing: content-box; }
