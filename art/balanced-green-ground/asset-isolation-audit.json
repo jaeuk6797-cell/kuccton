@@ -1,0 +1,795 @@
+{
+  "passed": true,
+  "baselineRef": "d5b12a3cc59169cfdb7256927f436221ac0c1e80",
+  "checks": {
+    "strictAppScope": true,
+    "opalReflectionByteIdentical": true,
+    "existingToneHelpersByteIdentical": true,
+    "grassBehaviorIdenticalAfterConstantInlining": true,
+    "allNonBalancedOutputsMatchBaseline": true,
+    "balancedChangesOnlyPlantingSurface": true,
+    "balancedPondMaterialIsolated": true,
+    "otherThemesRestoreSharedMaterial": true,
+    "geometryNormalsUVIndicesUnchanged": true,
+    "rawAlphaBytesUnchanged": true,
+    "geometryAndColorBuffersReused": true,
+    "materialVariantsReused": true,
+    "balancedGroundOpaqueDepthWriting": true,
+    "balancedGroundNoOpalHook": true,
+    "balancedGroundNeutralVariationBounded": true,
+    "disposeRestoresOriginalMaterials": true,
+    "disposeOnlyOwnedVariants": true,
+    "allProtectedAssetsAndUnrelatedCodeUnchanged": true,
+    "onlyThreeProductionFilesChanged": true
+  },
+  "method": {
+    "assets": "Raw SHA256 and byte comparison against task-start Git commit; no Blender process or asset write.",
+    "scope": "Exact source comparison outside prepareIslandAppearance and its imports; existing tone helpers/reflection function remain identical; exported grass constant inlines to the original value.",
+    "runtime": "Load actual island-modern.glb using Three.js with a 1x1 normal-map placeholder to avoid browser image decoding. Compare material serialization, shader source, color bytes, alpha bytes, geometry and ownership against baseline implementations across 11 theme transitions. The real packed texture is protected by whole-GLB byte equality.",
+    "limits": "These are structural/material-isolation checks. Browser visual and performance verification is reported separately."
+  },
+  "protectedFiles": [
+    {
+      "path": "public/models/island-modern.glb",
+      "baselineSha256": "975283d9d1753e577981a25a53593299ea4d53f9044c872cd4d3297a8a7983a1",
+      "finalSha256": "975283d9d1753e577981a25a53593299ea4d53f9044c872cd4d3297a8a7983a1",
+      "bytes": 682436,
+      "unchanged": true
+    },
+    {
+      "path": "public/models/island.glb",
+      "baselineSha256": "52ed6300962c469a0bd3e6eee9452bd9d6578d14de5b1df3004967ecfa20c083",
+      "finalSha256": "52ed6300962c469a0bd3e6eee9452bd9d6578d14de5b1df3004967ecfa20c083",
+      "bytes": 730580,
+      "unchanged": true
+    },
+    {
+      "path": "public/models/island-warm.glb",
+      "baselineSha256": "52ed6300962c469a0bd3e6eee9452bd9d6578d14de5b1df3004967ecfa20c083",
+      "finalSha256": "52ed6300962c469a0bd3e6eee9452bd9d6578d14de5b1df3004967ecfa20c083",
+      "bytes": 730580,
+      "unchanged": true
+    },
+    {
+      "path": "public/models/flora/crystal_flower.glb",
+      "baselineSha256": "63da14f5909379e86624a40485506ba6c0e308146117cdd3abe4ebb05f2ddd56",
+      "finalSha256": "63da14f5909379e86624a40485506ba6c0e308146117cdd3abe4ebb05f2ddd56",
+      "bytes": 84472,
+      "unchanged": true
+    },
+    {
+      "path": "public/models/flora/crystal_flower_lod.glb",
+      "baselineSha256": "54b20b8acd64a610bb1a97e4af341e47e5169bcb13c267392cb663d97b8ef6ee",
+      "finalSha256": "54b20b8acd64a610bb1a97e4af341e47e5169bcb13c267392cb663d97b8ef6ee",
+      "bytes": 36440,
+      "unchanged": true
+    },
+    {
+      "path": "art/island/island.blend",
+      "baselineSha256": "1783733fac4f07a75aaec14947f074ba17791eb3abd45ab0d0da996983e3ec63",
+      "finalSha256": "1783733fac4f07a75aaec14947f074ba17791eb3abd45ab0d0da996983e3ec63",
+      "bytes": 526370,
+      "unchanged": true
+    },
+    {
+      "path": "art/island/generate_island.py",
+      "baselineSha256": "73ef99e069603c8e00c338d155d2865125a25f3a27212695545bffa3f9bc3e46",
+      "finalSha256": "73ef99e069603c8e00c338d155d2865125a25f3a27212695545bffa3f9bc3e46",
+      "bytes": 37897,
+      "unchanged": true
+    },
+    {
+      "path": "src/lib/gardenEnvironment.js",
+      "baselineSha256": "947f043dadc196f126463c563719ce8ca6f44ff1bca19f2d641341dc408b4809",
+      "finalSha256": "947f043dadc196f126463c563719ce8ca6f44ff1bca19f2d641341dc408b4809",
+      "bytes": 3032,
+      "unchanged": true
+    },
+    {
+      "path": "src/lib/flower3d.js",
+      "baselineSha256": "f258660ea8a98856857f0da074b478fe2bb4dfe40eab98b023ebf50bf87abbc6",
+      "finalSha256": "f258660ea8a98856857f0da074b478fe2bb4dfe40eab98b023ebf50bf87abbc6",
+      "bytes": 12211,
+      "unchanged": true
+    },
+    {
+      "path": "src/lib/tree3d.js",
+      "baselineSha256": "1d7f8b6add8a0781a20fb8d5f478673724780cc058dff12c37b45b9421763389",
+      "finalSha256": "1d7f8b6add8a0781a20fb8d5f478673724780cc058dff12c37b45b9421763389",
+      "bytes": 7411,
+      "unchanged": true
+    },
+    {
+      "path": "src/lib/blenderFlower.js",
+      "baselineSha256": "8859a3b5912c18eeb4ccc0fbc8da64df73e65ab1e0c5b2af17d1f6a31d671c47",
+      "finalSha256": "8859a3b5912c18eeb4ccc0fbc8da64df73e65ab1e0c5b2af17d1f6a31d671c47",
+      "bytes": 11503,
+      "unchanged": true
+    },
+    {
+      "path": "src/lib/auroraGround.js",
+      "baselineSha256": "2e17d4ffe296b0233c3d6ae037193a48ab9e1e62e4aeeae663f7bfd0e16ab9bf",
+      "finalSha256": "2e17d4ffe296b0233c3d6ae037193a48ab9e1e62e4aeeae663f7bfd0e16ab9bf",
+      "bytes": 2576,
+      "unchanged": true
+    },
+    {
+      "path": "src/lib/balancedMotes.js",
+      "baselineSha256": "10a7add0945227a3526989e1a6bd4f8b6e98ea3cf1cac2ce7f745f4c479ec6b8",
+      "finalSha256": "10a7add0945227a3526989e1a6bd4f8b6e98ea3cf1cac2ce7f745f4c479ec6b8",
+      "bytes": 2717,
+      "unchanged": true
+    }
+  ],
+  "asset": {
+    "sha256": "975283d9d1753e577981a25a53593299ea4d53f9044c872cd4d3297a8a7983a1",
+    "bytes": 682436,
+    "meshes": 20,
+    "materials": 11,
+    "triangles": 14099,
+    "grassTriangles": 6000,
+    "totalStaticTriangles": 20099,
+    "components": [
+      {
+        "name": "Island_Accents | Luminous filament tips",
+        "primitive": 0,
+        "triangles": 1260,
+        "materialIndex": 0,
+        "materialName": "SUP Warm luminous filaments",
+        "positionAccessor": 0,
+        "normalAccessor": 1,
+        "colorLayout": null
+      },
+      {
+        "name": "Island_Accents | Scattered opal gravel",
+        "primitive": 0,
+        "triangles": 1152,
+        "materialIndex": 1,
+        "materialName": "SUP Layered turquoise mineral",
+        "positionAccessor": 3,
+        "normalAccessor": 4,
+        "colorAccessor": 5,
+        "colorLayout": {
+          "bufferView": 5,
+          "componentType": 5126,
+          "count": 3456,
+          "type": "VEC3"
+        }
+      },
+      {
+        "name": "Island_Crystal_Underside | Asymmetric mineral keel",
+        "primitive": 0,
+        "triangles": 1089,
+        "materialIndex": 1,
+        "materialName": "SUP Layered turquoise mineral",
+        "positionAccessor": 7,
+        "normalAccessor": 8,
+        "colorAccessor": 9,
+        "colorLayout": {
+          "bufferView": 9,
+          "componentType": 5126,
+          "count": 3267,
+          "type": "VEC3"
+        }
+      },
+      {
+        "name": "Island_Metal_Rim | Champagne upper seam",
+        "primitive": 0,
+        "triangles": 1024,
+        "materialIndex": 2,
+        "materialName": "SUP Champagne gold",
+        "positionAccessor": 11,
+        "normalAccessor": 12,
+        "colorLayout": null
+      },
+      {
+        "name": "Island_Metal_Rim | Contour-following rose-gold seam",
+        "primitive": 0,
+        "triangles": 1536,
+        "materialIndex": 3,
+        "materialName": "SUP Brushed rose gold",
+        "positionAccessor": 14,
+        "normalAccessor": 15,
+        "colorAccessor": 16,
+        "colorLayout": {
+          "bufferView": 16,
+          "componentType": 5126,
+          "count": 768,
+          "type": "VEC3"
+        }
+      },
+      {
+        "name": "Island_Peripheral_Crystals | Cluster 1 facet family 1",
+        "primitive": 0,
+        "triangles": 68,
+        "materialIndex": 4,
+        "materialName": "SUP Lavender quartz",
+        "positionAccessor": 18,
+        "normalAccessor": 19,
+        "colorAccessor": 20,
+        "colorLayout": {
+          "bufferView": 20,
+          "componentType": 5123,
+          "count": 144,
+          "normalized": true,
+          "type": "VEC4"
+        }
+      },
+      {
+        "name": "Island_Peripheral_Crystals | Cluster 1 facet family 2",
+        "primitive": 0,
+        "triangles": 68,
+        "materialIndex": 5,
+        "materialName": "SUP Cyan quartz",
+        "positionAccessor": 22,
+        "normalAccessor": 23,
+        "colorAccessor": 24,
+        "colorLayout": {
+          "bufferView": 24,
+          "componentType": 5123,
+          "count": 144,
+          "normalized": true,
+          "type": "VEC4"
+        }
+      },
+      {
+        "name": "Island_Peripheral_Crystals | Cluster 1 facet family 3",
+        "primitive": 0,
+        "triangles": 34,
+        "materialIndex": 6,
+        "materialName": "SUP Pink opal",
+        "positionAccessor": 25,
+        "normalAccessor": 26,
+        "colorAccessor": 27,
+        "colorLayout": {
+          "bufferView": 27,
+          "componentType": 5123,
+          "count": 72,
+          "normalized": true,
+          "type": "VEC4"
+        }
+      },
+      {
+        "name": "Island_Peripheral_Crystals | Cluster 2 facet family 1",
+        "primitive": 0,
+        "triangles": 68,
+        "materialIndex": 4,
+        "materialName": "SUP Lavender quartz",
+        "positionAccessor": 29,
+        "normalAccessor": 30,
+        "colorAccessor": 31,
+        "colorLayout": {
+          "bufferView": 31,
+          "componentType": 5123,
+          "count": 144,
+          "normalized": true,
+          "type": "VEC4"
+        }
+      },
+      {
+        "name": "Island_Peripheral_Crystals | Cluster 2 facet family 2",
+        "primitive": 0,
+        "triangles": 34,
+        "materialIndex": 5,
+        "materialName": "SUP Cyan quartz",
+        "positionAccessor": 32,
+        "normalAccessor": 33,
+        "colorAccessor": 34,
+        "colorLayout": {
+          "bufferView": 34,
+          "componentType": 5123,
+          "count": 72,
+          "normalized": true,
+          "type": "VEC4"
+        }
+      },
+      {
+        "name": "Island_Peripheral_Crystals | Cluster 2 facet family 3",
+        "primitive": 0,
+        "triangles": 34,
+        "materialIndex": 6,
+        "materialName": "SUP Pink opal",
+        "positionAccessor": 35,
+        "normalAccessor": 36,
+        "colorAccessor": 37,
+        "colorLayout": {
+          "bufferView": 37,
+          "componentType": 5123,
+          "count": 72,
+          "normalized": true,
+          "type": "VEC4"
+        }
+      },
+      {
+        "name": "Island_Peripheral_Crystals | Cluster 3 facet family 1",
+        "primitive": 0,
+        "triangles": 34,
+        "materialIndex": 4,
+        "materialName": "SUP Lavender quartz",
+        "positionAccessor": 38,
+        "normalAccessor": 39,
+        "colorAccessor": 40,
+        "colorLayout": {
+          "bufferView": 40,
+          "componentType": 5123,
+          "count": 72,
+          "normalized": true,
+          "type": "VEC4"
+        }
+      },
+      {
+        "name": "Island_Peripheral_Crystals | Cluster 3 facet family 2",
+        "primitive": 0,
+        "triangles": 34,
+        "materialIndex": 5,
+        "materialName": "SUP Cyan quartz",
+        "positionAccessor": 41,
+        "normalAccessor": 42,
+        "colorAccessor": 43,
+        "colorLayout": {
+          "bufferView": 43,
+          "componentType": 5123,
+          "count": 72,
+          "normalized": true,
+          "type": "VEC4"
+        }
+      },
+      {
+        "name": "Island_Peripheral_Crystals | Cluster 3 facet family 3",
+        "primitive": 0,
+        "triangles": 34,
+        "materialIndex": 6,
+        "materialName": "SUP Pink opal",
+        "positionAccessor": 44,
+        "normalAccessor": 45,
+        "colorAccessor": 46,
+        "colorLayout": {
+          "bufferView": 46,
+          "componentType": 5123,
+          "count": 72,
+          "normalized": true,
+          "type": "VEC4"
+        }
+      },
+      {
+        "name": "Island_Peripheral_Crystals | Polished facet edges",
+        "primitive": 0,
+        "triangles": 1152,
+        "materialIndex": 7,
+        "materialName": "SUP Pearl water highlights",
+        "positionAccessor": 47,
+        "normalAccessor": 48,
+        "colorLayout": null
+      },
+      {
+        "name": "Island_Pond | Quiet silver ripples",
+        "primitive": 0,
+        "triangles": 408,
+        "materialIndex": 7,
+        "materialName": "SUP Pearl water highlights",
+        "positionAccessor": 50,
+        "normalAccessor": 51,
+        "colorLayout": null
+      },
+      {
+        "name": "Island_Pond | Recessed mineral basin",
+        "primitive": 0,
+        "triangles": 576,
+        "materialIndex": 8,
+        "materialName": "SUP Opalescent ground",
+        "positionAccessor": 53,
+        "normalAccessor": 54,
+        "colorAccessor": 56,
+        "colorLayout": {
+          "bufferView": 56,
+          "componentType": 5126,
+          "count": 321,
+          "type": "VEC3"
+        }
+      },
+      {
+        "name": "Island_Pond | Single aqua water sheet",
+        "primitive": 0,
+        "triangles": 62,
+        "materialIndex": 9,
+        "materialName": "SUP Still aqua water",
+        "positionAccessor": 58,
+        "normalAccessor": 59,
+        "colorLayout": null
+      },
+      {
+        "name": "Island_Surface | Opalescent planting clearing",
+        "primitive": 0,
+        "triangles": 500,
+        "materialIndex": 8,
+        "materialName": "SUP Opalescent ground",
+        "positionAccessor": 61,
+        "normalAccessor": 62,
+        "colorAccessor": 64,
+        "colorLayout": {
+          "bufferView": 65,
+          "componentType": 5126,
+          "count": 337,
+          "type": "VEC3"
+        }
+      },
+      {
+        "name": "Island_Vegetation | Ferns and bent grasses",
+        "primitive": 0,
+        "triangles": 4932,
+        "materialIndex": 10,
+        "materialName": "SUP Iridescent foliage",
+        "positionAccessor": 66,
+        "normalAccessor": 67,
+        "colorAccessor": 68,
+        "colorLayout": {
+          "bufferView": 69,
+          "componentType": 5126,
+          "count": 3840,
+          "type": "VEC3"
+        }
+      }
+    ],
+    "groundPondSharing": [
+      {
+        "ground": "Island_Surface | Opalescent planting clearing",
+        "pond": "Island_Pond | Recessed mineral basin",
+        "sharedMaterialIndex": 8,
+        "sharedMaterialName": "SUP Opalescent ground",
+        "sharedColorAccessor": false
+      }
+    ],
+    "groundMaterial": {
+      "extensions": {
+        "KHR_materials_clearcoat": {
+          "clearcoatFactor": 0.550000011920929,
+          "clearcoatRoughnessFactor": 0.10000000149011612
+        },
+        "KHR_materials_iridescence": {
+          "iridescenceFactor": 0.18000000715255737,
+          "iridescenceThicknessMaximum": 410
+        }
+      },
+      "name": "SUP Opalescent ground",
+      "normalTexture": {
+        "index": 0,
+        "scale": 0.20000000298023224
+      },
+      "pbrMetallicRoughness": {
+        "metallicFactor": 0.019999999552965164,
+        "roughnessFactor": 0.18000000715255737
+      }
+    },
+    "rootNames": [
+      "SUP_Island_Root"
+    ],
+    "sceneNames": [
+      "SOOP_Island"
+    ]
+  },
+  "productionSourceHashes": {
+    "Island3D": "6f36b084700108c1762eea1e6f264f66efaf220a3999b240c842cf99cf05e603",
+    "islandTone": "3d641a1a691eb0fba748344c6608340814a8fe44c6c8aeecf8f792cfe3e994b9",
+    "islandGrass": "da1e6553efbcd0f97df713dc87df939a24fad74df2cc3433c417ffc54c219aeb"
+  },
+  "trackedChanges": [
+    "src/components/Island3D.jsx",
+    "src/lib/islandGrass.js",
+    "src/lib/islandTone.js"
+  ],
+  "themeTransitions": [
+    {
+      "tone": "balanced",
+      "differingMeshes": [
+        "Island_Surface_|_Opalescent_planting_clearing"
+      ],
+      "preservedOutsideBalancedSurface": true,
+      "groundPondMaterialShared": false,
+      "ground": {
+        "color": [
+          0.28314874041918053,
+          0.508881320845802,
+          0.2874408377161099
+        ],
+        "roughness": 0.9,
+        "clearcoat": 0,
+        "metalness": 0,
+        "iridescence": 0,
+        "normalScale": [
+          0.07000000104308128,
+          -0.07000000104308128
+        ],
+        "opaque": true,
+        "depthWrite": true,
+        "shaderHookDefault": true,
+        "neutralPaint": true,
+        "paintMin": 0.998531699180603,
+        "paintMax": 1.0014127492904663
+      }
+    },
+    {
+      "tone": "warm",
+      "differingMeshes": [],
+      "preservedOutsideBalancedSurface": true,
+      "groundPondMaterialShared": true,
+      "ground": {
+        "color": [
+          1.24,
+          0.98,
+          1
+        ],
+        "roughness": 0.18000000715255737,
+        "clearcoat": 0.550000011920929,
+        "metalness": 0.019999999552965164,
+        "iridescence": 0,
+        "normalScale": [
+          0.20000000298023224,
+          -0.20000000298023224
+        ],
+        "opaque": true,
+        "depthWrite": true,
+        "shaderHookDefault": false,
+        "neutralPaint": false,
+        "paintMin": 0.52351975440979,
+        "paintMax": 0.7163292169570923
+      }
+    },
+    {
+      "tone": "balanced",
+      "differingMeshes": [
+        "Island_Surface_|_Opalescent_planting_clearing"
+      ],
+      "preservedOutsideBalancedSurface": true,
+      "groundPondMaterialShared": false,
+      "ground": {
+        "color": [
+          0.28314874041918053,
+          0.508881320845802,
+          0.2874408377161099
+        ],
+        "roughness": 0.9,
+        "clearcoat": 0,
+        "metalness": 0,
+        "iridescence": 0,
+        "normalScale": [
+          0.07000000104308128,
+          -0.07000000104308128
+        ],
+        "opaque": true,
+        "depthWrite": true,
+        "shaderHookDefault": true,
+        "neutralPaint": true,
+        "paintMin": 0.998531699180603,
+        "paintMax": 1.0014127492904663
+      }
+    },
+    {
+      "tone": "aurora",
+      "differingMeshes": [],
+      "preservedOutsideBalancedSurface": true,
+      "groundPondMaterialShared": true,
+      "ground": {
+        "color": [
+          0.34,
+          0.42,
+          0.68
+        ],
+        "roughness": 0.42,
+        "clearcoat": 0.18,
+        "metalness": 0.019999999552965164,
+        "iridescence": 0,
+        "normalScale": [
+          0.28,
+          0.28
+        ],
+        "opaque": true,
+        "depthWrite": true,
+        "shaderHookDefault": false,
+        "neutralPaint": false,
+        "paintMin": 0.52351975440979,
+        "paintMax": 0.7163292169570923
+      }
+    },
+    {
+      "tone": "balanced",
+      "differingMeshes": [
+        "Island_Surface_|_Opalescent_planting_clearing"
+      ],
+      "preservedOutsideBalancedSurface": true,
+      "groundPondMaterialShared": false,
+      "ground": {
+        "color": [
+          0.28314874041918053,
+          0.508881320845802,
+          0.2874408377161099
+        ],
+        "roughness": 0.9,
+        "clearcoat": 0,
+        "metalness": 0,
+        "iridescence": 0,
+        "normalScale": [
+          0.07000000104308128,
+          -0.07000000104308128
+        ],
+        "opaque": true,
+        "depthWrite": true,
+        "shaderHookDefault": true,
+        "neutralPaint": true,
+        "paintMin": 0.998531699180603,
+        "paintMax": 1.0014127492904663
+      }
+    },
+    {
+      "tone": "default",
+      "differingMeshes": [],
+      "preservedOutsideBalancedSurface": true,
+      "groundPondMaterialShared": true,
+      "ground": {
+        "color": [
+          1,
+          1,
+          1
+        ],
+        "roughness": 0.18000000715255737,
+        "clearcoat": 0.550000011920929,
+        "metalness": 0.019999999552965164,
+        "iridescence": 0,
+        "normalScale": [
+          0.20000000298023224,
+          -0.20000000298023224
+        ],
+        "opaque": true,
+        "depthWrite": true,
+        "shaderHookDefault": false,
+        "neutralPaint": false,
+        "paintMin": 0.52351975440979,
+        "paintMax": 0.7163292169570923
+      }
+    },
+    {
+      "tone": "warm",
+      "differingMeshes": [],
+      "preservedOutsideBalancedSurface": true,
+      "groundPondMaterialShared": true,
+      "ground": {
+        "color": [
+          1.24,
+          0.98,
+          1
+        ],
+        "roughness": 0.18000000715255737,
+        "clearcoat": 0.550000011920929,
+        "metalness": 0.019999999552965164,
+        "iridescence": 0,
+        "normalScale": [
+          0.20000000298023224,
+          -0.20000000298023224
+        ],
+        "opaque": true,
+        "depthWrite": true,
+        "shaderHookDefault": false,
+        "neutralPaint": false,
+        "paintMin": 0.52351975440979,
+        "paintMax": 0.7163292169570923
+      }
+    },
+    {
+      "tone": "balanced",
+      "differingMeshes": [
+        "Island_Surface_|_Opalescent_planting_clearing"
+      ],
+      "preservedOutsideBalancedSurface": true,
+      "groundPondMaterialShared": false,
+      "ground": {
+        "color": [
+          0.28314874041918053,
+          0.508881320845802,
+          0.2874408377161099
+        ],
+        "roughness": 0.9,
+        "clearcoat": 0,
+        "metalness": 0,
+        "iridescence": 0,
+        "normalScale": [
+          0.07000000104308128,
+          -0.07000000104308128
+        ],
+        "opaque": true,
+        "depthWrite": true,
+        "shaderHookDefault": true,
+        "neutralPaint": true,
+        "paintMin": 0.998531699180603,
+        "paintMax": 1.0014127492904663
+      }
+    },
+    {
+      "tone": "default",
+      "differingMeshes": [],
+      "preservedOutsideBalancedSurface": true,
+      "groundPondMaterialShared": true,
+      "ground": {
+        "color": [
+          1,
+          1,
+          1
+        ],
+        "roughness": 0.18000000715255737,
+        "clearcoat": 0.550000011920929,
+        "metalness": 0.019999999552965164,
+        "iridescence": 0,
+        "normalScale": [
+          0.20000000298023224,
+          -0.20000000298023224
+        ],
+        "opaque": true,
+        "depthWrite": true,
+        "shaderHookDefault": false,
+        "neutralPaint": false,
+        "paintMin": 0.52351975440979,
+        "paintMax": 0.7163292169570923
+      }
+    },
+    {
+      "tone": "aurora",
+      "differingMeshes": [],
+      "preservedOutsideBalancedSurface": true,
+      "groundPondMaterialShared": true,
+      "ground": {
+        "color": [
+          0.34,
+          0.42,
+          0.68
+        ],
+        "roughness": 0.42,
+        "clearcoat": 0.18,
+        "metalness": 0.019999999552965164,
+        "iridescence": 0,
+        "normalScale": [
+          0.28,
+          0.28
+        ],
+        "opaque": true,
+        "depthWrite": true,
+        "shaderHookDefault": false,
+        "neutralPaint": false,
+        "paintMin": 0.52351975440979,
+        "paintMax": 0.7163292169570923
+      }
+    },
+    {
+      "tone": "balanced",
+      "differingMeshes": [
+        "Island_Surface_|_Opalescent_planting_clearing"
+      ],
+      "preservedOutsideBalancedSurface": true,
+      "groundPondMaterialShared": false,
+      "ground": {
+        "color": [
+          0.28314874041918053,
+          0.508881320845802,
+          0.2874408377161099
+        ],
+        "roughness": 0.9,
+        "clearcoat": 0,
+        "metalness": 0,
+        "iridescence": 0,
+        "normalScale": [
+          0.07000000104308128,
+          -0.07000000104308128
+        ],
+        "opaque": true,
+        "depthWrite": true,
+        "shaderHookDefault": true,
+        "neutralPaint": true,
+        "paintMin": 0.998531699180603,
+        "paintMax": 1.0014127492904663
+      }
+    }
+  ],
+  "disposal": {
+    "variantCount": 45,
+    "disposedVariants": 45,
+    "disposedSources": 0,
+    "disposedTextures": 0
+  }
+}

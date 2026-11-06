@@ -1,0 +1,77 @@
+SUP — Balanced Warm sage planting surface
+
+Base: origin/main d5b12a3cc59169cfdb7256927f436221ac0c1e80, fetched at task start.
+Branch: codex/balanced-green-ground. Do not merge into main automatically.
+
+Balanced Warm's planting surface now uses #91BD92 from the existing grass palette.
+The unchanged grass retains its #67976D roots and #B8D9AC tips. Surface roughness
+is 0.90, clearcoat/metalness/iridescence are zero, environment intensity is 0.20,
+and the existing normal map uses 35% of its authored strength. Existing painted
+luminance becomes restrained neutral variation (0.96–1.04), leaving the sage
+material color in control while retaining depth and visible blades.
+
+Isolation is by the actual Island_Surface mesh identity, never by material name
+alone. The pond basin shares SUP Opalescent ground with the planting surface;
+Balanced caches a separate surface material clone so that the pond keeps its
+original material response. The custom opal reflection hook is skipped only on
+the Balanced planting surface. All other meshes and theme paths are unchanged.
+
+The original vertex color arrays are restored before each theme's paint is applied.
+Balanced and Warm are now distinct paint states, preventing green carry-over on
+direct switches between them. Material variants and the same geometry/color
+buffers are reused. The additional cached surface material adds no draw call,
+texture, geometry, rendering pass or expensive shader.
+
+Protected assets and appearance:
+  All GLB files, Blender source and generator remain byte-identical to d5b12a3.
+  Pond, water, crystals, underside, metallic rim, flowers and trees are unchanged.
+  Grass colors, geometry, placement, instance buffers and behavior are unchanged.
+  Warm, Aurora and Original materials, shaders and vertex colors match baseline.
+  Balanced remains the default; lighting and atmosphere were not edited.
+
+Geometry budget:
+  Canonical island: 14,099 triangles, 20 meshes, 11 authored materials.
+  Grass: 1,000 clumps x 6 triangles = 6,000 triangles, one visible draw call.
+  Total static island including grass: 20,099 triangles in every theme.
+  Balanced uses one additional cached material to separate the surface from the pond.
+
+Changed production files:
+  src/components/Island3D.jsx — mesh-specific variant and paint-state handling.
+  src/lib/islandTone.js — small sage PBR/vertex-color helpers.
+  src/lib/islandGrass.js — export the existing Balanced midtone as a shared constant.
+Additional files contain focused tests, the browser harness and verification evidence.
+
+Automated tests: npm test passes all 34 checks, including the two new actual-GLB
+tests for pond isolation and repeated theme restoration. Independent asset audit
+also compares all material/shader/color outputs against baseline across eleven
+theme transitions and verifies protected asset hashes. See asset-isolation-audit.json.
+
+Before/after captures: comparison.html. Both sides use fixed animation time 6,
+fixed date, matching camera positions and identical garden fixtures.
+
+Browser verification: all eight matched views passed, including dense 50 received
+plants plus two pair flowers and 390 x 844 portrait. Warm, Aurora and Original
+each have exactly zero changed pixels. All 19 non-surface island meshes retain
+their material, paint and geometry signatures. Twelve immediate theme switches
+preserve model/grass buffers, camera, plant positions, growth, selection and LOD;
+GPU resources settle without cumulative growth. Actual inbox planting retains its
+birth time through a switch. Desktop and portrait canvas flower picking pass.
+No runtime errors. See browser-results.json and before/after/results.json.
+
+Renderer counts are identical before/after in every captured scene:
+  Balanced, 14 plant objects: 624 calls / 75,624 pass-expanded triangles.
+  Dense garden, 52 plant objects: 2,134 calls / 168,100 pass-expanded triangles.
+These renderer totals include shadow/render passes and are separate from the
+20,099-triangle static geometry budget. Grass remains one visible draw call.
+Short native Intel Arc 140V desktop samples retain approximately 16.67 ms frame
+cadence. GPU mean time was 2.89 -> 2.98 ms for 14 objects and 6.45 -> 6.68 ms for
+52 objects. These approximately 30-frame samples establish neither a speedup nor
+a regression; the existing dense-garden draw count remains a mobile limitation.
+
+Production build: npm run build passed (Vite 5.4.21, 143 modules, 2.01 seconds).
+The existing large-bundle warning remains. git diff --check passes.
+
+Limitations: portrait layout is tested in desktop Chrome, not on a physical phone.
+The local HomeDemo uses offline font fallback and no live account/audio storage.
+Audio code is unchanged and its unit tests pass; live playback is not re-exercised
+by this material-only browser fixture.
