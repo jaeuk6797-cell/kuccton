@@ -458,7 +458,7 @@ export default function Garden({ session, onSignOut, email, demo }) {
       )}
 
       {tab === 'album' && <Album data={data} meId={meId} onOpen={setOpenFlower} onOpenPair={setOpenPair} flowerById={flowerById} />}
-      {tab === 'friends' && <Friends data={data} onOpen={setOpenFlower} onShareTo={(friend) => setSharePick({ friend })} onVisit={setVisiting} onGoMe={() => setTab('me')} />}
+      {tab === 'friends' && <Friends data={data} onOpen={setOpenFlower} onVisit={setVisiting} onGoMe={() => setTab('me')} />}
       {tab === 'me' && <Me me={me} email={email} onSignOut={onSignOut} code={data.garden.code} onAdded={refresh} onSaveProfile={saveProfile} />}
       {tab === 'help' && <HelpPage onTutorial={() => setTutorialOpen(true)} />}
 
@@ -515,7 +515,7 @@ export default function Garden({ session, onSignOut, email, demo }) {
           sender={data.members.find((m) => m.id === openFlower.sender_id)}
           mine={openFlower.sender_id === meId}
           sharedWith={data.sentShares.filter((x) => x.flower_id === openFlower.id).map((x) => `${nameOf(x.to_user)}${x.status === 'pending' ? '(고르는 중)' : x.status === 'declined' ? '(안 받음)' : ''}`)}
-          onShare={() => setSharePick({ flower: openFlower })}
+          onShare={tab === 'friends' ? undefined : () => setSharePick({ flower: openFlower })}
           onAccept={openFlower.share_id && openFlower.share_status !== 'accepted' ? () => answer(openFlower, true) : undefined}
           onDecline={openFlower.share_id && openFlower.share_status === 'pending' ? () => answer(openFlower, false) : undefined}
           answerBusy={answerBusy}
@@ -717,7 +717,7 @@ function Album({ data, meId, onOpen, onOpenPair, flowerById }) {
 // 친구: 친구 코드(= 정원 코드)로 친구를 맺고, 친구마다 내 소리를 골라 공유한다.
 // 친구가 공유한 소리는 내 정원 왼쪽에, 내 소리는 오른쪽에 핀다.
 // 친구 탭: 친구 목록만. 친구 코드·친구 맺기는 나 탭(FriendCode)에 있다.
-function Friends({ data, onOpen, onShareTo, onVisit, onGoMe }) {
+function Friends({ data, onOpen, onVisit, onGoMe }) {
   const [selectedId, setSelectedId] = useState(null) // 고른 친구 user_id
 
   const mineCount = (userId) => data.sentShares.filter((x) => x.to_user === userId).length
@@ -738,15 +738,18 @@ function Friends({ data, onOpen, onShareTo, onVisit, onGoMe }) {
     const day = (iso) => formatDate(new Date(iso).toLocaleDateString('sv-SE'))
     return (
       <div className="page friend-page">
-        <button className="link back-link" onClick={() => setSelectedId(null)} aria-label="친구 목록으로 돌아가기">←</button>
-        {/* 친구 정원 구경은 '정원 구경하기' 글씨를 눌러야만 간다 */}
+        <button className="back-link" onClick={() => setSelectedId(null)} aria-label="친구 목록으로 돌아가기">←</button>
+        {/* 정원 방문은 프로필 아래 버튼에서만 시작한다. */}
         <div className="friend-hero">
           <Avatar name={selected.nickname} url={selected.avatar_url} className="huge" />
           <h1 className="page-title">{selected.nickname}</h1>
           <small className="muted">{since.getMonth() + 1}월 {since.getDate()}일부터 친구 · 받은 소리 {received.length}개 · 보낸 소리 {mineCount(selected.user_id)}개</small>
-          <button className="visit-hint" onClick={() => onVisit(selected)}>{selected.nickname}의 정원 구경하기 ›</button>
+          <button className="friend-visit" onClick={() => onVisit(selected)} aria-label={`${selected.nickname}의 정원 보기`}>
+            <Sprout width={17} height={17} aria-hidden="true" />
+            <span>정원 보기</span>
+            <span className="friend-visit-arrow" aria-hidden="true">↗</span>
+          </button>
         </div>
-        <button className="primary wide" onClick={() => onShareTo(selected)}>소리 공유하기</button>
 
         <h2 className="page-sub">주고받은 소리</h2>
         {history.length === 0 ? (
