@@ -175,13 +175,64 @@ test('Blender theme variants isolate cached sources and release shared material 
   assert.equal(signature(near.scene), baseline, 'shared cached model is untouched')
 })
 
-test('modern island is exactly latest Aurora; archived original and warm models remain byte-for-byte intact', async () => {
+test('archived original and warm island models remain byte-for-byte intact', async () => {
   for (const [file, source] of [
-    ['island-modern.glb', '2af54a7:public/models/island.glb'],
     ['island.glb', '536d2ac:public/models/island.glb'],
     ['island-warm.glb', '536d2ac:public/models/island.glb'],
   ]) {
     assert.equal(hash(await readFile(new URL(`public/models/${file}`, root))),
       hash(execFileSync('git', ['show', source], { cwd: fileURLToPath(root) })))
   }
+})
+
+function readGlb(bytes) {
+  const length = bytes.readUInt32LE(12)
+  const json = JSON.parse(bytes.toString('utf8', 20, 20 + length))
+  const bin = bytes.subarray(28 + length)
+  const accessor = index => {
+    const { bufferView, byteOffset = 0 } = json.accessors[index]
+    const view = json.bufferViews[bufferView]
+    const start = view.byteOffset ?? 0
+    return bin.subarray(start + byteOffset, start + view.byteLength)
+  }
+  return { json, accessor }
+}
+
+function orientedTriangles(asset, index) {
+  const { componentType, count } = asset.json.accessors[index]
+  const size = { 5121: 1, 5123: 2, 5125: 4 }[componentType]
+  const bytes = asset.accessor(index)
+  return Array.from({ length: count / 3 }, (_, i) => {
+    const face = [0, 1, 2].map(j => bytes.readUIntLE((i * 3 + j) * size, size))
+    const first = face.indexOf(Math.min(...face))
+    return [face[first], face[(first + 1) % 3], face[(first + 2) % 3]].join(',')
+  }).sort()
+}
+
+test('retained island meshes preserve vertex data and faces, and the standalone fountain matches the island', async () => {
+  const original = readGlb(execFileSync('git', ['show', '2af54a7:public/models/island.glb'], { cwd: fileURLToPath(root) }))
+  const current = readGlb(await readFile(new URL('public/models/island-modern.glb', root)))
+  const fountain = readGlb(await readFile(new URL('public/models/fountain.glb', root)))
+  const retained = original.json.meshes.filter(mesh => !mesh.name.startsWith('Island_Peripheral_Crystals'))
+  assert.equal(fountain.json.meshes.length, 4)
+  assert.equal(fountain.json.materials.length, 3)
+  assert.equal(current.json.meshes.length, retained.length + fountain.json.meshes.length)
+  let fountainTriangles = 0
+  for (const [asset, meshes] of [[original, retained], [fountain, fountain.json.meshes]]) {
+    for (const mesh of meshes) {
+      const embedded = current.json.meshes.find(candidate => candidate.name === mesh.name)
+      assert.ok(embedded, mesh.name)
+      assert.equal(embedded.primitives.length, 1, mesh.name)
+      const [old] = mesh.primitives, [actual] = embedded.primitives
+      assert.deepEqual(Object.keys(actual.attributes), Object.keys(old.attributes))
+      for (const [attribute, index] of Object.entries(old.attributes)) {
+        assert.ok(asset.accessor(index).equals(current.accessor(actual.attributes[attribute])), `${mesh.name} ${attribute}`)
+      }
+      assert.deepEqual(orientedTriangles(current, actual.indices), orientedTriangles(asset, old.indices), mesh.name)
+      if (asset === fountain) fountainTriangles += asset.json.accessors[old.indices].count / 3
+    }
+  }
+  assert.equal(fountainTriangles, 1486)
+  const basin = fountain.json.meshes.find(mesh => mesh.name === 'Fountain_Basin')
+  assert.equal(fountain.json.accessors[basin.primitives[0].attributes.POSITION].min[1], 0, 'standalone Y-up ground origin')
 })

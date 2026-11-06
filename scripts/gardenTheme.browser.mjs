@@ -19,6 +19,7 @@ page.on('pageerror', e => report.errors.push(e.message))
 page.on('console', e => { if (e.type() === 'error') report.errors.push(e.text()) })
 const snapshot = () => page.evaluate(() => window.__gardenDiagnostics.current.snapshot())
 const paint = () => page.evaluate(() => window.__gardenDiagnostics.current.islandPaint())
+const decoration = () => page.evaluate(() => window.__gardenDiagnostics.current.decoration())
 const waitReady = tone => page.waitForFunction(t => {
   const s = window.__gardenDiagnostics?.current?.snapshot()
   return s?.island === 'loaded' && (!t || s.tone === t)
@@ -41,6 +42,11 @@ const sameCamera = (a, b) => {
 }
 const identity = s => s.plantStates.map(({ id, position, bornAt, opened, lod }) => ({ id, position, bornAt, opened, lod })).sort((a, b) => a.id.localeCompare(b.id))
 const capture = async name => page.locator('.home').first().screenshot({ path: `${directory}/${name}.png`, animations: 'disabled' })
+const basinClearance = (scene, { basin }) => {
+  const x = (basin.min[0] + basin.max[0]) / 2, z = (basin.min[2] + basin.max[2]) / 2
+  const radius = Math.max(basin.max[0] - x, basin.max[2] - z)
+  return Math.min(...scene.plantStates.map(plant => Math.hypot(plant.position[0] - x, plant.position[2] - z))) - radius
+}
 
 try {
   await page.goto(`${base}/?view=home&friends=3&many=12&diagnostics=1`)
@@ -73,6 +79,7 @@ try {
   const reference = await snapshot()
   const layoutFields = ['modelUUID', 'grassMeshUUID', 'grassGeometryUUID', 'grassInstanceBufferId', 'grassMatrixVersion']
   const paints = {}
+  report.decorations = {}
   await page.evaluate(() => { window.__gardenCanvas = document.querySelector('.island canvas') })
   for (const tone of themes) {
     await choose(tone)
@@ -81,9 +88,14 @@ try {
     assert.equal(current.islandGeometry.grassDrawCalls, 1)
     assert.equal(current.islandGeometry.grassClumps, 1000)
     assert.equal(current.islandGeometry.grassTriangles, 6000)
-    assert.equal(current.islandGeometry.assetTriangles, 14099)
+    assert.equal(current.islandGeometry.assetTriangles, 14025)
     for (const field of layoutFields) assert.equal(current.islandGeometry[field], reference.islandGeometry[field], field)
     paints[tone] = await paint()
+    const decor = await decoration()
+    assert.equal(decor.fountain.length, 4)
+    assert.equal(decor.ground.color === '91bd92', tone === 'balanced')
+    assert.ok(basinClearance(current, decor) > .20, 'The fountain clears plant stems')
+    report.decorations[tone] = decor
     sameCamera(current.camera, reference.camera)
     assert.deepEqual(identity(current), identity(reference), 'Sound identities, positions, growth and LOD survive theme changes')
     assert.ok(current.plantStates.some(f => f.tree) && current.plantStates.some(f => f.blender) && current.plantStates.some(f => f.kind === 'pair'))
@@ -95,8 +107,19 @@ try {
     report.samples[`${tone}-14`] = await snapshot()
   }
   check('All four themes render trees, procedural flowers, Blender peonies and pairs at identical camera/time; same canvas and plant state')
-  assert.equal(new Set(Object.values(paints).map(value => JSON.stringify(value))).size, 3)
-  check('All four palettes share one 14,099-triangle island and the same 6,000-triangle grass layout and buffers')
+  assert.equal(new Set(Object.values(paints).map(value => JSON.stringify(value))).size, 4)
+  check('All four palettes share one 14,025-triangle island and the same 6,000-triangle grass layout and buffers')
+  const fountainIdentity = decor => decor.fountain.map(({ name, geometry }) => [name, geometry])
+  for (const decor of Object.values(report.decorations)) assert.deepEqual(fountainIdentity(decor), fountainIdentity(report.decorations.balanced))
+  assert.equal(new Set(Object.values(report.decorations).map(d => d.fountain.map(mesh => mesh.color).join(','))).size, 4)
+  assert.equal(report.decorations.balanced.pond, 'cadfd8')
+  assert.equal(report.decorations.balanced.fountain.find(mesh => mesh.name === 'Fountain_Water_Surface').color, 'a3d8de')
+  assert.equal(report.decorations.balanced.ground.roughness, .90)
+  const beforeFlow = (await decoration()).flowAngle
+  await page.evaluate(() => window.__gardenDiagnostics.current.freeze(7))
+  await page.waitForFunction(angle => window.__gardenDiagnostics.current.decoration().flowAngle !== angle, beforeFlow)
+  await page.evaluate(() => window.__gardenDiagnostics.current.freeze(6))
+  check('Shared fountain geometry has four palettes and moving water. Sage ground applies only in Balanced and leaves both waters aqua')
   await openTab('나')
   await capture('theme-selector-desktop')
   await openTab('정원')
@@ -153,7 +176,7 @@ try {
       const state = await snapshot()
       sameCamera(state.camera, pose)
       assert.equal(state.islandGeometry.modelUUID, reference.islandGeometry.modelUUID)
-      assert.equal(state.islandGeometry.assetTriangles + state.islandGeometry.grassTriangles, 20099)
+      assert.equal(state.islandGeometry.assetTriangles + state.islandGeometry.grassTriangles, 20025)
       report.samples[`${tone}-${view}`] = state
       await capture(`${tone}-${view}`)
     }
@@ -187,6 +210,7 @@ try {
     await page.waitForTimeout(3300)
     const current = await snapshot()
     assert.equal(current.plants, 52)
+    assert.ok(basinClearance(current, await decoration()) > .20, 'The dense scene clears the fountain')
     for (const field of layoutFields) assert.equal(current.islandGeometry[field], denseLayout[field], field)
     report.samples[`${tone}-52`] = current
     await capture(`${tone}-dense50`)

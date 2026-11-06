@@ -105,7 +105,7 @@ try {
   assert.equal(report.afterRapidSwitches.tone, 'aurora')
   assert.equal(report.afterRapidSwitches.requestedTone, 'aurora')
   assert.equal(report.afterRapidSwitches.themeStatus, 'loaded')
-  assert.equal(report.afterRapidSwitches.islandGeometry.assetTriangles, 14099)
+  assert.equal(report.afterRapidSwitches.islandGeometry.assetTriangles, 14025)
   assert.deepEqual(identity(report.afterRapidSwitches), identity(report.initial))
   sameCamera(report.initial.camera, report.afterRapidSwitches.camera)
   assert.equal(await page.evaluate(() => window.__retryOriginalCanvas === document.querySelector('.island canvas')), true)
