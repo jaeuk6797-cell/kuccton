@@ -478,3 +478,6 @@ h1, h2 { margin: 0; }
 .help-item p { margin: 0; font-size: 0.9rem; line-height: 1.65; color: #4f4c5a; word-break: keep-all; }
 /* 메뉴 버튼의 새 소식 점: 아이콘과 겹치지 않게 버튼 오른쪽 위 테두리에, 흰 테두리로 또렷하게 */
 .menu-btn .badge { top: 1px; right: 1px; width: 11px; height: 11px; border: 2px solid #fff; box-sizing: content-box; }
+
+.send-step { display: flex; flex-direction: column; gap: 12px; width: 100%; }
+.send-step .select-all { align-self: flex-end; }

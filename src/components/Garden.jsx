@@ -136,7 +136,7 @@ export default function Garden({ session, onSignOut, email, demo }) {
     await shareFlowers([row.id], toUserIds)
     setRecording(false)
     setTab('garden')
-    showToast(`${toUserIds.length}명에게 소리를 보냈어요`)
+    showToast(`${toUserIds.length}명에게 공유했어요 · 친구가 받으면 친구 정원에 피어요`)
     await refresh()
   }
 
@@ -257,7 +257,7 @@ export default function Garden({ session, onSignOut, email, demo }) {
         <>
           <div className="island-touch">
           <Island3D
-            flowers={data.flowers}
+            flowers={gardenFlowers}
             pairs={data.pairs}
             visibleIds={visibleKey}
             meId={meId}

@@ -15,6 +15,12 @@ const MAX_SEC = 10
 //  - 다른 소리: 분류하지 않고 크기·밝기·세기·리듬·파형으로 바로 꽃을 만든다.
 //  - 앱(Capacitor)은 녹음 중 받아쓰기를 못 해서 소리 꽃이 되고, 꽃말은 미리보기에서 '말로 적기'로 붙일 수 있다.
 // 녹음한 소리는 내 정원에 심지 않는다. 미리보기에서 받을 친구(여러 명)를 골라 보내면 그 친구들 정원에 핀다.
+// 받침에 따라 을/를
+const objectJosa = (w = '') => {
+  const c = w.charCodeAt(w.length - 1)
+  return c >= 0xac00 && c <= 0xd7a3 && (c - 0xac00) % 28 !== 0 ? '을' : '를'
+}
+
 export default function Recorder({ onClose, onSend, friends = [] }) {
   const [kind, setKind] = useState('') // 녹음 뒤 자동으로 정함: 'voice' | 'other'
   const [step, setStep] = useState('idle') // idle | recording | analyzing | choose | preview | sending
@@ -28,7 +34,7 @@ export default function Recorder({ onClose, onSend, friends = [] }) {
   const [transcript, setTranscript] = useState('')
   const [error, setError] = useState('')
   const [dictating, setDictating] = useState(false)
-  const [sendTo, setSendTo] = useState(() => new Set(friends.map((f) => f.user_id))) // 기본: 모든 친구
+  const [sendTo, setSendTo] = useState(() => new Set()) // 공유할 친구: 녹음 뒤 '누구에게 공유할까요?'에서 직접 고른다
   const toggleTo = (id) => setSendTo((s) => { const n = new Set(s); n.has(id) ? n.delete(id) : n.add(id); return n })
 
   const canvasRef = useRef(null)
@@ -175,7 +181,7 @@ export default function Recorder({ onClose, onSend, friends = [] }) {
     } catch (e) {
       console.error(e)
       setError(`보내지 못했어요: ${e.message || e}`)
-      setStep('preview')
+      setStep('sendto')
     }
   }
 
@@ -222,7 +228,7 @@ export default function Recorder({ onClose, onSend, friends = [] }) {
           </>
         )}
 
-        {(step === 'preview' || step === 'sending') && flower && (
+        {step === 'preview' && flower && (
           <div className="center-col">
             <FlowerBloom3D flower={row} size={180} />
             <h2 className="flower-name">{flower.name}</h2>
@@ -256,12 +262,29 @@ export default function Recorder({ onClose, onSend, friends = [] }) {
                 </label>
               </>
             )}
-            {/* 받을 친구: 고른 친구들 정원에 이 꽃이 핀다 (내 정원에는 생기지 않음) */}
-            <div className="send-to">
-              <b>누구에게 보낼까요?</b>
-              {friends.length === 0 ? (
-                <p className="small muted">아직 친구가 없어요. 메뉴 → 친구에서 친구 코드로 친구를 맺으면 보낼 수 있어요.</p>
-              ) : (
+            <p className="small muted">이 소리는 내 정원에 피지 않아요. 친구에게 공유하면, 친구가 받았을 때 친구 정원에 피어요.</p>
+            <div className="row">
+              <button className="ghost" onClick={() => setStep('idle')}>다시 녹음</button>
+              <button className="primary" onClick={() => setStep('sendto')}>다음</button>
+            </div>
+          </div>
+        )}
+
+        {(step === 'sendto' || step === 'sending') && flower && (
+          <div className="send-step">
+            <h2 className="sheet-title">누구에게 공유할까요?</h2>
+            <p className="muted small">‘{flower.name}’{objectJosa(flower.name)} 받은 친구가 받을지 고르고, 받으면 친구 정원에 피어요.</p>
+            {friends.length === 0 ? (
+              <p className="small muted">아직 친구가 없어요. 메뉴 → 친구에서 친구 코드로 친구를 맺으면 공유할 수 있어요.</p>
+            ) : (
+              <>
+                <button
+                  className="link select-all"
+                  onClick={() => setSendTo(sendTo.size === friends.length ? new Set() : new Set(friends.map((f) => f.user_id)))}
+                  disabled={step === 'sending'}
+                >
+                  {sendTo.size === friends.length ? '모두 해제' : '모두 선택'}
+                </button>
                 <ul className="pick-list">
                   {friends.map((fr) => (
                     <li key={fr.user_id}>
@@ -273,12 +296,12 @@ export default function Recorder({ onClose, onSend, friends = [] }) {
                     </li>
                   ))}
                 </ul>
-              )}
-            </div>
+              </>
+            )}
             <div className="row">
-              <button className="ghost" onClick={() => setStep('idle')} disabled={step === 'sending'}>다시 녹음</button>
+              <button className="ghost" onClick={() => setStep('preview')} disabled={step === 'sending'}>뒤로</button>
               <button className="primary" onClick={send} disabled={step === 'sending' || sendTo.size === 0}>
-                {step === 'sending' ? '보내는 중…' : sendTo.size ? `${sendTo.size}명에게 보내기` : '친구를 골라 주세요'}
+                {step === 'sending' ? '공유하는 중…' : sendTo.size ? `${sendTo.size}명에게 공유하기` : '친구를 골라 주세요'}
               </button>
             </div>
           </div>
