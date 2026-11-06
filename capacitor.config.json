@@ -9,7 +9,13 @@
     "contentInset": "never"
   },
   "server": {
-    "url": "https://kuccton.vercel.app",
+    "url": "https://jaeuk6797-cell.github.io/kuccton/",
     "cleartext": false
+  },
+  "plugins": {
+    "SystemBars": {
+      "insetsHandling": "css",
+      "initialViewportFitValueHint": "cover"
+    }
   }
 }

@@ -111,6 +111,16 @@ export async function addFriend(code) {
   return data // { user_id, nickname }
 }
 
+/** 로그인한 사용자와 선택한 친구 사이의 관계만 해제한다. 소리·공유는 삭제하지 않는다. */
+export async function removeFriend(friendUserId) {
+  const user = await currentUser()
+  if (!user) throw new Error('먼저 로그인해 주세요.')
+  if (!friendUserId || friendUserId === user.id) throw new Error('삭제할 친구를 확인해 주세요.')
+  const [userA, userB] = [user.id, friendUserId].sort()
+  const { error } = await supabase.from('friendships').delete().eq('user_a', userA).eq('user_b', userB)
+  if (error) throw new Error(errorText(error))
+}
+
 /** 꽃 여러 개 × 친구 여러 명을 한 번에 공유 (이미 공유한 조합은 건너뛴다) */
 export async function shareFlowers(flowerIds, toUserIds) {
   const rows = flowerIds.flatMap((flower_id) => toUserIds.map((to_user) => ({ flower_id, to_user })))
@@ -194,7 +204,9 @@ const localDate = (iso) => {
 // 우리의 꽃: 친구마다, 같은 날 내가 공유한 첫 꽃과 친구가 나에게 공유한 첫 꽃을 공유한 순서대로 잇는다
 export function derivePairs(friends, sent, received, flowerById) {
   const pairs = []
-  for (const fr of friends) {
+  // 친구 관계를 해제해도 이미 주고받아 심은 우리의 꽃은 유지한다.
+  const partnerIds = new Set([...friends.map((friend) => friend.user_id), ...received.map((share) => share.from_user)])
+  for (const userId of partnerIds) {
     const firstByDate = (list) => {
       const out = {}
       for (const s of [...list].sort((a, b) => a.created_at.localeCompare(b.created_at))) {
@@ -203,13 +215,13 @@ export function derivePairs(friends, sent, received, flowerById) {
       }
       return out
     }
-    const mine = firstByDate(sent.filter((s) => s.to_user === fr.user_id))
-    const theirs = firstByDate(received.filter((s) => s.from_user === fr.user_id))
+    const mine = firstByDate(sent.filter((s) => s.to_user === userId))
+    const theirs = firstByDate(received.filter((s) => s.from_user === userId))
     for (const date of Object.keys(mine)) {
       if (!theirs[date]) continue
       const [a, b] = [mine[date], theirs[date]].sort((x, y) => x.created_at.localeCompare(y.created_at))
       const fa = flowerById[a.flower_id], fb = flowerById[b.flower_id]
-      pairs.push({ id: `pair-${fr.user_id}-${date}`, friend: fr.user_id, flower_a_id: fa.id, flower_b_id: fb.id, name: pairName(fa.root, fb.root), sent_date: date })
+      pairs.push({ id: `pair-${userId}-${date}`, friend: userId, flower_a_id: fa.id, flower_b_id: fb.id, name: pairName(fa.root, fb.root), sent_date: date })
     }
   }
   return pairs.sort((a, b) => a.sent_date.localeCompare(b.sent_date))

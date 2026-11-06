@@ -12,9 +12,9 @@ import PushSettings from './PushSettings.jsx'
 import SoundPlayer from './SoundPlayer.jsx'
 import AlbumPeriodPicker from './AlbumPeriodPicker.jsx'
 import { displayName } from '../lib/tree.js'
-import { ArrowLeft, Bell, Check, Heart, Help, Menu, Mic, Pencil, Pin, Sprout, User, Users, Wave } from './Icons.jsx'
-import { FRIEND_LIMIT, GARDEN_LIMIT, addFriend, archiveShares, audioUrl, currentUser, deleteFlower, deleteReceivedSound, derivePairs, insertFlower, loadGarden, respondShare, shareFlowers, subscribeGarden, today, updateProfile, uploadAudio } from '../lib/db.js'
-import { newestReceivedFirst, receivedSoundCollections } from '../lib/receivedSounds.js'
+import { ArrowLeft, Bell, Check, Heart, Help, Menu, Mic, Pencil, Pin, Sprout, Trash, User, Users, Wave } from './Icons.jsx'
+import { FRIEND_LIMIT, GARDEN_LIMIT, addFriend, archiveShares, audioUrl, currentUser, deleteFlower, deleteReceivedSound, derivePairs, insertFlower, loadGarden, removeFriend, respondShare, shareFlowers, subscribeGarden, today, updateProfile, uploadAudio } from '../lib/db.js'
+import { hideReceivedSounds, newestReceivedFirst, receivedSoundCollections } from '../lib/receivedSounds.js'
 
 // 받침에 따라 조사 고르기
 const hasBatchim = (w = '') => {
@@ -25,7 +25,18 @@ const josa = (w, a, b) => `${w}${hasBatchim(w) ? a : b}`
 
 // demo: 개발용 미리보기(?view=home)에서만 넘긴다. 주면 Supabase 대신 그 데이터로 화면만 그린다.
 export default function Garden({ session, onSignOut, email, demo, initialTab = 'garden' }) {
-  const [data, setData] = useState(null)
+  const [rawData, setData] = useState(null)
+  const hiddenSoundsKey = `sup.hidden-friend-sounds.v1.${demo ? 'demo' : session.memberId}`
+  const [hiddenSounds, setHiddenSounds] = useState(() => {
+    try {
+      const saved = JSON.parse(localStorage.getItem(hiddenSoundsKey))
+      return { shares: Array.isArray(saved?.shares) ? saved.shares : [], pairs: Array.isArray(saved?.pairs) ? saved.pairs : [] }
+    } catch { return { shares: [], pairs: [] } }
+  })
+  useEffect(() => {
+    try { localStorage.setItem(hiddenSoundsKey, JSON.stringify(hiddenSounds)) } catch { /* 이번 화면에서는 숨김을 유지한다. */ }
+  }, [hiddenSoundsKey, hiddenSounds])
+  const data = useMemo(() => hideReceivedSounds(rawData, hiddenSounds), [rawData, hiddenSounds])
   const [error, setError] = useState('')
   const [tab, setTab] = useState(() => demo && ['garden', 'album', 'friends', 'me', 'help'].includes(initialTab) ? initialTab : 'garden')
   const [recording, setRecording] = useState(false)
@@ -112,7 +123,10 @@ export default function Garden({ session, onSignOut, email, demo, initialTab = '
     const ro = new ResizeObserver(measure)
     ro.observe(home); ro.observe(sheet)
     if (titleRef.current) ro.observe(titleRef.current)
-    return () => ro.disconnect()
+    // Android가 시스템바 높이를 늦게 전달하거나 회전으로 바꾸는 경우에도 정원 여백을 갱신한다.
+    const insetsObserver = new MutationObserver(measure)
+    insetsObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['style'] })
+    return () => { ro.disconnect(); insetsObserver.disconnect() }
   }, [hasSheet])
   const meId = session.memberId
 
@@ -268,6 +282,26 @@ export default function Garden({ session, onSignOut, email, demo, initialTab = '
     await refresh()
   }
 
+  async function handleRemoveFriend(friend, hideSounds) {
+    if (demo) {
+      setData((previous) => ({
+        ...previous,
+        friends: previous.friends.filter((item) => item.user_id !== friend.user_id),
+        members: previous.members.filter((item) => item.user_id !== friend.user_id),
+      }))
+    } else {
+      await removeFriend(friend.user_id)
+    }
+    if (hideSounds) {
+      setHiddenSounds((previous) => ({
+        shares: [...new Set([...previous.shares, ...rawData.receivedHistory.filter((flower) => flower.from_user === friend.user_id).map((flower) => flower.share_id)])],
+        pairs: [...new Set([...previous.pairs, ...rawData.pairs.filter((pair) => pair.friend === friend.user_id).map((pair) => pair.id)])],
+      }))
+    }
+    if (!demo) await refresh()
+    showToast(hideSounds ? '친구를 삭제하고 관련 꽃을 화면에서 숨겼어요.' : '꽃은 남겨두고 친구를 삭제했어요.')
+  }
+
   async function handleDelete(flower) {
     await deleteFlower(flower)
     setOpenFlower(null)
@@ -380,7 +414,7 @@ export default function Garden({ session, onSignOut, email, demo, initialTab = '
       )}
 
       {tab === 'album' && <Album data={data} meId={meId} onOpen={setOpenFlower} onOpenPair={setOpenPair} flowerById={flowerById} />}
-      {tab === 'friends' && <Friends data={data} onOpen={setOpenFlower} onVisit={setVisiting} onGoMe={() => setTab('me')} />}
+      {tab === 'friends' && <Friends data={data} onRemove={handleRemoveFriend} onOpen={setOpenFlower} onVisit={setVisiting} onGoMe={() => setTab('me')} />}
       {tab === 'me' && <Me friendCount={data.friends.length} demo={Boolean(demo)} me={me} email={email} onSignOut={onSignOut} code={data.garden.code} onAdded={refresh} onSaveProfile={saveProfile} />}
       {tab === 'help' && <HelpPage onTutorial={() => setTutorialOpen(true)} />}
 
@@ -671,7 +705,28 @@ function Album({ data, meId, onOpen, onOpenPair, flowerById }) {
 // 친구: 친구 코드(= 정원 코드)로 친구를 맺고, 친구마다 내 소리를 골라 공유한다.
 // 친구가 공유한 소리는 내 정원 왼쪽에, 내 소리는 오른쪽에 핀다.
 // 친구 탭: 친구 목록만. 친구 코드·친구 맺기는 나 탭(FriendCode)에 있다.
-function Friends({ data, onOpen, onVisit, onGoMe }) {
+function Friends({ data, onOpen, onVisit, onGoMe, onRemove }) {
+  const [confirmRemove, setConfirmRemove] = useState(false)
+  const [hideSounds, setHideSounds] = useState(false)
+  const [removing, setRemoving] = useState(false)
+  const [removeError, setRemoveError] = useState('')
+  const removingRef = useRef(false)
+  async function handleRemove(friend) {
+    if (removingRef.current) return
+    removingRef.current = true
+    setRemoving(true)
+    setRemoveError('')
+    try {
+      await onRemove(friend, hideSounds)
+      setSelectedId(null)
+      setConfirmRemove(false)
+    } catch (error) {
+      setRemoveError(error.message || '친구를 삭제하지 못했어요. 다시 시도해 주세요.')
+    } finally {
+      removingRef.current = false
+      setRemoving(false)
+    }
+  }
   const [selectedId, setSelectedId] = useState(null) // 고른 친구 user_id
 
   const mineCount = (userId) => data.sentShares.filter((x) => x.to_user === userId).length
@@ -694,16 +749,35 @@ function Friends({ data, onOpen, onVisit, onGoMe }) {
       <div className="page friend-page fixed-heading-page">
         <PageHeading>친구</PageHeading>
         <div className="page-scroll" aria-label="친구 소리 내역">
-        <button className="back-link" onClick={() => setSelectedId(null)} aria-label="친구 목록으로 돌아가기"><ArrowLeft aria-hidden="true" /></button>
+        <button className="back-link" disabled={removing} onClick={() => { setSelectedId(null); setConfirmRemove(false); setRemoveError('') }} aria-label="친구 목록으로 돌아가기"><ArrowLeft aria-hidden="true" /></button>
         {/* 정원 방문은 프로필 아래 버튼에서만 시작한다. */}
         <div className="friend-hero">
           <Avatar name={selected.nickname} url={selected.avatar_url} className="huge" />
           <h1 className="page-title">{selected.nickname}</h1>
           <small className="muted">{since.getMonth() + 1}월 {since.getDate()}일부터 친구 · 받은 소리 {received.length}개 · 보낸 소리 {mineCount(selected.user_id)}개</small>
-          <button className="friend-visit" onClick={() => onVisit(selected)} aria-label={`${selected.nickname}의 정원 보기`}>
+          <div className="friend-profile-actions">
+          <button className="friend-visit" disabled={removing} onClick={() => onVisit(selected)} aria-label={`${selected.nickname}의 정원 보기`}>
             <Sprout width={17} height={17} aria-hidden="true" />
             <span>정원 보기</span>
           </button>
+          <button className="friend-remove" disabled={removing} onClick={() => { setConfirmRemove(true); setHideSounds(false); setRemoveError('') }} aria-expanded={confirmRemove}>
+            <Trash width={17} height={17} aria-hidden="true" />친구 삭제
+          </button>
+          </div>
+          {confirmRemove && <div className="friend-remove-confirm" role="group" aria-label="친구 삭제 확인">
+            <p>{selected.nickname}님을 친구 목록에서 삭제할까요?<br /><span className="muted">다시 친구 코드를 등록할 수 있어요.</span></p>
+            <fieldset className="friend-flower-choice" disabled={removing}>
+              <legend>주고받은 꽃·나무는 어떻게 할까요?</legend>
+              <label><input type="radio" name="friend-flowers" checked={!hideSounds} onChange={() => setHideSounds(false)} />꽃 남기기</label>
+              <label><input type="radio" name="friend-flowers" checked={hideSounds} onChange={() => setHideSounds(true)} />화면에서 숨기기</label>
+              <small>숨김은 이 기기에만 적용돼요. 원본 소리는 그대로 남아요.</small>
+            </fieldset>
+            <div className="row">
+              <button className="ghost small-btn" disabled={removing} onClick={() => { setConfirmRemove(false); setRemoveError('') }}>취소</button>
+              <button className="danger small-btn" disabled={removing} onClick={() => handleRemove(selected)}>{removing ? '삭제 중…' : '친구 삭제하기'}</button>
+            </div>
+            {removeError && <p className="error" role="alert">{removeError}</p>}
+          </div>}
         </div>
 
         <h2 className="page-sub">주고받은 소리</h2>
