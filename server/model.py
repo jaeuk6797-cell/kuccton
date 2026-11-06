@@ -1,3 +1,5 @@
+import os
+
 import torch
 from torch import nn
 from transformers import AutoConfig, HubertForSequenceClassification
@@ -31,7 +33,8 @@ def load_model():
     from huggingface_hub import hf_hub_download
     from transformers import AutoFeatureExtractor
 
-    ckpt = hf_hub_download(CKPT_REPO, CKPT_FILE)
+    # EMOTION_CKPT에 로컬 .ckpt 경로를 주면 그 파일(예: KEMDy19로 추가 학습한 모델)을 쓴다
+    ckpt = os.environ.get("EMOTION_CKPT") or hf_hub_download(CKPT_REPO, CKPT_FILE)
     model = MyLitModel.load_from_checkpoint(
         ckpt,
         audio_model_name=AUDIO_MODEL_NAME,
