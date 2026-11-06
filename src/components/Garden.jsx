@@ -265,7 +265,7 @@ export default function Garden({ session, onSignOut, email, demo }) {
     const f = theirs[Math.floor(Math.random() * theirs.length)]
     setHighlight(f.id)
     setTimeout(() => setHighlight(null), 8000)
-    setOpenFlower(f)
+    setOpenFlower({ ...f, fromComfort: true }) // 오늘의 위로로 연 소리: 정원에서 빼기는 보여 주지 않는다
   }
 
   const derived = useMemo(() => {
@@ -527,7 +527,7 @@ export default function Garden({ session, onSignOut, email, demo }) {
           onAccept={openFlower.share_id && openFlower.share_status !== 'accepted' ? () => answer(openFlower, true) : undefined}
           onDecline={openFlower.share_id && openFlower.share_status === 'pending' ? () => answer(openFlower, false) : undefined}
           answerBusy={answerBusy}
-          onArchive={openFlower.planted_share_id ? () => cleanup([openFlower.planted_share_id]) : undefined}
+          onArchive={openFlower.planted_share_id && !openFlower.fromComfort ? () => cleanup([openFlower.planted_share_id]) : undefined}
           onClose={() => setOpenFlower(null)}
           onDelete={handleDelete}
         />
