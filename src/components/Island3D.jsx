@@ -824,7 +824,7 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
         items.push({ key: f.id, kind: 'flower', data: f, t: f.shared_at || f.created_at })
       }
       const pos = placeFlowers(items)
-      const density = Math.max(0.58, Math.min(1, Math.sqrt(12 / Math.max(items.length, 1))))
+      const density = Math.max(0.72, Math.min(1, Math.sqrt(20 / Math.max(items.length, 1))))
       const visible = visibleIds == null ? null : new Set(visibleIds ? visibleIds.split(',') : [])
       const now = clock.getElapsedTime()
       items.forEach((it, i) => {
@@ -852,7 +852,7 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
         const isNew = !known.has(it.key)
         Object.assign(obj.userData, {
           kind: it.kind, data: it.data, a: it.a, b: it.b, tone: appliedTone,
-          size: (it.kind === 'pair' ? 2.6 : isTree(it.data) ? 1.55 : 1.8) * density,
+          size: (it.kind === 'pair' ? 2.6 : isTree(it.data) ? 1.85 : 1.65) * density,
           phase: (hash(it.key) % 100) / 16,
           bornAt: u?.bornAt ?? (isNew ? (st.first ? now + i * 0.06 : now) : -10),
           fresh: freshIds?.has(it.key), highlight: highlightId === it.key, dimmed,
