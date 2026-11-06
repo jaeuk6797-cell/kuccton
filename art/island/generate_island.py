@@ -230,7 +230,8 @@ def mineral_color(x, y, z, pale=False):
     if not pale:
         n = smooth(.5 + .32 * cos(math.atan2(y, x) - .2) + .30 * field(x * .7, y * .7, z * .5))
     secondary = .5 + .42 * field(x * 1.8 + 5, y * 1.8, z * .9)
-    colors = ('216E88', '70509F', '54BBC0') if not pale else ('4799A9', '9373B6', '80BABE')
+    # These sRGB palette values are converted once by rgb() before vertex export.
+    colors = ('5CABB9', 'A28AC4', '84D8DB') if not pale else ('8BCDD1', 'B29BD4', 'DBB4D3')
     color = mix(rgb(colors[0]), rgb(colors[1]), smooth(n))
     return mix(color, rgb(colors[2]), secondary * .51)
 
@@ -276,7 +277,7 @@ def surface_and_rim():
             r += perimeter(a)
             geo.vertices.append((r * cos(a), r * sin(a), z + height))
             t = .5 + .34 * sin(a * 2 - .8) + .13 * sin(a * 7)
-            geo.colors.append(mix(rgb('B67C96'), rgb('F0C5A5'), t))
+            geo.colors.append(mix(rgb('C38D9A'), rgb('EFC6AC'), t))
             k, nxt = i * len(profile), ((i + 1) % count) * len(profile)
             h = (j + 1) % len(profile)
             geo.faces.append((k + j, nxt + j, nxt + h, k + h))
@@ -369,14 +370,14 @@ def underside():
         center = face.center
         color = mineral_color(*center)
         band = .5 + .5 * sin(center.z * 3.5 + math.atan2(center.y, center.x) * 1.7)
-        color = mix(color, rgb('A0D8D8'), .11 * band + (.06 if face.use_smooth else 0))
+        color = mix(color, rgb('B9E4E2'), .11 * band + (.06 if face.use_smooth else 0))
         for index in face.loop_indices:
             tint.data[index].color = (*color, 1)
     obj.data.color_attributes.active_color = tint
     obj.data.color_attributes.render_color_index = 0
 
 
-def prism(geo, position, width, height, lean, palette, seed, edges=None, transparent=False):
+def prism(geo, position, width, height, lean, palette, seed, edges=None, transparent=False, compact=False):
     local_rng = random.Random(seed)
     orientation = local_rng.random() * TAU
     radii = [width * local_rng.uniform(.78, 1.15) for _ in range(6)]
@@ -395,10 +396,18 @@ def prism(geo, position, width, height, lean, palette, seed, edges=None, transpa
     for i in range(6):
         k = (i + 1) % 6
         faces += [(i, k, k + 6, i + 6), (i + 6, k + 6, k + 12, i + 12), (i + 12, k + 12, 18)]
+    if compact:
+        # Tiny gravel keeps the original shoulder and tip; its buried base is a six-face taper.
+        coordinates.append((0, 0, -.035))
+        faces = []
+        for i in range(6):
+            k = (i + 1) % 6
+            faces += [(i + 12, k + 12, 18), (k + 12, i + 12, 19)]
     # Split vertices preserve planar normals and the distinct tint of each crystal face.
     palette = [rgb(c) for c in palette]
     for index, face in enumerate(faces):
-        tint = palette[(index * 7 + seed) % len(palette)]
+        facet = (3 * (index // 2) + (3 if index % 2 == 0 else 2)) if compact else index
+        tint = palette[(facet * 7 + seed) % len(palette)]
         transformed, colors = [], []
         for i in face:
             p = Vector(coordinates[i])
@@ -446,7 +455,7 @@ def crystalline_details():
         x, y = r * cos(a), r * sin(a)
         if math.hypot((x - 2.99) / .75, (y + .89) / .55) < 1:
             continue
-        prism(chips, (x, y, ground(x, y) - .024), rng.uniform(.025, .068), rng.uniform(.035, .09), (0, .17, a), palettes[i % 3], 700 + i)
+        prism(chips, (x, y, ground(x, y) - .024), rng.uniform(.025, .068), rng.uniform(.035, .09), (0, .17, a), palettes[i % 3], 700 + i, compact=True)
     chips.object('Island_Accents | Scattered opal gravel', groups['accents'], mats['mineral'], True)
 
 def ornamental_ring():
@@ -527,7 +536,8 @@ def vegetation():
         for frond in range(3):
             a = TAU * frond / 3 + plant_id * 1.2
             reach = Vector((cos(a) * height * .36, sin(a) * height * .36, height * (.85 + .12 * sin(frond))))
-            tube(stems, [base + reach * i / 9 for i in range(10)], [.008 * (1 - i / 12) for i in range(10)], 4, color=rgb('7DBDBD'))
+            # These stems are straight with linear taper, so two rings retain their shape.
+            tube(stems, [base, base + reach], [.008, .002], 4, color=rgb('7DBDBD'))
             for k in range(1, 6):
                 t = .17 + k * .12
                 stem = base + reach * t
@@ -545,7 +555,8 @@ def vegetation():
         height = rng.uniform(.08, .27)
         base = Vector((x, y, ground(x, y)))
         path = [base + Vector((cos(a) * height * .27 * t * t, sin(a) * height * .27 * t * t, height * t)) for t in [j / 7 for j in range(8)]]
-        tube(grasses, path, [.008 * (1 - j / 8) for j in range(8)], 4, color=rgb('A9BEBA'))
+        samples = (0, 2, 4, 7)
+        tube(grasses, [path[j] for j in samples], [.008 * (1 - j / 8) for j in samples], 4, color=rgb('A9BEBA'))
         tube(lights, path[-3:], [.005, .004, .001], 4)
     foliage.add(stems.vertices, stems.faces, stems.colors)
     foliage.add(grasses.vertices, grasses.faces, grasses.colors)
@@ -605,8 +616,8 @@ def preview_rig():
     world = bpy.data.worlds.new('SUP Preview Sky')
     world.use_nodes = True
     background = next(n for n in world.node_tree.nodes if n.type == 'BACKGROUND')
-    background.inputs['Color'].default_value = (*rgb('889DB8'), 1)
-    background.inputs['Strength'].default_value = .28
+    background.inputs['Color'].default_value = (*rgb('C5D3E6'), 1)
+    background.inputs['Strength'].default_value = .55
     scene.world = world
     try:
         scene.render.engine = 'CYCLES'
@@ -617,8 +628,12 @@ def preview_rig():
     scene.render.resolution_x = 1400
     scene.render.resolution_y = 1100
     scene.render.resolution_percentage = 100
-    # The static RNA enum does not expose every OCIO choice. Preserve the scene default.
-    scene.view_settings.exposure = -.2
+    # This OCIO view was verified in Blender's dynamic enum; static RNA only reports NONE.
+    try:
+        scene.view_settings.view_transform = 'Khronos PBR Neutral'
+    except TypeError:
+        pass  # Older OCIO configurations retain their available default preview view.
+    scene.view_settings.exposure = 0
     scene.render.film_transparent = False
     preview_backdrop(rig, camera)
 
@@ -640,8 +655,8 @@ def build():
         ('crystals', 'Island_Peripheral_Crystals'), ('ring', 'Island_Ornamental_Ring'),
         ('plants', 'Island_Vegetation'), ('accents', 'Island_Accents'), ('pond', 'Island_Pond')]}
     mats = {
-        'surface': material('SUP Opalescent ground', '6CA8B8', .39, .035, painted=True),
-        'mineral': material('SUP Layered turquoise mineral', '5F9AAE', .32, .12, painted=True),
+        'surface': material('SUP Opalescent ground', 'A2C8D8', .39, .035, painted=True),
+        'mineral': material('SUP Layered turquoise mineral', '8CBACD', .32, .12, painted=True),
         'copper': material('SUP Brushed rose gold', 'DFABAA', .26, .60, painted=True),
         'gold': material('SUP Champagne gold', 'E6C299', .24, .55),
         'silver': material('SUP Pearl water highlights', 'E3ECEB', .22, .12),

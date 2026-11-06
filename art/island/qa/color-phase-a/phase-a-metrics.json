@@ -1,0 +1,397 @@
+{
+  "tag": "phase-a",
+  "time": "2026-11-06T15:20:38.269Z",
+  "desktop": {
+    "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+    "canvas": [
+      780,
+      819
+    ],
+    "dpr": 1.5,
+    "toneMapping": 7,
+    "exposure": 1,
+    "outputColorSpace": "srgb",
+    "environmentIntensity": 0.55,
+    "passes": [
+      {
+        "name": "RenderPass",
+        "enabled": true
+      },
+      {
+        "name": "OutputPass",
+        "enabled": true
+      }
+    ],
+    "objects": [
+      {
+        "name": "타닥콩닥꽃",
+        "kind": "pair",
+        "position": [
+          -0.1207308704033494,
+          0,
+          0.7314516861923039
+        ]
+      },
+      {
+        "name": "살랑웅성꽃",
+        "kind": "pair",
+        "position": [
+          0.46300302911549807,
+          0,
+          1.4312063782475888
+        ]
+      },
+      {
+        "name": "타닥나무",
+        "kind": "flower",
+        "position": [
+          1.590052193030715,
+          0,
+          0.7971922869328409
+        ]
+      },
+      {
+        "name": "콩닥콩닥꽃",
+        "kind": "flower",
+        "position": [
+          -1.2092976868152618,
+          0,
+          1.773951774276793
+        ]
+      },
+      {
+        "name": "킥킥꽃",
+        "kind": "flower",
+        "position": [
+          -1.1430694490671158,
+          0,
+          0.3071280900854617
+        ]
+      },
+      {
+        "name": "살랑나무",
+        "kind": "flower",
+        "position": [
+          0.6343889150768518,
+          0,
+          0.26643168800510464
+        ]
+      },
+      {
+        "name": "웅성웅성꽃",
+        "kind": "flower",
+        "position": [
+          -0.45644662976264955,
+          0,
+          1.6461383739020674
+        ]
+      },
+      {
+        "name": "타닥타닥나무",
+        "kind": "flower",
+        "position": [
+          1.3820205345749856,
+          0,
+          -0.004869504412636161
+        ]
+      },
+      {
+        "name": "뚜벅나무",
+        "kind": "flower",
+        "position": [
+          -1.3477231968194248,
+          0,
+          -0.779242406366393
+        ]
+      }
+    ],
+    "island": [
+      "SOOP_Island"
+    ],
+    "memory": {
+      "geometries": 92,
+      "textures": 7
+    },
+    "programs": 11,
+    "glb": [
+      {
+        "size": 1577764,
+        "duration": 16.30000001192093,
+        "response": 200
+      }
+    ],
+    "rayTimer": true
+  },
+  "mobile": {
+    "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+    "canvas": [
+      630,
+      939
+    ],
+    "dpr": 1.5,
+    "toneMapping": 7,
+    "exposure": 1,
+    "outputColorSpace": "srgb",
+    "environmentIntensity": 0.55,
+    "passes": [
+      {
+        "name": "RenderPass",
+        "enabled": true
+      },
+      {
+        "name": "OutputPass",
+        "enabled": true
+      }
+    ],
+    "objects": [
+      {
+        "name": "타닥콩닥꽃",
+        "kind": "pair",
+        "position": [
+          -0.1207308704033494,
+          0,
+          0.7314516861923039
+        ]
+      },
+      {
+        "name": "살랑웅성꽃",
+        "kind": "pair",
+        "position": [
+          0.46300302911549807,
+          0,
+          1.4312063782475888
+        ]
+      },
+      {
+        "name": "타닥나무",
+        "kind": "flower",
+        "position": [
+          1.590052193030715,
+          0,
+          0.7971922869328409
+        ]
+      },
+      {
+        "name": "콩닥콩닥꽃",
+        "kind": "flower",
+        "position": [
+          -1.2092976868152618,
+          0,
+          1.773951774276793
+        ]
+      },
+      {
+        "name": "킥킥꽃",
+        "kind": "flower",
+        "position": [
+          -1.1430694490671158,
+          0,
+          0.3071280900854617
+        ]
+      },
+      {
+        "name": "살랑나무",
+        "kind": "flower",
+        "position": [
+          0.6343889150768518,
+          0,
+          0.26643168800510464
+        ]
+      },
+      {
+        "name": "웅성웅성꽃",
+        "kind": "flower",
+        "position": [
+          -0.45644662976264955,
+          0,
+          1.6461383739020674
+        ]
+      },
+      {
+        "name": "타닥타닥나무",
+        "kind": "flower",
+        "position": [
+          1.3820205345749856,
+          0,
+          -0.004869504412636161
+        ]
+      },
+      {
+        "name": "뚜벅나무",
+        "kind": "flower",
+        "position": [
+          -1.3477231968194248,
+          0,
+          -0.779242406366393
+        ]
+      }
+    ],
+    "island": [
+      "SOOP_Island"
+    ],
+    "memory": {
+      "geometries": 92,
+      "textures": 7
+    },
+    "programs": 11,
+    "glb": [
+      {
+        "size": 1577764,
+        "duration": 16.19999998807907,
+        "response": 200
+      }
+    ],
+    "rayTimer": true
+  },
+  "measurements": [
+    {
+      "name": "desktop-flowers",
+      "samples": 24,
+      "submitMs": {
+        "mean": 7.2958333268761635,
+        "median": 9,
+        "p95": 9.5,
+        "min": 1.800000011920929,
+        "max": 9.599999964237213
+      },
+      "intervalMs": {
+        "mean": 95.61304347929747,
+        "median": 95.09999996423721,
+        "p95": 101,
+        "min": 90.60000002384186,
+        "max": 108.80000001192093
+      },
+      "calls": {
+        "mean": 405,
+        "median": 405,
+        "p95": 405,
+        "min": 405,
+        "max": 405
+      },
+      "triangles": {
+        "mean": 81332,
+        "median": 81332,
+        "p95": 81332,
+        "min": 81332,
+        "max": 81332
+      }
+    },
+    {
+      "name": "desktop-island-only",
+      "samples": 24,
+      "submitMs": {
+        "mean": 2.4249999970197678,
+        "median": 0.7999999523162842,
+        "p95": 3.599999964237213,
+        "min": 0.5999999642372131,
+        "max": 37.5
+      },
+      "intervalMs": {
+        "mean": 62.786956520184226,
+        "median": 64.69999998807907,
+        "p95": 125.19999998807907,
+        "min": 6.300000011920929,
+        "max": 128
+      },
+      "calls": {
+        "mean": 26,
+        "median": 26,
+        "p95": 26,
+        "min": 26,
+        "max": 26
+      },
+      "triangles": {
+        "mean": 35436,
+        "median": 35436,
+        "p95": 35436,
+        "min": 35436,
+        "max": 35436
+      }
+    },
+    {
+      "name": "portrait-flowers",
+      "samples": 24,
+      "submitMs": {
+        "mean": 2.166666656732559,
+        "median": 2.099999964237213,
+        "p95": 2.800000011920929,
+        "min": 1.5999999642372131,
+        "max": 3
+      },
+      "intervalMs": {
+        "mean": 47.93478260869565,
+        "median": 44.40000003576279,
+        "p95": 46,
+        "min": 2.300000011920929,
+        "max": 167.0999999642372
+      },
+      "calls": {
+        "mean": 405,
+        "median": 405,
+        "p95": 405,
+        "min": 405,
+        "max": 405
+      },
+      "triangles": {
+        "mean": 81332,
+        "median": 81332,
+        "p95": 81332,
+        "min": 81332,
+        "max": 81332
+      }
+    }
+  ],
+  "picked": {
+    "x": 305,
+    "y": 368,
+    "choice": "킥킥꽃"
+  },
+  "orbitSide": {
+    "before": [
+      0,
+      5.7407245920921275,
+      13.77386237603891
+    ],
+    "after": [
+      12.400886762287957,
+      5.740724592092138,
+      5.994772077650016
+    ],
+    "changed": true
+  },
+  "orbitRear": {
+    "before": [
+      13.429411381771637,
+      5.740724592092142,
+      3.0610773745862114
+    ],
+    "after": [
+      8.862984516373011,
+      5.7407245920921435,
+      -10.543566294977882
+    ],
+    "changed": true
+  },
+  "beforeAdd": 9,
+  "afterAdd": {
+    "count": 11,
+    "opened": true,
+    "selected": "살랑나무"
+  },
+  "responses": [
+    {
+      "status": 200,
+      "type": "model/gltf-binary",
+      "url": "http://127.0.0.1:5173/models/island.glb"
+    },
+    {
+      "status": 200,
+      "type": "model/gltf-binary",
+      "url": "http://127.0.0.1:5173/models/island.glb"
+    }
+  ],
+  "failures": [],
+  "logs": [
+    "THREE.Clock: This module has been deprecated. Please use THREE.Timer instead."
+  ]
+}
