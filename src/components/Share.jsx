@@ -51,7 +51,7 @@ export default function ShareSheet({ flower, friend, friends, myFlowers, sentSha
         ) : (
           <>
             <h2 className="sheet-title">{friend.nickname}에게 공유할 소리를 골라요</h2>
-            {myFlowers.length === 0 && <p className="muted">아직 내 정원에 핀 소리가 없어요. 먼저 오늘의 소리를 녹음해 주세요.</p>}
+            {myFlowers.length === 0 && <p className="muted">아직 보낸 소리가 없어요. 먼저 오늘의 소리를 녹음해 주세요.</p>}
             <ul className="pick-grid">
               {[...myFlowers].reverse().map((f) => {
                 const done = shared(f.id, friend.user_id)

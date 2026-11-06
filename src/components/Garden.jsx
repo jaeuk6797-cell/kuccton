@@ -139,13 +139,17 @@ export default function Garden({ session, onSignOut, email, demo }) {
     setTimeout(() => setToast(''), 3500)
   }
 
-  async function handleSend(payload) {
+  // 오늘의 소리 보내기: 소리 파일과 꽃은 내 쪽에 한 번 저장하고(공유의 원본), 고른 친구들에게만 공유한다.
+  // 내 정원에는 내가 보낸 꽃이 피지 않는다 (받은 소리와 우리의 꽃만).
+  async function handleSend(payload, toUserIds) {
     const { blob, ...fields } = payload
+    if (!toUserIds?.length) throw new Error('받을 친구를 골라 주세요')
     const audio_path = await uploadAudio(session.gardenId, blob)
     const row = await insertFlower({ ...fields, audio_path, garden_id: session.gardenId, sender_id: meId, sent_date: today() })
-    markFresh(row.id)
+    await shareFlowers([row.id], toUserIds)
     setRecording(false)
     setTab('garden')
+    showToast(`${toUserIds.length}명에게 소리를 보냈어요`)
     await refresh()
   }
 
@@ -197,16 +201,18 @@ export default function Garden({ session, onSignOut, email, demo }) {
   if (data.friends.length === 0) status = { title: '아직 친구가 없어요', sub: '친구 코드로 친구를 맺으면 소리를 주고받을 수 있어요', onClick: () => setTab('friends') }
   else if (data.inbox.length) status = { title: `${josa(nameOf(data.inbox[data.inbox.length - 1].from_user), '이', '가')} 소리를 보냈어요`, sub: `받은 소리함에서 정원에 심을지 골라 주세요 · ${data.inbox.length}개`, onClick: () => setShowBell(true) }
   else if (todayPair) status = { title: `오늘 ‘${todayPair.name}’이 피었어요`, sub: '눌러서 두 소리를 함께 들어 보세요', onClick: () => setOpenPair(todayPair) }
-  else if (todayTheirs) status = { title: `${josa(nameOf(todayRecv.from_user), '이', '가')} ${timeOfDay(todayRecv.created_at)} 소리를 공유했어요`, sub: '나도 소리를 공유하면 우리의 꽃이 피어요', onClick: () => setOpenFlower(todayTheirs) }
-  else if (todayShared) status = { title: '오늘의 소리를 공유했어요', sub: `${nameOf(todayShared.to_user)}의 소리를 기다리고 있어요` }
-  else status = { title: '오늘은 아직 조용해요', sub: '소리를 심고 친구에게 공유해 보세요' }
+  else if (todayTheirs) status = { title: `${josa(nameOf(todayRecv.from_user), '이', '가')} ${timeOfDay(todayRecv.created_at)} 소리를 보냈어요`, sub: '나도 오늘의 소리를 보내면 우리의 꽃이 피어요', onClick: () => setOpenFlower(todayTheirs) }
+  else if (todayShared) status = { title: '오늘의 소리를 보냈어요', sub: `${nameOf(todayShared.to_user)}의 소리를 기다리고 있어요` }
+  else status = { title: '오늘은 아직 조용해요', sub: '오늘의 소리를 친구에게 보내 보세요' }
 
   const receivedCount = data.flowers.filter((f) => f.sender_id !== meId).length
   // 친구별 보기: 친구가 몇 명이든 같은 방식 (지금 DB는 정원당 2명이라 친구는 1명)
   const friends = data.members.filter((m) => m.id !== meId)
   const sentCount = (id) => data.flowers.filter((f) => f.sender_id === id).length
   const viewing = friends.some((m) => m.id === viewFriend) ? viewFriend : 'all'
-  const shownFlowers = viewing === 'all' ? data.flowers : data.flowers.filter((f) => f.sender_id === viewing)
+  // 내 정원에는 친구에게 받은 소리만 핀다 (내가 보낸 소리는 친구 정원에, 둘이 만나면 가운데 우리의 꽃)
+  const gardenFlowers = data.flowers.filter((f) => f.sender_id !== meId)
+  const shownFlowers = viewing === 'all' ? gardenFlowers : gardenFlowers.filter((f) => f.sender_id === viewing)
   const shownPairs = viewing === 'all' ? data.pairs : data.pairs.filter((p) =>
     flowerById[p.flower_a_id]?.sender_id === viewing || flowerById[p.flower_b_id]?.sender_id === viewing)
   const showFriend = (id) => { setViewFriend(id); setTab('garden') }
@@ -282,10 +288,10 @@ export default function Garden({ session, onSignOut, email, demo }) {
               </div>
             )}
           </div>
-          {data.flowers.length === 0 ? (
+          {gardenFlowers.length === 0 && data.pairs.length === 0 ? (
             <div className="empty-garden">
               <b>아직 핀 꽃이 없어요</b>
-              <small>지금 들리는 소리를 처음으로 심어 보세요</small>
+              <small>친구가 소리를 보내면 여기에 꽃이 피어요</small>
             </div>
           ) : (
             <div className={`hint ${hintOn ? '' : 'off'}`}>꽃이나 나무를 누르면 그날의 소리가 들려요 · 드래그로 둘러보기</div>
@@ -366,7 +372,7 @@ export default function Garden({ session, onSignOut, email, demo }) {
       )}
 
       {toast && <div className="toast">{toast}</div>}
-      {recording && <Recorder onClose={() => setRecording(false)} onSend={handleSend} />}
+      {recording && <Recorder onClose={() => setRecording(false)} onSend={handleSend} friends={data.friends} />}
       {openFlower && (
         <FlowerDetail
           flower={openFlower}
@@ -607,7 +613,7 @@ https://kuccton.vercel.app`
           })}
         </ul>
       )}
-      <p className="small muted">친구가 공유한 소리는 내 정원 왼쪽, 내 소리는 오른쪽에 꽃(말소리)이나 나무(그 밖의 소리)로 자라요. 같은 날 서로 공유한 소리를 둘 다 받으면 가운데에 우리의 꽃이 피어요. 친구가 정원을 공개하면 놀러 갈 수 있어요.</p>
+      <p className="small muted">친구가 보낸 소리는 받은 소리함에 도착하고, 심은 소리만 내 정원에 꽃(말소리)이나 나무(그 밖의 소리)로 자라요. 내가 보낸 소리는 친구 정원에 피어요. 같은 날 서로 보낸 소리를 둘 다 심으면 가운데에 우리의 꽃이 피어요. 친구가 정원을 공개하면 놀러 갈 수 있어요.</p>
     </div>
   )
 }
