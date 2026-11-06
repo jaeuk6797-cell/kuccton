@@ -482,3 +482,16 @@ h1, h2 { margin: 0; }
 /* 앨범: 꽃·나무·우리의 꽃 모두 같은 48×48 칸에 → 그림과 이름 줄이 나란히 맞는다 */
 .album-item { justify-content: flex-start; gap: 4px; }
 .album-item > svg { width: 48px; height: 48px; flex-shrink: 0; }
+
+/* 친구 페이지: 이름을 정확히 가운데로(제목의 메뉴 버튼용 오른쪽 여백을 쓰지 않음), 프로필을 누르면 정원 놀러 가기 */
+.friend-hero { width: 100%; padding: 6px 0 2px; border-radius: 20px; }
+.friend-hero:active { background: rgba(255,255,255,.4); }
+.friend-hero .page-title { padding-right: 0; text-align: center; }
+.friend-hero .visit-hint { color: var(--accent); font-weight: 600; font-size: 0.8rem; }
+/* 주고받은 소리: 받음/보냄 기록 */
+.history-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+.history-list li { border-bottom: 1px solid rgba(46,47,58,.08); }
+.history-list button { display: flex; align-items: center; gap: 10px; width: 100%; padding: 8px 2px; text-align: left; }
+.history-list .h-name { flex: 1; font-size: 0.92rem; }
+.history-list small { color: var(--muted); font-size: 0.78rem; white-space: nowrap; }
+.history-list li.out small { color: var(--accent-d); }
