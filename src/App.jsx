@@ -1,18 +1,144 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Garden from './components/Garden.jsx'
 import Flower from './components/Flower.jsx'
-import { configured, createGarden, joinGarden, savedSession, saveSession } from './lib/db.js'
+import {
+  configured, createGarden, joinGarden,
+  currentUser, onAuthChange, signIn, signUp, signOut, myLatestGarden,
+} from './lib/db.js'
 
+// 로그인 필수: 로그인 → (계정의 정원이 있으면 바로 입장 / 없으면 정원 만들기·코드 입장) → 정원
 export default function App() {
-  const [session, setSession] = useState(() => (configured ? savedSession() : null))
+  const [user, setUser] = useState(undefined) // undefined = 확인 중
+  const [garden, setGarden] = useState(undefined) // undefined = 찾는 중, null = 없음
+  const [choosing, setChoosing] = useState(false) // '다른 정원 열기'를 눌렀을 때
+
+  useEffect(() => {
+    if (!configured) return
+    currentUser().then(setUser)
+    return onAuthChange(setUser)
+  }, [])
+
+  // 로그인하면 그 계정의 정원을 찾는다
+  useEffect(() => {
+    if (!user) { setGarden(undefined); setChoosing(false); return }
+    let alive = true
+    setGarden(undefined)
+    myLatestGarden()
+      .then((g) => alive && setGarden(g))
+      .catch(() => alive && setGarden(null))
+    return () => { alive = false }
+  }, [user?.id])
 
   if (!configured) return <SetupNeeded />
-  if (session) return <Garden key={session.gardenId} session={session} onLeave={() => { saveSession(null); setSession(null) }} />
-  return <Entry onEnter={(s) => { saveSession(s); setSession(s) }} />
+  if (user === undefined || (user && garden === undefined)) return <Splash />
+  if (!user) return <AuthScreen />
+  if (!garden || choosing) {
+    return (
+      <GardenSetup
+        email={user.email}
+        onEnter={(g) => { setGarden(g); setChoosing(false) }}
+        onBack={garden ? () => setChoosing(false) : null}
+      />
+    )
+  }
+  return (
+    <Garden
+      key={garden.gardenId}
+      session={garden}
+      onLeave={() => setChoosing(true)}
+      onSignOut={signOut}
+      email={user.email}
+    />
+  )
 }
 
-// S1 입장: 정원 만들기(코드 발급) / 코드 입력, 닉네임
-function Entry({ onEnter }) {
+function Hero() {
+  return (
+    <div className="hero">
+      <Flower flower={{ color: 'hsl(335 70% 80%)', petals: 6, vowel: 'Y', consonant: '평', rms: 0.05 }} size={110} />
+      <h1>소리숲</h1>
+      <p className="slogan">말하지 않아도 괜찮아,<br />우리의 하루는 소리로 피어나.</p>
+    </div>
+  )
+}
+
+function Splash() {
+  return <div className="screen center-col entry"><div className="seed" /></div>
+}
+
+// 로그인 / 가입
+function AuthScreen() {
+  const [mode, setMode] = useState('login') // login | signup
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [password2, setPassword2] = useState('')
+  const [busy, setBusy] = useState(false)
+  const [error, setError] = useState('')
+  const [notice, setNotice] = useState('')
+
+  async function submit(e) {
+    e.preventDefault()
+    if (!email.trim() || !password) { setError('이메일과 비밀번호를 적어 주세요.'); return }
+    if (mode === 'signup' && password !== password2) { setError('비밀번호가 서로 달라요.'); return }
+    setBusy(true); setError(''); setNotice('')
+    try {
+      if (mode === 'signup') {
+        const { needsConfirm } = await signUp(email.trim(), password)
+        if (needsConfirm) {
+          setNotice('확인 메일을 보냈어요. 메일의 링크를 누른 뒤 로그인해 주세요.')
+          setMode('login')
+        }
+      } else {
+        await signIn(email.trim(), password)
+      }
+      // 로그인에 성공하면 App이 onAuthChange로 다음 화면으로 넘어간다
+    } catch (err) {
+      setError(err.message || String(err))
+    } finally { setBusy(false) }
+  }
+
+  const switchMode = (m) => { setMode(m); setError(''); setNotice('') }
+
+  return (
+    <div className="screen entry center-col">
+      <Hero />
+      <div className="auth-tabs">
+        <button className={mode === 'login' ? 'on' : ''} onClick={() => switchMode('login')}>로그인</button>
+        <button className={mode === 'signup' ? 'on' : ''} onClick={() => switchMode('signup')}>가입하기</button>
+      </div>
+      <form className="auth-form" onSubmit={submit}>
+        <label className="field">
+          이메일
+          <input type="email" autoComplete="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="name@example.com" />
+        </label>
+        <label className="field">
+          비밀번호
+          <input
+            type="password"
+            autoComplete={mode === 'login' ? 'current-password' : 'new-password'}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="6자 이상"
+          />
+        </label>
+        {mode === 'signup' && (
+          <label className="field">
+            비밀번호 확인
+            <input type="password" autoComplete="new-password" value={password2} onChange={(e) => setPassword2(e.target.value)} />
+          </label>
+        )}
+        <button className="primary wide" type="submit" disabled={busy}>
+          {busy ? '잠시만요…' : mode === 'login' ? '로그인' : '가입하고 시작하기'}
+        </button>
+      </form>
+      {notice && <p className="notice">{notice}</p>}
+      {error && <p className="error">{error}</p>}
+    </div>
+  )
+}
+
+// 정원 만들기 / 코드로 들어가기 (로그인한 뒤, 아직 정원이 없을 때)
+function GardenSetup({ email, onEnter, onBack }) {
   const [nickname, setNickname] = useState('')
   const [code, setCode] = useState('')
   const [busy, setBusy] = useState(false)
@@ -31,12 +157,10 @@ function Entry({ onEnter }) {
 
   return (
     <div className="screen entry center-col">
-      <div className="hero">
-        <Flower flower={{ color: 'hsl(335 70% 80%)', petals: 6, vowel: 'Y', consonant: '평', rms: 0.05 }} size={110} />
-        <h1>소리숲</h1>
-        <p className="slogan">말하지 않아도 괜찮아,<br />우리의 하루는 소리로 피어나.</p>
-      </div>
-
+      <Hero />
+      <p className="account-line">
+        {email}로 로그인됨 · <button className="link" onClick={signOut}>로그아웃</button>
+      </p>
       <label className="field">
         닉네임
         <input value={nickname} maxLength={12} onChange={(e) => setNickname(e.target.value)} placeholder="예: 여정" />
@@ -62,6 +186,7 @@ function Entry({ onEnter }) {
       <button className="ghost wide" disabled={busy || code.length !== 6} onClick={() => run(() => joinGarden(code, nickname.trim()))}>
         정원에 들어가기
       </button>
+      {onBack && <button className="link" onClick={onBack}>내 정원으로 돌아가기</button>}
 
       {error && <p className="error">{error}</p>}
     </div>
@@ -74,7 +199,7 @@ function SetupNeeded() {
       <h1>소리숲 설정이 필요해요</h1>
       <ol>
         <li>Supabase 프로젝트를 만들고 SQL Editor에서 <code>supabase/schema.sql</code>을 실행</li>
-        <li>Authentication에서 익명 로그인(Anonymous sign-ins) 켜기</li>
+        <li>Authentication에서 Email 로그인 켜기 (해커톤은 Confirm email 끄기 권장)</li>
         <li><code>.env.example</code>을 <code>.env</code>로 복사해 URL과 anon key 입력</li>
         <li>개발 서버 다시 시작</li>
       </ol>

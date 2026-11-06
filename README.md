@@ -8,7 +8,7 @@ React + Vite 웹앱을 Capacitor로 감싸 Android/iOS 앱으로 빌드합니다
 1. [supabase.com](https://supabase.com)에서 프로젝트 생성
 2. **SQL Editor**에서 `supabase/schema.sql` 실행
    이미 이전 버전 스키마를 실행했다면 `supabase/migrations-002.sql`만 실행하면 됩니다.
-3. **Authentication → Sign In / Providers → Anonymous sign-ins** 켜기
+3. **Authentication → Sign In / Providers → Email** 켜기. 해커톤 동안은 **Confirm email을 꺼 두세요**(기본 메일 발송은 시간당 몇 통으로 제한되고, 확인 링크를 눌러야 로그인됩니다). 로그인은 필수이며 익명 로그인은 쓰지 않습니다.
 4. `.env.example`을 `.env`로 복사하고 값 입력
    ```
    VITE_SUPABASE_URL=https://xxxx.supabase.co
@@ -34,7 +34,7 @@ npm install
 npm run dev          # http://localhost:5173
 npm run dev:phone    # 같은 와이파이의 폰에서 https://<PC IP>:5173
 ```
-두 사람 테스트는 **다른 브라우저나 시크릿 창**으로 하세요. 같은 브라우저는 익명 계정이 공유됩니다.
+두 사람 테스트는 계정 두 개로, **다른 브라우저나 시크릿 창**에서 각각 로그인하세요.
 
 ## 4. 앱 빌드 (Capacitor)
 
