@@ -7,7 +7,7 @@ export const configured = Boolean(url && key)
 export const supabase = configured ? createClient(url, key) : null
 
 const BUCKET = 'sounds'
-const SESSION_KEY = 'soop.session'
+const SESSION_KEY = 'sup.session'
 
 export async function ensureAuth() {
   const { data } = await supabase.auth.getSession()

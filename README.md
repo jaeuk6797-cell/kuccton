@@ -1,4 +1,4 @@
-# 소리숲 (SOOP)
+# 소리숲 (SUP)
 
 하루 10초의 소리를 주고받으면 의성어 이름을 가진 꽃으로 피어나는 두 사람만의 정원.
 React + Vite 웹앱을 Capacitor로 감싸 Android / iOS 앱으로 빌드하고, 서버는 Supabase 하나만 씁니다.

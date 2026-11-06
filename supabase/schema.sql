@@ -1,4 +1,4 @@
--- 소리숲(SOOP) Supabase 스키마
+-- 소리숲(SUP) Supabase 스키마
 -- Supabase 대시보드 > SQL Editor에 통째로 붙여 넣고 실행하세요.
 -- 실행 전: Authentication > Sign In / Providers > "Allow anonymous sign-ins"를 켜 주세요.
 
