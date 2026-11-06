@@ -8,6 +8,7 @@ export const configured = Boolean(url && key)
 export const supabase = configured ? createClient(url, key) : null
 
 const BUCKET = 'sounds'
+export const FRIEND_LIMIT = 20
 /** 정원에 심을 수 있는 최대 소리 수 (DB의 respond_share와 같아야 한다) */
 export const GARDEN_LIMIT = 50
 export const GARDEN_NEAR_FULL = 45
@@ -20,6 +21,8 @@ const errorText = (e) => {
   if (m.includes('GARDEN_FULL_50')) return `정원이 가득 찼어요(${GARDEN_LIMIT}송이). 정리한 뒤에 심어 주세요.`
   if (m.includes('GARDEN_FULL')) return '이미 두 사람이 가꾸는 정원이에요.'
   if (m.includes('ALREADY_PAIRED')) return '이미 다른 친구와 함께 가꾸는 정원이 있어요.'
+  if (m.includes('FRIEND_LIMIT_SELF')) return `친구는 최대 ${FRIEND_LIMIT}명까지 맺을 수 있어요.`
+  if (m.includes('FRIEND_LIMIT_OTHER')) return '상대방의 친구가 20명이라 지금은 친구를 맺을 수 없어요.'
   if (m.includes('SELF_FRIEND')) return '내 코드예요. 친구의 코드를 넣어 주세요.'
   if (m.includes('SHARE_NOT_FOUND')) return '이미 처리한 소리예요.'
   if (m.includes('NOT_AUTHENTICATED')) return '먼저 로그인해 주세요.'

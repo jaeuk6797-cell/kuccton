@@ -73,3 +73,6 @@ KUCC 동아리 해커톤(주제: 소리, 4인 팀) 출품작. 응답과 주석�
 - 웹 푸시는 `public/sw.js`, `src/lib/push.js`, `PushSettings.jsx`와 Supabase `sound-push` 함수로 처리한다. 갤럭시 지원 브라우저와 iOS 16.4+ 홈 화면 앱에서 나 탭의 ‘소리 도착 알림’을 직접 켠다. DB 수신 INSERT가 발송하며 앱이 열려 있을 필요는 없다. migrations-013.sql·Edge Function·VAPID 및 Vault 설정 필요(`supabase/PUSH_SETUP.md`). 로그아웃 시 기기 구독을 해제한다. 워커에는 fetch 캐시가 없다. 실제 두 기기 수신 검증은 서버 설정 후 진행한다.
 
 - 소리 UI는 `SoundPlayer.jsx`(숨긴 audio + 재생/일시정지·시간)로 통일한다. 우리의 꽃은 `audioLevel.js`의 `stereoWave`로 상대·나를 각각 왼쪽·오른쪽에 넣은 단일 WAV를 만들어 같은 플레이어로 재생한다. Web Audio 실시간 2중 재생은 사용하지 않는다.
+
+- 친구 최대 20명(`FRIEND_LIMIT`, migrations-014.sql). 양쪽 계정 한도를 DB 트리거에서도 검사한다. 초과한 기존 관계는 보존한다. 정원 상단 친구는 선택창의 핀으로 최대 3명, 기기·계정별 localStorage에 저장하며 검색칸은 두지 않는다.
+- 앨범 5열 고정, 연월 선택(기본 최근 연월/전체 연도로 모든 기록). 받은 소리함은 내용만큼 커지고 기본 항목 3개 높이에 고정해 4개부터 내부 스크롤한다.
