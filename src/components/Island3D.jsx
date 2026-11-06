@@ -147,20 +147,22 @@ function buildFlower(f, colors, size = 1) {
   const pr = (yang ? 0.12 : 0.155) * (0.9 + loud * 0.25)
   const petalMats = colors.map((c) => { const col = cssColor(c); return mat(col, { roughness: 0.6, emissive: col.clone().multiplyScalar(0.35) }) })
   for (let i = 0; i < n; i++) {
+    const L = f.lengths?.[i] ?? 1 // 파형 윤곽에 따른 꽃잎 길이
     const geo = pointed ? new THREE.ConeGeometry(pr * 0.55, pr * 2.2, 5) : new THREE.SphereGeometry(pr, 8, 6)
     const p = new THREE.Mesh(geo, petalMats[i % petalMats.length])
     const a = (i / n) * Math.PI * 2
     if (pointed) {
       p.rotation.z = -Math.PI / 2
-      p.position.x = pr * 1.1
+      p.scale.y = L
+      p.position.x = pr * 1.1 * L
       const pivot = new THREE.Group()
       pivot.rotation.y = a
       pivot.rotation.z = 0.75
       pivot.add(p)
       head.add(pivot)
     } else {
-      p.scale.set(1.3, 0.32, yang ? 0.75 : 0.95)
-      p.position.x = pr * 1.0
+      p.scale.set(1.3 * L, 0.32, yang ? 0.75 : 0.95)
+      p.position.x = pr * 1.0 * L
       const pivot = new THREE.Group()
       pivot.rotation.y = a
       pivot.rotation.z = 0.7 // 꽃잎을 위로 세워 컵 모양으로

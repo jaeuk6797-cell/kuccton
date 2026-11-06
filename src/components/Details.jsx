@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import Flower from './Flower.jsx'
 import { audioUrl } from '../lib/db.js'
 import { audioCtx, peaks, playStereo, toMono } from '../lib/audio.js'
-import { CATEGORIES } from '../lib/naming.js'
+import { categoryLabel } from '../lib/naming.js'
 
 // S5 꽃 상세
 export function FlowerDetail({ flower, sender, mine, onClose, onDelete }) {
@@ -26,7 +26,7 @@ export function FlowerDetail({ flower, sender, mine, onClose, onDelete }) {
         <p className="reason">{flower.reason}</p>
         {flower.transcript && <p className="hanamal-view">꽃말: “{flower.transcript}”</p>}
         <p className="muted small">
-          {mine ? '내가 보낸 꽃' : `${sender?.nickname || '상대'}가 보낸 꽃`} · {flower.sent_date} · {CATEGORIES[flower.category]?.label}
+          {mine ? '내가 보낸 꽃' : `${sender?.nickname || '상대'}가 보낸 꽃`} · {flower.sent_date} · {categoryLabel(flower.category)}
         </p>
         {url ? <audio ref={audioRef} src={url} controls className="preview-audio" /> : <p className="muted">소리를 불러오는 중…</p>}
         {mine && (

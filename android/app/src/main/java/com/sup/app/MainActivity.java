@@ -1,4 +1,4 @@
-package com.soop.app;
+package com.sup.app;
 
 import com.getcapacitor.BridgeActivity;
 

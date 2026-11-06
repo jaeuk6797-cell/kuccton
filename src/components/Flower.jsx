@@ -1,5 +1,6 @@
 // 파라미터로 꽃잎을 만드는 SVG 꽃 (PRD 4.4)
 // 양성모음: 작고 둥근 꽃잎·파스텔 / 음성모음: 크고 넓은 꽃잎·진한 톤 / 경음·격음: 끝이 뾰족 / onset → 꽃잎 수
+// lengths: 꽃잎별 길이 배율 = 시간에 따른 소리 크기(파형 윤곽). 앞 꽃잎이 소리의 처음, 뒤 꽃잎이 끝
 function petalPath(len, w, pointed) {
   if (pointed) return `M0 0 C ${w} ${-len * 0.35}, ${w * 0.55} ${-len * 0.82}, 0 ${-len} C ${-w * 0.55} ${-len * 0.82}, ${-w} ${-len * 0.35}, 0 0 Z`
   return `M0 0 C ${w * 1.05} ${-len * 0.25}, ${w * 1.05} ${-len}, 0 ${-len} C ${-w * 1.05} ${-len}, ${-w * 1.05} ${-len * 0.25}, 0 0 Z`
@@ -37,7 +38,7 @@ export default function Flower({ flower, colors, size = 96, stem = true, bloom =
             <path
               className="petal"
               style={{ '--i': i }}
-              d={petalPath(len, w, pointed)}
+              d={petalPath(len * (flower.lengths?.[i] ?? 1), w, pointed)}
               fill={palette[i % palette.length]}
               stroke="rgba(0,0,0,.08)"
               strokeWidth="0.8"

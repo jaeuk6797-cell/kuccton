@@ -1,3 +1,5 @@
+// [보관용] feat/3d 브랜치의 R3F 꽃 생성기. 현재 앱은 three.js로 직접 그린 Island3D.jsx를 쓰며 이 파일은 import하지 않는다.
+// 다시 쓰려면 @react-three/fiber, @react-three/drei를 설치해야 한다.
 // 꽃 데이터 → 절차 생성 3D 꽃 (PRD 4.4 외형 매핑)
 // 꽃잎 수 = onset, 겹 수 = 모음(양성 2겹 / 음성 3겹), 뾰족한 꽃잎 = 된소리·거센소리,
 // 크기 = 음량, 중심 발광 = glow, 색 = 카테고리.

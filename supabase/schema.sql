@@ -1,4 +1,4 @@
--- 소리숲(SOOP) Supabase 스키마
+-- 소리숲(SUP) Supabase 스키마
 -- Supabase 대시보드 > SQL Editor에 통째로 붙여 넣고 실행하세요.
 -- 실행 전: Authentication > Sign In / Providers > "Allow anonymous sign-ins"를 켜 주세요.
 
@@ -25,7 +25,7 @@ create table if not exists public.flowers (
   garden_id uuid not null references public.gardens(id) on delete cascade,
   sender_id uuid not null references public.members(id) on delete cascade,
   audio_path text not null,
-  category text not null,
+  category text not null,    -- 목소리: 감정 꽃 id(joy, calm …) / 다른 소리: 'sound'
   root text not null,
   name text not null,
   reason text,
@@ -33,6 +33,7 @@ create table if not exists public.flowers (
   rms real, centroid real, attack real, onsets int,
   vowel text, consonant text,
   color text, petals int,
+  lengths real[],             -- 꽃잎별 길이 = 시간에 따른 소리 크기
   sent_date date not null,
   created_at timestamptz not null default now()
 );

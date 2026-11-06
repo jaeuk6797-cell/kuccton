@@ -1,21 +1,28 @@
 import { useEffect, useRef, useState } from 'react'
 import Flower from './Flower.jsx'
-import { decodeBlob, extractFeatures, pickMimeType, resample, toMono, audioCtx } from '../lib/audio.js'
-import { classify } from '../lib/classify.js'
+import { pickMimeType, audioCtx } from '../lib/audio.js'
+import { extractFeatures } from '../lib/soundFeatures.js'
+import { CATEGORIES, buildFlower, buildSoundFlower, voiceCategory } from '../lib/flower.js'
+import { analyzeEmotion, emotionEnabled } from '../lib/emotion.js'
+import { toFlowerRow } from '../lib/naming.js'
 import { startLiveTranscript, canDictate, dictateOnce } from '../lib/stt.js'
-import { CATEGORIES, VOICE_CATEGORIES, makeName, flowerLook } from '../lib/naming.js'
 
 const MAX_SEC = 10
 
-// S3 녹음 → (분류 애매하면 카테고리 선택) → S4 꽃 미리보기
+// S3 녹음 → S4 꽃 미리보기
+// 녹음 전에 '사람 목소리 / 다른 소리'를 고른다.
+//  - 목소리: 감정 분석 서버 결과로 감정 꽃을 고르고, STT 문장을 꽃말로 붙인다. 서버가 안 되면 감정을 직접 고른다.
+//  - 다른 소리: 분류하지 않고 크기·밝기·세기·리듬·파형으로 바로 꽃을 만든다.
 export default function Recorder({ onClose, onSend }) {
+  const [kind, setKind] = useState('') // 'voice' | 'other'
   const [step, setStep] = useState('idle') // idle | recording | analyzing | choose | preview | sending
   const [left, setLeft] = useState(MAX_SEC)
   const [blob, setBlob] = useState(null)
   const [blobUrl, setBlobUrl] = useState(null)
   const [features, setFeatures] = useState(null)
-  const [classResult, setClassResult] = useState(null)
-  const [category, setCategory] = useState(null)
+  const [emotion, setEmotion] = useState(null)
+  const [emotionError, setEmotionError] = useState('')
+  const [category, setCategory] = useState('')
   const [transcript, setTranscript] = useState('')
   const [error, setError] = useState('')
   const [dictating, setDictating] = useState(false)
@@ -35,17 +42,17 @@ export default function Recorder({ onClose, onSend }) {
     cancelAnimationFrame(rafRef.current)
     clearInterval(timerRef.current)
     streamRef.current?.getTracks().forEach((t) => t.stop())
-    try { sttRef.current?.stop() } catch {}
+    sttRef.current?.stop()
   }
 
   async function start() {
-    setError('')
-    setBlob(null); setFeatures(null); setClassResult(null); setCategory(null); setTranscript('')
+    setError(''); setEmotionError('')
+    setBlob(null); setFeatures(null); setEmotion(null); setCategory(''); setTranscript('')
     let stream
     try {
       stream = await navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: false, noiseSuppression: false, autoGainControl: false } })
     } catch {
-      setError('마이크를 쓸 수 없어요. 브라우저 권한과 https 접속을 확인해 주세요.')
+      setError('마이크를 쓸 수 없어요. 마이크 권한과 https 접속을 확인해 주세요.')
       return
     }
     streamRef.current = stream
@@ -57,15 +64,13 @@ export default function Recorder({ onClose, onSend }) {
       cleanup()
       const b = new Blob(chunks, { type: rec.mimeType || mimeType || 'audio/webm' })
       setBlob(b)
-      const u = URL.createObjectURL(b)
-      setBlobUrl(u)
+      setBlobUrl(URL.createObjectURL(b))
       analyze(b)
-      // 미리 듣기 자동 재생
-      setTimeout(() => audioRef.current?.play().catch(() => {}), 50)
+      setTimeout(() => audioRef.current?.play().catch(() => {}), 50) // 미리 듣기 자동 재생
     }
     recRef.current = rec
     rec.start()
-    startSTT()
+    sttRef.current = kind === 'voice' ? startLiveTranscript() : null
     drawLive(stream)
     const t0 = Date.now()
     setLeft(MAX_SEC)
@@ -82,26 +87,11 @@ export default function Recorder({ onClose, onSend }) {
     if (recRef.current?.state === 'recording') recRef.current.stop()
   }
 
-  function startSTT() {
-    sttRef.current = startLiveTranscript()
-  }
-
-  async function dictate() {
-    setDictating(true); setError('')
-    try {
-      const t = await dictateOnce()
-      if (t) setTranscript(t)
-    } catch (e) {
-      setError(e.message || String(e))
-    } finally { setDictating(false) }
-  }
-
   function drawLive(stream) {
     const ctx = audioCtx()
-    const src = ctx.createMediaStreamSource(stream)
     const an = ctx.createAnalyser()
     an.fftSize = 2048
-    src.connect(an)
+    ctx.createMediaStreamSource(stream).connect(an)
     const data = new Uint8Array(an.fftSize)
     const loop = () => {
       const c = canvasRef.current
@@ -111,7 +101,7 @@ export default function Recorder({ onClose, onSend }) {
         an.getByteTimeDomainData(data)
         g.clearRect(0, 0, w, h)
         g.lineWidth = 3
-        g.strokeStyle = '#5c8a4a'
+        g.strokeStyle = '#c4573a'
         g.beginPath()
         for (let i = 0; i < data.length; i += 8) {
           const x = (i / data.length) * w
@@ -128,17 +118,25 @@ export default function Recorder({ onClose, onSend }) {
   async function analyze(b) {
     setStep('analyzing')
     try {
-      const buf = await decodeBlob(b)
-      const mono = toMono(buf)
-      const f = extractFeatures(mono, buf.sampleRate)
+      const f = await extractFeatures(b)
       setFeatures(f)
-      // STT는 녹음이 끝난 뒤 조금 더 결과가 들어올 수 있음
+      if (kind === 'other') { setStep('preview'); return }
+
       setTimeout(() => setTranscript((t) => t || sttRef.current?.text || ''), 600)
-      const samples16k = await resample(buf, 16000)
-      const r = await classify(samples16k, 3000)
-      setClassResult(r)
-      if (r?.category) { setCategory(r.category); setStep('preview') }
-      else setStep('choose')
+      if (!emotionEnabled) {
+        setEmotionError('감정 분석 서버 주소(VITE_EMOTION_API_URL)가 설정되지 않았어요.')
+        setStep('choose')
+        return
+      }
+      try {
+        const r = await analyzeEmotion(b)
+        setEmotion(r)
+        setCategory(voiceCategory(r, f))
+        setStep('preview')
+      } catch (e) {
+        setEmotionError(`${e.message || e} — 감정 분석 서버가 켜져 있는지 확인해 주세요.`)
+        setStep('choose')
+      }
     } catch (e) {
       console.error(e)
       setError('소리를 분석하지 못했어요. 다시 녹음해 주세요.')
@@ -146,35 +144,25 @@ export default function Recorder({ onClose, onSend }) {
     }
   }
 
-  const named = category && features ? makeName(category, features) : null
-  const look = named ? flowerLook(category, features, named.axes) : null
-  const preview = named && {
-    ...look,
-    vowel: named.axes.vowel,
-    consonant: named.axes.consonant,
-    rms: features.rms,
+  async function dictate() {
+    setDictating(true); setError('')
+    try {
+      const t = await dictateOnce()
+      if (t) setTranscript(t)
+    } catch (e) {
+      setError(e.message || String(e))
+    } finally { setDictating(false) }
   }
-  const isVoice = VOICE_CATEGORIES.includes(category)
+
+  let flower = null
+  if (features && kind === 'other') flower = buildSoundFlower(features)
+  else if (features && kind === 'voice' && category) flower = buildFlower(category, features, emotion?.intensity)
+  const row = flower && toFlowerRow({ flower, features, kind, category, transcript: kind === 'voice' ? transcript.trim() : null })
 
   async function send() {
     setStep('sending')
     try {
-      await onSend({
-        blob,
-        category,
-        root: named.root,
-        name: named.name,
-        reason: named.reason,
-        transcript: isVoice && transcript.trim() ? transcript.trim() : null,
-        rms: features.rms,
-        centroid: features.centroid,
-        attack: features.attack,
-        onsets: features.onsets,
-        vowel: named.axes.vowel,
-        consonant: named.axes.consonant,
-        color: look.color,
-        petals: look.petals,
-      })
+      await onSend({ blob, ...row })
     } catch (e) {
       console.error(e)
       setError(`보내지 못했어요: ${e.message || e}`)
@@ -189,12 +177,21 @@ export default function Recorder({ onClose, onSend }) {
 
         {(step === 'idle' || step === 'recording') && (
           <>
-            <h2>오늘의 소리</h2>
-            <p className="muted">지금 들리는 소리를 10초까지 담아 보세요.</p>
+            <h2 className="sheet-title">오늘의 소리</h2>
+            <p className="muted">어떤 소리를 남길까요?</p>
+            <div className="kind-toggle">
+              {[['voice', '사람 목소리'], ['other', '다른 소리']].map(([id, label]) => (
+                <button key={id} className={kind === id ? 'on' : ''} onClick={() => setKind(id)} disabled={step === 'recording'}>
+                  {label}
+                </button>
+              ))}
+            </div>
             <canvas ref={canvasRef} className="wave" width="600" height="140" />
-            <div className="timer">{step === 'recording' ? `${left.toFixed(1)}초 남음` : '최대 10초'}</div>
+            <div className="timer">
+              {step === 'recording' ? `${left.toFixed(1)}초 남음` : kind ? '최대 10초' : '먼저 소리 종류를 골라 주세요'}
+            </div>
             {step === 'idle' ? (
-              <button className="rec-btn" onClick={start} aria-label="녹음 시작"><span /></button>
+              <button className="rec-btn" onClick={start} disabled={!kind} aria-label="녹음 시작"><span /></button>
             ) : (
               <button className="rec-btn recording" onClick={stop} aria-label="녹음 멈추기"><span /></button>
             )}
@@ -204,44 +201,53 @@ export default function Recorder({ onClose, onSend }) {
         {step === 'analyzing' && (
           <div className="center-col">
             <div className="seed" />
-            <p>어떤 소리인지 듣고 있어요…</p>
+            <p>{kind === 'voice' ? '목소리의 감정을 읽고 있어요…' : '소리의 모양을 살피고 있어요…'}</p>
           </div>
         )}
 
         {step === 'choose' && (
           <>
-            <h2>어떤 소리였나요?</h2>
-            <p className="muted">
-              {classResult ? '소리를 확실히 알아듣지 못했어요.' : '분류 모델을 쓸 수 없어 직접 골라 주세요.'}
-              {classResult?.top && <><br /><small>들린 것: {classResult.top.join(', ')}</small></>}
-            </p>
-            <CategoryGrid suggestion={classResult?.suggestion} onPick={(c) => { setCategory(c); setStep('preview') }} />
+            <h2 className="sheet-title">어떤 마음이 담긴 목소리인가요?</h2>
+            {emotionError && <p className="muted small">{emotionError}</p>}
+            <div className="cat-grid">
+              {CATEGORIES.map((c) => (
+                <button key={c.id} className={c.id === category ? 'suggested' : ''} onClick={() => { setCategory(c.id); setStep('preview') }}>
+                  <b>{c.label}</b>
+                  <small>{c.base}</small>
+                </button>
+              ))}
+            </div>
           </>
         )}
 
-        {(step === 'preview' || step === 'sending') && named && (
+        {(step === 'preview' || step === 'sending') && flower && (
           <div className="center-col">
-            <Flower flower={preview} size={140} />
-            <h2 className="flower-name">{named.name}</h2>
-            <p className="reason">{named.reason}</p>
-            <button className="link" onClick={() => setStep('choose')}>
-              {CATEGORIES[category].label} 소리가 아니에요
-            </button>
-            {isVoice && (
-              <label className="hanamal">
-                꽃말
-                <textarea
-                  value={transcript}
-                  onChange={(e) => setTranscript(e.target.value)}
-                  placeholder="들린 말을 적어 두세요 (비워도 괜찮아요)"
-                  rows={2}
-                />
-                {canDictate && (
-                  <button className="ghost small-btn" onClick={dictate} disabled={dictating}>
-                    {dictating ? '듣고 있어요… 꽃말을 말해 주세요' : '🎙 말로 적기'}
-                  </button>
+            <Flower flower={row} size={140} />
+            <h2 className="flower-name">{flower.name}</h2>
+            <p className="reason">{flower.reason}</p>
+            {kind === 'voice' && (
+              <>
+                {emotion && (
+                  <p className="muted small">
+                    읽은 감정: {emotion.emotion} · 강도 {Number(emotion.intensity).toFixed(2)}
+                  </p>
                 )}
-              </label>
+                <button className="link" onClick={() => setStep('choose')}>다른 마음이었어요</button>
+                <label className="hanamal">
+                  꽃말
+                  <textarea
+                    value={transcript}
+                    onChange={(e) => setTranscript(e.target.value)}
+                    placeholder="들린 말을 적어 두세요 (비워도 괜찮아요)"
+                    rows={2}
+                  />
+                  {canDictate && (
+                    <button className="ghost small-btn" onClick={dictate} disabled={dictating}>
+                      {dictating ? '듣고 있어요… 꽃말을 말해 주세요' : '🎙 말로 적기'}
+                    </button>
+                  )}
+                </label>
+              </>
             )}
             <div className="row">
               <button className="ghost" onClick={() => setStep('idle')} disabled={step === 'sending'}>다시 녹음</button>
@@ -257,19 +263,6 @@ export default function Recorder({ onClose, onSend }) {
         )}
         {error && <p className="error">{error}</p>}
       </div>
-    </div>
-  )
-}
-
-function CategoryGrid({ suggestion, onPick }) {
-  return (
-    <div className="cat-grid">
-      {Object.entries(CATEGORIES).map(([id, c]) => (
-        <button key={id} className={id === suggestion ? 'suggested' : ''} onClick={() => onPick(id)}>
-          <b>{c.label}</b>
-          <small>{c.root}</small>
-        </button>
-      ))}
     </div>
   )
 }

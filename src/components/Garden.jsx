@@ -5,7 +5,6 @@ import Recorder from './Recorder.jsx'
 import { FlowerDetail, PairDetail } from './Details.jsx'
 import { Bell, Disc, Heart, Mic, Sprout, User, Users, Wave } from './Icons.jsx'
 import { deleteFlower, ensurePairs, insertFlower, loadGarden, subscribeGarden, today, uploadAudio } from '../lib/db.js'
-import { preloadClassifier } from '../lib/classify.js'
 
 // 받침에 따라 조사 고르기
 const hasBatchim = (w = '') => {
@@ -42,7 +41,6 @@ export default function Garden({ session, onLeave }) {
     }
   }, [session.gardenId])
 
-  useEffect(() => { preloadClassifier().catch(() => {}) }, [])
   useEffect(() => {
     refresh()
     return subscribeGarden(session.gardenId, (kind, row) => {
