@@ -17,7 +17,7 @@ import { categoryLabel } from '../lib/naming.js'
 import { displayName, noun } from '../lib/tree.js'
 
 // S5 꽃 상세
-export function FlowerDetail({ flower, sender, mine, sharedWith = [], onShare, onClose, onDelete }) {
+export function FlowerDetail({ flower, sender, mine, sharedWith = [], onShare, onAccept, onDecline, onClose, onDelete }) {
   const [url, setUrl] = useState(null)
   const [confirm, setConfirm] = useState(false)
   const audioRef = useRef(null)
@@ -49,10 +49,16 @@ export function FlowerDetail({ flower, sender, mine, sharedWith = [], onShare, o
           onPause={() => setPlaybackLevelSource(null)}
           onEnded={() => setPlaybackLevelSource(null)}
         /> : <p className="muted">소리를 불러오는 중…</p>}
+        {onAccept && (
+          <div className="row">
+            <button className="ghost" onClick={onDecline}>괜찮아요</button>
+            <button className="primary" onClick={onAccept}>정원에 심기</button>
+          </div>
+        )}
         {mine && onShare && (
           <>
             <button className="primary" onClick={onShare}>친구에게 공유</button>
-            {sharedWith.length > 0 && <p className="muted small">{sharedWith.join(', ')}에게 공유했어요</p>}
+            {sharedWith.length > 0 && <p className="muted small">공유한 친구 · {sharedWith.join(', ')}</p>}
           </>
         )}
         {mine && (
