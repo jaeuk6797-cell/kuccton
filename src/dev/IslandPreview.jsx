@@ -2,26 +2,25 @@
 // 실제 앱과 같은 naming.js 규칙으로 가짜 flowers / pair_flowers 행을 만들어 Island3D에 넣는다.
 import { useMemo, useState } from 'react'
 import Island3D from '../components/Island3D.jsx'
-import { pairName, toFlowerRow } from '../lib/naming.js'
 import { buildFlower, buildSoundFlower } from '../lib/flower.js'
+import { toFlowerRow, pairName } from '../lib/naming.js'
 
 const ME = 'me'
 const PARTNER = 'partner'
 const DAY = 86400000
 
-// [종류, 감정 꽃 id(목소리만), 음향 특징, 꽃말]
+// 파형 윤곽(envelope): 꽃잎별 길이에 쓰인다
 const env = (...v) => v
+// [종류, 감정 카테고리(목소리만), 음향 특징, 꽃말]
 const SAMPLES = [
-  ['other', null, { rms: 0.03, centroid: 3200, attack: 0.7, onsets: 3, sustain: 0.3, envelope: env(1, 0.4, 0.9, 0.3, 0.8, 0.2, 0.5, 0.1) }, null],
-  ['voice', 'cozy', { rms: 0.02, centroid: 2600, attack: 0.1, onsets: 3, sustain: 0.7, envelope: env(0.5, 0.8, 1, 0.9, 0.7, 0.6, 0.4, 0.2) }, '오늘도 고생했어'],
-  ['voice', 'joy', { rms: 0.09, centroid: 2500, attack: 0.5, onsets: 5, sustain: 0.6, envelope: env(0.6, 1, 0.7, 0.9, 0.8, 1, 0.6, 0.3) }, null],
-  ['voice', 'calm', { rms: 0.12, centroid: 1500, attack: 0.4, onsets: 6, sustain: 0.8, envelope: env(0.7, 0.9, 1, 0.8, 0.9, 0.7, 0.8, 0.5) }, '저녁 맛있게 먹어!'],
-  ['other', null, { rms: 0.11, centroid: 1400, attack: 0.2, onsets: 2, sustain: 0.4, envelope: env(1, 0.3, 0.2, 0.9, 0.3, 0.1, 0.1, 0.1) }, null],
-  ['other', null, { rms: 0.03, centroid: 3800, attack: 0.5, onsets: 4, sustain: 0.4, envelope: env(0.8, 0.3, 1, 0.4, 0.9, 0.3, 0.7, 0.2) }, null],
-  ['other', null, { rms: 0.14, centroid: 900, attack: 0.1, onsets: 1, sustain: 0.9, envelope: env(0.8, 0.9, 1, 1, 0.9, 0.9, 0.8, 0.7) }, null],
-  ['other', null, { rms: 0.04, centroid: 3000, attack: 0.7, onsets: 6, sustain: 0.3, envelope: env(0.9, 1, 0.8, 0.9, 1, 0.7, 0.9, 0.6) }, null],
-  ['voice', 'excited', { rms: 0.06, centroid: 2100, attack: 0.2, onsets: 3, sustain: 0.7, envelope: env(0.4, 0.7, 1, 0.8, 0.9, 0.6, 0.5, 0.3) }, '랄라~'],
-  ['other', null, { rms: 0.05, centroid: 2400, attack: 0.1, onsets: 1, sustain: 0.8, envelope: env(0.6, 0.7, 0.8, 0.9, 1, 0.9, 0.8, 0.7) }, null],
+  ['sound', null, { rms: 0.03, centroid: 3200, attack: 0.6, onsets: 3, sustain: 0.2, envelope: env(0.9, 0.3, 0.8, 0.2, 0.7, 0.1) }, null],
+  ['voice', 'flutter', { rms: 0.02, centroid: 2600, attack: 0.1, onsets: 3, sustain: 0.6, envelope: env(0.4, 0.6, 0.5, 0.7, 0.4) }, '오늘도 고생했어'],
+  ['voice', 'joy', { rms: 0.09, centroid: 2500, attack: 0.55, onsets: 5, sustain: 0.4, envelope: env(1, 0.6, 0.9, 0.5, 0.8, 0.4) }, '하하 진짜 웃기다'],
+  ['voice', 'calm', { rms: 0.12, centroid: 1500, attack: 0.3, onsets: 6, sustain: 0.7, envelope: env(0.6, 0.7, 0.6, 0.8, 0.7, 0.6) }, '저녁 맛있게 먹어!'],
+  ['sound', null, { rms: 0.12, centroid: 1200, attack: 0.3, onsets: 2, sustain: 0.3, envelope: env(1, 0.4, 0.9, 0.3) }, null],
+  ['sound', null, { rms: 0.04, centroid: 3600, attack: 0.1, onsets: 1, sustain: 0.9, envelope: env(0.5, 0.7, 0.8, 0.7, 0.6) }, null],
+  ['voice', 'cozy', { rms: 0.03, centroid: 1800, attack: 0.1, onsets: 2, sustain: 0.8, envelope: env(0.5, 0.6, 0.5) }, '잘 자'],
+  ['sound', null, { rms: 0.05, centroid: 3000, attack: 0.7, onsets: 7, sustain: 0.1, envelope: env(1, 0.2, 0.9, 0.3, 1, 0.2, 0.8) }, null],
 ]
 
 let seq = 0

@@ -117,8 +117,9 @@ export function buildFlower3D(f, colors = [f.color], { pair = false } = {}) {
       pivot.rotation.y = (j / prm.petals) * Math.PI * 2 + (i * Math.PI) / prm.petals
       const mesh = new THREE.Mesh(geos[j % geos.length], petalMat)
       mesh.rotation.x = CLOSED_TILT
-      // 바깥 겹 꽃잎 길이 = 시간에 따른 소리 크기(파형 윤곽). 앞 꽃잎이 소리의 처음, 뒤 꽃잎이 끝
-      if (i === 0 && f.lengths?.length) mesh.scale.y = f.lengths[Math.floor((j / prm.petals) * f.lengths.length)] ?? 1
+      // 파형 윤곽 = 꽃잎별 길이 (feat/integrate의 lengths, 바깥 겹에서 가장 뚜렷하게)
+      const L = clamp(f.lengths?.[j] ?? 1, 0.4, 1.6)
+      mesh.scale.y = 1 + (L - 1) * (1 - i * 0.35)
       pivot.add(mesh)
       layer.add(pivot)
       petals.push({ mesh, openTilt: 1.4 - i * 0.42, delay: i * 0.15 })
