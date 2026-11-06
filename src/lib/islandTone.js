@@ -1,4 +1,32 @@
 import * as THREE from 'three'
+import { BALANCED_GRASS_MIDTONE } from './islandGrass.js'
+
+// Apply only to a planting-surface clone: the pond shares its authored material.
+export function applyBalancedGroundMaterial(material) {
+  material.color.setHex(BALANCED_GRASS_MIDTONE)
+  material.roughness = 0.90
+  material.metalness = 0
+  material.clearcoat = 0
+  material.clearcoatRoughness = 1
+  material.iridescence = 0
+  material.envMapIntensity = 0.20
+  material.normalScale?.multiplyScalar(0.35)
+  material.userData.balancedGround = true
+}
+
+// Keep gentle authored luminance variation, removing the opal hue from the grass bed.
+export function applyBalancedGroundPaint(colors) {
+  let sum = 0
+  for (let i = 0; i < colors.count; i++) {
+    sum += colors.getX(i) * 0.2126 + colors.getY(i) * 0.7152 + colors.getZ(i) * 0.0722
+  }
+  const average = Math.max(sum / Math.max(colors.count, 1), 1e-5)
+  for (let i = 0; i < colors.count; i++) {
+    const luminance = colors.getX(i) * 0.2126 + colors.getY(i) * 0.7152 + colors.getZ(i) * 0.0722
+    const shade = THREE.MathUtils.clamp(1 + (luminance / average - 1) * 0.40, 0.96, 1.04)
+    colors.setXYZ(i, shade, shade, shade)
+  }
+}
 
 const FACET_TINTS = {
   'SUP Lavender quartz': ['#d7afd4', 0.62],
