@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import Flower from './Flower.jsx'
+import PageHeading from './PageHeading.jsx'
 import { Bell, Heart, Mic, Sprout, Users } from './Icons.jsx'
 
 const SAMPLE = { name: '도란도란꽃', category: 'cozy', color: 'hsl(335 65% 78%)', petals: 6, vowel: 'Y', consonant: '평', rms: 0.05 }
@@ -60,7 +61,7 @@ export default function Tutorial({ onDone }) {
 export function HelpPage({ onTutorial }) {
   return (
     <div className="page help-page">
-      <h1 className="page-title">도움말</h1>
+      <PageHeading>도움말</PageHeading>
       <section className="help-purpose">
         <div className="help-bloom" aria-hidden="true"><Flower flower={SAMPLE} size={110} bloom={false} /></div>
         <div className="help-message">
@@ -70,7 +71,7 @@ export function HelpPage({ onTutorial }) {
         <small>내 정원은 친구가 보내 준 하루로 채워져요.</small>
         </div>
       </section>
-      <button className="tutorial-replay" onClick={onTutorial}>튜토리얼 다시 하기 <span aria-hidden="true">↗</span></button>
+      <button className="tutorial-replay" onClick={onTutorial}>튜토리얼 다시 하기</button>
     </div>
   )
 }

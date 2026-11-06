@@ -6,11 +6,12 @@ import { FlowerDetail, PairDetail } from './Details.jsx'
 import ShareSheet from './Share.jsx'
 import Visit from './Visit.jsx'
 import Avatar from './Avatar.jsx'
+import PageHeading from './PageHeading.jsx'
 import Tutorial, { HelpPage } from './Tutorial.jsx'
 import { displayName } from '../lib/tree.js'
 import { Bell, ChevronUp, Heart, Help, Menu, Mic, Pencil, Sprout, User, Users, Wave } from './Icons.jsx'
 import { GARDEN_LIMIT, GARDEN_NEAR_FULL, addFriend, archiveShares, audioUrl, currentUser, deleteFlower, derivePairs, insertFlower, loadGarden, respondShare, shareFlowers, subscribeGarden, today, updateProfile, uploadAudio } from '../lib/db.js'
-import { receivedSoundCollections } from '../lib/receivedSounds.js'
+import { newestReceivedFirst, receivedSoundCollections } from '../lib/receivedSounds.js'
 
 // 받침에 따라 조사 고르기
 const hasBatchim = (w = '') => {
@@ -18,10 +19,6 @@ const hasBatchim = (w = '') => {
   return c >= 0xac00 && c <= 0xd7a3 && (c - 0xac00) % 28 !== 0
 }
 const josa = (w, a, b) => `${w}${hasBatchim(w) ? a : b}`
-const timeOfDay = (iso) => {
-  const h = new Date(iso).getHours()
-  return h < 5 ? '새벽' : h < 11 ? '아침' : h < 17 ? '낮' : h < 21 ? '저녁' : '밤'
-}
 
 // demo: 개발용 미리보기(?view=home)에서만 넘긴다. 주면 Supabase 대신 그 데이터로 화면만 그린다.
 export default function Garden({ session, onSignOut, email, demo }) {
@@ -62,9 +59,8 @@ export default function Garden({ session, onSignOut, email, demo }) {
   const [highlight, setHighlight] = useState(null)
   const [sharePick, setSharePick] = useState(null) // { flower } 또는 { friend }
   const [visiting, setVisiting] = useState(null) // 놀러 간 친구
-  // 플로팅 도구: 접어도 ^ 손잡이·상태 카드·작은 녹음 버튼은 남긴다.
-  // 글자 크기·화면 너비에 따라 달라지는 접힌 카드 높이를 실제로 잰다.
-  const sheetPeekRef = useRef(110)
+  // 접힌 상태에는 손잡이·안내·작은 위로/녹음 버튼만 남긴다.
+  const sheetPeekRef = useRef(56)
   const [sheetOpen, setSheetOpen] = useState(() => localStorage.getItem('sup.sheet') !== 'closed')
   const sheetRef = useRef(null)
   const homeRef = useRef(null)
@@ -86,17 +82,15 @@ export default function Garden({ session, onSignOut, email, demo }) {
       const title = titleRef.current
       const top = title ? title.offsetTop + title.offsetHeight + 12 : 120
       const handleH = sheet.querySelector('.sheet-toolbar')?.offsetHeight || 28
-      const statusH = sheet.querySelector('.status')?.offsetHeight || 64
-      const gap = parseFloat(style.rowGap) || 0
       const padding = parseFloat(style.paddingBottom) || 0
-      const peek = handleH + gap + statusH + padding
+      const peek = Math.max(48, handleH) + padding
       sheetPeekRef.current = peek
       const closedH = Math.max(1, home.clientHeight - top - tabH - peek + padding)
       const openH = Math.max(1, home.clientHeight - top - tabH - sheetH + padding)
       home.style.setProperty('--island-top', `${top}px`)
       home.style.setProperty('--sheet-h', `${sheetH}px`)
       home.style.setProperty('--sheet-peek', `${peek}px`)
-      home.style.setProperty('--mini-top', `${handleH + gap + (statusH - 48) / 2}px`)
+      home.style.setProperty('--mini-top', `${Math.max(0, (handleH - 48) / 2)}px`)
       home.style.setProperty('--island-s', String(Math.min(1, Math.max(0.12, openH / closedH))))
     }
     measure()
@@ -268,19 +262,6 @@ export default function Garden({ session, onSignOut, email, demo }) {
     setOpenFlower(f)
   }
 
-  const derived = useMemo(() => {
-    if (!data) return null
-    const me = data.members.find((m) => m.id === meId)
-    const partner = data.friends[0] || null
-    const t = today()
-    const onDay = (iso) => iso && new Date(iso).toLocaleDateString('sv-SE') === t
-    const todayShared = data.sentShares.find((x) => onDay(x.created_at))
-    const todayRecv = [...data.receivedShares].reverse().find((x) => onDay(x.created_at))
-    const todayTheirs = todayRecv && data.flowers.find((f) => f.id === todayRecv.flower_id)
-    const todayPair = data.pairs.find((p) => p.sent_date === t)
-    return { me, partner, todayShared, todayRecv, todayTheirs, todayPair }
-  }, [data, meId])
-
   if (error) return (
     <div className="screen center-col">
       <p className="error">정원을 불러오지 못했어요: {error}</p>
@@ -292,23 +273,9 @@ export default function Garden({ session, onSignOut, email, demo }) {
   )
   if (!data) return <div className="home loading center-col"><div className="seed" /><p>정원으로 가는 중…</p></div>
 
-  const { me, partner, todayShared, todayRecv, todayTheirs, todayPair } = derived
+  const me = data.members.find((m) => m.id === meId)
   const nameOf = (userId) => data.friends.find((x) => x.user_id === userId)?.nickname || '친구'
   const flowerById = Object.fromEntries(data.flowers.map((f) => [f.id, f]))
-
-  // who: 상태 카드 아바타에 보여 줄 친구 (소식의 주인공). 친구가 여러 명이어도 맞는 사람이 보이게
-  const todaySentTo = [...new Set(data.sentShares.filter((x) => new Date(x.created_at).toLocaleDateString('sv-SE') === today()).map((x) => x.to_user))]
-  let status
-  if (data.friends.length === 0) status = { title: '아직 친구가 없어요', sub: '나 탭에서 친구 코드로 친구를 맺으면 소리를 주고받을 수 있어요', onClick: () => setTab('me') }
-  else if (data.inbox.length) {
-    const last = data.inbox[data.inbox.length - 1]
-    const senders = new Set(data.inbox.map((x) => x.from_user)).size
-    status = { who: nameOf(last.from_user), whoId: last.from_user, title: senders > 1 ? `친구 ${senders}명이 소리를 보냈어요` : `${josa(nameOf(last.from_user), '이', '가')} 소리를 보냈어요`, sub: `받은 소리함에서 정원에 심을지 골라 주세요 · ${data.inbox.length}개`, onClick: openInbox }
-  }
-  else if (todayPair) status = { who: nameOf(todayPair.friend), whoId: todayPair.friend, title: `오늘 ‘${todayPair.name}’이 피었어요`, sub: '눌러서 두 소리를 함께 들어 보세요', onClick: () => setOpenPair(todayPair) }
-  else if (todayTheirs) status = { who: nameOf(todayRecv.from_user), whoId: todayRecv.from_user, title: `${josa(nameOf(todayRecv.from_user), '이', '가')} ${timeOfDay(todayRecv.created_at)} 소리를 보냈어요`, sub: '나도 오늘의 소리를 보내면 우리의 꽃이 피어요', onClick: () => setOpenFlower(todayTheirs) }
-  else if (todayShared) status = { who: nameOf(todayShared.to_user), whoId: todayShared.to_user, title: todaySentTo.length > 1 ? `오늘의 소리를 ${todaySentTo.length}명에게 보냈어요` : '오늘의 소리를 보냈어요', sub: todaySentTo.length > 1 ? '친구들이 소리를 보내면 우리의 꽃이 피어요' : `${nameOf(todayShared.to_user)}의 소리를 기다리고 있어요` }
-  else status = { title: '오늘은 아직 조용해요', sub: '오늘의 소리를 친구에게 보내 보세요' }
 
   const receivedCount = data.flowers.filter((f) => f.sender_id !== meId).length
   // 친구별 보기: 친구가 몇 명이든 같은 방식 (지금 DB는 정원당 2명이라 친구는 1명)
@@ -438,19 +405,8 @@ export default function Garden({ session, onSignOut, email, demo }) {
               </div>
             ) : <small className="garden-listen-hint">꽃·나무를 눌러 소리를 들어 보세요</small>}
             </div>
-            <button
-              className="status"
-              onClick={sheetOpen ? status.onClick : () => setSheetOpen(true)}
-              disabled={sheetOpen && !status.onClick}
-            >
-              <span className="avatars" aria-hidden="true">
-                <Avatar name={status.who || partner?.nickname} url={(status.whoId ? data.friends.find((x) => x.user_id === status.whoId) : partner)?.avatar_url} />
-                <Avatar me url={me?.avatar_url} />
-              </span>
-              <span className="status-text">
-                <b>{status.title}</b>
-                <small>{status.sub}</small>
-              </span>
+            <button className="mini-comfort" onClick={comfort} aria-label="오늘의 위로" tabIndex={sheetOpen ? -1 : 0} aria-hidden={sheetOpen}>
+              <Heart />
             </button>
             <button className="mini-rec" onClick={() => setRecording(true)} aria-label="오늘의 소리 녹음하기" tabIndex={sheetOpen ? -1 : 0} aria-hidden={sheetOpen}>
               <Mic />
@@ -578,11 +534,11 @@ function InboxList({ items, nameOf, onAnswer, busy }) {
         <div className="inbox-empty"><Bell /><p>새로 도착한 소리가 없어요.</p></div>
       ) : (
         <ul className="menu-inbox-list">
-          {[...items].reverse().map((f) => (
+          {newestReceivedFirst(items).map((f) => (
             <li key={f.share_id}>
               <button className="menu-inbox-item" onClick={() => setPlayingId((id) => id === f.share_id ? null : f.share_id)} aria-label={`${displayName(f)} 듣기`} aria-expanded={playingId === f.share_id} aria-controls={`inbox-audio-${f.share_id}`}>
                 <Flower flower={f} size={40} stem={false} bloom={false} />
-                <span><b>{displayName(f)}</b><small>{nameOf(f.from_user)} · {timeOfDay(f.shared_at)}</small></span>
+                <span><b>{displayName(f)}</b><small>{nameOf(f.from_user)} · {formatDate(new Date(f.shared_at || f.created_at).toLocaleDateString('sv-SE'))}</small></span>
               </button>
               {playingId === f.share_id && <div id={`inbox-audio-${f.share_id}`}><InboxAudio flower={f} /></div>}
               <div className="inbox-actions">
@@ -712,7 +668,7 @@ function Album({ data, meId, onOpen, onOpenPair, flowerById }) {
   return (
     <div className="page">
       {/* 받은 소리를 날짜별로 (오늘 · 어제 · 11월 5일 …). 주 단위로 나누지 않는다 */}
-      <h1 className="page-title">앨범</h1>
+      <PageHeading>앨범</PageHeading>
       {rows.length === 0 && (
         <p className="album-empty">아직 받은 소리가 없어요</p>
       )}
@@ -745,6 +701,7 @@ function Friends({ data, onOpen, onVisit, onGoMe }) {
     const day = (iso) => formatDate(new Date(iso).toLocaleDateString('sv-SE'))
     return (
       <div className="page friend-page">
+        <PageHeading>친구</PageHeading>
         <button className="back-link" onClick={() => setSelectedId(null)} aria-label="친구 목록으로 돌아가기">←</button>
         {/* 정원 방문은 프로필 아래 버튼에서만 시작한다. */}
         <div className="friend-hero">
@@ -779,7 +736,7 @@ function Friends({ data, onOpen, onVisit, onGoMe }) {
 
   return (
     <div className="page">
-      <h1 className="page-title">친구</h1>
+      <PageHeading>친구</PageHeading>
 
       {data.friends.length === 0 ? (
         <div className="friends-empty">
@@ -946,7 +903,7 @@ function FriendCode({ code: myCode, onAdded }) {
 function Me({ me, email, onSignOut, code, onAdded, onSaveProfile }) {
   return (
     <div className="page me-page">
-      <h1 className="page-title">나</h1>
+      <PageHeading>나</PageHeading>
       {/* 프로필(사진·닉네임), 내 코드·친구 맺기, 로그아웃. 설명은 도움말에 있다 */}
       <div className="me-content">
       <Profile me={me} email={email} onSave={onSaveProfile} />

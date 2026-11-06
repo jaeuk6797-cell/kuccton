@@ -1,4 +1,9 @@
 // 전체 수신 내역은 보관하고, 소리함과 정원에는 해당 상태만 노출한다.
+export function newestReceivedFirst(items) {
+  const sentAt = (item) => Date.parse(item.shared_at || item.created_at) || 0
+  return [...items].sort((a, b) => sentAt(b) - sentAt(a))
+}
+
 export function receivedSoundCollections(receivedHistory) {
   const accepted = receivedHistory.filter((f) => f.share_status === 'accepted')
   return {

@@ -98,6 +98,13 @@ function makeData(withFlowers, friendCount = 1) {
     inbox.push({ ...w2, share_id: 'share-waiting-2', from_user: extra[1].user, shared_at: w2.created_at })
   }
   // ?many=N: 받아서 심은 소리를 N송이까지 채운다 (정원 50송이 알림·배치 확인용)
+  // ?inbox=N: 날짜·최신순·소리함 내부 스크롤 확인용.
+  const inboxCount = Math.min(40, Number(new URLSearchParams(location.search).get('inbox')) || 0)
+  for (let i = inbox.length; i < inboxCount; i++) {
+    const who = allFriends[i % allFriends.length]
+    const sample = flower(who, SOUND({ rms: 0.04, centroid: 2200, attack: 0.4, onsets: 3, sustain: 0.3, envelope: env(0.8, 0.4, 0.7) }), now - (i - 1) * DAY)
+    inbox.push({ ...sample, share_id: `share-inbox-${i}`, from_user: who.user, shared_at: sample.created_at })
+  }
   const many = Number(new URLSearchParams(location.search).get('many')) || 0
   const pool = [FRIEND, ...extra]
   const cats = ['joy', 'excited', 'flutter', 'cozy', 'calm', 'sad', 'tense']
