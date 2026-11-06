@@ -8,6 +8,7 @@ import { OutputPass } from 'three/examples/jsm/postprocessing/OutputPass.js'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
 import { buildFlower3D, disposeFlower3D } from '../lib/flower3d.js'
+import { buildBlenderFlower, useBlenderFlowerAssets } from '../lib/blenderFlower.js'
 import { buildTree3D } from '../lib/tree3d.js'
 import { createGardenEnvironment } from '../lib/gardenEnvironment.js'
 import { isTree } from '../lib/tree.js'
@@ -267,11 +268,12 @@ function dimObject(obj) {
   }
 }
 
-export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, visibleIds, onPickFlower, onPickPair, resetViewKey }) {
+export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, visibleIds, onPickFlower, onPickPair, resetViewKey, isBlenderFlower, onPreviewStats }) {
   const wrapRef = useRef(null)
   const stateRef = useRef(null)
   const cbRef = useRef({})
   cbRef.current = { onPickFlower, onPickPair }
+  const assets = useBlenderFlowerAssets(Boolean(isBlenderFlower))
 
   // 장면은 한 번만 만든다
   useEffect(() => {
@@ -342,11 +344,14 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
     controls.maxDistance = CAMERA.max
     controls.minPolarAngle = 0.55
     controls.maxPolarAngle = 1.4
-    controls.autoRotate = true
+    controls.autoRotate = !onPreviewStats
     controls.autoRotateSpeed = 0.35
     let resumeTimer
     controls.addEventListener('start', () => { controls.autoRotate = false; clearTimeout(resumeTimer) })
-    controls.addEventListener('end', () => { resumeTimer = setTimeout(() => (controls.autoRotate = true), 5000) })
+    const resumeOrbit = () => {
+      if (!onPreviewStats) resumeTimer = setTimeout(() => (controls.autoRotate = true), 5000)
+    }
+    controls.addEventListener('end', resumeOrbit)
 
     // 탭으로 꽃 고르기 (드래그와 구분)
     const ray = new THREE.Raycaster()
@@ -371,9 +376,11 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
     const viewDir = new THREE.Vector3(...CAMERA.position).sub(target)
     const baseDist = viewDir.length()
     viewDir.normalize()
+    let viewportHeight = 0
     const resize = () => {
       const { clientWidth: w, clientHeight: h } = wrap
       if (!w || !h) return
+      viewportHeight = h
       renderer.setSize(w, h)
       composer.setSize(w, h)
       camera.aspect = w / h
@@ -383,8 +390,8 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
       const halfHorizontal = Math.atan(Math.tan(halfVertical) * camera.aspect)
       const dist = Math.max(baseDist, FIT_RADIUS / Math.sin(Math.min(halfVertical, halfHorizontal)))
       // 확대도 이 거리까지만 허용해 섬이 화면 밖으로 나가지 않게 한다.
-      controls.minDistance = dist
-      controls.maxDistance = Math.max(CAMERA.max, dist + 3)
+      controls.minDistance = onPreviewStats ? dist * 0.46 : dist
+      controls.maxDistance = Math.max(CAMERA.max, dist + (onPreviewStats ? 15 : 3))
       controls.target.copy(target)
       camera.position.copy(target).addScaledVector(viewDir, dist)
       camera.updateProjectionMatrix()
@@ -396,6 +403,8 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
     resize()
 
     const clock = new THREE.Clock()
+    let lastStats = 0
+    if (onPreviewStats) renderer.info.autoReset = false
     let raf
     const loop = () => {
       const t = clock.getElapsedTime()
@@ -412,6 +421,7 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
         p.setY(i, y)
       }
       p.needsUpdate = true
+      controls.update()
       for (const f of flowerLayer.children) {
         const u = f.userData
         const age = t - (u.bornAt ?? -10)
@@ -428,9 +438,22 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
         }
         u.tick?.(t) // 감정 꽃의 움직임 (긴장 = 바르르 떨림)
         f.rotation.z = Math.sin(t * 1.3 + u.phase) * 0.05
+        u.updateLOD?.(camera, viewportHeight, u.size)
       }
-      controls.update()
+      if (onPreviewStats) renderer.info.reset()
       composer.render()
+      if (onPreviewStats && t - lastStats >= 0.25) {
+        lastStats = t
+        const plants = flowerLayer.children
+        onPreviewStats({
+          plants: plants.length,
+          near: plants.filter(f => f.userData.lod === 'near').length,
+          far: plants.filter(f => f.userData.lod === 'far').length,
+          calls: renderer.info.render.calls,
+          triangles: renderer.info.render.triangles,
+          geometries: renderer.info.memory.geometries,
+        })
+      }
       raf = requestAnimationFrame(loop)
     }
     loop()
@@ -441,7 +464,7 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
         clearTimeout(resumeTimer)
         controls.autoRotate = false
         controls.reset()
-        resumeTimer = setTimeout(() => (controls.autoRotate = true), 5000)
+        resumeOrbit()
       },
     }
     return () => {
@@ -452,6 +475,10 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
       el.removeEventListener('pointerup', onUp)
       controls.dispose()
       stopIslandLoad()
+      for (const plant of [...flowerLayer.children]) {
+        flowerLayer.remove(plant)
+        disposeFlower3D(plant)
+      }
       disposeMeshes(scene)
       scene.environment = null
       environment.dispose()
@@ -468,20 +495,18 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
     if (resetViewKey != null) stateRef.current?.resetView()
   }, [resetViewKey])
 
-  // 꽃 데이터가 바뀌면 꽃 층만 다시 만든다
+  // Keep the current pose and LOD when only selection, density, or neighbors change.
   useEffect(() => {
     const st = stateRef.current
     if (!st) return
     const { flowerLayer, clock, known } = st
-    for (const c of [...flowerLayer.children]) { flowerLayer.remove(c); disposeFlower3D(c) }
+    const previous = new Map(flowerLayer.children.map(plant => [plant.userData.data.id, plant]))
 
     const byId = Object.fromEntries(flowers.map((f) => [f.id, f]))
-    const pairedIds = new Set()
     const items = []
     for (const p of pairs) {
       const a = byId[p.flower_a_id], b = byId[p.flower_b_id]
       if (!a || !b) continue
-      pairedIds.add(a.id); pairedIds.add(b.id)
       const at = (f) => f.shared_at || f.created_at || ''
       items.push({ key: p.id, kind: 'pair', data: p, a, b, t: [at(a), at(b)].sort().pop() })
     }
@@ -497,27 +522,48 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
     const now = clock.getElapsedTime()
 
     items.forEach((it, i) => {
-      const obj = it.kind === 'pair'
-        ? buildFlower3D({ ...it.b, petals: Math.min(8, Math.max(it.a.petals, it.b.petals) + 1) }, [it.a.color, it.b.color], { pair: true })
-        : isTree(it.data) ? buildTree3D(it.data) : buildFlower3D(it.data, [it.data.color])
+      const dimmed = Boolean(visible && !visible.has(it.key))
+      const blender = Boolean(assets && it.kind === 'flower' && !isTree(it.data) && isBlenderFlower(it.data))
+      const old = previous.get(it.key)
+      const u = old?.userData
+      const reuse = u && u.data === it.data && u.a === it.a && u.b === it.b
+        && Boolean(u.blender) === blender && u.dimmed === dimmed
+      let obj = old
+      if (!reuse) {
+        if (it.kind === 'pair') {
+          obj = buildFlower3D({ ...it.b, petals: Math.min(8, Math.max(it.a.petals, it.b.petals) + 1) }, [it.a.color, it.b.color], { pair: true })
+        } else if (isTree(it.data)) {
+          obj = buildTree3D(it.data)
+        } else {
+          obj = blender ? buildBlenderFlower(it.data, assets, { dimmed }) : buildFlower3D(it.data)
+        }
+        if (dimmed) dimObject(obj)
+        flowerLayer.add(obj)
+      } else {
+        previous.delete(it.key)
+      }
       obj.position.set(pos[i].x, 0, pos[i].z)
       const isNew = !known.has(it.key)
       Object.assign(obj.userData, {
         kind: it.kind,
         data: it.data,
+        a: it.a,
+        b: it.b,
         size: (it.kind === 'pair' ? 2.6 : isTree(it.data) ? 1.55 : 1.8) * density, // 나무는 키가 커서 조금 더 작게
         phase: (hash(it.key) % 100) / 16,
-        bornAt: isNew ? (st.first ? now + i * 0.06 : now) : -10,
+        bornAt: u?.bornAt ?? (isNew ? (st.first ? now + i * 0.06 : now) : -10),
         fresh: freshIds?.has(it.key),
         highlight: highlightId === it.key,
-        dimmed: Boolean(visible && !visible.has(it.key)),
+        dimmed,
       })
-      if (obj.userData.dimmed) dimObject(obj)
       known.add(it.key)
-      flowerLayer.add(obj)
     })
+    for (const obj of previous.values()) {
+      flowerLayer.remove(obj)
+      disposeFlower3D(obj)
+    }
     st.first = false
-  }, [flowers, pairs, meId, freshIds, highlightId, visibleIds])
+  }, [flowers, pairs, meId, freshIds, highlightId, visibleIds, assets, isBlenderFlower])
 
   return <div ref={wrapRef} className="island" />
 }

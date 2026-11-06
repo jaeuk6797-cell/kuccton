@@ -3,14 +3,16 @@
 import { useEffect, useRef } from 'react'
 import * as THREE from 'three'
 import { buildFlower3D, disposeFlower3D } from '../lib/flower3d.js'
+import { buildBlenderFlower, useBlenderFlowerAssets } from '../lib/blenderFlower.js'
 import { createGardenEnvironment } from '../lib/gardenEnvironment.js'
 import { buildTree3D } from '../lib/tree3d.js'
 import { isTree } from '../lib/tree.js'
 
-export default function FlowerBloom3D({ flower, colors, pair = false, size = 180 }) {
+export default function FlowerBloom3D({ flower, colors, pair = false, size = 180, blender = false, closeUp = false }) {
   const wrapRef = useRef(null)
   const palette = colors || [flower.color]
   const tree = !pair && !colors && isTree(flower)
+  const assets = useBlenderFlowerAssets(blender && !pair && !tree)
   // 꽃 모양이 바뀔 때만(예: 감정을 다시 고름) 새로 피운다
   const shapeKey = JSON.stringify([palette, flower.category, flower.petals, flower.vowel, flower.consonant, flower.lengths, flower.rms, flower.root, pair, tree])
 
@@ -28,7 +30,7 @@ export default function FlowerBloom3D({ flower, colors, pair = false, size = 180
     const environment = createGardenEnvironment(renderer, 64)
     scene.environment = environment.texture
     scene.environmentIntensity = 0.55
-    const camera = new THREE.PerspectiveCamera(32, w / h, 0.1, 50)
+    const camera = new THREE.PerspectiveCamera(closeUp ? 25 : 32, w / h, 0.1, 50)
     if (tree) {
       camera.position.set(0, 0.95, 3.1) // 나무는 키가 커서 조금 뒤에서 전체를 본다
       camera.lookAt(0, 0.68, 0)
@@ -41,7 +43,9 @@ export default function FlowerBloom3D({ flower, colors, pair = false, size = 180
     sun.position.set(1.5, 3, 2)
     scene.add(sun)
 
-    const obj = tree ? buildTree3D(flower) : buildFlower3D(flower, palette, { pair })
+    const obj = assets ? buildBlenderFlower(flower, assets, { detail: true })
+      : tree ? buildTree3D(flower) : buildFlower3D(flower, palette, { pair })
+    if (import.meta.env.DEV) wrap.dataset.flora = assets ? 'blender' : tree ? 'tree' : pair ? 'pair' : 'procedural'
     scene.add(obj)
 
     const clock = new THREE.Clock()
@@ -66,7 +70,7 @@ export default function FlowerBloom3D({ flower, colors, pair = false, size = 180
       wrap.removeChild(renderer.domElement)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [shapeKey, size])
+  }, [shapeKey, size, closeUp, assets])
 
   return <div ref={wrapRef} className="bloom3d" style={{ width: size, height: Math.round(size * 1.1) }} aria-hidden="true" />
 }

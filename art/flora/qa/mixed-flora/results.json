@@ -1,0 +1,34 @@
+{
+  "preview": {
+    "command": "npm run dev -- --host 127.0.0.1 --port 5187 --strictPort",
+    "original": "http://127.0.0.1:5187/?view=island&flora=original",
+    "mixed": "http://127.0.0.1:5187/?view=island&flora=mixed",
+    "dense": "http://127.0.0.1:5187/?view=island&flora=mixed&plants=50",
+    "note": "Port 5173 was occupied. A clean Vite server on port 5187 served the Supabase-free preview."
+  },
+  "environment": {
+    "browser": "Headless Chrome on Windows, ANGLE D3D11 on Intel Arc 140V",
+    "desktopViewport": [1200, 850],
+    "portraitViewport": [390, 844],
+    "devicePixelRatio": 1,
+    "measurement": "Three.js renderer counters for one complete garden frame, including shadow and post-processing passes. The detail view was closed. Frame intervals are requestAnimationFrame samples, not GPU timings."
+  },
+  "frames": {
+    "desktopOriginal": { "plants": 13, "near": 0, "far": 0, "calls": 809, "triangles": 101288, "geometries": 110 },
+    "desktopMixed": { "plants": 13, "near": 2, "far": 0, "calls": 657, "triangles": 88408, "geometries": 99 },
+    "desktopMixedZoomedOut": { "plants": 13, "near": 0, "far": 2, "calls": 657, "triangles": 83488, "geometries": 104 },
+    "portraitDenseOriginal": { "plants": 50, "near": 0, "far": 0, "calls": 3031, "triangles": 319856, "geometries": 356, "frameSamples": 259, "medianFrameMs": 16.7, "p95FrameMs": 16.9 },
+    "portraitDenseMixed": { "plants": 50, "near": 0, "far": 12, "calls": 2119, "triangles": 213056, "geometries": 260, "frameSamples": 257, "medianFrameMs": 16.7, "p95FrameMs": 16.9 }
+  },
+  "checks": {
+    "placement": "All fixture positions matched between modes. Two cozy plants used the Blender asset and the matched cozy control stayed procedural. Other plants kept their triangle counts.",
+    "selection": "Canvas pointer events opened the correct Blender peony, procedural peony, pair and tree detail previews.",
+    "growth": "A planted peony's outer ring expanded from 0.34 to 1.0 at its exported pivot. Existing plants kept their transforms when the new plant was added and removed.",
+    "lod": "Mouse-wheel zoom switched between 1,796 and 566 triangles. Both levels retained the same tint material and final pose. Only one five-mesh hierarchy was attached per plant. With projected widths 60, 41, 33, 41 and 50 CSS pixels, the sequence was near, near, far, far, near.",
+    "color": "Pink and jade fixture peonies produced distinct opal tints while keeping the GLB materials' clearcoat, iridescence and vertex colors.",
+    "navigation": "Pointer dragging orbited the garden without selecting a plant. The island fit the 390 by 844 portrait viewport.",
+    "resources": "Chrome requested each GLB once through mode switches, selection and density changes. A new same-color plant shared the geometry and tint material. Removing it preserved both resources for the surviving plant. The tint material disposed after its last user left.",
+    "failures": "Blocking the hero GLB restored procedural garden and detail models. Blocking the distant GLB kept the hero available at all distances.",
+    "runtime": "Zero uncaught browser exceptions. The existing Three.js Clock deprecation and Vite bundle-size warning remain. Mobile framing was emulated on desktop hardware."
+  }
+}

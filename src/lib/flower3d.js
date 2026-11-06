@@ -201,6 +201,7 @@ export function buildFlower3D(f, colors = [f.color], { pair = false } = {}) {
 }
 
 export function disposeFlower3D(obj) {
+  if (obj.userData.dispose) return obj.userData.dispose()
   const resources = new Set()
   obj.traverse((o) => {
     if (o.geometry) resources.add(o.geometry)
