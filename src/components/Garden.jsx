@@ -606,6 +606,8 @@ function Album({ data, meId, onOpen, onOpenPair, flowerById }) {
   const selectedMonth = selectedYear === 'all' ? 'all' : month === 'all' || months.includes(month) ? month : months[0] || 'all'
   const filtered = rows.filter((row) => (selectedYear === 'all' || row.date.startsWith(selectedYear + '-'))
     && (selectedMonth === 'all' || row.date.slice(5, 7) === selectedMonth))
+  const dayCount = (row) => row.list.length + row.pairs.filter((pair) => flowerById[pair.flower_a_id] && flowerById[pair.flower_b_id]).length
+  const periodTotal = filtered.reduce((sum, row) => sum + dayCount(row), 0)
   const scrollRef = useRef(null)
   useLayoutEffect(() => { if (scrollRef.current) scrollRef.current.scrollTop = 0 }, [selectedYear, selectedMonth])
 
@@ -613,7 +615,7 @@ function Album({ data, meId, onOpen, onOpenPair, flowerById }) {
     <div key={r.date} className="album-day">
       <div className="album-date-line">
         <time className="album-date" dateTime={r.date}>{formatDate(r.date)}</time>
-        <small>{r.list.length + r.pairs.filter((pair) => flowerById[pair.flower_a_id] && flowerById[pair.flower_b_id]).length}</small>
+        <small>{dayCount(r)}</small>
       </div>
       <div className="album-flowers">
         {r.pairs.filter((p) => flowerById[p.flower_a_id] && flowerById[p.flower_b_id]).map((p) => (
@@ -644,6 +646,7 @@ function Album({ data, meId, onOpen, onOpenPair, flowerById }) {
         <AlbumPeriodPicker label="앨범 월" value={selectedMonth} disabled={selectedYear === 'all'}
           options={[{ value: 'all', label: '전체 월' }, ...months.map((value) => ({ value, label: `${Number(value)}월` }))]}
           onChange={setMonth} />
+        <small className="album-period-total" aria-live="polite">총 꽃나무는 {periodTotal.toLocaleString('ko-KR')}개예요</small>
       </div>}
       <div ref={scrollRef} className="page-scroll" aria-label="앨범 목록">
       {rows.length === 0 && (
