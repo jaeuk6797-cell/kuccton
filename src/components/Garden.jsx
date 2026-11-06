@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import Flower from './Flower.jsx'
 import Island3D from './Island3D.jsx'
 import Recorder from './Recorder.jsx'
@@ -29,10 +29,33 @@ export default function Garden({ session, onSignOut, email }) {
   const [fresh, setFresh] = useState(() => new Set())
   const [highlight, setHighlight] = useState(null)
   // 녹음 카드: 아래로 끌어내리면 접혀서 정원을 크게 본다 (접힌 상태는 기기에 기억)
+  const SHEET_PEEK = 78
   const [sheetOpen, setSheetOpen] = useState(() => localStorage.getItem('sup.sheet') !== 'closed')
   const sheetRef = useRef(null)
+  const homeRef = useRef(null)
   const dragRef = useRef(null)
   useEffect(() => { localStorage.setItem('sup.sheet', sheetOpen ? 'open' : 'closed') }, [sheetOpen])
+
+  // 카드 높이와 '열렸을 때 섬 축소 비율'을 CSS 변수로 둔다. 섬은 캔버스 크기를 바꾸지 않고
+  // CSS transform으로만 줄었다 커져서(3D를 다시 그리지 않음) 접고 펼 때 끊기지 않는다.
+  const hasSheet = Boolean(data) && tab === 'garden'
+  useLayoutEffect(() => {
+    const home = homeRef.current, sheet = sheetRef.current
+    if (!home || !sheet) return
+    const measure = () => {
+      const tabH = home.querySelector('.tabbar')?.offsetHeight ?? 64
+      const sheetH = sheet.offsetHeight
+      const top = 140
+      const closedH = home.clientHeight - top - tabH - SHEET_PEEK + 8
+      const openH = home.clientHeight - top - tabH - sheetH + 15
+      home.style.setProperty('--sheet-h', `${sheetH}px`)
+      home.style.setProperty('--island-s', String(Math.min(1, Math.max(0.5, openH / closedH))))
+    }
+    measure()
+    const ro = new ResizeObserver(measure)
+    ro.observe(home); ro.observe(sheet)
+    return () => ro.disconnect()
+  }, [hasSheet])
   const meId = session.memberId
 
   const refresh = useCallback(async () => {
@@ -127,35 +150,38 @@ export default function Garden({ session, onSignOut, email }) {
 
   const received = data.flowers.filter((f) => f.sender_id !== meId).slice(-8).reverse()
 
-  // 손잡이를 끌면 카드가 손가락을 따라오고, 놓으면 열림/접힘으로 붙는다. 살짝 누르면 토글
-  const SHEET_PEEK = 78
+  // 손잡이를 끌면 카드·섬·안내 문구가 함께 손가락을 따라오고(--sheet-p: 0 열림 ~ 1 접힘),
+  // 놓으면 가까운 쪽으로 부드럽게 붙는다. 빠르게 튕기면 짧게 끌어도 넘어간다. 살짝 누르면 토글
   const onHandleDown = (e) => {
-    const el = sheetRef.current
-    dragRef.current = { y: e.clientY, dy: 0, h: el.offsetHeight }
+    dragRef.current = { y: e.clientY, dy: 0, t: performance.now(), v: 0, h: sheetRef.current.offsetHeight - SHEET_PEEK }
     e.currentTarget.setPointerCapture(e.pointerId)
-    el.style.transition = 'none'
+    homeRef.current.classList.add('dragging')
   }
   const onHandleMove = (e) => {
     const d = dragRef.current
     if (!d) return
-    d.dy = e.clientY - d.y
-    const closedY = d.h - SHEET_PEEK
-    const y = Math.min(closedY, Math.max(0, (sheetOpen ? 0 : closedY) + d.dy))
-    sheetRef.current.style.transform = `translateY(${y}px)`
+    const now = performance.now()
+    const dy = e.clientY - d.y
+    d.v = (dy - d.dy) / Math.max(1, now - d.t) // px/ms
+    d.dy = dy; d.t = now
+    const p = Math.min(1, Math.max(0, (sheetOpen ? 0 : 1) + dy / d.h))
+    homeRef.current.style.setProperty('--sheet-p', p.toFixed(4))
   }
   const onHandleUp = () => {
     const d = dragRef.current
     dragRef.current = null
-    const el = sheetRef.current
-    if (el) { el.style.transition = ''; el.style.transform = '' }
-    if (!d) return
+    const home = homeRef.current
+    if (!home || !d) return
+    home.classList.remove('dragging')
+    home.style.removeProperty('--sheet-p') // 클래스 값(0/1)으로 전환 애니메이션
+    const p = (sheetOpen ? 0 : 1) + d.dy / d.h
     if (Math.abs(d.dy) < 6) setSheetOpen((o) => !o)
-    else if (d.dy > 40) setSheetOpen(false)
-    else if (d.dy < -40) setSheetOpen(true)
+    else if (Math.abs(d.v) > 0.5) setSheetOpen(d.v < 0)
+    else setSheetOpen(p < 0.5)
   }
 
   return (
-    <div className={`home ${sheetOpen ? '' : 'sheet-closed'}`}>
+    <div ref={homeRef} className={`home ${sheetOpen ? '' : 'sheet-closed'}`}>
       <div className="sky">
         <div className="cloud c1" /><div className="cloud c2" /><div className="cloud c3" />
       </div>
