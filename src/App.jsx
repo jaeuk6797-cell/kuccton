@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { useSpeechRecognition } from './useSpeechRecognition.js'
 import { analyzeEmotion, emotionEnabled } from './emotion.js'
 import { extractFeatures } from './soundFeatures.js'
-import { CATEGORIES, EMOTION_TO_ID, categoriesFor, buildFlower } from './flower.js'
+import { CATEGORIES, categoriesFor, buildFlower, voiceCategory } from './flower.js'
 import { CONFIDENT_SCORE, classifySound, preloadClassifier } from './classify.js'
 import Flower from './Flower.jsx'
 import Waveform from './Waveform.jsx'
@@ -85,12 +85,7 @@ export default function App() {
     let cancelled = false
     setAnalyzing(true)
     analyzeEmotion(blob)
-      .then((r) => {
-        if (cancelled) return
-        setEmotion(r)
-        const id = EMOTION_TO_ID[r.emotion]
-        if (id) setCategory(id) // 감정 결과로 카테고리를 정한다. 아래 버튼으로 바꿀 수 있다.
-      })
+      .then((r) => !cancelled && setEmotion(r))
       .catch((e) => !cancelled && setEmotionError(e.message))
       .finally(() => !cancelled && setAnalyzing(false))
     return () => {
@@ -143,7 +138,12 @@ export default function App() {
     setRecording(false)
   }
 
-  const flower = features && category ? buildFlower(category, features, kind === 'voice' ? emotion?.intensity : undefined) : null
+  // 목소리는 감정 분석 결과로 카테고리를 정하고, 아래 버튼으로 직접 고르면 그쪽이 우선한다.
+  const autoVoice = kind === 'voice' && emotion && features ? voiceCategory(emotion, features) : ''
+  const activeCategory = category || autoVoice
+  const flower = features && activeCategory
+    ? buildFlower(activeCategory, features, kind === 'voice' ? emotion?.intensity : undefined)
+    : null
   const flowerWord = stt.transcript + (stt.interim ? ` ${stt.interim}` : '')
 
   return (
@@ -213,7 +213,7 @@ export default function App() {
               <button
                 key={c.id}
                 onClick={() => setCategory(c.id)}
-                style={{ fontWeight: category === c.id ? 'bold' : 'normal' }}
+                style={{ fontWeight: activeCategory === c.id ? 'bold' : 'normal' }}
               >
                 {c.label}
               </button>
