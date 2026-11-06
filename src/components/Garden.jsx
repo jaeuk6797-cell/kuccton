@@ -9,6 +9,7 @@ import Chat from './Chat.jsx'
 import { displayName } from '../lib/tree.js'
 import { Bell, ChevronUp, Heart, Help, Menu, Mic, Sprout, User, Users, Wave } from './Icons.jsx'
 import { addFriend, currentUser, deleteFlower, insertFlower, loadGarden, respondShare, shareFlowers, subscribeGarden, today, uploadAudio } from '../lib/db.js'
+import { disablePush, enablePush, onOpenInbox, pushConfigured, pushStatus, syncPush } from '../lib/push.js'
 
 // 받침에 따라 조사 고르기
 const hasBatchim = (w = '') => {
@@ -22,7 +23,12 @@ const timeOfDay = (iso) => {
 }
 
 // demo: 개발용 미리보기(?view=home)에서만 넘긴다. 주면 Supabase 대신 그 데이터로 화면만 그린다.
-export default function Garden({ session, onSignOut, email, demo }) {
+export default function Garden({ session, onSignOut: signOutRaw, email, demo }) {
+  // 로그아웃하면 이 기기의 소리 도착 알림도 끈다 (다음에 로그인한 사람이 이전 계정 알림을 받지 않게)
+  const onSignOut = async () => {
+    await disablePush().catch((e) => console.warn(e))
+    signOutRaw()
+  }
   const [data, setData] = useState(null)
   const [error, setError] = useState('')
   const [tab, setTab] = useState('garden')
@@ -97,6 +103,13 @@ export default function Garden({ session, onSignOut, email, demo }) {
     })
     return () => { alive = false; unsub() }
   }, [session.gardenId, meId, refresh, demo])
+
+  // 소리 도착 알림: 알림을 눌러 들어오면 받은 소리함을 연다. 이미 알림을 켠 기기면 구독을 이 계정으로 맞춘다
+  useEffect(() => {
+    if (demo) return
+    syncPush()
+    return onOpenInbox(() => { setTab('garden'); setMenuOpen(false); setShowBell(true) })
+  }, [demo])
 
   // 받은 소리함: 정원에 심기(받기) / 괜찮아요(거절)
   async function answer(item, accept) {
@@ -650,10 +663,54 @@ function Me({ me, data, email, onSignOut }) {
         <b>{email}</b>
         <p className="small muted">다른 기기에서도 이 계정으로 로그인하면 이 정원이 열려요.</p>
       </div>
+      {pushConfigured && <PushCard />}
       <div className="card">
         <p className="small">녹음은 내가 공유한 친구만 들을 수 있어요. 내 소리는 꽃이나 나무를 눌러 언제든 지울 수 있어요.</p>
       </div>
       <button className="ghost wide" onClick={onSignOut}>로그아웃</button>
+    </div>
+  )
+}
+
+// 소리 도착 알림 켜기/끄기 (웹 푸시, lib/push.js)
+const PUSH_NOTE = {
+  app: '앱에서는 아직 알림을 받을 수 없어요. 휴대폰 브라우저에서 소리숲을 열어 알림을 켜 주세요. (아이폰은 홈 화면에 추가한 소리숲)',
+  install: '아이폰은 Safari 공유 버튼 → ‘홈 화면에 추가’로 소리숲을 추가한 뒤, 홈 화면의 소리숲에서 알림을 켤 수 있어요.',
+  unsupported: '이 브라우저는 알림을 지원하지 않아요.',
+  denied: '알림이 차단되어 있어요. 기기 설정에서 소리숲(또는 이 브라우저)의 알림을 허용해 주세요.',
+  off: '친구가 소리를 보내면 알림으로 알려 드려요.',
+  on: '친구가 소리를 보내면 이 기기로 알림이 와요.',
+}
+
+function PushCard() {
+  const [status, setStatus] = useState(null)
+  const [busy, setBusy] = useState(false)
+  const [err, setErr] = useState('')
+  useEffect(() => { pushStatus().then(setStatus).catch(() => setStatus('unsupported')) }, [])
+  if (!status) return null
+
+  async function toggle() {
+    setBusy(true); setErr('')
+    try {
+      if (status === 'on') await disablePush()
+      else await enablePush()
+    } catch (e) {
+      setErr(e.message || String(e))
+    }
+    setStatus(await pushStatus().catch(() => 'unsupported'))
+    setBusy(false)
+  }
+
+  return (
+    <div className="card account">
+      <small className="muted">소리 도착 알림</small>
+      <p className="small">{PUSH_NOTE[status]}</p>
+      {(status === 'on' || status === 'off') && (
+        <button className={`${status === 'on' ? 'ghost' : 'primary'} small-btn`} onClick={toggle} disabled={busy}>
+          {busy ? '잠시만요…' : status === 'on' ? '알림 끄기' : '알림 켜기'}
+        </button>
+      )}
+      {err && <p className="small error">{err}</p>}
     </div>
   )
 }
@@ -664,7 +721,7 @@ const HELP = [
   ['오늘의 소리 보내기', '아래 ‘오늘의 소리 녹음’을 누르면 바로 10초 동안 녹음돼요. 미리보기에서 꽃을 확인하고, 받을 친구를 골라(여러 명 가능) 보내면 돼요. 내가 보낸 소리는 내 정원이 아니라 친구 정원에 피어요.'],
   ['꽃과 나무', '말소리는 감정에 따라 일곱 가지 꽃(해바라기·별·튤립·작약·연꽃·초롱꽃·엉겅퀴 모양)으로, 그 밖의 소리는 나무로 자라요. 소리가 크면 꽃이 크고, 여러 번 울리면 꽃잎이 많아지고, 소리의 흐름에 따라 꽃잎 길이가 달라져요.'],
   ['꽃 이름', '소리를 듣고 한국어 의성어로 이름을 지어요. 작고 맑은 소리는 ‘토독’처럼 밝은 모음, 크고 낮은 소리는 ‘투둑’처럼 어두운 모음, 세게 시작하면 ‘톡·탁’처럼 센 소리, 여러 번 울리면 ‘토독토독’처럼 되풀이돼요.'],
-  ['받은 소리함', '친구가 보낸 소리는 먼저 받은 소리함(메뉴)에 도착해요. 들어 보고 ‘심기’를 누르면 내 정원에 자라고, ‘괜찮아요’를 누르면 받지 않아요.'],
+  ['받은 소리함', '친구가 보낸 소리는 먼저 받은 소리함(메뉴)에 도착해요. 들어 보고 ‘심기’를 누르면 내 정원에 자라고, ‘괜찮아요’를 누르면 받지 않아요. 메뉴 → 나에서 알림을 켜 두면 소리가 도착할 때 알림이 와요.'],
   ['내 정원 보기', '꽃이나 나무를 누르면 그날의 소리가 들려요. 손가락으로 끌면 섬을 둘러볼 수 있어요. 위쪽 친구 이름을 누르면 그 친구가 보낸 꽃만 보여요. 아래 ^ 표시로 도구를 접고 펼 수 있어요.'],
   ['우리의 꽃', '같은 날 나와 친구가 서로 소리를 보내고 둘 다 심으면, 두 소리가 만나 정원 가운데에 우리의 꽃이 피어요. 누르면 친구 소리는 왼쪽 귀, 내 소리는 오른쪽 귀로 함께 들려요. 이어폰으로 들어 보세요.'],
   ['친구', '내 친구 코드를 알려 주거나 친구 코드를 넣으면 친구가 돼요. 친구 정원에는 놀러 가서 구경할 수 있어요(소리는 그 친구만 들을 수 있어요).'],

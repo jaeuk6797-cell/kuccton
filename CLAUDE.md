@@ -45,7 +45,9 @@ KUCC 동아리 해커톤(주제: 소리, 4인 팀) 출품작. 응답과 주석�
 | `src/components/Details.jsx` | 꽃 상세, 우리의 꽃(좌우 파형 + 스테레오) |
 | `src/components/Flower.jsx` | 2D SVG 꽃 (앨범·미리보기) |
 | `src/components/Flower3D.jsx`, `src/lib/onomatopoeia.js` | **보관용**(feat/3d). 현재 import하지 않음 |
-| `supabase/schema.sql` | 전체 스키마. 기존 DB에는 `supabase/migrations-002.sql` ~ `-008.sql`을 차례로 추가 실행 (007 대화, 008 놀러 가기는 모양만) |
+| `supabase/schema.sql` | 전체 스키마. 기존 DB에는 `supabase/migrations-002.sql` ~ `-009.sql`을 차례로 추가 실행 (007 대화, 008 놀러 가기는 모양만, 009 소리 도착 알림) |
+| `src/lib/push.js`, `public/sw.js` | 소리 도착 웹 푸시 알림(켜기·끄기, 알림 누르면 받은 소리함). Capacitor 앱 안에서는 지원 안 함 |
+| `supabase/functions/notify-share/` | shares insert 트리거(migrations-009)가 부르는 Edge Function. 받는 사람 기기로 웹 푸시 발송 |
 | `server/` | 감정 분석 서버 |
 
 ## 5. 남은 작업

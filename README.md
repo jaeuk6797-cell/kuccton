@@ -7,7 +7,7 @@ React + Vite 웹앱을 Capacitor로 감싸 Android/iOS 앱으로 빌드합니다
 
 1. [supabase.com](https://supabase.com)에서 프로젝트 생성
 2. **SQL Editor**에서 `supabase/schema.sql` 실행
-   이미 이전 버전 스키마를 실행했다면 `supabase/migrations-002.sql`, `-003`, `-004`, `-005`, `-006`, `-007`(대화), `-008`(놀러 가기는 모양만)을 차례로 실행하면 됩니다.
+   이미 이전 버전 스키마를 실행했다면 `supabase/migrations-002.sql`, `-003`, `-004`, `-005`, `-006`, `-007`(대화), `-008`(놀러 가기는 모양만), `-009`(소리 도착 알림)를 차례로 실행하면 됩니다.
    > ⚠️ **`migrations-006.sql`을 실행해야 친구 정원 놀러 가기가 동작합니다.** 친구 정원에는 *그 친구가 받아서 심은 소리*가 보이는데,
    > 받은 소리는 보낸 사람 정원에 저장되어 있어서 방문용 함수(`visit_flowers`)와 소리 파일 읽기 권한이 따로 필요합니다.
    > 실행 전에는 놀러 가기 화면에 "서버 준비가 아직 안 됐어요 (Supabase에서 migrations-006.sql 실행 필요)"가 나옵니다.
@@ -80,3 +80,26 @@ npm run dev:phone    # 같은 와이파이의 폰에서 https://<PC IP>:5173
 |---|---|---|
 | **교보 손글씨 2024 박서우** | 꽃말 (`public/fonts/KyoboHandwriting2024psw.ttf`) | © 교보문고 · 제작 윤디자인. 제10회 교보손글씨대회 으뜸상 수상자 박서우 님의 손글씨. 개인·기업 무료 사용 가능(웹 포함). 파일 수정·변환·재판매 금지. [교보문고 손글씨 폰트](https://store.kyobobook.co.kr/handwriting/font) |
 | **Pretendard** | 그 밖의 모든 글자 | © Kil Hyung-jin · [SIL Open Font License 1.1](https://github.com/orioncactus/pretendard/blob/main/LICENSE) · jsDelivr CDN으로 불러옴 |
+
+## 7. 소리 도착 푸시 알림 (Supabase만 사용)
+
+친구가 소리를 보내면 받는 사람 기기로 "○○이 소리를 보냈어요" 알림이 가고, 누르면 받은 소리함이 열립니다.
+Firebase 없이 **웹 푸시**를 씁니다: `shares`에 행이 생기면 DB 트리거(`migrations-009.sql`)가 Edge Function(`supabase/functions/notify-share`)을 부르고, 함수가 브라우저 푸시 서버로 보냅니다.
+
+- 받을 수 있는 곳: 아이폰은 **홈 화면에 추가한 소리숲**(iOS 16.4 이상), Android·PC는 크롬 등 브라우저
+- **Capacitor 앱(APK) 안에서는 받을 수 없습니다**(WebView가 웹 푸시를 지원하지 않음). 앱의 '나' 화면에 안내가 나옵니다.
+- 각자 **메뉴 → 나 → 알림 켜기**를 눌러야 그 기기로 옵니다.
+
+설정 (한 번만):
+1. VAPID 키 한 쌍 만들기: `npx web-push generate-vapid-keys`
+2. **Edge Functions**에 `notify-share` 배포 — `supabase/functions/notify-share/index.ts` 내용으로, **JWT 검증은 끄고**
+   (CLI: `supabase functions deploy notify-share --no-verify-jwt`, 또는 Dashboard → Edge Functions → 새 함수에 붙여넣고 *Enforce JWT verification* 끄기)
+3. **Edge Functions → Secrets**에 추가: `VAPID_PUBLIC_KEY`, `VAPID_PRIVATE_KEY`, `PUSH_SECRET`(아무 긴 무작위 문자열)
+4. **SQL Editor**에서 Vault 비밀값을 넣고 `supabase/migrations-009.sql` 실행
+   ```sql
+   select vault.create_secret('https://xxxx.supabase.co', 'project_url');
+   select vault.create_secret('<3번의 PUSH_SECRET과 같은 값>', 'push_secret');
+   ```
+5. Vercel(과 `.env`)에 `VITE_VAPID_PUBLIC_KEY=<1번의 공개 키>` 넣고 다시 배포. 이 값이 없으면 알림 메뉴가 보이지 않습니다.
+
+안 올 때: Edge Functions → notify-share → Logs, 그리고 SQL `select * from net._http_response order by created desc limit 5;`로 트리거 호출 결과를 확인하세요.
