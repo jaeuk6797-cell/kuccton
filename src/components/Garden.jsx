@@ -23,10 +23,10 @@ const hasBatchim = (w = '') => {
 const josa = (w, a, b) => `${w}${hasBatchim(w) ? a : b}`
 
 // demo: 개발용 미리보기(?view=home)에서만 넘긴다. 주면 Supabase 대신 그 데이터로 화면만 그린다.
-export default function Garden({ session, onSignOut, email, demo }) {
+export default function Garden({ session, onSignOut, email, demo, initialTab = 'garden' }) {
   const [data, setData] = useState(null)
   const [error, setError] = useState('')
-  const [tab, setTab] = useState('garden')
+  const [tab, setTab] = useState(() => demo && ['garden', 'album', 'friends', 'me', 'help'].includes(initialTab) ? initialTab : 'garden')
   const [recording, setRecording] = useState(false)
   const [openFlower, setOpenFlower] = useState(null)
   const [openPair, setOpenPair] = useState(null)
