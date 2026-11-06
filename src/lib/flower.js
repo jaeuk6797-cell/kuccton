@@ -95,6 +95,8 @@ const SOUND_WORDS = {
   base: [['토독', '투둑'], ['또각', '뚜벅'], ['타닥', '쿠당']],
   multi: [['토독토독', '투둑투둑'], ['또각또각', '뚜벅뚜벅'], ['타닥타닥', '쿠당쿠당']],
 }
+// 작고 세게 터지는 소리(물방울·마우스 클릭·타자)는 '타닥'이 너무 커서 가벼운 말을 쓴다
+const SOFT_WORDS = { single: '톡', base: '토독', multi: '톡톡' }
 // 소리가 길게 이어질 때: [작고 맑음, 작고 낮음, 크고 맑음, 크고 낮음]
 export const SUSTAINED_WORDS = ['살랑', '사분사분', '쏴아', '웅웅']
 
@@ -112,7 +114,8 @@ export function buildSoundFlower(f) {
   const attackLevel = f.attack >= THRESHOLDS.strongAttack ? 2 : f.attack >= THRESHOLDS.weakAttack ? 1 : 0
   const yin = loud && !bright // 크고 낮은 소리만 음성모음, 나머지는 양성모음
 
-  const sustained = f.sustain >= 0.6 && f.onsets <= 1 && attackLevel === 0
+  // 비·엔진·바람처럼 노이즈성 소리는 onset 수가 부풀려지므로 지속 정도만 본다
+  const sustained = f.sustain >= 0.5
   const rhythm = f.onsets <= 1 ? 'single' : f.onsets >= 4 ? 'multi' : 'base'
 
   let word, how
@@ -120,7 +123,8 @@ export function buildSoundFlower(f) {
     word = SUSTAINED_WORDS[(loud ? 2 : 0) + (bright ? 0 : 1)]
     how = '길게 이어져서'
   } else {
-    word = SOUND_WORDS[rhythm][attackLevel][yin ? 1 : 0]
+    const soft = attackLevel === 2 && f.rms < THRESHOLDS.quietRms
+    word = soft ? SOFT_WORDS[rhythm] : SOUND_WORDS[rhythm][attackLevel][yin ? 1 : 0]
     how = RHYTHM_TEXT[rhythm]
   }
 
