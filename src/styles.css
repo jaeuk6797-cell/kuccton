@@ -157,7 +157,13 @@ h1, h2 { margin: 0; }
 
 .toast {
   position: fixed; top: calc(var(--viewport-top, 0px) + var(--viewport-height, 100dvh) / 2); left: 50%; transform: translate(-50%, -50%); background: rgba(255,252,248,.97); color: var(--ink);
-  width: max-content; max-width: min(360px, calc(100% - 40px)); padding: 16px 22px; border: 1px solid rgba(255,255,255,.85); border-radius: 20px; box-shadow: 0 8px 32px rgba(75,61,72,.12); font-size: 0.88rem; line-height: 1.6; text-align: center; white-space: normal; overflow-wrap: anywhere; z-index: 40; animation: fade .2s; pointer-events: none;
+  width: max-content; max-width: min(360px, calc(100% - 40px)); padding: 16px 22px; border: 1px solid rgba(255,255,255,.85); border-radius: 20px; box-shadow: 0 8px 32px rgba(75,61,72,.12); font-size: 0.88rem; line-height: 1.6; text-align: center; white-space: normal; overflow-wrap: anywhere; z-index: 40; animation: toast-life 2s ease-in-out both; pointer-events: none;
+}
+
+/* 2초 안에 부드럽게 나타나고 사라진 뒤 제거된다. */
+@keyframes toast-life {
+  0%, 100% { opacity: 0; }
+  15%, 80% { opacity: 1; }
 }
 
 .seed { width: 26px; height: 26px; border-radius: 50% 50% 50% 0; background: #a5c48e; transform: rotate(-45deg); animation: bob 1s infinite alternate; margin: 30px; }

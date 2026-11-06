@@ -51,6 +51,7 @@ export default function Garden({ session, onSignOut, email, demo }) {
   }, [menuOpen, showBell])
   const [viewFriend, setViewFriend] = useState('all') // 정원에서 볼 꽃: 'all' 또는 친구 member id // 오른쪽 위 메뉴: 정원·앨범·친구·나·받은 소리
   const [toast, setToast] = useState('')
+  const [toastKey, setToastKey] = useState(0)
   const toastTimerRef = useRef(null)
   useEffect(() => () => clearTimeout(toastTimerRef.current), [])
   const [answerBusy, setAnswerBusy] = useState(false)
@@ -219,6 +220,7 @@ export default function Garden({ session, onSignOut, email, demo }) {
   function showToast(t) {
     clearTimeout(toastTimerRef.current)
     setToast(t)
+    setToastKey((key) => key + 1)
     toastTimerRef.current = setTimeout(() => setToast(''), 2000)
   }
   function openInbox() { setShowBell(true); setMenuOpen(true) }
@@ -402,7 +404,7 @@ export default function Garden({ session, onSignOut, email, demo }) {
       )}
 
       {tutorialOpen && <Tutorial onDone={finishTutorial} />}
-      {toast && <div className="toast" role="status" aria-live="polite">{toast}</div>}
+      {toast && <div key={toastKey} className="toast" role="status" aria-live="polite">{toast}</div>}
       {recording && <Recorder onClose={() => setRecording(false)} onSend={handleSend} friends={data.friends} />}
       {openFlower && (
         <FlowerDetail

@@ -244,7 +244,7 @@ export default function Recorder({ onClose, onSend, friends = [] }) {
                 </label>
               </>
             )}
-            <p className="small muted">이 소리는 내 정원에 피지 않아요. 친구에게 공유하면, 친구가 받았을 때 친구 정원에 피어요.</p>
+            <p className="small muted">공유하면 친구 정원에 피어요.</p>
             <div className="row">
               <button className="ghost" onClick={() => setStep('idle')}>다시 녹음</button>
               <button className="primary" onClick={() => setStep('sendto')}>다음</button>
