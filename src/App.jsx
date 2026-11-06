@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { useSpeechRecognition } from './useSpeechRecognition.js'
 import { analyzeEmotion, emotionEnabled } from './emotion.js'
 import { extractFeatures } from './soundFeatures.js'
-import { CATEGORIES, VOICE_IDS, buildFlower } from './flower.js'
+import { categoriesFor, buildFlower } from './flower.js'
 import Flower from './Flower.jsx'
 import Waveform from './Waveform.jsx'
 
@@ -15,6 +15,7 @@ export default function App() {
   const [blob, setBlob] = useState(null)
   const [audioUrl, setAudioUrl] = useState(null)
   const [micError, setMicError] = useState(null)
+  const [kind, setKind] = useState('') // 'voice' | 'other', 녹음 전에 고른다
   const [category, setCategory] = useState('')
   const [emotion, setEmotion] = useState(null)
   const [emotionError, setEmotionError] = useState(null)
@@ -39,11 +40,16 @@ export default function App() {
     }
   }, [blob])
 
+  // 종류를 바꾸면 목소리는 '사람 목소리'를 기본으로, 다른 소리는 직접 고르게 한다.
+  useEffect(() => {
+    setCategory(kind === 'voice' ? 'speech' : '')
+  }, [kind])
+
   // 사람 목소리를 골랐을 때만 녹음을 감정 분석 서버로 보낸다.
   useEffect(() => {
     setEmotion(null)
     setEmotionError(null)
-    if (!VOICE_IDS.includes(category) || !blob || !emotionEnabled) return
+    if (kind !== 'voice' || !blob || !emotionEnabled) return
     let cancelled = false
     setAnalyzing(true)
     analyzeEmotion(blob)
@@ -53,7 +59,7 @@ export default function App() {
     return () => {
       cancelled = true
     }
-  }, [category, blob])
+  }, [kind, blob])
 
   async function startRecording() {
     setMicError(null)
@@ -80,7 +86,7 @@ export default function App() {
     recorderRef.current = recorder
     recorder.start()
     setLiveStream(stream)
-    stt.start()
+    if (kind === 'voice') stt.start()
 
     setRecording(true)
     setLeft(MAX_SECONDS)
@@ -106,9 +112,33 @@ export default function App() {
     <main style={{ maxWidth: 420, margin: '0 auto', padding: 24, fontFamily: 'sans-serif' }}>
       <h1>소리숲</h1>
 
-      <button onClick={recording ? stopRecording : startRecording} style={{ fontSize: 18, padding: '12px 20px' }}>
+      <section style={{ marginBottom: 16 }}>
+        <p style={{ margin: '0 0 8px' }}>어떤 소리를 남길까요?</p>
+        <div style={{ display: 'flex', gap: 8 }}>
+          {[
+            ['voice', '사람 목소리'],
+            ['other', '다른 소리'],
+          ].map(([id, label]) => (
+            <button
+              key={id}
+              onClick={() => setKind(id)}
+              disabled={recording}
+              style={{ fontWeight: kind === id ? 'bold' : 'normal', padding: '8px 14px' }}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+      </section>
+
+      <button
+        onClick={recording ? stopRecording : startRecording}
+        disabled={!recording && !kind}
+        style={{ fontSize: 18, padding: '12px 20px' }}
+      >
         {recording ? `■ 멈추기 (${left}초)` : '● 10초 녹음'}
       </button>
+      {!kind && !recording && <p style={{ margin: '8px 0 0' }}>먼저 소리 종류를 골라 주세요.</p>}
       {micError && <p style={{ color: 'crimson' }}>{micError}</p>}
 
       <div style={{ marginTop: 16, display: recording ? 'block' : 'none' }}>
@@ -123,9 +153,9 @@ export default function App() {
 
       {blob && (
         <section style={{ marginTop: 24 }}>
-          <h2>어떤 소리인가요?</h2>
+          <h2>{kind === 'voice' ? '어떤 목소리인가요?' : '어떤 소리인가요?'}</h2>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-            {CATEGORIES.map((c) => (
+            {categoriesFor(kind).map((c) => (
               <button
                 key={c.id}
                 onClick={() => setCategory(c.id)}
@@ -136,7 +166,7 @@ export default function App() {
             ))}
           </div>
 
-          {VOICE_IDS.includes(category) && (
+          {kind === 'voice' && (
             <div style={{ marginTop: 12 }}>
               {!emotionEnabled && <p>감정 분석 서버 주소(VITE_EMOTION_API_URL)가 설정되지 않았어요.</p>}
               {analyzing && <p>목소리의 감정을 읽는 중…</p>}

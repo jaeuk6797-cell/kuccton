@@ -17,15 +17,15 @@ export const CATEGORIES = [
   { id: 'dishes', label: '그릇·수저', group: 'life', base: '달그락', yin: '덜그럭', strong: '땡' },
   { id: 'vehicle', label: '교통', group: 'life', base: '덜컥', multi: '덜컥덜컥', strong: '부릉' },
   { id: 'applause', label: '박수', group: 'laugh', base: '짝짝', multi: '짝짝짝' },
-  { id: 'laugh', label: '웃음', group: 'laugh', base: '깔깔', single: '하하', yin: '껄껄', strong: '킥킥' },
-  { id: 'sing', label: '노래·허밍', group: 'voice', base: '흥얼', multi: '흥얼흥얼', strong: '랄랄' },
-  { id: 'whisper', label: '속삭임', group: 'voice', base: '소곤소곤', yin: '수군수군' },
-  { id: 'speech', label: '사람 목소리', group: 'voice', base: '도란도란', multi: '재잘재잘', yin: '왁자지껄' },
+  { id: 'laugh', voice: true, label: '웃음', group: 'laugh', base: '깔깔', single: '하하', yin: '껄껄', strong: '킥킥' },
+  { id: 'sing', voice: true, label: '노래·허밍', group: 'voice', base: '흥얼', multi: '흥얼흥얼', strong: '랄랄' },
+  { id: 'whisper', voice: true, label: '속삭임', group: 'voice', base: '소곤소곤', yin: '수군수군' },
+  { id: 'speech', voice: true, label: '사람 목소리', group: 'voice', base: '도란도란', multi: '재잘재잘', yin: '왁자지껄' },
   { id: 'other', label: '기타', group: 'other', base: '사분사분', yin: '웅웅' },
 ]
 
-// 사람 목소리를 골랐을 때만 감정 분석을 쓴다.
-export const VOICE_IDS = ['speech', 'whisper']
+// 녹음 전에 고른 '사람 목소리 / 다른 소리'에 맞춰 보여 줄 카테고리를 나눈다.
+export const categoriesFor = (kind) => CATEGORIES.filter((c) => Boolean(c.voice) === (kind === 'voice'))
 
 const HUE = { water: 210, laugh: 48, voice: 335, animal: 25, life: 130, other: 270 }
 const COUNT_WORD = ['한', '한', '두', '세']
