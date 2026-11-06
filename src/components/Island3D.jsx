@@ -9,7 +9,7 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
 import { buildFlower3D, disposeFlower3D } from '../lib/flower3d.js'
 import { buildBlenderFlower, useBlenderFlowerAssets } from '../lib/blenderFlower.js'
-import { applyWarmIslandMaterial, applyWarmIslandPaint, applyAuroraIslandMaterial, applyAuroraIslandPaint } from '../lib/islandTone.js'
+import { applyWarmIslandMaterial, applyWarmIslandPaint, applyAuroraIslandMaterial, applyAuroraIslandPaint, applyFountainMaterial, applyBalancedGroundMaterial } from '../lib/islandTone.js'
 import { createAuroraAtmosphere } from '../lib/auroraAtmosphere.js'
 import { createBalancedMotes } from '../lib/balancedMotes.js'
 import { AuroraGlowPass } from '../lib/AuroraGlowPass.js'
@@ -199,7 +199,7 @@ function loadIslandGlb(onReady, onError) {
         const transparent = materials.some((material) => material.transparent)
         // Alpha crystals keep their transmitted appearance; only solid perimeter details cast shadows.
         o.castShadow = !transparent && /Island_Vegetation/.test(o.name)
-        o.receiveShadow = !transparent && /Island_(Surface|Pond|Accents|Vegetation)/.test(o.name)
+        o.receiveShadow = !transparent && /^(Island_(Surface|Pond|Accents|Vegetation)|Fountain_)/.test(o.name)
       })
       draco.dispose()
       onReady(model, assetTriangles)
@@ -232,17 +232,29 @@ function prepareIslandAppearance(model) {
     setTone(tone) {
       let materials = variants.get(tone)
       if (!materials) variants.set(tone, materials = new Map())
-      const materialFor = source => {
-        if (!materials.has(source)) {
+      const materialFor = (source, exposedGround) => {
+        // The pond's mineral basin shares the authored ground material.
+        const sageGround = tone === 'balanced' && exposedGround
+        const key = sageGround ? 'sage ground' : source
+        if (!materials.has(key)) {
           const material = source.clone()
-          if (tone === 'aurora') applyAuroraIslandMaterial(material)
-          else if (tone !== 'default') applyWarmIslandMaterial(material)
-          applyOpalReflection(material, tone)
-          materials.set(source, material)
+          if (sageGround) applyBalancedGroundMaterial(material)
+          else {
+            if (tone === 'aurora') applyAuroraIslandMaterial(material)
+            else if (tone !== 'default') applyWarmIslandMaterial(material)
+            applyOpalReflection(material, tone)
+            applyFountainMaterial(material, tone)
+          }
+          materials.set(key, material)
         }
-        return materials.get(source)
+        return materials.get(key)
       }
-      for (const { mesh, source } of meshes) mesh.material = Array.isArray(source) ? source.map(materialFor) : materialFor(source)
+      for (const { mesh, source } of meshes) {
+        const exposedGround = mesh.name.startsWith('Island_Surface')
+        mesh.material = Array.isArray(source)
+          ? source.map(material => materialFor(material, exposedGround))
+          : materialFor(source, exposedGround)
+      }
 
       const paint = tone === 'balanced' ? 'warm' : tone
       if (activePaint === paint) return
@@ -413,7 +425,7 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
     flowerLayer.position.y = ISLAND_TOP_Y
     floating.add(islandGroup, flowerLayer)
     scene.add(floating)
-    let islandModel = null, islandAppearance = null, grass = null
+    let islandModel = null, islandAppearance = null, grass = null, fountainFlow = null
     const N = 140, pts = new Float32Array(N * 3), r0 = rng(7)
     for (let i = 0; i < N; i++) pts.set([(r0() - 0.5) * 12, r0() * 7 - 1, (r0() - 0.5) * 10], i * 3)
     const pGeo = new THREE.BufferGeometry()
@@ -589,6 +601,7 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
       cancelLoad = loadIslandGlb((model, assetTriangles) => {
         cancelLoad = null
         islandModel = model
+        fountainFlow = model.getObjectByName('Fountain_Water_Flow')
         islandAppearance = prepareIslandAppearance(model)
         grass = createIslandGrass(model, { tone: st.requestedTone })
         disposeMeshes(islandGroup)
@@ -640,6 +653,20 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
     }
     const api = {
       snapshot,
+      decoration: () => {
+        const fountain = []
+        let ground, pond
+        islandModel?.traverse(mesh => {
+          if (!mesh.isMesh) return
+          const color = mesh.material.color.getHexString()
+          if (mesh.name.startsWith('Island_Surface')) ground = { color, roughness: mesh.material.roughness }
+          if (mesh.name.startsWith('Island_Pond') && mesh.material.name === 'SUP Still aqua water') pond = color
+          if (mesh.name.startsWith('Fountain_')) fountain.push({ name: mesh.name, geometry: mesh.geometry.uuid, color })
+        })
+        const basin = islandModel?.getObjectByName('Fountain_Basin')
+        const bounds = basin ? new THREE.Box3().setFromObject(basin) : null
+        return { ground, pond, fountain, basin: bounds && { min: bounds.min.toArray(), max: bounds.max.toArray() }, flowAngle: fountainFlow?.rotation.y }
+      },
       islandPaint: () => {
         const colors = []
         islandModel?.traverse(mesh => {
@@ -705,6 +732,11 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
       }
       controls.update()
       atmosphere?.userData.tick(t, camera)
+      if (fountainFlow) {
+        const ripple = Math.sin(t * 1.8)
+        fountainFlow.rotation.y = .12 * Math.sin(t * .85)
+        fountainFlow.scale.set(1 + .025 * ripple, 1 + .009 * ripple, 1 + .025 * ripple)
+      }
       for (const f of flowerLayer.children) {
         const u = f.userData
         const age = propsRef.current.previewTime == null ? t - (u.bornAt ?? -10) : propsRef.current.previewTime

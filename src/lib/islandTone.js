@@ -1,5 +1,35 @@
 import * as THREE from 'three'
 
+const FOUNTAIN_COLORS = {
+  balanced: ['#f1e7d5', '#c5a382', '#a3d8de'],
+  warm: ['#f5e2da', '#d3a191', '#d1d5e1'],
+  aurora: ['#c6b6e4', '#b89bc8', '#62d7df'],
+  default: ['#e0e7ef', '#b7aecf', '#a1d4e3'],
+}
+const FOUNTAIN_MATERIALS = ['SUP Fountain porcelain', 'SUP Fountain champagne', 'SUP Fountain water']
+
+export function applyFountainMaterial(material, tone) {
+  const index = FOUNTAIN_MATERIALS.indexOf(material.name)
+  if (index === -1) return
+  material.color.set(FOUNTAIN_COLORS[tone][index])
+  if (index === 2 && tone === 'aurora') {
+    material.emissive.set('#69cadf')
+    material.emissiveIntensity = .18
+  }
+}
+
+export function applyBalancedGroundMaterial(material) {
+  material.color.set('#91bd92')
+  material.vertexColors = false
+  material.roughness = .91
+  material.metalness = 0
+  material.clearcoat = 0
+  material.iridescence = 0
+  material.specularIntensity = .38
+  material.envMapIntensity = .25
+  material.normalScale?.setScalar(.10)
+}
+
 const FACET_TINTS = {
   'SUP Lavender quartz': ['#d7afd4', 0.62],
   'SUP Cyan quartz': ['#efd5b7', 0.76],

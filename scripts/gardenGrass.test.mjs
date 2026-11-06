@@ -55,7 +55,7 @@ for (const file of ['island.glb', 'island-modern.glb']) {
   })
 }
 
-test('canonical island has 14,099 exported triangles and the approved decorations', async () => {
+test('canonical island has the fountain, preserved mineral details and 14,025 exported triangles', async () => {
   const root = await model('island-modern.glb')
   const names = []
   let triangles = 0
@@ -64,9 +64,24 @@ test('canonical island has 14,099 exported triangles and the approved decoration
     names.push(mesh.name)
     triangles += (mesh.geometry.index?.count ?? mesh.geometry.attributes.position.count) / 3
   })
-  assert.equal(triangles, 14099)
-  assert.ok(names.every(name => !/Ornamental_Ring|hoop/i.test(name)))
-  for (const name of ['Island_Crystal_Underside', 'Island_Pond', 'Island_Metal_Rim', 'Island_Peripheral_Crystals']) {
+  assert.equal(triangles, 14025)
+  assert.ok(names.every(name => !/Ornamental_Ring|hoop|Island_Peripheral_Crystals/i.test(name)))
+  assert.equal(names.filter(name => name.startsWith('Fountain_')).length, 4)
+  for (const name of ['Island_Crystal_Underside', 'Island_Pond', 'Island_Metal_Rim', 'Fountain_Basin']) {
     assert.ok(names.some(mesh => mesh.startsWith(name)), name)
   }
+  const grass = createIslandGrass(root)
+  const basin = new THREE.Box3().setFromObject(root.getObjectByName('Fountain_Basin')).expandByScalar(.05)
+  const matrix = new THREE.Matrix4(), blade = new THREE.Vector3()
+  grass.mesh.updateWorldMatrix(true, false)
+  const positions = grass.mesh.geometry.attributes.position
+  for (let i = 0; i < grass.mesh.count; i++) {
+    grass.mesh.getMatrixAt(i, matrix)
+    matrix.premultiply(grass.mesh.matrixWorld)
+    for (let vertex = 0; vertex < positions.count; vertex++) {
+      blade.fromBufferAttribute(positions, vertex).applyMatrix4(matrix)
+      assert.ok(blade.x < basin.min.x || blade.x > basin.max.x || blade.z < basin.min.z || blade.z > basin.max.z, 'blade clears basin')
+    }
+  }
+  grass.dispose()
 })

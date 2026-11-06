@@ -160,7 +160,7 @@ export function createIslandGrass(model, { count = MAX_CLUMPS, seed = 27439, the
     if (!object.isMesh) return
     if (/^Island_Surface/.test(object.name)) surfaces.push(object)
     // The polished edge mesh spans every cluster; use individual facet families instead.
-    if (/^Island_Peripheral_Crystals.*Cluster/.test(object.name)
+    if (object.name === 'Fountain_Basin' || /^Island_Peripheral_Crystals.*Cluster/.test(object.name)
       || /^Island_Ornamental_Ring.*feet/i.test(object.name)) {
       obstacleBoxes.push(new THREE.Box3().setFromObject(object).expandByScalar(0.05))
     }
