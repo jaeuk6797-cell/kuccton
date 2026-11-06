@@ -1,0 +1,130 @@
+SUP floating mineral garden - shape refinement
+2026-11-06
+
+Starting point
+
+Focused revision of commit 266c127 on codex/island-refinement. Earlier source,
+assets, screenshots and renderer are preserved in that parent commit.
+
+Geometry
+
+A fifteen-shoulder asymmetric outline with lightly dressed corners replaces
+the circular boundary. The planting surface, metal seam and mineral shell
+share the outline. Long planar stretches keep the contour intentional.
+The rose-gold band is roughly half its old depth, varies gently in depth,
+and has one champagne upper seam. The rear resonator is subtly asymmetric.
+
+The underside is a single connected formation with broad fracture planes,
+0.013-unit edge chamfers and an offset suspended tip at local Y=-2.86.
+The tip extends toward the front, making the tapered silhouette visible from
+the app camera. No hanging rock clusters or extra ornaments were introduced.
+Surface sampling, leaf tessellation, gravel quantity and trim sections were
+reduced while retaining the major crystal silhouettes and clear center.
+
+Asset measurements
+
+Metric                         Before       After
+Total triangles                38,724       24,443
+Planting surface triangles      5,390        2,672
+Underside triangles             4,330        1,089
+Ground plus underside           9,720        3,761
+Exported vertices              40,637       22,701
+Mesh primitives                    22           22
+Materials                          11           11
+GLB bytes                   2,295,192    1,577,764
+
+The full asset is within the 20,000-28,000 target and has 36.9% fewer triangles.
+The underside alone is below the approximate 3,000-6,000 base-shell range;
+including the planting surface, the broad base is 3,761 triangles. The large
+planes did not require added tessellation. The GLB is 1.58 MB, 31.2% smaller.
+One packed 512 x 512 normal texture accounts for 624,332 bytes. Other color
+variation is stored in vertex colors.
+
+Materials and rendering
+
+Ground metallic is reduced from .09 to .035, with roughness .39. It uses
+standard metallic-roughness reflection. A ground clearcoat/iridescence probe
+had negligible visual benefit and higher measured cost, so it was removed.
+Mineral metallic is .12, roughness .32, and clearcoat .22/.24. Broader tinted
+reflections read across the surfaces without a mirror-like planting area.
+
+The app captures broad pink, lavender, cyan and turquoise reflection cards
+into its existing 256-face environment. Lower peak radiance and a one-time
+0.14-radian PMREM blur soften the sky reflections. Environment intensity .55,
+ACES exposure 1, existing postprocessing and shadow setup remain. Cool-fill
+intensity .65 improves underside visibility. There are no additional lights,
+per-frame reflection captures, refraction passes or postprocessing passes.
+
+Crystal geometry and layered facet alpha remain sharp and glossy, with
+roughness .055/.067/.079 and vertex alpha approximately .39-.77. Water alpha
+is .64. Materials use export-compatible glTF PBR, clearcoat, iridescence,
+specular and IOR properties. Transparency is simple single-sided blending.
+
+Integration and geometry validation
+
+The exported asset is Y-up with top-center origin (0,0,0). Raw X/Z dimensions
+are 7.931661 x 7.687877. The unchanged loader scales by 1.00861599 to an
+8-unit maximum diameter and raises the planting origin to world Y=.17.
+
+All 1,653 sampled points within world radius 2.3 hit the planting surface.
+Maximum height deviation is .00000738. The nearest permanent decoration is
+at world radius 2.36378; triangle-based clearance also passes. All eight
+fixed fern bases are on the surface. No static flowers, buds or petals exist.
+
+The GLB has zero degenerate triangles, winding conflicts or invalid normals.
+The underside is one connected component without non-manifold edges. Its
+79 boundary edges are confined to the concealed upper join beneath the rim.
+Cameras, lights, backdrop and animations are absent from the GLB.
+
+Outputs
+
+public/models/island.glb
+art/island/island.blend
+art/island/generate_island.py
+art/island/preview.png
+art/island/qa/shape-asset-validation.json
+art/island/qa/shape-before
+art/island/qa/shape-after
+
+The editable source is saved with the SOOP_Island scene, SUP_Floating_Island
+root collection, separate geometry groups and excluded preview rig. Existing
+work in the live Blender session was preserved. The final source and GLB were
+saved from the same generator revision.
+
+Production build passes with the existing bundle-size warning. Public and
+dist GLB files have matching SHA-256
+5e9338276dc51a560cf6c49589e439fdc4fde9ced51fe913e7ef1f33b6fe3f80.
+
+App verification and performance
+
+Final app verification and measured performance are recorded in the paired
+shape-before/shape-after captures and shape-performance-comparison.json.
+The actual /?view=island route was checked with and without flowers, rotated
+views and a mobile-like viewport. Flower picking, orbit dragging and new
+flower growth pass. No loading failures were observed. The existing
+THREE.Clock deprecation warning remains.
+
+Render calls remain 405 with flowers and 26 for the island only. Rendered
+triangles including shadows fall from 98,795 to 81,332 with flowers and
+52,899 to 35,436 for the island only. No extra render pass was added.
+
+Host load varied substantially between early and late measurements. A
+controlled same-session ABBA replay measured the baseline at 101.0/100.7 ms
+with flowers and 72.7/72.7 ms empty, versus 102.8/102.6 and 73.6/72.9 ms
+for the temporary coated ground. Removing that ground coating measured
+91.0 ms with flowers and 61.5 ms empty, about 11%/16% lower than the coated
+variant. The final export uses that simpler ground material. These paired
+figures are diagnostic software-renderer observations, not mobile FPS claims.
+
+The final exported GLB was loaded again and checked at 52.3 ms with flowers,
+34.5 ms empty and 45.1 ms in portrait. Earlier baseline runs were 56.2,
+39.0 and 48.0 ms respectively. Use the controlled pairing above to assess
+material cost; these separate final/baseline runs experienced different host
+load and are included for traceability rather than a guaranteed speedup.
+
+Timing uses Chrome ANGLE/SwiftShader software rendering, DPR 1.5 and 60
+settled animation frames. It is not physical Android/iOS GPU timing. Thin
+reflective edges retain some aliasing at distant zoom. Crystal depth uses
+facet color, alpha and reflection rather than optical refraction. The
+underside deliberately retains darker mineral values beneath the bright
+planting surface. No audio, authentication or database behavior changed.

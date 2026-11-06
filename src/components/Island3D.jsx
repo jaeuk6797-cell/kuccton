@@ -49,6 +49,48 @@ function cssColor(str, fallback = '#f0a0c0') {
 }
 const mat = (color, extra = {}) => new THREE.MeshStandardMaterial({ color, flatShading: true, roughness: 0.9, ...extra })
 
+function disposeMeshes(root) {
+  const resources = new Set()
+  root.traverse((object) => {
+    if (object.geometry) resources.add(object.geometry)
+    const materials = Array.isArray(object.material) ? object.material : [object.material]
+    for (const material of materials) {
+      if (!material) continue
+      resources.add(material)
+      for (const value of Object.values(material)) if (value?.isTexture) resources.add(value)
+    }
+  })
+  for (const resource of resources) resource.dispose()
+}
+
+function createGardenEnvironment(renderer) {
+  // Capture broad pastel sky reflections once; only the filtered cubemap is sampled each frame.
+  const studio = new THREE.Scene()
+  studio.background = new THREE.Color('#69788b')
+  const geometry = new THREE.PlaneGeometry(1, 1)
+  for (const [position, size, color, intensity] of [
+    [[-3, 4, 5], [6.5, 5.5], '#f5c8df', 1.7],
+    [[5, 2, 2], [5, 6], '#b9e7f0', 1.7],
+    [[-4, 3, -4], [7, 4.5], '#c6b7ec', 1.55],
+    [[0, 5, -1], [5, 5], '#c5ece5', 1.45],
+  ]) {
+    const material = new THREE.MeshBasicMaterial({
+      color: new THREE.Color(color).multiplyScalar(intensity), toneMapped: false,
+    })
+    const panel = new THREE.Mesh(geometry, material)
+    panel.position.set(...position)
+    panel.scale.set(size[0], size[1], 1)
+    panel.lookAt(0, 0, 0)
+    studio.add(panel)
+  }
+  const generator = new THREE.PMREMGenerator(renderer)
+  // A small angular blur softens light-card edges without adding a realtime render pass.
+  const environment = generator.fromScene(studio, 0.14, 0.1, 30, { size: 256 })
+  generator.dispose()
+  disposeMeshes(studio)
+  return environment
+}
+
 function jitter(geo, amount, rand, keep = () => false) {
   const p = geo.attributes.position
   const seen = new Map()
@@ -103,6 +145,7 @@ function buildIsland() {
 }
 
 function loadIslandGlb(target) {
+  let disposed = false
   const draco = new DRACOLoader()
   draco.setDecoderPath(`${import.meta.env.BASE_URL}draco/`)
   const loader = new GLTFLoader()
@@ -111,10 +154,22 @@ function loadIslandGlb(target) {
     ISLAND_GLB,
     (gltf) => {
       const model = gltf.scene
+      if (disposed) {
+        disposeMeshes(model)
+        return
+      }
       const size = new THREE.Box3().setFromObject(model).getSize(new THREE.Vector3())
       model.scale.setScalar((ISLAND_RADIUS * 2) / Math.max(size.x, size.z, 0.001))
       model.position.y = ISLAND_TOP_Y
-      model.traverse((o) => { if (o.isMesh) { o.castShadow = true; o.receiveShadow = true } })
+      model.traverse((o) => {
+        if (!o.isMesh) return
+        const materials = Array.isArray(o.material) ? o.material : [o.material]
+        const transparent = materials.some((material) => material.transparent)
+        // Alpha crystals keep their transmitted appearance; only solid perimeter details cast shadows.
+        o.castShadow = !transparent && /Island_(Ornamental_Ring|Vegetation)/.test(o.name)
+        o.receiveShadow = !transparent && /Island_(Surface|Pond|Accents|Vegetation)/.test(o.name)
+      })
+      disposeMeshes(target)
       target.clear()
       target.add(model)
       draco.dispose()
@@ -122,6 +177,10 @@ function loadIslandGlb(target) {
     undefined,
     () => draco.dispose(), // 모델이 없거나 읽을 수 없으면 코드로 만든 섬을 그대로 둔다
   )
+  return () => {
+    disposed = true
+    draco.dispose()
+  }
 }
 
 function placeFlowers(items) {
@@ -155,21 +214,35 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
     const wrap = wrapRef.current
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true })
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5)) // 빛 번짐 후처리 비용 때문에 1.5로 제한
+    // OutputPass applies this display transform once, after the linear scene render.
+    renderer.outputColorSpace = THREE.SRGBColorSpace
+    renderer.toneMapping = THREE.ACESFilmicToneMapping
+    renderer.toneMappingExposure = 1
     renderer.shadowMap.enabled = true
-    renderer.shadowMap.type = THREE.PCFSoftShadowMap
+    renderer.shadowMap.type = THREE.PCFShadowMap
     wrap.appendChild(renderer.domElement)
 
     const scene = new THREE.Scene()
+    const environment = createGardenEnvironment(renderer)
+    scene.environment = environment.texture
+    scene.environmentIntensity = 0.55
     const camera = new THREE.PerspectiveCamera(34, 1, 0.1, 100)
     camera.position.set(...CAMERA.position)
 
-    scene.add(new THREE.HemisphereLight('#e6eef7', '#6b5a48', 1.4))
-    const sun = new THREE.DirectionalLight('#ffe0bd', 2.2)
-    sun.position.set(5, 9, 5)
+    scene.add(new THREE.HemisphereLight('#ccd9f3', '#6c7d88', 0.38))
+    const sun = new THREE.DirectionalLight('#fff1e8', 1.5)
+    sun.position.set(5, 8, 5)
     sun.castShadow = true
     sun.shadow.mapSize.set(1024, 1024)
-    Object.assign(sun.shadow.camera, { left: -6, right: 6, top: 6, bottom: -6 })
+    Object.assign(sun.shadow.camera, { left: -5, right: 5, top: 5, bottom: -5, near: 0.5, far: 25 })
+    sun.shadow.intensity = 0.55
+    sun.shadow.radius = 3
+    sun.shadow.normalBias = 0.025
+    sun.shadow.bias = -0.0001
     scene.add(sun)
+    const fill = new THREE.DirectionalLight('#a8dce4', 0.65)
+    fill.position.set(-4, -1, 3)
+    scene.add(fill)
 
     const composer = new EffectComposer(renderer)
     composer.addPass(new RenderPass(scene, camera))
@@ -180,7 +253,7 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
     const islandGroup = new THREE.Group()
     islandGroup.add(buildIsland())
     floating.add(islandGroup)
-    loadIslandGlb(islandGroup)
+    const stopIslandLoad = loadIslandGlb(islandGroup)
     const flowerLayer = new THREE.Group()
     flowerLayer.position.y = 0.17
     floating.add(flowerLayer)
@@ -299,6 +372,12 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
       el.removeEventListener('pointerdown', onDown)
       el.removeEventListener('pointerup', onUp)
       controls.dispose()
+      stopIslandLoad()
+      disposeMeshes(scene)
+      scene.environment = null
+      environment.dispose()
+      sun.shadow.dispose()
+      for (const pass of composer.passes) pass.dispose()
       composer.dispose()
       renderer.dispose()
       wrap.removeChild(el)
