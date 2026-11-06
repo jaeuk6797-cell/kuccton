@@ -240,3 +240,6 @@ h1, h2 { margin: 0; }
 .auth-tabs { display: grid; grid-template-columns: 1fr 1fr; width: 100%; background: rgba(255,255,255,.6); border-radius: 999px; padding: 4px; }
 .auth-tabs button { padding: 10px; border-radius: 999px; font-weight: 600; color: var(--muted); }
 .auth-tabs button.on { background: white; color: var(--ink); box-shadow: 0 1px 4px rgba(0,0,0,.08); }
+
+/* 아이폰 홈 화면 앱: 상태 표시줄 아래로 내용이 겹치지 않게 */
+.screen { padding-top: calc(20px + env(safe-area-inset-top)); padding-bottom: calc(20px + env(safe-area-inset-bottom)); }
