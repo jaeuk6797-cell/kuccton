@@ -658,13 +658,13 @@ function Friends({ data, meId, onOpen, onVisit, onAnswer, onGoMe }) {
     return (
       <div className="page friend-page">
         <button className="link back-link" onClick={() => setSelectedId(null)}>← 친구 목록</button>
-        {/* 프로필을 누르면 친구 정원에 놀러 간다 */}
-        <button className="friend-hero" onClick={() => onVisit(selected)} aria-label={`${selected.nickname}의 정원 놀러 가기`}>
+        {/* 친구 정원 구경은 '정원 구경하기' 글씨를 눌러야만 간다 */}
+        <div className="friend-hero">
           <Avatar name={selected.nickname} url={selected.avatar_url} className="huge" />
           <h1 className="page-title">{selected.nickname}</h1>
           <small className="muted">{since.getMonth() + 1}월 {since.getDate()}일부터 친구 · 받은 소리 {received.length}개 · 보낸 소리 {mineCount(selected.user_id)}개</small>
-          <small className="visit-hint">눌러서 정원 구경하기 ›</small>
-        </button>
+          <button className="visit-hint" onClick={() => onVisit(selected)}>{selected.nickname}의 정원 구경하기 ›</button>
+        </div>
 
         <h2 className="page-sub">주고받은 소리</h2>
         {history.length === 0 ? (
