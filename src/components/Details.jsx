@@ -1,0 +1,127 @@
+import { useEffect, useMemo, useRef, useState } from 'react'
+import Flower from './Flower.jsx'
+import { audioUrl } from '../lib/db.js'
+import { audioCtx, peaks, playStereo, toMono } from '../lib/audio.js'
+import { CATEGORIES } from '../lib/naming.js'
+
+// S5 꽃 상세
+export function FlowerDetail({ flower, sender, mine, onClose, onDelete }) {
+  const [url, setUrl] = useState(null)
+  const [confirm, setConfirm] = useState(false)
+  const audioRef = useRef(null)
+
+  useEffect(() => {
+    audioUrl(flower.audio_path).then((u) => {
+      setUrl(u)
+      setTimeout(() => audioRef.current?.play().catch(() => {}), 50)
+    }).catch(console.error)
+  }, [flower.audio_path])
+
+  return (
+    <div className="sheet-backdrop" onClick={onClose}>
+      <div className="sheet center-col" onClick={(e) => e.stopPropagation()}>
+        <button className="close" onClick={onClose} aria-label="닫기">×</button>
+        <Flower flower={flower} size={130} />
+        <h2 className="flower-name">{flower.name}</h2>
+        <p className="reason">{flower.reason}</p>
+        {flower.transcript && <p className="hanamal-view">꽃말: “{flower.transcript}”</p>}
+        <p className="muted small">
+          {mine ? '내가 보낸 꽃' : `${sender?.nickname || '상대'}가 보낸 꽃`} · {flower.sent_date} · {CATEGORIES[flower.category]?.label}
+        </p>
+        {url ? <audio ref={audioRef} src={url} controls className="preview-audio" /> : <p className="muted">소리를 불러오는 중…</p>}
+        {mine && (
+          confirm ? (
+            <div className="row">
+              <button className="ghost" onClick={() => setConfirm(false)}>취소</button>
+              <button className="danger" onClick={() => onDelete(flower)}>정말 지우기</button>
+            </div>
+          ) : (
+            <button className="link danger-text" onClick={() => setConfirm(true)}>이 소리 지우기</button>
+          )
+        )}
+      </div>
+    </div>
+  )
+}
+
+// S6 우리의 꽃: 상대 소리는 왼쪽, 내 소리는 오른쪽
+export function PairDetail({ pair, flowerA, flowerB, meId, members, onClose }) {
+  const partnerFlower = flowerA.sender_id === meId ? flowerB : flowerA
+  const myFlower = partnerFlower === flowerA ? flowerB : flowerA
+  const [buffers, setBuffers] = useState(null)
+  const [progress, setProgress] = useState(0)
+  const [playing, setPlaying] = useState(false)
+  const playRef = useRef(null)
+  const rafRef = useRef(0)
+  const nick = (id) => members.find((m) => m.id === id)?.nickname
+
+  useEffect(() => {
+    let alive = true
+    Promise.all([partnerFlower, myFlower].map(async (f) => {
+      const res = await fetch(await audioUrl(f.audio_path))
+      return audioCtx().decodeAudioData(await res.arrayBuffer())
+    })).then((b) => alive && setBuffers(b)).catch(console.error)
+    return () => { alive = false; stop() }
+  }, [pair.id])
+
+  function play() {
+    if (!buffers) return
+    stop()
+    setPlaying(true)
+    const h = playStereo(buffers[0], buffers[1], () => { setPlaying(false); cancelAnimationFrame(rafRef.current); setProgress(0) })
+    playRef.current = h
+    const tick = () => {
+      setProgress(Math.min(1, Math.max(0, (audioCtx().currentTime - h.startedAt) / h.duration)))
+      rafRef.current = requestAnimationFrame(tick)
+    }
+    tick()
+  }
+  function stop() {
+    cancelAnimationFrame(rafRef.current)
+    playRef.current?.stop()
+    playRef.current = null
+  }
+
+  const colors = [partnerFlower.color, myFlower.color]
+  const look = { ...myFlower, petals: Math.min(8, Math.max(partnerFlower.petals, myFlower.petals) + 1) }
+
+  return (
+    <div className="sheet-backdrop" onClick={onClose}>
+      <div className="sheet center-col" onClick={(e) => e.stopPropagation()}>
+        <button className="close" onClick={onClose} aria-label="닫기">×</button>
+        <div className="pair-badge">우리의 꽃 · {pair.sent_date}</div>
+        <Flower flower={look} colors={colors} size={150} glow />
+        <h2 className="flower-name">{pair.name}</h2>
+        <p className="muted small">{partnerFlower.name} + {myFlower.name}</p>
+        <div className="stereo">
+          <Wave label={`왼쪽 · ${nick(partnerFlower.sender_id) || '상대'}`} buffer={buffers?.[0]} duration={buffers && Math.max(buffers[0].duration, buffers[1].duration)} progress={progress} color={partnerFlower.color} />
+          <Wave label={`오른쪽 · ${nick(myFlower.sender_id) || '나'}`} buffer={buffers?.[1]} duration={buffers && Math.max(buffers[0].duration, buffers[1].duration)} progress={progress} color={myFlower.color} />
+        </div>
+        <p className="muted small">🎧 이어폰을 끼면 두 소리가 양쪽 귀로 나뉘어 들려요.</p>
+        <button className="primary" onClick={playing ? stop : play} disabled={!buffers}>
+          {!buffers ? '불러오는 중…' : playing ? '멈추기' : '함께 듣기'}
+        </button>
+      </div>
+    </div>
+  )
+}
+
+function Wave({ label, buffer, duration, progress, color }) {
+  const n = 80
+  const p = useMemo(() => (buffer ? peaks(toMono(buffer), n) : null), [buffer])
+  if (!buffer) return <div className="wave-box"><span>{label}</span><div className="wave-empty" /></div>
+  const widthFrac = buffer.duration / duration
+  return (
+    <div className="wave-box">
+      <span>{label}</span>
+      <svg viewBox={`0 0 ${n} 40`} preserveAspectRatio="none">
+        {p.map((v, i) => {
+          const x = i * widthFrac
+          const on = x / n <= progress
+          return <rect key={i} x={x + 0.1} width={Math.max(0.3, widthFrac * 0.7)} y={20 - v * 18} height={Math.max(1, v * 36)} rx="0.3" fill={on ? color : '#d9d4c6'} />
+        })}
+        <line x1={progress * n} x2={progress * n} y1="0" y2="40" stroke="#333" strokeWidth="0.3" />
+      </svg>
+    </div>
+  )
+}

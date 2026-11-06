@@ -1,0 +1,11 @@
+{
+  "appId": "com.soop.app",
+  "appName": "소리숲",
+  "webDir": "dist",
+  "android": {
+    "allowMixedContent": false
+  },
+  "ios": {
+    "contentInset": "never"
+  }
+}
