@@ -2,6 +2,24 @@
 import { useEffect, useRef } from 'react'
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
+import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js'
+import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js'
+import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js'
+import { OutputPass } from 'three/examples/jsm/postprocessing/OutputPass.js'
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
+import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
+import { buildFlower3D, disposeFlower3D } from '../lib/flower3d.js'
+
+// 블렌더 섬 모델: public/models/island.glb 를 올리면 코드로 만든 섬 대신 자동으로 쓴다.
+// 약속: 원점 = 섬 윗면 중앙, Y-up, Draco 압축 가능. 크기는 지름이 ISLAND_RADIUS*2가 되도록 자동 맞춤.
+const ISLAND_GLB = `${import.meta.env.BASE_URL}models/island.glb`
+const ISLAND_RADIUS = 4
+const ISLAND_TOP_Y = 0.17
+
+// 빛 번짐: 햇빛(2.2)을 받은 꽃잎·나무는 넘지 못하고 꽃 중심·꽃술만 넘도록 문턱을 높게 둔다
+const BLOOM = { strength: 0.6, radius: 0, threshold: 2.6 }
+// 넓게 퍼지는 큰 블러 단계를 끄면 꽃 주변만 은은하게 빛나고 캔버스 전체에 뿌연 막이 생기지 않는다
+const BLOOM_FACTORS = [1.0, 0.7, 0.3, 0.0, 0.0]
 
 function rng(seed) {
   let a = seed >>> 0
@@ -127,57 +145,26 @@ function buildIsland() {
   return root
 }
 
-function buildFlower(f, colors, size = 1) {
-  const g = new THREE.Group()
-  const yang = f.vowel !== 'E'
-  const pointed = f.consonant === '경' || f.consonant === '격'
-  const loud = Math.min(1, Math.max(0, (f.rms || 0.04) / 0.12))
-  const h = 0.45 + loud * 0.2
-  const stem = new THREE.Mesh(new THREE.CylinderGeometry(0.018, 0.024, h, 5), mat('#5f8f45'))
-  stem.position.y = h / 2
-  g.add(stem)
-  const leaf = new THREE.Mesh(new THREE.SphereGeometry(0.07, 6, 4), mat('#79a957'))
-  leaf.scale.set(1.4, 0.3, 0.6)
-  leaf.position.set(0.07, h * 0.4, 0)
-  g.add(leaf)
-
-  const head = new THREE.Group()
-  head.position.y = h
-  const n = f.petals || 5
-  const pr = (yang ? 0.12 : 0.155) * (0.9 + loud * 0.25)
-  const petalMats = colors.map((c) => { const col = cssColor(c); return mat(col, { roughness: 0.6, emissive: col.clone().multiplyScalar(0.35) }) })
-  for (let i = 0; i < n; i++) {
-    const L = f.lengths?.[i] ?? 1 // 파형 윤곽에 따른 꽃잎 길이
-    const geo = pointed ? new THREE.ConeGeometry(pr * 0.55, pr * 2.2, 5) : new THREE.SphereGeometry(pr, 8, 6)
-    const p = new THREE.Mesh(geo, petalMats[i % petalMats.length])
-    const a = (i / n) * Math.PI * 2
-    if (pointed) {
-      p.rotation.z = -Math.PI / 2
-      p.scale.y = L
-      p.position.x = pr * 1.1 * L
-      const pivot = new THREE.Group()
-      pivot.rotation.y = a
-      pivot.rotation.z = 0.75
-      pivot.add(p)
-      head.add(pivot)
-    } else {
-      p.scale.set(1.3 * L, 0.32, yang ? 0.75 : 0.95)
-      p.position.x = pr * 1.0 * L
-      const pivot = new THREE.Group()
-      pivot.rotation.y = a
-      pivot.rotation.z = 0.7 // 꽃잎을 위로 세워 컵 모양으로
-      pivot.add(p)
-      head.add(pivot)
-    }
-  }
-  const center = new THREE.Mesh(new THREE.SphereGeometry(pr * 0.55, 8, 6), mat(yang ? '#fff1c2' : '#6a4c37'))
-  center.scale.y = 0.6
-  head.add(center)
-  g.add(head)
-  g.userData.headY = h
-  g.scale.setScalar(size)
-  g.traverse((o) => { if (o.isMesh) o.castShadow = true })
-  return g
+function loadIslandGlb(target) {
+  const draco = new DRACOLoader()
+  draco.setDecoderPath(`${import.meta.env.BASE_URL}draco/`)
+  const loader = new GLTFLoader()
+  loader.setDRACOLoader(draco)
+  loader.load(
+    ISLAND_GLB,
+    (gltf) => {
+      const model = gltf.scene
+      const size = new THREE.Box3().setFromObject(model).getSize(new THREE.Vector3())
+      model.scale.setScalar((ISLAND_RADIUS * 2) / Math.max(size.x, size.z, 0.001))
+      model.position.y = ISLAND_TOP_Y
+      model.traverse((o) => { if (o.isMesh) { o.castShadow = true; o.receiveShadow = true } })
+      target.clear()
+      target.add(model)
+      draco.dispose()
+    },
+    undefined,
+    () => draco.dispose(), // 모델이 없거나 읽을 수 없으면 코드로 만든 섬을 그대로 둔다
+  )
 }
 
 function placeFlowers(items) {
@@ -210,7 +197,7 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
   useEffect(() => {
     const wrap = wrapRef.current
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true })
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5)) // 빛 번짐 후처리 비용 때문에 1.5로 제한
     renderer.shadowMap.enabled = true
     renderer.shadowMap.type = THREE.PCFSoftShadowMap
     wrap.appendChild(renderer.domElement)
@@ -227,8 +214,18 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
     Object.assign(sun.shadow.camera, { left: -6, right: 6, top: 6, bottom: -6 })
     scene.add(sun)
 
+    const composer = new EffectComposer(renderer)
+    composer.addPass(new RenderPass(scene, camera))
+    const bloom = new UnrealBloomPass(new THREE.Vector2(1, 1), BLOOM.strength, BLOOM.radius, BLOOM.threshold)
+    bloom.compositeMaterial.uniforms.bloomFactors.value = BLOOM_FACTORS
+    composer.addPass(bloom)
+    composer.addPass(new OutputPass())
+
     const floating = new THREE.Group()
-    floating.add(buildIsland())
+    const islandGroup = new THREE.Group()
+    islandGroup.add(buildIsland())
+    floating.add(islandGroup)
+    loadIslandGlb(islandGroup)
     const flowerLayer = new THREE.Group()
     flowerLayer.position.y = 0.17
     floating.add(flowerLayer)
@@ -279,6 +276,7 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
     const resize = () => {
       const { clientWidth: w, clientHeight: h } = wrap
       renderer.setSize(w, h)
+      composer.setSize(w, h)
       camera.aspect = w / h
       // 화면이 좁을수록 조금 더 멀리
       camera.fov = w / h < 0.75 ? 40 : 34
@@ -304,8 +302,14 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
         const u = f.userData
         const age = t - (u.bornAt ?? -10)
         const grow = Math.min(1, Math.max(0, age / 1.2))
-        const e = grow < 1 ? 1 - Math.pow(1 - grow, 3) * Math.cos(grow * 6) : 1
-        f.scale.setScalar(u.size * Math.max(0.001, e))
+        const e = 1 - Math.pow(1 - grow, 3)
+        f.scale.setScalar(u.size * Math.max(0.001, 0.3 + 0.7 * e))
+        // 꽃잎이 바깥 겹부터 펼쳐진다 (다 피면 더 계산하지 않음)
+        if (!u.opened) {
+          const open = Math.min(1, Math.max(0, age / 1.8))
+          u.setOpen(open)
+          if (open >= 1) u.opened = true
+        }
         f.rotation.z = Math.sin(t * 1.3 + u.phase) * 0.05
         if (u.halo) {
           const pulse = u.highlight || u.fresh ? 1 + Math.sin(t * 4) * 0.25 : 1
@@ -314,7 +318,7 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
         }
       }
       controls.update()
-      renderer.render(scene, camera)
+      composer.render()
       raf = requestAnimationFrame(loop)
     }
     loop()
@@ -327,6 +331,7 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
       el.removeEventListener('pointerdown', onDown)
       el.removeEventListener('pointerup', onUp)
       controls.dispose()
+      composer.dispose()
       renderer.dispose()
       wrap.removeChild(el)
       stateRef.current = null
@@ -338,7 +343,7 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
     const st = stateRef.current
     if (!st) return
     const { flowerLayer, clock, known } = st
-    for (const c of [...flowerLayer.children]) flowerLayer.remove(c)
+    for (const c of [...flowerLayer.children]) { flowerLayer.remove(c); disposeFlower3D(c) }
 
     const byId = Object.fromEntries(flowers.map((f) => [f.id, f]))
     const pairedIds = new Set()
@@ -355,8 +360,8 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
 
     items.forEach((it, i) => {
       const obj = it.kind === 'pair'
-        ? buildFlower({ ...it.b, petals: Math.min(8, Math.max(it.a.petals, it.b.petals) + 1), rms: 0.12 }, [it.a.color, it.b.color])
-        : buildFlower(it.data, [it.data.color])
+        ? buildFlower3D({ ...it.b, petals: Math.min(8, Math.max(it.a.petals, it.b.petals) + 1) }, [it.a.color, it.b.color], { pair: true })
+        : buildFlower3D(it.data, [it.data.color])
       obj.position.set(pos[i].x, 0, pos[i].z)
       const isNew = !known.has(it.key)
       const halo = new THREE.Sprite(new THREE.SpriteMaterial({ map: st.halo, transparent: true, depthWrite: false, opacity: 0 }))
