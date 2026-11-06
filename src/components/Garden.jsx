@@ -4,7 +4,7 @@ import Island3D from './Island3D.jsx'
 import Recorder from './Recorder.jsx'
 import { FlowerDetail, PairDetail } from './Details.jsx'
 import { Bell, Heart, Mic, Sprout, User, Users, Wave } from './Icons.jsx'
-import { deleteFlower, ensurePairs, insertFlower, loadGarden, myFriends, subscribeGarden, today, uploadAudio } from '../lib/db.js'
+import { deleteFlower, ensurePairs, insertFlower, loadGarden, subscribeGarden, today, uploadAudio } from '../lib/db.js'
 
 // 받침에 따라 조사 고르기
 const hasBatchim = (w = '') => {
@@ -17,7 +17,7 @@ const timeOfDay = (iso) => {
   return h < 5 ? '새벽' : h < 11 ? '아침' : h < 17 ? '낮' : h < 21 ? '저녁' : '밤'
 }
 
-export default function Garden({ session, onLeave, onOpenGarden, onSignOut, email }) {
+export default function Garden({ session, onSignOut, email }) {
   const [data, setData] = useState(null)
   const [error, setError] = useState('')
   const [tab, setTab] = useState('garden')
@@ -50,6 +50,7 @@ export default function Garden({ session, onLeave, onOpenGarden, onSignOut, emai
   }
 
   const refresh = useCallback(async () => {
+    setError('')
     try {
       const d = await loadGarden(session.gardenId)
       if (await ensurePairs(d)) Object.assign(d, await loadGarden(session.gardenId))
@@ -119,7 +120,10 @@ export default function Garden({ session, onLeave, onOpenGarden, onSignOut, emai
   if (error) return (
     <div className="screen center-col">
       <p className="error">정원을 불러오지 못했어요: {error}</p>
-      <button className="ghost" onClick={onLeave}>처음으로</button>
+      <div className="row">
+        <button className="ghost" onClick={refresh}>다시 시도</button>
+        <button className="ghost" onClick={onSignOut}>로그아웃</button>
+      </div>
     </div>
   )
   if (!data) return <div className="home loading center-col"><div className="seed" /><p>정원으로 가는 중…</p></div>
@@ -216,8 +220,8 @@ export default function Garden({ session, onLeave, onOpenGarden, onSignOut, emai
       )}
 
       {tab === 'album' && <Album data={data} meId={meId} onOpen={setOpenFlower} onOpenPair={setOpenPair} flowerById={flowerById} />}
-      {tab === 'friends' && <Friends current={session} onOpen={onOpenGarden} onNew={onLeave} />}
-      {tab === 'me' && <Me me={me} data={data} email={email} onLeave={onLeave} onSignOut={onSignOut} />}
+      {tab === 'friends' && <Friends data={data} partner={partner} />}
+      {tab === 'me' && <Me me={me} data={data} email={email} onSignOut={onSignOut} />}
 
       <nav className="tabbar">
         {[
@@ -319,67 +323,47 @@ function Album({ data, meId, onOpen, onOpenPair, flowerById }) {
   )
 }
 
-// 친구 목록: 친구마다 둘만의 정원이 하나씩 있다. 누르면 그 친구와의 정원으로 간다.
-function Friends({ current, onOpen, onNew }) {
-  const [list, setList] = useState(null)
-  const [error, setError] = useState('')
-  const [copied, setCopied] = useState('')
-  useEffect(() => {
-    myFriends().then(setList).catch((e) => setError(e.message || String(e)))
-  }, [])
-  const copy = async (code) => {
-    try { await navigator.clipboard.writeText(code); setCopied(code); setTimeout(() => setCopied(''), 2000) } catch {}
+// 친구 목록: 한 사람당 정원은 하나, 정원 하나에 두 사람 → 친구는 내 정원을 함께 가꾸는 사람.
+// 친구가 보낸 소리는 내 정원 왼쪽에, 내가 보낸 소리는 오른쪽에 꽃으로 핀다.
+function Friends({ data, partner }) {
+  const [copied, setCopied] = useState(false)
+  const copy = async () => {
+    try { await navigator.clipboard.writeText(data.garden.code); setCopied(true); setTimeout(() => setCopied(false), 2000) } catch {}
   }
-  const friends = list?.filter((g) => g.friend) ?? []
-  const waiting = list?.filter((g) => !g.friend) ?? []
+  const sentBy = (id) => data.flowers.filter((f) => f.sender_id === id).length
+  const since = new Date(partner?.created_at || data.garden.created_at)
 
   return (
     <div className="page">
       <h1 className="page-title">친구</h1>
-      {error && <p className="error">{error}</p>}
-      {!list && !error && <p className="muted">불러오는 중…</p>}
-      {list && friends.length === 0 && <p className="muted">아직 함께하는 친구가 없어요. 정원 코드를 알려 주면 친구가 들어올 수 있어요.</p>}
-
-      {friends.length > 0 && (
+      {partner ? (
         <ul className="friend-list">
-          {friends.map((g) => {
-            const here = g.gardenId === current.gardenId
-            return (
-              <li key={g.gardenId}>
-                <button className={`card person ${here ? 'here' : ''}`} onClick={() => !here && onOpen({ gardenId: g.gardenId, memberId: g.memberId, code: g.code })}>
-                  <span className="av partner big">{[...g.friend.nickname][0]}</span>
-                  <div>
-                    <b>{g.friend.nickname}</b>
-                    <small className="muted">{here ? '지금 보고 있는 정원' : '눌러서 둘만의 정원으로 가기'}</small>
-                  </div>
-                </button>
-              </li>
-            )
-          })}
-        </ul>
-      )}
-
-      {waiting.length > 0 && (
-        <>
-          <h2 className="page-sub">초대를 기다리는 정원</h2>
-          {waiting.map((g) => (
-            <div key={g.gardenId} className="card invite">
-              <div>
-                <small className="muted">정원 코드</small>
-                <div className="big-code">{g.code}</div>
-              </div>
-              <button className="ghost" onClick={() => copy(g.code)}>{copied === g.code ? '복사했어요' : '코드 복사'}</button>
+          <li className="card person">
+            <span className="av partner big">{[...partner.nickname][0]}</span>
+            <div>
+              <b>{partner.nickname}</b>
+              <small className="muted">{since.getMonth() + 1}월 {since.getDate()}일부터 함께 · 보낸 소리 {sentBy(partner.id)}송이 · 우리의 꽃 {data.pairs.length}송이</small>
             </div>
-          ))}
+          </li>
+        </ul>
+      ) : (
+        <>
+          <p className="muted">아직 함께하는 친구가 없어요. 정원 코드를 알려 주면 친구가 들어와 소리를 보낼 수 있어요.</p>
+          <div className="card invite">
+            <div>
+              <small className="muted">내 정원 코드</small>
+              <div className="big-code">{data.garden.code}</div>
+            </div>
+            <button className="ghost" onClick={copy}>{copied ? '복사했어요' : '코드 복사'}</button>
+          </div>
         </>
       )}
-
-      <button className="ghost wide" onClick={onNew}>새 친구와 정원 만들기 · 코드로 들어가기</button>
+      <p className="small muted">친구가 보낸 소리는 정원 왼쪽, 내가 보낸 소리는 오른쪽에 꽃으로 피어요. 같은 날 둘 다 보내면 가운데에 우리의 꽃이 피어요.</p>
     </div>
   )
 }
 
-function Me({ me, data, email, onLeave, onSignOut }) {
+function Me({ me, data, email, onSignOut }) {
   return (
     <div className="page">
       <h1 className="page-title">나</h1>
@@ -395,7 +379,6 @@ function Me({ me, data, email, onLeave, onSignOut }) {
       <div className="card">
         <p className="small">녹음은 우리 두 사람만 들을 수 있어요. 내가 보낸 꽃은 꽃을 눌러 언제든 지울 수 있어요.</p>
       </div>
-      <button className="ghost wide" onClick={onLeave}>다른 정원 열기</button>
       <button className="ghost wide" onClick={onSignOut}>로그아웃</button>
     </div>
   )
