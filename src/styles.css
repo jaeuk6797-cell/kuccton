@@ -481,3 +481,7 @@ h1, h2 { margin: 0; }
 
 .send-step { display: flex; flex-direction: column; gap: 12px; width: 100%; }
 .send-step .select-all { align-self: flex-end; }
+.friends-empty { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; }
+/* 앨범: 꽃·나무·우리의 꽃 모두 같은 48×48 칸에 → 그림과 이름 줄이 나란히 맞는다 */
+.album-item { justify-content: flex-start; gap: 4px; }
+.album-item > svg { width: 48px; height: 48px; flex-shrink: 0; }

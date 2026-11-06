@@ -275,7 +275,7 @@ export default function Recorder({ onClose, onSend, friends = [] }) {
             <h2 className="sheet-title">누구에게 공유할까요?</h2>
             <p className="muted small">‘{flower.name}’{objectJosa(flower.name)} 받은 친구가 받을지 고르고, 받으면 친구 정원에 피어요.</p>
             {friends.length === 0 ? (
-              <p className="small muted">아직 친구가 없어요. 메뉴 → 친구에서 친구 코드로 친구를 맺으면 공유할 수 있어요.</p>
+              <p className="small muted">아직 친구가 없어요. 메뉴 → 나에서 친구 코드로 친구를 맺으면 공유할 수 있어요.</p>
             ) : (
               <>
                 <button
