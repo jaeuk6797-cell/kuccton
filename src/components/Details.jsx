@@ -17,7 +17,7 @@ function envelopeLevel(el, flower) {
 import { displayName, isTree, noun } from '../lib/tree.js'
 
 // S5 꽃 상세
-export function FlowerDetail({ flower, sender, mine, sharedWith = [], onShare, onAccept, onDecline, onGardenToggle, onDeleteReceived, answerBusy, onClose, onDelete }) {
+export function FlowerDetail({ flower, bloom = true, sender, mine, sharedWith = [], onShare, onAccept, onDecline, onGardenToggle, onDeleteReceived, answerBusy, onClose, onDelete }) {
   const [url, setUrl] = useState(null)
   const [confirm, setConfirm] = useState(false)
   const audioRef = useRef(null)
@@ -38,7 +38,7 @@ export function FlowerDetail({ flower, sender, mine, sharedWith = [], onShare, o
     <div className="sheet-backdrop" onClick={onClose}>
       <div className="sheet center-col" onClick={(e) => e.stopPropagation()}>
         <button className="close" onClick={onClose} aria-label="닫기">×</button>
-        <FlowerBloom3D flower={flower} size={160} />
+        <FlowerBloom3D flower={flower} bloom={bloom} size={160} />
         <h2 className="flower-name">{displayName(flower)}</h2>
         <p className="reason">{flower.reason}</p>
         {flowerWord && <p className="hanamal-view">{flowerWord}</p>}
@@ -89,7 +89,7 @@ export function FlowerDetail({ flower, sender, mine, sharedWith = [], onShare, o
 }
 
 // S6 우리의 꽃: 상대 소리는 왼쪽, 내 소리는 오른쪽
-export function PairDetail({ pair, flowerA, flowerB, meId, members, onClose }) {
+export function PairDetail({ pair, bloom = true, flowerA, flowerB, meId, members, onClose }) {
   const partnerFlower = flowerA.sender_id === meId ? flowerB : flowerA
   const myFlower = partnerFlower === flowerA ? flowerB : flowerA
   const [buffers, setBuffers] = useState(null)
@@ -134,7 +134,7 @@ export function PairDetail({ pair, flowerA, flowerB, meId, members, onClose }) {
       <div className="sheet center-col" onClick={(e) => e.stopPropagation()}>
         <button className="close" onClick={onClose} aria-label="닫기">×</button>
         <div className="pair-badge">우리의 꽃 · {pair.sent_date}</div>
-        <FlowerBloom3D flower={look} colors={colors} pair size={170} />
+        <FlowerBloom3D flower={look} colors={colors} pair bloom={bloom} size={170} />
         <h2 className="flower-name">{pair.name}</h2>
         <p className="muted small">{displayName(partnerFlower)} + {displayName(myFlower)}</p>
         <div className="stereo">

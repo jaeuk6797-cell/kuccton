@@ -7,7 +7,7 @@ import { createGardenEnvironment } from '../lib/gardenEnvironment.js'
 import { buildTree3D } from '../lib/tree3d.js'
 import { isTree } from '../lib/tree.js'
 
-export default function FlowerBloom3D({ flower, colors, pair = false, size = 180 }) {
+export default function FlowerBloom3D({ flower, colors, pair = false, bloom = true, size = 180 }) {
   const wrapRef = useRef(null)
   const palette = colors || [flower.color]
   const tree = !pair && !colors && isTree(flower)
@@ -48,9 +48,9 @@ export default function FlowerBloom3D({ flower, colors, pair = false, size = 180
     let raf
     const loop = () => {
       const t = clock.getElapsedTime()
-      const grow = Math.min(1, t / 1.2)
+      const grow = bloom ? Math.min(1, t / 1.2) : 1
       obj.scale.setScalar(0.3 + 0.7 * (1 - (1 - grow) ** 3))
-      obj.userData.setOpen?.(Math.min(1, Math.max(0, (t - 0.2) / 1.8)))
+      obj.userData.setOpen?.(bloom ? Math.min(1, Math.max(0, (t - 0.2) / 1.8)) : 1)
       obj.userData.tick?.(t)
       obj.rotation.y = t * 0.35
       renderer.render(scene, camera)
@@ -66,7 +66,7 @@ export default function FlowerBloom3D({ flower, colors, pair = false, size = 180
       wrap.removeChild(renderer.domElement)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [shapeKey, size])
+  }, [shapeKey, size, bloom])
 
   return <div ref={wrapRef} className="bloom3d" style={{ width: size, height: Math.round(size * 1.1) }} aria-hidden="true" />
 }

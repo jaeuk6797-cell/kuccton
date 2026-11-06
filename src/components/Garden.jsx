@@ -274,7 +274,7 @@ export default function Garden({ session, onSignOut, email, demo }) {
   const receivedCount = data.flowers.filter((f) => f.sender_id !== meId).length
   // 친구별 보기: 친구가 몇 명이든 같은 방식 (지금 DB는 정원당 2명이라 친구는 1명)
   const friends = data.members.filter((m) => m.id !== meId)
-  const sentCount = (id) => data.flowers.filter((f) => f.sender_id === id).length
+  const plantedCount = (id) => data.flowers.filter((f) => f.sender_id === id).length
   const viewing = friends.some((m) => m.id === viewFriend) ? viewFriend : 'all'
   // 최근에 소리를 주고받은 친구 순 (받은 소리의 공유 시각, 내가 보낸 공유 시각 중 늦은 것)
   const lastTouch = (m) => {
@@ -321,13 +321,13 @@ export default function Garden({ session, onSignOut, email, demo }) {
             <span className="wordmark" aria-label="SUP">SUP</span>
             <h1><button className="garden-view-reset" onClick={() => setGardenViewReset((n) => n + 1)} aria-label={`${me?.nickname}의 정원 시점 초기화`}>{me?.nickname}의 정원</button></h1>
             {friends.length > 0 && (
-              <div className="view-pills" role="tablist" aria-label="누구의 꽃을 볼까요">
+              <div className="view-pills" role="tablist" aria-label="정원에서 누구의 꽃을 볼까요">
                 <button role="tab" aria-selected={viewing === 'all'} className={viewing === 'all' ? 'on' : ''} onClick={() => setViewFriend('all')}>
                   전체 <b>{receivedCount}</b>
                 </button>
                 {pillFriends.map((m) => (
                   <button key={m.id} role="tab" aria-selected={viewing === m.id} className={viewing === m.id ? 'on' : ''} onClick={() => setViewFriend(viewing === m.id ? 'all' : m.id)}>
-                    {m.nickname} <b>{sentCount(m.id)}</b>
+                    {m.nickname} <b>{plantedCount(m.id)}</b>
                   </button>
                 ))}
                 {moreCount > 0 && (
@@ -409,6 +409,7 @@ export default function Garden({ session, onSignOut, email, demo }) {
       {openFlower && (
         <FlowerDetail
           flower={openFlower}
+          bloom={tab !== 'album'}
           sender={data.members.find((m) => m.id === openFlower.sender_id)}
           mine={openFlower.sender_id === meId}
           sharedWith={data.sentShares.filter((x) => x.flower_id === openFlower.id).map((x) => `${nameOf(x.to_user)}${x.status === 'pending' ? '(고르는 중)' : x.status === 'declined' ? '(안 받음)' : ''}`)}
@@ -425,6 +426,7 @@ export default function Garden({ session, onSignOut, email, demo }) {
       {openPair && flowerById[openPair.flower_a_id] && flowerById[openPair.flower_b_id] && (
         <PairDetail
           pair={openPair}
+          bloom={tab !== 'album'}
           flowerA={flowerById[openPair.flower_a_id]}
           flowerB={flowerById[openPair.flower_b_id]}
           meId={meId}
@@ -446,7 +448,7 @@ export default function Garden({ session, onSignOut, email, demo }) {
       {friendPicker && (
         <FriendPicker
           friends={byRecent}
-          counts={Object.fromEntries(friends.map((m) => [m.id, sentCount(m.id)]))}
+          counts={Object.fromEntries(friends.map((m) => [m.id, plantedCount(m.id)]))}
           viewing={viewing}
           onPick={(id) => { setViewFriend(id); setFriendPicker(false) }}
           onClose={() => setFriendPicker(false)}
@@ -509,7 +511,7 @@ function FriendPicker({ friends, counts, viewing, onPick, onClose }) {
     <div className="sheet-backdrop" onClick={onClose}>
       <div className="sheet friend-picker" onClick={(e) => e.stopPropagation()}>
         <button className="close" onClick={onClose} aria-label="닫기">×</button>
-        <h2 className="sheet-title">누구의 꽃을 볼까요?</h2>
+        <h2 className="sheet-title">정원에서 누구의 꽃을 볼까요?</h2>
         <button className={`picker-all${viewing === 'all' ? ' on' : ''}`} aria-pressed={viewing === 'all'} onClick={() => onPick('all')}>
           <span className="picker-all-icon"><Sprout width={20} height={20} aria-hidden="true" /></span>
           <span>모든 꽃 보기</span>
@@ -521,7 +523,8 @@ function FriendPicker({ friends, counts, viewing, onPick, onClose }) {
             <li key={m.id}>
               <button className={viewing === m.id ? 'on' : ''} onClick={() => onPick(m.id)}>
                 <span className="av partner">{[...m.nickname][0]}</span>
-                <div><b>{m.nickname}</b><small>받은 소리 {counts[m.id] || 0}개</small></div>
+                <div className="picker-friend-name"><b>{m.nickname}</b><small>정원에 심은 소리</small></div>
+                <span className="picker-friend-count">{counts[m.id] || 0}<small>개</small></span>
               </button>
             </li>
           ))}
@@ -545,8 +548,8 @@ function Album({ data, meId, onOpen, onOpenPair, flowerById }) {
     return Object.values(byDate).sort((a, b) => b.date.localeCompare(a.date))
   }, [data, meId])
 
-  const Day = ({ r }) => (
-    <div className="album-day">
+  const renderDay = (r) => (
+    <div key={r.date} className="album-day">
       <div className="album-date">{formatDate(r.date)}</div>
       <div className="album-flowers">
         {r.pairs.filter((p) => flowerById[p.flower_a_id] && flowerById[p.flower_b_id]).map((p) => (
@@ -574,7 +577,7 @@ function Album({ data, meId, onOpen, onOpenPair, flowerById }) {
       {rows.length === 0 && (
         <p className="album-empty">아직 받은 소리가 없어요</p>
       )}
-      {rows.map((r) => <Day key={r.date} r={r} />)}
+      {rows.map(renderDay)}
       </div>
     </div>
   )
