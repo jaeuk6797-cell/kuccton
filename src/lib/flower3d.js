@@ -98,8 +98,8 @@ export function buildFlower3D(f, colors = [f.color], { pair = false } = {}) {
   head.position.y = h
   const bases = colors.map((c) => toColor(c))
   const petalMat = new THREE.MeshStandardMaterial({
-    vertexColors: true, side: THREE.DoubleSide, roughness: 0.45,
-    emissive: bases[0], emissiveIntensity: 0.12,
+    vertexColors: true, side: THREE.DoubleSide, roughness: 0.38,
+    emissive: bases[0], emissiveIntensity: 0.04,
   })
   const petals = []   // { mesh, openTilt, delay }
   for (let i = 0; i < prm.layers; i++) {
@@ -107,7 +107,7 @@ export function buildFlower3D(f, colors = [f.color], { pair = false } = {}) {
     const width = length * (prm.pointy ? 0.3 : 0.4)
     const geos = bases.map((c) => petalGeometry({
       pointy: prm.pointy, length, width,
-      baseColor: c.clone().lerp(WHITE, 0.6 - i * 0.1),
+      baseColor: c.clone().lerp(WHITE, 0.35 - i * 0.06),
       tipColor: c.clone().offsetHSL(0, 0.05, -0.03 * i),
     }))
     const layer = new THREE.Group()
@@ -127,12 +127,12 @@ export function buildFlower3D(f, colors = [f.color], { pair = false } = {}) {
     head.add(layer)
   }
 
-  // 발광하는 중심 + 꽃술 (빛 번짐 효과가 이 부분만 잡도록 밝게)
+  // Keep the center's color and shape visible under the shared scene lighting.
   const centerR = 0.05 + 0.04 * prm.size
   const centerColor = bases[0].clone().lerp(new THREE.Color('#fff4c2'), 0.75)
   const center = new THREE.Mesh(
     new THREE.SphereGeometry(centerR, 14, 12),
-    new THREE.MeshStandardMaterial({ color: centerColor, emissive: centerColor, emissiveIntensity: 0.15 }), // 스스로 빛나지 않게
+    new THREE.MeshStandardMaterial({ color: centerColor, roughness: 0.42, emissive: centerColor, emissiveIntensity: 0.15 }),
   )
   center.position.y = centerR * 0.4
   head.add(center)
