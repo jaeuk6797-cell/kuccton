@@ -191,7 +191,7 @@ export default function Garden({ session, onSignOut, email, demo }) {
       showToast(!accept ? '받지 않았어요'
         : after >= GARDEN_LIMIT ? `정원이 가득 찼어요(${after}/${GARDEN_LIMIT}) · 정리해야 새 소리를 심을 수 있어요`
         : after >= GARDEN_NEAR_FULL ? `정원이 거의 찼어요(${after}/${GARDEN_LIMIT}) · 정리해 두면 좋아요`
-        : `${displayName(item)}을 정원에 심었어요`)
+        : `${josa(displayName(item), '을', '를')} 정원에 심었어요`)
       setOpenFlower(null)
     } catch (e) {
       showToast(e.message || String(e))
