@@ -3,6 +3,7 @@
 export const THRESHOLDS = {
   loudRms: 0.07, // 상위 약 35%
   quietRms: 0.03, // 하위 약 40%: 작지만 또렷하게 터지는 소리(물방울·클릭·타자)는 '타닥' 대신 '톡' 계열
+  tooQuietPeak: 0.01, // 가장 큰 순간도 이보다 작으면 '더 가까이서' 안내 (ESC-50 하위 1% 미만, FSDnoisy18k 하위 3% 안팎)
   brightCentroid: 3000, // Hz, 중간값
   strongAttack: 0.55, // 상위 약 25%
   weakAttack: 0.3, // 하위 약 40%
@@ -176,5 +177,5 @@ export async function extractFeatures(blob) {
   // 바닥 소음보다 몇 dB 큰 소리인가(기기 이득과 무관한 크기). 너무 작으면 안내하는 데 쓴다
   const snr = Math.min(60, 20 * Math.log10(peakRaw / Math.max(floor, MIN_FLOOR)))
 
-  return { rms, centroid, attack, onsets, sustain, envelope, snr, duration: buf.duration }
+  return { rms, centroid, attack, onsets, sustain, envelope, snr, peak: peakRaw, duration: buf.duration }
 }

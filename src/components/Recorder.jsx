@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import FlowerBloom3D from './FlowerBloom3D.jsx'
 import { pickMimeType, audioCtx, normalizeRecording } from '../lib/audio.js'
-import { extractFeatures } from '../lib/soundFeatures.js'
+import { extractFeatures, THRESHOLDS } from '../lib/soundFeatures.js'
 import { CATEGORIES, buildFlower, buildSoundFlower, voiceCategory } from '../lib/flower.js'
 import { analyzeEmotion, emotionEnabled } from '../lib/emotion.js'
 import { toFlowerRow } from '../lib/naming.js'
@@ -225,6 +225,9 @@ export default function Recorder({ onClose, onSend, friends = [] }) {
             <FlowerBloom3D flower={row} size={180} />
             <h2 className="flower-name">{flower.name}</h2>
             <p className="reason">{flower.reason}</p>
+            {kind === 'other' && features?.peak < THRESHOLDS.tooQuietPeak && (
+              <p className="small muted">소리가 아주 작게 녹음됐어요. 조금 더 가까이서 다시 들려 주면 더 또렷한 나무가 자라요.</p>
+            )}
             {/* 꽃말: 말소리면 받아 적은 문장. 앱에서는 소리 꽃에도 '말로 적기'로 꽃말을 붙일 수 있다 */}
             {(kind === 'voice' || canDictate) && (
               <>

@@ -115,7 +115,7 @@ export function buildSoundFlower(f) {
   const yin = loud && !bright // 크고 낮은 소리만 음성모음, 나머지는 양성모음
 
   // 비·엔진·바람처럼 노이즈성 소리는 onset 수가 부풀려지므로 지속 정도만 본다
-  const sustained = f.sustain >= 0.5
+  const sustained = f.sustain >= 0.4
   const rhythm = f.onsets <= 1 ? 'single' : f.onsets >= 4 ? 'multi' : 'base'
 
   let word, how
