@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import Garden from './components/Garden.jsx'
 import Flower from './components/Flower.jsx'
 import {
-  configured, createGarden, joinGarden,
+  configured, createGarden,
   currentUser, onAuthChange, signIn, signUp, signOut, myLatestGarden,
 } from './lib/db.js'
 
@@ -47,7 +47,7 @@ function Hero() {
   return (
     <div className="hero">
       <Flower flower={{ color: 'hsl(335 70% 80%)', petals: 6, vowel: 'Y', consonant: '평', rms: 0.05 }} size={110} />
-      <h1>소리숲</h1>
+      <h1>SUP</h1>
       <p className="slogan">말하지 않아도 괜찮아,<br />우리의 하루는 소리로 피어나.</p>
     </div>
   )
@@ -128,10 +128,9 @@ function AuthScreen() {
   )
 }
 
-// 정원 만들기 / 코드로 들어가기 (로그인한 뒤, 아직 정원이 없을 때)
+// 내 정원 만들기 (로그인한 뒤, 아직 정원이 없을 때). 친구는 정원 안의 친구 탭에서 맺는다
 function GardenSetup({ email, onEnter }) {
   const [nickname, setNickname] = useState('')
-  const [code, setCode] = useState('')
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState('')
 
@@ -158,25 +157,10 @@ function GardenSetup({ email, onEnter }) {
       </label>
 
       <button className="primary wide" disabled={busy} onClick={() => run(() => createGarden(nickname.trim()))}>
-        새 정원 만들기
+        내 정원 만들기
       </button>
 
-      <div className="divider"><span>또는</span></div>
-
-      <label className="field">
-        정원 코드 6자리
-        <input
-          value={code}
-          inputMode="numeric"
-          maxLength={6}
-          onChange={(e) => setCode(e.target.value.replace(/\D/g, ''))}
-          placeholder="123456"
-          className="code-input"
-        />
-      </label>
-      <button className="ghost wide" disabled={busy || code.length !== 6} onClick={() => run(() => joinGarden(code, nickname.trim()))}>
-        정원에 들어가기
-      </button>
+      <p className="small muted">친구는 정원을 만든 뒤 메뉴 → 친구에서 친구 코드로 맺을 수 있어요.</p>
 
       {error && <p className="error">{error}</p>}
     </div>
@@ -186,7 +170,7 @@ function GardenSetup({ email, onEnter }) {
 function SetupNeeded() {
   return (
     <div className="screen center-col setup">
-      <h1>소리숲 설정이 필요해요</h1>
+      <h1>SUP 설정이 필요해요</h1>
       <ol>
         <li>Supabase 프로젝트를 만들고 SQL Editor에서 <code>supabase/schema.sql</code>을 실행</li>
         <li>Authentication에서 Email 로그인 켜기 (해커톤은 Confirm email 끄기 권장)</li>

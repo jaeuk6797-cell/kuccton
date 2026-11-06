@@ -1,7 +1,20 @@
 const base = { width: 22, height: 22, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 1.7, strokeLinecap: 'round', strokeLinejoin: 'round' }
 
+export const Pencil = (p) => (
+  <svg {...base} {...p}><path d="m15 5 4 4M4 20l4.5-1 12-12a2.8 2.8 0 0 0-4-4l-12 12Z" /></svg>
+)
+
 export const Sprout = (p) => (
   <svg {...base} {...p}><path d="M12 21v-9" /><path d="M12 12c0-4-3-6-7-6 0 4 3 6 7 6Z" /><path d="M12 10c0-3.5 2.5-5.5 6-5.5 0 3.5-2.5 5.5-6 5.5Z" /></svg>
+)
+export const ChevronUp = (p) => (
+  <svg {...base} {...p}><path d="M6 15l6-6 6 6" /></svg>
+)
+export const Help = (p) => (
+  <svg {...base} {...p}><circle cx="12" cy="12" r="9" /><path d="M9.6 9.3a2.5 2.5 0 0 1 4.8.9c0 1.7-2.4 2.2-2.4 3.8" /><path d="M12 17.2v.1" /></svg>
+)
+export const Menu = (p) => (
+  <svg {...base} {...p}><path d="M4 7h16M4 12h16M4 17h16" /></svg>
 )
 export const Bell = (p) => (
   <svg {...base} {...p}><path d="M6 16V11a6 6 0 1 1 12 0v5l1.5 2h-15Z" /><path d="M10 20.5a2 2 0 0 0 4 0" /></svg>

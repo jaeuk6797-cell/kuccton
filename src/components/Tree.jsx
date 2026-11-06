@@ -87,7 +87,7 @@ export default function Tree({ flower, size = 96, stem = true, bloom = true, glo
   return (
     <svg
       className={`tree ${bloom ? 'bloom' : ''} ${glow ? 'glow' : ''}`}
-      viewBox={stem ? '-50 -50 100 150' : '-50 -36 100 100'}
+      viewBox={stem ? '-50 -50 100 150' : '-55 -25 110 130'}
       width={size}
       height={stem ? size * 1.5 : size}
       aria-hidden="true"

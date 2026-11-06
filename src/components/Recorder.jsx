@@ -6,6 +6,7 @@ import { CATEGORIES, buildFlower, buildSoundFlower, voiceCategory } from '../lib
 import { analyzeEmotion, emotionEnabled } from '../lib/emotion.js'
 import { toFlowerRow } from '../lib/naming.js'
 import { startLiveTranscript, canDictate, dictateOnce } from '../lib/stt.js'
+import Avatar from './Avatar.jsx'
 
 const MAX_SEC = 10
 
@@ -14,7 +15,14 @@ const MAX_SEC = 10
 //  - 목소리: 감정 분석 서버 결과로 감정 꽃을 고르고, 받아 적은 문장을 꽃말로 붙인다. 서버가 안 되면 감정을 직접 고른다.
 //  - 다른 소리: 분류하지 않고 크기·밝기·세기·리듬·파형으로 바로 꽃을 만든다.
 //  - 앱(Capacitor)은 녹음 중 받아쓰기를 못 해서 소리 꽃이 되고, 꽃말은 미리보기에서 '말로 적기'로 붙일 수 있다.
-export default function Recorder({ onClose, onSend }) {
+// 녹음한 소리는 내 정원에 심지 않는다. 미리보기에서 받을 친구(여러 명)를 골라 보내면 그 친구들 정원에 핀다.
+// 받침에 따라 을/를
+const objectJosa = (w = '') => {
+  const c = w.charCodeAt(w.length - 1)
+  return c >= 0xac00 && c <= 0xd7a3 && (c - 0xac00) % 28 !== 0 ? '을' : '를'
+}
+
+export default function Recorder({ onClose, onSend, friends = [] }) {
   const [kind, setKind] = useState('') // 녹음 뒤 자동으로 정함: 'voice' | 'other'
   const [step, setStep] = useState('idle') // idle | recording | analyzing | choose | preview | sending
   const [left, setLeft] = useState(MAX_SEC)
@@ -27,6 +35,8 @@ export default function Recorder({ onClose, onSend }) {
   const [transcript, setTranscript] = useState('')
   const [error, setError] = useState('')
   const [dictating, setDictating] = useState(false)
+  const [sendTo, setSendTo] = useState(() => new Set()) // 공유할 친구: 녹음 뒤 '누구에게 공유할까요?'에서 직접 고른다
+  const toggleTo = (id) => setSendTo((s) => { const n = new Set(s); n.has(id) ? n.delete(id) : n.add(id); return n })
 
   const canvasRef = useRef(null)
   const recRef = useRef(null)
@@ -168,11 +178,11 @@ export default function Recorder({ onClose, onSend }) {
   async function send() {
     setStep('sending')
     try {
-      await onSend({ blob, ...row })
+      await onSend({ blob, ...row }, [...sendTo])
     } catch (e) {
       console.error(e)
       setError(`보내지 못했어요: ${e.message || e}`)
-      setStep('preview')
+      setStep('sendto')
     }
   }
 
@@ -184,7 +194,7 @@ export default function Recorder({ onClose, onSend }) {
         {(step === 'idle' || step === 'recording') && (
           <>
             <h2 className="sheet-title">오늘의 소리</h2>
-            <p className="muted">지금 들리는 소리를 10초 담아 보세요.<br />말소리는 감정 꽃으로, 그 밖의 소리는 소리 꽃으로 피어요.</p>
+            <p className="muted">지금 들리는 소리를 10초 담아 보세요.<br />말소리는 감정 꽃으로 피고, 그 밖의 소리는 소리 나무로 자라요.</p>
             <canvas ref={canvasRef} className="wave" width="600" height="140" />
             <div className="timer">
               {step === 'recording' ? `${left.toFixed(1)}초 남음` : '누르면 바로 녹음돼요 · 최대 10초'}
@@ -219,7 +229,7 @@ export default function Recorder({ onClose, onSend }) {
           </>
         )}
 
-        {(step === 'preview' || step === 'sending') && flower && (
+        {step === 'preview' && flower && (
           <div className="center-col">
             <FlowerBloom3D flower={row} size={180} />
             <h2 className="flower-name">{flower.name}</h2>
@@ -253,10 +263,46 @@ export default function Recorder({ onClose, onSend }) {
                 </label>
               </>
             )}
+            <p className="small muted">이 소리는 내 정원에 피지 않아요. 친구에게 공유하면, 친구가 받았을 때 친구 정원에 피어요.</p>
             <div className="row">
-              <button className="ghost" onClick={() => setStep('idle')} disabled={step === 'sending'}>다시 녹음</button>
-              <button className="primary" onClick={send} disabled={step === 'sending'}>
-                {step === 'sending' ? '보내는 중…' : '보내기'}
+              <button className="ghost" onClick={() => setStep('idle')}>다시 녹음</button>
+              <button className="primary" onClick={() => setStep('sendto')}>다음</button>
+            </div>
+          </div>
+        )}
+
+        {(step === 'sendto' || step === 'sending') && flower && (
+          <div className="send-step">
+            <h2 className="sheet-title">누구에게 공유할까요?</h2>
+            <p className="muted small">‘{flower.name}’{objectJosa(flower.name)} 받은 친구가 받을지 고르고, 받으면 친구 정원에 피어요.</p>
+            {friends.length === 0 ? (
+              <p className="small muted">아직 친구가 없어요. 메뉴 → 나에서 친구 코드로 친구를 맺으면 공유할 수 있어요.</p>
+            ) : (
+              <>
+                <button
+                  className="link select-all"
+                  onClick={() => setSendTo(sendTo.size === friends.length ? new Set() : new Set(friends.map((f) => f.user_id)))}
+                  disabled={step === 'sending'}
+                >
+                  {sendTo.size === friends.length ? '모두 해제' : '모두 선택'}
+                </button>
+                <ul className="pick-list">
+                  {friends.map((fr) => (
+                    <li key={fr.user_id}>
+                      <label>
+                        <input type="checkbox" checked={sendTo.has(fr.user_id)} onChange={() => toggleTo(fr.user_id)} disabled={step === 'sending'} />
+                        <Avatar name={fr.nickname} url={fr.avatar_url} />
+                        <b>{fr.nickname}</b>
+                      </label>
+                    </li>
+                  ))}
+                </ul>
+              </>
+            )}
+            <div className="row">
+              <button className="ghost" onClick={() => setStep('preview')} disabled={step === 'sending'}>뒤로</button>
+              <button className="primary" onClick={send} disabled={step === 'sending' || sendTo.size === 0}>
+                {step === 'sending' ? '공유하는 중…' : sendTo.size ? `${sendTo.size}명에게 공유하기` : '친구를 골라 주세요'}
               </button>
             </div>
           </div>

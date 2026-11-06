@@ -75,6 +75,6 @@ jobs:
           if gh release view android-latest >/dev/null 2>&1; then
             gh release edit android-latest --notes "$NOTE"
           else
-            gh release create android-latest --title "소리숲 Android 최신 빌드" --notes "$NOTE" --prerelease
+            gh release create android-latest --title "SUP Android 최신 빌드" --notes "$NOTE" --prerelease
           fi
           gh release upload android-latest sup.apk --clobber

@@ -1,6 +1,6 @@
 {
   "appId": "com.sup.app",
-  "appName": "소리숲",
+  "appName": "SUP",
   "webDir": "dist",
   "android": {
     "allowMixedContent": false

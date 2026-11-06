@@ -18,9 +18,9 @@ const ISLAND_GLB = `${import.meta.env.BASE_URL}models/island.glb`
 const ISLAND_RADIUS = 4
 const ISLAND_TOP_Y = 0.17
 
-// 카메라: 꽃이 모여 있는 섬 가운데(반지름 약 2)를 가깝게 본다
-const CAMERA = { position: [0, 4.4, 10.5], target: [0, 0.1, 0], fov: 36, min: 6, max: 17 }
-// 화면이 좁으면(폰 세로) 이 반지름(섬)이 가로로 다 들어오도록 카메라를 뒤로 뺀다
+// 카메라: 섬 전체를 보고, 회전하거나 확대해도 화면 밖으로 잘리지 않게 한다
+const CAMERA = { position: [0, 4.4, 10.5], target: [0, 0.1, 0], fov: 36, max: 17 }
+// 섬 가장자리와 아래 바위까지 들어오는 반지름(여백 포함)
 const FIT_RADIUS = 4.4
 
 // 빛 알갱이: 소리를 재생하면 음량에 맞춰 커지고 빨라지고 따뜻한 색이 된다
@@ -223,27 +223,88 @@ function loadIslandGlb(target) {
   }
 }
 
-function placeFlowers(items) {
-  // items: [{ key, side: -1|0|1 }] → 위치. 정원 가운데(r<1.9)에 겹치지 않게
-  const placed = []
-  return items.map(({ key, side }) => {
-    const rand = rng(hash(key))
-    let best = null
-    for (let t = 0; t < 40; t++) {
-      const x = side === 0 ? (rand() - 0.5) * 1.0 : side * (0.45 + rand() * 1.6)
-      const z = side === 0 ? 0.3 + rand() * 1.2 : (rand() - 0.25) * 3.4
-      if (Math.hypot(x, z) > 2.15) continue
-      const d = Math.min(9, ...placed.map((p) => Math.hypot(p.x - x, p.z - z)))
-      if (!best || d > best.d) best = { x, z, d }
-      if (d > (side === 0 ? 1.0 : 0.75)) break
+// ───────── 꽃 자리 ─────────
+// 섬 위에 벌집 모양 자리(슬롯)를 미리 깔고 살짝 흔들어 둔다. 장식(거울 고리·수정 결정·연못)이 있는 곳은 비운다.
+// 반지름 3.4 · 간격 0.66 → 자리 약 69개: 받은 소리 50송이(정원 최대)와 우리의 꽃이 겹치지 않거나 살짝만 닿는다.
+// 장식 위치는 public/models/island.glb를 앱과 같은 크기로 불러와 잰 값 (섬 반지름 4 기준)
+const FLOWER_FIELD_RADIUS = 3.4
+const SLOT_GAP = 0.66
+const DECOR = [
+  [-0.69, -3.06, 0.95], // 거울 고리
+  [-2.81, -0.74, 0.8], // 수정 결정 (왼쪽)
+  [2.39, -2.2, 0.75], // 수정 결정 (오른쪽 뒤)
+  [0.69, -3.23, 0.6], // 수정 결정 (뒤)
+  [3.0, 0.89, 0.8], // 연못
+]
+const SLOTS = (() => {
+  const out = []
+  const dz = SLOT_GAP * Math.sqrt(3) / 2
+  for (let row = -12; row <= 12; row++) {
+    for (let col = -12; col <= 12; col++) {
+      const r = rng(hash(`slot-${row}-${col}`))
+      const x = col * SLOT_GAP + (row & 1 ? SLOT_GAP / 2 : 0) + (r() - 0.5) * 0.12
+      const z = row * dz + (r() - 0.5) * 0.12
+      if (Math.hypot(x, z) > FLOWER_FIELD_RADIUS) continue
+      if (DECOR.some(([cx, cz, rad]) => Math.hypot(x - cx, z - cz) < rad + 0.2)) continue
+      out.push({ x, z })
     }
-    best ||= { x: side, z: 0 }
-    placed.push(best)
+  }
+  return out
+})()
+// 우리의 꽃(더 크다)은 앞쪽 가운데를 먼저 쓰고, 둘레 자리까지 막아 둔다
+const PAIR_HOME = { x: 0, z: 1.1 }
+
+// items: [{ key, kind, t }] → 위치 [{ x, z }] (items 순서 그대로)
+// 먼저 생긴 것부터 자리를 잡으므로, 새 꽃이 생겨도 이미 핀 꽃은 움직이지 않는다.
+function placeFlowers(items) {
+  const taken = new Array(SLOTS.length).fill(false)
+  const result = new Array(items.length)
+  const order = items.map((it, i) => i).sort((a, b) => String(items[a].t || '').localeCompare(String(items[b].t || '')) || a - b)
+  const nearestFree = (x, z) => {
+    let best = -1, bd = Infinity
+    SLOTS.forEach((sl, k) => {
+      if (taken[k]) return
+      const d = Math.hypot(sl.x - x, sl.z - z)
+      if (d < bd) { bd = d; best = k }
+    })
     return best
+  }
+  for (const i of order) {
+    const it = items[i]
+    const target = it.kind === 'pair' ? PAIR_HOME : SLOTS[hash(it.key) % SLOTS.length]
+    let k = nearestFree(target.x, target.z)
+    if (k < 0) k = hash(it.key) % SLOTS.length // 자리가 모두 찼으면(정원 최대를 넘으면) 겹쳐서라도 심는다
+    taken[k] = true
+    if (it.kind === 'pair') {
+      SLOTS.forEach((sl, m) => { if (Math.hypot(sl.x - SLOTS[k].x, sl.z - SLOTS[k].z) < SLOT_GAP * 1.05) taken[m] = true })
+    }
+    result[i] = { x: SLOTS[k].x, z: SLOTS[k].z }
+  }
+  return result
+}
+
+// flowers: 우리의 꽃을 만들 때 찾을 수 있도록 내 꽃까지 전부 받는다. 섬에는 받은 꽃(meId가 아닌 꽃)과 우리의 꽃만 핀다.
+// visibleIds: 쉼표로 이은 id 목록(친구별 보기). 위치는 항상 전체 기준으로 정하고 여기 없는 것만 숨겨서,
+//             친구를 바꿔 봐도 꽃 자리가 움직이지 않는다. 없으면 모두 보인다.
+// 친구별 보기: 고른 친구의 꽃만 또렷하게, 나머지는 색을 빼고 반투명하게 (재질은 복사해서 바꾼다)
+const DIM_GREY = new THREE.Color('#c9c4d6')
+function dimObject(obj) {
+  obj.traverse((o) => {
+    if (!o.isMesh || !o.material) return
+    const dim = (m) => {
+      const c = m.clone()
+      c.transparent = true
+      c.opacity = 0.22
+      if (c.color) c.color.lerp(DIM_GREY, 0.55)
+      if (c.emissive) c.emissive.multiplyScalar(0.2)
+      return c
+    }
+    o.material = Array.isArray(o.material) ? o.material.map(dim) : dim(o.material)
+    o.castShadow = false
   })
 }
 
-export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, onPickFlower, onPickPair }) {
+export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, visibleIds, onPickFlower, onPickPair, resetViewKey }) {
   const wrapRef = useRef(null)
   const stateRef = useRef(null)
   const cbRef = useRef({})
@@ -315,7 +376,6 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
     controls.target.set(...CAMERA.target)
     controls.enableDamping = true
     controls.enablePan = false
-    controls.minDistance = CAMERA.min
     controls.maxDistance = CAMERA.max
     controls.minPolarAngle = 0.55
     controls.maxPolarAngle = 1.4
@@ -337,6 +397,7 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
       const hit = ray.intersectObjects(flowerLayer.children, true)[0]
       let o = hit?.object
       while (o && !o.userData.kind) o = o.parent
+      if (o?.userData.dimmed) return // 흐리게 된 꽃은 고를 수 없다
       if (o?.userData.kind === 'flower') cbRef.current.onPickFlower?.(o.userData.data)
       if (o?.userData.kind === 'pair') cbRef.current.onPickPair?.(o.userData.data)
     }
@@ -349,16 +410,23 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
     viewDir.normalize()
     const resize = () => {
       const { clientWidth: w, clientHeight: h } = wrap
+      if (!w || !h) return
       renderer.setSize(w, h)
       composer.setSize(w, h)
       camera.aspect = w / h
-      // 화면이 좁을수록 카메라를 뒤로 빼서 섬 양옆이 잘리지 않게 한다 (화각은 그대로 → 왜곡 없음)
+      // 가로·세로 중 좁은 화각에 섬 전체를 맞춘다.
       camera.fov = CAMERA.fov
-      const halfH = Math.atan(Math.tan(THREE.MathUtils.degToRad(CAMERA.fov) / 2) * camera.aspect)
-      const dist = Math.max(baseDist, FIT_RADIUS / Math.sin(halfH))
-      camera.position.copy(target).addScaledVector(viewDir, dist)
+      const halfVertical = THREE.MathUtils.degToRad(CAMERA.fov) / 2
+      const halfHorizontal = Math.atan(Math.tan(halfVertical) * camera.aspect)
+      const dist = Math.max(baseDist, FIT_RADIUS / Math.sin(Math.min(halfVertical, halfHorizontal)))
+      // 확대도 이 거리까지만 허용해 섬이 화면 밖으로 나가지 않게 한다.
+      controls.minDistance = dist
       controls.maxDistance = Math.max(CAMERA.max, dist + 3)
+      controls.target.copy(target)
+      camera.position.copy(target).addScaledVector(viewDir, dist)
       camera.updateProjectionMatrix()
+      controls.update()
+      controls.saveState()
     }
     const ro = new ResizeObserver(resize)
     ro.observe(wrap)
@@ -390,11 +458,12 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
         const pulse = u.highlight || u.fresh ? 1 + Math.sin(t * 4) * 0.08 : 1
         f.scale.setScalar(u.size * Math.max(0.001, 0.3 + 0.7 * e) * pulse)
         // 꽃잎이 바깥 겹부터 펼쳐진다 (다 피면 더 계산하지 않음)
-        if (!u.opened) {
+        if (!u.opened && u.setOpen) {
           const open = Math.min(1, Math.max(0, age / 1.8))
           u.setOpen(open)
           if (open >= 1) u.opened = true
         }
+        u.tick?.(t) // 감정 꽃의 움직임 (긴장 = 바르르 떨림)
         f.rotation.z = Math.sin(t * 1.3 + u.phase) * 0.05
       }
       controls.update()
@@ -403,7 +472,15 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
     }
     loop()
 
-    stateRef.current = { flowerLayer, clock, known: new Set(), first: true }
+    stateRef.current = {
+      flowerLayer, clock, known: new Set(), first: true,
+      resetView: () => {
+        clearTimeout(resumeTimer)
+        controls.autoRotate = false
+        controls.reset()
+        resumeTimer = setTimeout(() => (controls.autoRotate = true), 5000)
+      },
+    }
     return () => {
       cancelAnimationFrame(raf)
       clearTimeout(resumeTimer)
@@ -424,6 +501,10 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
     }
   }, [])
 
+  useEffect(() => {
+    if (resetViewKey != null) stateRef.current?.resetView()
+  }, [resetViewKey])
+
   // 꽃 데이터가 바뀌면 꽃 층만 다시 만든다
   useEffect(() => {
     const st = stateRef.current
@@ -438,10 +519,18 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
       const a = byId[p.flower_a_id], b = byId[p.flower_b_id]
       if (!a || !b) continue
       pairedIds.add(a.id); pairedIds.add(b.id)
-      items.push({ key: p.id, side: 0, kind: 'pair', data: p, a, b })
+      const at = (f) => f.shared_at || f.created_at || ''
+      items.push({ key: p.id, kind: 'pair', data: p, a, b, t: [at(a), at(b)].sort().pop() })
     }
-    for (const f of flowers) items.push({ key: f.id, side: f.sender_id === meId ? 1 : -1, kind: 'flower', data: f })
-    const pos = placeFlowers(items)
+    // 내 꽃은 내 정원에 피지 않는다(우리의 꽃 재료로만 쓴다). 받은 꽃은 id로 정해진 자리 근처에
+    for (const f of flowers) {
+      if (f.sender_id === meId) continue
+      items.push({ key: f.id, kind: 'flower', data: f, t: f.shared_at || f.created_at })
+    }
+    const pos = placeFlowers(items) // 항상 전체 기준 → 친구별로 숨겨도 자리 고정
+    // 섬에 핀 수가 많을수록 조금씩 작게: 12송이까지는 그대로, 50송이면 약 0.6배 (구별은 되게 자리 간격 0.66에 맞춤)
+    const density = Math.max(0.58, Math.min(1, Math.sqrt(12 / Math.max(items.length, 1))))
+    const visible = visibleIds == null ? null : new Set(visibleIds ? visibleIds.split(',') : [])
     const now = clock.getElapsedTime()
 
     items.forEach((it, i) => {
@@ -453,17 +542,19 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
       Object.assign(obj.userData, {
         kind: it.kind,
         data: it.data,
-        size: it.kind === 'pair' ? 2.6 : 1.8,
+        size: (it.kind === 'pair' ? 2.6 : isTree(it.data) ? 1.55 : 1.8) * density, // 나무는 키가 커서 조금 더 작게
         phase: (hash(it.key) % 100) / 16,
         bornAt: isNew ? (st.first ? now + i * 0.06 : now) : -10,
         fresh: freshIds?.has(it.key),
         highlight: highlightId === it.key,
+        dimmed: Boolean(visible && !visible.has(it.key)),
       })
+      if (obj.userData.dimmed) dimObject(obj)
       known.add(it.key)
       flowerLayer.add(obj)
     })
     st.first = false
-  }, [flowers, pairs, meId, freshIds, highlightId])
+  }, [flowers, pairs, meId, freshIds, highlightId, visibleIds])
 
   return <div ref={wrapRef} className="island" />
 }

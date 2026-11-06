@@ -1,12 +1,12 @@
 {
-  "name": "소리숲",
-  "short_name": "소리숲",
+  "name": "SUP",
+  "short_name": "SUP",
   "description": "하루 10초의 소리가 의성어 꽃으로 피어나는 두 사람의 정원",
   "start_url": "/",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#f0e2d3",
-  "theme_color": "#9ab7cb",
+  "background_color": "#f7e9df",
+  "theme_color": "#b7c8e8",
   "icons": [
     { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" },
     { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png" },
