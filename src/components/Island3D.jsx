@@ -12,7 +12,10 @@ import { buildBlenderFlower, useBlenderFlowerAssets } from '../lib/blenderFlower
 import { buildTree3D } from '../lib/tree3d.js'
 import { createGardenEnvironment } from '../lib/gardenEnvironment.js'
 import { isTree } from '../lib/tree.js'
-import { applyWarmIslandMaterial, applyWarmIslandPaint } from '../lib/islandTone.js'
+import { applyWarmIslandMaterial, applyWarmIslandPaint, applyAuroraIslandMaterial, applyAuroraIslandPaint } from '../lib/islandTone.js'
+import { createAuroraAtmosphere } from '../lib/auroraAtmosphere.js'
+import { AuroraGlowPass } from '../lib/AuroraGlowPass.js'
+import { createAuroraSparkleMaterial } from '../lib/auroraSparkles.js'
 import { playbackLevel } from '../lib/audio.js'
 
 // 블렌더 섬 모델: public/models/island.glb 를 올리면 코드로 만든 섬 대신 자동으로 쓴다.
@@ -72,6 +75,7 @@ function applyOpalReflection(material, tone) {
   // Native thin-film shading added measured cost without a visible gain over this angular scatter.
   material.iridescence = 0
   const warm = tone !== 'default'
+  const aurora = tone === 'aurora'
   const previousCompile = material.onBeforeCompile
   material.onBeforeCompile = function (shader, renderer) {
     previousCompile.call(this, shader, renderer)
@@ -88,11 +92,11 @@ function applyOpalReflection(material, tone) {
         1.0 - opalReflection.z,
         1.0 + 0.8660254 * opalReflection.x + 0.5 * opalReflection.z,
         1.0 - 0.8660254 * opalReflection.x + 0.5 * opalReflection.z) / 3.0;
-      vec3 opalTint = opalWeights.x * vec3(${warm ? '1.02, 1.03, 1.10' : '0.72, 1.12, 1.14'})
-        + opalWeights.y * vec3(${warm ? '1.26, 0.78, 0.96' : '1.18, 0.78, 1.03'})
-        + opalWeights.z * vec3(${warm ? '1.02, 0.86, 1.24' : '1.14, 0.76, 1.18'});
+      vec3 opalTint = opalWeights.x * vec3(${aurora ? '0.48, 1.40, 1.65' : warm ? '1.02, 1.03, 1.10' : '0.72, 1.12, 1.14'})
+        + opalWeights.y * vec3(${aurora ? '1.64, 0.58, 1.24' : warm ? '1.26, 0.78, 0.96' : '1.18, 0.78, 1.03'})
+        + opalWeights.z * vec3(${aurora ? '0.98, 0.70, 1.66' : warm ? '1.02, 0.86, 1.24' : '1.14, 0.76, 1.18'});
       // A quiet pearl body persists while reflected color strengthens toward grazing views.
-      reflectedLight.indirectDiffuse *= mix(vec3(${warm ? '1.06, 1.0, 0.97' : '0.92, 1.02, 1.04'}), opalTint,
+      reflectedLight.indirectDiffuse *= mix(vec3(${aurora ? '0.82, 0.92, 1.14' : warm ? '1.06, 1.0, 0.97' : '0.92, 1.02, 1.04'}), opalTint,
         0.55 + 0.20 * opalGrazing);
       reflectedLight.indirectSpecular *= mix(vec3(1.0), opalTint, 0.70 + 0.25 * opalGrazing);
       // Upper viewing directions retain a polished response without brightening diffuse light.
@@ -129,17 +133,17 @@ function buildIsland(tone) {
   const rand = rng(20261106)
   const root = new THREE.Group()
 
-  const grass = new THREE.Mesh(jitter(new THREE.CylinderGeometry(4, 3.9, 0.35, 30, 1), 0.25, rand, (x, y) => y > 0 && Math.hypot(x) < 0), mat(tone === 'default' ? '#86b85c' : '#dfccc5'))
+  const grass = new THREE.Mesh(jitter(new THREE.CylinderGeometry(4, 3.9, 0.35, 30, 1), 0.25, rand, (x, y) => y > 0 && Math.hypot(x) < 0), mat(tone === 'aurora' ? '#4b5a83' : tone === 'default' ? '#86b85c' : '#dfccc5'))
   grass.receiveShadow = true
   root.add(grass)
 
-  const dirt = new THREE.Mesh(jitter(new THREE.CylinderGeometry(3.95, 3.6, 0.5, 30, 1), 0.2, rand), mat(tone === 'default' ? '#6e4b33' : '#8f6d68'))
+  const dirt = new THREE.Mesh(jitter(new THREE.CylinderGeometry(3.95, 3.6, 0.5, 30, 1), 0.2, rand), mat(tone === 'aurora' ? '#253849' : tone === 'default' ? '#6e4b33' : '#8f6d68'))
   dirt.position.y = -0.4
   root.add(dirt)
 
   const rockGeo = new THREE.ConeGeometry(3.6, 3.4, 16, 5)
   rockGeo.rotateX(Math.PI)
-  const rock = new THREE.Mesh(jitter(rockGeo, 0.7, rand, (x, y) => y > 1.6), mat(tone === 'default' ? '#857565' : '#9c7e82'))
+  const rock = new THREE.Mesh(jitter(rockGeo, 0.7, rand, (x, y) => y > 1.6), mat(tone === 'aurora' ? '#365b7f' : tone === 'default' ? '#857565' : '#9c7e82'))
   rock.position.y = -2.35
   root.add(rock)
 
@@ -151,7 +155,7 @@ function buildIsland(tone) {
     s.castShadow = true
     root.add(s)
   }
-  const tuftMat = mat(tone === 'default' ? '#9ccc6a' : '#cfb3c0')
+  const tuftMat = mat(tone === 'aurora' ? '#46949e' : tone === 'default' ? '#9ccc6a' : '#cfb3c0')
   for (let i = 0; i < 90; i++) {
     const a = rand() * Math.PI * 2, r = Math.sqrt(rand()) * 3.8
     const t = new THREE.Mesh(new THREE.ConeGeometry(0.04, 0.18 + rand() * 0.12, 3), tuftMat)
@@ -185,10 +189,12 @@ function loadIslandGlb(target, tone) {
         if (!o.isMesh) return
         const materials = Array.isArray(o.material) ? o.material : [o.material]
         for (const material of materials) {
-          if (tone !== 'default') applyWarmIslandMaterial(material)
+          if (tone === 'aurora') applyAuroraIslandMaterial(material)
+          else if (tone !== 'default') applyWarmIslandMaterial(material)
           applyOpalReflection(material, tone)
         }
-        if (tone !== 'default') applyWarmIslandPaint(o)
+        if (tone === 'aurora') applyAuroraIslandPaint(o)
+        else if (tone !== 'default') applyWarmIslandPaint(o)
         const transparent = materials.some((material) => material.transparent)
         // Alpha crystals keep their transmitted appearance; only solid perimeter details cast shadows.
         o.castShadow = !transparent && /Island_(Ornamental_Ring|Vegetation)/.test(o.name)
@@ -333,32 +339,39 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
     renderer.shadowMap.type = THREE.PCFShadowMap
     wrap.appendChild(renderer.domElement)
 
+    const aurora = tone === 'aurora'
     const scene = new THREE.Scene()
     const environment = createGardenEnvironment(renderer, 256, tone)
     scene.environment = environment.texture
-    scene.environmentIntensity = 0.55
+    scene.environmentIntensity = aurora ? 0.42 : 0.55
     const camera = new THREE.PerspectiveCamera(34, 1, 0.1, 100)
     camera.position.set(...CAMERA.position)
 
     const warm = tone !== 'default'
-    scene.add(new THREE.HemisphereLight(warm ? '#f6dfd8' : '#ccd9f3', warm ? '#94747f' : '#6c7d88', warm ? 0.46 : 0.38))
-    const sun = new THREE.DirectionalLight(warm ? '#fff1dc' : '#fff1e8', 1.5)
+    scene.add(new THREE.HemisphereLight(aurora ? '#8584ca' : warm ? '#f6dfd8' : '#ccd9f3', aurora ? '#171c38' : warm ? '#94747f' : '#6c7d88', aurora ? 0.38 : warm ? 0.46 : 0.38))
+    const sun = new THREE.DirectionalLight(aurora ? '#cee9ff' : warm ? '#fff1dc' : '#fff1e8', aurora ? 2.2 : 1.5)
     sun.position.set(5, 8, 5)
     sun.castShadow = true
     sun.shadow.mapSize.set(1024, 1024)
     Object.assign(sun.shadow.camera, { left: -5, right: 5, top: 5, bottom: -5, near: 0.5, far: 25 })
-    sun.shadow.intensity = 0.55
+    sun.shadow.intensity = aurora ? 0.68 : 0.55
     sun.shadow.radius = 3
     sun.shadow.normalBias = 0.025
     sun.shadow.bias = -0.0001
     scene.add(sun)
-    const fill = new THREE.DirectionalLight(warm ? '#dcb8d3' : '#a8dce4', warm ? 0.52 : 0.65)
+    const fill = new THREE.DirectionalLight(aurora ? '#f181c9' : warm ? '#dcb8d3' : '#a8dce4', aurora ? 1.0 : warm ? 0.52 : 0.65)
     fill.position.set(-4, -1, 3)
     scene.add(fill)
+    if (aurora) {
+      const rim = new THREE.DirectionalLight('#53d8ee', 1.1)
+      rim.position.set(-3, 4, -6)
+      scene.add(rim)
+    }
 
     const composer = new EffectComposer(renderer)
     composer.addPass(new RenderPass(scene, camera))
-    // 빛 번짐(bloom) 없이 그린다
+    // Warm retains its original two-pass renderer; Aurora adds bounded highlight glow.
+    if (aurora) composer.addPass(new AuroraGlowPass({ strength: 0.38, threshold: 0.85 }))
     composer.addPass(new OutputPass())
 
     const floating = new THREE.Group()
@@ -370,6 +383,8 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
     flowerLayer.position.y = 0.17
     floating.add(flowerLayer)
     scene.add(floating)
+    const atmosphere = aurora ? createAuroraAtmosphere() : null
+    if (atmosphere) scene.add(atmosphere)
 
     // 떠다니는 빛 알갱이
     const N = 140
@@ -378,7 +393,8 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
     for (let i = 0; i < N; i++) pts.set([(r0() - 0.5) * 12, r0() * 7 - 1, (r0() - 0.5) * 10], i * 3)
     const pGeo = new THREE.BufferGeometry()
     pGeo.setAttribute('position', new THREE.BufferAttribute(pts, 3))
-    const sparkleMat = new THREE.PointsMaterial({ color: '#ffffff', size: SPARKLE.size, transparent: true, opacity: 0.8 })
+    const sparkleMat = aurora ? createAuroraSparkleMaterial(SPARKLE.size)
+      : new THREE.PointsMaterial({ color: '#ffffff', size: SPARKLE.size, transparent: true, opacity: 0.8 })
     const sparkles = new THREE.Points(pGeo, sparkleMat)
     let level = 0 // 부드럽게 따라가는 재생 음량
     scene.add(sparkles)
@@ -474,7 +490,8 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
       const t = previewTime ?? elapsed
       floating.position.y = Math.sin(t * 0.6) * 0.08
       level += (playbackLevel() - level) * 0.15
-      sparkleMat.size = SPARKLE.size * (1 + level * SPARKLE.sizeBoost)
+      sparkleMat.size = SPARKLE.size * (aurora ? 1.6 : 1) * (1 + level * SPARKLE.sizeBoost)
+      if (aurora) sparkleMat.userData.time.value = t
       sparkleMat.opacity = 0.8 + level * 0.2
       sparkleMat.color.copy(SPARKLE_IDLE).lerp(SPARKLE_PLAY, Math.min(1, level * 1.5))
       const rise = previewTime == null ? SPARKLE.speed * (1 + level * SPARKLE.speedBoost) : 0
@@ -486,6 +503,7 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
       }
       p.needsUpdate = true
       controls.update()
+      atmosphere?.userData.tick(t, camera)
       for (const f of flowerLayer.children) {
         const u = f.userData
         const age = previewTime == null ? t - (u.bornAt ?? -10) : previewTime

@@ -77,7 +77,7 @@ export default function IslandPreview() {
   const params = new URLSearchParams(location.search)
   const [mode, setMode] = useState(() => params.get('flora') === 'mixed' ? 'mixed' : 'original')
   const [dense, setDense] = useState(() => params.get('plants') === '50')
-  const [tone, setTone] = useState(() => params.get('tone') === 'default' ? 'default' : 'warm')
+  const [tone, setTone] = useState(() => ['default', 'warm', 'aurora'].includes(params.get('tone')) ? params.get('tone') : 'warm')
   const [islandOnly, setIslandOnly] = useState(() => params.get('islandOnly') === '1')
   const [angle, setAngle] = useState(() => params.get('angle') === 'rotated' ? 'rotated' : 'front')
   const [portrait, setPortrait] = useState(() => params.get('portrait') === '1')
@@ -141,6 +141,7 @@ export default function IslandPreview() {
         <div className="flora-actions" aria-label="Tone comparison">
           <button aria-pressed={tone === 'default'} onClick={() => chooseTone('default')}>Original tone</button>
           <button aria-pressed={tone === 'warm'} onClick={() => chooseTone('warm')}>Warm tone</button>
+          <button aria-pressed={tone === 'aurora'} onClick={() => chooseTone('aurora')}>Aurora</button>
           <button aria-pressed={still} onClick={() => { updateQuery({ still: !still ? '1' : null }); setStill(value => !value) }}>Still frame</button>
         </div>
         <div className="flora-actions">

@@ -1,0 +1,63 @@
+{
+  "status": "passed",
+  "gpuTimer": [
+    "Unsupported extension is a no-op",
+    "Partial query allocation cleans up already-created handles",
+    "Four-query pool bounds pending work and waits for availability without blocking",
+    "Nanoseconds convert to milliseconds; mean and p95 are correct; disposal is idempotent",
+    "GPU disjoint invalidates old samples and resumes cleanly",
+    "Existing profiler query is untouched; nested begin and active cleanup are safe",
+    "Context loss disables measurement and releases handles without ending a lost-context query",
+    "Timing storage stays bounded at the latest 180 samples"
+  ],
+  "glow": {
+    "draws": 4,
+    "targets": 2,
+    "maxTargetDimension": 384,
+    "sizingCases": [
+      {
+        "input": [
+          2469,
+          1042
+        ],
+        "target": [
+          383,
+          162
+        ]
+      },
+      {
+        "input": [
+          390,
+          624
+        ],
+        "target": [
+          97,
+          156
+        ]
+      },
+      {
+        "input": [
+          7680,
+          4320
+        ],
+        "target": [
+          384,
+          216
+        ]
+      },
+      {
+        "input": [
+          1,
+          1
+        ],
+        "target": [
+          1,
+          1
+        ]
+      }
+    ],
+    "noExtraSceneRender": true,
+    "rendererAutoClearRestoredOnError": true,
+    "resourcesDisposed": true
+  }
+}

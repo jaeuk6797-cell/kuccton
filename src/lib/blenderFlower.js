@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import * as THREE from 'three'
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js'
 import { flowerParams, toColor } from './flower3d.js'
-import { floraColor, getFloraPalette } from './crystalFlora.js'
+import { applyAuroraFloraRim, floraColor, getFloraPalette } from './crystalFlora.js'
 
 const MODEL_PATH = `${import.meta.env.BASE_URL}models/flora/`
 const PETAL_PIVOTS = ['Outer_Petal_Pivot', 'Middle_Petal_Pivot', 'Inner_Petal_Pivot']
@@ -54,10 +54,10 @@ export function useBlenderFlowerAssets(enabled) {
 function createVariant(source, tint, tone, opal) {
   const material = source.clone()
   if (opal) material.color.multiply(tint)
-  if (tone !== 'default' && source.name === '03 | Champagne crystal') {
+  if (tone !== 'default' && tone !== 'aurora' && source.name === '03 | Champagne crystal') {
     material.color.multiply(new THREE.Color('#ffe9df'))
   }
-  if (tone !== 'default' && source.name === '02 | Aqua mineral') {
+  if (tone !== 'default' && tone !== 'aurora' && source.name === '02 | Aqua mineral') {
     // Preserve the exported cuts and their tonal variation, warming only the baked color.
     const previousCompile = source.onBeforeCompile
     material.onBeforeCompile = function (shader, renderer) {
@@ -69,6 +69,27 @@ function createVariant(source, tint, tone, opal) {
       `)
     }
     material.customProgramCacheKey = () => 'sup-warm-flora-mineral-v1'
+  }
+  if (tone === 'aurora') {
+    if (opal) {
+      material.iridescence = 0.32
+      applyAuroraFloraRim(material, { strength: 0.65 })
+    } else if (source.name === '03 | Champagne crystal') {
+      material.emissive.set('#ffd692')
+      material.emissiveIntensity = 0.48
+    } else if (source.name === '02 | Aqua mineral') {
+      const previousCompile = source.onBeforeCompile
+      material.onBeforeCompile = function (shader, renderer) {
+        previousCompile.call(this, shader, renderer)
+        shader.fragmentShader = shader.fragmentShader.replace('#include <color_fragment>', `
+          #include <color_fragment>
+          float mineralValue = dot(diffuseColor.rgb, vec3(0.2126, 0.7152, 0.0722));
+          diffuseColor.rgb = mix(diffuseColor.rgb, mineralValue * vec3(0.34, 1.18, 1.26), 0.72);
+        `)
+      }
+      material.customProgramCacheKey = () => 'sup-aurora-flora-mineral-v1'
+      applyAuroraFloraRim(material, { strength: 0.36 })
+    }
   }
   return material
 }
@@ -96,7 +117,7 @@ export function buildBlenderFlower(flower, assets, { dimmed = false, detail = fa
   const scale = (0.55 + 0.25 * flowerParams(flower).size) / height
   const tint = tone === 'default'
     ? new THREE.Color('white').lerp(toColor(flower.color), 0.34)
-    : getFloraPalette(tone).pearl.clone().lerp(floraColor(toColor(flower.color), tone), 0.28)
+    : getFloraPalette(tone).pearl.clone().lerp(floraColor(toColor(flower.color), tone), tone === 'aurora' ? 0.60 : 0.28)
   const materials = new Map()
   const release = []
 

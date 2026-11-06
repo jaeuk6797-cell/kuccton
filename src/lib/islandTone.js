@@ -55,3 +55,96 @@ export function applyWarmIslandMaterial(material) {
       break
   }
 }
+
+const AURORA_FACETS = {
+  'SUP Lavender quartz': ['#ad84ef', 0.38],
+  'SUP Cyan quartz': ['#45e0e4', 0.48],
+  'SUP Pink opal': ['#f16cbe', 0.46],
+  'SUP Iridescent foliage': ['#3996b0', 0.54],
+}
+
+// The underside's existing colored seams receive light; the mineral body stays dark.
+export function applyAuroraIslandPaint(mesh) {
+  const colors = mesh.geometry.attributes.color
+  if (!colors || mesh.geometry.userData.auroraPaint) return
+  mesh.geometry.userData.auroraPaint = true
+  const color = new THREE.Color()
+  const tint = AURORA_FACETS[mesh.material.name]
+  const mineral = mesh.material.name === 'SUP Layered turquoise mineral'
+  if (!tint && !mineral) return
+  const target = new THREE.Color(tint?.[0] || '#23778e')
+  const peak = Math.max(target.r, target.g, target.b)
+  const scaled = new THREE.Color()
+  for (let i = 0; i < colors.count; i++) {
+    color.setRGB(colors.getX(i), colors.getY(i), colors.getZ(i))
+    const brightness = Math.max(color.r, color.g, color.b)
+    if (mineral) {
+      const seam = Math.max(color.b - color.r, color.g - color.r) > 0.025
+      target.set(seam ? '#62e9ea' : '#6388ad')
+      scaled.copy(target).multiplyScalar(brightness * (seam ? 2.5 : 1.45))
+      color.copy(scaled)
+    } else {
+      color.lerp(scaled.copy(target).multiplyScalar(brightness / peak), tint[1])
+    }
+    colors.setXYZ(i, color.r, color.g, color.b)
+  }
+  colors.needsUpdate = true
+}
+
+export function applyAuroraIslandMaterial(material) {
+  if (material.userData.auroraTone) return
+  material.userData.auroraTone = true
+  switch (material.name) {
+    case 'SUP Opalescent ground':
+      material.color.setRGB(0.30, 0.40, 0.60)
+      material.roughness = 0.14
+      material.clearcoat = 0.7
+      break
+    case 'SUP Champagne gold':
+      material.color.set('#d5ad7e')
+      material.roughness = 0.19
+      break
+    case 'SUP Brushed rose gold':
+      material.color.set('#c8a9dc')
+      material.roughness = 0.21
+      break
+    case 'SUP Pearl water highlights':
+      material.color.set('#bbf4ff')
+      material.emissive.set('#75cfe8')
+      material.emissiveIntensity = 0.5
+      break
+    case 'SUP Still aqua water':
+      material.color.set('#5dbbcf')
+      material.roughness = 0.12
+      material.emissive.set('#1b7888')
+      material.emissiveIntensity = 0.16
+      break
+    case 'SUP Warm luminous filaments':
+      material.emissive.set('#ffe4a6')
+      material.emissiveIntensity = 3.2
+      break
+    case 'SUP Layered turquoise mineral':
+    case 'SUP Lavender quartz':
+    case 'SUP Cyan quartz':
+    case 'SUP Pink opal': {
+      const mineral = material.name === 'SUP Layered turquoise mineral'
+      const previousCompile = material.onBeforeCompile
+      material.onBeforeCompile = function(shader, renderer) {
+        previousCompile.call(this, shader, renderer)
+        shader.fragmentShader = shader.fragmentShader.replace('#include <emissivemap_fragment>', `
+          #include <emissivemap_fragment>
+          float auroraEdge = 1.0 - max(0.0, dot(normal, normalize(vViewPosition)));
+          auroraEdge *= auroraEdge;
+          ${mineral ? `
+            float seam = smoothstep(0.04, 0.18, diffuseColor.g - diffuseColor.r);
+            totalEmissiveRadiance += vec3(0.08, 0.75, 0.95) * seam * (0.18 + 0.35 * auroraEdge);
+          ` : `
+            totalEmissiveRadiance += vec3(0.30, 0.85, 1.0) * auroraEdge * auroraEdge * 0.85;
+          `}
+        `)
+      }
+      material.customProgramCacheKey = () => `sup-aurora-island-${mineral ? 'seams' : 'quartz'}-v1`
+      break
+    }
+  }
+}

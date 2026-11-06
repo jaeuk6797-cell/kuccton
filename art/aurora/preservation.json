@@ -1,0 +1,320 @@
+{
+  "baseline": "536d2acc1e354ac36d0ab21a1b6c752dc15e668b",
+  "restoration": {
+    "sourceHashes": [
+      {
+        "file": "src/App.jsx",
+        "sha256": "f5ec3683d7ba8dfafe79ad3aa942fdce23ab8c92238ac62850c60867ebbed4b4"
+      },
+      {
+        "file": "src/components/Avatar.jsx",
+        "sha256": "ced008d6b8cf4ecfd3a918f248bf108db93b45ec8b752364105eb39fba87ea4e"
+      },
+      {
+        "file": "src/components/Chat.jsx",
+        "sha256": "5b667f358e9c4ff4138af17e3cc4a7c6485f3c5cacd62e5d5d4dedd46cff8772"
+      },
+      {
+        "file": "src/components/Details.jsx",
+        "sha256": "1807e4dbb7861d6849278f4bae433b399dea83ce3190f577f41185a6da6cb472"
+      },
+      {
+        "file": "src/components/Flower.jsx",
+        "sha256": "51d0560ee6bcac8de526abb4cbdce71016765b0881a4ebf66cd283511f56b629"
+      },
+      {
+        "file": "src/components/Flower3D.jsx",
+        "sha256": "9703f8a1fbd4b48d7133d5640820bced0801f17c936bda1573175a816594eea9"
+      },
+      {
+        "file": "src/components/FlowerBloom3D.jsx",
+        "sha256": "947f64e074bcfe73cc339b27bba8b42908dd8d9bab442d5a6baaf2d68646e72a"
+      },
+      {
+        "file": "src/components/Garden.jsx",
+        "sha256": "a4a298b4cc8243871cca25939624c6b09df0125c9f4f0d2667113e492f368f08"
+      },
+      {
+        "file": "src/components/Icons.jsx",
+        "sha256": "4a9b9b34d37b8772b556dbb4e087eaefb713f318995466eeacca73440f15db63"
+      },
+      {
+        "file": "src/components/Island3D.jsx",
+        "sha256": "03e13964ca970d60c45a2a5094262b70a1ad7ba43aa212f028eaa3f552d3a5f8"
+      },
+      {
+        "file": "src/components/Recorder.jsx",
+        "sha256": "44be39ba27455918620138b3e87388e347aa6c02d3adf0b8e518d34bd8941cc7"
+      },
+      {
+        "file": "src/components/Share.jsx",
+        "sha256": "dd74b9551640d3f466bc9e46df7bd998ddc40f945132bb0afc02d7352ab8a9ff"
+      },
+      {
+        "file": "src/components/Tree.jsx",
+        "sha256": "125b6a74343953f6b0188585157d6f0389591ac66a9deef02881ccc01b26c7b8"
+      },
+      {
+        "file": "src/components/Tutorial.jsx",
+        "sha256": "d58b6b60e0d4c3f63c51f56120b052a4b708055ce454b7b2cb8d7f58f127b7a7"
+      },
+      {
+        "file": "src/components/Visit.jsx",
+        "sha256": "9503273be199732d7047744c1f13f51904d1f018f3995157db864e2819c731d8"
+      },
+      {
+        "file": "src/dev/EmotionFlowers.jsx",
+        "sha256": "ed566aa552259f012122bea14a074168185cad4eb0b3a717c2ca0c6f2ec10264"
+      },
+      {
+        "file": "src/dev/HomeDemo.jsx",
+        "sha256": "ec95c073c8baaf06e283d0627581c90088109aba9414863ee9563634df1dbdd7"
+      },
+      {
+        "file": "src/dev/IslandPreview.css",
+        "sha256": "4b7873615e55b198ca80ff4b64860c830b609581327fdb1ce1011c89b2cd6dca"
+      },
+      {
+        "file": "src/dev/IslandPreview.jsx",
+        "sha256": "1a86457d0b357f3322525588c6dea72ddafed5f7101231c5ba7e92b88edc3895"
+      },
+      {
+        "file": "src/lib/audio.js",
+        "sha256": "5548e2012b1a8cf8548bae124b95f2e9002fa652e9aed7791a5a178542a7ce9a"
+      },
+      {
+        "file": "src/lib/blenderFlower.js",
+        "sha256": "172a2c83985879b7fcbb26d17854a985ca944c330d04722921d5b83e592ef153"
+      },
+      {
+        "file": "src/lib/crystalFlora.js",
+        "sha256": "555f752418a6cca0146fbcd8c9f8fe8971ba6b34e0ef2df1edd9ed7566471f43"
+      },
+      {
+        "file": "src/lib/db.js",
+        "sha256": "9b20ca1fad7e40e83180a5b4a0c0264e143c5d434500646dbc19babf9d39a6c4"
+      },
+      {
+        "file": "src/lib/emotion.js",
+        "sha256": "25fbcfbd7ca667ac4b436db16ad15103f9b1b1a87a8307ce45004832d91b4c09"
+      },
+      {
+        "file": "src/lib/flower.js",
+        "sha256": "e17e682a5769de97dffc97dbfcd9254779fc8579d1e5da6c21ee682bf52a7b19"
+      },
+      {
+        "file": "src/lib/flower3d.js",
+        "sha256": "5a5f8088fd69a7027eaa01d4bb8cb8a5392ea0cc3b7ff9f0b13b72257f4453af"
+      },
+      {
+        "file": "src/lib/gardenEnvironment.js",
+        "sha256": "eac9a1b04b973222f844559ff01fd3b0c9d8e9006385b219538eccc485505b7d"
+      },
+      {
+        "file": "src/lib/islandTone.js",
+        "sha256": "d131cab4502c98d92ae6e1ec73b913f1ff7e1cf3a8fccd6357d38777c80208d1"
+      },
+      {
+        "file": "src/lib/naming.js",
+        "sha256": "9b11b9aa40f8469ccac45e441bbde6d36a124d60e30f8f239672198d42d75bf9"
+      },
+      {
+        "file": "src/lib/onomatopoeia.js",
+        "sha256": "00169c34eeb614b828c93dc2bb5687601003fcab329e85b8a42e718cef0de57e"
+      },
+      {
+        "file": "src/lib/receivedSounds.js",
+        "sha256": "7a8f23547c3a96a45827ed19f2d9bdcd3e95db29ab2941fa0077e185668192de"
+      },
+      {
+        "file": "src/lib/soundFeatures.js",
+        "sha256": "e0d4848b85ef510b9ade35ec6fd9c08192e742a7e205775889a36db2343bec3a"
+      },
+      {
+        "file": "src/lib/stt.js",
+        "sha256": "69c9e48089b5d8a753aaf212f4fce189ab9ac1b82ffe27cf946426933f277a6f"
+      },
+      {
+        "file": "src/lib/tree.js",
+        "sha256": "f1f39c5c89a8d205f03b9f56427c42958c09f876407fac10c6e6418075984bee"
+      },
+      {
+        "file": "src/lib/tree3d.js",
+        "sha256": "19b69e0c33e8fe446da21565e961828577401aecedebed187a12274434ea0297"
+      },
+      {
+        "file": "src/main.jsx",
+        "sha256": "4a3ea32a22e39bd7776c4e4eb1b013d35c7b45cf4f966284638a070d1da9a617"
+      },
+      {
+        "file": "src/styles.css",
+        "sha256": "92a02860f777b81297e0ede4ad8c274f7ec786d6c483eca74f456f2e069499e4"
+      },
+      {
+        "file": "package.json",
+        "sha256": "c485086ca436511ec93df85b30ae803c0062d182a862c67427a901ab7edf297a"
+      },
+      {
+        "file": "package-lock.json",
+        "sha256": "178d50ee7554585f6ac52b1fdb36b2536a805cbde80a0f812a9cca9c06086ddc"
+      },
+      {
+        "file": "vite.config.js",
+        "sha256": "eecdc06a31e4ac623f0506731e68c0bd5c2ac3f04554214e08d427bd65dc0851"
+      }
+    ],
+    "build": {
+      "status": "passed",
+      "command": "node <workspace>/node_modules/vite/bin/vite.js build",
+      "source": "Fresh git archive extraction, with workspace-installed dependencies resolved from ancestors",
+      "warning": "Existing Vite chunk larger than 500 kB",
+      "modules": 125
+    },
+    "status": "passed",
+    "warmEvidence": {
+      "files": 20,
+      "byteIdentical": true
+    }
+  },
+  "cases": [
+    {
+      "name": "joy",
+      "meshes": 27,
+      "triangles": 2168,
+      "geometries": 5,
+      "materials": 5,
+      "warmAppearancePreserved": true,
+      "auroraGeometryAndGrowthUnchanged": true
+    },
+    {
+      "name": "excited",
+      "meshes": 21,
+      "triangles": 2120,
+      "geometries": 6,
+      "materials": 5,
+      "warmAppearancePreserved": true,
+      "auroraGeometryAndGrowthUnchanged": true
+    },
+    {
+      "name": "flutter",
+      "meshes": 21,
+      "triangles": 2120,
+      "geometries": 6,
+      "materials": 5,
+      "warmAppearancePreserved": true,
+      "auroraGeometryAndGrowthUnchanged": true
+    },
+    {
+      "name": "cozy",
+      "meshes": 33,
+      "triangles": 3848,
+      "geometries": 8,
+      "materials": 5,
+      "warmAppearancePreserved": true,
+      "auroraGeometryAndGrowthUnchanged": true
+    },
+    {
+      "name": "calm",
+      "meshes": 27,
+      "triangles": 2984,
+      "geometries": 7,
+      "materials": 5,
+      "warmAppearancePreserved": true,
+      "auroraGeometryAndGrowthUnchanged": true
+    },
+    {
+      "name": "sad",
+      "meshes": 15,
+      "triangles": 1256,
+      "geometries": 5,
+      "materials": 5,
+      "warmAppearancePreserved": true,
+      "auroraGeometryAndGrowthUnchanged": true
+    },
+    {
+      "name": "tense",
+      "meshes": 39,
+      "triangles": 3896,
+      "geometries": 6,
+      "materials": 5,
+      "warmAppearancePreserved": true,
+      "auroraGeometryAndGrowthUnchanged": true
+    },
+    {
+      "name": "pair",
+      "meshes": 27,
+      "triangles": 2984,
+      "geometries": 10,
+      "materials": 5,
+      "warmAppearancePreserved": true,
+      "auroraGeometryAndGrowthUnchanged": true
+    },
+    {
+      "name": "round",
+      "meshes": 14,
+      "triangles": 508,
+      "geometries": 8,
+      "materials": 2,
+      "warmAppearancePreserved": true,
+      "auroraGeometryAndGrowthUnchanged": true
+    },
+    {
+      "name": "pine",
+      "meshes": 7,
+      "triangles": 316,
+      "geometries": 2,
+      "materials": 2,
+      "warmAppearancePreserved": true,
+      "auroraGeometryAndGrowthUnchanged": true
+    },
+    {
+      "name": "willow",
+      "meshes": 26,
+      "triangles": 1204,
+      "geometries": 9,
+      "materials": 2,
+      "warmAppearancePreserved": true,
+      "auroraGeometryAndGrowthUnchanged": true
+    }
+  ],
+  "blender": {
+    "lodSequence": [
+      "near",
+      "near",
+      "far",
+      "far",
+      "near"
+    ],
+    "warmAppearanceAndShadersPreserved": true,
+    "auroraGeometryPreserved": true,
+    "sourceUnmodified": true,
+    "cacheIsolationAndDisposalPassed": true
+  },
+  "island": {
+    "warmGroundMaterialAndShaderPreserved": true,
+    "warmEnvironmentPreserved": true
+  },
+  "protectedAssets": [
+    {
+      "file": "public/models/island.glb",
+      "sha256": "52ed6300962c469a0bd3e6eee9452bd9d6578d14de5b1df3004967ecfa20c083",
+      "unchanged": true
+    },
+    {
+      "file": "public/models/flora/crystal_flower.glb",
+      "sha256": "63da14f5909379e86624a40485506ba6c0e308146117cdd3abe4ebb05f2ddd56",
+      "unchanged": true
+    },
+    {
+      "file": "public/models/flora/crystal_flower_lod.glb",
+      "sha256": "54b20b8acd64a610bb1a97e4af341e47e5169bcb13c267392cb663d97b8ef6ee",
+      "unchanged": true
+    },
+    {
+      "file": "art/flora/crystal_flower.blend",
+      "sha256": "fe5d7216ba2689e5409349ff379aa2c1461ee58cd3607fb46ae0d20f45c677c2",
+      "unchanged": true
+    }
+  ],
+  "status": "passed"
+}
