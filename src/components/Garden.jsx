@@ -5,7 +5,6 @@ import Recorder from './Recorder.jsx'
 import { FlowerDetail, PairDetail } from './Details.jsx'
 import ShareSheet from './Share.jsx'
 import Visit from './Visit.jsx'
-import Chat from './Chat.jsx'
 import { displayName } from '../lib/tree.js'
 import { Bell, ChevronUp, Heart, Help, Menu, Mic, Sprout, User, Users, Wave } from './Icons.jsx'
 import { addFriend, currentUser, deleteFlower, insertFlower, loadGarden, respondShare, shareFlowers, subscribeGarden, today, uploadAudio } from '../lib/db.js'
@@ -504,50 +503,45 @@ function Album({ data, meId, onOpen, onOpenPair, flowerById }) {
 // 친구 탭: 친구 목록만. 친구 코드·친구 맺기는 나 탭(FriendCode)에 있다.
 function Friends({ data, meId, onOpen, onShareTo, onVisit, onAnswer, onGoMe }) {
   const [selectedId, setSelectedId] = useState(null) // 고른 친구 user_id
-  const [chatting, setChatting] = useState(false)
 
   const mineCount = (userId) => data.sentShares.filter((x) => x.to_user === userId).length
   const selected = data.friends.find((x) => x.user_id === selectedId)
 
-  if (selected && chatting) {
-    return (
-      <Chat
-        friend={selected}
-        refreshKey={data}
-        onBack={() => setChatting(false)}
-        onOpenFlower={onOpen}
-        onAnswer={onAnswer}
-        onShare={() => onShareTo(selected)}
-      />
-    )
-  }
   if (selected) {
-    const theirs = data.flowers.filter((f) => f.sender_id === selected.member_id).slice().reverse()
+    // 주고받은 소리: 말로 대화하는 대신, 이 친구와 소리를 주고받은 기록만 날짜순으로 (최근이 위)
+    const byId = Object.fromEntries(data.flowers.map((f) => [f.id, f]))
+    const at = (f) => f.shared_at || f.created_at
+    const received = data.flowers.filter((f) => f.sender_id === selected.member_id).map((f) => ({ f, dir: 'in', at: at(f), state: '' }))
+    const waiting = data.inbox.filter((f) => f.from_user === selected.user_id).map((f) => ({ f, dir: 'in', at: at(f), state: '받은 소리함에 있어요' }))
+    const SENT_STATE = { pending: '고르는 중', accepted: '심음', declined: '안 받음' }
+    const sent = data.sentShares.filter((x) => x.to_user === selected.user_id && byId[x.flower_id])
+      .map((x) => ({ f: byId[x.flower_id], dir: 'out', at: x.created_at, state: SENT_STATE[x.status] || '' }))
+    const history = [...received, ...waiting, ...sent].sort((a, b) => String(b.at).localeCompare(String(a.at)))
     const since = new Date(selected.since)
+    const day = (iso) => formatDate(new Date(iso).toLocaleDateString('sv-SE'))
     return (
       <div className="page friend-page">
         <button className="link back-link" onClick={() => setSelectedId(null)}>← 친구 목록</button>
-        <div className="friend-hero">
+        {/* 프로필을 누르면 친구 정원에 놀러 간다 */}
+        <button className="friend-hero" onClick={() => onVisit(selected)} aria-label={`${selected.nickname}의 정원 놀러 가기`}>
           <span className="av partner huge">{[...selected.nickname][0]}</span>
           <h1 className="page-title">{selected.nickname}</h1>
-          <small className="muted">{since.getMonth() + 1}월 {since.getDate()}일부터 친구 · 받은 소리 {theirs.length}개 · 보낸 소리 {mineCount(selected.user_id)}개</small>
-        </div>
-        <div className="friend-menu">
-          <button onClick={() => setChatting(true)}><span>💬</span>대화하기</button>
-          <button onClick={() => onShareTo(selected)}><span>🎵</span>소리 공유하기</button>
-          <button onClick={() => onVisit(selected)}><span>🏡</span>정원 놀러 가기</button>
-        </div>
-        <h2 className="page-sub">{selected.nickname}에게 받은 소리</h2>
-        {theirs.length === 0 ? (
-          <p className="small muted">아직 {selected.nickname}에게 받아서 심은 소리가 없어요.</p>
+          <small className="muted">{since.getMonth() + 1}월 {since.getDate()}일부터 친구 · 받은 소리 {received.length}개 · 보낸 소리 {mineCount(selected.user_id)}개</small>
+          <small className="visit-hint">눌러서 정원 구경하기 ›</small>
+        </button>
+        <button className="primary wide" onClick={() => onShareTo(selected)}>소리 공유하기</button>
+
+        <h2 className="page-sub">주고받은 소리</h2>
+        {history.length === 0 ? (
+          <p className="small muted">아직 {selected.nickname}와 주고받은 소리가 없어요.</p>
         ) : (
-          <ul className="sent-list">
-            {theirs.map((f) => (
-              <li key={f.id}>
+          <ul className="history-list">
+            {history.map(({ f, dir, at: when, state }) => (
+              <li key={`${dir}-${f.id}`} className={dir}>
                 <button onClick={() => onOpen(f)}>
                   <Flower flower={f} size={34} stem={false} bloom={false} />
-                  <span>{displayName(f)}</span>
-                  <small>{formatDate(f.sent_date)}</small>
+                  <span className="h-name">{displayName(f)}</span>
+                  <small>{dir === 'in' ? '받음' : '보냄'} · {day(when)}{state ? ` · ${state}` : ''}</small>
                 </button>
               </li>
             ))}
