@@ -565,7 +565,8 @@ function FriendPicker({ friends, counts, viewing, pinnedIds, onTogglePin, onPick
               <li key={m.id} className={`picker-friend-row${viewing === m.id ? ' on' : ''}`}>
                 <button className={`picker-friend${viewing === m.id ? ' on' : ''}`} onClick={() => onPick(m.id)}>
                   <span className="av partner">{[...m.nickname][0]}</span>
-                  <div className="picker-friend-name"><b>{m.nickname}</b><small>심은 소리 {counts[m.id] || 0}개</small></div>
+                  <div className="picker-friend-name"><b>{m.nickname}</b><small>정원에 심은 소리</small></div>
+                  <span className="picker-friend-count">{counts[m.id] || 0}<small>개</small></span>
                 </button>
                 <button className="friend-pin" aria-label={`${m.nickname} 상단 고정${pinned ? ' 해제' : ''}`} aria-pressed={pinned}
                   disabled={!pinned && pinnedIds.length >= 3} onClick={() => onTogglePin(m.user_id)}>
