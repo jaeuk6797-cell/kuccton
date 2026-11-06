@@ -339,7 +339,6 @@ export default function Garden({ session, onSignOut, email, demo }) {
             {gardenFlowers.length === 0 && data.pairs.length === 0 ? (
               <div className="empty-garden-hint">
                 <b>아직 핀 꽃이 없어요</b>
-                <small>친구가 소리를 보내면 여기에 꽃이 피어요</small>
               </div>
             ) : <small className="garden-listen-hint">꽃·나무를 눌러 소리를 들어 보세요</small>}
             </div>
