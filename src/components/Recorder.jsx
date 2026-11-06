@@ -260,7 +260,7 @@ export default function Recorder({ onClose, onSend, friends = [] }) {
             <div className="send-to">
               <b>누구에게 보낼까요?</b>
               {friends.length === 0 ? (
-                <p className="small muted">아직 친구가 없어요. 메뉴 → 친구에서 친구 코드로 친구를 맺으면 보낼 수 있어요.</p>
+                <p className="small muted">아직 친구가 없어요. 메뉴 → 나에서 친구 코드로 친구를 맺으면 보낼 수 있어요.</p>
               ) : (
                 <ul className="pick-list">
                   {friends.map((fr) => (

@@ -478,3 +478,7 @@ h1, h2 { margin: 0; }
 .help-item p { margin: 0; font-size: 0.9rem; line-height: 1.65; color: #4f4c5a; word-break: keep-all; }
 /* 메뉴 버튼의 새 소식 점: 아이콘과 겹치지 않게 버튼 오른쪽 위 테두리에, 흰 테두리로 또렷하게 */
 .menu-btn .badge { top: 1px; right: 1px; width: 11px; height: 11px; border: 2px solid #fff; box-sizing: content-box; }
+.friends-empty { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; }
+/* 앨범: 꽃·나무·우리의 꽃 모두 같은 48×48 칸에 → 그림과 이름 줄이 나란히 맞는다 */
+.album-item { justify-content: flex-start; gap: 4px; }
+.album-item > svg { width: 48px; height: 48px; flex-shrink: 0; }
