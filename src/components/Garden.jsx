@@ -5,9 +5,10 @@ import Recorder from './Recorder.jsx'
 import { FlowerDetail, PairDetail } from './Details.jsx'
 import ShareSheet from './Share.jsx'
 import Visit from './Visit.jsx'
+import Avatar from './Avatar.jsx'
 import { displayName } from '../lib/tree.js'
 import { Bell, ChevronUp, Heart, Help, Menu, Mic, Sprout, User, Users, Wave } from './Icons.jsx'
-import { addFriend, currentUser, deleteFlower, insertFlower, loadGarden, respondShare, shareFlowers, subscribeGarden, today, uploadAudio } from '../lib/db.js'
+import { addFriend, currentUser, deleteFlower, insertFlower, loadGarden, respondShare, shareFlowers, subscribeGarden, today, updateProfile, uploadAudio } from '../lib/db.js'
 
 // 받침에 따라 조사 고르기
 const hasBatchim = (w = '') => {
@@ -96,6 +97,17 @@ export default function Garden({ session, onSignOut, email, demo }) {
     })
     return () => { alive = false; unsub() }
   }, [session.gardenId, meId, refresh, demo])
+
+  // 나 탭: 닉네임·프로필 사진 바꾸기. photo: File | 'remove' | null
+  async function saveProfile(nickname, photo) {
+    if (demo) {
+      setData((d) => ({ ...d, members: d.members.map((m) => (m.id === meId ? { ...m, nickname, avatar_url: photo === 'remove' ? null : photo ? URL.createObjectURL(photo) : m.avatar_url } : m)) }))
+    } else {
+      await updateProfile(nickname, photo)
+      await refresh()
+    }
+    showToast('프로필을 바꿨어요')
+  }
 
   // 받은 소리함: 정원에 심기(받기) / 괜찮아요(거절)
   async function answer(item, accept) {
@@ -190,11 +202,11 @@ export default function Garden({ session, onSignOut, email, demo }) {
   else if (data.inbox.length) {
     const last = data.inbox[data.inbox.length - 1]
     const senders = new Set(data.inbox.map((x) => x.from_user)).size
-    status = { who: nameOf(last.from_user), title: senders > 1 ? `친구 ${senders}명이 소리를 보냈어요` : `${josa(nameOf(last.from_user), '이', '가')} 소리를 보냈어요`, sub: `받은 소리함에서 정원에 심을지 골라 주세요 · ${data.inbox.length}개`, onClick: () => setShowBell(true) }
+    status = { who: nameOf(last.from_user), whoId: last.from_user, title: senders > 1 ? `친구 ${senders}명이 소리를 보냈어요` : `${josa(nameOf(last.from_user), '이', '가')} 소리를 보냈어요`, sub: `받은 소리함에서 정원에 심을지 골라 주세요 · ${data.inbox.length}개`, onClick: () => setShowBell(true) }
   }
-  else if (todayPair) status = { who: nameOf(todayPair.friend), title: `오늘 ‘${todayPair.name}’이 피었어요`, sub: '눌러서 두 소리를 함께 들어 보세요', onClick: () => setOpenPair(todayPair) }
-  else if (todayTheirs) status = { who: nameOf(todayRecv.from_user), title: `${josa(nameOf(todayRecv.from_user), '이', '가')} ${timeOfDay(todayRecv.created_at)} 소리를 보냈어요`, sub: '나도 오늘의 소리를 보내면 우리의 꽃이 피어요', onClick: () => setOpenFlower(todayTheirs) }
-  else if (todayShared) status = { who: nameOf(todayShared.to_user), title: todaySentTo.length > 1 ? `오늘의 소리를 ${todaySentTo.length}명에게 보냈어요` : '오늘의 소리를 보냈어요', sub: todaySentTo.length > 1 ? '친구들이 소리를 보내면 우리의 꽃이 피어요' : `${nameOf(todayShared.to_user)}의 소리를 기다리고 있어요` }
+  else if (todayPair) status = { who: nameOf(todayPair.friend), whoId: todayPair.friend, title: `오늘 ‘${todayPair.name}’이 피었어요`, sub: '눌러서 두 소리를 함께 들어 보세요', onClick: () => setOpenPair(todayPair) }
+  else if (todayTheirs) status = { who: nameOf(todayRecv.from_user), whoId: todayRecv.from_user, title: `${josa(nameOf(todayRecv.from_user), '이', '가')} ${timeOfDay(todayRecv.created_at)} 소리를 보냈어요`, sub: '나도 오늘의 소리를 보내면 우리의 꽃이 피어요', onClick: () => setOpenFlower(todayTheirs) }
+  else if (todayShared) status = { who: nameOf(todayShared.to_user), whoId: todayShared.to_user, title: todaySentTo.length > 1 ? `오늘의 소리를 ${todaySentTo.length}명에게 보냈어요` : '오늘의 소리를 보냈어요', sub: todaySentTo.length > 1 ? '친구들이 소리를 보내면 우리의 꽃이 피어요' : `${nameOf(todayShared.to_user)}의 소리를 기다리고 있어요` }
   else status = { title: '오늘은 아직 조용해요', sub: '오늘의 소리를 친구에게 보내 보세요' }
 
   const receivedCount = data.flowers.filter((f) => f.sender_id !== meId).length
@@ -310,8 +322,8 @@ export default function Garden({ session, onSignOut, email, demo }) {
               disabled={sheetOpen && !status.onClick}
             >
               <span className="avatars" aria-hidden="true">
-                <span className="av partner">{status.who ? [...status.who][0] : partner ? [...partner.nickname][0] : '?'}</span>
-                <span className="av me">나</span>
+                <Avatar name={status.who || partner?.nickname} url={(status.whoId ? data.friends.find((x) => x.user_id === status.whoId) : partner)?.avatar_url} />
+                <Avatar me url={me?.avatar_url} />
               </span>
               <span className="status-text">
                 <b>{status.title}</b>
@@ -333,7 +345,7 @@ export default function Garden({ session, onSignOut, email, demo }) {
 
       {tab === 'album' && <Album data={data} meId={meId} onOpen={setOpenFlower} onOpenPair={setOpenPair} flowerById={flowerById} />}
       {tab === 'friends' && <Friends data={data} meId={meId} onOpen={setOpenFlower} onShareTo={(friend) => setSharePick({ friend })} onVisit={setVisiting} onAnswer={answer} onGoMe={() => setTab('me')} />}
-      {tab === 'me' && <Me me={me} email={email} onSignOut={onSignOut} code={data.garden.code} onAdded={refresh} />}
+      {tab === 'me' && <Me me={me} email={email} onSignOut={onSignOut} code={data.garden.code} onAdded={refresh} onSaveProfile={saveProfile} />}
       {tab === 'help' && <HelpPage />}
 
       {/* 오른쪽 위 메뉴 (아래 탭바 대신). 어느 화면에서나 같은 자리에 있다 */}
@@ -524,7 +536,7 @@ function Friends({ data, meId, onOpen, onShareTo, onVisit, onAnswer, onGoMe }) {
         <button className="link back-link" onClick={() => setSelectedId(null)}>← 친구 목록</button>
         {/* 프로필을 누르면 친구 정원에 놀러 간다 */}
         <button className="friend-hero" onClick={() => onVisit(selected)} aria-label={`${selected.nickname}의 정원 놀러 가기`}>
-          <span className="av partner huge">{[...selected.nickname][0]}</span>
+          <Avatar name={selected.nickname} url={selected.avatar_url} className="huge" />
           <h1 className="page-title">{selected.nickname}</h1>
           <small className="muted">{since.getMonth() + 1}월 {since.getDate()}일부터 친구 · 받은 소리 {received.length}개 · 보낸 소리 {mineCount(selected.user_id)}개</small>
           <small className="visit-hint">눌러서 정원 구경하기 ›</small>
@@ -567,8 +579,8 @@ function Friends({ data, meId, onOpen, onShareTo, onVisit, onAnswer, onGoMe }) {
             const waiting = data.inbox.filter((f) => f.from_user === fr.user_id).length
             return (
               <li key={fr.user_id}>
-                <button className="card friend-row" onClick={() => { setSelectedId(fr.user_id); setChatting(false) }}>
-                  <span className="av partner big">{[...fr.nickname][0]}</span>
+                <button className="card friend-row" onClick={() => setSelectedId(fr.user_id)}>
+                  <Avatar name={fr.nickname} url={fr.avatar_url} className="big" />
                   <div>
                     <b>{fr.nickname}</b>
                     <small className="muted">받은 소리 {theirs}개 · 보낸 소리 {mineCount(fr.user_id)}개</small>
@@ -643,15 +655,74 @@ https://kuccton.vercel.app`
   )
 }
 
-function Me({ me, email, onSignOut, code, onAdded }) {
+// 프로필: 사진을 누르면 사진 고르기, '수정'을 누르면 닉네임 바꾸기
+function Profile({ me, email, onSave }) {
+  const [editing, setEditing] = useState(false)
+  const [name, setName] = useState('')
+  const [photo, setPhoto] = useState(null) // File(새 사진) | 'remove' | null(그대로)
+  const [preview, setPreview] = useState(null)
+  const [busy, setBusy] = useState(false)
+  const [error, setError] = useState('')
+  const fileRef = useRef(null)
+  useEffect(() => () => { if (preview) URL.revokeObjectURL(preview) }, [preview])
+
+  const begin = () => { setName(me?.nickname || ''); setPhoto(null); setPreview(null); setError(''); setEditing(true) }
+  const cancel = () => { setEditing(false); setPhoto(null); setPreview(null); setError('') }
+  const pick = (e) => {
+    const file = e.target.files?.[0]
+    e.target.value = ''
+    if (!file) return
+    if (!file.type.startsWith('image/')) { setError('사진 파일을 골라 주세요.'); return }
+    if (!editing) begin()
+    setPhoto(file); setPreview(URL.createObjectURL(file))
+  }
+  const shown = photo === 'remove' ? null : preview || me?.avatar_url
+  const trimmed = name.trim()
+  const changed = trimmed !== (me?.nickname || '') || photo !== null
+
+  async function save() {
+    setBusy(true); setError('')
+    try { await onSave(trimmed, photo); cancel() } catch (e) { setError(e.message || String(e)) } finally { setBusy(false) }
+  }
+
+  return (
+    <div className={`card person profile${editing ? ' editing' : ''}`}>
+      <button className="avatar-pick" onClick={() => fileRef.current?.click()} aria-label="프로필 사진 바꾸기">
+        <Avatar me url={shown} className="big" />
+        <span className="avatar-edit" aria-hidden="true">＋</span>
+      </button>
+      <input ref={fileRef} type="file" accept="image/*" hidden onChange={pick} />
+      {editing ? (
+        <div className="profile-form">
+          <input value={name} maxLength={12} onChange={(e) => setName(e.target.value)} placeholder="닉네임" aria-label="닉네임" autoFocus />
+          <div className="profile-links">
+            <button className="link" onClick={() => fileRef.current?.click()}>사진 고르기</button>
+            {(me?.avatar_url || preview) && photo !== 'remove' && (
+              <button className="link" onClick={() => { setPhoto('remove'); setPreview(null) }}>사진 지우기</button>
+            )}
+          </div>
+          {error && <p className="error">{error}</p>}
+          <div className="profile-actions">
+            <button className="ghost" onClick={cancel} disabled={busy}>취소</button>
+            <button className="primary" onClick={save} disabled={busy || !trimmed || !changed}>{busy ? '저장 중…' : '저장'}</button>
+          </div>
+        </div>
+      ) : (
+        <>
+          <div><b>{me?.nickname}</b><small className="muted">{email}</small></div>
+          <button className="link profile-edit-btn" onClick={begin}>수정</button>
+        </>
+      )}
+    </div>
+  )
+}
+
+function Me({ me, email, onSignOut, code, onAdded, onSaveProfile }) {
   return (
     <div className="page">
       <h1 className="page-title">나</h1>
-      {/* 이름·계정, 친구 코드 주고받기, 로그아웃. 설명은 도움말에 있다 */}
-      <div className="card person">
-        <span className="av me big">나</span>
-        <div><b>{me?.nickname}</b><small className="muted">{email}</small></div>
-      </div>
+      {/* 프로필(사진·닉네임), 친구 코드 주고받기, 로그아웃. 설명은 도움말에 있다 */}
+      <Profile me={me} email={email} onSave={onSaveProfile} />
       <FriendCode code={code} onAdded={onAdded} />
       <button className="ghost wide" onClick={onSignOut}>로그아웃</button>
     </div>
@@ -667,10 +738,10 @@ const HELP = [
   ['받은 소리함', '친구가 보낸 소리는 먼저 받은 소리함(메뉴)에 도착해요. 들어 보고 ‘심기’를 누르면 내 정원에 자라고, ‘괜찮아요’를 누르면 받지 않아요.'],
   ['내 정원 보기', '꽃이나 나무를 누르면 그날의 소리가 들려요. 손가락으로 끌면 섬을 둘러볼 수 있어요. 위쪽 친구 이름을 누르면 그 친구가 보낸 꽃만 보여요. 아래 ^ 표시로 도구를 접고 펼 수 있어요.'],
   ['우리의 꽃', '같은 날 나와 친구가 서로 소리를 보내고 둘 다 심으면, 두 소리가 만나 정원 가운데에 우리의 꽃이 피어요. 누르면 친구 소리는 왼쪽 귀, 내 소리는 오른쪽 귀로 함께 들려요. 이어폰으로 들어 보세요.'],
-  ['친구', '메뉴 → 나에서 내 친구 코드를 보내거나 친구 코드를 넣으면 친구가 돼요. 메뉴 → 친구에는 친구 목록이 있고, 친구를 누르면 대화·소리 공유·정원 놀러 가기를 할 수 있어요. 친구 정원에는 놀러 가서 구경할 수 있어요(소리는 그 친구만 들을 수 있어요).'],
+  ['친구', '메뉴 → 나에서 내 친구 코드를 보내거나 친구 코드를 넣으면 친구가 돼요. 메뉴 → 친구에는 친구 목록이 있고, 친구를 누르면 주고받은 소리 기록을 보고 소리를 공유할 수 있어요. 친구 프로필을 누르면 정원에 놀러 가요. 친구 정원에는 놀러 가서 구경할 수 있어요(소리는 그 친구만 들을 수 있어요).'],
   ['오늘의 위로', '받은 소리 중 하나를 골라 다시 들려줘요. 힘든 날 눌러 보세요.'],
   ['내 소리는', '보낸 사람과 받은 사람만 들을 수 있어요. 점수나 연속 기록, 시드는 꽃은 없어요.'],
-  ['계정', '다른 기기에서도 같은 이메일로 로그인하면 내 정원이 그대로 열려요. 로그아웃은 메뉴 → 나에서 할 수 있어요.'],
+  ['계정', '다른 기기에서도 같은 이메일로 로그인하면 내 정원이 그대로 열려요. 메뉴 → 나에서 프로필 사진과 닉네임을 바꾸거나 로그아웃할 수 있어요.'],
 ]
 
 function HelpPage() {
