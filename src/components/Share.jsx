@@ -31,7 +31,7 @@ export default function ShareSheet({ flower, friend, friends, myFlowers, sentSha
         {flower ? (
           <>
             <h2 className="sheet-title">‘{displayName(flower)}’을 누구에게 공유할까요?</h2>
-            {friends.length === 0 && <p className="muted">아직 친구가 없어요. 메뉴 → 친구에서 친구 코드로 친구를 맺어 주세요.</p>}
+            {friends.length === 0 && <p className="muted">아직 친구가 없어요. 메뉴 → 나에서 친구 코드로 친구를 맺어 주세요.</p>}
             <ul className="pick-list">
               {friends.map((fr) => {
                 const done = shared(flower.id, fr.user_id)

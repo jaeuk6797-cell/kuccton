@@ -187,7 +187,7 @@ export default function Garden({ session, onSignOut, email, demo }) {
   // who: 상태 카드 아바타에 보여 줄 친구 (소식의 주인공). 친구가 여러 명이어도 맞는 사람이 보이게
   const todaySentTo = [...new Set(data.sentShares.filter((x) => new Date(x.created_at).toLocaleDateString('sv-SE') === today()).map((x) => x.to_user))]
   let status
-  if (data.friends.length === 0) status = { title: '아직 친구가 없어요', sub: '친구 코드로 친구를 맺으면 소리를 주고받을 수 있어요', onClick: () => setTab('friends') }
+  if (data.friends.length === 0) status = { title: '아직 친구가 없어요', sub: '나 탭에서 친구 코드로 친구를 맺으면 소리를 주고받을 수 있어요', onClick: () => setTab('me') }
   else if (data.inbox.length) {
     const last = data.inbox[data.inbox.length - 1]
     const senders = new Set(data.inbox.map((x) => x.from_user)).size
@@ -333,8 +333,8 @@ export default function Garden({ session, onSignOut, email, demo }) {
       )}
 
       {tab === 'album' && <Album data={data} meId={meId} onOpen={setOpenFlower} onOpenPair={setOpenPair} flowerById={flowerById} />}
-      {tab === 'friends' && <Friends data={data} meId={meId} onAdded={refresh} onOpen={setOpenFlower} onShareTo={(friend) => setSharePick({ friend })} onVisit={setVisiting} onAnswer={answer} />}
-      {tab === 'me' && <Me me={me} data={data} email={email} onSignOut={onSignOut} />}
+      {tab === 'friends' && <Friends data={data} meId={meId} onOpen={setOpenFlower} onShareTo={(friend) => setSharePick({ friend })} onVisit={setVisiting} onAnswer={answer} onGoMe={() => setTab('me')} />}
+      {tab === 'me' && <Me me={me} email={email} onSignOut={onSignOut} code={data.garden.code} onAdded={refresh} />}
       {tab === 'help' && <HelpPage />}
 
       {/* 오른쪽 위 메뉴 (아래 탭바 대신). 어느 화면에서나 같은 자리에 있다 */}
@@ -468,13 +468,13 @@ function Album({ data, meId, onOpen, onOpenPair, flowerById }) {
       <div className="album-flowers">
         {r.pairs.filter((p) => flowerById[p.flower_a_id] && flowerById[p.flower_b_id]).map((p) => (
           <button key={p.id} className="album-item pair" onClick={() => onOpenPair(p)}>
-            <Flower flower={flowerById[p.flower_b_id]} colors={[flowerById[p.flower_a_id].color, flowerById[p.flower_b_id].color]} size={52} stem={false} />
+            <Flower flower={flowerById[p.flower_b_id]} colors={[flowerById[p.flower_a_id].color, flowerById[p.flower_b_id].color]} size={48} stem={false} />
             <b>{p.name}</b><small>우리의 꽃</small>
           </button>
         ))}
         {r.list.map((f) => (
           <button key={f.id} className="album-item" onClick={() => onOpen(f)}>
-            <Flower flower={f} size={46} stem={false} />
+            <Flower flower={f} size={48} stem={false} />
             <b>{displayName(f)}</b>
             <small>{data.members.find((m) => m.id === f.sender_id)?.nickname || '친구'}</small>
           </button>
@@ -486,7 +486,7 @@ function Album({ data, meId, onOpen, onOpenPair, flowerById }) {
   return (
     <div className="page">
       {/* 받은 소리를 날짜별로 (오늘 · 어제 · 11월 5일 …). 주 단위로 나누지 않는다 */}
-      <h1 className="page-title">소리 앨범</h1>
+      <h1 className="page-title">앨범</h1>
       {rows.length === 0 && (
         <div className="card album-empty">
           <Flower flower={{ color: 'hsl(250 40% 80%)', petals: 5, vowel: 'Y', consonant: '평', rms: 0.04 }} size={64} stem={false} />
@@ -501,36 +501,10 @@ function Album({ data, meId, onOpen, onOpenPair, flowerById }) {
 
 // 친구: 친구 코드(= 정원 코드)로 친구를 맺고, 친구마다 내 소리를 골라 공유한다.
 // 친구가 공유한 소리는 내 정원 왼쪽에, 내 소리는 오른쪽에 핀다.
-function Friends({ data, meId, onAdded, onOpen, onShareTo, onVisit, onAnswer }) {
+// 친구 탭: 친구 목록만. 친구 코드·친구 맺기는 나 탭(FriendCode)에 있다.
+function Friends({ data, meId, onOpen, onShareTo, onVisit, onAnswer, onGoMe }) {
   const [selectedId, setSelectedId] = useState(null) // 고른 친구 user_id
   const [chatting, setChatting] = useState(false)
-  const [copied, setCopied] = useState(false)
-  const [code, setCode] = useState('')
-  const [busy, setBusy] = useState(false)
-  const [error, setError] = useState('')
-  const [notice, setNotice] = useState('')
-  const myCode = data.garden.code
-
-  const shareCode = async () => {
-    const text = `소리숲에서 소리를 주고받아요! 내 친구 코드: ${myCode}
-https://kuccton.vercel.app`
-    try {
-      if (navigator.share) { await navigator.share({ title: '소리숲 친구 코드', text }); return }
-    } catch { return } // 공유 창을 닫은 경우
-    try { await navigator.clipboard.writeText(myCode); setCopied(true); setTimeout(() => setCopied(false), 2000) } catch {}
-  }
-
-  async function add() {
-    setBusy(true); setError(''); setNotice('')
-    try {
-      const r = await addFriend(code)
-      setNotice(`${josa(r.nickname, '과', '와')} 친구가 되었어요`)
-      setCode('')
-      await onAdded()
-    } catch (e) {
-      setError(e.message || String(e))
-    } finally { setBusy(false) }
-  }
 
   const mineCount = (userId) => data.sentShares.filter((x) => x.to_user === userId).length
   const selected = data.friends.find((x) => x.user_id === selectedId)
@@ -587,31 +561,11 @@ https://kuccton.vercel.app`
     <div className="page">
       <h1 className="page-title">친구</h1>
 
-      <div className="card invite">
-        <div>
-          <small className="muted">내 친구 코드</small>
-          <div className="big-code">{myCode}</div>
-        </div>
-        <button className="ghost" onClick={shareCode}>{copied ? '복사했어요' : '코드 보내기'}</button>
-      </div>
-
-      <div className="card join-friend">
-        <b>친구 맺기</b>
-        <input
-          value={code}
-          inputMode="numeric"
-          maxLength={6}
-          onChange={(e) => { setCode(e.target.value.replace(/\D/g, '')); setError(''); setNotice('') }}
-          placeholder="친구에게 받은 코드 6자리"
-          className="code-input"
-        />
-        <button className="primary" disabled={busy || code.length !== 6} onClick={add}>{busy ? '맺는 중…' : '친구 맺기'}</button>
-        {notice && <p className="small notice">{notice}</p>}
-        {error && <p className="error">{error}</p>}
-      </div>
-
       {data.friends.length === 0 ? (
-        <p className="muted">아직 친구가 없어요. 내 코드를 보내거나 친구의 코드를 넣어 주세요.</p>
+        <div className="friends-empty">
+          <p className="muted">아직 친구가 없어요.</p>
+          <button className="ghost" onClick={onGoMe}>나 탭에서 친구 코드 주고받기</button>
+        </div>
       ) : (
         <ul className="friend-list">
           {data.friends.map((fr) => {
@@ -637,22 +591,74 @@ https://kuccton.vercel.app`
   )
 }
 
-function Me({ me, data, email, onSignOut }) {
+// 내 친구 코드 보내기 + 친구 코드로 친구 맺기 (나 탭)
+function FriendCode({ code: myCode, onAdded }) {
+  const [copied, setCopied] = useState(false)
+  const [code, setCode] = useState('')
+  const [busy, setBusy] = useState(false)
+  const [error, setError] = useState('')
+  const [notice, setNotice] = useState('')
+
+  const shareCode = async () => {
+    const text = `소리숲에서 소리를 주고받아요! 내 친구 코드: ${myCode}
+https://kuccton.vercel.app`
+    try {
+      if (navigator.share) { await navigator.share({ title: '소리숲 친구 코드', text }); return }
+    } catch { return } // 공유 창을 닫은 경우
+    try { await navigator.clipboard.writeText(myCode); setCopied(true); setTimeout(() => setCopied(false), 2000) } catch {}
+  }
+
+  async function add() {
+    setBusy(true); setError(''); setNotice('')
+    try {
+      const r = await addFriend(code)
+      setNotice(`${josa(r.nickname, '과', '와')} 친구가 되었어요`)
+      setCode('')
+      await onAdded()
+    } catch (e) {
+      setError(e.message || String(e))
+    } finally { setBusy(false) }
+  }
+
+  return (
+    <>
+      <div className="card invite">
+        <div>
+          <small className="muted">내 친구 코드</small>
+          <div className="big-code">{myCode}</div>
+        </div>
+        <button className="ghost" onClick={shareCode}>{copied ? '복사했어요' : '코드 보내기'}</button>
+      </div>
+
+      <div className="card join-friend">
+        <b>친구 맺기</b>
+        <input
+          value={code}
+          inputMode="numeric"
+          maxLength={6}
+          onChange={(e) => { setCode(e.target.value.replace(/\D/g, '')); setError(''); setNotice('') }}
+          placeholder="친구에게 받은 코드 6자리"
+          className="code-input"
+        />
+        <button className="primary" disabled={busy || code.length !== 6} onClick={add}>{busy ? '맺는 중…' : '친구 맺기'}</button>
+        {notice && <p className="small notice">{notice}</p>}
+        {error && <p className="error">{error}</p>}
+      </div>
+
+    </>
+  )
+}
+
+function Me({ me, email, onSignOut, code, onAdded }) {
   return (
     <div className="page">
       <h1 className="page-title">나</h1>
+      {/* 이름·계정, 친구 코드 주고받기, 로그아웃. 설명은 도움말에 있다 */}
       <div className="card person">
         <span className="av me big">나</span>
-        <div><b>{me?.nickname}</b><small className="muted">정원 코드 {data.garden.code}</small></div>
+        <div><b>{me?.nickname}</b><small className="muted">{email}</small></div>
       </div>
-      <div className="card account">
-        <small className="muted">로그인한 계정</small>
-        <b>{email}</b>
-        <p className="small muted">다른 기기에서도 이 계정으로 로그인하면 이 정원이 열려요.</p>
-      </div>
-      <div className="card">
-        <p className="small">녹음은 내가 공유한 친구만 들을 수 있어요. 내 소리는 꽃이나 나무를 눌러 언제든 지울 수 있어요.</p>
-      </div>
+      <FriendCode code={code} onAdded={onAdded} />
       <button className="ghost wide" onClick={onSignOut}>로그아웃</button>
     </div>
   )
@@ -667,9 +673,10 @@ const HELP = [
   ['받은 소리함', '친구가 보낸 소리는 먼저 받은 소리함(메뉴)에 도착해요. 들어 보고 ‘심기’를 누르면 내 정원에 자라고, ‘괜찮아요’를 누르면 받지 않아요.'],
   ['내 정원 보기', '꽃이나 나무를 누르면 그날의 소리가 들려요. 손가락으로 끌면 섬을 둘러볼 수 있어요. 위쪽 친구 이름을 누르면 그 친구가 보낸 꽃만 보여요. 아래 ^ 표시로 도구를 접고 펼 수 있어요.'],
   ['우리의 꽃', '같은 날 나와 친구가 서로 소리를 보내고 둘 다 심으면, 두 소리가 만나 정원 가운데에 우리의 꽃이 피어요. 누르면 친구 소리는 왼쪽 귀, 내 소리는 오른쪽 귀로 함께 들려요. 이어폰으로 들어 보세요.'],
-  ['친구', '내 친구 코드를 알려 주거나 친구 코드를 넣으면 친구가 돼요. 친구 정원에는 놀러 가서 구경할 수 있어요(소리는 그 친구만 들을 수 있어요).'],
+  ['친구', '메뉴 → 나에서 내 친구 코드를 보내거나 친구 코드를 넣으면 친구가 돼요. 메뉴 → 친구에는 친구 목록이 있고, 친구를 누르면 대화·소리 공유·정원 놀러 가기를 할 수 있어요. 친구 정원에는 놀러 가서 구경할 수 있어요(소리는 그 친구만 들을 수 있어요).'],
   ['오늘의 위로', '받은 소리 중 하나를 골라 다시 들려줘요. 힘든 날 눌러 보세요.'],
   ['내 소리는', '보낸 사람과 받은 사람만 들을 수 있어요. 점수나 연속 기록, 시드는 꽃은 없어요.'],
+  ['계정', '다른 기기에서도 같은 이메일로 로그인하면 내 정원이 그대로 열려요. 로그아웃은 메뉴 → 나에서 할 수 있어요.'],
 ]
 
 function HelpPage() {
