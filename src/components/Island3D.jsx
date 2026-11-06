@@ -4,7 +4,6 @@ import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js'
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js'
-import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js'
 import { OutputPass } from 'three/examples/jsm/postprocessing/OutputPass.js'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
@@ -19,14 +18,9 @@ const ISLAND_GLB = `${import.meta.env.BASE_URL}models/island.glb`
 const ISLAND_RADIUS = 4
 const ISLAND_TOP_Y = 0.17
 
-// 빛 번짐: 햇빛(2.2)을 받은 꽃잎·나무는 넘지 못하고 꽃 중심·꽃술만 넘도록 문턱을 높게 둔다
-const BLOOM = { strength: 0.35, radius: 0, threshold: 2.6 }
-// 넓게 퍼지는 큰 블러 단계를 끄면 꽃 주변만 은은하게 빛나고 캔버스 전체에 뿌연 막이 생기지 않는다
-const BLOOM_FACTORS = [1.0, 0.5, 0.15, 0.0, 0.0]
-
 // 카메라: 꽃이 모여 있는 섬 가운데(반지름 약 2)를 가깝게 본다
 const CAMERA = { position: [0, 4.4, 10.5], target: [0, 0.1, 0], fov: 36, min: 6, max: 17 }
-// 화면이 좁으면(폰 세로) 이 반지름(섬 + 나무)이 가로로 다 들어오도록 카메라를 뒤로 뺀다
+// 화면이 좁으면(폰 세로) 이 반지름(섬)이 가로로 다 들어오도록 카메라를 뒤로 뺀다
 const FIT_RADIUS = 4.4
 
 // 빛 알갱이: 소리를 재생하면 음량에 맞춰 커지고 빨라지고 따뜻한 색이 된다
@@ -69,17 +63,6 @@ function jitter(geo, amount, rand, keep = () => false) {
   return geo
 }
 
-function haloTexture() {
-  const c = document.createElement('canvas')
-  c.width = c.height = 64
-  const g = c.getContext('2d')
-  const grd = g.createRadialGradient(32, 32, 0, 32, 32, 32)
-  grd.addColorStop(0, 'rgba(255,245,200,0.9)')
-  grd.addColorStop(1, 'rgba(255,245,200,0)')
-  g.fillStyle = grd
-  g.fillRect(0, 0, 64, 64)
-  return new THREE.CanvasTexture(c)
-}
 
 function buildIsland() {
   const rand = rng(20261106)
@@ -115,46 +98,7 @@ function buildIsland() {
     root.add(t)
   }
 
-  // 나무: 바깥 고리에, 앞쪽(카메라 쪽)은 비워 꽃이 보이게
-  const darks = ['#2e5a3a', '#3a6b44', '#2a4f36'].map((c) => mat(c))
-  const lights = ['#9cc25a', '#b6d06b', '#7fae4e', '#c9d97a'].map((c) => mat(c))
-  const trunk = mat('#6b4a35'), birch = mat('#ece6da')
-  for (let i = 0; i < 46; i++) {
-    const a = rand() * Math.PI * 2
-    const r = 2.1 + rand() * 1.6
-    const x = Math.cos(a) * r, z = Math.sin(a) * r
-    if (z > 1.2 && Math.abs(x) < 2.6 && rand() < 0.85) continue
-    const tree = new THREE.Group()
-    const s = 0.7 + rand() * 0.8
-    if (rand() < 0.55) {
-      const tr = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.09, 0.4, 5), trunk)
-      tr.position.y = 0.2
-      tree.add(tr)
-      for (let k = 0; k < 3; k++) {
-        const c = new THREE.Mesh(new THREE.ConeGeometry(0.55 - k * 0.13, 0.9, 7), darks[(i + k) % 3])
-        c.position.y = 0.6 + k * 0.45
-        c.castShadow = true
-        tree.add(c)
-      }
-      tree.scale.setScalar(s * 1.15)
-    } else {
-      const isBirch = rand() < 0.3
-      const tr = new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.08, 0.9, 5), isBirch ? birch : trunk)
-      tr.position.y = 0.45
-      tree.add(tr)
-      const blobs = 2 + Math.floor(rand() * 2)
-      for (let k = 0; k < blobs; k++) {
-        const b = new THREE.Mesh(new THREE.IcosahedronGeometry(0.35 + rand() * 0.15, 0), lights[Math.floor(rand() * lights.length)])
-        b.position.set((rand() - 0.5) * 0.35, 1 + k * 0.22 + rand() * 0.1, (rand() - 0.5) * 0.35)
-        b.castShadow = true
-        tree.add(b)
-      }
-      tree.scale.setScalar(s)
-    }
-    tree.position.set(x, 0.17, z)
-    tree.rotation.y = rand() * Math.PI
-    root.add(tree)
-  }
+  // 장식용 숲은 두지 않는다: 섬 위에는 주고받은 소리로 핀 꽃과 소리 나무만 자란다
   return root
 }
 
@@ -229,9 +173,7 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
 
     const composer = new EffectComposer(renderer)
     composer.addPass(new RenderPass(scene, camera))
-    const bloom = new UnrealBloomPass(new THREE.Vector2(1, 1), BLOOM.strength, BLOOM.radius, BLOOM.threshold)
-    bloom.compositeMaterial.uniforms.bloomFactors.value = BLOOM_FACTORS
-    composer.addPass(bloom)
+    // 빛 번짐(bloom) 없이 그린다
     composer.addPass(new OutputPass())
 
     const floating = new THREE.Group()
@@ -331,7 +273,9 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
         const age = t - (u.bornAt ?? -10)
         const grow = Math.min(1, Math.max(0, age / 1.2))
         const e = 1 - Math.pow(1 - grow, 3)
-        f.scale.setScalar(u.size * Math.max(0.001, 0.3 + 0.7 * e))
+        // 하이라이트(오늘의 위로·새로 핀 꽃)는 빛 대신 살짝 커졌다 작아진다
+        const pulse = u.highlight || u.fresh ? 1 + Math.sin(t * 4) * 0.08 : 1
+        f.scale.setScalar(u.size * Math.max(0.001, 0.3 + 0.7 * e) * pulse)
         // 꽃잎이 바깥 겹부터 펼쳐진다 (다 피면 더 계산하지 않음)
         if (!u.opened) {
           const open = Math.min(1, Math.max(0, age / 1.8))
@@ -339,11 +283,6 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
           if (open >= 1) u.opened = true
         }
         f.rotation.z = Math.sin(t * 1.3 + u.phase) * 0.05
-        if (u.halo) {
-          const pulse = u.highlight || u.fresh ? 1 + Math.sin(t * 4) * 0.25 : 1
-          u.halo.material.opacity = (u.highlight || u.fresh ? 0.95 : u.kind === 'pair' ? 0.6 : 0) * Math.min(1, grow * 2)
-          u.halo.scale.setScalar((u.kind === 'pair' ? 0.9 : 0.6) * pulse)
-        }
       }
       controls.update()
       composer.render()
@@ -351,7 +290,7 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
     }
     loop()
 
-    stateRef.current = { flowerLayer, clock, known: new Set(), halo: haloTexture(), first: true }
+    stateRef.current = { flowerLayer, clock, known: new Set(), first: true }
     return () => {
       cancelAnimationFrame(raf)
       clearTimeout(resumeTimer)
@@ -392,16 +331,12 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
         : isTree(it.data) ? buildTree3D(it.data) : buildFlower3D(it.data, [it.data.color])
       obj.position.set(pos[i].x, 0, pos[i].z)
       const isNew = !known.has(it.key)
-      const halo = new THREE.Sprite(new THREE.SpriteMaterial({ map: st.halo, transparent: true, depthWrite: false, opacity: 0 }))
-      halo.position.y = obj.userData.headY
-      obj.add(halo)
       Object.assign(obj.userData, {
         kind: it.kind,
         data: it.data,
         size: it.kind === 'pair' ? 2.6 : 1.8,
         phase: (hash(it.key) % 100) / 16,
         bornAt: isNew ? (st.first ? now + i * 0.06 : now) : -10,
-        halo,
         fresh: freshIds?.has(it.key),
         highlight: highlightId === it.key,
       })

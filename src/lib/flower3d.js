@@ -70,7 +70,7 @@ export function buildFlower3D(f, colors = [f.color], { pair = false } = {}) {
   const prm = flowerParams(f)
   const stemMat = new THREE.MeshStandardMaterial({ color: '#5f9f6e', roughness: 0.7 })
   const leafMat = new THREE.MeshStandardMaterial({ vertexColors: true, side: THREE.DoubleSide, roughness: 0.6 })
-  const stamenMat = new THREE.MeshStandardMaterial({ color: '#fff1a8', emissive: '#ffd86b', emissiveIntensity: 3 })
+  const stamenMat = new THREE.MeshStandardMaterial({ color: '#fff1a8', emissive: '#ffd86b', emissiveIntensity: 0.15 })
   if (pair) Object.assign(prm, { layers: 3, size: 0.85, glow: 3 })
   const g = new THREE.Group()
 
@@ -132,7 +132,7 @@ export function buildFlower3D(f, colors = [f.color], { pair = false } = {}) {
   const centerColor = bases[0].clone().lerp(new THREE.Color('#fff4c2'), 0.75)
   const center = new THREE.Mesh(
     new THREE.SphereGeometry(centerR, 14, 12),
-    new THREE.MeshStandardMaterial({ color: centerColor, emissive: centerColor, emissiveIntensity: 2.6 + prm.glow * 0.8 }),
+    new THREE.MeshStandardMaterial({ color: centerColor, emissive: centerColor, emissiveIntensity: 0.15 }), // 스스로 빛나지 않게
   )
   center.position.y = centerR * 0.4
   head.add(center)

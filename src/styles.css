@@ -160,7 +160,6 @@ h1, h2 { margin: 0; }
 .flower.bloom .petal { animation: petal-open .9s cubic-bezier(.2,.9,.3,1.3) both; animation-delay: calc(var(--i) * 70ms + 250ms); }
 .flower.bloom .center { animation: petal-open .5s ease-out both; animation-delay: 150ms; transform-origin: 0 0; }
 .flower.bloom .stem { animation: grow .5s ease-out both; transform-origin: 0 100px; }
-.flower.glow .head { filter: drop-shadow(0 0 6px rgba(255, 230, 150, .9)); }
 .flower-btn:active .flower { transform: scale(0.95); }
 .fresh .flower .head { animation: sway 1.4s ease-in-out 2; transform-origin: 0 0; }
 @keyframes petal-open { from { transform: scale(0); } to { transform: scale(1); } }
@@ -270,7 +269,6 @@ h1, h2 { margin: 0; }
   transform-origin: 50% 100%;
   animation: tree-grow 0.9s cubic-bezier(0.2, 0.8, 0.3, 1.2) both;
 }
-.tree.glow { filter: drop-shadow(0 0 6px rgba(255, 240, 180, 0.7)); }
 @keyframes tree-grow {
   from { transform: scale(0.1); opacity: 0; }
   to { transform: scale(1); opacity: 1; }
