@@ -18,11 +18,13 @@ import { AuroraGlowPass } from '../lib/AuroraGlowPass.js'
 import { createAuroraSparkleMaterial } from '../lib/auroraSparkles.js'
 import { applyAuroraGroundGrain } from '../lib/auroraGround.js'
 import { createPreviewGpuTiming } from '../lib/previewGpuTiming.js'
+import { createIslandGrass } from '../lib/islandGrass.js'
 import { playbackLevel } from '../lib/audio.js'
 
 // 블렌더 섬 모델: public/models/island.glb 를 올리면 코드로 만든 섬 대신 자동으로 쓴다.
 // 약속: 원점 = 섬 윗면 중앙, Y-up, Draco 압축 가능. 크기는 지름이 ISLAND_RADIUS*2가 되도록 자동 맞춤.
 const ISLAND_GLB = `${import.meta.env.BASE_URL}models/island.glb`
+const WARM_ISLAND_GLB = `${import.meta.env.BASE_URL}models/island-warm.glb`
 const ISLAND_RADIUS = 4
 const ISLAND_TOP_Y = 0.17
 
@@ -170,7 +172,7 @@ function buildIsland(tone) {
   return root
 }
 
-function loadIslandGlb(target, tone) {
+function loadIslandGlb(target, tone, onGrassReady) {
   let disposed = false
   target.userData.assetStatus = 'loading'
   const draco = new DRACOLoader()
@@ -178,7 +180,7 @@ function loadIslandGlb(target, tone) {
   const loader = new GLTFLoader()
   loader.setDRACOLoader(draco)
   loader.load(
-    ISLAND_GLB,
+    tone === 'aurora' ? ISLAND_GLB : WARM_ISLAND_GLB,
     (gltf) => {
       const model = gltf.scene
       if (disposed) {
@@ -188,8 +190,10 @@ function loadIslandGlb(target, tone) {
       const size = new THREE.Box3().setFromObject(model).getSize(new THREE.Vector3())
       model.scale.setScalar((ISLAND_RADIUS * 2) / Math.max(size.x, size.z, 0.001))
       model.position.y = ISLAND_TOP_Y
+      let assetTriangles = 0
       model.traverse((o) => {
         if (!o.isMesh) return
+        assetTriangles += (o.geometry.index?.count ?? o.geometry.attributes.position.count) / 3
         const materials = Array.isArray(o.material) ? o.material : [o.material]
         for (const material of materials) {
           if (tone === 'aurora') applyAuroraIslandMaterial(material)
@@ -206,6 +210,12 @@ function loadIslandGlb(target, tone) {
       disposeMeshes(target)
       target.clear()
       target.add(model)
+      target.userData.assetTriangles = assetTriangles
+      if (tone === 'aurora') {
+        target.updateWorldMatrix(true, true)
+        target.userData.grass = createIslandGrass(model)
+        onGrassReady?.(target.userData.grass)
+      }
       target.userData.assetStatus = 'loaded'
       draco.dispose()
     },
@@ -381,11 +391,13 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
     const islandGroup = new THREE.Group()
     islandGroup.add(buildIsland(tone))
     floating.add(islandGroup)
-    const stopIslandLoad = loadIslandGlb(islandGroup, tone)
     const flowerLayer = new THREE.Group()
     flowerLayer.position.y = 0.17
     floating.add(flowerLayer)
     scene.add(floating)
+    const stopIslandLoad = loadIslandGlb(islandGroup, tone, grass => {
+      grass?.updatePlants(flowerLayer.children.map(plant => plant.position), flowerLayer)
+    })
     const atmosphere = aurora ? createAuroraAtmosphere() : null
     if (atmosphere) scene.add(atmosphere)
 
@@ -546,6 +558,12 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
           triangles: renderer.info.render.triangles,
           geometries: renderer.info.memory.geometries,
           island: islandGroup.userData.assetStatus,
+          islandGeometry: {
+            assetTriangles: islandGroup.userData.assetTriangles ?? 0,
+            grassTriangles: islandGroup.userData.grass?.mesh.userData.triangles ?? 0,
+            grassClumps: islandGroup.userData.grass?.mesh.count ?? 0,
+            grassDrawCalls: islandGroup.userData.grass ? 1 : 0,
+          },
           growing: plants.filter(f => !f.userData.opened).length,
           opened: plants.filter(f => f.userData.opened).length,
           camera: { position: camera.position.toArray(), target: controls.target.toArray() },
@@ -558,7 +576,7 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
     loop()
 
     stateRef.current = {
-      flowerLayer, clock, known: new Set(), first: true,
+      flowerLayer, islandGroup, clock, known: new Set(), first: true,
       resetView: () => {
         clearTimeout(resumeTimer)
         controls.autoRotate = false
@@ -579,6 +597,7 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
       el.removeEventListener('pointerup', onUp)
       controls.dispose()
       stopIslandLoad()
+      islandGroup.userData.grass?.dispose()
       for (const plant of [...flowerLayer.children]) {
         flowerLayer.remove(plant)
         disposeFlower3D(plant)
@@ -666,6 +685,7 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
       flowerLayer.remove(obj)
       disposeFlower3D(obj)
     }
+    st.islandGroup.userData.grass?.updatePlants(flowerLayer.children.map(plant => plant.position), flowerLayer)
     st.first = false
   }, [flowers, pairs, meId, freshIds, highlightId, visibleIds, assets, isBlenderFlower, tone, previewAngle, previewTime])
 

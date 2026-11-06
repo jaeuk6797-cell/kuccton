@@ -1,0 +1,502 @@
+{
+  "created": "2026-11-06T19:34:18.366Z",
+  "baselineCommit": "ba260e2",
+  "finalRevision": "a051bf4-working-glb975283d9",
+  "assets": {
+    "before": {
+      "bytes": 730580,
+      "sha256": "52ed6300962c469a0bd3e6eee9452bd9d6578d14de5b1df3004967ecfa20c083",
+      "triangles": 16607,
+      "meshes": 22,
+      "materials": 11
+    },
+    "after": {
+      "bytes": 682436,
+      "sha256": "975283d9d1753e577981a25a53593299ea4d53f9044c872cd4d3297a8a7983a1",
+      "triangles": 14099,
+      "meshes": 20,
+      "materials": 11
+    },
+    "preservedWarmMatchesBaseline": true
+  },
+  "warmScreenshotExactMatches": [
+    {
+      "name": "warm-mixed12",
+      "identicalPNG": true
+    },
+    {
+      "name": "warm-island-only",
+      "identicalPNG": true
+    }
+  ],
+  "staticGeometry": {
+    "assetTriangles": 14099,
+    "grassTriangles": 6000,
+    "grassClumps": 1000,
+    "grassDrawCalls": 1,
+    "totalTriangles": 20099,
+    "budgetTriangles": 25000,
+    "grass": [
+      {
+        "name": "Island_Grass | Short garden coverage",
+        "count": 1000,
+        "baseTriangles": 6,
+        "castShadow": false,
+        "receiveShadow": true,
+        "materials": 1,
+        "material": "SUP Short mint grass",
+        "roughness": 1,
+        "metalness": 0,
+        "opacity": 1,
+        "transparent": false,
+        "frustumCulled": true
+      }
+    ]
+  },
+  "comparisonViews": [
+    {
+      "name": "aurora-default",
+      "cameraMatched": true,
+      "plantsAndLODsMatched": true,
+      "before": {
+        "plants": 13,
+        "calls": 815,
+        "triangles": 101296
+      },
+      "after": {
+        "plants": 13,
+        "calls": 812,
+        "triangles": 102280
+      },
+      "tone": "aurora",
+      "grassMeshes": 1
+    },
+    {
+      "name": "aurora-mixed12",
+      "cameraMatched": true,
+      "plantsAndLODsMatched": true,
+      "before": {
+        "plants": 13,
+        "calls": 663,
+        "triangles": 88416
+      },
+      "after": {
+        "plants": 13,
+        "calls": 660,
+        "triangles": 89400
+      },
+      "tone": "aurora",
+      "grassMeshes": 1
+    },
+    {
+      "name": "aurora-island-only",
+      "cameraMatched": true,
+      "plantsAndLODsMatched": true,
+      "before": {
+        "plants": 0,
+        "calls": 33,
+        "triangles": 24056
+      },
+      "after": {
+        "plants": 0,
+        "calls": 30,
+        "triangles": 25040
+      },
+      "tone": "aurora",
+      "grassMeshes": 1
+    },
+    {
+      "name": "grass-closeup",
+      "cameraMatched": true,
+      "plantsAndLODsMatched": true,
+      "before": {
+        "plants": 0,
+        "calls": 33,
+        "triangles": 24056
+      },
+      "after": {
+        "plants": 0,
+        "calls": 30,
+        "triangles": 25040
+      },
+      "tone": "aurora",
+      "grassMeshes": 1
+    },
+    {
+      "name": "island-side",
+      "cameraMatched": true,
+      "plantsAndLODsMatched": true,
+      "before": {
+        "plants": 0,
+        "calls": 33,
+        "triangles": 24056
+      },
+      "after": {
+        "plants": 0,
+        "calls": 30,
+        "triangles": 25040
+      },
+      "tone": "aurora",
+      "grassMeshes": 1
+    },
+    {
+      "name": "island-rear",
+      "cameraMatched": true,
+      "plantsAndLODsMatched": true,
+      "before": {
+        "plants": 0,
+        "calls": 33,
+        "triangles": 24056
+      },
+      "after": {
+        "plants": 0,
+        "calls": 30,
+        "triangles": 25040
+      },
+      "tone": "aurora",
+      "grassMeshes": 1
+    },
+    {
+      "name": "island-left",
+      "cameraMatched": true,
+      "plantsAndLODsMatched": true,
+      "before": {
+        "plants": 0,
+        "calls": 33,
+        "triangles": 24056
+      },
+      "after": {
+        "plants": 0,
+        "calls": 30,
+        "triangles": 25040
+      },
+      "tone": "aurora",
+      "grassMeshes": 1
+    },
+    {
+      "name": "island-low-side",
+      "cameraMatched": true,
+      "plantsAndLODsMatched": true,
+      "before": {
+        "plants": 0,
+        "calls": 33,
+        "triangles": 24056
+      },
+      "after": {
+        "plants": 0,
+        "calls": 30,
+        "triangles": 25040
+      },
+      "tone": "aurora",
+      "grassMeshes": 1
+    },
+    {
+      "name": "aurora-50-plants",
+      "cameraMatched": true,
+      "plantsAndLODsMatched": true,
+      "before": {
+        "plants": 50,
+        "calls": 2125,
+        "triangles": 222904
+      },
+      "after": {
+        "plants": 50,
+        "calls": 2122,
+        "triangles": 223888
+      },
+      "tone": "aurora",
+      "grassMeshes": 1
+    },
+    {
+      "name": "aurora-mobile-390x844",
+      "cameraMatched": true,
+      "plantsAndLODsMatched": true,
+      "before": {
+        "plants": 13,
+        "calls": 663,
+        "triangles": 83496
+      },
+      "after": {
+        "plants": 13,
+        "calls": 660,
+        "triangles": 84480
+      },
+      "tone": "aurora",
+      "grassMeshes": 1
+    },
+    {
+      "name": "aurora-mobile-50",
+      "cameraMatched": true,
+      "plantsAndLODsMatched": true,
+      "before": {
+        "plants": 50,
+        "calls": 2125,
+        "triangles": 213064
+      },
+      "after": {
+        "plants": 50,
+        "calls": 2122,
+        "triangles": 214048
+      },
+      "tone": "aurora",
+      "grassMeshes": 1
+    },
+    {
+      "name": "warm-mixed12",
+      "cameraMatched": true,
+      "plantsAndLODsMatched": true,
+      "before": {
+        "plants": 13,
+        "calls": 657,
+        "triangles": 88408
+      },
+      "after": {
+        "plants": 13,
+        "calls": 657,
+        "triangles": 88408
+      },
+      "tone": "warm",
+      "grassMeshes": 0
+    },
+    {
+      "name": "warm-island-only",
+      "cameraMatched": true,
+      "plantsAndLODsMatched": true,
+      "before": {
+        "plants": 0,
+        "calls": 27,
+        "triangles": 24048
+      },
+      "after": {
+        "plants": 0,
+        "calls": 27,
+        "triangles": 24048
+      },
+      "tone": "warm",
+      "grassMeshes": 0
+    }
+  ],
+  "interactionChecks": {
+    "procedural": {
+      "requested": "pair-flutter",
+      "id": "pair-flutter",
+      "flora": "procedural",
+      "canvases": 1,
+      "title": "콩닥콩닥꽃"
+    },
+    "blender": {
+      "requested": "peony-blender-41",
+      "id": "peony-blender-41",
+      "flora": "blender",
+      "canvases": 1,
+      "title": "새근새근꽃"
+    },
+    "detailClosed": true,
+    "comparison": [
+      {
+        "flora": "procedural",
+        "canvas": true
+      },
+      {
+        "flora": "blender",
+        "canvas": true
+      }
+    ],
+    "growthEarly": [
+      {
+        "id": "fresh-peony-0",
+        "opened": false,
+        "scale": 1
+      }
+    ],
+    "growthLate": {
+      "plants": 14,
+      "growing": 0,
+      "opened": 14
+    },
+    "added": true,
+    "removed": true,
+    "LOD": {
+      "near": {
+        "near": 2,
+        "far": 0
+      },
+      "far": {
+        "near": 0,
+        "far": 2
+      }
+    },
+    "denseSelection": {
+      "requested": "peony-blender-41",
+      "id": "peony-blender-41",
+      "flora": "blender",
+      "canvases": 1,
+      "title": "새근새근꽃"
+    },
+    "densePlants": 50,
+    "orbitChanged": true
+  },
+  "errors": {
+    "baseline": [],
+    "final": [],
+    "interactions": [],
+    "performance": [],
+    "networkFailures": []
+  },
+  "warnings": [
+    "THREE.Clock: This module has been deprecated. Please use THREE.Timer instead."
+  ],
+  "timing": {
+    "complete": true,
+    "method": "Same fresh Chrome process, ABBA navigation between isolated baseline and final Vite servers; matching 1200x900 viewport and DPR1.5, deterministic time6, 60 settled frames per case. Frame cadence and CPU submission under SwiftShader; not physical mobile FPS.",
+    "aggregation": "Arithmetic mean of the two per-block 60-frame medians for each variant in ABBA order. Relative changes use unrounded values.",
+    "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+    "viewport": {
+      "desktopCSS": [
+        1200,
+        900
+      ],
+      "mobileCSS": [
+        390,
+        844
+      ],
+      "pixelRatio": 1.5
+    },
+    "results": [
+      {
+        "case": "desktop-50",
+        "baseline": {
+          "blockMedianFrameMs": [
+            308.1,
+            237
+          ],
+          "averageBlockMedianFrameMs": 272.55,
+          "blockP95FrameMs": [
+            333.8,
+            263.2
+          ],
+          "averageBlockMedianSubmitMs": 18.8,
+          "calls": [
+            [
+              2125
+            ],
+            [
+              2125
+            ]
+          ],
+          "triangles": [
+            [
+              222904
+            ],
+            [
+              222904
+            ]
+          ]
+        },
+        "final": {
+          "blockMedianFrameMs": [
+            239.6,
+            242.2
+          ],
+          "averageBlockMedianFrameMs": 240.9,
+          "blockP95FrameMs": [
+            362.7,
+            252.9
+          ],
+          "averageBlockMedianSubmitMs": 9.2,
+          "calls": [
+            [
+              2122
+            ],
+            [
+              2122
+            ]
+          ],
+          "triangles": [
+            [
+              223888
+            ],
+            [
+              223888
+            ]
+          ]
+        },
+        "frameChangePercent": -11.61
+      },
+      {
+        "case": "desktop-island-only",
+        "baseline": {
+          "blockMedianFrameMs": [
+            119.8,
+            132.6
+          ],
+          "averageBlockMedianFrameMs": 126.2,
+          "blockP95FrameMs": [
+            136.7,
+            161.3
+          ],
+          "averageBlockMedianSubmitMs": 0.65,
+          "calls": [
+            [
+              33
+            ],
+            [
+              33
+            ]
+          ],
+          "triangles": [
+            [
+              24056
+            ],
+            [
+              24056
+            ]
+          ]
+        },
+        "final": {
+          "blockMedianFrameMs": [
+            128.3,
+            141.2
+          ],
+          "averageBlockMedianFrameMs": 134.75,
+          "blockP95FrameMs": [
+            209.3,
+            196.4
+          ],
+          "averageBlockMedianSubmitMs": 0.65,
+          "calls": [
+            [
+              30
+            ],
+            [
+              30
+            ]
+          ],
+          "triangles": [
+            [
+              25040
+            ],
+            [
+              25040
+            ]
+          ]
+        },
+        "frameChangePercent": 6.77
+      }
+    ],
+    "interpretation": "The dense baseline varies from 308.1 to 237.0 ms across blocks; the apparent mean speedup is not robust evidence of a performance gain. Final dense blocks are 239.6 and 242.2 ms, close to the later baseline. Island-only software cadence is about 6.8% slower on average. No physical-device performance conclusion is supported.",
+    "limitations": [
+      "SwiftShader software renderer; these are controlled desktop browser measurements, not physical Android or iPhone performance.",
+      "Frame cadence and render CPU submission include software rendering and browser scheduling; they are not isolated hardware GPU timings.",
+      "The before/after comparison includes grass, physical gate removal, and the centered underside together.",
+      "Pass-expanded renderer triangle and draw counts include dynamic flora, shadow passes, and postprocessing; the static 25,000-triangle budget uses unique island geometry plus grass instances."
+    ]
+  },
+  "visualNotes": [
+    "Grass uses short opaque matte ribbons with exposed opal between clumps; it is distributed across the usable surface rather than forming a continuous lawn.",
+    "Pond, rim, crystals, existing flora positions, and Aurora colors remain readable.",
+    "The centered keel is less prominent from the elevated front view and clearly visible from side, rear, and low side views.",
+    "The nominal mixed12 preview currently renders 13 plant objects; dense mode renders 50."
+  ],
+  "gallery": "comparison.html"
+}

@@ -1,0 +1,27 @@
+{
+  "status": "passed",
+  "clumps": 1000,
+  "triangles": 6000,
+  "materialCount": 1,
+  "mainDrawCalls": 1,
+  "shadowDrawCalls": 0,
+  "placementMs": 200.7,
+  "maxAnchorError": 6.667994545406231e-9,
+  "minHeight": 0.06000355885522262,
+  "maxHeight": 0.12998275780028354,
+  "regions": {
+    "left": 323,
+    "center": 381,
+    "right": 296
+  },
+  "checks": [
+    "actual transformed GLB anchoring",
+    "full tuft footprint on ground / outside pond",
+    "crystal exclusion",
+    "hard triangle budget",
+    "stem clearance and restore",
+    "no picking",
+    "determinism",
+    "cleanup"
+  ]
+}

@@ -1,0 +1,101 @@
+SUP Aurora garden: short grass, hoop removal, and centered underside
+
+Baseline: ba260e2 (completed Aurora rebalance). The island asset is also identical
+to e79e488 before this pass. Destination branch: codex/aurora-crystal-garden.
+
+The Aurora island has 1,000 deterministic short green/mint grass clumps, no upright
+ornamental hoop or exclusive feet, and a mineral keel centered beneath its top.
+Grass consists of two bent, tapered blades per clump. It is matte, opaque, and
+batched into one InstancedMesh with shared geometry and material. Opal remains
+visible between clumps. No grass texture, alpha card, animation, or shadow-casting
+pass is added. Grass receives existing flower contact shadows.
+
+Geometry budget (triangulated geometry, including every grass instance):
+  Original island                         16,607 triangles
+  Removed hoop                             2,348 triangles
+  Removed exclusive feet                     160 triangles
+  Remaining exported island               14,099 triangles
+  Grass: 1,000 clumps x 6 triangles          6,000 triangles
+  Final static island including grass      20,099 triangles
+  Hard maximum                            25,000 triangles
+  GLB materials                               11
+  Additional shared grass material             1
+  Grass main draw calls                        1
+  Grass shadow draw calls                      0
+
+The GLB and editable Blender source contain the base island. Grass is generated
+in Three.js so it can shorten around the actual flower/tree positions. All clump
+roots are raycast onto the imported surface; boundary clearance includes the
+entire blade footprint. Pond and crystal exclusions use actual geometry. Grass
+has no raycast target and is outside the flower-picking layer. Existing planting
+slots are retained, including the old hoop exclusion, to avoid moving any plants.
+The fixed 6,000-triangle batch remains lightweight without a density LOD or popping.
+
+The underside is recentered after the original fracture/bevel/color construction,
+preserving its 1,089 triangles, topology, corner colors, top join, and every depth
+coordinate. The lowest tip moved from (-0.56, -1.23, -2.86) to approximately
+(-0.04, -0.05, -2.86) in Blender coordinates. Its horizontal axis offset fell
+from 1.3515 to 0.0640 units. Local fractures and small asymmetries remain. No
+whole-island transform was used. The top stays at runtime Y=0.17 and diameter 8.
+
+The generator exports from an isolated Blender process. Canonical material names
+are restored there, so repeated live Blender builds cannot break the application's
+name-based Aurora shading. Existing live scenes are preserved.
+
+Warm preservation:
+  codex/warm-tone-pass remains at 536d2acc1e354ac36d0ab21a1b6c752dc15e668b.
+  public/models/island-warm.glb is the exact original 730,580-byte model.
+  Warm/default comparisons load that asset and receive no new grass.
+  Warm materials, shading, lighting, geometry, and comparison draw counts match.
+  No database/audio behavior is changed. No merge into main is performed.
+
+Draw calls (whole frame, including existing shadows and postprocessing):
+  Aurora island only                 33 -> 30
+  Mixed garden (13 rendered plants) 663 -> 660
+  Mixed garden (50 plants)        2,125 -> 2,122
+  Static geometry is the 20,099 count above, not the preview's pass-expanded total.
+  Removing the hoop's main/shadow draws offsets the single new grass draw.
+
+Performance observations:
+  One isolated Chrome/SwiftShader process, sequential baseline/final/final/baseline
+  blocks with matched scenes and cameras; 60-frame block medians reported.
+  50 plants: baseline 308.1 / 237.0 ms; final 239.6 / 242.2 ms.
+  Island only: baseline 119.8 / 132.6 ms; final 128.3 / 141.2 ms.
+  Mean of block medians: 50 plants 272.55 -> 240.90 ms; empty 126.20 -> 134.75 ms.
+  The first baseline block and host scheduling varied substantially. These software
+  timings do not establish a GPU speedup; the later dense baseline and final are
+  close. Physical Android/iOS GPU, thermal, battery, and sustained-frame performance
+  remain unmeasured. The existing 50-plant renderer's high draw count remains a
+  mobile concern; this pass reduces it slightly while preserving the flora renderer.
+
+Verification:
+  Production build passed: Vite 5.4.21, 131 modules; existing bundle-size warning.
+  Actual Blender build/export and saved .blend inspection passed.
+  Asset audit: only hoop/feet removed, only authorized underside deformation,
+  all 19 other components unchanged, no new winding/geometry errors, canonical
+  material names, exact upper join and depth, unchanged opaque opal response.
+  Grass audit: 1,000 clumps, 6,000 triangles, all 10,000 projected vertices on ground,
+  pond/crystal clearance, stem clearance, deterministic placement, and cleanup pass.
+  Browser: matching front/rear/left/right/low-side, island-only, grass close-up,
+  mixed/default garden, 50 plants, and portrait views; no runtime/network errors.
+  Procedural/Blender selection, details, paired comparison, growth, add/remove,
+  near/far flower LOD, dense-garden picking, orbit, and zoom checks passed.
+  Before/after cameras and plant positions match. See comparison.html and JSON reports.
+
+Outputs:
+  art/island/generate_island.py
+  art/island/island.blend
+  public/models/island.glb (682,436 bytes)
+  public/models/island-warm.glb (preserved comparison)
+  src/lib/islandGrass.js
+  src/components/Island3D.jsx
+  art/island/qa/grass/comparison.html (before/after gallery)
+  art/island/qa/grass/{island-audit,source-audit,grass-audit,grass-metrics}.json
+  art/island/qa/grass/performance-results.json (all timing blocks)
+
+Validated content SHA-256:
+  island.glb: 975283d9d1753e577981a25a53593299ea4d53f9044c872cd4d3297a8a7983a1
+  island.blend: 0356973744d1e621da75b131e8105e49f866cbc5f5d5dcaf56fdd1bb3b80078e
+  islandGrass.js: 276d60007a93ab23ed84b7a066b4b2c5fd6ca2b5d93c8392d7c88de876731241
+  Island3D.jsx: 3d837b3678206363b06fb81c0f8a7fd1c26fe327f827825526dc070a5c5db1b0
+  generate_island.py: c5964e5a74b39b2d413fa2f9fff2fe5cfd1a01ee999d3fe662099fce9cdd2fef

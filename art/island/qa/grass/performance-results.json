@@ -1,0 +1,6077 @@
+{
+  "revision": "a051bf4-working-glb975283d9",
+  "mode": "performance",
+  "time": "2026-11-06T19:30:16.256Z",
+  "baseURL": "http://127.0.0.1:5297",
+  "baselineURL": "http://127.0.0.1:5298",
+  "measurements": [
+    {
+      "label": "baseline-desktop-50",
+      "frames": 60,
+      "frameMs": {
+        "median": 308.10000002384186,
+        "mean": 271.5220338995174,
+        "p95": 333.7999999523163
+      },
+      "submitMs": {
+        "median": 28.40000009536743,
+        "mean": 21.663333332538606,
+        "p95": 32
+      },
+      "calls": [
+        2125
+      ],
+      "triangles": [
+        222904
+      ],
+      "info": {
+        "preview": {
+          "plants": 50,
+          "near": 4,
+          "far": 8,
+          "calls": 2125,
+          "triangles": 222904,
+          "geometries": 261,
+          "island": "loaded",
+          "growing": 0,
+          "opened": 50,
+          "camera": {
+            "position": [
+              0,
+              5.496125175623439,
+              13.176584731173508
+            ],
+            "target": [
+              0,
+              0.1,
+              0
+            ]
+          },
+          "viewport": {
+            "width": 1200,
+            "height": 710,
+            "pixelRatio": 1.5
+          },
+          "performance": {
+            "frame": {
+              "samples": 71,
+              "meanMs": 290.72,
+              "p95Ms": 466.7
+            },
+            "renderCPU": {
+              "samples": 71,
+              "meanMs": 32.72,
+              "p95Ms": 33.4
+            },
+            "gpu": {
+              "available": true,
+              "samples": 68,
+              "meanMs": 281.07,
+              "p95Ms": 326.84
+            }
+          }
+        },
+        "tone": "aurora",
+        "camera": [
+          0,
+          5.496125175623439,
+          13.176584731173508
+        ],
+        "target": [
+          0,
+          0.1,
+          0
+        ],
+        "cameraLimits": {
+          "min": 6.549801586459576,
+          "max": 29.238699100999078,
+          "minPolar": 0.55,
+          "maxPolar": 1.4
+        },
+        "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "glError": 0,
+        "programs": 21,
+        "textures": 9,
+        "passes": [
+          "RenderPass",
+          "AuroraGlowPass",
+          "OutputPass"
+        ],
+        "grass": [],
+        "plantKinds": [
+          {
+            "id": "demo-pair",
+            "kind": "pair",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -0.04545222379267216,
+              0,
+              1.0916847019089277
+            ]
+          },
+          {
+            "id": "pair-flutter",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              1.3002295877225698,
+              0,
+              -2.265058398862534
+            ]
+          },
+          {
+            "id": "peony-procedural-89",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -1.5940342026762664,
+              0,
+              1.6925735093987382
+            ]
+          },
+          {
+            "id": "sample-0",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              1.0397728460747748,
+              0,
+              -0.5979485726498944
+            ]
+          },
+          {
+            "id": "sample-1",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              1.3457107540592552,
+              0,
+              -1.1974280372453745
+            ]
+          },
+          {
+            "id": "sample-2",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -0.9622955754585564,
+              0,
+              0.5792141549431664
+            ]
+          },
+          {
+            "id": "sample-3",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -0.050492155300453305,
+              0,
+              0.04920616582967341
+            ]
+          },
+          {
+            "id": "sample-4",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -1.3558664581272752,
+              0,
+              1.1827137936191525
+            ]
+          },
+          {
+            "id": "sample-5",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -1.9602467569336295,
+              0,
+              1.1936920884163942
+            ]
+          },
+          {
+            "id": "sample-6",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -1.700403137532994,
+              0,
+              2.870547557553715
+            ]
+          },
+          {
+            "id": "sample-7",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -2.0291316240280866,
+              0,
+              2.2556785053677637
+            ]
+          },
+          {
+            "id": "dense-1",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              2.5908450262527913,
+              0,
+              -1.1111899548867608
+            ]
+          },
+          {
+            "id": "dense-2",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              2.319718709466979,
+              0,
+              -0.5186452893123907
+            ]
+          },
+          {
+            "id": "dense-3",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              1.3326224250532688,
+              0,
+              -0.019894646052271127
+            ]
+          },
+          {
+            "id": "dense-5",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              0.33294613603502515,
+              0,
+              1.7122922039645558
+            ]
+          },
+          {
+            "id": "dense-6",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -0.01613745907321572,
+              0,
+              2.2431335491884283
+            ]
+          },
+          {
+            "id": "dense-7",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -0.6410461969021708,
+              0,
+              2.2278779549535144
+            ]
+          },
+          {
+            "id": "dense-9",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              0.6408680352754891,
+              0,
+              0.026351685700938106
+            ]
+          },
+          {
+            "id": "dense-10",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              1.63906675754115,
+              0,
+              -0.569153188620968
+            ]
+          },
+          {
+            "id": "dense-11",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              1.9432080371305347,
+              0,
+              -1.0993539800314123
+            ]
+          },
+          {
+            "id": "dense-13",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              0.9674795072525739,
+              0,
+              0.5413254183673245
+            ]
+          },
+          {
+            "id": "dense-14",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -1.04152443414554,
+              0,
+              2.803862275720081
+            ]
+          },
+          {
+            "id": "dense-15",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -2.302978009600192,
+              0,
+              1.684363706564421
+            ]
+          },
+          {
+            "id": "dense-17",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -1.9515348682366311,
+              0,
+              -2.3413861659180153
+            ]
+          },
+          {
+            "id": "dense-18",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -0.6527487778756768,
+              0,
+              0.022236423371359705
+            ]
+          },
+          {
+            "id": "dense-19",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -0.37201368623413145,
+              0,
+              -0.591439107354073
+            ]
+          },
+          {
+            "id": "dense-21",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              1.0219876279123128,
+              0,
+              2.846936054859749
+            ]
+          },
+          {
+            "id": "dense-22",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -1.6083270015008746,
+              0,
+              -1.7102944008129484
+            ]
+          },
+          {
+            "id": "dense-23",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              0.0228406326379627,
+              0,
+              -1.1680797178396847
+            ]
+          },
+          {
+            "id": "dense-25",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -1.3490004234015942,
+              0,
+              -0.05120112139731645
+            ]
+          },
+          {
+            "id": "dense-26",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -2.309150559017435,
+              0,
+              0.570571514708264
+            ]
+          },
+          {
+            "id": "dense-27",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -3.029462039479986,
+              0,
+              0.5132416231607032
+            ]
+          },
+          {
+            "id": "dense-29",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              1.3034326221048833,
+              0,
+              1.1651752619078273
+            ]
+          },
+          {
+            "id": "dense-30",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -1.9283059452474116,
+              0,
+              -0.03935232519172132
+            ]
+          },
+          {
+            "id": "dense-31",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -0.941548967063427,
+              0,
+              -0.5964016442795229
+            ]
+          },
+          {
+            "id": "dense-33",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              0.38641913381405174,
+              0,
+              -0.602715708525194
+            ]
+          },
+          {
+            "id": "dense-34",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              1.928916658759117,
+              0,
+              2.3368257875658354
+            ]
+          },
+          {
+            "id": "dense-35",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              2.3188356017321348,
+              0,
+              1.772321831337998
+            ]
+          },
+          {
+            "id": "peony-blender-41",
+            "kind": "flower",
+            "blender": true,
+            "lod": "near",
+            "opened": true,
+            "position": [
+              1.6220897298865022,
+              0,
+              1.6710500583666212
+            ]
+          },
+          {
+            "id": "peony-jade-16",
+            "kind": "flower",
+            "blender": true,
+            "lod": "far",
+            "opened": true,
+            "position": [
+              2.013126093512401,
+              0,
+              0.05712493733502924
+            ]
+          },
+          {
+            "id": "dense-peony-0",
+            "kind": "flower",
+            "blender": true,
+            "lod": "far",
+            "opened": true,
+            "position": [
+              -0.659393731020391,
+              0,
+              -1.1223402108257527
+            ]
+          },
+          {
+            "id": "dense-peony-4",
+            "kind": "flower",
+            "blender": true,
+            "lod": "far",
+            "opened": true,
+            "position": [
+              1.5962097175419332,
+              0,
+              0.5821860259634388
+            ]
+          },
+          {
+            "id": "dense-peony-8",
+            "kind": "flower",
+            "blender": true,
+            "lod": "far",
+            "opened": true,
+            "position": [
+              2.9573783736024053,
+              0,
+              -0.5679500528381152
+            ]
+          },
+          {
+            "id": "dense-peony-12",
+            "kind": "flower",
+            "blender": true,
+            "lod": "far",
+            "opened": true,
+            "position": [
+              1.6449466818105432,
+              0,
+              -2.894927209789372
+            ]
+          },
+          {
+            "id": "dense-peony-16",
+            "kind": "flower",
+            "blender": true,
+            "lod": "near",
+            "opened": true,
+            "position": [
+              -2.633189873630181,
+              0,
+              1.1600868603685761
+            ]
+          },
+          {
+            "id": "dense-peony-20",
+            "kind": "flower",
+            "blender": true,
+            "lod": "far",
+            "opened": true,
+            "position": [
+              -1.6044348892383276,
+              0,
+              0.5325870396153015
+            ]
+          },
+          {
+            "id": "dense-peony-24",
+            "kind": "flower",
+            "blender": true,
+            "lod": "near",
+            "opened": true,
+            "position": [
+              -1.2971717195212842,
+              0,
+              2.2953815645921756
+            ]
+          },
+          {
+            "id": "dense-peony-28",
+            "kind": "flower",
+            "blender": true,
+            "lod": "far",
+            "opened": true,
+            "position": [
+              0.6769868751615287,
+              0,
+              -1.106266941037577
+            ]
+          },
+          {
+            "id": "dense-peony-32",
+            "kind": "flower",
+            "blender": true,
+            "lod": "far",
+            "opened": true,
+            "position": [
+              -0.38593576446175576,
+              0,
+              -1.6894400747082032
+            ]
+          },
+          {
+            "id": "dense-peony-36",
+            "kind": "flower",
+            "blender": true,
+            "lod": "near",
+            "opened": true,
+            "position": [
+              -0.9551888545230031,
+              0,
+              1.7488127315006055
+            ]
+          }
+        ]
+      },
+      "samples": [
+        {
+          "submit": 27.600000023841858,
+          "interval": null,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 29.59999990463257,
+          "interval": 302.3000000715256,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 30.700000047683716,
+          "interval": 330.6999999284744,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 28.399999976158142,
+          "interval": 308.2000000476837,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 30.300000071525574,
+          "interval": 333.7999999523163,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 29.299999952316284,
+          "interval": 308.10000002384186,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 29.5,
+          "interval": 308.10000002384186,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 28.40000009536743,
+          "interval": 304.1999999284744,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 28.299999952316284,
+          "interval": 312.40000009536743,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 39.10000002384186,
+          "interval": 301.09999990463257,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 32.60000002384186,
+          "interval": 337,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 29.5,
+          "interval": 317.10000002384186,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 28.100000023841858,
+          "interval": 319.89999997615814,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 28.600000023841858,
+          "interval": 307.8000000715256,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 27.799999952316284,
+          "interval": 326,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 29.100000023841858,
+          "interval": 310.1999999284744,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 28.600000023841858,
+          "interval": 327.60000002384186,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 28.5,
+          "interval": 313.39999997615814,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 30.399999976158142,
+          "interval": 323.7000000476837,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 30.100000023841858,
+          "interval": 319.2999999523163,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 29.600000023841858,
+          "interval": 333,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 30.199999928474426,
+          "interval": 321.3000000715256,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 28.600000023841858,
+          "interval": 317.7999999523163,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 30.299999952316284,
+          "interval": 311.3000000715256,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 30.5,
+          "interval": 317.7999999523163,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 30.5,
+          "interval": 320.60000002384186,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 30.399999976158142,
+          "interval": 313.10000002384186,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 28.700000047683716,
+          "interval": 318.6999999284744,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 29.5,
+          "interval": 309,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 30.600000023841858,
+          "interval": 306.7000000476837,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 30.200000047683716,
+          "interval": 320.39999997615814,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 30.5,
+          "interval": 325.7000000476837,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 36.299999952316284,
+          "interval": 342.7999999523163,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 32,
+          "interval": 317.2000000476837,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 28.200000047683716,
+          "interval": 313.59999990463257,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 30.5,
+          "interval": 332.3000000715256,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 10.899999976158142,
+          "interval": 256.10000002384186,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 9.099999904632568,
+          "interval": 211.5,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 8.299999952316284,
+          "interval": 199.79999995231628,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 12.300000071525574,
+          "interval": 218.79999995231628,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 9.600000023841858,
+          "interval": 217.30000007152557,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 9.5,
+          "interval": 205.19999992847443,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 8.200000047683716,
+          "interval": 204.10000002384186,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 8.5,
+          "interval": 200.5,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 6.299999952316284,
+          "interval": 203.80000007152557,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 8.699999928474426,
+          "interval": 211.39999997615814,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 8.299999952316284,
+          "interval": 190,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 10.299999952316284,
+          "interval": 183.10000002384186,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 8.600000023841858,
+          "interval": 217.19999992847443,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 8.600000023841858,
+          "interval": 186.89999997615814,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 9.200000047683716,
+          "interval": 187.5,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 8.799999952316284,
+          "interval": 196.20000004768372,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 9.299999952316284,
+          "interval": 198.5,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 8.700000047683716,
+          "interval": 189.89999997615814,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 9,
+          "interval": 189.70000004768372,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 7.200000047683716,
+          "interval": 192.39999997615814,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 8.299999952316284,
+          "interval": 204.20000004768372,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 11.200000047683716,
+          "interval": 190.69999992847443,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 10.399999976158142,
+          "interval": 211.80000007152557,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 9.399999976158142,
+          "interval": 221,
+          "calls": 2125,
+          "triangles": 222904
+        }
+      ]
+    },
+    {
+      "label": "baseline-desktop-island-only",
+      "frames": 60,
+      "frameMs": {
+        "median": 119.79999995231628,
+        "mean": 119.58644067634971,
+        "p95": 136.70000004768372
+      },
+      "submitMs": {
+        "median": 0.6000000238418579,
+        "mean": 0.6683333317438761,
+        "p95": 1
+      },
+      "calls": [
+        33
+      ],
+      "triangles": [
+        24056
+      ],
+      "info": {
+        "preview": {
+          "plants": 0,
+          "near": 0,
+          "far": 0,
+          "calls": 33,
+          "triangles": 24056,
+          "geometries": 35,
+          "island": "loaded",
+          "growing": 0,
+          "opened": 0,
+          "camera": {
+            "position": [
+              0,
+              5.496125175623439,
+              13.176584731173508
+            ],
+            "target": [
+              0,
+              0.1,
+              0
+            ]
+          },
+          "viewport": {
+            "width": 1200,
+            "height": 710,
+            "pixelRatio": 1.5
+          },
+          "performance": {
+            "frame": {
+              "samples": 156,
+              "meanMs": 200.91,
+              "p95Ms": 333.3
+            },
+            "renderCPU": {
+              "samples": 156,
+              "meanMs": 15.46,
+              "p95Ms": 30.7
+            },
+            "gpu": {
+              "available": true,
+              "samples": 153,
+              "meanMs": 191.77,
+              "p95Ms": 319.34
+            }
+          }
+        },
+        "tone": "aurora",
+        "camera": [
+          0,
+          5.496125175623439,
+          13.176584731173508
+        ],
+        "target": [
+          0,
+          0.1,
+          0
+        ],
+        "cameraLimits": {
+          "min": 6.549801586459576,
+          "max": 29.238699100999078,
+          "minPolar": 0.55,
+          "maxPolar": 1.4
+        },
+        "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "glError": 0,
+        "programs": 14,
+        "textures": 9,
+        "passes": [
+          "RenderPass",
+          "AuroraGlowPass",
+          "OutputPass"
+        ],
+        "grass": [],
+        "plantKinds": []
+      },
+      "samples": [
+        {
+          "submit": 1,
+          "interval": null,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.8000000715255737,
+          "interval": 119.59999990463257,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.6000000238418579,
+          "interval": 103.30000007152557,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.8000000715255737,
+          "interval": 113.29999995231628,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.6000000238418579,
+          "interval": 118.10000002384186,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.8999999761581421,
+          "interval": 118.5,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.5999999046325684,
+          "interval": 114.20000004768372,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 1,
+          "interval": 121.5,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.3999999761581421,
+          "interval": 119.79999995231628,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.7000000476837158,
+          "interval": 115.29999995231628,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.6000000238418579,
+          "interval": 119.30000007152557,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.5,
+          "interval": 116.29999995231628,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.8000000715255737,
+          "interval": 112.39999997615814,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.7000000476837158,
+          "interval": 112.60000002384186,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.6000000238418579,
+          "interval": 125,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.5999999046325684,
+          "interval": 129.80000007152557,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.7000000476837158,
+          "interval": 111.19999992847443,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.3999999761581421,
+          "interval": 104.70000004768372,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.6000000238418579,
+          "interval": 113.29999995231628,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.8999999761581421,
+          "interval": 112.20000004768372,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 2.1999999284744263,
+          "interval": 108.10000002384186,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 1,
+          "interval": 115.69999992847443,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.5,
+          "interval": 119,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.6000000238418579,
+          "interval": 115.70000004768372,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.5999999046325684,
+          "interval": 114.10000002384186,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.6000000238418579,
+          "interval": 123.59999990463257,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.3999999761581421,
+          "interval": 117.30000007152557,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.6999999284744263,
+          "interval": 115.10000002384186,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.3999999761581421,
+          "interval": 112.89999997615814,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.6000000238418579,
+          "interval": 101.39999997615814,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.3999999761581421,
+          "interval": 107.5,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.5,
+          "interval": 110.60000002384186,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.6999999284744263,
+          "interval": 116.5,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.6000000238418579,
+          "interval": 108.89999997615814,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.6000000238418579,
+          "interval": 125.29999995231628,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.3999999761581421,
+          "interval": 121.30000007152557,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.5,
+          "interval": 126.69999992847443,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.5,
+          "interval": 120.70000004768372,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.6000000238418579,
+          "interval": 121.89999997615814,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.6999999284744263,
+          "interval": 123.70000004768372,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.6999999284744263,
+          "interval": 124.5,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.7000000476837158,
+          "interval": 122.19999992847443,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.5999999046325684,
+          "interval": 126.90000009536743,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.5,
+          "interval": 140.59999990463257,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.6000000238418579,
+          "interval": 124,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.5,
+          "interval": 131.20000004768372,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.5,
+          "interval": 118.79999995231628,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.8000000715255737,
+          "interval": 126.5,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.6000000238418579,
+          "interval": 138.10000002384186,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.6000000238418579,
+          "interval": 126.10000002384186,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.7000000476837158,
+          "interval": 120.89999997615814,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.6999999284744263,
+          "interval": 136.70000004768372,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.7000000476837158,
+          "interval": 121.79999995231628,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.7999999523162842,
+          "interval": 120.10000002384186,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.8000000715255737,
+          "interval": 123.39999997615814,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.5,
+          "interval": 124.60000002384186,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.6999999284744263,
+          "interval": 121.10000002384186,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.5999999046325684,
+          "interval": 129.10000002384186,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.7000000476837158,
+          "interval": 125.69999992847443,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.9000000953674316,
+          "interval": 126.89999997615814,
+          "calls": 33,
+          "triangles": 24056
+        }
+      ]
+    },
+    {
+      "label": "final-desktop-50",
+      "frames": 60,
+      "frameMs": {
+        "median": 239.60000002384186,
+        "mean": 276.6576271178359,
+        "p95": 362.6999999284744
+      },
+      "submitMs": {
+        "median": 9.399999976158142,
+        "mean": 16.32166666785876,
+        "p95": 31.5
+      },
+      "calls": [
+        2122
+      ],
+      "triangles": [
+        223888
+      ],
+      "info": {
+        "preview": {
+          "plants": 50,
+          "near": 4,
+          "far": 8,
+          "calls": 2122,
+          "triangles": 223888,
+          "geometries": 260,
+          "island": "loaded",
+          "islandGeometry": {
+            "assetTriangles": 14099,
+            "grassTriangles": 6000,
+            "grassClumps": 1000,
+            "grassDrawCalls": 1
+          },
+          "growing": 0,
+          "opened": 50,
+          "camera": {
+            "position": [
+              0,
+              5.496125175623439,
+              13.176584731173508
+            ],
+            "target": [
+              0,
+              0.1,
+              0
+            ]
+          },
+          "viewport": {
+            "width": 1200,
+            "height": 710,
+            "pixelRatio": 1.5
+          },
+          "performance": {
+            "frame": {
+              "samples": 73,
+              "meanMs": 288.69,
+              "p95Ms": 383.3
+            },
+            "renderCPU": {
+              "samples": 73,
+              "meanMs": 28.49,
+              "p95Ms": 32.1
+            },
+            "gpu": {
+              "available": true,
+              "samples": 70,
+              "meanMs": 278.43,
+              "p95Ms": 352.15
+            }
+          }
+        },
+        "tone": "aurora",
+        "camera": [
+          0,
+          5.496125175623439,
+          13.176584731173508
+        ],
+        "target": [
+          0,
+          0.1,
+          0
+        ],
+        "cameraLimits": {
+          "min": 6.549801586459576,
+          "max": 29.238699100999078,
+          "minPolar": 0.55,
+          "maxPolar": 1.4
+        },
+        "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "glError": 0,
+        "programs": 22,
+        "textures": 9,
+        "passes": [
+          "RenderPass",
+          "AuroraGlowPass",
+          "OutputPass"
+        ],
+        "grass": [
+          {
+            "name": "Island_Grass | Short garden coverage",
+            "count": 1000,
+            "baseTriangles": 6,
+            "castShadow": false,
+            "receiveShadow": true,
+            "materials": 1,
+            "material": "SUP Short mint grass",
+            "roughness": 1,
+            "metalness": 0,
+            "opacity": 1,
+            "transparent": false,
+            "frustumCulled": true
+          }
+        ],
+        "plantKinds": [
+          {
+            "id": "demo-pair",
+            "kind": "pair",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -0.04545222379267216,
+              0,
+              1.0916847019089277
+            ]
+          },
+          {
+            "id": "pair-flutter",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              1.3002295877225698,
+              0,
+              -2.265058398862534
+            ]
+          },
+          {
+            "id": "peony-procedural-89",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -1.5940342026762664,
+              0,
+              1.6925735093987382
+            ]
+          },
+          {
+            "id": "sample-0",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              1.0397728460747748,
+              0,
+              -0.5979485726498944
+            ]
+          },
+          {
+            "id": "sample-1",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              1.3457107540592552,
+              0,
+              -1.1974280372453745
+            ]
+          },
+          {
+            "id": "sample-2",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -0.9622955754585564,
+              0,
+              0.5792141549431664
+            ]
+          },
+          {
+            "id": "sample-3",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -0.050492155300453305,
+              0,
+              0.04920616582967341
+            ]
+          },
+          {
+            "id": "sample-4",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -1.3558664581272752,
+              0,
+              1.1827137936191525
+            ]
+          },
+          {
+            "id": "sample-5",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -1.9602467569336295,
+              0,
+              1.1936920884163942
+            ]
+          },
+          {
+            "id": "sample-6",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -1.700403137532994,
+              0,
+              2.870547557553715
+            ]
+          },
+          {
+            "id": "sample-7",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -2.0291316240280866,
+              0,
+              2.2556785053677637
+            ]
+          },
+          {
+            "id": "dense-1",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              2.5908450262527913,
+              0,
+              -1.1111899548867608
+            ]
+          },
+          {
+            "id": "dense-2",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              2.319718709466979,
+              0,
+              -0.5186452893123907
+            ]
+          },
+          {
+            "id": "dense-3",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              1.3326224250532688,
+              0,
+              -0.019894646052271127
+            ]
+          },
+          {
+            "id": "dense-5",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              0.33294613603502515,
+              0,
+              1.7122922039645558
+            ]
+          },
+          {
+            "id": "dense-6",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -0.01613745907321572,
+              0,
+              2.2431335491884283
+            ]
+          },
+          {
+            "id": "dense-7",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -0.6410461969021708,
+              0,
+              2.2278779549535144
+            ]
+          },
+          {
+            "id": "dense-9",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              0.6408680352754891,
+              0,
+              0.026351685700938106
+            ]
+          },
+          {
+            "id": "dense-10",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              1.63906675754115,
+              0,
+              -0.569153188620968
+            ]
+          },
+          {
+            "id": "dense-11",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              1.9432080371305347,
+              0,
+              -1.0993539800314123
+            ]
+          },
+          {
+            "id": "dense-13",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              0.9674795072525739,
+              0,
+              0.5413254183673245
+            ]
+          },
+          {
+            "id": "dense-14",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -1.04152443414554,
+              0,
+              2.803862275720081
+            ]
+          },
+          {
+            "id": "dense-15",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -2.302978009600192,
+              0,
+              1.684363706564421
+            ]
+          },
+          {
+            "id": "dense-17",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -1.9515348682366311,
+              0,
+              -2.3413861659180153
+            ]
+          },
+          {
+            "id": "dense-18",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -0.6527487778756768,
+              0,
+              0.022236423371359705
+            ]
+          },
+          {
+            "id": "dense-19",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -0.37201368623413145,
+              0,
+              -0.591439107354073
+            ]
+          },
+          {
+            "id": "dense-21",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              1.0219876279123128,
+              0,
+              2.846936054859749
+            ]
+          },
+          {
+            "id": "dense-22",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -1.6083270015008746,
+              0,
+              -1.7102944008129484
+            ]
+          },
+          {
+            "id": "dense-23",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              0.0228406326379627,
+              0,
+              -1.1680797178396847
+            ]
+          },
+          {
+            "id": "dense-25",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -1.3490004234015942,
+              0,
+              -0.05120112139731645
+            ]
+          },
+          {
+            "id": "dense-26",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -2.309150559017435,
+              0,
+              0.570571514708264
+            ]
+          },
+          {
+            "id": "dense-27",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -3.029462039479986,
+              0,
+              0.5132416231607032
+            ]
+          },
+          {
+            "id": "dense-29",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              1.3034326221048833,
+              0,
+              1.1651752619078273
+            ]
+          },
+          {
+            "id": "dense-30",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -1.9283059452474116,
+              0,
+              -0.03935232519172132
+            ]
+          },
+          {
+            "id": "dense-31",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -0.941548967063427,
+              0,
+              -0.5964016442795229
+            ]
+          },
+          {
+            "id": "dense-33",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              0.38641913381405174,
+              0,
+              -0.602715708525194
+            ]
+          },
+          {
+            "id": "dense-34",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              1.928916658759117,
+              0,
+              2.3368257875658354
+            ]
+          },
+          {
+            "id": "dense-35",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              2.3188356017321348,
+              0,
+              1.772321831337998
+            ]
+          },
+          {
+            "id": "peony-blender-41",
+            "kind": "flower",
+            "blender": true,
+            "lod": "near",
+            "opened": true,
+            "position": [
+              1.6220897298865022,
+              0,
+              1.6710500583666212
+            ]
+          },
+          {
+            "id": "peony-jade-16",
+            "kind": "flower",
+            "blender": true,
+            "lod": "far",
+            "opened": true,
+            "position": [
+              2.013126093512401,
+              0,
+              0.05712493733502924
+            ]
+          },
+          {
+            "id": "dense-peony-0",
+            "kind": "flower",
+            "blender": true,
+            "lod": "far",
+            "opened": true,
+            "position": [
+              -0.659393731020391,
+              0,
+              -1.1223402108257527
+            ]
+          },
+          {
+            "id": "dense-peony-4",
+            "kind": "flower",
+            "blender": true,
+            "lod": "far",
+            "opened": true,
+            "position": [
+              1.5962097175419332,
+              0,
+              0.5821860259634388
+            ]
+          },
+          {
+            "id": "dense-peony-8",
+            "kind": "flower",
+            "blender": true,
+            "lod": "far",
+            "opened": true,
+            "position": [
+              2.9573783736024053,
+              0,
+              -0.5679500528381152
+            ]
+          },
+          {
+            "id": "dense-peony-12",
+            "kind": "flower",
+            "blender": true,
+            "lod": "far",
+            "opened": true,
+            "position": [
+              1.6449466818105432,
+              0,
+              -2.894927209789372
+            ]
+          },
+          {
+            "id": "dense-peony-16",
+            "kind": "flower",
+            "blender": true,
+            "lod": "near",
+            "opened": true,
+            "position": [
+              -2.633189873630181,
+              0,
+              1.1600868603685761
+            ]
+          },
+          {
+            "id": "dense-peony-20",
+            "kind": "flower",
+            "blender": true,
+            "lod": "far",
+            "opened": true,
+            "position": [
+              -1.6044348892383276,
+              0,
+              0.5325870396153015
+            ]
+          },
+          {
+            "id": "dense-peony-24",
+            "kind": "flower",
+            "blender": true,
+            "lod": "near",
+            "opened": true,
+            "position": [
+              -1.2971717195212842,
+              0,
+              2.2953815645921756
+            ]
+          },
+          {
+            "id": "dense-peony-28",
+            "kind": "flower",
+            "blender": true,
+            "lod": "far",
+            "opened": true,
+            "position": [
+              0.6769868751615287,
+              0,
+              -1.106266941037577
+            ]
+          },
+          {
+            "id": "dense-peony-32",
+            "kind": "flower",
+            "blender": true,
+            "lod": "far",
+            "opened": true,
+            "position": [
+              -0.38593576446175576,
+              0,
+              -1.6894400747082032
+            ]
+          },
+          {
+            "id": "dense-peony-36",
+            "kind": "flower",
+            "blender": true,
+            "lod": "near",
+            "opened": true,
+            "position": [
+              -0.9551888545230031,
+              0,
+              1.7488127315006055
+            ]
+          }
+        ]
+      },
+      "samples": [
+        {
+          "submit": 8.599999904632568,
+          "interval": null,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 9.399999976158142,
+          "interval": 234,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 8.899999976158142,
+          "interval": 233.79999995231628,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 9.600000023841858,
+          "interval": 229,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 9.100000023841858,
+          "interval": 235.79999995231628,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 8.799999952316284,
+          "interval": 236.80000007152557,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 10,
+          "interval": 237.29999995231628,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 9.5,
+          "interval": 235.60000002384186,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 9.399999976158142,
+          "interval": 231.60000002384186,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 9.899999976158142,
+          "interval": 235.29999995231628,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 9.299999952316284,
+          "interval": 228.10000002384186,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 8.900000095367432,
+          "interval": 228.79999995231628,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 9.5,
+          "interval": 240.70000004768372,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 7.5,
+          "interval": 226.89999997615814,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 9,
+          "interval": 233.20000004768372,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 9,
+          "interval": 228.39999997615814,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 8.5,
+          "interval": 226,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 8.899999976158142,
+          "interval": 231.20000004768372,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 9.399999976158142,
+          "interval": 236.79999995231628,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 8.799999952316284,
+          "interval": 230.20000004768372,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 8.5,
+          "interval": 234.69999992847443,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 9,
+          "interval": 228.39999997615814,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 8.699999928474426,
+          "interval": 235.80000007152557,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 8.700000047683716,
+          "interval": 235.19999992847443,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 9,
+          "interval": 228.80000007152557,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 8.600000023841858,
+          "interval": 236.39999997615814,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 9.399999976158142,
+          "interval": 226.60000002384186,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 7.399999976158142,
+          "interval": 232.89999997615814,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 9.299999952316284,
+          "interval": 234.20000004768372,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 9.100000023841858,
+          "interval": 264.1999999284744,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 7,
+          "interval": 241,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 8.399999976158142,
+          "interval": 232.80000007152557,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 9.700000047683716,
+          "interval": 242.19999992847443,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 5.600000023841858,
+          "interval": 239.60000002384186,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 8.200000047683716,
+          "interval": 245.39999997615814,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 8.799999952316284,
+          "interval": 259.8000000715256,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 8.399999976158142,
+          "interval": 237.5,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 11.300000071525574,
+          "interval": 248.09999990463257,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 7.100000023841858,
+          "interval": 262.3000000715256,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 32.10000002384186,
+          "interval": 414.39999997615814,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 31.100000023841858,
+          "interval": 369,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 30.700000047683716,
+          "interval": 360,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 28.799999952316284,
+          "interval": 341.7000000476837,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 27.600000023841858,
+          "interval": 327.7999999523163,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 27.5,
+          "interval": 326,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 30.5,
+          "interval": 359.2000000476837,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 30.100000023841858,
+          "interval": 362.6999999284744,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 31.5,
+          "interval": 354.8000000715256,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 29.800000071525574,
+          "interval": 339.09999990463257,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 28.700000047683716,
+          "interval": 329.60000002384186,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 28,
+          "interval": 337.10000002384186,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 27.899999976158142,
+          "interval": 333.7000000476837,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 37.60000002384186,
+          "interval": 343.89999997615814,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 29.399999976158142,
+          "interval": 359.89999997615814,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 30.100000023841858,
+          "interval": 350.2999999523163,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 32.60000002384186,
+          "interval": 340.8000000715256,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 30.299999952316284,
+          "interval": 356.10000002384186,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 29.700000047683716,
+          "interval": 346.2999999523163,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 30.5,
+          "interval": 341.7999999523163,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 30.600000023841858,
+          "interval": 343.2000000476837,
+          "calls": 2122,
+          "triangles": 223888
+        }
+      ]
+    },
+    {
+      "label": "final-desktop-island-only",
+      "frames": 60,
+      "frameMs": {
+        "median": 128.29999995231628,
+        "mean": 135.61694915415876,
+        "p95": 209.29999995231628
+      },
+      "submitMs": {
+        "median": 0.6000000238418579,
+        "mean": 0.6883333305517833,
+        "p95": 1.100000023841858
+      },
+      "calls": [
+        30
+      ],
+      "triangles": [
+        25040
+      ],
+      "info": {
+        "preview": {
+          "plants": 0,
+          "near": 0,
+          "far": 0,
+          "calls": 30,
+          "triangles": 25040,
+          "geometries": 34,
+          "island": "loaded",
+          "islandGeometry": {
+            "assetTriangles": 14099,
+            "grassTriangles": 6000,
+            "grassClumps": 1000,
+            "grassDrawCalls": 1
+          },
+          "growing": 0,
+          "opened": 0,
+          "camera": {
+            "position": [
+              0,
+              5.496125175623439,
+              13.176584731173508
+            ],
+            "target": [
+              0,
+              0.1,
+              0
+            ]
+          },
+          "viewport": {
+            "width": 1200,
+            "height": 710,
+            "pixelRatio": 1.5
+          },
+          "performance": {
+            "frame": {
+              "samples": 152,
+              "meanMs": 223.52,
+              "p95Ms": 358.4
+            },
+            "renderCPU": {
+              "samples": 152,
+              "meanMs": 14.54,
+              "p95Ms": 30.6
+            },
+            "gpu": {
+              "available": true,
+              "samples": 149,
+              "meanMs": 213.98,
+              "p95Ms": 348.95
+            }
+          }
+        },
+        "tone": "aurora",
+        "camera": [
+          0,
+          5.496125175623439,
+          13.176584731173508
+        ],
+        "target": [
+          0,
+          0.1,
+          0
+        ],
+        "cameraLimits": {
+          "min": 6.549801586459576,
+          "max": 29.238699100999078,
+          "minPolar": 0.55,
+          "maxPolar": 1.4
+        },
+        "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "glError": 0,
+        "programs": 15,
+        "textures": 9,
+        "passes": [
+          "RenderPass",
+          "AuroraGlowPass",
+          "OutputPass"
+        ],
+        "grass": [
+          {
+            "name": "Island_Grass | Short garden coverage",
+            "count": 1000,
+            "baseTriangles": 6,
+            "castShadow": false,
+            "receiveShadow": true,
+            "materials": 1,
+            "material": "SUP Short mint grass",
+            "roughness": 1,
+            "metalness": 0,
+            "opacity": 1,
+            "transparent": false,
+            "frustumCulled": true
+          }
+        ],
+        "plantKinds": []
+      },
+      "samples": [
+        {
+          "submit": 0.6000000238418579,
+          "interval": null,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 0.6000000238418579,
+          "interval": 199,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 1.1999999284744263,
+          "interval": 200.40000009536743,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 0.8000000715255737,
+          "interval": 210.59999990463257,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 0.7999999523162842,
+          "interval": 196.30000007152557,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 0.8000000715255737,
+          "interval": 209.29999995231628,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 0.9000000953674316,
+          "interval": 201.39999997615814,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 0.6999999284744263,
+          "interval": 135.30000007152557,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 0.6999999284744263,
+          "interval": 129.10000002384186,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 0.7000000476837158,
+          "interval": 120.79999995231628,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 0.5,
+          "interval": 394.7000000476837,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 0.2999999523162842,
+          "interval": 1.399999976158142,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 0.6999999284744263,
+          "interval": 8,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 0.8000000715255737,
+          "interval": 115.79999995231628,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 0.5999999046325684,
+          "interval": 120.30000007152557,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 1.100000023841858,
+          "interval": 123.79999995231628,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 0.5,
+          "interval": 121.60000002384186,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 1,
+          "interval": 126.10000002384186,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 0.5999999046325684,
+          "interval": 129,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 0.5,
+          "interval": 121,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 0.6000000238418579,
+          "interval": 121.09999990463257,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 0.5999999046325684,
+          "interval": 130.40000009536743,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 0.6999999284744263,
+          "interval": 123.39999997615814,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 0.6000000238418579,
+          "interval": 128.5,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 0.6000000238418579,
+          "interval": 125.69999992847443,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 1.2000000476837158,
+          "interval": 114.20000004768372,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 0.5999999046325684,
+          "interval": 117.20000004768372,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 0.6000000238418579,
+          "interval": 123.79999995231628,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 0.7999999523162842,
+          "interval": 119,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 0.6999999284744263,
+          "interval": 115.20000004768372,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 0.7000000476837158,
+          "interval": 118.79999995231628,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 0.5999999046325684,
+          "interval": 122.20000004768372,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 0.6000000238418579,
+          "interval": 123.79999995231628,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 0.6000000238418579,
+          "interval": 132.29999995231628,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 0.9000000953674316,
+          "interval": 129.5,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 0.5,
+          "interval": 123.80000007152557,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 0.5,
+          "interval": 123.69999992847443,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 0.6000000238418579,
+          "interval": 127.60000002384186,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 0.5999999046325684,
+          "interval": 121.80000007152557,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 0.7000000476837158,
+          "interval": 121.69999992847443,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 0.6000000238418579,
+          "interval": 122.39999997615814,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 0.5,
+          "interval": 127.20000004768372,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 0.40000009536743164,
+          "interval": 129.79999995231628,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 0.5,
+          "interval": 116.30000007152557,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 0.8999999761581421,
+          "interval": 131.5,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 0.6000000238418579,
+          "interval": 130.39999997615814,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 1.2000000476837158,
+          "interval": 128.29999995231628,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 0.6000000238418579,
+          "interval": 121.60000002384186,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 0.6000000238418579,
+          "interval": 132.89999997615814,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 0.7999999523162842,
+          "interval": 134.80000007152557,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 0.6000000238418579,
+          "interval": 136.39999997615814,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 0.5999999046325684,
+          "interval": 135.70000004768372,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 0.6000000238418579,
+          "interval": 133.09999990463257,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 0.6000000238418579,
+          "interval": 137.30000007152557,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 0.8000000715255737,
+          "interval": 163.29999995231628,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 0.7999999523162842,
+          "interval": 131.10000002384186,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 0.6000000238418579,
+          "interval": 139.29999995231628,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 0.6000000238418579,
+          "interval": 142.10000002384186,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 1,
+          "interval": 142.5,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 0.6999999284744263,
+          "interval": 137.80000007152557,
+          "calls": 30,
+          "triangles": 25040
+        }
+      ]
+    },
+    {
+      "label": "final-desktop-50",
+      "frames": 60,
+      "frameMs": {
+        "median": 242.19999992847443,
+        "mean": 241.38305084786174,
+        "p95": 252.89999997615814
+      },
+      "submitMs": {
+        "median": 9,
+        "mean": 9.025000003973643,
+        "p95": 10.700000047683716
+      },
+      "calls": [
+        2122
+      ],
+      "triangles": [
+        223888
+      ],
+      "info": {
+        "preview": {
+          "plants": 50,
+          "near": 4,
+          "far": 8,
+          "calls": 2122,
+          "triangles": 223888,
+          "geometries": 260,
+          "island": "loaded",
+          "islandGeometry": {
+            "assetTriangles": 14099,
+            "grassTriangles": 6000,
+            "grassClumps": 1000,
+            "grassDrawCalls": 1
+          },
+          "growing": 0,
+          "opened": 50,
+          "camera": {
+            "position": [
+              0,
+              5.496125175623439,
+              13.176584731173508
+            ],
+            "target": [
+              0,
+              0.1,
+              0
+            ]
+          },
+          "viewport": {
+            "width": 1200,
+            "height": 710,
+            "pixelRatio": 1.5
+          },
+          "performance": {
+            "frame": {
+              "samples": 73,
+              "meanMs": 257.42,
+              "p95Ms": 400
+            },
+            "renderCPU": {
+              "samples": 73,
+              "meanMs": 21.49,
+              "p95Ms": 11.6
+            },
+            "gpu": {
+              "available": true,
+              "samples": 70,
+              "meanMs": 247.06,
+              "p95Ms": 257.57
+            }
+          }
+        },
+        "tone": "aurora",
+        "camera": [
+          0,
+          5.496125175623439,
+          13.176584731173508
+        ],
+        "target": [
+          0,
+          0.1,
+          0
+        ],
+        "cameraLimits": {
+          "min": 6.549801586459576,
+          "max": 29.238699100999078,
+          "minPolar": 0.55,
+          "maxPolar": 1.4
+        },
+        "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "glError": 0,
+        "programs": 22,
+        "textures": 9,
+        "passes": [
+          "RenderPass",
+          "AuroraGlowPass",
+          "OutputPass"
+        ],
+        "grass": [
+          {
+            "name": "Island_Grass | Short garden coverage",
+            "count": 1000,
+            "baseTriangles": 6,
+            "castShadow": false,
+            "receiveShadow": true,
+            "materials": 1,
+            "material": "SUP Short mint grass",
+            "roughness": 1,
+            "metalness": 0,
+            "opacity": 1,
+            "transparent": false,
+            "frustumCulled": true
+          }
+        ],
+        "plantKinds": [
+          {
+            "id": "demo-pair",
+            "kind": "pair",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -0.04545222379267216,
+              0,
+              1.0916847019089277
+            ]
+          },
+          {
+            "id": "pair-flutter",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              1.3002295877225698,
+              0,
+              -2.265058398862534
+            ]
+          },
+          {
+            "id": "peony-procedural-89",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -1.5940342026762664,
+              0,
+              1.6925735093987382
+            ]
+          },
+          {
+            "id": "sample-0",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              1.0397728460747748,
+              0,
+              -0.5979485726498944
+            ]
+          },
+          {
+            "id": "sample-1",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              1.3457107540592552,
+              0,
+              -1.1974280372453745
+            ]
+          },
+          {
+            "id": "sample-2",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -0.9622955754585564,
+              0,
+              0.5792141549431664
+            ]
+          },
+          {
+            "id": "sample-3",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -0.050492155300453305,
+              0,
+              0.04920616582967341
+            ]
+          },
+          {
+            "id": "sample-4",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -1.3558664581272752,
+              0,
+              1.1827137936191525
+            ]
+          },
+          {
+            "id": "sample-5",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -1.9602467569336295,
+              0,
+              1.1936920884163942
+            ]
+          },
+          {
+            "id": "sample-6",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -1.700403137532994,
+              0,
+              2.870547557553715
+            ]
+          },
+          {
+            "id": "sample-7",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -2.0291316240280866,
+              0,
+              2.2556785053677637
+            ]
+          },
+          {
+            "id": "dense-1",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              2.5908450262527913,
+              0,
+              -1.1111899548867608
+            ]
+          },
+          {
+            "id": "dense-2",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              2.319718709466979,
+              0,
+              -0.5186452893123907
+            ]
+          },
+          {
+            "id": "dense-3",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              1.3326224250532688,
+              0,
+              -0.019894646052271127
+            ]
+          },
+          {
+            "id": "dense-5",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              0.33294613603502515,
+              0,
+              1.7122922039645558
+            ]
+          },
+          {
+            "id": "dense-6",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -0.01613745907321572,
+              0,
+              2.2431335491884283
+            ]
+          },
+          {
+            "id": "dense-7",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -0.6410461969021708,
+              0,
+              2.2278779549535144
+            ]
+          },
+          {
+            "id": "dense-9",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              0.6408680352754891,
+              0,
+              0.026351685700938106
+            ]
+          },
+          {
+            "id": "dense-10",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              1.63906675754115,
+              0,
+              -0.569153188620968
+            ]
+          },
+          {
+            "id": "dense-11",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              1.9432080371305347,
+              0,
+              -1.0993539800314123
+            ]
+          },
+          {
+            "id": "dense-13",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              0.9674795072525739,
+              0,
+              0.5413254183673245
+            ]
+          },
+          {
+            "id": "dense-14",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -1.04152443414554,
+              0,
+              2.803862275720081
+            ]
+          },
+          {
+            "id": "dense-15",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -2.302978009600192,
+              0,
+              1.684363706564421
+            ]
+          },
+          {
+            "id": "dense-17",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -1.9515348682366311,
+              0,
+              -2.3413861659180153
+            ]
+          },
+          {
+            "id": "dense-18",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -0.6527487778756768,
+              0,
+              0.022236423371359705
+            ]
+          },
+          {
+            "id": "dense-19",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -0.37201368623413145,
+              0,
+              -0.591439107354073
+            ]
+          },
+          {
+            "id": "dense-21",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              1.0219876279123128,
+              0,
+              2.846936054859749
+            ]
+          },
+          {
+            "id": "dense-22",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -1.6083270015008746,
+              0,
+              -1.7102944008129484
+            ]
+          },
+          {
+            "id": "dense-23",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              0.0228406326379627,
+              0,
+              -1.1680797178396847
+            ]
+          },
+          {
+            "id": "dense-25",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -1.3490004234015942,
+              0,
+              -0.05120112139731645
+            ]
+          },
+          {
+            "id": "dense-26",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -2.309150559017435,
+              0,
+              0.570571514708264
+            ]
+          },
+          {
+            "id": "dense-27",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -3.029462039479986,
+              0,
+              0.5132416231607032
+            ]
+          },
+          {
+            "id": "dense-29",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              1.3034326221048833,
+              0,
+              1.1651752619078273
+            ]
+          },
+          {
+            "id": "dense-30",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -1.9283059452474116,
+              0,
+              -0.03935232519172132
+            ]
+          },
+          {
+            "id": "dense-31",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -0.941548967063427,
+              0,
+              -0.5964016442795229
+            ]
+          },
+          {
+            "id": "dense-33",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              0.38641913381405174,
+              0,
+              -0.602715708525194
+            ]
+          },
+          {
+            "id": "dense-34",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              1.928916658759117,
+              0,
+              2.3368257875658354
+            ]
+          },
+          {
+            "id": "dense-35",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              2.3188356017321348,
+              0,
+              1.772321831337998
+            ]
+          },
+          {
+            "id": "peony-blender-41",
+            "kind": "flower",
+            "blender": true,
+            "lod": "near",
+            "opened": true,
+            "position": [
+              1.6220897298865022,
+              0,
+              1.6710500583666212
+            ]
+          },
+          {
+            "id": "peony-jade-16",
+            "kind": "flower",
+            "blender": true,
+            "lod": "far",
+            "opened": true,
+            "position": [
+              2.013126093512401,
+              0,
+              0.05712493733502924
+            ]
+          },
+          {
+            "id": "dense-peony-0",
+            "kind": "flower",
+            "blender": true,
+            "lod": "far",
+            "opened": true,
+            "position": [
+              -0.659393731020391,
+              0,
+              -1.1223402108257527
+            ]
+          },
+          {
+            "id": "dense-peony-4",
+            "kind": "flower",
+            "blender": true,
+            "lod": "far",
+            "opened": true,
+            "position": [
+              1.5962097175419332,
+              0,
+              0.5821860259634388
+            ]
+          },
+          {
+            "id": "dense-peony-8",
+            "kind": "flower",
+            "blender": true,
+            "lod": "far",
+            "opened": true,
+            "position": [
+              2.9573783736024053,
+              0,
+              -0.5679500528381152
+            ]
+          },
+          {
+            "id": "dense-peony-12",
+            "kind": "flower",
+            "blender": true,
+            "lod": "far",
+            "opened": true,
+            "position": [
+              1.6449466818105432,
+              0,
+              -2.894927209789372
+            ]
+          },
+          {
+            "id": "dense-peony-16",
+            "kind": "flower",
+            "blender": true,
+            "lod": "near",
+            "opened": true,
+            "position": [
+              -2.633189873630181,
+              0,
+              1.1600868603685761
+            ]
+          },
+          {
+            "id": "dense-peony-20",
+            "kind": "flower",
+            "blender": true,
+            "lod": "far",
+            "opened": true,
+            "position": [
+              -1.6044348892383276,
+              0,
+              0.5325870396153015
+            ]
+          },
+          {
+            "id": "dense-peony-24",
+            "kind": "flower",
+            "blender": true,
+            "lod": "near",
+            "opened": true,
+            "position": [
+              -1.2971717195212842,
+              0,
+              2.2953815645921756
+            ]
+          },
+          {
+            "id": "dense-peony-28",
+            "kind": "flower",
+            "blender": true,
+            "lod": "far",
+            "opened": true,
+            "position": [
+              0.6769868751615287,
+              0,
+              -1.106266941037577
+            ]
+          },
+          {
+            "id": "dense-peony-32",
+            "kind": "flower",
+            "blender": true,
+            "lod": "far",
+            "opened": true,
+            "position": [
+              -0.38593576446175576,
+              0,
+              -1.6894400747082032
+            ]
+          },
+          {
+            "id": "dense-peony-36",
+            "kind": "flower",
+            "blender": true,
+            "lod": "near",
+            "opened": true,
+            "position": [
+              -0.9551888545230031,
+              0,
+              1.7488127315006055
+            ]
+          }
+        ]
+      },
+      "samples": [
+        {
+          "submit": 8.899999976158142,
+          "interval": null,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 9,
+          "interval": 247.29999995231628,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 9,
+          "interval": 241.30000007152557,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 9.399999976158142,
+          "interval": 244.39999997615814,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 8.600000023841858,
+          "interval": 247.79999995231628,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 6.300000071525574,
+          "interval": 244,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 8.700000047683716,
+          "interval": 238.70000004768372,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 9,
+          "interval": 232.89999997615814,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 9.399999976158142,
+          "interval": 233.5,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 9,
+          "interval": 705.8999999761581,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 8.899999976158142,
+          "interval": 10.700000047683716,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 8,
+          "interval": 9.399999976158142,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 8.799999952316284,
+          "interval": 223.70000004768372,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 7.900000095367432,
+          "interval": 228.19999992847443,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 9.299999952316284,
+          "interval": 247.20000004768372,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 7.200000047683716,
+          "interval": 252.89999997615814,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 8.899999976158142,
+          "interval": 234.70000004768372,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 8.699999928474426,
+          "interval": 241,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 8.800000071525574,
+          "interval": 249.69999992847443,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 5.700000047683716,
+          "interval": 239.70000004768372,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 8.700000047683716,
+          "interval": 233.89999997615814,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 8.599999904632568,
+          "interval": 243.30000007152557,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 8.399999976158142,
+          "interval": 230.39999997615814,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 9.699999928474426,
+          "interval": 232.10000002384186,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 9.799999952316284,
+          "interval": 242.5,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 8.700000047683716,
+          "interval": 237.19999992847443,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 8.800000071525574,
+          "interval": 240,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 9.700000047683716,
+          "interval": 243.5,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 8.600000023841858,
+          "interval": 247,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 9.299999952316284,
+          "interval": 240.80000007152557,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 9.200000047683716,
+          "interval": 235.79999995231628,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 8.799999952316284,
+          "interval": 234,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 11.5,
+          "interval": 246,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 11.600000023841858,
+          "interval": 247.60000002384186,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 7.299999952316284,
+          "interval": 236.10000002384186,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 9.600000023841858,
+          "interval": 242.79999995231628,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 8.699999928474426,
+          "interval": 256.10000002384186,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 9,
+          "interval": 242.19999992847443,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 9.100000023841858,
+          "interval": 240.5,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 8.899999976158142,
+          "interval": 246.70000004768372,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 9.600000023841858,
+          "interval": 244.10000002384186,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 9.600000023841858,
+          "interval": 230.39999997615814,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 14.300000071525574,
+          "interval": 251.89999997615814,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 10.700000047683716,
+          "interval": 237,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 9.100000023841858,
+          "interval": 244.89999997615814,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 9,
+          "interval": 251.70000004768372,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 9.599999904632568,
+          "interval": 233.20000004768372,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 9.400000095367432,
+          "interval": 236.09999990463257,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 8.300000071525574,
+          "interval": 245.5,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 7.900000095367432,
+          "interval": 246.5,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 8.899999976158142,
+          "interval": 238.80000007152557,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 9.600000023841858,
+          "interval": 245.5,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 9.300000071525574,
+          "interval": 227.69999992847443,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 8.700000047683716,
+          "interval": 247.60000002384186,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 6.799999952316284,
+          "interval": 240.30000007152557,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 10.100000023841858,
+          "interval": 249.79999995231628,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 9.5,
+          "interval": 251.5,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 8.199999928474426,
+          "interval": 248.60000002384186,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 9.699999928474426,
+          "interval": 246.5,
+          "calls": 2122,
+          "triangles": 223888
+        },
+        {
+          "submit": 9.699999928474426,
+          "interval": 232.5,
+          "calls": 2122,
+          "triangles": 223888
+        }
+      ]
+    },
+    {
+      "label": "final-desktop-island-only",
+      "frames": 60,
+      "frameMs": {
+        "median": 141.20000004768372,
+        "mean": 147.47627118684477,
+        "p95": 196.39999997615814
+      },
+      "submitMs": {
+        "median": 0.6999999284744263,
+        "mean": 0.6883333265781403,
+        "p95": 1.2999999523162842
+      },
+      "calls": [
+        30
+      ],
+      "triangles": [
+        25040
+      ],
+      "info": {
+        "preview": {
+          "plants": 0,
+          "near": 0,
+          "far": 0,
+          "calls": 30,
+          "triangles": 25040,
+          "geometries": 34,
+          "island": "loaded",
+          "islandGeometry": {
+            "assetTriangles": 14099,
+            "grassTriangles": 6000,
+            "grassClumps": 1000,
+            "grassDrawCalls": 1
+          },
+          "growing": 0,
+          "opened": 0,
+          "camera": {
+            "position": [
+              0,
+              5.496125175623439,
+              13.176584731173508
+            ],
+            "target": [
+              0,
+              0.1,
+              0
+            ]
+          },
+          "viewport": {
+            "width": 1200,
+            "height": 710,
+            "pixelRatio": 1.5
+          },
+          "performance": {
+            "frame": {
+              "samples": 158,
+              "meanMs": 203.48,
+              "p95Ms": 275
+            },
+            "renderCPU": {
+              "samples": 158,
+              "meanMs": 10.59,
+              "p95Ms": 10.7
+            },
+            "gpu": {
+              "available": true,
+              "samples": 155,
+              "meanMs": 194.42,
+              "p95Ms": 244.69
+            }
+          }
+        },
+        "tone": "aurora",
+        "camera": [
+          0,
+          5.496125175623439,
+          13.176584731173508
+        ],
+        "target": [
+          0,
+          0.1,
+          0
+        ],
+        "cameraLimits": {
+          "min": 6.549801586459576,
+          "max": 29.238699100999078,
+          "minPolar": 0.55,
+          "maxPolar": 1.4
+        },
+        "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "glError": 0,
+        "programs": 15,
+        "textures": 9,
+        "passes": [
+          "RenderPass",
+          "AuroraGlowPass",
+          "OutputPass"
+        ],
+        "grass": [
+          {
+            "name": "Island_Grass | Short garden coverage",
+            "count": 1000,
+            "baseTriangles": 6,
+            "castShadow": false,
+            "receiveShadow": true,
+            "materials": 1,
+            "material": "SUP Short mint grass",
+            "roughness": 1,
+            "metalness": 0,
+            "opacity": 1,
+            "transparent": false,
+            "frustumCulled": true
+          }
+        ],
+        "plantKinds": []
+      },
+      "samples": [
+        {
+          "submit": 0.6000000238418579,
+          "interval": null,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 0.7999999523162842,
+          "interval": 54.40000009536743,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 0.40000009536743164,
+          "interval": 133.09999990463257,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 0.7000000476837158,
+          "interval": 141.5,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 0.3999999761581421,
+          "interval": 145.30000007152557,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 0.5,
+          "interval": 140.60000002384186,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 0.5,
+          "interval": 135.89999997615814,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 0.5,
+          "interval": 143.79999995231628,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 1,
+          "interval": 141.20000004768372,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 0.3999999761581421,
+          "interval": 132.60000002384186,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 0.5999999046325684,
+          "interval": 146.5,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 0.7000000476837158,
+          "interval": 146.09999990463257,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 0.5999999046325684,
+          "interval": 140.90000009536743,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 1.2999999523162842,
+          "interval": 154.5,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 0.3999999761581421,
+          "interval": 160.19999992847443,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 0.7999999523162842,
+          "interval": 151.60000002384186,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 1,
+          "interval": 156.10000002384186,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 1,
+          "interval": 144.10000002384186,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 0.40000009536743164,
+          "interval": 150.09999990463257,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 0.6000000238418579,
+          "interval": 140.10000002384186,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 0.7999999523162842,
+          "interval": 136.20000004768372,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 0.6000000238418579,
+          "interval": 134.19999992847443,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 1,
+          "interval": 135.30000007152557,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 0.6000000238418579,
+          "interval": 142,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 0.7000000476837158,
+          "interval": 144.79999995231628,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 0.6000000238418579,
+          "interval": 138.5,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 0.5,
+          "interval": 152.39999997615814,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 0.6000000238418579,
+          "interval": 155.60000002384186,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 0.8000000715255737,
+          "interval": 136.5,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 0.6999999284744263,
+          "interval": 133.30000007152557,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 0.7000000476837158,
+          "interval": 139.59999990463257,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 0.7000000476837158,
+          "interval": 138.20000004768372,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 0.3999999761581421,
+          "interval": 132,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 0.5,
+          "interval": 137.39999997615814,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 0.2999999523162842,
+          "interval": 152.60000002384186,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 0.3999999761581421,
+          "interval": 150.5,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 1.2999999523162842,
+          "interval": 155.10000002384186,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 0.7999999523162842,
+          "interval": 152.39999997615814,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 0.6000000238418579,
+          "interval": 140,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 1.5,
+          "interval": 134.10000002384186,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 0.6999999284744263,
+          "interval": 140.10000002384186,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 0.6999999284744263,
+          "interval": 135.5,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 0.7000000476837158,
+          "interval": 141.19999992847443,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 0.5,
+          "interval": 134.70000004768372,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 0.7000000476837158,
+          "interval": 133.89999997615814,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 1.399999976158142,
+          "interval": 138.10000002384186,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 0.6000000238418579,
+          "interval": 126.89999997615814,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 0.7999999523162842,
+          "interval": 140.5,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 0.3999999761581421,
+          "interval": 128.70000004768372,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 0.3999999761581421,
+          "interval": 137.29999995231628,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 0.40000009536743164,
+          "interval": 141.29999995231628,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 0.6999999284744263,
+          "interval": 141.80000007152557,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 0.8999999761581421,
+          "interval": 145.29999995231628,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 0.6999999284744263,
+          "interval": 230.20000004768372,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 0.6999999284744263,
+          "interval": 233.10000002384186,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 1,
+          "interval": 196.39999997615814,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 0.6000000238418579,
+          "interval": 189.89999997615814,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 0.6999999284744263,
+          "interval": 189.20000004768372,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 0.7999999523162842,
+          "interval": 193.79999995231628,
+          "calls": 30,
+          "triangles": 25040
+        },
+        {
+          "submit": 0.6000000238418579,
+          "interval": 183.89999997615814,
+          "calls": 30,
+          "triangles": 25040
+        }
+      ]
+    },
+    {
+      "label": "baseline-desktop-50",
+      "frames": 60,
+      "frameMs": {
+        "median": 237,
+        "mean": 234.56440678087333,
+        "p95": 263.1999999284744
+      },
+      "submitMs": {
+        "median": 9.200000047683716,
+        "mean": 9.041666668653487,
+        "p95": 10.299999952316284
+      },
+      "calls": [
+        2125
+      ],
+      "triangles": [
+        222904
+      ],
+      "info": {
+        "preview": {
+          "plants": 50,
+          "near": 4,
+          "far": 8,
+          "calls": 2125,
+          "triangles": 222904,
+          "geometries": 261,
+          "island": "loaded",
+          "growing": 0,
+          "opened": 50,
+          "camera": {
+            "position": [
+              0,
+              5.496125175623439,
+              13.176584731173508
+            ],
+            "target": [
+              0,
+              0.1,
+              0
+            ]
+          },
+          "viewport": {
+            "width": 1200,
+            "height": 710,
+            "pixelRatio": 1.5
+          },
+          "performance": {
+            "frame": {
+              "samples": 88,
+              "meanMs": 271.3,
+              "p95Ms": 400
+            },
+            "renderCPU": {
+              "samples": 88,
+              "meanMs": 23.03,
+              "p95Ms": 44.7
+            },
+            "gpu": {
+              "available": true,
+              "samples": 85,
+              "meanMs": 250.68,
+              "p95Ms": 379.06
+            }
+          }
+        },
+        "tone": "aurora",
+        "camera": [
+          0,
+          5.496125175623439,
+          13.176584731173508
+        ],
+        "target": [
+          0,
+          0.1,
+          0
+        ],
+        "cameraLimits": {
+          "min": 6.549801586459576,
+          "max": 29.238699100999078,
+          "minPolar": 0.55,
+          "maxPolar": 1.4
+        },
+        "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "glError": 0,
+        "programs": 21,
+        "textures": 9,
+        "passes": [
+          "RenderPass",
+          "AuroraGlowPass",
+          "OutputPass"
+        ],
+        "grass": [],
+        "plantKinds": [
+          {
+            "id": "demo-pair",
+            "kind": "pair",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -0.04545222379267216,
+              0,
+              1.0916847019089277
+            ]
+          },
+          {
+            "id": "pair-flutter",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              1.3002295877225698,
+              0,
+              -2.265058398862534
+            ]
+          },
+          {
+            "id": "peony-procedural-89",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -1.5940342026762664,
+              0,
+              1.6925735093987382
+            ]
+          },
+          {
+            "id": "sample-0",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              1.0397728460747748,
+              0,
+              -0.5979485726498944
+            ]
+          },
+          {
+            "id": "sample-1",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              1.3457107540592552,
+              0,
+              -1.1974280372453745
+            ]
+          },
+          {
+            "id": "sample-2",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -0.9622955754585564,
+              0,
+              0.5792141549431664
+            ]
+          },
+          {
+            "id": "sample-3",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -0.050492155300453305,
+              0,
+              0.04920616582967341
+            ]
+          },
+          {
+            "id": "sample-4",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -1.3558664581272752,
+              0,
+              1.1827137936191525
+            ]
+          },
+          {
+            "id": "sample-5",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -1.9602467569336295,
+              0,
+              1.1936920884163942
+            ]
+          },
+          {
+            "id": "sample-6",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -1.700403137532994,
+              0,
+              2.870547557553715
+            ]
+          },
+          {
+            "id": "sample-7",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -2.0291316240280866,
+              0,
+              2.2556785053677637
+            ]
+          },
+          {
+            "id": "dense-1",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              2.5908450262527913,
+              0,
+              -1.1111899548867608
+            ]
+          },
+          {
+            "id": "dense-2",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              2.319718709466979,
+              0,
+              -0.5186452893123907
+            ]
+          },
+          {
+            "id": "dense-3",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              1.3326224250532688,
+              0,
+              -0.019894646052271127
+            ]
+          },
+          {
+            "id": "dense-5",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              0.33294613603502515,
+              0,
+              1.7122922039645558
+            ]
+          },
+          {
+            "id": "dense-6",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -0.01613745907321572,
+              0,
+              2.2431335491884283
+            ]
+          },
+          {
+            "id": "dense-7",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -0.6410461969021708,
+              0,
+              2.2278779549535144
+            ]
+          },
+          {
+            "id": "dense-9",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              0.6408680352754891,
+              0,
+              0.026351685700938106
+            ]
+          },
+          {
+            "id": "dense-10",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              1.63906675754115,
+              0,
+              -0.569153188620968
+            ]
+          },
+          {
+            "id": "dense-11",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              1.9432080371305347,
+              0,
+              -1.0993539800314123
+            ]
+          },
+          {
+            "id": "dense-13",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              0.9674795072525739,
+              0,
+              0.5413254183673245
+            ]
+          },
+          {
+            "id": "dense-14",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -1.04152443414554,
+              0,
+              2.803862275720081
+            ]
+          },
+          {
+            "id": "dense-15",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -2.302978009600192,
+              0,
+              1.684363706564421
+            ]
+          },
+          {
+            "id": "dense-17",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -1.9515348682366311,
+              0,
+              -2.3413861659180153
+            ]
+          },
+          {
+            "id": "dense-18",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -0.6527487778756768,
+              0,
+              0.022236423371359705
+            ]
+          },
+          {
+            "id": "dense-19",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -0.37201368623413145,
+              0,
+              -0.591439107354073
+            ]
+          },
+          {
+            "id": "dense-21",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              1.0219876279123128,
+              0,
+              2.846936054859749
+            ]
+          },
+          {
+            "id": "dense-22",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -1.6083270015008746,
+              0,
+              -1.7102944008129484
+            ]
+          },
+          {
+            "id": "dense-23",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              0.0228406326379627,
+              0,
+              -1.1680797178396847
+            ]
+          },
+          {
+            "id": "dense-25",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -1.3490004234015942,
+              0,
+              -0.05120112139731645
+            ]
+          },
+          {
+            "id": "dense-26",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -2.309150559017435,
+              0,
+              0.570571514708264
+            ]
+          },
+          {
+            "id": "dense-27",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -3.029462039479986,
+              0,
+              0.5132416231607032
+            ]
+          },
+          {
+            "id": "dense-29",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              1.3034326221048833,
+              0,
+              1.1651752619078273
+            ]
+          },
+          {
+            "id": "dense-30",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -1.9283059452474116,
+              0,
+              -0.03935232519172132
+            ]
+          },
+          {
+            "id": "dense-31",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              -0.941548967063427,
+              0,
+              -0.5964016442795229
+            ]
+          },
+          {
+            "id": "dense-33",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              0.38641913381405174,
+              0,
+              -0.602715708525194
+            ]
+          },
+          {
+            "id": "dense-34",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              1.928916658759117,
+              0,
+              2.3368257875658354
+            ]
+          },
+          {
+            "id": "dense-35",
+            "kind": "flower",
+            "blender": false,
+            "opened": true,
+            "position": [
+              2.3188356017321348,
+              0,
+              1.772321831337998
+            ]
+          },
+          {
+            "id": "peony-blender-41",
+            "kind": "flower",
+            "blender": true,
+            "lod": "near",
+            "opened": true,
+            "position": [
+              1.6220897298865022,
+              0,
+              1.6710500583666212
+            ]
+          },
+          {
+            "id": "peony-jade-16",
+            "kind": "flower",
+            "blender": true,
+            "lod": "far",
+            "opened": true,
+            "position": [
+              2.013126093512401,
+              0,
+              0.05712493733502924
+            ]
+          },
+          {
+            "id": "dense-peony-0",
+            "kind": "flower",
+            "blender": true,
+            "lod": "far",
+            "opened": true,
+            "position": [
+              -0.659393731020391,
+              0,
+              -1.1223402108257527
+            ]
+          },
+          {
+            "id": "dense-peony-4",
+            "kind": "flower",
+            "blender": true,
+            "lod": "far",
+            "opened": true,
+            "position": [
+              1.5962097175419332,
+              0,
+              0.5821860259634388
+            ]
+          },
+          {
+            "id": "dense-peony-8",
+            "kind": "flower",
+            "blender": true,
+            "lod": "far",
+            "opened": true,
+            "position": [
+              2.9573783736024053,
+              0,
+              -0.5679500528381152
+            ]
+          },
+          {
+            "id": "dense-peony-12",
+            "kind": "flower",
+            "blender": true,
+            "lod": "far",
+            "opened": true,
+            "position": [
+              1.6449466818105432,
+              0,
+              -2.894927209789372
+            ]
+          },
+          {
+            "id": "dense-peony-16",
+            "kind": "flower",
+            "blender": true,
+            "lod": "near",
+            "opened": true,
+            "position": [
+              -2.633189873630181,
+              0,
+              1.1600868603685761
+            ]
+          },
+          {
+            "id": "dense-peony-20",
+            "kind": "flower",
+            "blender": true,
+            "lod": "far",
+            "opened": true,
+            "position": [
+              -1.6044348892383276,
+              0,
+              0.5325870396153015
+            ]
+          },
+          {
+            "id": "dense-peony-24",
+            "kind": "flower",
+            "blender": true,
+            "lod": "near",
+            "opened": true,
+            "position": [
+              -1.2971717195212842,
+              0,
+              2.2953815645921756
+            ]
+          },
+          {
+            "id": "dense-peony-28",
+            "kind": "flower",
+            "blender": true,
+            "lod": "far",
+            "opened": true,
+            "position": [
+              0.6769868751615287,
+              0,
+              -1.106266941037577
+            ]
+          },
+          {
+            "id": "dense-peony-32",
+            "kind": "flower",
+            "blender": true,
+            "lod": "far",
+            "opened": true,
+            "position": [
+              -0.38593576446175576,
+              0,
+              -1.6894400747082032
+            ]
+          },
+          {
+            "id": "dense-peony-36",
+            "kind": "flower",
+            "blender": true,
+            "lod": "near",
+            "opened": true,
+            "position": [
+              -0.9551888545230031,
+              0,
+              1.7488127315006055
+            ]
+          }
+        ]
+      },
+      "samples": [
+        {
+          "submit": 8.600000023841858,
+          "interval": null,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 9.600000023841858,
+          "interval": 200.5,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 8.700000047683716,
+          "interval": 187.10000002384186,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 8.800000071525574,
+          "interval": 197.79999995231628,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 8.5,
+          "interval": 199.10000002384186,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 4.899999976158142,
+          "interval": 199.20000004768372,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 8.5,
+          "interval": 216.60000002384186,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 6.700000047683716,
+          "interval": 199.69999992847443,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 8.299999952316284,
+          "interval": 199.60000002384186,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 8.599999904632568,
+          "interval": 200.20000004768372,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 10.5,
+          "interval": 216.59999990463257,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 8.900000095367432,
+          "interval": 234,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 6.399999976158142,
+          "interval": 232.30000007152557,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 8.700000047683716,
+          "interval": 242.19999992847443,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 9.5,
+          "interval": 241.5,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 7.899999976158142,
+          "interval": 241.40000009536743,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 10.299999952316284,
+          "interval": 258.2999999523163,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 9.5,
+          "interval": 233.70000004768372,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 9.799999952316284,
+          "interval": 241.89999997615814,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 10,
+          "interval": 266.39999997615814,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 9.700000047683716,
+          "interval": 239,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 9.100000023841858,
+          "interval": 244.79999995231628,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 11.799999952316284,
+          "interval": 237.90000009536743,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 8.899999976158142,
+          "interval": 253.89999997615814,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 9.299999952316284,
+          "interval": 234.60000002384186,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 9.200000047683716,
+          "interval": 234.29999995231628,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 9.700000047683716,
+          "interval": 246,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 10.299999952316284,
+          "interval": 260.2000000476837,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 9.5,
+          "interval": 263.1999999284744,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 7.899999976158142,
+          "interval": 223.70000004768372,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 8.899999976158142,
+          "interval": 234.5,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 9.5,
+          "interval": 223.60000002384186,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 11,
+          "interval": 238.19999992847443,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 7.099999904632568,
+          "interval": 252.30000007152557,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 9.900000095367432,
+          "interval": 233.59999990463257,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 9.100000023841858,
+          "interval": 242.30000007152557,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 9.399999976158142,
+          "interval": 235.5,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 8.5,
+          "interval": 241.89999997615814,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 9.800000071525574,
+          "interval": 247.39999997615814,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 9.900000095367432,
+          "interval": 234.89999997615814,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 9.400000095367432,
+          "interval": 248.5,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 8.199999928474426,
+          "interval": 246.90000009536743,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 9.899999976158142,
+          "interval": 270.39999997615814,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 10.100000023841858,
+          "interval": 241.69999992847443,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 9,
+          "interval": 235.10000002384186,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 8.799999952316284,
+          "interval": 241.80000007152557,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 9.5,
+          "interval": 235.5,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 9.199999928474426,
+          "interval": 234,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 9.200000047683716,
+          "interval": 235.79999995231628,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 6.199999928474426,
+          "interval": 237.10000002384186,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 9,
+          "interval": 247.10000002384186,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 9,
+          "interval": 235.09999990463257,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 9.700000047683716,
+          "interval": 240.5,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 8.800000071525574,
+          "interval": 237,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 7.300000071525574,
+          "interval": 231.10000002384186,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 10.200000047683716,
+          "interval": 236,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 8.899999976158142,
+          "interval": 239,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 9.699999928474426,
+          "interval": 238.70000004768372,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 9.299999952316284,
+          "interval": 236.60000002384186,
+          "calls": 2125,
+          "triangles": 222904
+        },
+        {
+          "submit": 9.899999976158142,
+          "interval": 241.5,
+          "calls": 2125,
+          "triangles": 222904
+        }
+      ]
+    },
+    {
+      "label": "baseline-desktop-island-only",
+      "frames": 60,
+      "frameMs": {
+        "median": 132.60000002384186,
+        "mean": 133.56949152582783,
+        "p95": 161.29999995231628
+      },
+      "submitMs": {
+        "median": 0.6999999284744263,
+        "mean": 0.6949999948342641,
+        "p95": 0.8999999761581421
+      },
+      "calls": [
+        33
+      ],
+      "triangles": [
+        24056
+      ],
+      "info": {
+        "preview": {
+          "plants": 0,
+          "near": 0,
+          "far": 0,
+          "calls": 33,
+          "triangles": 24056,
+          "geometries": 35,
+          "island": "loaded",
+          "growing": 0,
+          "opened": 0,
+          "camera": {
+            "position": [
+              0,
+              5.496125175623439,
+              13.176584731173508
+            ],
+            "target": [
+              0,
+              0.1,
+              0
+            ]
+          },
+          "viewport": {
+            "width": 1200,
+            "height": 710,
+            "pixelRatio": 1.5
+          },
+          "performance": {
+            "frame": {
+              "samples": 169,
+              "meanMs": 210.01,
+              "p95Ms": 391.7
+            },
+            "renderCPU": {
+              "samples": 169,
+              "meanMs": 12.53,
+              "p95Ms": 11.9
+            },
+            "gpu": {
+              "available": true,
+              "samples": 166,
+              "meanMs": 195.39,
+              "p95Ms": 252.94
+            }
+          }
+        },
+        "tone": "aurora",
+        "camera": [
+          0,
+          5.496125175623439,
+          13.176584731173508
+        ],
+        "target": [
+          0,
+          0.1,
+          0
+        ],
+        "cameraLimits": {
+          "min": 6.549801586459576,
+          "max": 29.238699100999078,
+          "minPolar": 0.55,
+          "maxPolar": 1.4
+        },
+        "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "glError": 0,
+        "programs": 14,
+        "textures": 9,
+        "passes": [
+          "RenderPass",
+          "AuroraGlowPass",
+          "OutputPass"
+        ],
+        "grass": [],
+        "plantKinds": []
+      },
+      "samples": [
+        {
+          "submit": 0.6999999284744263,
+          "interval": null,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.6000000238418579,
+          "interval": 138.19999992847443,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.6000000238418579,
+          "interval": 133,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.5,
+          "interval": 139.60000002384186,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.5,
+          "interval": 126.20000004768372,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.6000000238418579,
+          "interval": 131.69999992847443,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.7000000476837158,
+          "interval": 134.5,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.5,
+          "interval": 137.10000002384186,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.5,
+          "interval": 131.60000002384186,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.6000000238418579,
+          "interval": 134,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.6000000238418579,
+          "interval": 134.5,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.7000000476837158,
+          "interval": 124.5,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.5999999046325684,
+          "interval": 124.70000004768372,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.6999999284744263,
+          "interval": 133.89999997615814,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.5999999046325684,
+          "interval": 124.10000002384186,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.5,
+          "interval": 127.5,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.5,
+          "interval": 161.29999995231628,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.5999999046325684,
+          "interval": 135.20000004768372,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.6000000238418579,
+          "interval": 130.29999995231628,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.6000000238418579,
+          "interval": 132.60000002384186,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.8999999761581421,
+          "interval": 414.60000002384186,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.6000000238418579,
+          "interval": 2.299999952316284,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.8999999761581421,
+          "interval": 8.899999976158142,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.8999999761581421,
+          "interval": 255.20000004768372,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.7999999523162842,
+          "interval": 23.899999976158142,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.7999999523162842,
+          "interval": 108.20000004768372,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.7999999523162842,
+          "interval": 131.79999995231628,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.6000000238418579,
+          "interval": 136.79999995231628,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.6999999284744263,
+          "interval": 139.30000007152557,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.7000000476837158,
+          "interval": 139.39999997615814,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.6000000238418579,
+          "interval": 138,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.7000000476837158,
+          "interval": 129.89999997615814,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.6999999284744263,
+          "interval": 138.80000007152557,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.6000000238418579,
+          "interval": 137.59999990463257,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.8999999761581421,
+          "interval": 125.90000009536743,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.8999999761581421,
+          "interval": 131.69999992847443,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.8000000715255737,
+          "interval": 132.89999997615814,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.7000000476837158,
+          "interval": 131.70000004768372,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.6999999284744263,
+          "interval": 137.20000004768372,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.8999999761581421,
+          "interval": 131.39999997615814,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.6999999284744263,
+          "interval": 124.10000002384186,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.8000000715255737,
+          "interval": 135.69999992847443,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.8000000715255737,
+          "interval": 125,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.8000000715255737,
+          "interval": 124.5,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.7000000476837158,
+          "interval": 132,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.7000000476837158,
+          "interval": 129,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.7999999523162842,
+          "interval": 132.80000007152557,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.6000000238418579,
+          "interval": 134.09999990463257,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.6000000238418579,
+          "interval": 128.70000004768372,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.7999999523162842,
+          "interval": 126.70000004768372,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.7000000476837158,
+          "interval": 127.19999992847443,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 1.1999999284744263,
+          "interval": 126.70000004768372,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.7000000476837158,
+          "interval": 128.29999995231628,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.8999999761581421,
+          "interval": 142.20000004768372,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.6999999284744263,
+          "interval": 134.5,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.6000000238418579,
+          "interval": 149.89999997615814,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.5999999046325684,
+          "interval": 146.20000004768372,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.7000000476837158,
+          "interval": 125.59999990463257,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.7000000476837158,
+          "interval": 134.60000002384186,
+          "calls": 33,
+          "triangles": 24056
+        },
+        {
+          "submit": 0.5999999046325684,
+          "interval": 142.80000007152557,
+          "calls": 33,
+          "triangles": 24056
+        }
+      ]
+    }
+  ],
+  "method": "Same fresh Chrome process, ABBA navigation between isolated baseline and final Vite servers; matching 1200x900 viewport and DPR1.5, deterministic time6, 60 settled frames per case. Frame cadence and CPU submission under SwiftShader; not physical mobile FPS.",
+  "errors": [],
+  "warnings": [
+    "THREE.Clock: This module has been deprecated. Please use THREE.Timer instead."
+  ],
+  "networkFailures": [],
+  "assets": [
+    {
+      "url": "http://127.0.0.1:5298/models/flora/crystal_flower.glb",
+      "status": 200,
+      "bytes": 275
+    },
+    {
+      "url": "http://127.0.0.1:5298/models/flora/crystal_flower_lod.glb",
+      "status": 200,
+      "bytes": 275
+    },
+    {
+      "url": "http://127.0.0.1:5298/models/island.glb",
+      "status": 200,
+      "bytes": 277
+    },
+    {
+      "url": "http://127.0.0.1:5297/models/flora/crystal_flower.glb",
+      "status": 200,
+      "bytes": 275
+    },
+    {
+      "url": "http://127.0.0.1:5297/models/flora/crystal_flower_lod.glb",
+      "status": 200,
+      "bytes": 275
+    },
+    {
+      "url": "http://127.0.0.1:5297/models/island.glb",
+      "status": 200,
+      "bytes": 277
+    },
+    {
+      "url": "http://127.0.0.1:5297/models/flora/crystal_flower.glb",
+      "status": 200,
+      "bytes": 127
+    },
+    {
+      "url": "http://127.0.0.1:5297/models/flora/crystal_flower_lod.glb",
+      "status": 200,
+      "bytes": 127
+    },
+    {
+      "url": "http://127.0.0.1:5297/models/island.glb",
+      "status": 200,
+      "bytes": 127
+    },
+    {
+      "url": "http://127.0.0.1:5298/models/flora/crystal_flower.glb",
+      "status": 200,
+      "bytes": 127
+    },
+    {
+      "url": "http://127.0.0.1:5298/models/flora/crystal_flower_lod.glb",
+      "status": 200,
+      "bytes": 127
+    },
+    {
+      "url": "http://127.0.0.1:5298/models/island.glb",
+      "status": 200,
+      "bytes": 127
+    }
+  ]
+}

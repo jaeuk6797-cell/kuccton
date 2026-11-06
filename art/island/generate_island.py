@@ -1,6 +1,7 @@
 """Build the SUP mineral garden with Blender Python. Add -- --render for a preview."""
 import math
 import random
+import re
 import subprocess
 import sys
 import tempfile
@@ -334,6 +335,8 @@ def rock(geo, position, scale, rotation, seed, detail=2):
 def underside():
     geo = Geometry()
     # The fine top seam joins a deliberately coarse fracture lattice below it.
+    # Establish the existing fracture topology/color in legacy profile space first;
+    # recenter the finished lattice below without re-beveling or adding polygons.
     top_count, count = 128, 32
     for i in range(top_count):
         a = TAU * i / top_count
@@ -410,6 +413,23 @@ def underside():
     obj['mineral_inclusion_area_fraction'] = inclusion_area / total_area
     obj.data.color_attributes.active_color = tint
     obj.data.color_attributes.render_color_index = 0
+    # Remove the old lateral keel drift while keeping the upper join and every Z
+    # coordinate exact. Interpolate through profile depths so local fractures remain.
+    depths = [-z for _, z in profiles]
+    for vertex in obj.data.vertices:
+        depth = -vertex.co.z
+        if depth <= depths[0]:
+            continue
+        t = 1.0
+        for level in range(len(depths) - 1):
+            if depth < depths[level + 1]:
+                fraction = (depth - depths[level]) / (depths[level + 1] - depths[level])
+                t = (level + fraction) / (len(depths) - 1)
+                break
+        vertex.co.x += .52 * t + .055 * sin(pi * t) * sin(t * 4.3)
+        vertex.co.y += 1.18 * t ** 1.25 + .04 * sin(pi * t) * cos(t * 5.1)
+    # The existing apex now rests at (-.04, -.05, -2.86), near the vertical axis.
+    obj.data.update()
 
 
 def prism(geo, position, width, height, lean, palette, seed, edges=None, transparent=False, compact=False):
@@ -492,25 +512,6 @@ def crystalline_details():
             continue
         prism(chips, (x, y, ground(x, y) - .024), rng.uniform(.025, .068), rng.uniform(.035, .09), (0, .17, a), palettes[i % 3], 700 + i, compact=True)
     chips.object('Island_Accents | Scattered opal gravel', groups['accents'], mats['mineral'], True)
-
-def ornamental_ring():
-    geo = Geometry()
-    center = Vector((-.70, 3.04, .89))
-    def point(a, radius=.86, depth=0):
-        shape = 1 + .045 * sin(a * 2 + .45) + .018 * cos(a * 3)
-        return center + Vector((radius * shape * cos(a), depth, radius * shape * sin(a)))
-    tube(geo, [point(TAU * i / 112) for i in range(112)], .025, 8, True)
-    tube(geo, [point(.31 + i * 2.52 / 56, .892, .013) for i in range(57)], .008, 4)
-    for angle in [pi / 2, .24, pi - .24]:
-        tube(geo, [point(angle, r, -.025) for r in [.824, .89]], .008, 5)
-    for x in [-.28, .28]:
-        tube(geo, [center + Vector((x, 0, -.84)), center + Vector((x, 0, -.90))], .033, 8)
-    geo.object('Island_Ornamental_Ring | Fine golden resonator', groups['ring'], mats['gold'])
-    supports = Geometry()
-    for x in [-.99, -.41]:
-        rock(supports, (x, 3.04, .025), (.16, .13, .07), (0, 0, .4), x + 7, 2)
-    supports.object('Island_Ornamental_Ring | Opal feet', groups['ring'], mats['mineral'])
-
 
 def pond():
     geo = Geometry()
@@ -687,7 +688,7 @@ def build():
     root.objects.link(asset)
     groups = {key: collection(name, root) for key, name in [
         ('surface', 'Island_Surface'), ('rim', 'Island_Metal_Rim'), ('under', 'Island_Crystal_Underside'),
-        ('crystals', 'Island_Peripheral_Crystals'), ('ring', 'Island_Ornamental_Ring'),
+        ('crystals', 'Island_Peripheral_Crystals'),
         ('plants', 'Island_Vegetation'), ('accents', 'Island_Accents'), ('pond', 'Island_Pond')]}
     mats = {
         'surface': material('SUP Opalescent ground', 'BDDCD9', .18, .02, painted=True),
@@ -722,7 +723,6 @@ def build():
     surface_and_rim()
     underside()
     crystalline_details()
-    ornamental_ring()
     pond()
     vegetation()
     preview_rig()
@@ -733,19 +733,22 @@ def build():
     return root
 
 
-def export(root):
+def export_glb(root):
     for obj in bpy.context.view_layer.objects:
         obj.select_set(False)
     for obj in root.all_objects:
         obj.select_set(True)
-    bpy.context.view_layer.objects.active = asset
+    bpy.context.view_layer.objects.active = next(obj for obj in root.objects if obj.type == 'EMPTY')
     destination = ROOT / 'public' / 'models' / 'island.glb'
     destination.parent.mkdir(parents=True, exist_ok=True)
     bpy.ops.export_scene.gltf(filepath=str(destination), export_format='GLB', use_selection=True, use_active_scene=True,
                               export_yup=True, export_animations=False, export_cameras=False,
                               export_lights=False, export_apply=True)
+
+
+def export(root):
     # A temporary library transfers only this scene to a separate Blender process.
-    # Saving there produces an ordinary editable .blend and preserves the live session.
+    # Both outputs are written there with canonical names, preserving the live session.
     source_directory = (ROOT / 'art' / 'island').resolve()
     with tempfile.TemporaryDirectory(prefix='sup-source-', dir=source_directory) as directory:
         assert Path(directory).resolve().parent == source_directory
@@ -756,7 +759,7 @@ def export(root):
             '--', '--pack-source', str(library),
         ], capture_output=True, text=True, encoding='utf-8', errors='replace', check=True)
         print(result.stdout)
-    print('Saved', destination)
+    print('Saved', ROOT / 'public' / 'models' / 'island.glb')
 
 
 def pack_source(library):
@@ -770,11 +773,19 @@ def pack_source(library):
         bpy.data.objects.remove(obj, do_unlink=True)
     for default in default_scenes:
         bpy.data.scenes.remove(default)
+    # Interactive rebuilds append .001 etc. Material names are part of the app's
+    # shader contract; canonicalize only this isolated output, never earlier studies.
+    for datablocks in (bpy.data.objects, bpy.data.meshes, bpy.data.materials,
+                       bpy.data.collections, bpy.data.cameras, bpy.data.lights, bpy.data.images):
+        for datablock in datablocks:
+            datablock.name = re.sub(r'\.\d{3,}$', '', datablock.name)
     for screen in bpy.data.screens:
         for area in screen.areas:
             if area.type == 'VIEW_3D':
                 area.spaces.active.region_3d.view_perspective = 'CAMERA'
     bpy.ops.wm.save_as_mainfile(filepath=str(ROOT / 'art' / 'island' / 'island.blend'), compress=True)
+    root = next(c for c in bpy.context.scene.collection.children if c.name == 'SUP_Floating_Island')
+    export_glb(root)
 
 
 if __name__ == '__main__':
