@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { useSpeechRecognition } from './useSpeechRecognition.js'
 import { analyzeEmotion, emotionEnabled } from './emotion.js'
 import { extractFeatures } from './soundFeatures.js'
-import { CATEGORIES, categoriesFor, buildFlower } from './flower.js'
+import { CATEGORIES, EMOTION_TO_ID, categoriesFor, buildFlower } from './flower.js'
 import { CONFIDENT_SCORE, classifySound, preloadClassifier } from './classify.js'
 import Flower from './Flower.jsx'
 import Waveform from './Waveform.jsx'
@@ -44,9 +44,9 @@ export default function App() {
     }
   }, [blob])
 
-  // 종류를 바꾸면 목소리는 '사람 목소리'를 기본으로, 다른 소리는 직접 고르게 한다.
+  // 종류를 바꾸면 카테고리를 비운다. 목소리는 감정 분석 결과로, 다른 소리는 분류 결과나 직접 선택으로 정한다.
   useEffect(() => {
-    setCategory(kind === 'voice' ? 'speech' : '')
+    setCategory('')
   }, [kind])
 
   // 다른 소리를 골랐으면 어떤 소리인지 판별해 카테고리를 미리 골라 둔다. 확신이 낮으면 직접 고르게 한다.
@@ -85,7 +85,12 @@ export default function App() {
     let cancelled = false
     setAnalyzing(true)
     analyzeEmotion(blob)
-      .then((r) => !cancelled && setEmotion(r))
+      .then((r) => {
+        if (cancelled) return
+        setEmotion(r)
+        const id = EMOTION_TO_ID[r.emotion]
+        if (id) setCategory(id) // 감정 결과로 카테고리를 정한다. 아래 버튼으로 바꿀 수 있다.
+      })
       .catch((e) => !cancelled && setEmotionError(e.message))
       .finally(() => !cancelled && setAnalyzing(false))
     return () => {
@@ -97,7 +102,7 @@ export default function App() {
     setMicError(null)
     setBlob(null)
     setAudioUrl(null)
-    setCategory(kind === 'voice' ? 'speech' : '')
+    setCategory('')
     let stream
     try {
       stream = await navigator.mediaDevices.getUserMedia({ audio: true })
@@ -138,7 +143,7 @@ export default function App() {
     setRecording(false)
   }
 
-  const flower = features && category ? buildFlower(category, features) : null
+  const flower = features && category ? buildFlower(category, features, kind === 'voice' ? emotion?.intensity : undefined) : null
   const flowerWord = stt.transcript + (stt.interim ? ` ${stt.interim}` : '')
 
   return (
@@ -186,7 +191,7 @@ export default function App() {
 
       {blob && (
         <section style={{ marginTop: 24 }}>
-          <h2>{kind === 'voice' ? '어떤 목소리인가요?' : '어떤 소리인가요?'}</h2>
+          <h2>{kind === 'voice' ? '어떤 감정인가요?' : '어떤 소리인가요?'}</h2>
           {kind === 'other' && (
             <div style={{ margin: '0 0 8px' }}>
               {classifying && <p>어떤 소리인지 듣는 중… (처음엔 모델을 받느라 몇 초 걸려요)</p>}

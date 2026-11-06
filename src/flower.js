@@ -17,20 +17,30 @@ export const CATEGORIES = [
   { id: 'dishes', label: '그릇·수저', group: 'life', base: '달그락', yin: '덜그럭', strong: '땡' },
   { id: 'vehicle', label: '교통', group: 'life', base: '덜컥', multi: '덜컥덜컥', strong: '부릉' },
   { id: 'applause', label: '박수', group: 'laugh', base: '짝짝', multi: '짝짝짝' },
-  { id: 'laugh', voice: true, label: '웃음', group: 'laugh', base: '깔깔', single: '하하', yin: '껄껄', strong: '킥킥' },
-  { id: 'sing', voice: true, label: '노래·허밍', group: 'voice', base: '흥얼', multi: '흥얼흥얼', strong: '랄랄' },
-  { id: 'whisper', voice: true, label: '속삭임', group: 'voice', base: '소곤소곤', yin: '수군수군' },
-  { id: 'speech', voice: true, label: '사람 목소리', group: 'voice', base: '도란도란', multi: '재잘재잘', yin: '왁자지껄' },
+  // 사람 목소리: 감정 모델(7종)이 고르고, 감정마다 의성어와 색이 정해진다. 단어는 팀 사전 담당이 한 번 검수한다.
+  { id: 'happy', voice: true, label: '행복', hue: 48, base: '깔깔', single: '하하', multi: '호호', yin: '껄껄', strong: '킥킥' },
+  { id: 'angry', voice: true, label: '분노', hue: 4, base: '버럭', multi: '씩씩', yin: '으르렁', strong: '쾅쾅' },
+  { id: 'disgust', voice: true, label: '혐오', hue: 88, base: '우웩', single: '윽', multi: '웩웩' },
+  { id: 'fear', voice: true, label: '공포', hue: 268, base: '덜덜', single: '움찔', multi: '벌벌', yin: '오들오들' },
+  { id: 'neutral', voice: true, label: '중립', hue: 335, base: '도란도란', single: '두런두런', multi: '재잘재잘', yin: '웅성웅성' },
+  { id: 'sad', voice: true, label: '슬픔', hue: 215, base: '훌쩍', single: '흑', multi: '훌쩍훌쩍', yin: '흑흑' },
+  { id: 'surprise', voice: true, label: '놀람', hue: 28, base: '화들짝', single: '헉', multi: '깜짝깜짝', yin: '으악' },
   { id: 'other', label: '기타', group: 'other', base: '사분사분', yin: '웅웅' },
 ]
 
 // 녹음 전에 고른 '사람 목소리 / 다른 소리'에 맞춰 보여 줄 카테고리를 나눈다.
 export const categoriesFor = (kind) => CATEGORIES.filter((c) => Boolean(c.voice) === (kind === 'voice'))
 
+// 감정 모델이 돌려주는 한국어 라벨 → 카테고리 id
+export const EMOTION_TO_ID = {
+  행복: 'happy', 분노: 'angry', 혐오: 'disgust', 공포: 'fear', 중립: 'neutral', 슬픔: 'sad', 놀람: 'surprise',
+}
+
 const HUE = { water: 210, laugh: 48, voice: 335, animal: 25, life: 130, other: 270 }
 const COUNT_WORD = ['한', '한', '두', '세']
 
-export function buildFlower(categoryId, f) {
+// intensity: 감정 강도(0~2). 있으면 꽃 크기에 반영한다.
+export function buildFlower(categoryId, f, intensity) {
   const cat = CATEGORIES.find((c) => c.id === categoryId) ?? CATEGORIES.at(-1)
   const loud = f.rms >= THRESHOLDS.loudRms
   const bright = f.centroid >= THRESHOLDS.brightCentroid
@@ -49,15 +59,17 @@ export function buildFlower(categoryId, f) {
   }
 
   const count = f.onsets >= 4 ? '여러 번 울려서' : `${COUNT_WORD[Math.max(f.onsets, 1)] ?? '여러'} 번 울려서`
-  const reason = [tone, `${count} ${word}`].filter(Boolean).join(', ')
+  const mood = cat.voice ? `${cat.label} 목소리` : ''
+  const reason = [mood, tone, `${count} ${word}`].filter(Boolean).join(', ')
 
-  const hue = HUE[cat.group]
+  const hue = cat.hue ?? HUE[cat.group]
+  const strength = intensity == null ? 1 : 0.7 + 0.15 * Math.min(2, Math.max(0, intensity))
   return {
     name: `${word}꽃`,
     word,
     reason,
     petals: Math.min(8, Math.max(3, 3 + f.onsets)),
-    size: Math.min(1, 0.55 + f.rms * 4),
+    size: Math.min(1, 0.55 + f.rms * 4) * strength,
     pointed: strongAttack || f.attack >= THRESHOLDS.weakAttack * 2,
     color: bright && !loud ? `hsl(${hue} 65% 78%)` : `hsl(${hue} 60% ${loud ? 42 : 58}%)`,
   }
