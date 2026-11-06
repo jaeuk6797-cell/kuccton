@@ -3,6 +3,7 @@ import Flower from './Flower.jsx'
 import Island3D from './Island3D.jsx'
 import Recorder from './Recorder.jsx'
 import { FlowerDetail, PairDetail } from './Details.jsx'
+import { displayName, grewText, isTree } from '../lib/tree.js'
 import { Bell, Heart, Mic, Sprout, User, Users, Wave } from './Icons.jsx'
 import { deleteFlower, ensurePairs, insertFlower, loadGarden, subscribeGarden, today, uploadAudio } from '../lib/db.js'
 
@@ -78,7 +79,7 @@ export default function Garden({ session, onSignOut, email }) {
   useEffect(() => {
     refresh()
     return subscribeGarden(session.gardenId, (kind, row) => {
-      if (kind === 'flower' && row.sender_id !== meId) { markFresh(row.id); showToast(`${row.name}이 피었어요`) }
+      if (kind === 'flower' && row.sender_id !== meId) { markFresh(row.id); showToast(grewText(row)) }
       if (kind === 'pair') { markFresh(row.id); showToast(`우리의 꽃 ‘${row.name}’이 피었어요`) }
       refresh()
     })
@@ -216,7 +217,8 @@ export default function Garden({ session, onSignOut, email }) {
             <h1>{partner ? `${josa(pName, '과', '와')} 나의 정원` : `${me?.nickname}의 정원`}</h1>
             <div className="chips">
               <span>함께 {days}일째</span>
-              <span>소리 꽃 {data.flowers.length}송이</span>
+              <span>꽃 {data.flowers.filter((f) => !isTree(f)).length}송이</span>
+              {data.flowers.some(isTree) && <span>나무 {data.flowers.filter(isTree).length}그루</span>}
               <span>우리의 꽃 {data.pairs.length}송이</span>
             </div>
           </div>
@@ -226,7 +228,7 @@ export default function Garden({ session, onSignOut, email }) {
               <small>{partner ? '지금 들리는 소리를 처음으로 남겨 보세요' : '혼자서도 먼저 소리를 심어 둘 수 있어요'}</small>
             </div>
           ) : (
-            <div className={`hint ${hintOn ? '' : 'off'}`}>꽃을 누르면 그날의 소리가 들려요 · 드래그로 둘러보기</div>
+            <div className={`hint ${hintOn ? '' : 'off'}`}>꽃이나 나무를 누르면 그날의 소리가 들려요 · 드래그로 둘러보기</div>
           )}
 
           <section ref={sheetRef} className={`home-sheet ${sheetOpen ? '' : 'closed'}`}>
@@ -315,7 +317,7 @@ export default function Garden({ session, onSignOut, email }) {
                 <li key={f.id}>
                   <button onClick={() => { setShowBell(false); setOpenFlower(f) }}>
                     <Flower flower={f} size={40} stem={false} bloom={false} />
-                    <div><b>{f.name}</b><small>{formatDate(f.sent_date)} {timeOfDay(f.created_at)}</small></div>
+                    <div><b>{displayName(f)}</b><small>{formatDate(f.sent_date)} {timeOfDay(f.created_at)}</small></div>
                   </button>
                 </li>
               ))}
@@ -351,7 +353,7 @@ function Album({ data, meId, onOpen, onOpenPair, flowerById }) {
         {r.list.map((f) => (
           <button key={f.id} className="album-item" onClick={() => onOpen(f)}>
             <Flower flower={f} size={46} stem={false} />
-            <b>{f.name}</b>
+            <b>{displayName(f)}</b>
             <small>{f.sender_id === meId ? '내가 보냄' : '받음'}</small>
           </button>
         ))}
@@ -411,7 +413,7 @@ function Friends({ data, partner }) {
           </div>
         </>
       )}
-      <p className="small muted">친구가 보낸 소리는 정원 왼쪽, 내가 보낸 소리는 오른쪽에 꽃으로 피어요. 같은 날 둘 다 보내면 가운데에 우리의 꽃이 피어요.</p>
+      <p className="small muted">친구가 보낸 소리는 정원 왼쪽, 내가 보낸 소리는 오른쪽에 꽃(말소리)이나 나무(그 밖의 소리)로 자라요. 같은 날 둘 다 보내면 가운데에 우리의 꽃이 피어요.</p>
     </div>
   )
 }
@@ -430,7 +432,7 @@ function Me({ me, data, email, onSignOut }) {
         <p className="small muted">다른 기기에서도 이 계정으로 로그인하면 이 정원이 열려요.</p>
       </div>
       <div className="card">
-        <p className="small">녹음은 우리 두 사람만 들을 수 있어요. 내가 보낸 꽃은 꽃을 눌러 언제든 지울 수 있어요.</p>
+        <p className="small">녹음은 우리 두 사람만 들을 수 있어요. 내가 보낸 소리는 꽃이나 나무를 눌러 언제든 지울 수 있어요.</p>
       </div>
       <button className="ghost wide" onClick={onSignOut}>로그아웃</button>
     </div>

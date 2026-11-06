@@ -33,3 +33,9 @@ export function foliageColor(f) {
   const l = m ? clamp(+m[3], 36, 62) : 50
   return `hsl(${Math.round(110 + (h - 110) * 0.5)} 48% ${l}%)`
 }
+
+// 화면에 보이는 이름과 단어. 나무 기능 이전에 저장된 사물 소리 이름('…꽃')도 나무로 보여 준다
+export const displayName = (f) => (isTree(f) ? (f?.name ?? '').replace(/꽃$/, '나무') : f?.name ?? '')
+export const noun = (f) => (isTree(f) ? '나무' : '꽃')
+/** '타닥나무가 자랐어요' / '호호꽃이 피었어요' */
+export const grewText = (f) => (isTree(f) ? `${displayName(f)}가 자랐어요` : `${displayName(f)}이 피었어요`)
