@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import Flower from './Flower.jsx'
 import { displayName } from '../lib/tree.js'
+import Avatar from './Avatar.jsx'
 
 // 소리 공유 시트. 두 가지로 연다.
 //  - 꽃을 고른 뒤: flower가 주어지고 공유할 친구를 고른다
@@ -39,7 +40,7 @@ export default function ShareSheet({ flower, friend, friends, myFlowers, sentSha
                   <li key={fr.user_id}>
                     <label className={done ? 'done' : ''}>
                       <input type="checkbox" disabled={done} checked={done || picked.has(fr.user_id)} onChange={() => toggle(fr.user_id)} />
-                      <span className="av partner">{[...fr.nickname][0]}</span>
+                      <Avatar name={fr.nickname} url={fr.avatar_url} />
                       <b>{fr.nickname}</b>
                       {done && <small>공유함</small>}
                     </label>

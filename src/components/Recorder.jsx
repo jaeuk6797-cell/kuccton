@@ -6,6 +6,7 @@ import { CATEGORIES, buildFlower, buildSoundFlower, voiceCategory } from '../lib
 import { analyzeEmotion, emotionEnabled } from '../lib/emotion.js'
 import { toFlowerRow } from '../lib/naming.js'
 import { startLiveTranscript, canDictate, dictateOnce } from '../lib/stt.js'
+import Avatar from './Avatar.jsx'
 
 const MAX_SEC = 10
 
@@ -290,7 +291,7 @@ export default function Recorder({ onClose, onSend, friends = [] }) {
                     <li key={fr.user_id}>
                       <label>
                         <input type="checkbox" checked={sendTo.has(fr.user_id)} onChange={() => toggleTo(fr.user_id)} disabled={step === 'sending'} />
-                        <span className="av partner">{[...fr.nickname][0]}</span>
+                        <Avatar name={fr.nickname} url={fr.avatar_url} />
                         <b>{fr.nickname}</b>
                       </label>
                     </li>
