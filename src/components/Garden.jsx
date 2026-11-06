@@ -6,7 +6,7 @@ import { FlowerDetail, PairDetail } from './Details.jsx'
 import ShareSheet from './Share.jsx'
 import Visit from './Visit.jsx'
 import { displayName } from '../lib/tree.js'
-import { Bell, Heart, Menu, Mic, Sprout, User, Users, Wave } from './Icons.jsx'
+import { Bell, ChevronUp, Heart, Menu, Mic, Sprout, User, Users, Wave } from './Icons.jsx'
 import { addFriend, currentUser, deleteFlower, insertFlower, loadGarden, respondShare, setGardenPublic, shareFlowers, subscribeGarden, today, uploadAudio } from '../lib/db.js'
 
 // 받침에 따라 조사 고르기
@@ -20,7 +20,8 @@ const timeOfDay = (iso) => {
   return h < 5 ? '새벽' : h < 11 ? '아침' : h < 17 ? '낮' : h < 21 ? '저녁' : '밤'
 }
 
-export default function Garden({ session, onSignOut, email }) {
+// demo: 개발용 미리보기(?view=home)에서만 넘긴다. 주면 Supabase 대신 그 데이터로 화면만 그린다.
+export default function Garden({ session, onSignOut, email, demo }) {
   const [data, setData] = useState(null)
   const [error, setError] = useState('')
   const [tab, setTab] = useState('garden')
@@ -35,8 +36,9 @@ export default function Garden({ session, onSignOut, email }) {
   const [highlight, setHighlight] = useState(null)
   const [sharePick, setSharePick] = useState(null) // { flower } 또는 { friend }
   const [visiting, setVisiting] = useState(null) // 놀러 간 친구
-  // 플로팅 도구: 접어도 손잡이·상태·작은 녹음 버튼은 남긴다.
-  const SHEET_PEEK = 128
+  // 플로팅 도구: 접어도 ^ 손잡이·상태 카드·작은 녹음 버튼은 남긴다.
+  // = 손잡이 28 + 간격 10 + 상태 카드 64 + 아래 여백 8
+  const SHEET_PEEK = 110
   const [sheetOpen, setSheetOpen] = useState(() => localStorage.getItem('sup.sheet') !== 'closed')
   const sheetRef = useRef(null)
   const homeRef = useRef(null)
@@ -74,16 +76,18 @@ export default function Garden({ session, onSignOut, email }) {
 
   const refresh = useCallback(async () => {
     setError('')
+    if (demo) { setData(demo); return }
     try {
       setData(await loadGarden(session.gardenId))
     } catch (e) {
       console.error(e)
       setError(e.message || String(e))
     }
-  }, [session.gardenId])
+  }, [session.gardenId, demo])
 
   useEffect(() => {
     refresh()
+    if (demo) return
     let unsub = () => {}, alive = true
     currentUser().then((u) => {
       if (!alive || !u) return
@@ -95,7 +99,7 @@ export default function Garden({ session, onSignOut, email }) {
       })
     })
     return () => { alive = false; unsub() }
-  }, [session.gardenId, meId, refresh])
+  }, [session.gardenId, meId, refresh, demo])
 
   // 받은 소리함: 정원에 심기(받기) / 괜찮아요(거절)
   async function answer(item, accept) {
@@ -300,8 +304,7 @@ export default function Garden({ session, onSignOut, email }) {
               aria-controls="garden-actions"
               aria-label={sheetOpen ? '정원 도구 접기' : '정원 도구 펼치기'}
             >
-              <span className="grip" aria-hidden="true" />
-              <span>{sheetOpen ? '정원 넓게 보기' : '도구 펼치기'}</span>
+              <ChevronUp aria-hidden="true" />
             </button>
             <button
               className="status"
@@ -323,8 +326,7 @@ export default function Garden({ session, onSignOut, email }) {
             <div id="garden-actions" className="garden-actions" inert={sheetOpen ? undefined : ''} aria-hidden={!sheetOpen}>
               <button className="comfort-btn" onClick={comfort}><Heart /> 오늘의 위로</button>
               <button className="record-cta" onClick={() => setRecording(true)} aria-label="오늘의 소리 녹음하기 · 최대 10초">
-                <Mic />
-                <span>오늘의 소리<small>녹음하기 · 10초</small></span>
+                <Mic /> 오늘의 소리 녹음 <small>10초</small>
               </button>
             </div>
           </section>
