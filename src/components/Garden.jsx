@@ -8,7 +8,7 @@ import Visit from './Visit.jsx'
 import Avatar from './Avatar.jsx'
 import { displayName } from '../lib/tree.js'
 import { Bell, ChevronUp, Heart, Help, Menu, Mic, Sprout, User, Users, Wave } from './Icons.jsx'
-import { addFriend, currentUser, deleteFlower, insertFlower, loadGarden, respondShare, shareFlowers, subscribeGarden, today, updateProfile, uploadAudio } from '../lib/db.js'
+import { GARDEN_LIMIT, GARDEN_NEAR_FULL, addFriend, archiveShares, currentUser, deleteFlower, insertFlower, loadGarden, respondShare, shareFlowers, subscribeGarden, today, updateProfile, uploadAudio } from '../lib/db.js'
 
 // 받침에 따라 조사 고르기
 const hasBatchim = (w = '') => {
@@ -31,6 +31,7 @@ export default function Garden({ session, onSignOut, email, demo }) {
   const [openPair, setOpenPair] = useState(null)
   const [showBell, setShowBell] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
+  const [cleanupOpen, setCleanupOpen] = useState(false) // 정원 정리하기 창
   const [friendPicker, setFriendPicker] = useState(false) // '+N' 친구 고르기 창
   const [viewFriend, setViewFriend] = useState('all') // 정원에서 볼 꽃: 'all' 또는 친구 member id // 오른쪽 위 메뉴: 정원·앨범·친구·나·받은 소리
   const [toast, setToast] = useState('')
@@ -112,11 +113,34 @@ export default function Garden({ session, onSignOut, email, demo }) {
 
   // 받은 소리함: 정원에 심기(받기) / 괜찮아요(거절)
   async function answer(item, accept) {
+    // 정원이 가득 찼으면 심기 전에 스스로 정리하게 한다 (DB에서도 막는다)
+    const planted = data.flowers.filter((f) => f.sender_id !== meId).length
+    if (accept && planted >= GARDEN_LIMIT) {
+      showToast(`정원이 가득 찼어요(${GARDEN_LIMIT}송이) · 정리한 뒤에 심어 주세요`)
+      setOpenFlower(null); setShowBell(false); setCleanupOpen(true)
+      return
+    }
     try {
       await respondShare(item.share_id, accept)
       if (accept) markFresh(item.id)
-      showToast(accept ? `${displayName(item)}을 정원에 심었어요` : '받지 않았어요')
+      const after = planted + 1
+      showToast(!accept ? '받지 않았어요'
+        : after >= GARDEN_LIMIT ? `정원이 가득 찼어요(${after}/${GARDEN_LIMIT}) · 정리해야 새 소리를 심을 수 있어요`
+        : after >= GARDEN_NEAR_FULL ? `정원이 거의 찼어요(${after}/${GARDEN_LIMIT}) · 정리해 두면 좋아요`
+        : `${displayName(item)}을 정원에 심었어요`)
       setOpenFlower(null)
+      await refresh()
+    } catch (e) {
+      showToast(e.message || String(e))
+    }
+  }
+
+  // 정원 정리: 고른 소리를 정원에서 뺀다 (앨범에는 남는다)
+  async function cleanup(shareIds) {
+    try {
+      const n = await archiveShares(shareIds)
+      showToast(`${n}송이를 정원에서 뺐어요 · 앨범에는 남아 있어요`)
+      setCleanupOpen(false); setOpenFlower(null)
       await refresh()
     } catch (e) {
       showToast(e.message || String(e))
@@ -294,6 +318,11 @@ export default function Garden({ session, onSignOut, email, demo }) {
           <div className="home-title">
             <span className="wordmark" aria-label="SUP">SUP</span>
             <h1>{me?.nickname}의 정원</h1>
+            {gardenFlowers.length >= GARDEN_NEAR_FULL && (
+              <button className={`capacity-banner ${gardenFlowers.length >= GARDEN_LIMIT ? 'full' : ''}`} onClick={() => setCleanupOpen(true)}>
+                {gardenFlowers.length >= GARDEN_LIMIT ? '정원이 가득 찼어요' : '정원이 거의 찼어요'} · {gardenFlowers.length}/{GARDEN_LIMIT} · <b>정리하기</b>
+              </button>
+            )}
             {friends.length > 0 && (
               <div className="view-pills" role="tablist" aria-label="누구의 꽃을 볼까요">
                 <button role="tab" aria-selected={viewing === 'all'} className={viewing === 'all' ? 'on' : ''} onClick={() => setViewFriend('all')}>
@@ -405,6 +434,7 @@ export default function Garden({ session, onSignOut, email, demo }) {
           sharedWith={data.sentShares.filter((x) => x.flower_id === openFlower.id).map((x) => `${nameOf(x.to_user)}${x.status === 'pending' ? '(고르는 중)' : x.status === 'declined' ? '(안 받음)' : ''}`)}
           onShare={() => setSharePick({ flower: openFlower })}
           onAccept={openFlower.share_id ? () => answer(openFlower, true) : undefined}
+          onArchive={openFlower.planted_share_id ? () => cleanup([openFlower.planted_share_id]) : undefined}
           onDecline={openFlower.share_id ? () => answer(openFlower, false) : undefined}
           onClose={() => setOpenFlower(null)}
           onDelete={handleDelete}
@@ -475,6 +505,9 @@ export default function Garden({ session, onSignOut, email, demo }) {
           </div>
         </div>
       )}
+      {cleanupOpen && (
+        <Cleanup flowers={gardenFlowers} members={data.members} onSubmit={cleanup} onClose={() => setCleanupOpen(false)} />
+      )}
       {friendPicker && (
         <FriendPicker
           friends={byRecent}
@@ -516,11 +549,50 @@ function FriendPicker({ friends, counts, viewing, onPick, onClose }) {
   )
 }
 
+// 정원 정리하기: 오래된 소리부터 보여 주고, 여러 개 골라 정원에서 뺀다
+function Cleanup({ flowers, members, onSubmit, onClose }) {
+  const [picked, setPicked] = useState(() => new Set())
+  const [busy, setBusy] = useState(false)
+  const list = [...flowers].sort((a, b) => String(a.shared_at || a.created_at).localeCompare(String(b.shared_at || b.created_at)))
+  const toggle = (id) => setPicked((s) => { const n = new Set(s); n.has(id) ? n.delete(id) : n.add(id); return n })
+  const full = flowers.length >= GARDEN_LIMIT
+  async function submit() {
+    setBusy(true)
+    try { await onSubmit([...picked]) } finally { setBusy(false) }
+  }
+  return (
+    <div className="sheet-backdrop" onClick={onClose}>
+      <div className="sheet share-sheet cleanup" onClick={(e) => e.stopPropagation()}>
+        <button className="close" onClick={onClose} aria-label="닫기">×</button>
+        <h2 className="sheet-title">정원 정리하기</h2>
+        <p className={`small ${full ? 'error' : 'muted'}`}>
+          지금 {flowers.length}/{GARDEN_LIMIT}송이{full ? ' · 가득 차서 새 소리를 심을 수 없어요' : ''}. 정원에서 뺀 소리는 지워지지 않고 앨범에 남아요.
+        </p>
+        <button className="link select-all" onClick={() => setPicked(new Set(list.slice(0, 10).map((f) => f.planted_share_id)))}>오래된 10송이 고르기</button>
+        <ul className="pick-grid">
+          {list.map((f) => (
+            <li key={f.id}>
+              <button className={picked.has(f.planted_share_id) ? 'on' : ''} onClick={() => toggle(f.planted_share_id)}>
+                <Flower flower={f} size={44} stem={false} bloom={false} />
+                <b>{displayName(f)}</b>
+                <small>{members.find((m) => m.id === f.sender_id)?.nickname || '친구'} · {formatDate(f.sent_date)}</small>
+              </button>
+            </li>
+          ))}
+        </ul>
+        <button className="primary wide" disabled={busy || picked.size === 0} onClick={submit}>
+          {busy ? '정리하는 중…' : picked.size ? `${picked.size}송이 정원에서 빼기` : '뺄 소리를 골라 주세요'}
+        </button>
+      </div>
+    </div>
+  )
+}
+
 function Album({ data, meId, onOpen, onOpenPair, flowerById }) {
   const rows = useMemo(() => {
     const byDate = {}
     // 앨범에는 친구에게 받은 소리만 (내가 보낸 소리는 친구 정원에 있다). 우리의 꽃은 함께 둔다
-    for (const f of data.flowers.filter((x) => x.sender_id !== meId)) (byDate[f.sent_date] ||= { date: f.sent_date, list: [], pairs: [] }).list.push(f)
+    for (const f of [...data.flowers.filter((x) => x.sender_id !== meId), ...(data.archived || [])]) (byDate[f.sent_date] ||= { date: f.sent_date, list: [], pairs: [] }).list.push(f)
     for (const p of data.pairs) (byDate[p.sent_date] ||= { date: p.sent_date, list: [], pairs: [] }).pairs.push(p)
     return Object.values(byDate).sort((a, b) => b.date.localeCompare(a.date))
   }, [data, meId])
@@ -539,7 +611,7 @@ function Album({ data, meId, onOpen, onOpenPair, flowerById }) {
           <button key={f.id} className="album-item" onClick={() => onOpen(f)}>
             <Flower flower={f} size={48} stem={false} />
             <b>{displayName(f)}</b>
-            <small>{data.members.find((m) => m.id === f.sender_id)?.nickname || '친구'}</small>
+            <small>{data.members.find((m) => m.id === f.sender_id)?.nickname || '친구'}{f.archived ? ' · 정리함' : ''}</small>
           </button>
         ))}
       </div>

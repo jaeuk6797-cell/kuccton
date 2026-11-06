@@ -97,7 +97,19 @@ function makeData(withFlowers, friendCount = 1) {
     const w2 = flower(extra[1], VOICE('joy', { rms: 0.06, centroid: 2700, attack: 0.5, onsets: 4, sustain: 0.4, envelope: env(0.8, 1, 0.7, 0.9) }, '하하'), now - 5 * 60000)
     inbox.push({ ...w2, share_id: 'share-waiting-2', from_user: extra[1].user, shared_at: w2.created_at })
   }
-  return { ...base, flowers: [...mine, ...theirs], sentShares, receivedShares, inbox, pairs }
+  // ?many=N: 받아서 심은 소리를 N송이까지 채운다 (정원 50송이 알림·배치 확인용)
+  const many = Number(new URLSearchParams(location.search).get('many')) || 0
+  const pool = [FRIEND, ...extra]
+  const cats = ['joy', 'excited', 'flutter', 'cozy', 'calm', 'sad', 'tense']
+  for (let i = theirs.length; i < many; i++) {
+    const who = pool[i % pool.length]
+    const f = { rms: 0.02 + (i % 7) * 0.018, centroid: 900 + (i * 373) % 3200, attack: (i % 5) * 0.17, onsets: 1 + (i % 6), sustain: (i % 4) * 0.25, envelope: env(0.6, 1, 0.5 + (i % 3) * 0.2, 0.8) }
+    const fl = flower(who, i % 3 ? SOUND(f) : VOICE(cats[i % cats.length], f, null), now - (i + 3) * 3600000)
+    theirs.push(fl)
+    receivedShares.push({ flower_id: fl.id, from_user: who.user, created_at: fl.created_at })
+  }
+  const planted = theirs.map((f, i) => ({ ...f, shared_at: f.created_at, planted_share_id: `demo-share-${i}` }))
+  return { ...base, flowers: [...mine, ...planted], sentShares, receivedShares, inbox, archived: [], pairs }
 }
 
 export default function HomeDemo() {

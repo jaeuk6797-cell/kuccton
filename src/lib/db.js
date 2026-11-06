@@ -7,12 +7,16 @@ export const configured = Boolean(url && key)
 export const supabase = configured ? createClient(url, key) : null
 
 const BUCKET = 'sounds'
+/** 정원에 심을 수 있는 최대 소리 수 (DB의 respond_share와 같아야 한다) */
+export const GARDEN_LIMIT = 50
+export const GARDEN_NEAR_FULL = 45
 
 // ───────── 계정 (이메일 + 비밀번호, 로그인 필수) ─────────
 
 const errorText = (e) => {
   const m = e?.message || String(e)
   if (m.includes('GARDEN_NOT_FOUND')) return '그 코드의 정원을 찾지 못했어요.'
+  if (m.includes('GARDEN_FULL_50')) return `정원이 가득 찼어요(${GARDEN_LIMIT}송이). 정리한 뒤에 심어 주세요.`
   if (m.includes('GARDEN_FULL')) return '이미 두 사람이 가꾸는 정원이에요.'
   if (m.includes('ALREADY_PAIRED')) return '이미 다른 친구와 함께 가꾸는 정원이 있어요.'
   if (m.includes('SELF_FRIEND')) return '내 코드예요. 친구의 코드를 넣어 주세요.'
@@ -109,6 +113,13 @@ export async function shareFlowers(flowerIds, toUserIds) {
   if (!rows.length) return
   const { error } = await supabase.from('shares').upsert(rows, { onConflict: 'flower_id,to_user', ignoreDuplicates: true })
   if (error) throw error
+}
+
+/** 정원 정리: 심은 소리를 정원에서 뺀다 (앨범에는 남는다) */
+export async function archiveShares(shareIds) {
+  const { data, error } = await supabase.rpc('archive_shares', { p_ids: shareIds })
+  if (error) throw new Error(errorText(error))
+  return data
 }
 
 /** 공유받은 소리를 정원에 심을지(true) 말지(false) */
@@ -252,7 +263,9 @@ export async function loadGarden(gardenId) {
   const own = f.data
   const ownIds = new Set(own.map((x) => x.id))
   // 받기로 한 소리만 정원에 핀다. 아직 고르지 않은 소리는 받은 소리함(inbox)에 둔다
-  const receivedFlowers = recv.data.filter((s) => s.status === 'accepted' && s.flower && !ownIds.has(s.flower.id)).map((s) => ({ ...s.flower, shared_at: s.created_at }))
+  const receivedFlowers = recv.data.filter((s) => s.status === 'accepted' && s.flower && !ownIds.has(s.flower.id)).map((s) => ({ ...s.flower, shared_at: s.created_at, planted_share_id: s.id }))
+  // 정원에서 뺀 소리: 앨범에만 남는다
+  const archived = recv.data.filter((s) => s.status === 'archived' && s.flower).map((s) => ({ ...s.flower, shared_at: s.created_at, archived: true }))
   const inbox = recv.data.filter((s) => s.status === 'pending' && s.flower).map((s) => ({ ...s.flower, share_id: s.id, shared_at: s.created_at, from_user: s.from_user }))
   const flowers = [...own, ...receivedFlowers]
   const flowerById = Object.fromEntries(flowers.map((x) => [x.id, x]))
@@ -264,6 +277,7 @@ export async function loadGarden(gardenId) {
     garden: g.data, members, friends, flowers,
     sentShares: sent.data, receivedShares: received,
     inbox,
+    archived,
     // 우리의 꽃은 서로 받은 소리끼리만
     pairs: derivePairs(friends, sent.data.filter((x) => x.status === 'accepted'), received, flowerById),
     userId: user.id,
