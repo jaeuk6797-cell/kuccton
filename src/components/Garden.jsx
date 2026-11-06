@@ -133,7 +133,8 @@ export default function Garden({ session, onSignOut, email }) {
   const flowerById = Object.fromEntries(data.flowers.map((f) => [f.id, f]))
 
   let status
-  if (!partner) status = { title: `정원 코드 ${data.garden.code}`, sub: '이 코드를 소중한 사람에게 알려 주세요' }
+  // 정원 코드는 홈에 띄우지 않고 친구 탭에서만 보여 준다
+  if (!partner) status = { title: '아직 혼자 가꾸는 정원이에요', sub: '친구 탭에서 정원 코드를 알려 줄 수 있어요', onClick: () => setTab('friends') }
   else if (todayPair) status = { title: `오늘 ‘${todayPair.name}’이 피었어요`, sub: '눌러서 두 소리를 함께 들어 보세요', onClick: () => setOpenPair(todayPair) }
   else if (todayTheirs && !todayMine) status = { title: `${josa(pName, '이', '가')} ${timeOfDay(todayTheirs.created_at)} 소리를 보냈어요`, sub: '나도 보내면 두 소리가 만나 우리의 꽃이 피어요' }
   else if (todayMine && !todayTheirs) status = { title: '오늘의 소리를 보냈어요', sub: `${pName}의 소리를 기다리고 있어요` }
@@ -315,7 +316,13 @@ function Album({ data, meId, onOpen, onOpenPair, flowerById }) {
   return (
     <div className="page">
       <h1 className="page-title">이번 주 소리 앨범</h1>
-      {week.length === 0 && <p className="muted">이번 주에는 아직 핀 꽃이 없어요.</p>}
+      {week.length === 0 && (
+        <div className="card album-empty">
+          <Flower flower={{ color: 'hsl(250 40% 80%)', petals: 5, vowel: 'Y', consonant: '평', rms: 0.04 }} size={64} stem={false} />
+          <b>이번 주에는 아직 핀 꽃이 없어요</b>
+          <small className="muted">소리를 보내거나 받으면 날짜별로 여기에 모여요</small>
+        </div>
+      )}
       {week.map((r) => <Day key={r.date} r={r} />)}
       {older.length > 0 && <h2 className="page-sub">지난 소리</h2>}
       {older.map((r) => <Day key={r.date} r={r} />)}

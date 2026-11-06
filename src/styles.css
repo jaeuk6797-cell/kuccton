@@ -129,7 +129,7 @@ h1, h2 { margin: 0; }
 }
 .recorder { display: flex; flex-direction: column; align-items: center; gap: 12px; text-align: center; }
 .close { position: absolute; top: 10px; right: 14px; font-size: 1.8rem; color: var(--muted); }
-.wave { width: 100%; height: 100px; background: #f1f4ea; border-radius: 14px; }
+.wave { width: 100%; height: 100px; background: #f4f0f5; border-radius: 14px; }
 .timer { font-variant-numeric: tabular-nums; color: var(--muted); }
 .preview-audio { width: 100%; margin-top: 8px; }
 .flower-name { font-size: 1.6rem; }
@@ -145,7 +145,7 @@ h1, h2 { margin: 0; }
 .pair-badge { background: #eef5e6; color: var(--green-d); border-radius: 999px; padding: 4px 12px; font-size: 0.8rem; font-weight: 600; }
 .stereo { display: flex; gap: 10px; width: 100%; }
 .wave-box { flex: 1; display: flex; flex-direction: column; gap: 4px; font-size: 0.75rem; color: var(--muted); }
-.wave-box svg, .wave-empty { width: 100%; height: 60px; background: #f6f3ea; border-radius: 10px; }
+.wave-box svg, .wave-empty { width: 100%; height: 60px; background: #f4f0f5; border-radius: 10px; }
 
 .toast {
   position: fixed; top: 16px; left: 50%; transform: translateX(-50%); background: var(--ink); color: white;
@@ -241,16 +241,15 @@ h1, h2 { margin: 0; }
 .album-item { display: flex; flex-direction: column; align-items: center; min-width: 76px; padding: 4px; border-radius: 14px; }
 .album-item b { font-size: 0.8rem; white-space: nowrap; }
 .album-item small { font-size: 0.7rem; color: var(--muted); }
-.album-item.pair { background: #fbf3df; }
+.album-item.pair { background: #fbefe9; }
+.album-empty { display: flex; flex-direction: column; align-items: center; gap: 6px; text-align: center; padding: 28px 16px; }
+.album-empty .flower { opacity: .55; }
 .sheet-title { font-size: 1.3rem; margin-bottom: 10px; }
 .list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px; }
 .list button { display: flex; align-items: center; gap: 12px; width: 100%; text-align: left; padding: 6px; border-radius: 12px; }
 .list button div { display: flex; flex-direction: column; }
 .list small { color: var(--muted); }
 .entry { background: transparent; }
-.kind-toggle { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; width: 100%; }
-.kind-toggle button { padding: 12px; border-radius: 14px; border: 1.5px solid var(--line); background: white; font-weight: 600; }
-.kind-toggle button.on { border-color: var(--accent); background: #fbeee9; color: var(--accent-d); }
 
 /* 계정 */
 .auth-form { display: flex; flex-direction: column; align-items: center; gap: 12px; width: 100%; }

@@ -21,7 +21,7 @@ export default function FlowerBloom3D({ flower, colors, pair = false, size = 180
 
     const scene = new THREE.Scene()
     const camera = new THREE.PerspectiveCamera(32, w / h, 0.1, 50)
-    camera.position.set(0, 1.3, 1.8)
+    camera.position.set(0, 1.45, 1.4) // 꽃송이가 화면을 채우고 꽃잎 안쪽이 보이도록 위에서 비스듬히
     camera.lookAt(0, 0.5, 0)
     scene.add(new THREE.HemisphereLight('#ffffff', '#c9b9a8', 1.6))
     const sun = new THREE.DirectionalLight('#fff1dc', 2)
