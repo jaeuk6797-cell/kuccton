@@ -507,7 +507,7 @@ export default function Garden({ session, onSignOut, email, demo }) {
       )}
 
       {tutorialOpen && <Tutorial onDone={finishTutorial} />}
-      {toast && <div className="toast">{toast}</div>}
+      {toast && <div className="toast" role="status" aria-live="polite">{toast}</div>}
       {recording && <Recorder onClose={() => setRecording(false)} onSend={handleSend} friends={data.friends} />}
       {openFlower && (
         <FlowerDetail
@@ -707,11 +707,7 @@ function Album({ data, meId, onOpen, onOpenPair, flowerById }) {
       {/* 받은 소리를 날짜별로 (오늘 · 어제 · 11월 5일 …). 주 단위로 나누지 않는다 */}
       <h1 className="page-title">앨범</h1>
       {rows.length === 0 && (
-        <div className="card album-empty">
-          <Flower flower={{ color: 'hsl(250 40% 80%)', petals: 5, vowel: 'Y', consonant: '평', rms: 0.04 }} size={64} stem={false} />
-          <b>아직 받은 소리가 없어요</b>
-          <small className="muted">친구에게 받은 소리가 날짜별로 여기에 모여요</small>
-        </div>
+        <p className="album-empty">아직 받은 소리가 없어요</p>
       )}
       {rows.map((r) => <Day key={r.date} r={r} />)}
     </div>
@@ -742,7 +738,7 @@ function Friends({ data, onOpen, onShareTo, onVisit, onGoMe }) {
     const day = (iso) => formatDate(new Date(iso).toLocaleDateString('sv-SE'))
     return (
       <div className="page friend-page">
-        <button className="link back-link" onClick={() => setSelectedId(null)}>← 친구 목록</button>
+        <button className="link back-link" onClick={() => setSelectedId(null)} aria-label="친구 목록으로 돌아가기">←</button>
         {/* 친구 정원 구경은 '정원 구경하기' 글씨를 눌러야만 간다 */}
         <div className="friend-hero">
           <Avatar name={selected.nickname} url={selected.avatar_url} className="huge" />
