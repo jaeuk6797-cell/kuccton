@@ -30,7 +30,11 @@
   -webkit-tap-highlight-color: transparent;
 }
 * { box-sizing: border-box; }
-body { margin: 0; min-height: 100dvh; background: var(--sky) fixed; }
+/* 아이폰(특히 홈 화면 웹앱)에서 아래가 흰색으로 비지 않게:
+   - html 자체에 하늘 끝 색을 깔고(배경 'fixed'는 iOS가 무시해서 그라데이션이 중간에 끊겼다)
+   - 정원 화면은 높이 계산(100dvh) 대신 화면 네 변에 붙인다 */
+html { background: #f7e9df; min-height: 100%; }
+body { margin: 0; min-height: 100%; min-height: 100dvh; background: var(--sky); }
 h1, .flower-name, .sheet-title, .page-title { font-family: var(--serif); font-weight: 700; }
 button { font: inherit; color: inherit; cursor: pointer; border: 0; background: none; }
 button:disabled { opacity: 0.5; cursor: default; }
@@ -170,7 +174,7 @@ h1, h2 { margin: 0; }
 .small-btn { padding: 8px 14px; font-size: 0.85rem; align-self: flex-start; }
 
 /* ───────── 홈(정원) ───────── */
-.home { position: relative; height: 100dvh; max-width: 520px; margin: 0 auto; overflow: hidden; }
+.home { position: fixed; inset: 0; max-width: 520px; margin: 0 auto; overflow: hidden; }
 .home.loading { justify-content: center; }
 .sky { position: absolute; inset: 0; background: var(--sky); overflow: hidden; }
 .cloud { position: absolute; background: rgba(255,255,255,.75); border-radius: 50%; filter: blur(18px); animation: drift 40s linear infinite alternate; }
@@ -345,7 +349,7 @@ h1, h2 { margin: 0; }
 .sent-list small { color: var(--muted); font-size: 0.78rem; }
 
 /* 로고 대신 제목 위에 은은한 SUP 표시 (소리숲 글자 줄은 제목과 겹쳐서 뺐다) */
-.wordmark { display: block; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.32em; color: var(--ink); opacity: 0.35; margin-bottom: 2px; }
+.wordmark { display: block; font-size: 1.05rem; font-weight: 800; letter-spacing: 0.26em; color: var(--ink); opacity: 0.45; margin-bottom: 2px; line-height: 1.2; }
 
 /* 소리 공유 시트 */
 .share-sheet { display: flex; flex-direction: column; gap: 12px; }
