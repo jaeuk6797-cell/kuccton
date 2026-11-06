@@ -1,0 +1,49 @@
+* { box-sizing: border-box; }
+html, body, #root { margin: 0; height: 100%; }
+body {
+  font-family: -apple-system, 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
+  background: linear-gradient(180deg, #f7b6d2 0%, #b9a4f0 50%, #8fdcd6 100%);
+  color: #2b2240;
+}
+.app { position: relative; height: 100%; }
+.panel {
+  position: absolute; left: 16px; right: 16px; bottom: 16px;
+  display: flex; flex-direction: column; gap: 8px; align-items: center;
+}
+.status { font-size: 14px; }
+.buttons { display: flex; gap: 8px; }
+.buttons button {
+  padding: 12px 20px; border: none; border-radius: 999px;
+  background: #fff; color: #2b2240; font-size: 16px; cursor: pointer;
+}
+.card {
+  width: 100%; max-width: 420px; max-height: 40vh; overflow: auto;
+  background: rgba(255, 255, 255, 0.85); border-radius: 16px; padding: 12px 16px;
+}
+.card pre { font-size: 11px; white-space: pre-wrap; }
+
+/* 버튼처럼 보이는 링크 */
+.pill {
+  padding: 12px 20px; border-radius: 999px; background: rgba(255, 255, 255, 0.6);
+  color: #2b2240; font-size: 14px; text-decoration: none;
+}
+
+/* 꽃 이름 말풍선 (drei Html) */
+.flower-label {
+  white-space: nowrap; padding: 3px 10px; border-radius: 999px;
+  background: rgba(255, 255, 255, 0.75); font-size: 12px; pointer-events: none;
+}
+.flower-label.selected { background: #fff; font-weight: 700; box-shadow: 0 2px 8px rgba(43, 34, 64, 0.2); }
+
+/* 플레이그라운드 조절 패널 */
+.controls {
+  align-items: stretch; max-width: 420px; margin: 0 auto;
+  background: rgba(255, 255, 255, 0.8); border-radius: 16px; padding: 12px 16px;
+}
+.controls label { display: flex; align-items: center; gap: 8px; font-size: 13px; }
+.controls label input[type='range'] { flex: 1; }
+.controls .row { display: flex; align-items: center; gap: 12px; font-size: 13px; }
+.controls .row.title { justify-content: space-between; }
+.controls .row a { margin-left: auto; color: #2b2240; }
+.controls button { padding: 6px 14px; border: none; border-radius: 999px; background: #2b2240; color: #fff; cursor: pointer; }
+.controls input[type='color'] { width: 32px; height: 24px; border: none; background: none; padding: 0; }

@@ -1,4 +1,5 @@
 // 의성어 꽃 이름 규칙 (PRD 4장)
+// 색 계열(PRD 4.4): 물·비=파랑, 웃음=노랑, 목소리=분홍, 동물=주황, 생활음=초록
 // 카테고리 → 어근, 음향 특징 → 모음(bright/dark)·자음(plain/tense/aspirated)·반복(0:단일 1:기본 2:첩어)
 // 실제로 쓰는 단어만 적고, 없는 칸은 가까운 형태로 대체한다.
 
@@ -25,7 +26,7 @@ export const CATEGORIES = {
     },
   },
   bird: {
-    label: '새', zone: 'hill', color: '#FFE08A',
+    label: '새', zone: 'hill', color: '#FFB27A',
     forms: { bright: { tense: ['짹', '짹짹', '짹짹짹'] }, dark: { tense: ['찍', '찍찍', '찍찍찍'] } },
   },
   cat: {
@@ -48,18 +49,18 @@ export const CATEGORIES = {
     forms: { bright: { plain: ['톡', '톡톡', '타닥타닥'] }, dark: { plain: ['툭', '툭툭', '투닥투닥'] } },
   },
   frying: {
-    label: '요리', zone: 'path', color: '#FFC27A',
+    label: '요리', zone: 'path', color: '#B5DE8F',
     forms: { bright: { plain: ['지글', '지글', '지글지글'], aspirated: ['치익', '치익', '치익치익'] }, dark: { plain: ['지글', '지글', '지글지글'] } },
   },
   dishes: {
-    label: '그릇', zone: 'path', color: '#D6E7F5',
+    label: '그릇', zone: 'path', color: '#9FD8A8',
     forms: {
       bright: { plain: ['달그락', '달그락', '달그락달그락'], tense: ['땡', '땡그랑', '땡그랑땡그랑'] },
       dark: { plain: ['덜그럭', '덜그럭', '덜그럭덜그럭'] },
     },
   },
   vehicle: {
-    label: '교통', zone: 'path', color: '#9FB4FF',
+    label: '교통', zone: 'path', color: '#8FC99B',
     forms: { bright: { plain: ['부릉', '부릉', '부릉부릉'] }, dark: { plain: ['덜컹', '덜컹', '덜컹덜컹'] } },
   },
   applause: {
