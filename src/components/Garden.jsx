@@ -360,7 +360,7 @@ export default function Garden({ session, onSignOut, email, demo }) {
       )}
 
       {tab === 'album' && <Album data={data} meId={meId} onOpen={setOpenFlower} onOpenPair={setOpenPair} flowerById={flowerById} />}
-      {tab === 'friends' && <Friends data={data} meId={meId} onOpen={setOpenFlower} onShareTo={(friend) => setSharePick({ friend })} onVisit={setVisiting} onAnswer={answer} onGoMe={() => setTab('me')} />}
+      {tab === 'friends' && <Friends data={data} meId={meId} onOpen={setOpenFlower} onVisit={setVisiting} onAnswer={answer} onGoMe={() => setTab('me')} />}
       {tab === 'me' && <Me me={me} email={email} onSignOut={onSignOut} code={data.garden.code} onAdded={refresh} onSaveProfile={saveProfile} />}
       {tab === 'help' && <HelpPage />}
 
@@ -565,7 +565,7 @@ function Album({ data, meId, onOpen, onOpenPair, flowerById }) {
 // 친구: 친구 코드(= 정원 코드)로 친구를 맺고, 친구마다 내 소리를 골라 공유한다.
 // 친구가 공유한 소리는 내 정원 왼쪽에, 내 소리는 오른쪽에 핀다.
 // 친구 탭: 친구 목록만. 친구 코드·친구 맺기는 나 탭(FriendCode)에 있다.
-function Friends({ data, meId, onOpen, onShareTo, onVisit, onAnswer, onGoMe }) {
+function Friends({ data, meId, onOpen, onVisit, onAnswer, onGoMe }) {
   const [selectedId, setSelectedId] = useState(null) // 고른 친구 user_id
 
   const mineCount = (userId) => data.sentShares.filter((x) => x.to_user === userId).length
@@ -593,7 +593,6 @@ function Friends({ data, meId, onOpen, onShareTo, onVisit, onAnswer, onGoMe }) {
           <small className="muted">{since.getMonth() + 1}월 {since.getDate()}일부터 친구 · 받은 소리 {received.length}개 · 보낸 소리 {mineCount(selected.user_id)}개</small>
           <small className="visit-hint">눌러서 정원 구경하기 ›</small>
         </button>
-        <button className="primary wide" onClick={() => onShareTo(selected)}>소리 공유하기</button>
 
         <h2 className="page-sub">주고받은 소리</h2>
         {history.length === 0 ? (
