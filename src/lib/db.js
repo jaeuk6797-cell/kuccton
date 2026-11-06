@@ -15,6 +15,7 @@ const errorText = (e) => {
   if (m.includes('GARDEN_NOT_FOUND')) return '그 코드의 정원을 찾지 못했어요.'
   if (m.includes('GARDEN_FULL')) return '이미 두 사람이 가꾸는 정원이에요.'
   if (m.includes('ALREADY_PAIRED')) return '이미 다른 친구와 함께 가꾸는 정원이 있어요.'
+  if (m.includes('SELF_FRIEND')) return '내 코드예요. 친구의 코드를 넣어 주세요.'
   if (m.includes('NOT_AUTHENTICATED')) return '먼저 로그인해 주세요.'
   return m
 }
@@ -84,28 +85,88 @@ export async function createGarden(nickname) {
   return data
 }
 
-/** 친구 코드로 친구 정원에 들어간다. 혼자 가꾸던 정원이 있으면 내 꽃·나무를 함께 옮긴다 */
-export async function joinFriendGarden(code) {
-  const { data, error } = await supabase.rpc('join_friend_garden', { p_code: code })
-  if (error) throw new Error(errorText(error))
-  return { gardenId: data.garden_id, memberId: data.member_id, code: data.code, moved: data.moved }
-}
-
 export async function joinGarden(code, nickname) {
   const { data, error } = await supabase.rpc('join_garden', { p_code: code, p_nickname: nickname })
   if (error) throw new Error(errorText(error))
   return data
 }
 
+// ───────── 친구와 소리 공유 ─────────
+// 각자 자기 정원을 갖고, 친구 코드(= 정원 코드)로 친구를 맺는다. 내 꽃을 골라 친구에게 공유하면
+// 친구 정원 왼쪽에 핀다. 같은 날 서로 공유하면 두 정원 모두에 '우리의 꽃'이 핀다.
+
+export async function addFriend(code) {
+  const { data, error } = await supabase.rpc('add_friend', { p_code: code })
+  if (error) throw new Error(errorText(error))
+  return data // { user_id, nickname }
+}
+
+/** 꽃 여러 개 × 친구 여러 명을 한 번에 공유 (이미 공유한 조합은 건너뛴다) */
+export async function shareFlowers(flowerIds, toUserIds) {
+  const rows = flowerIds.flatMap((flower_id) => toUserIds.map((to_user) => ({ flower_id, to_user })))
+  if (!rows.length) return
+  const { error } = await supabase.from('shares').upsert(rows, { onConflict: 'flower_id,to_user', ignoreDuplicates: true })
+  if (error) throw error
+}
+
+const localDate = (iso) => {
+  const d = new Date(iso)
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
+}
+
+// 우리의 꽃: 친구마다, 같은 날 내가 공유한 첫 꽃과 친구가 나에게 공유한 첫 꽃을 공유한 순서대로 잇는다
+function derivePairs(friends, sent, received, flowerById) {
+  const pairs = []
+  for (const fr of friends) {
+    const firstByDate = (list) => {
+      const out = {}
+      for (const s of [...list].sort((a, b) => a.created_at.localeCompare(b.created_at))) {
+        const d = localDate(s.created_at)
+        if (!out[d] && flowerById[s.flower_id]) out[d] = s
+      }
+      return out
+    }
+    const mine = firstByDate(sent.filter((s) => s.to_user === fr.user_id))
+    const theirs = firstByDate(received.filter((s) => s.from_user === fr.user_id))
+    for (const date of Object.keys(mine)) {
+      if (!theirs[date]) continue
+      const [a, b] = [mine[date], theirs[date]].sort((x, y) => x.created_at.localeCompare(y.created_at))
+      const fa = flowerById[a.flower_id], fb = flowerById[b.flower_id]
+      pairs.push({ id: `pair-${fr.user_id}-${date}`, friend: fr.user_id, flower_a_id: fa.id, flower_b_id: fb.id, name: pairName(fa.root, fb.root), sent_date: date })
+    }
+  }
+  return pairs.sort((a, b) => a.sent_date.localeCompare(b.sent_date))
+}
+
 export async function loadGarden(gardenId) {
-  const [g, m, f, p] = await Promise.all([
+  const user = await currentUser()
+  const [g, m, f, fr, sent, recv] = await Promise.all([
     supabase.from('gardens').select('*').eq('id', gardenId).single(),
     supabase.from('members').select('*').eq('garden_id', gardenId).order('created_at'),
     supabase.from('flowers').select('*').eq('garden_id', gardenId).order('created_at'),
-    supabase.from('pair_flowers').select('*').eq('garden_id', gardenId).order('created_at'),
+    supabase.rpc('my_friends'),
+    supabase.from('shares').select('flower_id, to_user, created_at').eq('from_user', user.id),
+    supabase.from('shares').select('flower_id, from_user, created_at, flower:flowers(*)').eq('to_user', user.id).order('created_at'),
   ])
-  for (const r of [g, m, f, p]) if (r.error) throw r.error
-  return { garden: g.data, members: m.data, flowers: f.data, pairs: p.data }
+  for (const r of [g, m, f, fr, sent, recv]) if (r.error) throw r.error
+
+  const friends = fr.data
+  // 받은 꽃은 내 정원 꽃과 함께 섬에 핀다 (보낸 친구는 sender_id로 구분)
+  const own = f.data
+  const ownIds = new Set(own.map((x) => x.id))
+  const receivedFlowers = recv.data.filter((s) => s.flower && !ownIds.has(s.flower.id)).map((s) => ({ ...s.flower, shared_at: s.created_at }))
+  const flowers = [...own, ...receivedFlowers]
+  const flowerById = Object.fromEntries(flowers.map((x) => [x.id, x]))
+  // 친구도 members 모양으로 넣어 두면 화면에서 보낸 사람 이름을 같은 방식으로 찾을 수 있다
+  const friendMembers = friends.map((x) => ({ id: x.member_id, user_id: x.user_id, nickname: x.nickname, created_at: x.since, friend: true }))
+  const members = [...m.data, ...friendMembers.filter((x) => !m.data.some((y) => y.id === x.id))]
+  const received = recv.data.map(({ flower, ...s }) => s)
+  return {
+    garden: g.data, members, friends, flowers,
+    sentShares: sent.data, receivedShares: received,
+    pairs: derivePairs(friends, sent.data, received, flowerById),
+    userId: user.id,
+  }
 }
 
 export async function uploadAudio(gardenId, blob) {
@@ -138,37 +199,14 @@ export async function deleteFlower(flower) {
   await supabase.storage.from(BUCKET).remove([flower.audio_path])
 }
 
-// 같은 날 두 사람이 모두 보냈는데 우리의 꽃이 없으면 만든다. (각자 그날의 첫 꽃끼리, 보낸 순서대로)
-export async function ensurePairs({ garden, members, flowers, pairs }) {
-  if (members.length < 2) return false
-  const paired = new Set(pairs.map((p) => p.sent_date))
-  const byDate = {}
-  for (const f of flowers) (byDate[f.sent_date] ||= []).push(f)
-  let created = false
-  for (const [date, list] of Object.entries(byDate)) {
-    if (paired.has(date)) continue
-    const firsts = members.map((m) => list.find((f) => f.sender_id === m.id)).filter(Boolean)
-    if (firsts.length < 2) continue
-    firsts.sort((a, b) => a.created_at.localeCompare(b.created_at))
-    const [a, b] = firsts
-    const { error } = await supabase.from('pair_flowers').upsert(
-      { garden_id: garden.id, flower_a_id: a.id, flower_b_id: b.id, name: pairName(a.root, b.root), sent_date: date },
-      { onConflict: 'garden_id,sent_date', ignoreDuplicates: true },
-    )
-    if (error) console.warn('우리의 꽃 생성 실패', error)
-    else created = true
-  }
-  return created
-}
-
-export function subscribeGarden(gardenId, onChange) {
+export function subscribeGarden(gardenId, userId, onChange) {
   const filter = `garden_id=eq.${gardenId}`
   const ch = supabase
     .channel(`garden-${gardenId}`)
     .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'flowers', filter }, (e) => onChange('flower', e.new))
     .on('postgres_changes', { event: 'DELETE', schema: 'public', table: 'flowers' }, () => onChange('delete'))
-    .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'pair_flowers', filter }, (e) => onChange('pair', e.new))
-    .on('postgres_changes', { event: '*', schema: 'public', table: 'members', filter }, () => onChange('member'))
+    .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'shares', filter: `to_user=eq.${userId}` }, (e) => onChange('share', e.new))
+    .on('postgres_changes', { event: '*', schema: 'public', table: 'friendships' }, () => onChange('friend'))
     .subscribe()
   return () => supabase.removeChannel(ch)
 }

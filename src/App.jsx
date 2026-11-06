@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import Garden from './components/Garden.jsx'
 import Flower from './components/Flower.jsx'
 import {
-  configured, createGarden, joinGarden,
+  configured, createGarden,
   currentUser, onAuthChange, signIn, signUp, signOut, myLatestGarden,
 } from './lib/db.js'
 
@@ -37,7 +37,6 @@ export default function App() {
     <Garden
       key={garden.gardenId}
       session={garden}
-      onMoved={setGarden}
       onSignOut={signOut}
       email={user.email}
     />
@@ -129,10 +128,9 @@ function AuthScreen() {
   )
 }
 
-// 정원 만들기 / 코드로 들어가기 (로그인한 뒤, 아직 정원이 없을 때)
+// 내 정원 만들기 (로그인한 뒤, 아직 정원이 없을 때). 친구는 정원 안의 친구 탭에서 맺는다
 function GardenSetup({ email, onEnter }) {
   const [nickname, setNickname] = useState('')
-  const [code, setCode] = useState('')
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState('')
 
@@ -159,25 +157,10 @@ function GardenSetup({ email, onEnter }) {
       </label>
 
       <button className="primary wide" disabled={busy} onClick={() => run(() => createGarden(nickname.trim()))}>
-        새 정원 만들기
+        내 정원 만들기
       </button>
 
-      <div className="divider"><span>또는</span></div>
-
-      <label className="field">
-        정원 코드 6자리
-        <input
-          value={code}
-          inputMode="numeric"
-          maxLength={6}
-          onChange={(e) => setCode(e.target.value.replace(/\D/g, ''))}
-          placeholder="123456"
-          className="code-input"
-        />
-      </label>
-      <button className="ghost wide" disabled={busy || code.length !== 6} onClick={() => run(() => joinGarden(code, nickname.trim()))}>
-        정원에 들어가기
-      </button>
+      <p className="small muted">친구는 정원을 만든 뒤 메뉴 → 친구에서 친구 코드로 맺을 수 있어요.</p>
 
       {error && <p className="error">{error}</p>}
     </div>
