@@ -1,0 +1,79 @@
+:root {
+  font-family: system-ui, sans-serif;
+  color: #f1f7f2;
+  background: #192c32;
+  color-scheme: dark;
+}
+
+body {
+  margin: 0;
+}
+
+.app {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100dvh;
+  background: linear-gradient(160deg, #192c32 8%, #344e4f 60%, #416159);
+}
+
+.garden {
+  position: absolute;
+  inset: 0;
+}
+
+.garden-fallback {
+  display: grid;
+  height: 100%;
+  place-items: center;
+  margin: 0;
+  padding-inline: 1rem;
+  text-align: center;
+}
+
+.app-header,
+.app-controls {
+  position: absolute;
+  inset-inline: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1rem;
+  padding-inline: max(1.25rem, env(safe-area-inset-left)) max(1.25rem, env(safe-area-inset-right));
+}
+
+.app-header {
+  top: max(1.25rem, env(safe-area-inset-top));
+  justify-content: space-between;
+}
+
+.app-header h1 {
+  margin: 0;
+  font-size: 1.375rem;
+}
+
+.app-header h1 span {
+  margin-inline-start: 0.25rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.dev-status {
+  margin: 0;
+  color: #d9e8e0;
+  font-size: 0.75rem;
+}
+
+.app-controls {
+  bottom: max(1.25rem, env(safe-area-inset-bottom));
+  justify-content: center;
+}
+
+.app-controls button {
+  min-height: 44px;
+  padding: 0.5rem 1.25rem;
+  border: 1px solid #749089;
+  border-radius: 999px;
+  color: #e2ebe5;
+  background: #29433e;
+  font: inherit;
+}

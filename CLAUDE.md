@@ -1,5 +1,7 @@
 # 소리숲 (SOOP) — 작업 인계 문서
 
+> 이 문서는 `feat/3d`에서 작성한 초기 기획과 작업 기록입니다. 현재 `main`의 실행 방법과 통합 기준은 [README](README.md)와 [통합 가이드](docs/INTEGRATION.md)를 참고하세요.
+
 KUCC 동아리 해커톤(주제: 소리, 4인 팀, 6~12시간) 출품작. Cowork에서 기획하고 일부 코드를 작성한 뒤 Claude Code로 넘겨받은 상태.
 응답과 주석은 한국어로 작성한다.
 
@@ -56,22 +58,9 @@ KUCC 동아리 해커톤(주제: 소리, 4인 팀, 6~12시간) 출품작. Cowork
 
 React 18 + Vite 5, three / @react-three/fiber 8 / drei 9 / postprocessing 2, @tensorflow/tfjs(YAMNet), Supabase(Postgres + Storage + Realtime), Vercel 배포(마이크 때문에 HTTPS 필수).
 
-## 6. 꽃 데이터 계약 (팀 공통 인터페이스)
+## 6. 꽃 데이터 계약
 
-`src/lib/analyze.js`의 `buildFlower()`가 만든다. 3D 쪽은 이 객체만 받아서 그린다.
-
-```json
-{
-  "id": "uuid", "sender": "A", "category": "rain",
-  "word": "토도독", "name": "토도독꽃",
-  "reason": "작고 맑은 소리라 양성모음, ...",
-  "zone": "water", "color": "#8EC5FF",
-  "petals": 5, "layers": 2, "size": 0.55, "pointy": false, "glow": 2.1,
-  "transcript": null, "audioUrl": "...",
-  "features": { "rms": 0.04, "centroid": 2600, "attack": 0.3, "onsets": 3, "duration": 9.8 },
-  "sentDate": "2026-11-06", "createdAt": 1762400000000
-}
-```
+현재 공용 타입은 [`src/contracts/flower.js`](src/contracts/flower.js)입니다. 기존 `src/lib/analyze.js`의 `buildFlower()` 출력은 [통합 가이드](docs/INTEGRATION.md)에 따라 변환합니다.
 
 ## 7. 작성된 파일 (빌드 미검증)
 
