@@ -348,7 +348,7 @@ h1, h2 { margin: 0; }
 .sent-list span { flex: 1; font-size: 0.92rem; }
 .sent-list small { color: var(--muted); font-size: 0.78rem; }
 
-/* 로고 대신 제목 위에 은은한 SUP 표시 (소리숲 글자 줄은 제목과 겹쳐서 뺐다) */
+/* 로고 대신 제목 위에 은은한 SUP 표시 */
 .wordmark { display: block; font-size: 1.05rem; font-weight: 800; letter-spacing: 0.26em; color: var(--ink); opacity: 0.45; margin-bottom: 2px; line-height: 1.2; }
 
 /* 소리 공유 시트 */

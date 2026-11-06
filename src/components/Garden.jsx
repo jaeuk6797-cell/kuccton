@@ -267,7 +267,7 @@ export default function Garden({ session, onSignOut, email, demo }) {
           />
           </div>
           <div className="home-title">
-            <span className="wordmark" aria-label="SUP 소리숲">SUP</span>
+            <span className="wordmark" aria-label="SUP">SUP</span>
             <h1>{me?.nickname}의 정원</h1>
             {friends.length > 0 && (
               <div className="view-pills" role="tablist" aria-label="누구의 꽃을 볼까요">
@@ -594,10 +594,10 @@ function FriendCode({ code: myCode, onAdded }) {
   const [notice, setNotice] = useState('')
 
   const shareCode = async () => {
-    const text = `소리숲에서 소리를 주고받아요! 내 친구 코드: ${myCode}
+    const text = `SUP에서 소리를 주고받아요! 내 친구 코드: ${myCode}
 https://kuccton.vercel.app`
     try {
-      if (navigator.share) { await navigator.share({ title: '소리숲 친구 코드', text }); return }
+      if (navigator.share) { await navigator.share({ title: 'SUP 친구 코드', text }); return }
     } catch { return } // 공유 창을 닫은 경우
     try { await navigator.clipboard.writeText(myCode); setCopied(true); setTimeout(() => setCopied(false), 2000) } catch {}
   }
@@ -660,7 +660,7 @@ function Me({ me, email, onSignOut, code, onAdded }) {
 
 // 도움말: 화면 곳곳에 흩어져 있던 설명을 한곳에 (메뉴 → 도움말)
 const HELP = [
-  ['소리숲은', '하루 10초의 소리를 친구에게 보내면, 그 소리가 의성어 이름을 가진 꽃이나 나무가 되어 친구 정원에 자라요. 내 정원은 친구들이 보내 준 소리로 채워져요.'],
+  ['SUP은', '하루 10초의 소리를 친구에게 보내면, 그 소리가 의성어 이름을 가진 꽃이나 나무가 되어 친구 정원에 자라요. 내 정원은 친구들이 보내 준 소리로 채워져요.'],
   ['오늘의 소리 보내기', '아래 ‘오늘의 소리 녹음’을 누르면 바로 10초 동안 녹음돼요. 미리보기에서 꽃을 확인하고, 받을 친구를 골라(여러 명 가능) 보내면 돼요. 내가 보낸 소리는 내 정원이 아니라 친구 정원에 피어요.'],
   ['꽃과 나무', '말소리는 감정에 따라 일곱 가지 꽃(해바라기·별·튤립·작약·연꽃·초롱꽃·엉겅퀴 모양)으로, 그 밖의 소리는 나무로 자라요. 소리가 크면 꽃이 크고, 여러 번 울리면 꽃잎이 많아지고, 소리의 흐름에 따라 꽃잎 길이가 달라져요.'],
   ['꽃 이름', '소리를 듣고 한국어 의성어로 이름을 지어요. 작고 맑은 소리는 ‘토독’처럼 밝은 모음, 크고 낮은 소리는 ‘투둑’처럼 어두운 모음, 세게 시작하면 ‘톡·탁’처럼 센 소리, 여러 번 울리면 ‘토독토독’처럼 되풀이돼요.'],

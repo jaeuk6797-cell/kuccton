@@ -47,7 +47,7 @@ function Hero() {
   return (
     <div className="hero">
       <Flower flower={{ color: 'hsl(335 70% 80%)', petals: 6, vowel: 'Y', consonant: '평', rms: 0.05 }} size={110} />
-      <h1>소리숲</h1>
+      <h1>SUP</h1>
       <p className="slogan">말하지 않아도 괜찮아,<br />우리의 하루는 소리로 피어나.</p>
     </div>
   )
@@ -170,7 +170,7 @@ function GardenSetup({ email, onEnter }) {
 function SetupNeeded() {
   return (
     <div className="screen center-col setup">
-      <h1>소리숲 설정이 필요해요</h1>
+      <h1>SUP 설정이 필요해요</h1>
       <ol>
         <li>Supabase 프로젝트를 만들고 SQL Editor에서 <code>supabase/schema.sql</code>을 실행</li>
         <li>Authentication에서 Email 로그인 켜기 (해커톤은 Confirm email 끄기 권장)</li>
