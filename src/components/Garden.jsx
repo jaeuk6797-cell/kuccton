@@ -17,7 +17,7 @@ const timeOfDay = (iso) => {
   return h < 5 ? '새벽' : h < 11 ? '아침' : h < 17 ? '낮' : h < 21 ? '저녁' : '밤'
 }
 
-export default function Garden({ session, onLeave, onSignOut, email }) {
+export default function Garden({ session, onSignOut, email }) {
   const [data, setData] = useState(null)
   const [error, setError] = useState('')
   const [tab, setTab] = useState('garden')
@@ -31,6 +31,7 @@ export default function Garden({ session, onLeave, onSignOut, email }) {
   const meId = session.memberId
 
   const refresh = useCallback(async () => {
+    setError('')
     try {
       const d = await loadGarden(session.gardenId)
       if (await ensurePairs(d)) Object.assign(d, await loadGarden(session.gardenId))
@@ -100,7 +101,10 @@ export default function Garden({ session, onLeave, onSignOut, email }) {
   if (error) return (
     <div className="screen center-col">
       <p className="error">정원을 불러오지 못했어요: {error}</p>
-      <button className="ghost" onClick={onLeave}>처음으로</button>
+      <div className="row">
+        <button className="ghost" onClick={refresh}>다시 시도</button>
+        <button className="ghost" onClick={onSignOut}>로그아웃</button>
+      </div>
     </div>
   )
   if (!data) return <div className="home loading center-col"><div className="seed" /><p>정원으로 가는 중…</p></div>
@@ -177,7 +181,7 @@ export default function Garden({ session, onLeave, onSignOut, email }) {
 
       {tab === 'album' && <Album data={data} meId={meId} onOpen={setOpenFlower} onOpenPair={setOpenPair} flowerById={flowerById} />}
       {tab === 'friends' && <Friends data={data} partner={partner} me={me} />}
-      {tab === 'me' && <Me me={me} data={data} email={email} onLeave={onLeave} onSignOut={onSignOut} />}
+      {tab === 'me' && <Me me={me} data={data} email={email} onSignOut={onSignOut} />}
 
       <nav className="tabbar">
         {[
@@ -310,7 +314,7 @@ function Friends({ data, partner, me }) {
   )
 }
 
-function Me({ me, data, email, onLeave, onSignOut }) {
+function Me({ me, data, email, onSignOut }) {
   return (
     <div className="page">
       <h1 className="page-title">나</h1>
@@ -326,7 +330,6 @@ function Me({ me, data, email, onLeave, onSignOut }) {
       <div className="card">
         <p className="small">녹음은 우리 두 사람만 들을 수 있어요. 내가 보낸 꽃은 꽃을 눌러 언제든 지울 수 있어요.</p>
       </div>
-      <button className="ghost wide" onClick={onLeave}>다른 정원 열기</button>
       <button className="ghost wide" onClick={onSignOut}>로그아웃</button>
     </div>
   )
