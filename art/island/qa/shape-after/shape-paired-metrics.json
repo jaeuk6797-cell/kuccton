@@ -1,0 +1,879 @@
+{
+  "time": "2026-11-06T14:49:33.328Z",
+  "baselineCommit": "266c127",
+  "sequence": "ABBA",
+  "comparisons": [
+    {
+      "index": 0,
+      "variant": "before",
+      "desktop": {
+        "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "canvas": [
+          780,
+          819
+        ],
+        "dpr": 1.5,
+        "toneMapping": 4,
+        "exposure": 1,
+        "outputColorSpace": "srgb",
+        "environmentIntensity": 0.55,
+        "passes": [
+          {
+            "name": "RenderPass",
+            "enabled": true
+          },
+          {
+            "name": "OutputPass",
+            "enabled": true
+          }
+        ],
+        "objects": [
+          {
+            "name": "타닥콩닥꽃",
+            "kind": "pair",
+            "position": [
+              -0.1207308704033494,
+              0,
+              0.7314516861923039
+            ]
+          },
+          {
+            "name": "살랑웅성꽃",
+            "kind": "pair",
+            "position": [
+              0.46300302911549807,
+              0,
+              1.4312063782475888
+            ]
+          },
+          {
+            "name": "타닥나무",
+            "kind": "flower",
+            "position": [
+              1.590052193030715,
+              0,
+              0.7971922869328409
+            ]
+          },
+          {
+            "name": "콩닥콩닥꽃",
+            "kind": "flower",
+            "position": [
+              -1.2092976868152618,
+              0,
+              1.773951774276793
+            ]
+          },
+          {
+            "name": "킥킥꽃",
+            "kind": "flower",
+            "position": [
+              -1.1430694490671158,
+              0,
+              0.3071280900854617
+            ]
+          },
+          {
+            "name": "살랑나무",
+            "kind": "flower",
+            "position": [
+              0.6343889150768518,
+              0,
+              0.26643168800510464
+            ]
+          },
+          {
+            "name": "웅성웅성꽃",
+            "kind": "flower",
+            "position": [
+              -0.45644662976264955,
+              0,
+              1.6461383739020674
+            ]
+          },
+          {
+            "name": "타닥타닥나무",
+            "kind": "flower",
+            "position": [
+              1.3820205345749856,
+              0,
+              -0.004869504412636161
+            ]
+          },
+          {
+            "name": "뚜벅나무",
+            "kind": "flower",
+            "position": [
+              -1.3477231968194248,
+              0,
+              -0.779242406366393
+            ]
+          }
+        ],
+        "island": [
+          "SOOP_Island"
+        ],
+        "memory": {
+          "geometries": 92,
+          "textures": 7
+        },
+        "programs": 11,
+        "glb": [
+          {
+            "size": 2295192,
+            "duration": 5103,
+            "response": 200
+          }
+        ],
+        "rayTimer": true
+      },
+      "measurements": [
+        {
+          "name": "before-flowers",
+          "samples": 60,
+          "submitMs": {
+            "mean": 7.583333331346512,
+            "median": 7.799999952316284,
+            "p95": 10.399999976158142,
+            "min": 1.5,
+            "max": 93.10000002384186
+          },
+          "intervalMs": {
+            "mean": 102.72203389870918,
+            "median": 101,
+            "p95": 131.30000001192093,
+            "min": 8.5,
+            "max": 248.69999998807907
+          },
+          "calls": {
+            "mean": 405,
+            "median": 405,
+            "p95": 405,
+            "min": 405,
+            "max": 405
+          },
+          "triangles": {
+            "mean": 98795,
+            "median": 98795,
+            "p95": 98795,
+            "min": 98795,
+            "max": 98795
+          }
+        },
+        {
+          "name": "before-island-only",
+          "samples": 60,
+          "submitMs": {
+            "mean": 0.8000000009934107,
+            "median": 0.7999999523162842,
+            "p95": 1.300000011920929,
+            "min": 0.5,
+            "max": 1.600000023841858
+          },
+          "intervalMs": {
+            "mean": 72.86271186501293,
+            "median": 72.70000004768372,
+            "p95": 76.09999996423721,
+            "min": 65.70000004768372,
+            "max": 96.30000001192093
+          },
+          "calls": {
+            "mean": 26,
+            "median": 26,
+            "p95": 26,
+            "min": 26,
+            "max": 26
+          },
+          "triangles": {
+            "mean": 52899,
+            "median": 52899,
+            "p95": 52899,
+            "min": 52899,
+            "max": 52899
+          }
+        }
+      ]
+    },
+    {
+      "index": 1,
+      "variant": "after",
+      "desktop": {
+        "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "canvas": [
+          780,
+          819
+        ],
+        "dpr": 1.5,
+        "toneMapping": 4,
+        "exposure": 1,
+        "outputColorSpace": "srgb",
+        "environmentIntensity": 0.55,
+        "passes": [
+          {
+            "name": "RenderPass",
+            "enabled": true
+          },
+          {
+            "name": "OutputPass",
+            "enabled": true
+          }
+        ],
+        "objects": [
+          {
+            "name": "타닥콩닥꽃",
+            "kind": "pair",
+            "position": [
+              -0.1207308704033494,
+              0,
+              0.7314516861923039
+            ]
+          },
+          {
+            "name": "살랑웅성꽃",
+            "kind": "pair",
+            "position": [
+              0.46300302911549807,
+              0,
+              1.4312063782475888
+            ]
+          },
+          {
+            "name": "타닥나무",
+            "kind": "flower",
+            "position": [
+              1.590052193030715,
+              0,
+              0.7971922869328409
+            ]
+          },
+          {
+            "name": "콩닥콩닥꽃",
+            "kind": "flower",
+            "position": [
+              -1.2092976868152618,
+              0,
+              1.773951774276793
+            ]
+          },
+          {
+            "name": "킥킥꽃",
+            "kind": "flower",
+            "position": [
+              -1.1430694490671158,
+              0,
+              0.3071280900854617
+            ]
+          },
+          {
+            "name": "살랑나무",
+            "kind": "flower",
+            "position": [
+              0.6343889150768518,
+              0,
+              0.26643168800510464
+            ]
+          },
+          {
+            "name": "웅성웅성꽃",
+            "kind": "flower",
+            "position": [
+              -0.45644662976264955,
+              0,
+              1.6461383739020674
+            ]
+          },
+          {
+            "name": "타닥타닥나무",
+            "kind": "flower",
+            "position": [
+              1.3820205345749856,
+              0,
+              -0.004869504412636161
+            ]
+          },
+          {
+            "name": "뚜벅나무",
+            "kind": "flower",
+            "position": [
+              -1.3477231968194248,
+              0,
+              -0.779242406366393
+            ]
+          }
+        ],
+        "island": [
+          "SOOP_Island"
+        ],
+        "memory": {
+          "geometries": 92,
+          "textures": 7
+        },
+        "programs": 11,
+        "glb": [
+          {
+            "size": 1577996,
+            "duration": 1737.199999988079,
+            "response": 200
+          }
+        ],
+        "rayTimer": true
+      },
+      "measurements": [
+        {
+          "name": "after-flowers",
+          "samples": 60,
+          "submitMs": {
+            "mean": 9.158333332339923,
+            "median": 9.5,
+            "p95": 11.699999988079071,
+            "min": 2,
+            "max": 14.099999964237213
+          },
+          "intervalMs": {
+            "mean": 99.70847457546299,
+            "median": 102.80000001192093,
+            "p95": 106.69999998807907,
+            "min": 4.5,
+            "max": 112.69999998807907
+          },
+          "calls": {
+            "mean": 405,
+            "median": 405,
+            "p95": 405,
+            "min": 405,
+            "max": 405
+          },
+          "triangles": {
+            "mean": 81332,
+            "median": 81332,
+            "p95": 81332,
+            "min": 81332,
+            "max": 81332
+          }
+        },
+        {
+          "name": "after-island-only",
+          "samples": 60,
+          "submitMs": {
+            "mean": 0.8333333303531011,
+            "median": 0.800000011920929,
+            "p95": 1.199999988079071,
+            "min": 0.5999999642372131,
+            "max": 1.2000000476837158
+          },
+          "intervalMs": {
+            "mean": 74.05593220359188,
+            "median": 73.59999996423721,
+            "p95": 78.69999998807907,
+            "min": 68.60000002384186,
+            "max": 94.30000001192093
+          },
+          "calls": {
+            "mean": 26,
+            "median": 26,
+            "p95": 26,
+            "min": 26,
+            "max": 26
+          },
+          "triangles": {
+            "mean": 35436,
+            "median": 35436,
+            "p95": 35436,
+            "min": 35436,
+            "max": 35436
+          }
+        }
+      ]
+    },
+    {
+      "index": 2,
+      "variant": "after",
+      "desktop": {
+        "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "canvas": [
+          780,
+          819
+        ],
+        "dpr": 1.5,
+        "toneMapping": 4,
+        "exposure": 1,
+        "outputColorSpace": "srgb",
+        "environmentIntensity": 0.55,
+        "passes": [
+          {
+            "name": "RenderPass",
+            "enabled": true
+          },
+          {
+            "name": "OutputPass",
+            "enabled": true
+          }
+        ],
+        "objects": [
+          {
+            "name": "타닥콩닥꽃",
+            "kind": "pair",
+            "position": [
+              -0.1207308704033494,
+              0,
+              0.7314516861923039
+            ]
+          },
+          {
+            "name": "살랑웅성꽃",
+            "kind": "pair",
+            "position": [
+              0.46300302911549807,
+              0,
+              1.4312063782475888
+            ]
+          },
+          {
+            "name": "타닥나무",
+            "kind": "flower",
+            "position": [
+              1.590052193030715,
+              0,
+              0.7971922869328409
+            ]
+          },
+          {
+            "name": "콩닥콩닥꽃",
+            "kind": "flower",
+            "position": [
+              -1.2092976868152618,
+              0,
+              1.773951774276793
+            ]
+          },
+          {
+            "name": "킥킥꽃",
+            "kind": "flower",
+            "position": [
+              -1.1430694490671158,
+              0,
+              0.3071280900854617
+            ]
+          },
+          {
+            "name": "살랑나무",
+            "kind": "flower",
+            "position": [
+              0.6343889150768518,
+              0,
+              0.26643168800510464
+            ]
+          },
+          {
+            "name": "웅성웅성꽃",
+            "kind": "flower",
+            "position": [
+              -0.45644662976264955,
+              0,
+              1.6461383739020674
+            ]
+          },
+          {
+            "name": "타닥타닥나무",
+            "kind": "flower",
+            "position": [
+              1.3820205345749856,
+              0,
+              -0.004869504412636161
+            ]
+          },
+          {
+            "name": "뚜벅나무",
+            "kind": "flower",
+            "position": [
+              -1.3477231968194248,
+              0,
+              -0.779242406366393
+            ]
+          }
+        ],
+        "island": [
+          "SOOP_Island"
+        ],
+        "memory": {
+          "geometries": 92,
+          "textures": 7
+        },
+        "programs": 11,
+        "glb": [
+          {
+            "size": 1577996,
+            "duration": 1460.5,
+            "response": 200
+          }
+        ],
+        "rayTimer": true
+      },
+      "measurements": [
+        {
+          "name": "after-flowers",
+          "samples": 60,
+          "submitMs": {
+            "mean": 12.366666666666667,
+            "median": 9.599999964237213,
+            "p95": 76.69999998807907,
+            "min": 2,
+            "max": 88.5
+          },
+          "intervalMs": {
+            "mean": 102.00169491464808,
+            "median": 102.60000002384186,
+            "p95": 209,
+            "min": 2.400000035762787,
+            "max": 309.89999997615814
+          },
+          "calls": {
+            "mean": 405,
+            "median": 405,
+            "p95": 405,
+            "min": 405,
+            "max": 405
+          },
+          "triangles": {
+            "mean": 81332,
+            "median": 81332,
+            "p95": 81332,
+            "min": 81332,
+            "max": 81332
+          }
+        },
+        {
+          "name": "after-island-only",
+          "samples": 60,
+          "submitMs": {
+            "mean": 0.7866666694482167,
+            "median": 0.800000011920929,
+            "p95": 1,
+            "min": 0.5999999642372131,
+            "max": 1.199999988079071
+          },
+          "intervalMs": {
+            "mean": 73.23220338962845,
+            "median": 72.90000003576279,
+            "p95": 77.60000002384186,
+            "min": 69.80000001192093,
+            "max": 79.59999996423721
+          },
+          "calls": {
+            "mean": 26,
+            "median": 26,
+            "p95": 26,
+            "min": 26,
+            "max": 26
+          },
+          "triangles": {
+            "mean": 35436,
+            "median": 35436,
+            "p95": 35436,
+            "min": 35436,
+            "max": 35436
+          }
+        }
+      ]
+    },
+    {
+      "variant": "ground-simple-diagnostic",
+      "changed": [
+        {
+          "name": "SUP Opalescent ground",
+          "type": "MeshPhysicalMaterial",
+          "clearcoat": 0.10000000149011612,
+          "iridescence": 0.10000000149011612
+        }
+      ],
+      "measurements": [
+        {
+          "name": "ground-simple-flowers",
+          "samples": 60,
+          "submitMs": {
+            "mean": 8.64333333671093,
+            "median": 9.300000011920929,
+            "p95": 12.5,
+            "min": 1.899999976158142,
+            "max": 14.800000011920929
+          },
+          "intervalMs": {
+            "mean": 91.18474576230777,
+            "median": 91,
+            "p95": 96,
+            "min": 87.70000004768372,
+            "max": 99.5
+          },
+          "calls": {
+            "mean": 405,
+            "median": 405,
+            "p95": 405,
+            "min": 405,
+            "max": 405
+          },
+          "triangles": {
+            "mean": 81332,
+            "median": 81332,
+            "p95": 81332,
+            "min": 81332,
+            "max": 81332
+          }
+        },
+        {
+          "name": "ground-simple-island-only",
+          "samples": 60,
+          "submitMs": {
+            "mean": 0.85,
+            "median": 0.800000011920929,
+            "p95": 1.2999999523162842,
+            "min": 0.5999999642372131,
+            "max": 3.199999988079071
+          },
+          "intervalMs": {
+            "mean": 61.601694915254235,
+            "median": 61.5,
+            "p95": 65.5,
+            "min": 52.700000047683716,
+            "max": 69.5
+          },
+          "calls": {
+            "mean": 26,
+            "median": 26,
+            "p95": 26,
+            "min": 26,
+            "max": 26
+          },
+          "triangles": {
+            "mean": 35436,
+            "median": 35436,
+            "p95": 35436,
+            "min": 35436,
+            "max": 35436
+          }
+        }
+      ]
+    },
+    {
+      "index": 3,
+      "variant": "before",
+      "desktop": {
+        "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "canvas": [
+          780,
+          819
+        ],
+        "dpr": 1.5,
+        "toneMapping": 4,
+        "exposure": 1,
+        "outputColorSpace": "srgb",
+        "environmentIntensity": 0.55,
+        "passes": [
+          {
+            "name": "RenderPass",
+            "enabled": true
+          },
+          {
+            "name": "OutputPass",
+            "enabled": true
+          }
+        ],
+        "objects": [
+          {
+            "name": "타닥콩닥꽃",
+            "kind": "pair",
+            "position": [
+              -0.1207308704033494,
+              0,
+              0.7314516861923039
+            ]
+          },
+          {
+            "name": "살랑웅성꽃",
+            "kind": "pair",
+            "position": [
+              0.46300302911549807,
+              0,
+              1.4312063782475888
+            ]
+          },
+          {
+            "name": "타닥나무",
+            "kind": "flower",
+            "position": [
+              1.590052193030715,
+              0,
+              0.7971922869328409
+            ]
+          },
+          {
+            "name": "콩닥콩닥꽃",
+            "kind": "flower",
+            "position": [
+              -1.2092976868152618,
+              0,
+              1.773951774276793
+            ]
+          },
+          {
+            "name": "킥킥꽃",
+            "kind": "flower",
+            "position": [
+              -1.1430694490671158,
+              0,
+              0.3071280900854617
+            ]
+          },
+          {
+            "name": "살랑나무",
+            "kind": "flower",
+            "position": [
+              0.6343889150768518,
+              0,
+              0.26643168800510464
+            ]
+          },
+          {
+            "name": "웅성웅성꽃",
+            "kind": "flower",
+            "position": [
+              -0.45644662976264955,
+              0,
+              1.6461383739020674
+            ]
+          },
+          {
+            "name": "타닥타닥나무",
+            "kind": "flower",
+            "position": [
+              1.3820205345749856,
+              0,
+              -0.004869504412636161
+            ]
+          },
+          {
+            "name": "뚜벅나무",
+            "kind": "flower",
+            "position": [
+              -1.3477231968194248,
+              0,
+              -0.779242406366393
+            ]
+          }
+        ],
+        "island": [
+          "SOOP_Island"
+        ],
+        "memory": {
+          "geometries": 92,
+          "textures": 7
+        },
+        "programs": 11,
+        "glb": [
+          {
+            "size": 2295192,
+            "duration": 876,
+            "response": 200
+          }
+        ],
+        "rayTimer": true
+      },
+      "measurements": [
+        {
+          "name": "before-flowers",
+          "samples": 60,
+          "submitMs": {
+            "mean": 8.571666665871938,
+            "median": 9.600000023841858,
+            "p95": 10.399999976158142,
+            "min": 2.099999964237213,
+            "max": 11.599999964237213
+          },
+          "intervalMs": {
+            "mean": 99.56101694955665,
+            "median": 100.70000004768372,
+            "p95": 104.90000003576279,
+            "min": 13.100000023841858,
+            "max": 105.80000001192093
+          },
+          "calls": {
+            "mean": 405,
+            "median": 405,
+            "p95": 405,
+            "min": 405,
+            "max": 405
+          },
+          "triangles": {
+            "mean": 98795,
+            "median": 98795,
+            "p95": 98795,
+            "min": 98795,
+            "max": 98795
+          }
+        },
+        {
+          "name": "before-island-only",
+          "samples": 60,
+          "submitMs": {
+            "mean": 0.9750000029802323,
+            "median": 0.9000000357627869,
+            "p95": 1.2000000476837158,
+            "min": 0.699999988079071,
+            "max": 3.399999976158142
+          },
+          "intervalMs": {
+            "mean": 72.74067796589965,
+            "median": 72.69999998807907,
+            "p95": 75.19999998807907,
+            "min": 67.39999997615814,
+            "max": 78.30000001192093
+          },
+          "calls": {
+            "mean": 26,
+            "median": 26,
+            "p95": 26,
+            "min": 26,
+            "max": 26
+          },
+          "triangles": {
+            "mean": 52899,
+            "median": 52899,
+            "p95": 52899,
+            "min": 52899,
+            "max": 52899
+          }
+        }
+      ]
+    }
+  ],
+  "logs": [
+    "THREE.Clock: This module has been deprecated. Please use THREE.Timer instead."
+  ],
+  "responses": [
+    {
+      "status": 200,
+      "type": "model/gltf-binary",
+      "url": "http://127.0.0.1:5173/models/island.glb"
+    },
+    {
+      "status": 200,
+      "type": "model/gltf-binary",
+      "url": "http://127.0.0.1:5173/models/island.glb"
+    },
+    {
+      "status": 200,
+      "type": "model/gltf-binary",
+      "url": "http://127.0.0.1:5173/models/island.glb"
+    },
+    {
+      "status": 200,
+      "type": "model/gltf-binary",
+      "url": "http://127.0.0.1:5173/models/island.glb"
+    },
+    {
+      "status": 200,
+      "type": "model/gltf-binary",
+      "url": "http://127.0.0.1:5173/models/island.glb"
+    }
+  ],
+  "failures": []
+}

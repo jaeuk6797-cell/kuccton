@@ -1,131 +1,130 @@
-SUP floating mineral garden — visual refinement
+SUP floating mineral garden - shape refinement
 2026-11-06
 
-Branch codex/island-refinement starts from main 2a6f98d. The original asset
-and source remain preserved in commit 0dc8638 on feat/island-art. The before
-comparison uses that asset with the latest main renderer.
+Starting point
 
-Visual diagnosis and changes
+Focused revision of commit 266c127 on codex/island-refinement. Earlier source,
+assets, screenshots and renderer are preserved in that parent commit.
 
-The first island used pale colors, constant crystal opacity, and separate
-rounded underside rocks. The app lacked environment reflections and explicit
-tone mapping. Its direct lighting produced harsh contrast, while the Blender
-studio render compressed the pale materials toward white.
+Geometry
 
-Latest main had already removed excessive flower emission and Bloom. This
-revision retains its center/stamen emission of 0.15. Reduced petal whitening,
-lower petal emission (0.12 to 0.04), and ACES retain center and petal color.
+A fifteen-shoulder asymmetric outline with lightly dressed corners replaces
+the circular boundary. The planting surface, metal seam and mineral shell
+share the outline. Long planar stretches keep the contour intentional.
+The rose-gold band is roughly half its old depth, varies gently in depth,
+and has one champagne upper seam. The rear resonator is subtly asymmetric.
 
-A single connected, tapering mineral formation replaces the rounded rocks.
-Broad fracture planes, selective 0.026-unit bevels, and a sharp lower tip
-create a sculpted silhouette. Turquoise, lavender, blue, and violet vary
-across the formation. The thin rim and clear planting surface are preserved.
+The underside is a single connected formation with broad fracture planes,
+0.013-unit edge chamfers and an offset suspended tip at local Y=-2.86.
+The tip extends toward the front, making the tapered silhouette visible from
+the app camera. No hanging rock clusters or extra ornaments were introduced.
+Surface sampling, leaf tessellation, gravel quantity and trim sections were
+reduced while retaining the major crystal silhouettes and clear center.
 
-Ground colors are richer, with a subtler 512 x 512 mineral normal texture.
-Glossy crystals have tinted specular highlights and vertex alpha that varies
-from dense bases to clearer tips. Limited clearcoat preserves facet detail.
+Asset measurements
 
-Four reflection cards are captured into a 256-face HDR PMREM environment
-once per mount. This requires no external HDR download or per-frame reflection
-capture. Warm, lavender, and cyan panels supply metallic/crystal reflections
-at environment intensity 0.55. Output is sRGB with ACES exposure 1, applied
-once through OutputPass. Native glTF material and texture handling is retained.
+Metric                         Before       After
+Total triangles                38,724       24,443
+Planting surface triangles      5,390        2,672
+Underside triangles             4,330        1,089
+Ground plus underside           9,720        3,761
+Exported vertices              40,637       22,701
+Mesh primitives                    22           22
+Materials                          11           11
+GLB bytes                   2,295,192    1,577,764
 
-A balanced key, cool fill, and restrained hemisphere light soften contrast.
-PCF shadows use intensity 0.55, radius 3, a tighter frustum, and explicit bias.
-Appropriate opaque perimeter details cast shadows. Transparent crystals and
-water preserve their appearance. New environment, model, and postprocessing
-resources are disposed on teardown. Sound trees, growth, selection, portrait
-framing, and the 1.5 DPR cap are preserved.
-
-AgX and ACES were compared in the actual app. ACES retained richer color.
-Bloom, 2x MSAA, and FXAA probes added substantial measured cost for limited
-visual improvement, so the existing Bloom-free two-pass pipeline is retained.
-
-Asset and coordinate checks
-
-38,724 triangles; 40,637 exported vertices; 22 mesh primitives; 11 materials.
-The uncompressed GLB is 2,295,192 bytes (2.30 MB / 2.19 MiB).
-One embedded 512 x 512 normal PNG occupies 624,332 bytes. Other color
+The full asset is within the 20,000-28,000 target and has 36.9% fewer triangles.
+The underside alone is below the approximate 3,000-6,000 base-shell range;
+including the planting surface, the broad base is 3,761 triangles. The large
+planes did not require added tessellation. The GLB is 1.58 MB, 31.2% smaller.
+One packed 512 x 512 normal texture accounts for 624,332 bytes. Other color
 variation is stored in vertex colors.
 
-Crystal COLOR_0 VEC4 alpha varies approximately 0.39–0.77. Three.js uses it
-with alpha blending and material opacity 1. Crystal roughness is
-0.055 / 0.067 / 0.079. Water alpha is 0.64. Materials use metallic-roughness
-PBR with glTF clearcoat, iridescence, specular, and emissive-strength
-extensions. No transmission/refraction pass is used.
+Materials and rendering
 
-The GLB is Y-up, with planting origin (0,0,0) and diameter 8.008182. The loader
-scales it by 0.99897829 to 8 and raises it to Y=0.17, matching the flower layer.
-The underside reaches local Y=-2.72. All 1,653 radius-2.3 planting samples
-hit, with maximum local height deviation 0.00004318. The nearest decoration
-is at runtime radius 2.3412.
+Ground metallic is reduced from .09 to .035, with roughness .39. It uses
+standard metallic-roughness reflection. A ground clearcoat/iridescence probe
+had negligible visual benefit and higher measured cost, so it was removed.
+Mineral metallic is .12, roughness .32, and clearcoat .22/.24. Broader tinted
+reflections read across the surfaces without a mirror-like planting area.
 
-There are zero degenerate triangles, winding/normal conflicts, or invalid
-normals. The underside is one connected component with no non-manifold
-edges. Its only boundary is concealed beneath the rim. The GLB contains no
-flowers, cameras, lights, background, or animation. Preview lighting and
-backdrop are confined to the editable .blend.
+The app captures broad pink, lavender, cyan and turquoise reflection cards
+into its existing 256-face environment. Lower peak radiance and a one-time
+0.14-radian PMREM blur soften the sky reflections. Environment intensity .55,
+ACES exposure 1, existing postprocessing and shadow setup remain. Cool-fill
+intensity .65 improves underside visibility. There are no additional lights,
+per-frame reflection captures, refraction passes or postprocessing passes.
 
-Measured performance
+Crystal geometry and layered facet alpha remain sharp and glossy, with
+roughness .055/.067/.079 and vertex alpha approximately .39-.77. Water alpha
+is .64. Materials use export-compatible glTF PBR, clearcoat, iridescence,
+specular and IOR properties. Transparency is simple single-sided blending.
 
-Chrome ANGLE/SwiftShader software rendering, DPR 1.5, 60 settled animation
-frames per scenario. Frame interval includes software GPU work and host
-scheduling. It is not hardware mobile GPU timing. Full measurements and
-viewport details are in qa/performance-results.json.
+Integration and geometry validation
 
-Scenario                  Calls before/final    Median frame interval
-Desktop with flowers          428 / 405           53.2 / 56.1 ms
-Island only                    49 / 26            44.5 / 38.6 ms
-Portrait with flowers         428 / 405           44.9 / 47.9 ms
+The exported asset is Y-up with top-center origin (0,0,0). Raw X/Z dimensions
+are 7.931661 x 7.687877. The unchanged loader scales by 1.00861599 to an
+8-unit maximum diameter and raises the planting origin to world Y=.17.
 
-Island-only interval improved 13.3%. Full-scene interval rose 5.5% and
-portrait rose 6.7% with richer reflection shading. Full-scene drawn triangles,
-including shadows, fell from 137,925 to 98,795. Median CPU submission changed
-from 1.0 to 1.9 ms with flowers and from 0.4 to 0.6 ms for the island alone.
+All 1,653 sampled points within world radius 2.3 hit the planting surface.
+Maximum height deviation is .00000738. The nearest permanent decoration is
+at world radius 2.36378; triangle-based clearance also passes. All eight
+fixed fern bases are on the surface. No static flowers, buds or petals exist.
 
-Subtle Bloom increased final desktop interval from 56.1 to 82.4 ms.
-2x MSAA increased it to 131.4 ms. A later paired FXAA probe changed
-104.5 to 152.8 ms under a slower host workload. That probe is excluded from
-the primary comparison. Physical Android/iOS performance remains unverified.
+The GLB has zero degenerate triangles, winding conflicts or invalid normals.
+The underside is one connected component without non-manifold edges. Its
+79 boundary edges are confined to the concealed upper join beneath the rim.
+Cameras, lights, backdrop and animations are absent from the GLB.
 
-Verification and screenshots
+Outputs
 
-npm run build passed. The package has no test script. Source and production
-GLBs match SHA-256
-1071657ee2f608c474dc6d6995d61b2472cf223322b5cb7218c9ccac98be4535.
+public/models/island.glb
+art/island/island.blend
+art/island/generate_island.py
+art/island/preview.png
+art/island/qa/shape-asset-validation.json
+art/island/qa/shape-before
+art/island/qa/shape-after
 
-The actual /?view=island route loaded successfully. Flower/pair picking,
-OrbitControls dragging, and new-flower growth passed. The mock scene grew
-from 9 to 11 instances. The only browser warning is the existing THREE.Clock
-deprecation. Vite retains its existing large-bundle warning. Real recording
-and stereo playback were not exercised by the mock route. Their source files
-and authentication, database, naming, and recognition logic were unchanged.
+The editable source is saved with the SOOP_Island scene, SUP_Floating_Island
+root collection, separate geometry groups and excluded preview rig. Existing
+work in the live Blender session was preserved. The final source and GLB were
+saved from the same generator revision.
 
-qa/before/default.png and empty.png show the latest-main baseline.
-qa/default.png and empty.png show the final app with and without flowers.
-qa/final-no-bloom.png and diagnostic-bloom.png document the effects comparison.
-qa/rotated.png, rear.png, and mobile.png show orbit and portrait views.
-qa/diagnostics contains AgX/ACES comparisons. preview.png is the final
-1400 x 1100 Blender render with a similar front camera and studio reflections.
+Production build passes with the existing bundle-size warning. Public and
+dist GLB files have matching SHA-256
+5e9338276dc51a560cf6c49589e439fdc4fde9ced51fe913e7ef1f33b6fe3f80.
 
-Remaining differences
+App verification and performance
 
-The result is more restrained and spacious than the reference. Alpha,
-facet tint, and reflected light approximate crystal optical depth. The
-underside uses broad stylized fracture planes. Thin reflective edges retain
-some aliasing at distant zoom. The app's procedural flowers and sound trees
-remain. Dense static flora, butterflies, and complex refractive effects from
-the reference are outside the model.
+Final app verification and measured performance are recorded in the paired
+shape-before/shape-after captures and shape-performance-comparison.json.
+The actual /?view=island route was checked with and without flowers, rotated
+views and a mobile-like viewport. Flower picking, orbit dragging and new
+flower growth pass. No loading failures were observed. The existing
+THREE.Clock deprecation warning remains.
 
-Source and reproduction
+Render calls remain 405 with flowers and 26 for the island only. Rendered
+triangles including shadows fall from 98,795 to 81,332 with flowers and
+52,899 to 35,436 for the island only. No extra render pass was added.
 
-public/models/island.glb is the runtime asset. art/island/island.blend is
-the editable scene. art/island/generate_island.py contains the fixed-seed
-geometry and materials. With Blender 5.2, run
+Host load varied substantially between early and late measurements. A
+controlled same-session ABBA replay measured the baseline at 101.0/100.7 ms
+with flowers and 72.7/72.7 ms empty, versus 102.8/102.6 and 73.6/72.9 ms
+for the temporary coated ground. Removing that ground coating measured
+91.0 ms with flowers and 61.5 ms empty, about 11%/16% lower than the coated
+variant. The final export uses that simpler ground material. These paired
+figures are diagnostic software-renderer observations, not mobile FPS claims.
 
-  blender --background --factory-startup --python art/island/generate_island.py
+The final exported GLB was loaded again and checked at 52.3 ms with flowers,
+34.5 ms empty and 45.1 ms in portrait. Earlier baseline runs were 56.2,
+39.0 and 48.0 ms respectively. Use the controlled pairing above to assess
+material cost; these separate final/baseline runs experienced different host
+load and are included for traceability rather than a guaranteed speedup.
 
-Append -- --render to regenerate preview.png at 96 denoised Cycles samples.
-The generator preserves interactive scenes and saves the new scene through
-a separate Blender process. The prior source remains in commit 0dc8638.
+Timing uses Chrome ANGLE/SwiftShader software rendering, DPR 1.5 and 60
+settled animation frames. It is not physical Android/iOS GPU timing. Thin
+reflective edges retain some aliasing at distant zoom. Crystal depth uses
+facet color, alpha and reflection rather than optical refraction. The
+underside deliberately retains darker mineral values beneath the bright
+planting surface. No audio, authentication or database behavior changed.

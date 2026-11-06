@@ -64,15 +64,15 @@ function disposeMeshes(root) {
 }
 
 function createGardenEnvironment(renderer) {
-  // Capture reflection cards once. The garden only samples the filtered cubemap afterward.
+  // Capture broad pastel sky reflections once; only the filtered cubemap is sampled each frame.
   const studio = new THREE.Scene()
-  studio.background = new THREE.Color('#4c5366')
+  studio.background = new THREE.Color('#69788b')
   const geometry = new THREE.PlaneGeometry(1, 1)
   for (const [position, size, color, intensity] of [
-    [[-3, 4, 5], [4.5, 5], '#fff0e7', 3.8],
-    [[5, 1, 2], [2, 5], '#b8f4f4', 2.6],
-    [[-4, 2, -4], [5, 3], '#e1bded', 2.1],
-    [[0, 6, -1], [3, 3], '#f4ecff', 2.5],
+    [[-3, 4, 5], [6.5, 5.5], '#f5c8df', 1.7],
+    [[5, 2, 2], [5, 6], '#b9e7f0', 1.7],
+    [[-4, 3, -4], [7, 4.5], '#c6b7ec', 1.55],
+    [[0, 5, -1], [5, 5], '#c5ece5', 1.45],
   ]) {
     const material = new THREE.MeshBasicMaterial({
       color: new THREE.Color(color).multiplyScalar(intensity), toneMapped: false,
@@ -84,7 +84,8 @@ function createGardenEnvironment(renderer) {
     studio.add(panel)
   }
   const generator = new THREE.PMREMGenerator(renderer)
-  const environment = generator.fromScene(studio, 0, 0.1, 30, { size: 256 })
+  // A small angular blur softens light-card edges without adding a realtime render pass.
+  const environment = generator.fromScene(studio, 0.14, 0.1, 30, { size: 256 })
   generator.dispose()
   disposeMeshes(studio)
   return environment
@@ -239,7 +240,7 @@ export default function Island3D({ flowers, pairs, meId, freshIds, highlightId, 
     sun.shadow.normalBias = 0.025
     sun.shadow.bias = -0.0001
     scene.add(sun)
-    const fill = new THREE.DirectionalLight('#a8dce4', 0.42)
+    const fill = new THREE.DirectionalLight('#a8dce4', 0.65)
     fill.position.set(-4, -1, 3)
     scene.add(fill)
 

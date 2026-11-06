@@ -1,0 +1,248 @@
+{
+  "baselineCommit": "266c127",
+  "finalMeasuredAt": "2026-11-06T14:56:59.684Z",
+  "method": {
+    "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+    "desktopViewport": [
+      520,
+      820
+    ],
+    "portraitViewport": [
+      420,
+      900
+    ],
+    "dpr": 1.5,
+    "settledFramesPerScenario": 60,
+    "measurement": "CPU composer submission duration and frame callback cadence. Not GPU timer results.",
+    "limitations": "Headless Chrome uses SwiftShader software Vulkan. Host conditions caused substantial cross-run timing variation. Same-session controlled comparison is primary; these are not mobile-device FPS claims.",
+    "controlledSequence": "baseline, coated-shape, coated-shape, uncoated-ground diagnostic, baseline",
+    "baselineReplay": "Original GLB from git 266c127 and original sky/fill constants supplied only to browser requests. No workspace asset or application source mutation."
+  },
+  "assets": {
+    "before": {
+      "bytes": 2295192,
+      "sha256": "1071657ee2f608c474dc6d6995d61b2472cf223322b5cb7218c9ccac98be4535",
+      "triangles": 38724,
+      "materials": 11
+    },
+    "after": {
+      "bytes": 1577764,
+      "sha256": "5e9338276dc51a560cf6c49589e439fdc4fde9ced51fe913e7ef1f33b6fe3f80",
+      "triangles": 24443,
+      "materials": 11
+    },
+    "triangleReductionPercent": 36.88,
+    "byteReductionPercent": 31.26
+  },
+  "originalBaselineCapture": [
+    {
+      "scenario": "desktop-flowers",
+      "samples": 60,
+      "cpuSubmitMedianMs": 1.1,
+      "frameCadenceMedianMs": 56.2,
+      "frameCadenceP95Ms": 61.9,
+      "drawCalls": 405,
+      "drawnTriangles": 98795
+    },
+    {
+      "scenario": "desktop-island-only",
+      "samples": 60,
+      "cpuSubmitMedianMs": 0.4,
+      "frameCadenceMedianMs": 39,
+      "frameCadenceP95Ms": 41.7,
+      "drawCalls": 26,
+      "drawnTriangles": 52899
+    },
+    {
+      "scenario": "portrait-flowers",
+      "samples": 60,
+      "cpuSubmitMedianMs": 1.2,
+      "frameCadenceMedianMs": 48,
+      "frameCadenceP95Ms": 50.8,
+      "drawCalls": 405,
+      "drawnTriangles": 98795
+    }
+  ],
+  "finalCapture": [
+    {
+      "scenario": "desktop-flowers",
+      "samples": 60,
+      "cpuSubmitMedianMs": 1.9,
+      "frameCadenceMedianMs": 52.3,
+      "frameCadenceP95Ms": 63.7,
+      "drawCalls": 405,
+      "drawnTriangles": 81332
+    },
+    {
+      "scenario": "desktop-island-only",
+      "samples": 60,
+      "cpuSubmitMedianMs": 0.6,
+      "frameCadenceMedianMs": 34.5,
+      "frameCadenceP95Ms": 66.4,
+      "drawCalls": 26,
+      "drawnTriangles": 35436
+    },
+    {
+      "scenario": "portrait-flowers",
+      "samples": 60,
+      "cpuSubmitMedianMs": 2,
+      "frameCadenceMedianMs": 45.1,
+      "frameCadenceP95Ms": 49.3,
+      "drawCalls": 405,
+      "drawnTriangles": 81332
+    }
+  ],
+  "controlledComparison": [
+    {
+      "variant": "before",
+      "measurements": [
+        {
+          "scenario": "before-flowers",
+          "samples": 60,
+          "cpuSubmitMedianMs": 7.8,
+          "frameCadenceMedianMs": 101,
+          "frameCadenceP95Ms": 131.3,
+          "drawCalls": 405,
+          "drawnTriangles": 98795
+        },
+        {
+          "scenario": "before-island-only",
+          "samples": 60,
+          "cpuSubmitMedianMs": 0.8,
+          "frameCadenceMedianMs": 72.7,
+          "frameCadenceP95Ms": 76.1,
+          "drawCalls": 26,
+          "drawnTriangles": 52899
+        }
+      ]
+    },
+    {
+      "variant": "after",
+      "measurements": [
+        {
+          "scenario": "after-flowers",
+          "samples": 60,
+          "cpuSubmitMedianMs": 9.5,
+          "frameCadenceMedianMs": 102.8,
+          "frameCadenceP95Ms": 106.7,
+          "drawCalls": 405,
+          "drawnTriangles": 81332
+        },
+        {
+          "scenario": "after-island-only",
+          "samples": 60,
+          "cpuSubmitMedianMs": 0.8,
+          "frameCadenceMedianMs": 73.6,
+          "frameCadenceP95Ms": 78.7,
+          "drawCalls": 26,
+          "drawnTriangles": 35436
+        }
+      ]
+    },
+    {
+      "variant": "after",
+      "measurements": [
+        {
+          "scenario": "after-flowers",
+          "samples": 60,
+          "cpuSubmitMedianMs": 9.6,
+          "frameCadenceMedianMs": 102.6,
+          "frameCadenceP95Ms": 209,
+          "drawCalls": 405,
+          "drawnTriangles": 81332
+        },
+        {
+          "scenario": "after-island-only",
+          "samples": 60,
+          "cpuSubmitMedianMs": 0.8,
+          "frameCadenceMedianMs": 72.9,
+          "frameCadenceP95Ms": 77.6,
+          "drawCalls": 26,
+          "drawnTriangles": 35436
+        }
+      ]
+    },
+    {
+      "variant": "ground-simple-diagnostic",
+      "measurements": [
+        {
+          "scenario": "ground-simple-flowers",
+          "samples": 60,
+          "cpuSubmitMedianMs": 9.3,
+          "frameCadenceMedianMs": 91,
+          "frameCadenceP95Ms": 96,
+          "drawCalls": 405,
+          "drawnTriangles": 81332
+        },
+        {
+          "scenario": "ground-simple-island-only",
+          "samples": 60,
+          "cpuSubmitMedianMs": 0.8,
+          "frameCadenceMedianMs": 61.5,
+          "frameCadenceP95Ms": 65.5,
+          "drawCalls": 26,
+          "drawnTriangles": 35436
+        }
+      ]
+    },
+    {
+      "variant": "before",
+      "measurements": [
+        {
+          "scenario": "before-flowers",
+          "samples": 60,
+          "cpuSubmitMedianMs": 9.6,
+          "frameCadenceMedianMs": 100.7,
+          "frameCadenceP95Ms": 104.9,
+          "drawCalls": 405,
+          "drawnTriangles": 98795
+        },
+        {
+          "scenario": "before-island-only",
+          "samples": 60,
+          "cpuSubmitMedianMs": 0.9,
+          "frameCadenceMedianMs": 72.7,
+          "frameCadenceP95Ms": 75.2,
+          "drawCalls": 26,
+          "drawnTriangles": 52899
+        }
+      ]
+    }
+  ],
+  "interpretation": "Controlled coated-shape timing was within about 2% of baseline. Removing the ground coating in that same session reduced flowers cadence from about 102.7 to 91.0 ms and island-only cadence from about 73.25 to 61.5 ms, with negligible visible loss. Geometry and file-size reductions are verified independently of timing. Cross-run absolute timing should not be treated as a performance regression or device-speed prediction.",
+  "validation": {
+    "modelResponses": [
+      {
+        "status": 200,
+        "type": "model/gltf-binary",
+        "url": "http://127.0.0.1:5173/models/island.glb"
+      },
+      {
+        "status": 200,
+        "type": "model/gltf-binary",
+        "url": "http://127.0.0.1:5173/models/island.glb"
+      }
+    ],
+    "networkFailures": [],
+    "console": [
+      "THREE.Clock: This module has been deprecated. Please use THREE.Timer instead."
+    ],
+    "orbitSide": true,
+    "orbitRear": true,
+    "selected": "타닥타닥나무",
+    "addBefore": 9,
+    "addAfter": {
+      "count": 11,
+      "opened": true,
+      "selected": "킥킥꽃"
+    },
+    "flowerPositionsUnchanged": true,
+    "visual": "Asymmetric contour and thin perimeter band remain clear from front, side, and rear. Full island and pointed underside fit portrait view. Planting area stays unobstructed. Sky environment adds soft pastel response without mirror glare or extra decoration."
+  },
+  "evidence": {
+    "before": "shape-before/",
+    "after": "shape-after/",
+    "noEnvironmentDiagnostic": "shape-after/shape-no-environment.png",
+    "controlledRaw": "shape-after/shape-paired-metrics.json"
+  }
+}

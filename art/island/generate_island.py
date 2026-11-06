@@ -182,8 +182,33 @@ def ground(x, y):
     return smooth((radius - 2.34) / 1.5) * (.035 + .032 * field(x, y, 4))
 
 
+# Broad mineral shoulders with small dressed corners, rather than a radial wobble.
+OUTLINE_CORNERS = [(3.92, .45), (3.50, 1.94), (2.33, 3.20), (.75, 3.70),
+                   (-.65, 3.86), (-2.29, 3.16), (-3.48, 2.05), (-3.91, .48),
+                   (-3.67, -1.23), (-2.85, -2.81), (-1.17, -3.57),
+                   (.63, -3.79), (2.23, -3.14), (3.72, -1.98), (3.98, -.68)]
+OUTLINE = []
+for index, corner in enumerate(OUTLINE_CORNERS):
+    p = Vector(corner)
+    before = p.lerp(Vector(OUTLINE_CORNERS[index - 1]), .075)
+    after = p.lerp(Vector(OUTLINE_CORNERS[(index + 1) % len(OUTLINE_CORNERS)]), .075)
+    for step in range(5):
+        t = step / 4
+        OUTLINE.append(tuple((1 - t) ** 2 * before + 2 * t * (1 - t) * p + t * t * after))
+
+
 def perimeter(angle):
-    return 3.965 + .018 * sin(3 * angle + .6) + .011 * cos(7 * angle)
+    dx, dy = cos(angle), sin(angle)
+    for (ax, ay), (bx, by) in zip(OUTLINE, OUTLINE[1:] + OUTLINE[:1]):
+        ex, ey = bx - ax, by - ay
+        determinant = dx * ey - dy * ex
+        if abs(determinant) < 1e-9:
+            continue
+        radius = (ax * ey - ay * ex) / determinant
+        t = (ax * dy - ay * dx) / determinant
+        if radius > 0 and -.000001 <= t <= 1.000001:
+            return radius
+    raise ValueError('Outline ray did not intersect')
 
 
 def contains(x, y, poly):
@@ -211,19 +236,20 @@ def mineral_color(x, y, z, pale=False):
 
 
 def surface_and_rim():
-    outer = [(perimeter(a) * cos(a), perimeter(a) * sin(a)) for a in [TAU * i / 160 for i in range(160)]]
+    count = 128
+    outer = [(perimeter(a) * cos(a), perimeter(a) * sin(a)) for a in [TAU * i / count for i in range(count)]]
     shore = [pond_point(TAU * i / 64) for i in range(64)]
     points = outer + shore + [(0, 0)]
-    for ring in range(1, 31):
-        radius = ring * .127
-        count = max(12, int(TAU * radius / .14))
-        for i in range(count):
-            a = TAU * (i + .38 * (ring % 3)) / count
+    for ring in range(1, 23):
+        radius = ring * .18
+        samples = max(12, int(TAU * radius / .20))
+        for i in range(samples):
+            a = TAU * (i + .38 * (ring % 3)) / samples
             r = radius + rng.uniform(-.018, .018)
             x, y = r * cos(a), r * sin(a)
-            if not contains(x, y, shore) and min(math.hypot(x - px, y - py) for px, py in shore) > .065:
+            if r < perimeter(a) - .065 and not contains(x, y, shore) and min(math.hypot(x - px, y - py) for px, py in shore) > .065:
                 points.append((x, y))
-    edges = [(i, (i + 1) % 160) for i in range(160)] + [(160 + i, 160 + (i + 1) % 64) for i in range(64)]
+    edges = [(i, (i + 1) % count) for i in range(count)] + [(count + i, count + (i + 1) % 64) for i in range(64)]
     vertices, _, faces, *_ = delaunay_2d_cdt([Vector(p) for p in points], edges, [], 0, 1e-6)
     geo = Geometry()
     for x, y in vertices:
@@ -240,23 +266,30 @@ def surface_and_rim():
     geo.object('Island_Surface | Opalescent planting clearing', groups['surface'], mats['surface'])
 
     geo = Geometry()
-    profile = [(3.92, .012), (3.974, .014), (4, -.010), (4.003, -.035), (4.003, -.191), (3.984, -.219), (3.932, -.221), (3.915, -.184)]
-    for i in range(160):
-        a = TAU * i / 160
+    for i in range(count):
+        a = TAU * i / count
+        depth = .115 + .025 * sin(a * 2 + .4) + .012 * cos(a * 3)
+        height = ground(perimeter(a) * cos(a), perimeter(a) * sin(a))
+        profile = [(-.036, .001), (.005, .007), (.030, -.012),
+                   (.031, -.032), (.010, -depth), (-.025, -depth + .012)]
         for j, (r, z) in enumerate(profile):
-            r += perimeter(a) - 3.965
-            geo.vertices.append((r * cos(a), r * sin(a), z))
+            r += perimeter(a)
+            geo.vertices.append((r * cos(a), r * sin(a), z + height))
             t = .5 + .34 * sin(a * 2 - .8) + .13 * sin(a * 7)
             geo.colors.append(mix(rgb('B67C96'), rgb('F0C5A5'), t))
-            k, nxt = i * len(profile), ((i + 1) % 160) * len(profile)
+            k, nxt = i * len(profile), ((i + 1) % count) * len(profile)
             h = (j + 1) % len(profile)
             geo.faces.append((k + j, nxt + j, nxt + h, k + h))
-    obj = geo.object('Island_Metal_Rim | Rolled rose-gold edge', groups['rim'], mats['copper'])
+    obj = geo.object('Island_Metal_Rim | Contour-following rose-gold seam', groups['rim'], mats['copper'])
     correct_normals(obj)
     inlay = Geometry()
-    for height in (.012, -.207):
-        tube(inlay, [((perimeter(a) + .027) * cos(a), (perimeter(a) + .027) * sin(a), height) for a in [TAU * i / 160 for i in range(160)]], .009, 6, True)
-    inlay.object('Island_Metal_Rim | Champagne hairlines', groups['rim'], mats['gold'])
+    path = []
+    for i in range(count):
+        a = TAU * i / count
+        x, y = (perimeter(a) + .004) * cos(a), (perimeter(a) + .004) * sin(a)
+        path.append((x, y, ground(x, y) + .008))
+    tube(inlay, path, .006, 4, True)
+    inlay.object('Island_Metal_Rim | Champagne upper seam', groups['rim'], mats['gold'])
 
 
 def rock(geo, position, scale, rotation, seed, detail=2):
@@ -279,41 +312,48 @@ def rock(geo, position, scale, rotation, seed, detail=2):
 
 def underside():
     geo = Geometry()
-    profiles = [(3.89, -.19), (3.80, -.39), (3.57, -.64), (3.20, -.93),
-                (2.72, -1.29), (2.09, -1.66), (1.43, -2.04), (.77, -2.36), (.23, -2.58)]
-    count = 48
-    angles = [TAU * i / count + .025 * sin(i * 2.37) for i in range(count)]
-    for level, (r, z) in enumerate(profiles):
+    # The fine top seam joins a deliberately coarse fracture lattice below it.
+    top_count, count = 128, 32
+    for i in range(top_count):
+        a = TAU * i / top_count
+        r = perimeter(a) - .017
+        x, y = r * cos(a), r * sin(a)
+        geo.vertices.append((x, y, ground(x, y) - .070))
+    profiles = [(.975, -.23), (.89, -.49), (.77, -.84),
+                (.61, -1.19), (.42, -1.68), (.22, -2.12), (.055, -2.57)]
+    angles = [TAU * i / count for i in range(count)]
+    for level, (ratio, z) in enumerate(profiles):
         t = level / (len(profiles) - 1)
         for i, angle in enumerate(angles):
-            a = angle + .035 * sin(level * 2.2 + i * .63) * sin(pi * t)
-            erosion = smooth(t * 5) * min(1, r / .78)
-            ridge = .17 * sin(a * 5 + .7) + .11 * cos(a * 9 - .9)
-            fracture = .10 * sin(a * 12 + level * 1.9) * sin(pi * t)
-            R = r + erosion * ridge + fracture
-            point = (R * cos(a) - .34 * t, R * sin(a) - .64 * t ** 1.4,
-                     z + erosion * (.17 * sin(a * 4 + .45) + .07 * cos(a * 9 + t * 2)))
+            a = angle + .022 * sin(level * 1.6 + i * .8) * sin(pi * t)
+            ridge = (.18 * sin(a * 3 + .6) + .15 * cos(a * 7 - .8)) * sin(pi * t)
+            radius = perimeter(a) * ratio + ridge
+            point = (radius * cos(a) - .52 * t, radius * sin(a) - 1.18 * t ** 1.25,
+                     z + sin(pi * t) * (.19 * cos(a * 4 + .3) + .11 * sin(a * 7)))
             geo.vertices.append(point)
-            if level:
-                k, nxt = level * count + i, level * count + (i + 1) % count
-                if (i + level) % 3:
-                    geo.faces += [(k - count, k, nxt), (k - count, nxt, nxt - count)]
-                else:
-                    geo.faces += [(k - count, k, nxt - count), (k, nxt, nxt - count)]
-    geo.vertices.append((-.39, -.66, -2.72))
+            k = top_count + level * count + i
+            nxt = top_count + level * count + (i + 1) % count
+            if not level:
+                top = [(i * 4 + j) % top_count for j in range(5)]
+                geo.faces.append(tuple(reversed(top)) + (k, nxt))
+            elif (i + level) % 3:
+                geo.faces += [(k - count, k, nxt), (k - count, nxt, nxt - count)]
+            else:
+                geo.faces += [(k - count, k, nxt - count), (k, nxt, nxt - count)]
+    geo.vertices.append((-.56, -1.23, -2.86))
     for i in range(count):
-        last = (len(profiles) - 1) * count
+        last = top_count + (len(profiles) - 1) * count
         geo.faces.append((last + (i + 1) % count, last + i, len(geo.vertices) - 1))
-    obj = geo.object('Island_Crystal_Underside | Connected fractured mineral formation', groups['under'], mats['mineral'], True)
+    obj = geo.object('Island_Crystal_Underside | Asymmetric mineral keel', groups['under'], mats['mineral'], True)
     bm = bmesh.new()
     bm.from_mesh(obj.data)
     bmesh.ops.recalc_face_normals(bm, faces=list(bm.faces))
-    bmesh.ops.dissolve_limit(bm, angle_limit=.12, verts=list(bm.verts), edges=list(bm.edges), delimit=set())
-    # Small worn edges preserve broad fracture planes and a continuous geological shell.
+    bmesh.ops.dissolve_limit(bm, angle_limit=.13, verts=list(bm.verts), edges=list(bm.edges), delimit=set())
+    # Narrow two-strip chamfers catch the sky without rounding the broad planes.
     creases = [edge for edge in bm.edges if len(edge.link_faces) == 2
                and min(vertex.co.z for vertex in edge.verts) > -2.3
-               and edge.calc_length() > .1 and edge.calc_face_angle(0) > .16]
-    bevel = bmesh.ops.bevel(bm, geom=creases, offset=.026, segments=2,
+               and edge.calc_length() > .12 and edge.calc_face_angle(0) > .18]
+    bevel = bmesh.ops.bevel(bm, geom=creases, offset=.013, segments=2,
                           affect='EDGES', profile=.5, clamp_overlap=True)
     for face in bevel['faces']:
         face.smooth = True
@@ -328,8 +368,8 @@ def underside():
     for face in obj.data.polygons:
         center = face.center
         color = mineral_color(*center)
-        band = .5 + .5 * sin(center.z * 8 + math.atan2(center.y, center.x) * 1.7)
-        color = mix(color, rgb('A0D8D8'), .08 * band + (.055 if face.use_smooth else 0))
+        band = .5 + .5 * sin(center.z * 3.5 + math.atan2(center.y, center.x) * 1.7)
+        color = mix(color, rgb('A0D8D8'), .11 * band + (.06 if face.use_smooth else 0))
         for index in face.loop_indices:
             tint.data[index].color = (*color, 1)
     obj.data.color_attributes.active_color = tint
@@ -400,9 +440,9 @@ def crystalline_details():
     edge_geometry.object('Island_Peripheral_Crystals | Polished facet edges', groups['crystals'], mats['silver'])
     # Fixed mineral fragments stay outside the protected planting area.
     chips = Geometry()
-    for i in range(145):
+    for i in range(100):
         a = rng.uniform(0, TAU)
-        r = rng.uniform(2.53, 3.83)
+        r = rng.uniform(2.53, perimeter(a) - .14)
         x, y = r * cos(a), r * sin(a)
         if math.hypot((x - 2.99) / .75, (y + .89) / .55) < 1:
             continue
@@ -413,9 +453,10 @@ def ornamental_ring():
     geo = Geometry()
     center = Vector((-.70, 3.04, .89))
     def point(a, radius=.86, depth=0):
-        return center + Vector((radius * cos(a), depth, radius * sin(a)))
-    tube(geo, [point(TAU * i / 144) for i in range(144)], .025, 10, True)
-    tube(geo, [point(.31 + i * 2.52 / 80, .892, .013) for i in range(81)], .008, 5)
+        shape = 1 + .045 * sin(a * 2 + .45) + .018 * cos(a * 3)
+        return center + Vector((radius * shape * cos(a), depth, radius * shape * sin(a)))
+    tube(geo, [point(TAU * i / 112) for i in range(112)], .025, 8, True)
+    tube(geo, [point(.31 + i * 2.52 / 56, .892, .013) for i in range(57)], .008, 4)
     for angle in [pi / 2, .24, pi - .24]:
         tube(geo, [point(angle, r, -.025) for r in [.824, .89]], .008, 5)
     for x in [-.28, .28]:
@@ -459,8 +500,8 @@ def leaf(geo, start, end, width, color):
     delta = end - start
     side = delta.cross(Vector((0, 0, 1))).normalized()
     verts, faces, colors = [start], [], [rgb(color)]
-    for i in range(1, 6):
-        t = i / 6
+    for i in range(1, 4):
+        t = i / 4
         p = start + t * delta + Vector((0, 0, sin(pi * t) * delta.length * .16))
         w = width * sin(pi * t) ** .8
         for j in [-1, 0, 1]:
@@ -497,7 +538,7 @@ def vegetation():
     grasses = Geometry()
     for i in range(65):
         a = rng.uniform(0, TAU)
-        r = rng.uniform(3.1, 3.81)
+        r = rng.uniform(3.1, perimeter(a) - .15)
         x, y = r * cos(a), r * sin(a)
         if math.hypot(x - 2.99, y + .89) < .8:
             continue
@@ -599,8 +640,8 @@ def build():
         ('crystals', 'Island_Peripheral_Crystals'), ('ring', 'Island_Ornamental_Ring'),
         ('plants', 'Island_Vegetation'), ('accents', 'Island_Accents'), ('pond', 'Island_Pond')]}
     mats = {
-        'surface': material('SUP Opalescent ground', '6CA8B8', .46, .09, painted=True),
-        'mineral': material('SUP Layered turquoise mineral', '5F9AAE', .30, .18, painted=True),
+        'surface': material('SUP Opalescent ground', '6CA8B8', .39, .035, painted=True),
+        'mineral': material('SUP Layered turquoise mineral', '5F9AAE', .32, .12, painted=True),
         'copper': material('SUP Brushed rose gold', 'DFABAA', .26, .60, painted=True),
         'gold': material('SUP Champagne gold', 'E6C299', .24, .55),
         'silver': material('SUP Pearl water highlights', 'E3ECEB', .22, .12),
@@ -616,6 +657,10 @@ def build():
         shader.inputs['Coat Weight'].default_value = .12
         mats[f'crystal{i}'] = crystal
     iridescence(mats['mineral'], .32, 360)
+    mineral_shader = next(n for n in mats['mineral'].node_tree.nodes if n.type == 'BSDF_PRINCIPLED')
+    mineral_shader.inputs['Coat Weight'].default_value = .22
+    mineral_shader.inputs['Coat Roughness'].default_value = .24
+    # The broad ground uses inexpensive PBR reflections; thin-film coats stay on minerals.
     mineral_grain(mats['surface'])
     surface_and_rim()
     underside()
